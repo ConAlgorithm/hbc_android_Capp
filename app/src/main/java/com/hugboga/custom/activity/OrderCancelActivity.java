@@ -59,6 +59,14 @@ public class OrderCancelActivity extends BaseActivity{
         initView();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
+    }
+
     private void initView() {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
@@ -181,6 +189,7 @@ public class OrderCancelActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         DialogUtil dialogUtil = DialogUtil.getInstance(this);
         dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
             @Override

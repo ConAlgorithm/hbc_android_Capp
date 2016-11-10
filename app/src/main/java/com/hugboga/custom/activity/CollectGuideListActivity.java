@@ -8,11 +8,14 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CollectGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.widget.ZListView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import java.util.List;
@@ -47,6 +50,7 @@ public class CollectGuideListActivity extends BaseActivity{
 
         setContentView(R.layout.fg_collect_guide_list);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initDefaultTitleBar();
 
         fgTitle.setText(getString(R.string.collect_guide_title));
@@ -62,6 +66,21 @@ public class CollectGuideListActivity extends BaseActivity{
         super.onSaveInstanceState(outState);
         if (paramsData != null) {
             outState.putSerializable(Constants.PARAMS_DATA, paramsData);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case ORDER_DETAIL_UPDATE_COLLECT:
+                sendRequest();
+                break;
         }
     }
 
@@ -103,6 +122,7 @@ public class CollectGuideListActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         List<CollectGuideBean> list = null;
         if (_request instanceof RequestCollectGuideList) {
             RequestCollectGuideList request = (RequestCollectGuideList) _request;
@@ -113,7 +133,7 @@ public class CollectGuideListActivity extends BaseActivity{
         }
         if (list != null) {
             if (adapter == null) {
-                adapter = new CollectGuideAdapter(this);
+                adapter = new CollectGuideAdapter(this, paramsData != null);
                 if (paramsData != null) {
                     adapter.setShowStatusLayout(false);
                 }

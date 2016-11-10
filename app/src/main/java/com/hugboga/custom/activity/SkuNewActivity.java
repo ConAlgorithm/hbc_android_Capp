@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -106,6 +108,8 @@ public class SkuNewActivity extends BaseActivity {
     TextView timeTextStartEnd;
     @Bind(R.id.money_pre)
     MoneyTextView moneyPre;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightImage;
 
     public void initHeader() {
         headerTitle.setText(R.string.sku_new_title);
@@ -115,26 +119,36 @@ public class SkuNewActivity extends BaseActivity {
                 finish();
             }
         });
-        headerRightTxt.setVisibility(View.VISIBLE);
-        headerRightTxt.setText("常见问题");
-        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setVisibility(View.GONE);
+//        headerRightTxt.setText("常见问题");
+//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Bundle bundle = new Bundle();
+////                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
+////                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
+////                startFragment(new FgWebInfo(), bundle);
+//
+//                Intent intent = new Intent(activity, WebInfoActivity.class);
+//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+//                startActivity(intent);
+//
+//                HashMap<String, String> map = new HashMap<String, String>();
+//                map.put("source", "填写行程页面");
+//                MobclickAgent.onEvent(activity, "callcenter_oneway", map);
+//                v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
+//            }
+//        });
+        headerRightImage.setVisibility(View.VISIBLE);
+        headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROBLEM);
-//                bundle.putBoolean(FgWebInfo.CONTACT_SERVICE, true);
-//                startFragment(new FgWebInfo(), bundle);
-
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                startActivity(intent);
-
+                DialogUtil.getInstance(activity).showCallDialog();
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("source", "填写行程页面");
                 MobclickAgent.onEvent(activity, "callcenter_oneway", map);
                 v.setTag("填写行程页面,calldomestic_oneway,calloverseas_oneway");
-
             }
         });
     }
@@ -233,6 +247,7 @@ public class SkuNewActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestPriceSku) {
             bottom.setVisibility(View.GONE);
             isNetError = false;

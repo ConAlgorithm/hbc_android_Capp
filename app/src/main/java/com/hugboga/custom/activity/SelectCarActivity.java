@@ -38,9 +38,11 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.umeng.analytics.MobclickAgent;
@@ -205,6 +207,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     TextView luggageNumTv;
     @Bind(R.id.fg_car_intro)
     TextView fgCarIntro;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightImage;
 
 
 
@@ -229,15 +233,22 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     protected void initHeader() {
         headerTitle.setText(R.string.select_city_title);
         source = getIntent().getStringExtra("source");
-        headerRightTxt.setVisibility(View.VISIBLE);
-        headerRightTxt.setText("常见问题");
-        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setVisibility(View.GONE);
+//        headerRightTxt.setText("常见问题");
+//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity, WebInfoActivity.class);
+//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+//                startActivity(intent);
+//            }
+//        });
+        headerRightImage.setVisibility(View.VISIBLE);
+        headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                startActivity(intent);
+                DialogUtil.getInstance(activity).showCallDialog();
             }
         });
     }
@@ -287,11 +298,11 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
     String carIds = null;
     String guideId = null;
-    CollectGuideBean collectGuideBean;
+//    CollectGuideBean collectGuideBean;
 
     private void getArgs() {
         passCityList = (ArrayList<CityBean>) getIntent().getSerializableExtra("passCityList");
-
+//        collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
         startCityId = this.getIntent().getStringExtra("startCityId");
         endCityId = this.getIntent().getStringExtra("endCityId");
         startDate = this.getIntent().getStringExtra("startDate");
@@ -330,6 +341,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         HttpRequestUtils.request(activity, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 guideCarBeanList = ((RequestCars)request).getData();
                 carIds = CarUtils.getCarIds(guideCarBeanList);
                 getData();
@@ -815,6 +827,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundleCar = new Bundle();
         bundleCar.putString("source", source);
+        bundleCar.putString("guideCollectId", guideId);
+//        bundleCar.putSerializable("collectGuideBean", collectGuideBean == null ? null : collectGuideBean);
         bundleCar.putString("startCityId", startCityId);
         bundleCar.putString("endCityId", endCityId);
         bundleCar.putString("startDate", startDate);

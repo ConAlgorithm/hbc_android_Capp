@@ -44,6 +44,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
@@ -274,6 +275,10 @@ public class MyApplication extends HbcApplication {
         return options;
     }
 
+    public static void requestRemoteNimUserInfo(String account){
+        NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
+    }
+
     private static UserInfoProvider infoProvider = new UserInfoProvider() {
         @Override
         public UserInfo getUserInfo(String account) {
@@ -281,7 +286,6 @@ public class MyApplication extends HbcApplication {
             if (user == null) {
                 NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
             }
-
             return user;
         }
 

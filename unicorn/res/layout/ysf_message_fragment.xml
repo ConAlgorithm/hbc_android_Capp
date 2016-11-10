@@ -63,6 +63,7 @@
                         android:id="@+id/ysf_audio_amplitude_panel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp">
 
                         <ImageView
@@ -127,7 +128,7 @@
             </RelativeLayout>
         </FrameLayout>
 
-        <include layout="@layout/nim_message_activity_bottom_layout" />
+        <include layout="@layout/ysf_message_activity_bottom_layout" />
     </LinearLayout>
 
     <RelativeLayout

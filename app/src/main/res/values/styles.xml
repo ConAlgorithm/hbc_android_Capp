@@ -300,4 +300,11 @@
     <style name="ShareDialog" parent="MyDialog">
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
     </style>
+
+    <style name="MyCityHomeItem" >
+        <item name="android:layout_height">64px</item>
+        <item name="android:layout_width">220px</item>
+        <item name="android:layout_marginTop">59px</item>
+        <item name="android:layout_marginLeft">72px</item>
+    </style>
 </resources>

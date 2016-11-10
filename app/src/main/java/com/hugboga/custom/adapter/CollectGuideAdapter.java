@@ -39,10 +39,12 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
 
     private Context context;
     public boolean isShowStatusLayout = true;
+    public boolean isChartered = false;
 
-    public CollectGuideAdapter(Context context) {
+    public CollectGuideAdapter(Context context, boolean isChartered) {
         super(context);
         this.context = context;
+        this.isChartered = isChartered;
     }
 
     /**
@@ -70,7 +72,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         if (TextUtils.isEmpty(collectGuideBean.avatar)) {
             holder.avatarIV.setImageResource(R.mipmap.journey_head_portrait);
         } else {
-            Tools.showImage(holder.avatarIV, collectGuideBean.avatar);
+            Tools.showImage(holder.avatarIV, collectGuideBean.avatar, R.mipmap.journey_head_portrait);
         }
         holder.nameTV.setText(collectGuideBean.name);
         holder.ratingView.setRating(collectGuideBean.stars);
@@ -181,6 +183,9 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         holder.topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isChartered && !collectGuideBean.isAppointments()) {
+                    return;
+                }
                 GuideDetailActivity.Params params = new GuideDetailActivity.Params();
                 params.guideId = collectGuideBean.guideId;
                 Intent intent = new Intent(context, GuideDetailActivity.class);

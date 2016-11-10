@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -39,7 +41,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contentId = R.id.drawer_layout;
+        contentId = R.id.main_layout;
         getFrom();
         getBusinessType();
     }
@@ -124,13 +126,11 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public void onStop() {
         super.onStop();
         collapseSoftInputMethod();
-        EventBus.getDefault().post(new EventAction(EventType.CLICK_HEADER_LEFT_BTN_BACK));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new EventAction(EventType.START_NEW_FRAGMENT));
     }
 
     @Override
@@ -218,5 +218,11 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        ApiReportHelper.getInstance().addReport(request);
     }
 }

@@ -94,6 +94,7 @@ public class NimUserInfoCache {
                     List<RequestCallback<NimUserInfo>> cbs = requestUserInfoMap.get(account);
                     for (RequestCallback<NimUserInfo> cb : cbs) {
                         if (code == ResponseCode.RES_SUCCESS) {
+
                             cb.onSuccess(user);
                         } else {
                             cb.onFailed(code);
@@ -102,6 +103,8 @@ public class NimUserInfoCache {
                 }
 
                 requestUserInfoMap.remove(account);
+
+
             }
         });
     }

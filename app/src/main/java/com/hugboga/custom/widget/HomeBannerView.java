@@ -1,47 +1,68 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.graphics.SurfaceTexture;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ViewSwitcher;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.util.NetWork;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.NetWorkUtils;
+import com.hugboga.custom.utils.SaveFileTask;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 
-import java.util.ArrayList;
+import java.io.File;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/6/19.
  */
-public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, ViewSwitcher.ViewFactory{
+public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, SaveFileTask.FileDownLoadCallBack, TextureView.SurfaceTextureListener {
+
+    public static final String VIDEO_PATH_NAME = "home_video_";
+    public static final String KEY_VIDEO_VERSION = "videoVersion";
 
     /**
-     * banner默认高宽比  height/width = 639/750
+     * banner默认高宽比  height/width = 405/720
      */
-    public static final float BANNER_RATIO_DEFAULT = 0.85f;
+    public static final float BANNER_RATIO_DEFAULT = 0.562f;
 
-    /**
-     * banner默认自动切换的时间
-     */
-    private static final int BANNER_SWITCH_TIME_DEFAULT = 5000;
+    @Bind(R.id.home_banner_video_textureView)
+    TextureView myTextureView;
+    @Bind(R.id.home_banner_default_bg_iv)
+    ImageView defaultBgIV;
 
-    private ViewSwitcher mSwitcherView;
+    private int bannerHeight;
+    private DialogUtilInterface mDialogUtil;
 
-    private ArrayList<String> bannerList;
-    private Handler cutHandler;
-    private Runnable cutRunnable;
-    private boolean isAutoLoops = true;
-    private int viewHeight;
-    private int index;
+    private MediaPlayer mediaPlayer;
+    private Surface surface;
+    private int progress;
 
-    private boolean isDefaultData = true;
-    private ArrayList<Integer> defaultData;
+    private HomeBean.HeadVideo headVideo;
 
     public HomeBannerView(Context context) {
         this(context, null);
@@ -49,116 +70,142 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, V
 
     public HomeBannerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        viewHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
+        View view = inflate(context, R.layout.view_home_banner, this);
+        ButterKnife.bind(this, view);
 
-        mSwitcherView = new ViewSwitcher(context);
-        mSwitcherView.setFactory(this);
-        mSwitcherView.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.home_banner_fade_in));
-        mSwitcherView.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.home_banner_fade_out));
-        addView(mSwitcherView, LayoutParams.MATCH_PARENT, viewHeight);
+        bannerHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
+        RelativeLayout.LayoutParams bgParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
+        myTextureView.setLayoutParams(bgParams);
 
-        defaultData = new ArrayList<Integer>(4);
-        defaultData.add(R.drawable.home_toppic1);
-        defaultData.add(R.drawable.home_toppic2);
-        defaultData.add(R.drawable.home_toppic3);
-        defaultData.add(R.drawable.home_toppic4);
-        isDefaultData = true;
+        mediaPlayer = new MediaPlayer();
+        myTextureView.setSurfaceTextureListener(this);
 
-        index = 0;
-        ImageView img = (ImageView) mSwitcherView.getNextView();
-        img.setImageResource(defaultData.get(index));
-        mSwitcherView.showNext();
-        index++;
-        initCutHandler();
+        HomeBannerView.this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int videoVersion = SharedPre.getInteger(KEY_VIDEO_VERSION, 0);
+                File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + videoVersion + ".mp4");
+                if (videoVersion > 0 && !videoFile.isDirectory() && videoFile.exists()) {
+                    intentPlayer(Uri.fromFile(videoFile));
+                    return;
+                }
+                if (headVideo == null || TextUtils.isEmpty(headVideo.videoUrl)) {
+                    return;
+                }
+                if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
+                    if (mDialogUtil == null) {
+                        mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
+                    }
+                    mDialogUtil.showSettingDialog();
+                } else if (!NetWorkUtils.isWifi()) {
+                    DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
+                    String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
+                    mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            intentPlayer(Uri.parse(headVideo.videoUrl));
+                            StatisticClickEvent.click(StatisticConstant.PLAY_VIDEO,"首页视频播放");
+                        }
+                    }, "取消观看", null);
+                } else {
+                    intentPlayer(Uri.parse(headVideo.videoUrl));
+                }
+            }
+        });
     }
 
     @Override
     public void update(Object _data) {
-        this.bannerList = (ArrayList<String>) _data;
-        if (bannerList == null || bannerList.size() <= 0) {
-            isDefaultData = true;
+        HomeBean homeBean = (HomeBean) _data;
+        if (homeBean == null) {
             return;
-        } else {
-            isDefaultData = false;
-        }
-        index = 0;
-        mSwitcherView.reset();
-        ImageView img = (ImageView) mSwitcherView.getNextView();
-        Tools.showImage(img, bannerList.get(index));
-        mSwitcherView.showNext();
-        if (bannerList.size() > 1) {
-            index++;
-            onStartChange();
-        } else {
-            onDestroyHandler();
-        }
-    }
-
-    public void initCutHandler() {
-        if (!isAutoLoops) return;
-        if (cutHandler == null || cutRunnable == null) {
-            cutHandler = new Handler();
-            cutRunnable = new Runnable() {
-
-                @Override
-                public void run() {
-                    ImageView img = (ImageView) mSwitcherView.getNextView();
-                    int size = 0;
-                    if (isDefaultData) {
-                        size = defaultData.size();
-                        img.setImageResource(defaultData.get(index));
-                    } else {
-                        if (bannerList == null || bannerList.size() <= 0) {
-                            return;
-                        }
-                        size = bannerList.size();
-                        Tools.showImage(img, bannerList.get(index));
-                    }
-                    mSwitcherView.showNext();
-                    if (index == size - 1) {
-                        index = 0;
-                    } else {
-                        index++;
-                    }
-                    cutHandler.removeCallbacks(this);
-                    cutHandler.postDelayed(this, getCutTime());
-                }
-            };
-        }
-        cutHandler.removeCallbacks(cutRunnable);
-        cutHandler.postDelayed(cutRunnable, getCutTime());
-    }
-
-    public void onDestroyHandler() {
-        if (isAutoLoops) {
-            isAutoLoops = false;
-            if (cutHandler != null && cutRunnable != null) {
-                cutHandler.removeCallbacks(cutRunnable);
-            }
         }
 
-    }
+        headVideo = homeBean.headVideo;
 
-    public void onStartChange() {
-        if (!isAutoLoops) {
-            isAutoLoops = true;
-            if (cutHandler != null && cutRunnable != null) {
-                cutHandler.removeCallbacks(cutRunnable);
-                cutHandler.postDelayed(cutRunnable, getCutTime());
+        if (headVideo != null && NetWorkUtils.isWifi()) {
+            final int videoVersion = SharedPre.getInteger(KEY_VIDEO_VERSION, 0);
+            if (headVideo.videoVersion != videoVersion) {
+                File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + headVideo.videoVersion + ".mp4");
+                SaveFileTask saveImageTask = new SaveFileTask(getContext(), videoFile, this);
+                saveImageTask.execute(headVideo.videoUrl);
             }
         }
     }
 
-    protected int getCutTime() {
-        return BANNER_SWITCH_TIME_DEFAULT;
+    private void intentPlayer(Uri url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(url, "video/mp4");
+        getContext().startActivity(intent);
     }
 
     @Override
-    public View makeView() {
-        ImageView imageView  = new ImageView(getContext());
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(params);
-        return imageView;
+    public void onDownLoadSuccess(File file) {
+        if (headVideo != null) {
+            SharedPre.setInteger(KEY_VIDEO_VERSION, headVideo.videoVersion);
+        }
     }
+
+    @Override
+    public void onDownLoadFailed() {
+    }
+
+    public void onDestroy() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+        }
+    }
+
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+        surface = new Surface(surfaceTexture);
+        if (!mediaPlayer.isPlaying()) {
+            play(progress);
+        }
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+        if (mediaPlayer.isPlaying()) {
+            progress = mediaPlayer.getCurrentPosition();
+            mediaPlayer.stop();
+        }
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+
+    }
+
+    private void play(final int currentPosition) {
+        try {
+            defaultBgIV.setImageResource(R.mipmap.home_default_route_item);
+            mediaPlayer.reset();
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            AssetManager assetManager = getContext().getAssets();
+            AssetFileDescriptor afd = assetManager.openFd("home_header.mp4");
+            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mediaPlayer.setSurface(surface);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            if (currentPosition > 0) {
+                mediaPlayer.seekTo(currentPosition);
+            }
+            defaultBgIV.setImageResource(0);
+        } catch (Exception e) {
+            defaultBgIV.setImageResource(R.mipmap.home_default_route_item);
+        }
+    }
+
 }

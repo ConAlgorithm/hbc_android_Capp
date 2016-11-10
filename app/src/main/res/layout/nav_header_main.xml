@@ -4,9 +4,15 @@
     android:id="@+id/head_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@mipmap/personal_bg"
     android:gravity="bottom"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <ImageView
+        android:id="@+id/nav_header_bg_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/personal_bg"
+        />
     <LinearLayout
         android:id="@+id/ll_login_click_area"
         android:layout_width="match_parent"

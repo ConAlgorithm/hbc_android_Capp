@@ -1,10 +1,12 @@
 package com.hugboga.custom.activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -148,6 +150,7 @@ public class ChooseAirActivity extends BaseActivity {
             case R.id.header_title:
                 break;
             case R.id.daily_layout_1:
+                hideSoftInput();
                 selectTap(0);
                 pickOrSend = 1;
                 if (!fgChooseAirAddress.isAdded()) {
@@ -162,6 +165,7 @@ public class ChooseAirActivity extends BaseActivity {
                 }
                 break;
             case R.id.daily_layout_2:
+                hideSoftInput();
                 selectTap(1);
                 pickOrSend = 2;
                 if (!fgChooseAirNumber.isAdded()) {
@@ -176,6 +180,11 @@ public class ChooseAirActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void hideSoftInput() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(ChooseAirActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }

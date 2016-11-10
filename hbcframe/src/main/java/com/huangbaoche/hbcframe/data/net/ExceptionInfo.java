@@ -12,12 +12,18 @@ public class ExceptionInfo {
 	public int state;
 	
 	public Exception exception;
+
+	public String errorCode;
 	
 	public String uuid;//服务器返回的错误ID
 	
 	public ExceptionInfo(int state,Exception e) {
 		this.state=state;
 		this.exception=e;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 	
 	@Override

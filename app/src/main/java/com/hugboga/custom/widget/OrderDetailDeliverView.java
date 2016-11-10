@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -19,8 +20,16 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDeliverInfo;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventCancelOrder;
+import com.hugboga.custom.utils.ApiReportHelper;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +38,7 @@ import cn.iwgang.countdownview.CountdownView;
 /**
  * Created by qingcha on 16/9/7.
  */
-public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
+    public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
     @Bind(R.id.order_detail_deliver_loading_view)
     OrderDetailDeliverLoadingLayout loadingView;
@@ -114,7 +123,8 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
         } else {
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
-            itemView.setOrderNo(orderBean.orderNo);
+            itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
+            setOnEvent(orderBean.orderType);
             itemView.update(_deliverInfoBean);
             groupLayout.addView(itemView);
             itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
@@ -128,6 +138,7 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        ApiReportHelper.getInstance().addReport(_request);
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
@@ -146,5 +157,24 @@ public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehav
             errorHandler = new ErrorHandler((Activity)getContext(), this);
         }
         errorHandler.onDataRequestError(errorInfo, request);
+    }
+
+    public void setOnEvent(int orderType){
+        if (orderType==0){
+            return;
+        }
+        Map<String,String>map=new HashMap<>();
+        switch(orderType){
+            case 3:
+                map.put("ordertype","自定义包车游");
+                break;
+            case 5:
+                map.put("ordertype","固定线路");
+                break;
+            case 6:
+                map.put("ordertype","推荐线路");
+                break;
+        }
+        MobClickUtils.onEvent(StatisticConstant.CLICK_WAIT_G,map);
     }
 }

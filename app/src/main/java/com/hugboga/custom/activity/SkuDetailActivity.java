@@ -32,12 +32,16 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.GoodsSec;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
@@ -55,6 +59,7 @@ import org.xutils.view.annotation.ContentView;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
@@ -71,6 +76,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
@@ -83,19 +89,20 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     TextView gotoOrder;
     @Bind(R.id.webview)
     WebView webView;
+    @Bind(R.id.goto_little_helper)
+    TextView gotoLittleHelp;
 
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
     private String goodsNo;
 
-    public boolean isGoodsOut = false;//商品是否已下架
     private boolean isPerformClick = false;
 
     private DialogUtil mDialogUtil;
+    private WebAgent webAgent;
 
 
     public void initView() {
-        isGoodsOut = false;
         findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +116,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn), "javaObj");
+        webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn);
+        webView.addJavascriptInterface(webAgent, "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
@@ -122,13 +130,25 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         mDialogUtil = DialogUtil.getInstance(activity);
         String url = getIntent().getStringExtra(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
+            url = CommonUtils.getBaseUrl(url) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
         }
     }
 
+    public void setGoodsOut() {// 商品已下架
+        headerRightBtn.setVisibility(View.GONE);
+        gotoOrder.setText("该商品已下架");
+        gotoOrder.setTextColor(0xFFFFFFFF);
+        gotoOrder.setBackgroundResource(R.drawable.bg_sku_detial_grey);
+        gotoOrder.setOnClickListener(null);
+    }
+
     @Override
     public String getEventId() {
-        if(skuItemBean.goodsClass == 1) {//固定
+        if (skuItemBean == null) {
+            return "";
+        }
+        if (skuItemBean.goodsClass == 1) {//固定
             return StatisticConstant.LAUNCH_DETAIL_RG;
         }else {
             return StatisticConstant.LAUNCH_DETAIL_RT;
@@ -137,6 +157,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventSource() {
+        if (skuItemBean == null) {
+            return "";
+        }
         if(skuItemBean.goodsClass == 1) {//固定
             return "固定线路包车";
         }else {
@@ -160,6 +183,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
 
                 public void onDataRequestSucceed(BaseRequest _request) {
+                    ApiReportHelper.getInstance().addReport(_request);
                     if (_request instanceof RequestGoodsById) {
                         RequestGoodsById requestGoodsById = (RequestGoodsById) _request;
                         skuItemBean = requestGoodsById.getData();
@@ -171,6 +195,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                         }
                         if (isPerformClick) {
                             gotoOrder.performClick();
+                        }
+                        if (webAgent!= null && cityBean != null) {
+                            webAgent.setCityBean(cityBean);
                         }
                     }
                 }
@@ -197,14 +224,14 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.goto_little_helper})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
             case R.id.header_right_btn:
                 if (skuItemBean != null) {
                     String title = skuItemBean.goodsName;
-                    String content = activity.getString(R.string.wx_share_content);
+                    String content = skuItemBean.salePoints;
                     String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
                     shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
                     skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
@@ -245,13 +272,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
                 MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
                 break;
+            case R.id.goto_little_helper:
+                DialogUtil.getInstance(activity).showLittleHelperDialog();
+                if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
+                    StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
+                }
+
+                break;
         }
     }
 
     private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
-        if (isGoodsOut) {
-            return;
-        }
         CommonUtils.shareDialog(activity, skuItemBean.goodsPicture, title, content, shareUrl, getClass().getSimpleName()
                 , new ShareDialog.OnShareListener() {
                     @Override
@@ -282,12 +313,22 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
+//            super.onReceivedTitle(view, title);
             if (headerTitle == null) {
                 return;
             }
             if (!view.getTitle().startsWith("http:")) {
-                headerTitle.setText(view.getTitle());
+//                headerTitle.setText(view.getTitle());
+                if (!TextUtils.isEmpty(getIntent().getStringExtra("type"))){
+                    if ("1".equals(getIntent().getStringExtra("type"))){
+                        headerTitle.setText(R.string.route_goods_detial_title);
+                    }
+                    if(getIntent().getStringExtra("type").equals("2")){
+                        headerTitle.setText(R.string.free_route_goods_detial_title);
+                    }
+                }else {
+                    headerTitle.setText("商品详情");
+                }
             } else {
                 headerTitle.setText("");
             }

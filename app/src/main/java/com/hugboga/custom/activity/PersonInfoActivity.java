@@ -105,8 +105,9 @@ public class PersonInfoActivity extends BaseActivity{
             return;
         }
         if (!TextUtils.isEmpty(userBean.avatar)) {
-            String avatar = userBean.avatar;
-            x.image().bind(headImageView, avatar);
+            Tools.showImage(headImageView, userBean.avatar, R.mipmap.chat_head);
+        } else {
+            headImageView.setImageResource(R.mipmap.chat_head);
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);
@@ -147,6 +148,7 @@ public class PersonInfoActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestUserInfo) {
             RequestUserInfo requestUserInfo = (RequestUserInfo) request;
             userBean = requestUserInfo.getData();

@@ -231,7 +231,11 @@ public class OrderEditActivity extends BaseActivity {
             String userName = userList.get(0).name;
             String userPhone = userList.get(0).mobile;
             manName.setText(userName);
-            manPhone.setText(userPhone);
+            if (TextUtils.isEmpty(userList.get(0).areaCode)) {
+                manPhone.setText(userPhone);
+            } else {
+                manPhone.setText(userList.get(0).areaCode + " " + userPhone);
+            }
             mark.setText(orderBean.memo);
             for (int i = 0; i < userList.size(); i++) {
                 if (i == 0) {
@@ -447,6 +451,7 @@ public class OrderEditActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestOrderEdit) {
             CommonUtils.showToast("信息修改成功");
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));

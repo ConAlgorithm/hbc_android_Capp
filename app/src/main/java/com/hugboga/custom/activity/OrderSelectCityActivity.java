@@ -38,6 +38,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
@@ -55,6 +56,7 @@ import com.hugboga.custom.utils.DBCityUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ScreenUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -168,6 +170,8 @@ public class OrderSelectCityActivity extends BaseActivity {
     boolean isFromGuideList = false;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightImage;
 
     public void initView() {
         initSelectPeoplePop(false);
@@ -270,18 +274,14 @@ public class OrderSelectCityActivity extends BaseActivity {
         });
         headerTitle.setVisibility(View.VISIBLE);
         headerTitle.setText(R.string.select_city_title);
-        headerRightTxt.setVisibility(View.VISIBLE);
-        headerRightTxt.setText("常见问题");
-        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+        headerRightTxt.setVisibility(View.GONE);
+        headerRightImage.setVisibility(View.VISIBLE);
+        headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                activity.startActivity(intent);
+                DialogUtil.getInstance(activity).showCallDialog();
             }
         });
-
         try {
             EventUtil eventUtil = EventUtil.getInstance();
             eventUtil.source = getIntentSource();
@@ -490,17 +490,34 @@ public class OrderSelectCityActivity extends BaseActivity {
         TextView add_tips = (TextView) currentClickView.findViewById(R.id.add_tips);
         String cityId = cityBean.cityId + "";
         if (type == 1) {
-            text.setText(cityBean.name + "市内");
+            if (in_title.getText().length() > 17) {
+                text.setText(in_title.getText().toString().substring(0, 17)+"...");             //一行显示不下，用“...”省略
+            } else{
+                text.setText(in_title.getText());
+            }
             add_tips.setVisibility(GONE);
             addPassCityBean(1, cityBean, currentClickView.getTag().toString());
         } else if (type == 2) {
-            text.setText(cityBean.name + "周边");
+            if (out_title.getText().length() > 17) {
+                text.setText(out_title.getText().toString().substring(0, 17)+"...");
+            } else{
+                text.setText(out_title.getText());
+            }
             add_tips.setVisibility(GONE);
             add_tips.setText(R.string.select_around_city);
             addPassCityBean(2, cityBean, currentClickView.getTag().toString());
         } else if (type == 3) {
             cityId = cityBean.cityId + "";
-            text.setText(cityBean.name);
+            if (other_title.getText().toString().equals("在其它城市结束行程")){
+                other_title.setText("在"+cityBean.name.toString()+"结束行程");
+            }else {
+                other_title.setText("住在"+cityBean.name.toString());
+            }
+            if (other_title.getText().length() > 17) {
+                text.setText(other_title.getText().toString().substring(0, 17)+"...");             //一行显示不下，用“...”省略
+            } else{
+                text.setText(other_title.getText());
+            }
             add_tips.setVisibility(GONE);
             if (cityBean.cityId == startBean.cityId) {
                 add_tips.setText(R.string.select_around_city);
@@ -536,8 +553,8 @@ public class OrderSelectCityActivity extends BaseActivity {
         other_tips = (TextView) view.findViewById(R.id.other_tips);
 
         if (isEndDay) {
-            in_title.setText("在" + preCityBean.name + "市内结束行程,市内游玩");
-            out_title.setText("在" + preCityBean.name + "市内结束行程,周边游玩");
+            in_title.setText("在" + preCityBean.name + "市内结束行程，市内游玩");
+            out_title.setText("在" + preCityBean.name + "市内结束行程，周边游玩");
             other_title.setText("在其它城市结束行程");
         }
 
@@ -1004,7 +1021,6 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putString("orderType", "3");
 
         if(null != collectGuideBean) {
-//            CarUtils.collectGuideBean = collectGuideBean;
             bundleCar.putString("guideId", collectGuideBean.guideId);
         }
 

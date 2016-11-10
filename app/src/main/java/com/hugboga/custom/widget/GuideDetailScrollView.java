@@ -51,10 +51,10 @@ public class GuideDetailScrollView extends ScrollView {
             } else {
                 alpha = Math.min(1, (float) scrollY / cityBgHeight);
             }
-            titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
+            titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
             titleTV.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
         } else {
-            titlebar.setBackgroundColor(0xFF2D2B28);
+            titlebar.setBackgroundColor(0xFF111111);
             titleTV.setTextColor(0xFFFFFFFF);
         }
     }

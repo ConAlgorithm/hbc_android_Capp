@@ -39,9 +39,11 @@ public class SkuItemBean implements Serializable {
     public List<CityBean> passCityList;
     public String passPoiListStr;
 
-
     public int hotelCostAmount;//天数
-    public int hotelStatus;//是否有酒店
+    public int hotelStatus;//是否有酒店  (0，没有；1，有)
+
+    public String goodsLable;// 商品下标签（例如：城市x日玩法推荐、¥ 243 起/人 · 1日 · 含酒店）
+    public ArrayList<String> goodsPics;
 
     public static class CharacteristicLables implements Serializable {
         public String lableName;

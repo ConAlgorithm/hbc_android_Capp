@@ -97,11 +97,11 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     evaluateTV.setText(getContext().getString(orderBean.isEvaluated() ? R.string.order_detail_evaluated : R.string.order_detail_evaluate));
                     promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
 
-                    if (orderBean.orderSource == 1) {//地接社不显示收藏按钮
+                    if (orderBean.guideAgencyType == 3) {//地接社不显示收藏按钮
+                        collectTV.setVisibility(View.GONE);
+                    } else {
                         collectTV.setVisibility(View.VISIBLE);
                         collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));
-                    } else {
-                        collectTV.setVisibility(View.GONE);
                     }
                     break;
             }

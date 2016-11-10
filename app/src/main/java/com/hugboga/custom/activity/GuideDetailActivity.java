@@ -121,7 +121,6 @@ public class GuideDetailActivity extends BaseActivity{
         public String guideId;
         public String guideCarId;
         public String guideAgencyDriverId;
-        public int orderSource = 1;
         public boolean isSelectedService = false;
     }
 
@@ -171,7 +170,7 @@ public class GuideDetailActivity extends BaseActivity{
     }
 
     private boolean isOnlyShow() {
-        if (params.orderSource != 1 || params.isSelectedService) {
+        if (params.isSelectedService) {
             return true;
         } else {
             return false;
@@ -186,6 +185,7 @@ public class GuideDetailActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideDetail) {
             RequestGuideDetail request = (RequestGuideDetail) _request;
             data = request.getData();
@@ -197,7 +197,7 @@ public class GuideDetailActivity extends BaseActivity{
             collectIV.setSelected(data.isCollected());
 
             //城市背景图
-            Tools.showImage(avatarIV, data.cityBackGroundPicSrc, R.drawable.guides_detail_city_bg);
+            Tools.showImage(cityBgIV, data.cityBackGroundPicSrc, R.drawable.guides_detail_city_bg);
 
             //城市-国家
             cityNameTV.setText(data.cityName + "-" + data.countryName);
@@ -227,23 +227,33 @@ public class GuideDetailActivity extends BaseActivity{
                 } else {
                     driverGenderIV.setVisibility(View.GONE);
                 }
+            } else {
+                genderIV.setVisibility(View.GONE);
+                driverLayout.setVisibility(View.GONE);
             }
 
             //服务星级
             ratingView.setRating(data.serviceStar);
             scoreTV.setText(String.valueOf(data.serviceStar));
 
-            //是否可服务包车，0否，1是
-            charteredCarLayout.setVisibility(data.serviceDaily == 1 ? View.VISIBLE : View.GONE);
-            //是否可服务接送机、单次接送，0否，1是
-            planeLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
-            singleLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
-            if (isOnlyShow() || (data.serviceDaily != 1 && data.serviceJsc != 1)) {
+            if (isOnlyShow() || data.agencyType == 3 || (data.serviceDaily != 1 && data.serviceJsc != 1)) {
                 appointmentLine.setVisibility(View.GONE);
                 appointmentTV.setVisibility(View.GONE);
+
+                collectIV.setVisibility(View.GONE);
+                shareIV.setVisibility(View.GONE);
+
+                charteredCarLayout.setVisibility(View.GONE);
+                planeLayout.setVisibility(View.GONE);
+                singleLayout.setVisibility(View.GONE);
             } else {
                 appointmentLine.setVisibility(View.VISIBLE);
                 appointmentTV.setVisibility(View.VISIBLE);
+                //是否可服务包车，0否，1是
+                charteredCarLayout.setVisibility(data.serviceDaily == 1 ? View.VISIBLE : View.GONE);
+                //是否可服务接送机、单次接送，0否，1是
+                planeLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
+                singleLayout.setVisibility(data.serviceJsc == 1 ? View.VISIBLE : View.GONE);
             }
 
             //评价
@@ -302,7 +312,7 @@ public class GuideDetailActivity extends BaseActivity{
         tagTV.setPadding(UIUtils.dip2px(22), UIUtils.dip2px(4), UIUtils.dip2px(22), UIUtils.dip2px(4));
         tagTV.setTextSize(14);
         tagTV.setBackgroundResource(R.drawable.shape_evaluate_tag);
-        tagTV.setTextColor(0xFF000000);
+        tagTV.setTextColor(0xFF111111);
         tagTV.setEnabled(false);
         tagTV.setText(label);
         return tagTV;

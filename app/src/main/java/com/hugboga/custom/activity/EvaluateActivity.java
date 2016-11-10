@@ -84,7 +84,6 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
-    private boolean isSubmitEvaluated = false;//是否提交过评价，提交了通知详情页更新。
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,9 +151,9 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSubmitEvaluated) {
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION, orderBean.orderNo));
-                }
+//                if (isSubmitEvaluated) {
+//                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION, orderBean.orderNo));
+//                }
                 finish();
             }
         });
@@ -278,6 +277,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestEvaluateNew) {
             orderBean.userCommentStatus = 1;
             if (orderBean.appraisement == null) {
@@ -287,9 +287,8 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             orderBean.appraisement.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
             initView();
             CommonUtils.showToast(R.string.evaluate_succeed);
-            isSubmitEvaluated = true;
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
-            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION, orderBean.orderNo));
             MobClickUtils.onEvent(new EventEvaluateSubmit(("" + orderBean.orderType), "" + Math.round(ratingview.getLevel()), !TextUtils.isEmpty(commentET.getText()), false));
 
             RequestEvaluateNew request = (RequestEvaluateNew) _request;
@@ -303,6 +302,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
                 params.totalScore = (int) orderBean.appraisement.totalScore;
+                params.guideAgencyType = orderBean.guideAgencyType;
                 Intent intent = new Intent(EvaluateActivity.this, ShareGuidesActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 EvaluateActivity.this.startActivity(intent);

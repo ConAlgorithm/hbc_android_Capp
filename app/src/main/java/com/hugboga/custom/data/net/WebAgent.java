@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -23,13 +24,14 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.SkuListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -38,7 +40,10 @@ import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -66,6 +71,10 @@ public class WebAgent implements HttpRequestListener {
         dialog = DialogUtil.getInstance(mActivity);
         this.cityBean = cityBean;
         this.leftBtn = leftBtn;
+    }
+
+    public void setCityBean(CityBean cityBean) {
+        this.cityBean = cityBean;
     }
 
     @JavascriptInterface
@@ -171,6 +180,43 @@ public class WebAgent implements HttpRequestListener {
 
     }
 
+    /**
+     * areaID:城市ID
+     * areaName：城市名称
+     * areaType：1:city、2:country、3:group
+     */
+    @JavascriptInterface
+    public void pushToGoodList(final String areaID,final String areaName, final String areaType) {
+        if (TextUtils.isEmpty(areaID)) {
+            return;
+        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                params.id = CommonUtils.getCountInteger(areaID);
+                switch (CommonUtils.getCountInteger(areaType)) {
+                    case 1:
+                        params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                        break;
+                    case 2:
+                        params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                        break;
+                    case 3:
+                        params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                        break;
+                    default:
+                        return;
+                }
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra("isHomeIn", false);
+                mActivity.startActivity(intent);
+            }
+        });
+
+    }
+
     //新增方法
 
     @JavascriptInterface
@@ -261,12 +307,12 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("cityBean", cityBean);
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
-                    intent.putExtras(bundle);
+                    if (cityBean != null) {
+                        intent.putExtra("cityBean", cityBean);
+                    }
                     mActivity.startActivity(intent);
 //                    mFragment.startFragment(fgOrderSelectCity,bundle);
             }
@@ -311,10 +357,10 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                SkuListActivity.Params params = new SkuListActivity.Params();
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                 params.id = CommonUtils.getCountInteger(cityId);
-                params.skuType = SkuListActivity.SkuType.CITY;
-                Intent intent = new Intent(mActivity, SkuListActivity.class);
+                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 mActivity.startActivity(intent);
             }
@@ -345,6 +391,14 @@ public class WebAgent implements HttpRequestListener {
             callBack(callBack, jsonObject.toString());
         } catch (Exception e) {
             MLog.e("getUserInfo ", e);
+        }
+    }
+
+    @JavascriptInterface
+    public void getUserLoginStatus(final String callBack) {
+        try {
+            callBack(callBack, UserEntity.getUser().isLogin(mActivity) ? "1" : "0");
+        } catch (Exception e) {
         }
     }
 
@@ -405,8 +459,11 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                if (cityBean != null) {
+                    intent.putExtra("cityBean", cityBean);
+                }
                 mActivity.startActivity(intent);
-//                    mFragment.startFragment(new FgOrderSelectCity());
             }
         });
     }
@@ -421,8 +478,11 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                if (cityBean != null) {
+                    intent.putExtra("cityBean", cityBean);
+                }
                 mActivity.startActivity(intent);
-//                    mFragment.startFragment(new FgOrderSelectCity());
             }
         });
     }
@@ -457,6 +517,7 @@ public class WebAgent implements HttpRequestListener {
                 if (!TextUtils.isEmpty(title) && mActivity instanceof WebInfoActivity) {
                     WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
                     fgWebInfo.setTitle(title);
+                    fgWebInfo.setHeaderTitle(title);
                 }
             }
         });
@@ -470,7 +531,7 @@ public class WebAgent implements HttpRequestListener {
 
         if (mActivity instanceof SkuDetailActivity) {
             SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
-            fgSkuDetail.isGoodsOut = true;
+            fgSkuDetail.setGoodsOut();
         }
     }
 
@@ -486,6 +547,7 @@ public class WebAgent implements HttpRequestListener {
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        ApiReportHelper.getInstance().addReport(_request);
         if (_request instanceof RequestWebInfo) {
             RequestWebInfo webInfoRequest = (RequestWebInfo) _request;
             callBack(webInfoRequest.successCallBack, webInfoRequest.getData());

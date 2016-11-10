@@ -14,10 +14,10 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        versionCode 19
-        versionName '2.7.0'
-        minSdkVersion 15
-        targetSdkVersion 24
+        versionCode 21
+        versionName '2.9.0'
+        minSdkVersion 8
+        targetSdkVersion 23
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
     }
 
@@ -32,10 +32,6 @@ android {
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     packagingOptions {

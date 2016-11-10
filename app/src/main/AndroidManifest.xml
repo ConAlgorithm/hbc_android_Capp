@@ -150,11 +150,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.SkuListActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
             android:name=".activity.ChooseCityActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
@@ -369,10 +364,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
-        <service
-            android:name=".service.LogService"
-            android:process="com.hugboga.custom.hbclog" />
-
         <!-- <activity -->
         <!-- android:name=".activity.IMChatActivity" -->
         <!-- android:label="@string/title_activity_imchat" -->
@@ -563,6 +554,14 @@
             android:label="@string/location_navigate"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <!--CityHomev1.4-->
+        <activity android:name=".activity.CityHomeListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+        </activity>
+
 
     </application>
 

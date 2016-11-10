@@ -205,6 +205,7 @@ public class BindMobileActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestVerity) {
             RequestVerity requestVerity = (RequestVerity) request;
             showTip("验证码已发送");
@@ -234,7 +235,7 @@ public class BindMobileActivity extends BaseActivity{
                 Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
                 intent.putExtras(bundle);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
-
+                finish();
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);
                 MobclickAgent.onEvent(this, "bind_succeed", map);
@@ -263,6 +264,7 @@ public class BindMobileActivity extends BaseActivity{
             bundle.putBoolean("isAfterProcess",isAfterProcess);
             Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
             intent.putExtras(bundle);
+            finish();
             BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
 
             MobClickUtils.onEvent(StatisticConstant.BIND_SUCCEED);

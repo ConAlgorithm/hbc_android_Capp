@@ -126,6 +126,7 @@ public class TravelFundRecordActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(final BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         TravelFundData travelFundData = null;
         ArrayList<TravelFundData.TravelFundBean> listData = null;
         if (_request instanceof RequestTravelFundLogs) {

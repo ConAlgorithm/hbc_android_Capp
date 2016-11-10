@@ -4,6 +4,7 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -18,11 +19,18 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.fragment.BaseFragment;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -137,6 +145,30 @@ public class DialogUtil implements DialogUtilInterface {
     public void dismissLoadingDialog() {
         if (!mContext.isFinishing() && mLoadingDialog != null&&mLoadingDialog.isShowing())
             mLoadingDialog.dismiss();
+    }
+
+    public void dismissDialog() {
+        try {
+            if (!mContext.isFinishing()) {
+                if (settingDialog != null && settingDialog.isShowing()) {
+                    settingDialog.dismiss();
+                }
+                if (overtimeDialog != null && overtimeDialog.isShowing()) {
+                    overtimeDialog.dismiss();
+                }
+                if (noRoomDialog != null && noRoomDialog.isShowing()) {
+                    noRoomDialog.dismiss();
+                }
+                if (customDialog != null && customDialog.isShowing()) {
+                    customDialog.dismiss();
+                }
+                if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                    mLoadingDialog.dismiss();
+                }
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     /**
@@ -357,7 +389,11 @@ public class DialogUtil implements DialogUtilInterface {
             return null;
         }
         if (customDialog != null && customDialog.isShowing()) {
-            customDialog.cancel();
+            try {
+                customDialog.dismiss();
+            } catch (Exception e) {
+
+            }
         }
         int iconId = Common.getIdFormDraw(mContext, "alert_dialog_icon");
         Builder builder = new AlertDialog.Builder(mContext);
@@ -655,4 +691,42 @@ public class DialogUtil implements DialogUtilInterface {
         dialog.show();
     }
 
+    public void showLittleHelperDialog(final String... source){
+        String [] str={"境内客服："+Constants.CALL_NUMBER_IN,"境外客服："+Constants.CALL_NUMBER_OUT,"在线聊天"};
+        AlertDialog dialog=new AlertDialog.Builder(getRootActivity(mContext)).setTitle("咨询小助手")
+                .setItems(str,new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which==0){
+                            if (source != null && source.length == 3) {
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("source", source[0]);
+                                MobclickAgent.onEvent(getRootActivity(mContext), source[1], map);
+                            }
+                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"电话");
+                        }else if(which==1){
+                            if (source != null && source.length == 3) {
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("source", source[0]);
+                                MobclickAgent.onEvent(getRootActivity(mContext), source[2], map);
+                            }
+                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"电话");
+                        }else {
+                            if (source!=null&&source.length==3){
+                                HashMap<String,String>map=new HashMap<String, String>();
+                                map.put("source",source[0]);
+                                MobclickAgent.onEvent(getRootActivity(mContext), source[3], map);
+                            }
+                            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
+                            UnicornUtils.openServiceActivity();
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"IM");
+                        }
+                    }
+                }).create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
 }

@@ -26,11 +26,8 @@ import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ADPictureBean;
-import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestADPicture;
-import com.hugboga.custom.data.request.RequestCheckVersion;
-import com.hugboga.custom.service.LogService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
@@ -39,7 +36,6 @@ import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -263,6 +259,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestADPicture) {
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();

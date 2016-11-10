@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 105
+    //current urlErrorCode 106
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -168,7 +168,6 @@ public class UrlLibs {
     public static final String SERVER_IP_ORDER_PAY_ID       = "trade/v1.0/c/pay/getmobilepayurl?";                      // 订单支付 支付宝
     public static final String SERVER_IP_IM_ORDER_LIST      = "trade/v1.0/c/order/list/im";                             // IM聊天界面的订单数据
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
-    public static final String API_HOME_DYNAMICS            = "trade/v1.0/c/order/track";                               // 首页今日动态
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
     public static final String GUIDE_CONFLIC                = "trade/v1.0/c/order/guides/conflict";                     // 导游是否可服务
     public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
@@ -184,10 +183,10 @@ public class UrlLibs {
     public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
 
-    public static final String API_SKU_CITY_LIST            = "goods/v1.2/c/home/cityGoods?";                           // 城市商品列表
-    public static final String API_SKU_COUNTRY_LIST         = "goods/v1.2/c/home/countryGoods?";                        // 国家列表
-    public static final String API_SKU_ROUTE_LIST           = "goods/v1.2/c/home/lineGroupGoods?";                      // 线路圈
-    public static final String API_GOODS_BY_ID              = "goods/v1.2/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String API_CITY_HOME_LIST            = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
+    public static final String API_CITY_HOME_COUNTRY_LIST    = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
+    public static final String API_CITY_HOME_ROUTE_LIST      = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
+    public static final String API_GOODS_BY_ID              = "goods/v1.2/c/home/goodsByNo";                             // 按商品编号查商品详情
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
@@ -216,9 +215,9 @@ public class UrlLibs {
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
+    public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
 
-    public static final String API_HOME                     = "basicdata/v1.2/c/home/citys/contents?";                  // 首页城市卡片列表
-    public static final String SERVER_IP_UPLOAD_LOGS        = "pt/v1.0/log/stream?";                                    // 发送log日志
+    public static final String API_HOME                     = "basicdata/v1.0/c/home/aggregation";                      // 首页城市卡片列表
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息
@@ -241,8 +240,5 @@ public class UrlLibs {
     public static final String ADD_BLACK                    = "communication/v2.0/c/im/black/add";                      // 私聊对象加入黑名单
     public static final String REMOVE_BLACK                 = "communication/v2.0/c/im/black/remove";                   // 私聊对象移出黑名单
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
-
-
-
 
 }

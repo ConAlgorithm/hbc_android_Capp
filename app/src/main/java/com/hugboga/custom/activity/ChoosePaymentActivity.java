@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
@@ -143,6 +144,9 @@ public class ChoosePaymentActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
     }
 
     @Subscribe
@@ -175,12 +179,14 @@ public class ChoosePaymentActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.choose_payment_alipay_layout://支付宝支付
+                DefaultSSLSocketFactory.resetSSLSocketFactory(this);
                 sendRequest(Constants.PAY_STATE_ALIPAY);
                 break;
             case R.id.choose_payment_wechat_layout://微信支付
                 if (!WXShareUtils.getInstance(this).isInstall(true)) {
                     return;
                 }
+                DefaultSSLSocketFactory.resetSSLSocketFactory(this);
                 sendRequest(Constants.PAY_STATE_WECHAT);
                 break;
         }
@@ -188,6 +194,7 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {

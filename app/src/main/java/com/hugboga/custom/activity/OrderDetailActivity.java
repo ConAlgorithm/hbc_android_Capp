@@ -132,6 +132,16 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
+        try {
+            if (popup != null && popup.isShowing()) {
+                popup.dismiss();
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -160,6 +170,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestOrderDetail) {
             emptyTV.setVisibility(View.GONE);
             RequestOrderDetail mParser = (RequestOrderDetail) _request;
@@ -332,7 +343,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 params.guideId = orderBean.orderGuideInfo.guideID;
                 params.guideCarId = orderBean.orderGuideInfo.guideCarId;
                 params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
-                params.orderSource = orderBean.orderSource;
+                params.isSelectedService = orderBean.guideAgencyType == 3;
                 intent = new Intent(this, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -375,11 +386,13 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 intent.putExtra(WebInfoActivity.WEB_URL, orderBean.skuDetailUrl);
                 intent.putExtra(Constants.PARAMS_ID, orderBean.goodsNo);
                 intent.putExtra(Constants.PARAMS_SOURCE,source);
+                intent.putExtra("goodtype",orderBean.orderGoodsType+"");
+                intent.putExtra("type",orderBean.orderType==5?"1":"2");
                 startActivity(intent);
                 if(orderBean.orderGoodsType == 3) {//固定线路
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, source);
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "订单详情页");
                 }else {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, source);
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "订单详情页");
                 }
                 break;
 

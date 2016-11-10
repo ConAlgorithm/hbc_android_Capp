@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
+
+import butterknife.Bind;
 
 /**
  * Created by qingcha on 16/6/19.
@@ -20,7 +23,10 @@ public class HomeScrollView extends ScrollView {
     private int binnerHeight;
     private int searchLayoutHeight;
 
+    private FrameLayout searchLayout;
+    private FrameLayout searchFloatLayout;
     private HomeSearchView searchView;
+
     private boolean isHide = true;
 
     public HomeScrollView(Context context) {
@@ -33,8 +39,12 @@ public class HomeScrollView extends ScrollView {
         searchLayoutHeight = context.getResources().getDimensionPixelOffset(R.dimen.home_search_layout_height);
     }
 
-    public void setSearchView(HomeSearchView searchView) {
+    public void setSearchView(FrameLayout searchLayout, FrameLayout searchFloatLayout, HomeSearchView searchView) {
+        this.searchLayout = searchLayout;
+        this.searchFloatLayout = searchFloatLayout;
         this.searchView = searchView;
+
+        searchLayout.addView(searchView);
     }
 
     @Override
@@ -46,24 +56,14 @@ public class HomeScrollView extends ScrollView {
         if (scrollY < 0) {
             scrollY = 0;
         }
-        if (scrollY >= binnerHeight - searchLayoutHeight && isHide) {
-            searchView.setSearchLayoutHide(false);
+        if (scrollY >= binnerHeight && isHide) {
+            searchLayout.removeAllViews();
+            searchFloatLayout.addView(searchView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             isHide = false;
-        } else if (scrollY < binnerHeight - searchLayoutHeight && !isHide) {
-            searchView.setSearchLayoutHide(true);
+        } else if (scrollY < binnerHeight && !isHide) {
+            searchFloatLayout.removeAllViews();
+            searchLayout.addView(searchView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             isHide = true;
-        }
-
-        if (scrollY >= binnerHeight - searchLayoutHeight * 2) {
-            float alpha = 0.0f;
-            if (scrollY <= 0) {
-                alpha = 0.0f;
-            } else {
-                alpha = Math.min(1, (float) (scrollY - (binnerHeight - searchLayoutHeight * 2)) / searchLayoutHeight);
-            }
-            searchView.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF2D2B28));
-        } else {
-            searchView.setBackgroundColor(0x00000000);
         }
     }
 }

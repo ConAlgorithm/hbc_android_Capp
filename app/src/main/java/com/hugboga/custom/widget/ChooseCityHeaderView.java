@@ -28,6 +28,7 @@ import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -294,6 +295,7 @@ public class ChooseCityHeaderView extends LinearLayout{
                     HttpRequestUtils.request(getContext(), requestUploadLocation, new HttpRequestListener() {
                         @Override
                         public void onDataRequestSucceed(BaseRequest request) {
+                            ApiReportHelper.getInstance().addReport(request);
                             LocationUtils.cleanLocationInfo(getContext());
                             String cityId = ((RequestUploadLocation) request).getData().cityId;
                             String cityName = ((RequestUploadLocation) request).getData().cityName;

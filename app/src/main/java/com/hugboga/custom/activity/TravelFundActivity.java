@@ -44,8 +44,8 @@ public class TravelFundActivity extends BaseActivity {
     TextView residuePriceTV;
     @Bind(R.id.travel_fund_validity_tv)
     TextView validityTV;
-    @Bind(R.id.travel_fund_activity_price_tv)
-    TextView activityPriceTV;
+    @Bind(R.id.travel_fund_coupon_price_tv)
+    TextView couponPriceTV;
     @Bind(R.id.travel_fund_description_tv)
     TextView descriptionTV;
 
@@ -58,7 +58,7 @@ public class TravelFundActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_travel_fund);
+        setContentView(R.layout.activity_travel_fund);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
@@ -86,13 +86,12 @@ public class TravelFundActivity extends BaseActivity {
     private void initView() {
         initTitleBar();
         sendRequest();
-        setFundAmount("0");
-        setActivityPrice("600");
+        setCouponPrice("--");
+        setActivityPrice("--", "--");
     }
 
     private void initTitleBar() {
         initDefaultTitleBar();
-        titlerBar.setBackgroundColor(0x00000000);
         fgTitle.setText(getString(R.string.travel_fund_title));
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setText(getString(R.string.travel_fund_rule));
@@ -116,26 +115,29 @@ public class TravelFundActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(final BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
         if (_request instanceof RequestTravelFundLogs) {
             RequestTravelFundLogs request = (RequestTravelFundLogs) _request;
             travelFundData = request.getData();
             if (travelFundData == null) {
                 return;
             }
+            // 基金余额
+            residuePriceTV.setText(getString(R.string.sign_rmb) + travelFundData.getFundAmount());
 
+            // 有效日期
             if (travelFundData.getFundAmountInt() <= 0) {
-                validityTV.setVisibility(View.INVISIBLE);
+                validityTV.setVisibility(View.GONE);
             } else {
                 validityTV.setVisibility(View.VISIBLE);
                 validityTV.setText(getString(R.string.travel_fund_validity, travelFundData.getEffectiveDate()));
             }
 
-            setFundAmount(travelFundData.getFundAmount());
 
             TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
             if (rewardFields != null) {
-                setActivityPrice(rewardFields.getCouponAmount());
-                descriptionTV.setText(getString(R.string.travel_fund_description, rewardFields.getRewardAmountPerOrder(), rewardFields.getRewardRatePerOrder()));
+                setCouponPrice(rewardFields.getCouponAmount());
+                setActivityPrice(rewardFields.getRewardAmountPerOrder(), rewardFields.getRewardRatePerOrder());
             }
         } else if (_request instanceof RequestGetInvitationCode) {
             RequestGetInvitationCode codeRequest = (RequestGetInvitationCode) _request;
@@ -143,7 +145,7 @@ public class TravelFundActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.travel_fund_invite_record_tv, R.id.travel_fund_use_record_tv, R.id.travel_fund_invite_tv})
+    @OnClick({R.id.travel_fund_invite_record_tv, R.id.travel_fund_used_record_layout, R.id.travel_fund_invite_tv})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -152,7 +154,7 @@ public class TravelFundActivity extends BaseActivity {
                 intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_INVITE_FRIENDS);
                 startActivity(intent);
                 break;
-            case R.id.travel_fund_use_record_tv://使用明细
+            case R.id.travel_fund_used_record_layout://使用明细
                 intent = new Intent(this, TravelFundRecordActivity.class);
                 intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_USE_Bill);
                 startActivity(intent);
@@ -182,23 +184,25 @@ public class TravelFundActivity extends BaseActivity {
         }
     }
 
-    private void setFundAmount(String fundAmount) {
-        String fundAmountString = getString(R.string.sign_rmb) + fundAmount;
-        int start = 0;
-        int end = getString(R.string.sign_rmb).length() + start;
-        SpannableString sp = new SpannableString(fundAmountString);
-        sp.setSpan(new RelativeSizeSpan(0.5f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new ForegroundColorSpan(0xFFFFFFFF), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        residuePriceTV.setText(sp);
+    private void setCouponPrice(String couponPrice) {
+        String couponPriceString = getString(R.string.travel_fund_description, couponPrice);
+        int start = 7;
+        int end = couponPrice.length() + 1 + start;
+        SpannableString sp = new SpannableString(couponPriceString);
+        sp.setSpan(new ForegroundColorSpan(0xFFFF6633), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        couponPriceTV.setText(sp);
     }
 
-    private void setActivityPrice(String activityPrice) {
-        String activityPriceString = activityPrice + getString(R.string.yuan);
-        int start = activityPrice.length();
-        int end = activityPriceString.length();
-        SpannableString spannableString = new SpannableString(activityPriceString);
-        spannableString.setSpan(new RelativeSizeSpan(0.3f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        activityPriceTV.setText(spannableString);
+    private void setActivityPrice(String rewardAmountPerOrder, String rewardRatePerOrder) {
+        String activityPriceString = getString(R.string.travel_fund_description_2, rewardAmountPerOrder, rewardRatePerOrder);
+        int start = 5;
+        int end = rewardAmountPerOrder.length() + 1 + start;
+        int start2 = activityPriceString.length() - rewardRatePerOrder.length() - 2;
+        int end2 = activityPriceString.length() - 2;
+        SpannableString sp = new SpannableString(activityPriceString);
+        sp.setSpan(new ForegroundColorSpan(0xFFFF6633), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new ForegroundColorSpan(0xFFFF6633), start2, end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        descriptionTV.setText(sp);
     }
 
     @Override

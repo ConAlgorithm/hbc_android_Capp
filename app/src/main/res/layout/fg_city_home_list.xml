@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_img_bg"
+    >
+    <com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout
+        android:id="@+id/cityHome_list_refresh_layout"
+        android:layout_below="@+id/cityHome_list_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView
+            android:background="@color/allbg_gray"
+            android:id="@+id/cityHome_list_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout>
+    <include
+        android:id="@+id/cityHome_list_titlebar"
+        layout="@layout/include_header"
+        />
+    <com.hugboga.custom.widget.SkuListEmptyView
+        android:id="@+id/cityHome_list_empty_view"
+        android:layout_below="@+id/cityHome_list_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_bg" />
+
+    <include
+        android:id="@+id/city_home_filter_layout"
+        layout="@layout/city_home_filter_view_group"
+        android:layout_below="@+id/cityHome_list_titlebar"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></include>
+
+</RelativeLayout>

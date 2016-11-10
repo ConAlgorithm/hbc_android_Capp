@@ -159,6 +159,7 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestForgetPwd) {
             RequestForgetPwd mParser = (RequestForgetPwd) request;
             showTip("重置密码成功");

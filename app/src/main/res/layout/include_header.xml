@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    android:background="#2d2b24">
+    android:background="#111111">
 
     <ImageView
         android:id="@+id/header_left_btn"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
-        android:padding="@dimen/fab_margin"
+        android:padding="@dimen/default_margin_xlarge"
         android:src="@mipmap/top_back_white" />
     <ImageView
         android:id="@+id/header_right_btn"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/default_margin_large"
-        android:src="@mipmap/top_btn_share2"
+        android:padding="@dimen/default_margin_mlarges"
+        android:src="@mipmap/guide_detail_share"
         android:visibility="gone" />
     <TextView
         android:id="@+id/header_title"
@@ -45,5 +45,17 @@
         android:textColor="@color/basic_white"
         android:textSize="@dimen/text_size_large"
         android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/header_right_image"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:src="@mipmap/order_deatil_service"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_margin_larges"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

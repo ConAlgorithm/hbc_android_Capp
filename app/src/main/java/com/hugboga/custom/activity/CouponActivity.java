@@ -197,6 +197,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestCoupon) {
             RequestCoupon mRequest = (RequestCoupon) request;
             setData(mRequest.getData());

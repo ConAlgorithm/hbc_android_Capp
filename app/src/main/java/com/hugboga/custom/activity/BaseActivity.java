@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -19,6 +20,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -133,6 +135,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override
@@ -180,7 +183,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-
+        ApiReportHelper.getInstance().addReport(request);
     }
 
     @Override
@@ -195,7 +198,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         }
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;//TODO 旧代码粘贴，没必要赋空，耗内存，需优化。
-
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     /**

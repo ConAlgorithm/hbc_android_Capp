@@ -21,13 +21,14 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
 import com.qiyukf.unicorn.api.Unicorn;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.x;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -127,6 +128,7 @@ public class SettingActivity extends BaseActivity {
                         HttpRequestUtils.request(activity, requestLogout, new HttpRequestListener() {
                             @Override
                             public void onDataRequestSucceed(BaseRequest request) {
+                                ApiReportHelper.getInstance().addReport(request);
                                 mDialogUtil.dismissLoadingDialog();
                                 UserEntity.getUser().clean(activity);
                                 IMUtil.getInstance().logoutNim();
@@ -160,8 +162,7 @@ public class SettingActivity extends BaseActivity {
                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                x.image().clearCacheFiles();
-                                x.image().clearMemCache();
+                                Tools.deleteCache();
                                 cacheSize = 0L;
                                 cacheSizeTextView.setText(getCacheSize());
                                 sharedPre.saveLongValue(SharedPre.CACHE_SIZE, 0);

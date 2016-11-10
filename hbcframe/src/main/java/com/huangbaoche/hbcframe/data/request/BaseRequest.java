@@ -8,6 +8,7 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +39,10 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     public  Map<String,Object> getDataMap(){
         return map;
     }
+
+    public String bodyEntity;
+
+    public Map<String, List<String>> responseHeaders;
 
     /**
      * 动态返回相对的路径，如果不为空，注解的path失效

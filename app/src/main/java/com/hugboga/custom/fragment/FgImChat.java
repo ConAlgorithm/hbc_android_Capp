@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,10 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.netease.nim.uikit.uinfo.UserInfoHelper;
+import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -57,6 +61,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
@@ -81,7 +86,7 @@ import java.util.Map;
  * Created by Administrator on 2016/8/24.
  */
 @ContentView(R.layout.fg_chat)
-public class FgImChat extends BaseFragment implements View.OnClickListener, ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
+public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
 
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
@@ -113,9 +118,11 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
 
     @Override
     protected void initHeader() {
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        fgTitle.setLayoutParams(titleParams);
         fgTitle.setText("私聊");
-        leftBtn.setImageResource(R.mipmap.header_menu);
-        leftBtn.setOnClickListener(this);
+        leftBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -127,6 +134,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
 
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
+        registerUserInfoObserver();
     }
 
 
@@ -221,7 +229,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
-
+        super.onDataRequestSucceed(request);
     }
 
     @Override
@@ -239,17 +247,13 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
         return super.getEventMap();
     }
 
-    @Event({R.id.login_btn, R.id.header_left_btn, R.id.chat_list_empty_tv})
+    @Event({R.id.login_btn, R.id.chat_list_empty_tv})
     private void onClickView(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
                 intent.putExtra("source",getEventSource());
                 startActivity(intent);
-                break;
-            case R.id.header_left_btn:
-                MLog.e("left  " + view);
-                ((MainActivity) getActivity()).openDrawer();
                 break;
             case R.id.chat_list_empty_tv:
                 loadData();
@@ -265,21 +269,10 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.header_left_btn:
-                ((MainActivity) getActivity()).openDrawer();
-                break;
-            default:
-                super.onClick(view);
-                break;
-        }
-    }
-
-    @Override
     public void onDestroyView() {
         registerObservers(false);
         Unicorn.addUnreadCountChangeListener(null, false);
+        unregisterUserInfoObserver();
         super.onDestroyView();
     }
 
@@ -330,6 +323,7 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
                 return;
             }
             String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);
+            MyApplication.requestRemoteNimUserInfo(chatBean.nTargetId);
             NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson,chatBean.isCancel);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
@@ -561,4 +555,22 @@ public class FgImChat extends BaseFragment implements View.OnClickListener, ZBas
             }
         }
     };
+
+    private UserInfoObservable.UserInfoObserver userInfoObserver;
+    private void registerUserInfoObserver() {
+        if (userInfoObserver == null) {
+            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+                @Override
+                public void onUserInfoChanged(List<String> accounts) {
+                }
+            };
+        }
+        UserInfoHelper.registerObserver(userInfoObserver);
+    }
+
+    private void unregisterUserInfoObserver() {
+        if (userInfoObserver != null) {
+            UserInfoHelper.unregisterObserver(userInfoObserver);
+        }
+    }
 }

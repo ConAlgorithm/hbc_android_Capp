@@ -143,6 +143,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 if (areaCodeBean == null) {
                     break;
                 }
+                this.areaCode = areaCodeBean.getCode();
                 areaCodeTextView.setText("+" + areaCodeBean.getCode());
                 break;
             default:
@@ -202,6 +203,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestLogin) {
             RequestLogin mRequest = (RequestLogin) request;
             UserBean user = mRequest.getData();

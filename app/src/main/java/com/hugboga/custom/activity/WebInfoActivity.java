@@ -24,8 +24,11 @@ import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import java.io.InputStream;
@@ -56,6 +59,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private DialogUtil mDialogUtil;
 
     private CityBean cityBean;
+    private boolean isLogin = false;
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,13 +71,18 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initView();
     }
 
+    public void setHeaderTitle(String title) {
+        headerTitle.setText(title);
+    }
 
     WebViewClient webClient = new WebViewClient() {
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            fgTitle.setText(view.getTitle());
+            if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
+                headerTitle.setText(view.getTitle());
+            }
         }
 
         @Override
@@ -150,10 +160,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (headerTitle != null) {
-                if (!view.getTitle().startsWith("http:")) {
+                if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
                     headerTitle.setText(view.getTitle());
-                } else {
-                    headerTitle.setText("");
                 }
             }
         }
@@ -208,6 +216,16 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(url) && url.contains("userId=") && isLogin != UserEntity.getUser().isLogin(this)) {
+            isLogin = UserEntity.getUser().isLogin(this);
+            url = CommonUtils.replaceUrlValue(url, "userId", UserEntity.getUser().getUserId(this));
+            webView.loadUrl(url);
+        }
+    }
+
     public void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
@@ -221,15 +239,16 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                 }
             }
         });
-        if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
-            headerRightTxt.setVisibility(View.VISIBLE);
-            headerRightTxt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialogUtil.showCallDialog();
-                }
-            });
-        }
+
+        headerRightBtn.setVisibility(View.VISIBLE);
+        headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
+        headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
+        headerRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.getInstance(activity).showCallDialog();
+            }
+        });
     }
 
     public void initView() {
@@ -248,7 +267,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
         mDialogUtil = DialogUtil.getInstance(activity);
         initHeader();
-        String url = getIntent().getStringExtra(WEB_URL);
+        isLogin = UserEntity.getUser().isLogin(this);
+        url = getIntent().getStringExtra(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }

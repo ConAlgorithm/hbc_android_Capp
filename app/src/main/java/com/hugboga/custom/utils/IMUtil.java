@@ -97,6 +97,7 @@ public class IMUtil {
                         com.netease.nim.uikit.UserPreferences.setEarPhoneModeEnable(false);
                         MessageAudioControl.getInstance(context).setEarPhoneModeEnable(false);
                         EventBus.getDefault().post(new EventAction(EventType.NIM_LOGIN_SUCCESS));
+                        MyApplication.requestRemoteNimUserInfo(account);
                     }
                 });
 

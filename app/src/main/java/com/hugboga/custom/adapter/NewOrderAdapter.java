@@ -35,6 +35,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestImChatId;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.Tools;
@@ -177,7 +178,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     break;
                 case Constants.BUSINESS_TYPE_DAILY://日租 包车游
-                    vh.mTypeStr.setText("包车游");
+                    vh.mTypeStr.setText("定制包车游");
                     if (orderBean.isHalfDaily == 1) {//半日包
                         vh.timeTV.setText(orderBean.serviceTime);
                         vh.timeLocalTV.setText("(半日)");
@@ -282,16 +283,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-//                            Bundle bundleUrlAll = new Bundle();
-//                            bundleUrlAll.putString(FgWebInfo.WEB_URL, UrlLibs.H5_INSURANCE);
-//                            fragment.startFragment(new FgActivity(), bundleUrlAll);
-
                             Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                             intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
                             v.getContext().startActivity(intent);
-
-
                         }
                     });
                 } else {
@@ -306,7 +300,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setText(orderBean.orderStatus.name);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
-                vh.br_layout.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);
 
                 if (orderBean.orderGuideInfo != null) {
@@ -314,16 +307,45 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                    } else {
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-                    if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty())){
+                    if(orderBean.isIm){
                         vh.mBtnChat.setVisibility(View.VISIBLE);
                         vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                         showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
                     }else{
                         vh.mBtnChat.setVisibility(View.GONE);
+                    }
+
+                    if (orderBean.insuranceEnable) {
+                        vh.br_layout.setVisibility(View.VISIBLE);
+                        vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("orderBean",orderBean);
+                                bundle.putString("from","orderList");
+                                Intent intent = new Intent(context, InsureActivity.class);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            }
+                        });
+                        vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                                v.getContext().startActivity(intent);
+                            }
+                        });
+                    } else {
+                        vh.br_layout.setVisibility(View.GONE);
                     }
                 } else {
                     vh.mStatusLayout.setVisibility(View.GONE);
@@ -345,11 +367,15 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.lineView.setVisibility(View.VISIBLE);
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-                    Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                    } else {
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
 
-                    if(orderBean.isIm && (orderBean.imToken!=null && !orderBean.imToken.isEmpty())){
+                    if(orderBean.isIm){
                         vh.mBtnChat.setVisibility(View.VISIBLE);
                         vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
                         showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
@@ -369,6 +395,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.GONE);
                     vh.lineView.setVisibility(View.INVISIBLE);
                     vh.mHeadLayout.setVisibility(View.GONE);
+                    vh.mAssessment.setVisibility(View.GONE);
                 }
                 break;
             case CANCELLED:
@@ -376,32 +403,74 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mStatus.setText("已取消");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
+                vh.br_layout.setVisibility(View.GONE);
+                if (orderBean.orderGuideInfo != null) {
+                    vh.mHeadLayout.setVisibility(View.VISIBLE);
+                    vh.mStatusLayout.setVisibility(View.VISIBLE);
+                    vh.lineView.setVisibility(View.VISIBLE);
+
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                    } else {
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    }
+                    vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
+                    vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
+
+                    if(orderBean.isIm){
+                        vh.mBtnChat.setVisibility(View.VISIBLE);
+                        vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
+                        showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
+                    }else{
+                        vh.mBtnChat.setVisibility(View.GONE);
+                    }
+                } else {
+                    vh.mStatusLayout.setVisibility(View.GONE);
+                    vh.lineView.setVisibility(View.INVISIBLE);
+                    vh.mHeadLayout.setVisibility(View.GONE);
+                }
                 break;
             case COMPLAINT://客诉处理中
                 vh.mStatus.setText("客诉处理中");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
+                vh.br_layout.setVisibility(View.GONE);
+                if (orderBean.orderGuideInfo != null) {
+                    vh.mHeadLayout.setVisibility(View.VISIBLE);
+                    vh.mStatusLayout.setVisibility(View.VISIBLE);
+                    vh.lineView.setVisibility(View.VISIBLE);
+
+                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
+                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                    } else {
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                    }
+                    vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
+                    vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
+
+                    if(orderBean.isIm){
+                        vh.mBtnChat.setVisibility(View.VISIBLE);
+                        vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
+                        showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
+                    }else{
+                        vh.mBtnChat.setVisibility(View.GONE);
+                    }
+                } else {
+                    vh.mStatusLayout.setVisibility(View.GONE);
+                    vh.lineView.setVisibility(View.INVISIBLE);
+                    vh.mHeadLayout.setVisibility(View.GONE);
+                }
                 break;
             default:
                 break;
-        }
-        if (orderBean.orderGuideInfo != null) {
-            vh.mHeadLayout.setVisibility(View.VISIBLE);
-            vh.mStatusLayout.setVisibility(View.VISIBLE);
-            vh.lineView.setVisibility(View.VISIBLE);
-
-            vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
-            Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
-            vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
-            vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
-
-            if(orderBean.isIm /*&& (orderBean.imToken!=null && !orderBean.imToken.isEmpty())*/){
-                vh.mBtnChat.setVisibility(View.VISIBLE);
-                vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
-                showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
-            }else{
-                vh.mBtnChat.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -470,7 +539,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     guideDetailParams.guideId = mOrderBean.orderGuideInfo.guideID;
                     guideDetailParams.guideCarId = mOrderBean.orderGuideInfo.guideCarId;
                     guideDetailParams.guideAgencyDriverId = mOrderBean.guideAgencyDriverId;
-                    guideDetailParams.orderSource = mOrderBean.orderSource;
+                    guideDetailParams.isSelectedService = mOrderBean.guideAgencyType == 3;
 
                     intent = new Intent(v.getContext(), GuideDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, guideDetailParams);
@@ -486,6 +555,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;

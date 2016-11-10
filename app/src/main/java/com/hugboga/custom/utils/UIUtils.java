@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.R;
 
 /**
  * Created by qingcha on 16/5/27.
@@ -68,6 +69,7 @@ public final class UIUtils {
         initDisplayConfiguration(null);
         return statusBarHeight;
     }
+
 
     public static void initDisplayConfiguration(Activity activity) {
         if (screenHeight > 0 && screenWidth > 0 && statusBarHeight > 0 && screenFullHeight > 0) {

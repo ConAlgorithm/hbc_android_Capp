@@ -430,47 +430,47 @@ public class ChooseCityNewActivity extends BaseActivity {
         CityUtils.addCityHistoryData(searchGroupBean);
 //        finish();
         expandableListView.setVisibility(GONE);
-        SkuListActivity.Params params = new SkuListActivity.Params();
+        CityHomeListActivity.Params params = new CityHomeListActivity.Params();
 
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
-            params.skuType = SkuListActivity.SkuType.ROUTE;
+            params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
                 params.id = searchGroupBean.sub_place_id;
-                params.skuType = SkuListActivity.SkuType.ROUTE;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
                 params.titleName = searchGroupBean.sub_place_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.skuType = SkuListActivity.SkuType.COUNTRY;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_place_id;
-                params.skuType = SkuListActivity.SkuType.COUNTRY;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
-                params.skuType = SkuListActivity.SkuType.COUNTRY;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.skuType = SkuListActivity.SkuType.CITY;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.sub_place_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
-                params.skuType = SkuListActivity.SkuType.CITY;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
-                params.skuType = SkuListActivity.SkuType.COUNTRY;
+                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.spot_name;
             }
         }
-        Intent intent = new Intent(this, SkuListActivity.class);
+        Intent intent = new Intent(this, CityHomeListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra("source","搜索");
         startActivity(intent);

@@ -24,7 +24,6 @@ import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
@@ -57,11 +56,13 @@ import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.hugboga.custom.widget.TopTipsLayout;
@@ -102,6 +103,8 @@ public class OrderNewActivity extends BaseActivity {
     LinearLayout day_layout;
     @Bind(R.id.show_day_layout)
     LinearLayout show_day_layout;
+    @Bind(R.id.header_right_image)
+    ImageView headerRightImage;
 
     @Bind(R.id.day_show_all)
     TextView day_show_all;
@@ -232,7 +235,7 @@ public class OrderNewActivity extends BaseActivity {
      * 基于原来代码修改,有时间了优化
      */
     protected void initHeader() {
-        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setVisibility(View.GONE);
         headerTitle.setText("确认订单");
         source = getIntent().getStringExtra("source");
 
@@ -244,14 +247,21 @@ public class OrderNewActivity extends BaseActivity {
             }
         });
 
-        headerRightTxt.setText(R.string.noraml_question);
-        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//        headerRightTxt.setText(R.string.noraml_question);
+//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity, WebInfoActivity.class);
+//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
+//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+//                startActivity(intent);
+//            }
+//        });
+        headerRightImage.setVisibility(View.VISIBLE);
+        headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                startActivity(intent);
+                DialogUtil.getInstance(activity).showCallDialog();
             }
         });
 
@@ -303,7 +313,6 @@ public class OrderNewActivity extends BaseActivity {
     private FlightBean flightBean;//航班信息 接机
     private PoiBean poiBean;//达到目的地
 
-    CollectGuideBean collectGuideBean;
     private OrderInfoBean orderInfoBean;
 
     String goodsVersion = "";
@@ -319,12 +328,7 @@ public class OrderNewActivity extends BaseActivity {
         carListBean = (CarListBean)this.getIntent().getSerializableExtra("carListBean");
         guideCollectId = this.getIntent().getStringExtra("guideCollectId");
 
-        collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
-
         carBean = (CarBean)this.getIntent().getSerializableExtra("carBean");
-        if(null != collectGuideBean) {
-            guideCollectId = collectGuideBean.guideId;
-        }
 
         startCityId = this.getIntent().getStringExtra("startCityId");
         endCityId = this.getIntent().getStringExtra("endCityId");
@@ -378,14 +382,14 @@ public class OrderNewActivity extends BaseActivity {
                         int showPrice = 0;
                         if (null != couponBean) {
                             showPrice = couponBean.actualPrice.intValue();
+                            allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
                         } else {
                             showPrice = carBean.price;
-                        }
-                        //其他费用总和
-                        int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                            //其他费用总和
+                            int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
-                         allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + otherPriceTotal));
-
+                            allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + otherPriceTotal));
+                        }
                     } else {
                         int price = 0;
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
@@ -454,53 +458,49 @@ public class OrderNewActivity extends BaseActivity {
                 StatisticClickEvent.showOrderNewPage(1,StatisticConstant.LAUNCH_J2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null == guideCollectId?false:true);
                 break;
             case 2:
                 genSend();
                 StatisticClickEvent.showOrderNewPage(2,StatisticConstant.LAUNCH_S2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 3:
                 genDairy();
                 StatisticClickEvent.showOrderNewPage(3,StatisticConstant.LAUNCH_R2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 4:
                 genSingle();
                 StatisticClickEvent.showOrderNewPage(4,StatisticConstant.LAUNCH_C2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 5:
                 genSKU();
                 StatisticClickEvent.showOrderNewPage(5,StatisticConstant.LAUNCH_RG2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
             case 6:
                 genSKU();
                 StatisticClickEvent.showOrderNewPage(6,StatisticConstant.LAUNCH_RT2,getIntentSource(),
                         carBean.carDesc,
                         EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==collectGuideBean?false:true);
+                        null ==guideCollectId?false:true);
                 break;
         }
     }
 
 
     private String getCarDesc() {
-//        if (null != collectGuideBean) {
-//            return collectGuideBean.carDesc;
-//        } else {
-            return carBean.carDesc;
-//        }
+        return carBean.carDesc;
     }
 
 
@@ -705,9 +705,15 @@ public class OrderNewActivity extends BaseActivity {
 
     //线路包车
     private void genSKU() {
-        skuTitle.setText(skuBean.goodsName);
-        skuDay.setText(getString(R.string.sku_days, skuBean.daysCount));
-        skuCityLine.setText(skuBean.places);
+        if (skuBean.goodsClass == -1) {
+            skuTitle.setText(skuBean.goodsName);
+        } else if (skuBean.goodsClass == 1) {//固定
+            skuTitle.setText(CityUtils.addImg(activity, skuBean.goodsName, R.mipmap.chaoshengxin));
+        } else {//推荐
+            skuTitle.setText(CityUtils.addImg(activity, skuBean.goodsName, R.mipmap.chaoziyou));
+        }
+        skuDay.setText(getString(R.string.sku_days, "" + skuBean.daysCount));
+        skuCityLine.setText("起止:" + skuBean.places);
         skuLayout.setVisibility(View.VISIBLE);
 
 
@@ -899,8 +905,20 @@ public class OrderNewActivity extends BaseActivity {
                 deductionBean = ((RequestDeduction) request).getData();
 
                 travelFund = deductionBean.deduction;
-                money = Integer.valueOf(travelFund);
+               try{
+                   money = Integer.valueOf(travelFund);
+               }catch (Exception e){
+                   money=0;
+               }
+
                 if (0 == money) {
+                    dream_right_tips.setVisibility(View.GONE);
+                    dreamRight.setText(Tools.getRMB(activity)+"0");
+                } else {
+                    dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
+                    if (dreamLeft.isChecked()) {
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + totalPrice));
+                    }
                     dream_right_tips.setVisibility(View.VISIBLE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -908,13 +926,6 @@ public class OrderNewActivity extends BaseActivity {
                             startActivity(new Intent(activity, TravelFundActivity.class));
                         }
                     });
-                    dreamRight.setText(Tools.getRMB(activity)+"0");
-                } else {
-                    dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
-                    if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + totalPrice));
-                    }
-                    dream_right_tips.setVisibility(GONE);
                 }
             }
 
@@ -1026,8 +1037,23 @@ public class OrderNewActivity extends BaseActivity {
                         mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
                         mostFitAvailableBean.limit = 20 + "";
                         mostFitAvailableBean.offset = 0 + "";
-                        mostFitAvailableBean.priceChannel = carBean.price + "";
-                        mostFitAvailableBean.useOrderPrice = carBean.price + "";
+                        String channelPrice = "";
+                        channelPrice = "" + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
+                        if (isCheckIn && null != carListBean && null != carListBean.additionalServicePrice) {
+                            if ("1".equals(orderType)) {//接机
+                                channelPrice = "" + (carBean.price
+                                        + CommonUtils.getCountInteger(carListBean.additionalServicePrice.pickupSignPrice)
+                                        + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                                        + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
+                            } else if("2".equals(orderType)) {//送机
+                                channelPrice = "" + (carBean.price + CommonUtils.getCountInteger(carListBean.additionalServicePrice.checkInPrice)
+                                        + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                                        + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
+                            }
+
+                        }
+                        mostFitAvailableBean.priceChannel = channelPrice;
+                        mostFitAvailableBean.useOrderPrice = channelPrice;
                         mostFitAvailableBean.serviceCityId = startCityId4MostFit + "";
                         mostFitAvailableBean.serviceCountryId = areaCode4MostFit;
                         mostFitAvailableBean.serviceLocalDays = inNum + "";
@@ -1107,6 +1133,7 @@ public class OrderNewActivity extends BaseActivity {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestSubmitBase) {
             orderInfoBean = ((RequestSubmitBase) request).getData();
             String couponId = null;
@@ -1161,7 +1188,7 @@ public class OrderNewActivity extends BaseActivity {
         eventPayBean.guestcount = carBean.capOfPerson+"";
         eventPayBean.isFlightSign = orderBean.isFlightSign;
         eventPayBean.isCheckin = orderBean.isCheckin;
-        eventPayBean.guideCollectId = null != collectGuideBean ? collectGuideBean.guideId + "" : "";
+        eventPayBean.guideCollectId = guideCollectId;
         eventPayBean.orderStatus = orderBean.orderStatus;
         eventPayBean.orderType = type;
         eventPayBean.forother = contactUsersBean.isForOther;
@@ -1271,7 +1298,8 @@ public class OrderNewActivity extends BaseActivity {
             } else {
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (couponBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+//                    allMoneyLeftText.setText(Tools.getRMB(activity) + (couponBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + couponBean.actualPrice.intValue());
                 }
             }
             mostFitBean = null;
@@ -1333,7 +1361,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车参数
     private OrderBean getDayOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),EventUtil.getInstance().sourceDetail,collectGuideBean,carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_R,getIntentSource(),EventUtil.getInstance().sourceDetail,guideCollectId,carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
 
         return new OrderUtils().getDayOrderByInput(adultNum, carBean,
                 childrenNum, endCityId,

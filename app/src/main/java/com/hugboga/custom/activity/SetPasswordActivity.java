@@ -65,6 +65,7 @@ public class SetPasswordActivity extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestSetPwd) {
             RequestSetPwd requestSetPwd = (RequestSetPwd) request;
 //            UserBean userBean = requestSetPwd.getData();

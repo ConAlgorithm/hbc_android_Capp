@@ -41,6 +41,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -297,6 +298,11 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     break;
                 case AIR_PORT_BACK:
                     airPortBean = (AirPort) action.getData();
+                    String airPortName = airPortBean.cityName + " " + airPortBean.airportName;
+                    if (airPortName != null && airPortName.equals(addressTips.getText())) {
+                        return;
+                    }
+                    showCarsLayoutSend.setVisibility(View.GONE);
                     addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
                     poiBean = null;
                     airTitle.setText("");
@@ -450,6 +456,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
+                        ApiReportHelper.getInstance().addReport(request);
                         RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
                         List<String> list = requestGuideConflict.getData();
                         if(list.size() > 0) {
@@ -622,6 +629,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestCheckPrice) {
             bottom.setVisibility(View.GONE);
             isNetError = false;

@@ -26,6 +26,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
@@ -660,7 +661,13 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
                     } else {
-                        message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from);
+                        if(!TextUtils.isEmpty(from) && from.equals("lastCity")){
+                            message.obj =  CityUtils.requestHotDate(activity, groupId, cityId, "lastCity");
+                            onPostExecuteHandler.sendMessage(message);
+                            break;
+                        }else{
+                            message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from);
+                        }
                     }
                     mAsyncHandler.sendMessage(message);
                     break;

@@ -21,10 +21,16 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,6 +56,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
 
     private String orderNo;
+    private int orderType;
     private ErrorHandler errorHandler;
 
     public OrderDetailDeliverItemView(Context context) {
@@ -63,8 +70,9 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         loadingView.setVisibility(View.GONE);
     }
 
-    public void setOrderNo(String _orderNo) {
+    public void setOrderNo(String _orderNo, int orderType) {
         this.orderNo = _orderNo;
+        this.orderType = orderType;
     }
 
     @Override
@@ -87,6 +95,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 break;
             case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
                 guideAvatarListLayout(deliverInfoBean);
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG,orderType+"");
                 break;
         }
     }
@@ -125,17 +134,6 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         titleTV.setText(deliverInfoBean.deliverMessage);
         RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
         HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
-        avatarLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(orderNo)) {
-                    Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
-                    intent.putExtra("orderNo", orderNo);
-                    getContext().startActivity(intent);
-                }
-            }
-        });
     }
 
     @Override
@@ -152,6 +150,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        ApiReportHelper.getInstance().addReport(request);
         CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
         if (canServiceGuideBean == null) {
             return;
@@ -161,7 +160,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
         //TODO 每次刷新都重新new,当前刷新频率低,后续优化。
         int size = guidesList.size();
-        int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(70);
+        int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(50);
         boolean isShowMoreIV = true;
         j:for (int i = 0; i < size; i++) {
             viewWidth +=  UIUtils.dip2px(10) + UIUtils.dip2px(40);
@@ -177,11 +176,25 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         circleImageView.setBackgroundResource(R.mipmap.guide_avater_more);
         circleImageView.setVisibility(isShowMoreIV ? View.VISIBLE : View.GONE);
 
-        ImageView iconIV = new ImageView(getContext());
-        iconIV.setImageResource(R.mipmap.personalcenter_right);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(20), LayoutParams.WRAP_CONTENT);
-        params.rightMargin = UIUtils.dip2px(10);
-        avatarLayout.addView(iconIV, params);
+        if (!TextUtils.isEmpty(orderNo) && (orderType == 3 || orderType == 5 || orderType == 6)) {//接送次订单，隐藏表态司导列表，箭头隐藏，不可点击
+            ImageView iconIV = new ImageView(getContext());
+            iconIV.setImageResource(R.mipmap.personalcenter_right);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(20), LayoutParams.WRAP_CONTENT);
+            params.rightMargin = UIUtils.dip2px(10);
+            avatarLayout.addView(iconIV, params);
+
+            avatarLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
+                        intent.putExtra("orderNo", orderNo);
+                        intent.putExtra("ordertype",orderType);
+                        getContext().startActivity(intent);
+                        StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default),orderType);
+                }
+            });
+        }
     }
 
     @Override

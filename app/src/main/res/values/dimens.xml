@@ -5,7 +5,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">18dp</dimen>
 
     <!-- Basic margin -->
     <dimen name="basic_margin_small">4dp</dimen>
@@ -18,7 +18,10 @@
     <dimen name="default_margin_small">4dp</dimen>
     <dimen name="default_margin_medium">8dp</dimen>
     <dimen name="default_margin_large">12dp</dimen>
+    <dimen name="default_margin_larges">14dp</dimen>
+    <dimen name="default_margin_mlarges">16dp</dimen>
     <dimen name="default_margin_xlarge">18dp</dimen>
+    <dimen name="default_margin_mxlarge">20dp</dimen>
     <dimen name="default_margin_xxlarge">26dp</dimen>
     <dimen name="default_margin_xxxlarge">37dp</dimen>
 
@@ -74,7 +77,8 @@
     <dimen name="letter_img_point_width">16dp</dimen>
     <dimen name="letter_img_point_width_x">18dp</dimen>
 
-    <dimen name="home_view_padding_left">15dp</dimen>
+    <dimen name="home_view_padding_left">16dp</dimen>
+    <dimen name="home_view_vertical_space">10dp</dimen>
     <dimen name="home_search_layout_height">54dp</dimen>
 
     <dimen name="dimen_margin_circle">4dp</dimen>
@@ -84,4 +88,11 @@
     <!-- map -->
     <dimen name="friend_map_btn_height">42dp</dimen>
     <dimen name="friend_map_bound_padding">80dp</dimen>
+    
+    <!-- CityHome size -->
+    <dimen name="city_home_height_side_size">120px</dimen>
+    <dimen name="city_home_height_toolbar_size">180px</dimen>
+    <dimen name="city_home_line_height">180px</dimen>
+
+
 </resources>

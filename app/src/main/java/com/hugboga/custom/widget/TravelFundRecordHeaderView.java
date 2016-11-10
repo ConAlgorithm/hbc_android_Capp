@@ -50,7 +50,7 @@ public class TravelFundRecordHeaderView extends FrameLayout implements HbcViewBe
     }
 
     private SpannableString getSpannableString(String _text, int unitResId) {
-        String text = _text + getContext().getResources().getString(unitResId);
+        String text = _text + "  " + getContext().getResources().getString(unitResId);
         int start = _text.length();
         int end = text.length();
         SpannableString sp = new SpannableString(text);

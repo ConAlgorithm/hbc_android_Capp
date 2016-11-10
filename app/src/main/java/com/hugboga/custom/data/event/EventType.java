@@ -10,8 +10,6 @@ public enum EventType {
     REFRESH_CHAT_LIST,//刷新聊天列表
     SET_MAIN_PAGE_INDEX,//设置main 页面滚动到第几个tab
     PAY_CANCEL,//取消支付
-    CLICK_HEADER_LEFT_BTN_BACK, //点击后退按钮 或者back健
-    START_NEW_FRAGMENT, //startfragment
     WECHAT_LOGIN_CODE,
     EDIT_INSURE, //编辑投保人
     ADD_INSURE, //添加投保人
@@ -83,4 +81,10 @@ public enum EventType {
 
     NIM_LOGIN_SUCCESS,//云信登录成功回调
     CARIDS,//司导车辆id
+
+
+    CITY_FILTER_TYPE,//城市列表按类型过滤
+    CITY_FILTER_DAY,//城市列表按天数过滤
+    CITY_FILTER_THEME,//城市列表按主题过滤
+    CITY_FILTER_CLOSE,//关闭城市过滤
 }

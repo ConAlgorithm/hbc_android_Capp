@@ -1,9 +1,8 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.support.v7.app.AlertDialog;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -14,6 +13,7 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.ShareDialog;
+import com.ta.utdid2.android.utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -78,6 +78,19 @@ public final class CommonUtils {
             count = Integer.valueOf(_count);
         } catch(Exception e) {
             return 0;
+        }
+        return count;
+    }
+
+    public static Long getCountLong(String _count) {
+        if (TextUtils.isEmpty(_count)) {
+            return 0L;
+        }
+        long count = 0;
+        try {
+            count = Long.valueOf(_count);
+        } catch(Exception e) {
+            return 0L;
         }
         return count;
     }
@@ -161,9 +174,38 @@ public final class CommonUtils {
         String result = utl;
         if (utl.indexOf("?") == -1) {
             result += "?";
-        } else if (utl.lastIndexOf("?") != utl.length() - 1) {
+        } else if (utl.lastIndexOf("?") != utl.length() - 1 && utl.charAt(utl.length() - 1) != '&') {
             result += "&";
         }
         return result;
+    }
+
+    public static String replaceUrlValue(String url, String key, String value) {
+        if (!StringUtils.isEmpty(url) && !StringUtils.isEmpty(key)) {
+            url = url.replaceAll("(" + key +"=[^&]*)", key + "=" + value);
+        }
+        return url;
+    }
+
+    public static String getDiskCacheDir() {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = MyApplication.getAppContext().getExternalCacheDir().getPath();
+        } else {
+            cachePath = MyApplication.getAppContext().getCacheDir().getPath();
+        }
+        return cachePath;
+    }
+
+    public static String getDiskFilesDir(String type) {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = MyApplication.getAppContext().getExternalFilesDir(type).getPath();
+        } else {
+            cachePath = MyApplication.getAppContext().getFilesDir().getPath();
+        }
+        return cachePath;
     }
 }

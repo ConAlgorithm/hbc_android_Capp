@@ -91,6 +91,7 @@ public class ChangeMobileActivtiy extends BaseActivity{
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
         if (request instanceof RequestChangeMobile) {
             RequestChangeMobile requestChangeMobile = (RequestChangeMobile) request;
             UserEntity.getUser().setAreaCode(this, requestChangeMobile.areaCode);

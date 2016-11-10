@@ -16,6 +16,9 @@ import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
+import org.xutils.ex.HttpException;
+import org.xutils.http.app.RequestInterceptListener;
+import org.xutils.http.request.UriRequest;
 import org.xutils.x;
 
 import java.lang.reflect.Constructor;
@@ -84,10 +87,11 @@ public class HttpRequestUtils {
             return null;
         }
         final HttpRequestOption finalOption = option;
-        Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new Callback.CommonCallback<String>() {
+        Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {//请求成功
                 MLog.e(request.getClass().getSimpleName()+" onSuccess result=" + result);
+                //Log.e("result",request.getClass().getSimpleName()+" onSuccess result=" + result);
                 try {
                     ImplParser parser = request.getParser();
                     if(parser==null) parser= new DefaultParser();//默认解析器
@@ -121,8 +125,55 @@ public class HttpRequestUtils {
                         dialogUtil.dismissLoadingDialog();
                 }
             }
+
+            @Override
+            public void afterRequest(UriRequest urlRequest) throws Throwable {
+                super.afterRequest(urlRequest);
+                if (request != null && urlRequest != null) {
+                    request.responseHeaders = urlRequest.getResponseHeaders();
+                }
+            }
+
+            @Override
+            public void beforeRequest(UriRequest urlRequest) throws Throwable {
+                super.beforeRequest(urlRequest);
+            }
+
         });
         return cancelable;
+    }
+
+    public static class CommonCallback<String> implements Callback.CommonCallback<String>, RequestInterceptListener{
+
+        @Override
+        public void onSuccess(String result) {
+
+        }
+
+        @Override
+        public void onError(Throwable ex, boolean isOnCallback) {
+
+        }
+
+        @Override
+        public void onCancelled(CancelledException cex) {
+
+        }
+
+        @Override
+        public void onFinished() {
+
+        }
+
+        @Override
+        public void beforeRequest(UriRequest request) throws Throwable {
+
+        }
+
+        @Override
+        public void afterRequest(UriRequest request) throws Throwable {
+
+        }
     }
 
     /**
@@ -175,7 +226,11 @@ public class HttpRequestUtils {
             ServerException serverException = (ServerException)error;
             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_SERVER, serverException);
         }else{
-             result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_OTHER, null);
+            result = new ExceptionInfo(ExceptionErrorCode.ERROR_CODE_OTHER, null);
+            if (error instanceof HttpException) {
+                result.setErrorCode(((HttpException)error).getErrorCode());
+
+            }
         }
         return result;
     }
