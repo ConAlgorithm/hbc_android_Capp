@@ -23,6 +23,7 @@ public final class Constants {
     public static final int BUSINESS_TYPE_RENT = 4;//次租
     public static final int BUSINESS_TYPE_COMMEND = 5;//固定路线
     public static final int BUSINESS_TYPE_RECOMMEND = 6;//推荐线路
+
     public static final int BUSINESS_TYPE_HOME = 8;//首页SKU
 
     public static final int BUSINESS_TYPE_DAILY_SHORT = 6;// 市内包车

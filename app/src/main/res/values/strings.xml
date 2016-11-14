@@ -6,6 +6,13 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_imchat">聊天</string>
 
+    <string name="custom_chartered">定制包车游</string>
+    <string name="custom_single">单次接送</string>
+    <string name="custom_pick_up">中文接机</string>
+    <string name="custom_send">中文送机</string>
+    <string name="custom_fixed_line">固定线路</string>
+    <string name="custom_recommend_line">推荐线路</string>
+
     <!-- public -->
     <string name="collect">收藏Ta</string>
     <string name="uncollect">已收藏</string>

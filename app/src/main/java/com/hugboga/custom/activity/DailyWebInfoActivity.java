@@ -367,7 +367,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 startActivity(intent);
                 break;
             case R.id.goto_little_helper:
-                DialogUtil.getInstance(activity).showLittleHelperDialog();
+                DialogUtil.showServiceDialog(this, UnicornServiceActivity.TYPE_CHARTERED, null, null);
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"自定义包车游");
                 break;
         }

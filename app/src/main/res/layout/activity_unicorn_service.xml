@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#5500ffff"
-    android:paddingTop="100dp"
-    >
+    android:background="#f5f5f5"
+    android:orientation="vertical">
 
+    <include
+        android:id="@+id/unicorn_service_titlebar"
+        layout="@layout/include_header" />
 
-    <LinearLayout
-        android:id="@+id/unicorn_service_container_layout1"
-        android:orientation="vertical"
+    <FrameLayout
+        android:id="@+id/unicorn_service_order_state_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#66ff0000">
+        android:layout_height="wrap_content" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/unicorn_service_container_layout2"
-        android:orientation="vertical"
+    <FrameLayout
+        android:id="@+id/unicorn_service_container_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -239,8 +239,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showPopupWindow();
                 break;
             case ORDER_DETAIL_CALL://联系客服
-                mDialogUtil = DialogUtil.getInstance(this);
-                mDialogUtil.showCallDialog();
+                DialogUtil.showServiceDialog(this, UnicornServiceActivity.TYPE_ORDER, orderBean, null);
                 break;
             case ORDER_DETAIL_PAY://立即支付
                 if (!eventVerification(action)) {
@@ -491,7 +490,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     if (orderBean.orderStatus == OrderStatus.INITSTATE) {
                         tip = getString(R.string.order_cancel_tip);
                     } else if (orderBean.isChangeManual) {//需要人工取消订单
-                        mDialogUtil.showCallDialogTitle("如需要取消订单，请联系客服处理");
+                        DialogUtil.showCallDialogTitle(OrderDetailActivity.this, "如需要取消订单，请联系客服处理");
                         return;
                     } else {
                         tip = orderBean.cancelTip;

@@ -31,6 +31,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
@@ -96,7 +97,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.citysTV.setText(orderBean.lineSubject);
             }
 
-            vh.timeTV.setText(orderBean.serviceTime + "至" + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
+            vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
             vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
 
             if (TextUtils.isEmpty(orderBean.carDesc)) {
@@ -180,12 +181,11 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case Constants.BUSINESS_TYPE_DAILY://日租 包车游
                     vh.mTypeStr.setText("定制包车游");
                     if (orderBean.isHalfDaily == 1) {//半日包
-                        vh.timeTV.setText(orderBean.serviceTime);
-                        vh.timeLocalTV.setText("(半日)");
+                        vh.timeTV.setText(orderBean.serviceTime + " 半天");
                     } else {
-                        vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime);
-                        vh.timeLocalTV.setText("");
+                        vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
                     }
+                    vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
 
                     if (TextUtils.isEmpty(orderBean.serviceCityName)) {
                         vh.startAddressLayout.setVisibility(View.GONE);
@@ -398,9 +398,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mAssessment.setVisibility(View.GONE);
                 }
                 break;
-            case CANCELLED:
-            case REFUNDED://已取消、已退款
-                vh.mStatus.setText("已取消");
+            case CANCELLED://已取消
+            case REFUNDED://已退款
+                vh.mStatus.setText(orderBean.orderStatus == OrderStatus.CANCELLED ? "已取消" : "已退款");
                 vh.mStatusLayout.setVisibility(View.GONE);
                 vh.lineView.setVisibility(View.INVISIBLE);
                 vh.mPrice.setVisibility(View.GONE);

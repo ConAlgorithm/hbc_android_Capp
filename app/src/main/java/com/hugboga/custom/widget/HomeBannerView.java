@@ -23,7 +23,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -84,36 +83,33 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
         HomeBannerView.this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//                final int videoVersion = SharedPre.getInteger(KEY_VIDEO_VERSION, 0);
-//                File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + videoVersion + ".mp4");
-//                if (videoVersion > 0 && !videoFile.isDirectory() && videoFile.exists()) {
-//                    intentPlayer(Uri.fromFile(videoFile));
-//                    return;
-//                }
-//                if (headVideo == null || TextUtils.isEmpty(headVideo.videoUrl)) {
-//                    return;
-//                }
-//                if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
-//                    if (mDialogUtil == null) {
-//                        mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
-//                    }
-//                    mDialogUtil.showSettingDialog();
-//                } else if (!NetWorkUtils.isWifi()) {
-//                    DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
-//                    String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
-//                    mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            intentPlayer(Uri.parse(headVideo.videoUrl));
-//                            StatisticClickEvent.click(StatisticConstant.PLAY_VIDEO,"首页视频播放");
-//                        }
-//                    }, "取消观看", null);
-//                } else {
-//                    intentPlayer(Uri.parse(headVideo.videoUrl));
-//                }
-
-                Intent intent = new Intent(getContext(), UnicornServiceActivity.class);
-                getContext().startActivity(intent);
+                final int videoVersion = SharedPre.getInteger(KEY_VIDEO_VERSION, 0);
+                File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + videoVersion + ".mp4");
+                if (videoVersion > 0 && !videoFile.isDirectory() && videoFile.exists()) {
+                    intentPlayer(Uri.fromFile(videoFile));
+                    return;
+                }
+                if (headVideo == null || TextUtils.isEmpty(headVideo.videoUrl)) {
+                    return;
+                }
+                if (!NetWork.isNetworkAvailable(getContext())) {//判断网络
+                    if (mDialogUtil == null) {
+                        mDialogUtil = HttpRequestUtils.getDialogUtil(getContext());
+                    }
+                    mDialogUtil.showSettingDialog();
+                } else if (!NetWorkUtils.isWifi()) {
+                    DialogUtil mDialogUtil = DialogUtil.getInstance((Activity)getContext());
+                    String tip = "您在使用运营商网络,观看视频会产生一定的流量费用。";
+                    mDialogUtil.showCustomDialog("提示", tip, "继续观看", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            intentPlayer(Uri.parse(headVideo.videoUrl));
+                            StatisticClickEvent.click(StatisticConstant.PLAY_VIDEO,"首页视频播放");
+                        }
+                    }, "取消观看", null);
+                } else {
+                    intentPlayer(Uri.parse(headVideo.videoUrl));
+                }
             }
         });
     }
