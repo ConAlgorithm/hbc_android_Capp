@@ -239,7 +239,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showPopupWindow();
                 break;
             case ORDER_DETAIL_CALL://联系客服
-                DialogUtil.showServiceDialog(this, UnicornServiceActivity.TYPE_ORDER, orderBean, null);
+                DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null);
                 break;
             case ORDER_DETAIL_PAY://立即支付
                 if (!eventVerification(action)) {

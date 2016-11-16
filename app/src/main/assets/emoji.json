@@ -1,0 +1,122 @@
+{
+  "adviceSourceId": 1,
+  "adviceSourceName": "订单问题",
+  "advices": [
+    {
+      "adviceId": 4,
+      "adviceName": "问题目录1",
+      "depth": 1,
+      "orderIndex": 1,
+      "parentId": 0,
+      "sons": [
+        {
+          "adviceId": 5,
+          "adviceName": "订单1-问题1",
+          "answer": "第二级答案",
+          "depth": 2,
+          "orderIndex": 1,
+          "parentId": 4,
+          "parentName": "订单1",
+          "type": 2
+        },
+        {
+          "adviceId": 6,
+          "adviceName": "订单1-目录2订单1-目录2订单1-目录2订单1-目录2订单1-目录2订单1-目录2订单1-目录2-end",
+          "depth": 2,
+          "orderIndex": 2,
+          "parentId": 4,
+          "parentName": "订单1",
+          "sons": [
+            {
+              "adviceId": 8,
+              "adviceName": "订单2-目录1",
+              "depth": 3,
+              "orderIndex": 1,
+              "parentId": 6,
+              "parentName": "订单1-目录2",
+              "type": 1
+            },
+            {
+              "adviceId": 9,
+              "adviceName": "订单2-问题2",
+              "answer": "第三级答案",
+              "depth": 3,
+              "orderIndex": 2,
+              "parentId": 6,
+              "parentName": "订单1-目录2",
+              "type": 2
+            },
+            {
+              "adviceId": 10,
+              "adviceName": "订单2-客服跳转3",
+              "customRole": 888888,
+              "depth": 3,
+              "orderIndex": 3,
+              "parentId": 6,
+              "parentName": "订单1-目录2",
+              "type": 3
+            }
+          ],
+          "type": 1
+        },
+        {
+          "adviceId": 7,
+          "adviceName": "订单1-客服跳转3",
+          "customRole": 898989,
+          "depth": 2,
+          "orderIndex": 3,
+          "parentId": 4,
+          "parentName": "订单1",
+          "type": 3
+        }
+      ],
+      "status": 1,
+      "type": 1
+    },
+    {
+      "adviceId": 11,
+      "adviceName": "问题1",
+      "answer": "start-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-第一级答案-end",
+      "depth": 1,
+      "orderIndex": 2,
+      "parentId": 0,
+      "sons": [],
+      "status": 1,
+      "type": 2
+    },
+    {
+      "adviceId": 12,
+      "adviceName": "客服跳转1",
+      "customRole": 99999,
+      "depth": 1,
+      "orderIndex": 3,
+      "parentId": 0,
+      "sons": [],
+      "status": 1,
+      "type": 3
+    },
+    {
+      "adviceId": 12,
+      "adviceName": "start-客服跳转1-客服跳转1-客服跳转1-客服跳转1-客服跳转1-end",
+      "customRole": 99999,
+      "depth": 1,
+      "orderIndex": 3,
+      "parentId": 0,
+      "sons": [],
+      "status": 1,
+      "type": 3
+    },
+    {
+      "adviceId": 12,
+      "adviceName": "客服-故意加的-end",
+      "customRole": 888888,
+      "depth": 1,
+      "orderIndex": 3,
+      "parentId": 0,
+      "sons": [],
+      "status": 1,
+      "type": 3
+    }
+  ],
+  "welcome": "start-欢迎语-欢迎语-欢迎语-欢迎语-欢迎语-欢迎语-欢迎语-欢迎语-end"
+}

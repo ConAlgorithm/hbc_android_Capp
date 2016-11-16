@@ -32,19 +32,15 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
 
     private ProductDetail productDetail;
 
-    public UnicornDetailView(Context context) {
-        this(context, null);
-    }
-
-    public UnicornDetailView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public UnicornDetailView(Context context, int type) {
+        super(context);
         View view = inflate(context, R.layout.view_unicorn_detail, this);
         ButterKnife.bind(view);
+        setSourceType(type);
     }
 
     public void setSourceType(int type) {
-
-        if (type == UnicornServiceActivity.TYPE_CHARTERED) {
+        if (type == UnicornServiceActivity.SourceType.TYPE_CHARTERED) {
             signTV.setVisibility(View.GONE);
             unitTV.setVisibility(View.GONE);
             String title = "按天自由定制包车游，专属中文司机兼导游服务";

@@ -543,7 +543,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         cityHomeBean.goodsThemesList.add(0, CityHomeBean.GoodsThemes.getDefaultTheme());
 
         cityFilterLayout.setGoodsThemesList(cityHomeBean.goodsThemesList);
-        adapter.addDatas(cityHomeBean.goodsSecList, !isFirstRequest);
+        adapter.addData(cityHomeBean.goodsSecList, !isFirstRequest);
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
     }

@@ -30,13 +30,16 @@ import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
@@ -65,16 +68,24 @@ public class WebAgent implements HttpRequestListener {
     private CityBean cityBean;
     private View leftBtn;
 
-    public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn) {
+    private String agentType = "";
+    private SkuItemBean skuItemBean;
+
+    public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn, String agentType) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
         this.cityBean = cityBean;
         this.leftBtn = leftBtn;
+        this.agentType = agentType;
     }
 
     public void setCityBean(CityBean cityBean) {
         this.cityBean = cityBean;
+    }
+
+    public void setSkuItemBean(SkuItemBean skuItemBean) {
+        this.skuItemBean = skuItemBean;
     }
 
     @JavascriptInterface
@@ -428,7 +439,19 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                UnicornUtils.openServiceActivity();
+                Intent intent = new Intent(mActivity, ServiceQuestionActivity.class);
+                UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                if (agentType.equals(DailyWebInfoActivity.TAG)) {
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                } else if (agentType.equals(SkuDetailActivity.TAG) && skuItemBean != null) {
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_LINE;
+                    params.skuItemBean = skuItemBean;
+                } else {
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
+                }
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                mActivity.startActivity(intent);
+
             }
         });
     }

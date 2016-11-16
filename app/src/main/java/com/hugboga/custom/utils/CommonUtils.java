@@ -1,6 +1,7 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -12,6 +13,8 @@ import com.bumptech.glide.request.target.Target;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.widget.ShareDialog;
 import com.ta.utdid2.android.utils.StringUtils;
 
@@ -207,5 +210,16 @@ public final class CommonUtils {
             cachePath = MyApplication.getAppContext().getFilesDir().getPath();
         }
         return cachePath;
+    }
+
+    public static boolean isLogin(Context context) {
+        if (context != null && !UserEntity.getUser().isLogin(context)) {
+            CommonUtils.showToast(R.string.login_hint);
+            Intent intent= new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
+            return false;
+        } else {
+            return true;
+        }
     }
 }

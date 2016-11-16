@@ -74,6 +74,7 @@ import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
 @ContentView(R.layout.fg_sku_detail)
 public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener  {
 
+    public static final String TAG = SkuDetailActivity.class.getSimpleName();
     public static final String WEB_SKU = "web_sku";
     public static final String WEB_CITY = "web_city";
 
@@ -116,7 +117,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn);
+        webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn, TAG);
+        webAgent.setSkuItemBean(skuItemBean);
         webView.addJavascriptInterface(webAgent, "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
@@ -196,8 +198,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                         if (isPerformClick) {
                             gotoOrder.performClick();
                         }
-                        if (webAgent!= null && cityBean != null) {
-                            webAgent.setCityBean(cityBean);
+                        if (webAgent!= null) {
+                            if (cityBean != null) {
+                                webAgent.setCityBean(cityBean);
+                            }
+                            webAgent.setSkuItemBean(skuItemBean);
                         }
                     }
                 }
@@ -276,7 +281,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
                     StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
                 }
-                DialogUtil.showServiceDialog(this, UnicornServiceActivity.TYPE_LINE, null, skuItemBean);
+                DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
 
                 break;
         }

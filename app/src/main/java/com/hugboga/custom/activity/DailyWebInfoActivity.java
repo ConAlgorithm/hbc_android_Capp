@@ -68,6 +68,7 @@ import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
 
 public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyListener {
 
+    public static final String TAG = DailyWebInfoActivity.class.getSimpleName();
     public static final String EVENT_SOURCE = "包车详情咨询客服";
 
     public static final String WEB_SKU = "web_sku";
@@ -282,7 +283,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn, TAG), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
@@ -367,7 +368,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 startActivity(intent);
                 break;
             case R.id.goto_little_helper:
-                DialogUtil.showServiceDialog(this, UnicornServiceActivity.TYPE_CHARTERED, null, null);
+                DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"自定义包车游");
                 break;
         }

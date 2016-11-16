@@ -24,6 +24,7 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -33,6 +34,7 @@ import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UnicornUtils;
@@ -526,8 +528,8 @@ public class DialogUtil implements DialogUtilInterface {
     }
 
     public static AlertDialog showServiceDialog(final Context _context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
-        if ((sourceType == UnicornServiceActivity.TYPE_LINE && skuItemBean == null)
-                || (sourceType == UnicornServiceActivity.TYPE_ORDER && orderBean == null) ) {
+        if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
+                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
             return showCallDialogTitle(_context, null);
         }
         String [] str = {"境内客服：" + Constants.CALL_NUMBER_IN, "境外客服：" + Constants.CALL_NUMBER_OUT, "在线聊天"};
@@ -542,11 +544,14 @@ public class DialogUtil implements DialogUtilInterface {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
                         } else {
+                            if (!CommonUtils.isLogin(_context)) {
+                                return;
+                            }
                             UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
                             params.sourceType = sourceType;
                             params.orderBean = orderBean;
                             params.skuItemBean = skuItemBean;
-                            Intent intent = new Intent(_context, UnicornServiceActivity.class);
+                            Intent intent = new Intent(_context, ServiceQuestionActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             _context.startActivity(intent);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");

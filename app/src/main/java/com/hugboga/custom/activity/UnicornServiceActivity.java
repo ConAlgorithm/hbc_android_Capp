@@ -1,11 +1,13 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.UnicornDetailView;
@@ -18,13 +20,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by on 16/11/9.
+ * Created by qingcha on 16/11/9.
  */
 public class UnicornServiceActivity extends BaseActivity{
-
-    public static final int TYPE_CHARTERED = 0x001; // 自定义包车游
-    public static final int TYPE_LINE = 0x002;      // 固定线路、推荐线路
-    public static final int TYPE_ORDER = 0x003;     // 订单信息
 
     @Bind(R.id.unicorn_service_order_state_layout)
     FrameLayout orderStateLayout;
@@ -35,6 +33,7 @@ public class UnicornServiceActivity extends BaseActivity{
         public int sourceType;
         public OrderBean orderBean;
         public SkuItemBean skuItemBean;
+        public ServiceQuestionBean.QuestionItem questionItem;
     }
 
     @Override
@@ -57,25 +56,30 @@ public class UnicornServiceActivity extends BaseActivity{
 
         ProductDetail productDetail = null;
         switch (params.sourceType) {
-            case TYPE_CHARTERED:
-            case TYPE_LINE:
-                UnicornDetailView unicornDetailView = new UnicornDetailView(this);
-                unicornDetailView.setSourceType(params.sourceType);
-                if (params.sourceType == TYPE_LINE) {
+            case SourceType.TYPE_CHARTERED:
+            case SourceType.TYPE_LINE:
+                orderStateLayout.setVisibility(View.VISIBLE);
+                UnicornDetailView unicornDetailView = new UnicornDetailView(this, params.sourceType);
+                if (params.sourceType == SourceType.TYPE_LINE) {
                     unicornDetailView.update(params.skuItemBean);
                 }
                 orderStateLayout.addView(unicornDetailView);
                 productDetail = unicornDetailView.getProductDetail();
                 break;
-            case TYPE_ORDER:
+            case SourceType.TYPE_ORDER:
+                orderStateLayout.setVisibility(View.VISIBLE);
                 UnicornOrderView unicornOrderView = new UnicornOrderView(this);
                 unicornOrderView.update(params.orderBean);
                 orderStateLayout.addView(unicornOrderView);
                 productDetail = unicornOrderView.getProductDetail();
                 break;
+            default:
+                orderStateLayout.setVisibility(View.GONE);
+                productDetail = null;
+                break;
         }
 
-        UnicornUtils.openServiceActivity(this, R.id.unicorn_service_container_layout, productDetail);
+        UnicornUtils.addServiceFragment(this, R.id.unicorn_service_container_layout, productDetail, params.questionItem != null ? params.questionItem.customRole : 0);
     }
 
     @Override
@@ -83,6 +87,34 @@ public class UnicornServiceActivity extends BaseActivity{
         super.onSaveInstanceState(outState);
         if (params != null) {
             outState.putSerializable(Constants.PARAMS_DATA, params);
+        }
+    }
+
+    public static class SourceType {
+        public static final int TYPE_DEFAULT = 0x000;   // 默认
+        public static final int TYPE_CHARTERED = 0x001; // 自定义包车游
+        public static final int TYPE_LINE = 0x002;      // 固定线路、推荐线路
+        public static final int TYPE_ORDER = 0x003;     // 订单信息
+
+        /*
+        * 返回请求所需的type(API_SERVICE_QUESTION_LIST)
+        * 场景id: 1订单，2商品，3默认
+        * */
+        public static int getRequsetType(int _type) {
+            int result = 3;
+            switch (_type) {
+                case TYPE_DEFAULT:
+                    result = 3;
+                    break;
+                case TYPE_CHARTERED:
+                case TYPE_LINE:
+                    result = 2;
+                    break;
+                case TYPE_ORDER:
+                    result = 1;
+                    break;
+            }
+            return result;
         }
     }
 }

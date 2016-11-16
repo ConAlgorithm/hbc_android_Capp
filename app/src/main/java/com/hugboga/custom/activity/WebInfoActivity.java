@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
 
 public class WebInfoActivity extends BaseActivity implements View.OnKeyListener {
 
+    public static final String TAG = WebInfoActivity.class.getSimpleName();
     public static final String WEB_URL = "web_url";
     public static final String CONTACT_SERVICE = "contact_service";
 
@@ -255,7 +256,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn), "javaObj");
+        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn, TAG), "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
