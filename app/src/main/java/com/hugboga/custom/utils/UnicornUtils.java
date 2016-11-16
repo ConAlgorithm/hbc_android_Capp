@@ -16,11 +16,14 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.qiyukf.unicorn.activity.ServiceMessageFragment;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
+import com.qiyukf.unicorn.api.OnMessageItemClickListener;
 import com.qiyukf.unicorn.api.ProductDetail;
 import com.qiyukf.unicorn.api.SavePowerConfig;
 import com.qiyukf.unicorn.api.UICustomization;
@@ -31,6 +34,7 @@ import com.qiyukf.unicorn.api.YSFUserInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by on 16/8/26.
@@ -133,6 +137,15 @@ public class UnicornUtils {
     private static YSFOptions getDefaultOptions() {
         YSFOptions options = new YSFOptions();
         options.savePowerConfig = new SavePowerConfig();
+        OnMessageItemClickListener messageItemClickListener = new OnMessageItemClickListener() {
+            // 响应 url 点击事件
+            public void onURLClicked(Context context, String url) {
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                context.startActivity(intent);
+            }
+        };
+        options.onMessageItemClickListener = messageItemClickListener;
         return options;
     }
 

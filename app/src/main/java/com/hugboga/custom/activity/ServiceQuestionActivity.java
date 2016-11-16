@@ -87,9 +87,6 @@ public class ServiceQuestionActivity extends BaseActivity{
             case QUESTION_ITEM:
                 ServiceQuestionBean.QuestionItem questionItem = (ServiceQuestionBean.QuestionItem) action.getData();
                 if (questionItem.type == 3) { //进客服
-                    if (questionItem.customRole <= 0) {
-                        return;
-                    }
                     if (!CommonUtils.isLogin(this)) {
                         return;
                     }

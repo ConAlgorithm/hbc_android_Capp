@@ -150,7 +150,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                     return;
                 }
                 ServiceQuestionBean.QuestionItem questionItem = questionList.get(index);
-                if (questionItem == null || questionItem.type == 2 || questionItem.questionItemList == null) {
+                if (questionItem == null || questionItem.type == 2 || (questionItem.type == 1 && questionItem.questionItemList == null)) {
                     return;
                 }
                 EventBus.getDefault().post(new EventAction(EventType.QUESTION_ITEM, questionItem));

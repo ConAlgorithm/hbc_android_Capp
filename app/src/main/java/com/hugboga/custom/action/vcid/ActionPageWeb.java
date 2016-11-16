@@ -31,7 +31,6 @@ public class ActionPageWeb extends ActionPageBase {
         }
         Intent intent = new Intent(getContext(), WebInfoActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, getWebUrl(_url));
-        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         getContext().startActivity(intent);
     }
 

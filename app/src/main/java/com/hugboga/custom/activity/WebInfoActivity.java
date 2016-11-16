@@ -240,16 +240,17 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                 }
             }
         });
-
-        headerRightBtn.setVisibility(View.VISIBLE);
-        headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
-        headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
-        headerRightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogUtil.getInstance(activity).showCallDialog();
-            }
-        });
+        if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
+            headerRightBtn.setVisibility(View.VISIBLE);
+            headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
+            headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
+            headerRightBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogUtil.getInstance(activity).showCallDialog();
+                }
+            });
+        }
     }
 
     public void initView() {
