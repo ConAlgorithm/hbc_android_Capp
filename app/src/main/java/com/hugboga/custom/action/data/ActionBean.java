@@ -40,7 +40,7 @@ public class ActionBean implements Serializable {
      * d: data  value: json数据（有数据的界面会用到此key读取其数据）
      * */
     @SerializedName("d")
-    public String data;
+    public Object data;
 
     /**
      * 记录来源(本地定义)

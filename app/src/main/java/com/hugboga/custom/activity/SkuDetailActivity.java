@@ -20,6 +20,8 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
@@ -29,6 +31,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
@@ -92,6 +95,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     WebView webView;
     @Bind(R.id.goto_little_helper)
     TextView gotoLittleHelp;
+    @Bind(R.id.sku_detail_empty_layout)
+    LinearLayout emptyLayout;
+    @Bind(R.id.sku_detail_content_layout)
+    RelativeLayout contentLayout;
 
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
@@ -104,7 +111,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
 
     public void initView() {
-        findViewById(R.id.header_right_btn).setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
+        headerRightBtn.setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +176,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         }
     }
 
+    public void goodsSoldOut() {
+        headerRightBtn.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.VISIBLE);
+        contentLayout.setVisibility(View.GONE);
+    }
+
     private void getSkuItemBean(boolean isShowLoading) {
         if (skuItemBean == null && !TextUtils.isEmpty(goodsNo)) {
             isPerformClick = isShowLoading;
@@ -229,7 +242,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.goto_little_helper})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.goto_little_helper,R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -282,7 +295,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
                 }
                 DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
-
+                break;
+            case R.id.sku_detail_empty_tv:
+                startActivity(new Intent(activity, MainActivity.class));
                 break;
         }
     }

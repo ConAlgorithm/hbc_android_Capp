@@ -21,7 +21,7 @@ public class ActionPageGuideDetail extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (!ActionUtils.isLogin(context) || TextUtils.isEmpty(actionBean.data)) {
+        if (!ActionUtils.isLogin(context) || actionBean.data == null) {
             return;
         }
         ActionGuideDetailBean bean = (ActionGuideDetailBean) JsonUtils.fromJson(actionBean.data, ActionGuideDetailBean.class);

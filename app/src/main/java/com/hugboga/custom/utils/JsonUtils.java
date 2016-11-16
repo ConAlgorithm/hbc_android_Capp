@@ -38,6 +38,20 @@ public enum JsonUtils {
         return result;
     }
 
+    public static Object fromJson(Object obj, Type type) {
+        Object result = null;
+        if (HbcConfig.IS_DEBUG) {
+            result = INSTANCE.gson.fromJson(INSTANCE.gson.toJson(obj), type);
+        } else {
+            try {
+                result = INSTANCE.gson.fromJson(INSTANCE.gson.toJson(obj), type);
+            } catch (Exception e) {
+                result = null;
+            }
+        }
+        return result;
+    }
+
     public static <T> T getObject(String objStr, Type type) {
         return INSTANCE.gson.fromJson(objStr, type);
     }
@@ -48,11 +62,23 @@ public enum JsonUtils {
     }
 
     public static String toJson(Object obj) {
-        return INSTANCE.gson.toJson(obj);
+        String result = null;
+        try {
+            result = INSTANCE.gson.toJson(obj);
+        } catch (Exception e) {
+            result = null;
+        }
+        return result;
     }
 
     public static String toJson(Object obj, Type tpye) {
-        return INSTANCE.gson.toJson(obj, tpye);
+        String result = null;
+        try {
+            result = INSTANCE.gson.toJson(obj, tpye);
+        } catch (Exception e) {
+            result = null;
+        }
+        return result;
     }
 
     public static boolean isJson(String str) {

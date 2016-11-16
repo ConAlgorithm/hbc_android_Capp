@@ -192,6 +192,16 @@ public class WebAgent implements HttpRequestListener {
     }
 
     /**
+     * 线路详情empty
+     * */
+    @JavascriptInterface
+    public void showGoodsError() {
+        if (mActivity instanceof SkuDetailActivity) {
+            ((SkuDetailActivity) mActivity).goodsSoldOut();
+        }
+    }
+
+    /**
      * areaID:城市ID
      * areaName：城市名称
      * areaType：1:city、2:country、3:group

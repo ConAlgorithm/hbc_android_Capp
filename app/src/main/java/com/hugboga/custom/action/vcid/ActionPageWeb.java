@@ -19,7 +19,7 @@ public class ActionPageWeb extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (!TextUtils.isEmpty(actionBean.data)) {
+        if (actionBean.data != null) {
             ActionWebBean actionWebBean = (ActionWebBean) JsonUtils.fromJson(actionBean.data, ActionWebBean.class);
             intentWebInfoActivity(actionWebBean.url);
         }
