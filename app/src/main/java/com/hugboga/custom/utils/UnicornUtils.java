@@ -19,7 +19,6 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.qiyukf.unicorn.activity.ServiceMessageFragment;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
@@ -86,7 +85,7 @@ public class UnicornUtils {
         // 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
         ConsultSource source = new ConsultSource("", "CAPP_Android", "");
         if (staffId > 0) {
-            source.staffId = 51071;//TODO staffId
+            source.groupId = staffId;
         }
         if (productDetail != null) {
             source.productDetail = productDetail;

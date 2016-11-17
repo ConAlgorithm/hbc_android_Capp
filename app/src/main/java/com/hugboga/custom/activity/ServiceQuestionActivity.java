@@ -118,7 +118,6 @@ public class ServiceQuestionActivity extends BaseActivity{
     private void requestData() {
         if (params != null) {
             requestData(new RequsetServiceQuestionList(this, UnicornServiceActivity.SourceType.getRequsetType(params.sourceType)));
-//            requestData(new RequsetServiceQuestionList(this, 1));
         }
     }
 
