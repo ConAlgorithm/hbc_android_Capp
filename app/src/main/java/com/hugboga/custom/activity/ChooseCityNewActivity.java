@@ -283,21 +283,9 @@ public class ChooseCityNewActivity extends BaseActivity {
 
                 } else if (groupList2.get(position).spot_id == -3) {
                     finish();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString(FgWebInfo.WEB_URL, UrlLibs.H5_DAIRY);
-//                    startFragment(new FgDailyWeb(), bundle);
-                    String userId = UserEntity.getUser().getUserId(activity);
-                    String params = "";
-                    if(!TextUtils.isEmpty(userId)){
-                        params += "?userId=" + userId;
-                    }
-                    Intent intent = new Intent(activity, DailyWebInfoActivity.class);
+                    Intent intent = new Intent(activity, OrderSelectCityActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY +params);
                     startActivity(intent);
-
-//                    FgOrderSelectCity fgOrderSelectCity = new FgOrderSelectCity();
-//                    startFragment(fgOrderSelectCity);
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         goCityList(groupList2.get(position));

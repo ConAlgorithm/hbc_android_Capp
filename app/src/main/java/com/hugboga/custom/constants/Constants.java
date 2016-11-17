@@ -42,6 +42,8 @@ public final class Constants {
     public static final String PARAMS_SOURCE = "source";
     public static final String PARAMS_SOURCE_DETAIL = "source_detail";
 
+    public static final String PARAMS_CITY_ID = "cityId";
+
     public static final int DEFAULT_PAGESIZE = 20;
     public static final String REQUEST_SOURCE = "c";
 

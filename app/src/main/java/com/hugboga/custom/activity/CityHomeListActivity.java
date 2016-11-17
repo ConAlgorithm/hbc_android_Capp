@@ -441,28 +441,10 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             GoodsSec goodsSec = (GoodsSec) itemData;
             if (goodsSec.goodsClass == -1) {//超省心（固定线路）
                 if (cityBean != null) {
-                    String userId = UserEntity.getUser().getUserId(this);
-                    String params = "";
-                    if (!TextUtils.isEmpty(userId)) {
-                        params += "?userId=" + userId;
-                    }
-                    String cityId = cityBean.cityId + "";
-                    if (!TextUtils.isEmpty(cityId)) {
-                        if (params.contains("?")) {
-                            params += "&cityId=" + cityId;
-                        } else {
-                            params += "?cityId=" + cityId;
-                        }
-                    }
-                    Intent intent = new Intent(CityHomeListActivity.this, DailyWebInfoActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
-                    intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
+                    Intent intent = new Intent(CityHomeListActivity.this, OrderSelectCityActivity.class);
                     intent.putExtra("cityBean", cityBean);
-                    intent.putExtra("source", cityBean.name);
-                    intent.putExtra(KEY_CITY_BEAN, cityBean);
-                    intent.putExtra("goodtype",goodsSec.goodsType);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     startActivity(intent);
-
                 } else {
                     String userId = UserEntity.getUser().getUserId(this);
                     String params = "";

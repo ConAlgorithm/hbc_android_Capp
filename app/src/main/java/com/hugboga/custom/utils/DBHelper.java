@@ -6,7 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CityBean;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -218,6 +220,17 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public static CityBean findCityById(String cityId) {
+        CityBean result = null;
+        DbManager mDbManager = new DBHelper(MyApplication.getAppContext()).getDbManager();
+        try {
+            result = mDbManager.findById(CityBean.class, cityId);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

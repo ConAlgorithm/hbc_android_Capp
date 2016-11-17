@@ -24,7 +24,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
@@ -329,7 +328,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
                     if (cityBean != null) {
                         intent.putExtra("cityBean", cityBean);
@@ -491,8 +490,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
-                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
                 if (cityBean != null) {
                     intent.putExtra("cityBean", cityBean);
                 }
@@ -510,8 +508,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
-                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
                 if (cityBean != null) {
                     intent.putExtra("cityBean", cityBean);
                 }
