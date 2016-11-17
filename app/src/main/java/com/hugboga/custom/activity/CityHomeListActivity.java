@@ -394,7 +394,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             Object obj = labelView.getTag();
             if(obj!=null){
                 if((Boolean)obj){
-                    if (topPadding <= animTopPadding || topPadding >= UIUtils.getScreenHeight()-animationIconLabelPaddingDistance){
+                    if (topPadding <= animTopPadding-labelView.getHeight() || topPadding >= UIUtils.getScreenHeight()+labelView.getHeight()){
                         labelView.setTag(false);
                         labelView.setVisibility(View.GONE);
                     }else{
