@@ -48,15 +48,9 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
             priceTV.setText("选择行程后可查看报价");
             priceTV.setTextSize(14);
 
-            String userId = UserEntity.getUser().getUserId(getContext());
-            String params = "";
-            if (!TextUtils.isEmpty(userId)) {
-                params += "?userId=" + userId;
-            }
             ProductDetail.Builder builder = new ProductDetail.Builder();
             builder.setTitle("定制包车游");
             builder.setDesc(title);
-            builder.setUrl(UrlLibs.H5_DAIRY + params);
             builder.setShow(1);
             productDetail = builder.create();
         } else {

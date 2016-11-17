@@ -55,7 +55,7 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
         if (chatBean != null) {
             vh.mUsername.setText(chatBean.targetName);
             if (chatBean.targetType == 3) {
-                vh.mMessage.setText("您有任何问题,欢迎咨询客服小包子");
+                vh.mMessage.setText("您有任何问题，欢迎咨询客服小包子");
                 vh.serviceIconTV.setVisibility(View.VISIBLE);
             } else if (!TextUtils.isEmpty(chatBean.message)) {
                 vh.mMessage.setText(chatBean.message.trim());
