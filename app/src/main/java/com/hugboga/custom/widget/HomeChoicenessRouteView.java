@@ -75,7 +75,7 @@ public class HomeChoicenessRouteView extends LinearLayout implements HbcViewBeha
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHorizontalScrollBarEnabled(false);
         SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
-        itemDecoration.setItemOffsets(UIUtils.dip2px(8), 0, 0, 0);
+        itemDecoration.setItemOffsets(UIUtils.dip2px(8), 0, 0, 0, LinearLayout.HORIZONTAL);
         recyclerView.addItemDecoration(itemDecoration);
         adapter = new HomeChoicenessRouteAdapter(context, type);
         recyclerView.setAdapter(adapter);

@@ -3,7 +3,9 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -182,6 +184,7 @@ public class OrderBean implements IBaseBean{
 
     public List<OrderContact> contact;
 
+    @Deprecated
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
             case 1:
@@ -200,6 +203,35 @@ public class OrderBean implements IBaseBean{
                 return context.getString(R.string.title_daily_large);
             default:
                 return "";
+        }
+    }
+
+    public String getOrderTypeStr() {
+        int resID = -1;
+        switch (orderType) {
+            case Constants.BUSINESS_TYPE_PICK://接机
+                resID = R.string.custom_pick_up;
+                break;
+            case Constants.BUSINESS_TYPE_SEND://送机
+                resID = R.string.custom_send;
+                break;
+            case Constants.BUSINESS_TYPE_DAILY://包车
+                resID = R.string.custom_chartered;
+                break;
+            case Constants.BUSINESS_TYPE_RENT://单次接送
+                resID = R.string.custom_single;
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND://固定线路
+                resID = R.string.custom_fixed_line;
+                break;
+            case Constants.BUSINESS_TYPE_RECOMMEND://推荐线路
+                resID = R.string.custom_recommend_line;
+                break;
+        }
+        if (resID != -1) {
+            return MyApplication.getAppContext().getString(resID);
+        } else {
+            return "";
         }
     }
 

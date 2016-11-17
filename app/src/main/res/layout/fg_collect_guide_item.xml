@@ -85,7 +85,7 @@
                 app:srb_numberOfStars="5"
                 app:srb_stepSize="0.01"
                 app:srb_borderColor="#00000000"
-                app:srb_fillColor="#fed631"
+                app:srb_fillColor="@color/default_yellow"
                 app:srb_starBackgroundColor="#eeeeee"
                 app:srb_isIndicator="true"
                 />

@@ -3,6 +3,7 @@ package com.hugboga.custom.utils;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.TextView;
@@ -107,6 +108,9 @@ public final class UIUtils {
     }
 
     public static int getStringWidth(TextView textView, String str) {
+        if (TextUtils.isEmpty(str)) {
+            return 0;
+        }
         TextPaint paint = textView.getPaint();
         return (int)paint.measureText(str);
     }

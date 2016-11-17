@@ -21,7 +21,7 @@ public class ActionPageSkuDetail extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (!ActionUtils.isLogin(context) || TextUtils.isEmpty(actionBean.data)) {
+        if (!ActionUtils.isLogin(context) || actionBean.data == null) {
             return;
         }
         ActionSkuDetailBean bean = (ActionSkuDetailBean) JsonUtils.fromJson(actionBean.data, ActionSkuDetailBean.class);

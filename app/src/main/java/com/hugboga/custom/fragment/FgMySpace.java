@@ -108,6 +108,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshUserInfo();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);

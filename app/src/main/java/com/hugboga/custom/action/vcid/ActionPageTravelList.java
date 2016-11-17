@@ -25,7 +25,7 @@ public class ActionPageTravelList extends ActionPageBase {
         super.intentPage(context, actionBean);
         context.startActivity(new Intent(context, MainActivity.class));
         EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
-        if (!TextUtils.isEmpty(actionBean.data)) {
+        if (actionBean.data != null) {
             ActionTravelListBean bean = (ActionTravelListBean) JsonUtils.fromJson(actionBean.data, ActionTravelListBean.class);
             if (bean != null) {
                 EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, CommonUtils.getCountInteger(bean.type)));

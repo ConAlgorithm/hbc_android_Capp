@@ -541,9 +541,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         for (int i = 0; i < tabMenu.length; i++) {
             tabMenu[i].setSelected(position == i);
         }
-        if (position == tabMenu.length - 1 && fgMySpace != null) {
-            fgMySpace.refreshUserInfo();
-        }
     }
 
     @Override

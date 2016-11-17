@@ -2,57 +2,94 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/servicer_center_content_bg"
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/sku_detail_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/servicer_center_content_bg">
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="60dp"
+            android:background="@mipmap/city_filter_empty_icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="该线路不存在"
+            android:textColor="#333333"
+            android:textSize="17sp"
+            />
+        <TextView
+            android:id="@+id/sku_detail_empty_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="22dp"
+            android:text="去首页转转"
+            android:textColor="#007ffa"
+            android:textSize="15sp"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/sku_detail_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/goto_order_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
-            android:background="@color/allbg_white"
             android:layout_alignParentBottom="true"
-            android:paddingTop="10dp"
+            android:background="@color/allbg_white"
+            android:orientation="horizontal"
             android:paddingBottom="10dp"
-            android:orientation="horizontal">
+            android:paddingTop="10dp"
+            android:weightSum="3">
+
             <TextView
                 android:id="@+id/goto_little_helper"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:text="咨询小助手"
-                android:background="@drawable/bg_little_helpe"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="18dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:textColor="#000000"/>
+                android:background="@drawable/bg_little_helpe"
+                android:gravity="center"
+                android:text="咨询小助手"
+                android:textColor="#000000"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/goto_order"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:background="@drawable/selector_sku_detail_on_order"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_weight="2"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="18dp"
+                android:layout_weight="2"
+                android:background="@drawable/selector_sku_detail_on_order"
+                android:gravity="center"
                 android:text="现在预订"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="15sp" />
         </LinearLayout>
+
         <View
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_above="@+id/goto_order_lay"
-            android:background="@color/coupon_layout1_color"/>
+            android:background="@color/coupon_layout1_color" />
+
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"

@@ -44,6 +44,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
@@ -224,6 +225,12 @@ public class SingleNewActivity extends BaseActivity {
         });
 
         cityBean = (CityBean) this.getIntent().getSerializableExtra("cityBean");
+        if (cityBean == null) {
+            String startCityId = getIntent().getStringExtra(Constants.PARAMS_CITY_ID);
+            if (!TextUtils.isEmpty(startCityId)) {
+                cityBean = DBHelper.findCityById(startCityId);
+            }
+        }
         if (null != cityBean) {
             useCityTips.setText(cityBean.name);
         }

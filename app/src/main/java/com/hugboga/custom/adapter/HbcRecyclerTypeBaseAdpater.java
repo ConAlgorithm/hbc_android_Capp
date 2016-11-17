@@ -33,11 +33,11 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
         this.datas = new ArrayList<T>();
     }
 
-    public void addDatas(List<T> _data) {
-        addDatas(_data, false);
+    public void addData(List<T> _data) {
+        addData(_data, false);
     }
 
-    public void addDatas(List<T> _data, boolean isNextPage) {
+    public void addData(List<T> _data, boolean isNextPage) {
         if (_data == null) {
             return;
         }

@@ -24,19 +24,21 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CurrentServerInfoData;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
@@ -65,16 +67,24 @@ public class WebAgent implements HttpRequestListener {
     private CityBean cityBean;
     private View leftBtn;
 
-    public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn) {
+    private String agentType = "";
+    private SkuItemBean skuItemBean;
+
+    public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn, String agentType) {
         this.mActivity = activity;
         this.mWebView = webView;
         dialog = DialogUtil.getInstance(mActivity);
         this.cityBean = cityBean;
         this.leftBtn = leftBtn;
+        this.agentType = agentType;
     }
 
     public void setCityBean(CityBean cityBean) {
         this.cityBean = cityBean;
+    }
+
+    public void setSkuItemBean(SkuItemBean skuItemBean) {
+        this.skuItemBean = skuItemBean;
     }
 
     @JavascriptInterface
@@ -178,6 +188,16 @@ public class WebAgent implements HttpRequestListener {
             }
         });
 
+    }
+
+    /**
+     * 线路详情empty
+     * */
+    @JavascriptInterface
+    public void showGoodsError() {
+        if (mActivity instanceof SkuDetailActivity) {
+            ((SkuDetailActivity) mActivity).goodsSoldOut();
+        }
     }
 
     /**
@@ -308,7 +328,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
                     if (cityBean != null) {
                         intent.putExtra("cityBean", cityBean);
@@ -428,7 +448,19 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                UnicornUtils.openServiceActivity();
+                Intent intent = new Intent(mActivity, ServiceQuestionActivity.class);
+                UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                if (agentType.equals(DailyWebInfoActivity.TAG)) {
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
+                } else if (agentType.equals(SkuDetailActivity.TAG) && skuItemBean != null) {
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_LINE;
+                    params.skuItemBean = skuItemBean;
+                } else {
+                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
+                }
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                mActivity.startActivity(intent);
+
             }
         });
     }
@@ -458,8 +490,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
-                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
                 if (cityBean != null) {
                     intent.putExtra("cityBean", cityBean);
                 }
@@ -477,8 +508,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, DailyWebInfoActivity.EVENT_SOURCE);
-                intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
+                intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
                 if (cityBean != null) {
                     intent.putExtra("cityBean", cityBean);
                 }
