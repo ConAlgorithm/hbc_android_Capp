@@ -89,6 +89,9 @@ public class UnicornUtils {
             source.productDetail = productDetail;
         }
         ServiceMessageFragment fragment = Unicorn.newServiceFragment("皇包车客服", source, new FrameLayout(activity));
+        if (fragment == null) {
+            return;
+        }
         FragmentManager fm = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(containerId, fragment);

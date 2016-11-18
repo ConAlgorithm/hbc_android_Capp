@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 public class ServiceQuestionActivity extends BaseActivity{
 
     @Bind(R.id.service_question_rv)
-    RecyclerView questionRV;
+    RecyclerView mRecyclerView;
     private ServiceQuestionAdapter adapter;
 
     private UnicornServiceActivity.Params params;
@@ -56,12 +56,12 @@ public class ServiceQuestionActivity extends BaseActivity{
         fgTitle.setText("请选择内容");
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        questionRV.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
         itemDecoration.setItemOffsets(0, 0, 0, UIUtils.dip2px(22), LinearLayout.VERTICAL);
-        questionRV.addItemDecoration(itemDecoration);
+        mRecyclerView.addItemDecoration(itemDecoration);
         adapter = new ServiceQuestionAdapter(this);
-        questionRV.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
 
         requestData();
     }
@@ -126,7 +126,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                     questionList.add(serviceQuestionBean);
 
                     adapter.addData(questionList, true);
-                    questionRV.smoothScrollToPosition(adapter.getItemCount() - 1);
+                    mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                 }
                 break;
         }

@@ -148,6 +148,13 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
         this.notifyDataSetChanged();
     }
 
+    public void cleanAllFooterView(boolean isNotifyData) {
+        mFooterViewInfos.clear();
+        if (isNotifyData) {
+            this.notifyDataSetChanged();
+        }
+    }
+
     protected abstract View getItemView(int position);
 
     protected abstract int getChildItemViewType(int position);
