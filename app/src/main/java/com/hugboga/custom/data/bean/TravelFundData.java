@@ -142,6 +142,10 @@ public class TravelFundData implements Serializable {
         private String couponAmount;         // 600元
         private String rewardAmountPerOrder; // 30元
         private String rewardRatePerOrder;   // 5%
+        public String headline;              // 标题
+        public String subhead;               // 副标题
+        public String name;                  // 名字
+        public String nickName;              // 昵称
 
         public String getRewardRatePerOrder() {
             return rewardRatePerOrder;
