@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/cancel_reason_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:text="15spadsdad"
+        android:textColor="#111111"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/cancel_reason_selected_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@mipmap/cancel_reason_selected" />
+
+    <View
+        android:id="@+id/cancel_reason_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/default_dividing_line" />
+</merge>

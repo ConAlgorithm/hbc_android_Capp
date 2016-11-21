@@ -42,6 +42,7 @@ public class OrderBean implements IBaseBean{
     public String coupId;
     public String coupPriceInfo;
     public String childSeatStr;// 儿童座椅价格及个数
+    public String cancelReason;// 取消订单原因
 
     /**
      * 问题字段

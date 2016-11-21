@@ -22,11 +22,9 @@ import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
-import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
@@ -38,7 +36,6 @@ import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -193,10 +190,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 explainTV.setText(explainStr);
             }
-        } else if (_request instanceof RequestOrderCancel) {//取消订单
-            CommonUtils.showToast(R.string.order_detail_cancel_oeder);
-            requestData();
-            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             orderBean.orderGuideInfo.storeStatus = 0;
             updateCollectViewText();
@@ -440,16 +433,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     /**
-     * 取消订单
-     */
-    private void cancelOrder(String orderID, double cancelPrice) {
-        if (cancelPrice < 0) cancelPrice = 0;
-        mDialogUtil.showLoadingDialog();
-        RequestOrderCancel request = new RequestOrderCancel(this, orderID, cancelPrice, "");
-        requestData(request);
-    }
-
-    /**
      * 右上角的菜单，取消订单 联系客服，此部分copy自旧代码
      */
     public void showPopupWindow() {
@@ -500,14 +483,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                         public void onClick(DialogInterface dialog, int which) {
                             EventBase eventBase = new EventCancelOrder(orderBean);
                             MobClickUtils.onEvent(eventBase);
-                            if (orderBean.orderStatus == OrderStatus.INITSTATE) {
-                                cancelOrder(orderBean.orderNo, 0);
-                            } else {
-                                Intent intent = new Intent(OrderDetailActivity.this, OrderCancelActivity.class);
-                                intent.putExtra(OrderCancelActivity.KEY_ORDER, orderBean);
-                                intent.putExtra("source", source);
-                                OrderDetailActivity.this.startActivity(intent);
-                            }
+                            Intent intent = new Intent(OrderDetailActivity.this, OrderCancelReasonActivity.class);
+                            intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                            OrderDetailActivity.this.startActivity(intent);
                         }
                     }, "返回", null);
                 } else {

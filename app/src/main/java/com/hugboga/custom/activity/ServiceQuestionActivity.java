@@ -14,7 +14,6 @@ import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequsetServiceQuestionList;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 
@@ -32,7 +31,7 @@ import butterknife.ButterKnife;
 public class ServiceQuestionActivity extends BaseActivity{
 
     @Bind(R.id.service_question_rv)
-    RecyclerView questionRV;
+    RecyclerView mRecyclerView;
     private ServiceQuestionAdapter adapter;
 
     private UnicornServiceActivity.Params params;
@@ -57,12 +56,12 @@ public class ServiceQuestionActivity extends BaseActivity{
         fgTitle.setText("请选择内容");
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        questionRV.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
         itemDecoration.setItemOffsets(0, 0, 0, UIUtils.dip2px(22), LinearLayout.VERTICAL);
-        questionRV.addItemDecoration(itemDecoration);
+        mRecyclerView.addItemDecoration(itemDecoration);
         adapter = new ServiceQuestionAdapter(this);
-        questionRV.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
 
         requestData();
     }
@@ -85,7 +84,7 @@ public class ServiceQuestionActivity extends BaseActivity{
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case QUESTION_ITEM:
-                ServiceQuestionBean.QuestionItem questionItem = (ServiceQuestionBean.QuestionItem) action.getData();
+                final ServiceQuestionBean.QuestionItem questionItem = (ServiceQuestionBean.QuestionItem) action.getData();
                 if (questionItem.type == 3) { //进客服
                     if (!CommonUtils.isLogin(this)) {
                         return;
@@ -102,14 +101,32 @@ public class ServiceQuestionActivity extends BaseActivity{
                     userServiceQuestionBean.questionList = userQuestionList;
 
                     ServiceQuestionBean serviceQuestionBean = new ServiceQuestionBean();
-                    serviceQuestionBean.questionList = questionItem.questionItemList;
+                    if (questionItem.type == 2) {
+                        ArrayList<ServiceQuestionBean.QuestionItem> questionList = new ArrayList<ServiceQuestionBean.QuestionItem>(2);
+                        ServiceQuestionBean.QuestionItem questionItem2 = (ServiceQuestionBean.QuestionItem) questionItem.clone();
+                        if (questionItem2 == null) {
+                            questionItem2 = questionItem;
+                        }
+                        questionItem2.isAnswer = true;
+                        questionList.add(questionItem2);
+                        if (questionItem.lastCustomRole > 0) {
+                            ServiceQuestionBean.QuestionItem defaultServiceQuestionItem = new ServiceQuestionBean.QuestionItem();
+                            defaultServiceQuestionItem.type = 3;
+                            defaultServiceQuestionItem.customRole = questionItem.lastCustomRole;
+                            defaultServiceQuestionItem.adviceName = "还没解决您的问题？转接人工服务";
+                            questionList.add(defaultServiceQuestionItem);
+                        }
+                        serviceQuestionBean.questionList = questionList;
+                    } else {
+                        serviceQuestionBean.questionList = questionItem.questionItemList;
+                    }
 
                     ArrayList<ServiceQuestionBean> questionList = new ArrayList<ServiceQuestionBean>(2);
                     questionList.add(userServiceQuestionBean);
                     questionList.add(serviceQuestionBean);
 
                     adapter.addData(questionList, true);
-                    questionRV.smoothScrollToPosition(adapter.getItemCount() - 1);
+                    mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                 }
                 break;
         }
@@ -127,7 +144,6 @@ public class ServiceQuestionActivity extends BaseActivity{
         if (_request instanceof RequsetServiceQuestionList) {
             RequsetServiceQuestionList request = (RequsetServiceQuestionList) _request;
             ServiceQuestionBean data = request.getData();
-//            ServiceQuestionBean data = JsonUtils.getNativeObject("emoji.json", ServiceQuestionBean.class);
             if (data == null) {
                 intentDefaultServiceActivity();
             }

@@ -7,9 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +24,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
@@ -38,10 +34,8 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.parser.ParserTravel;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -140,6 +134,8 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
     NewOrderAdapter evaluateAdapter;
 
     HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
+
+    private int pagerPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -264,6 +260,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
             @Override
             public void onPageSelected(int position) {
                 MLog.e("onPageSelected " + position);
+                pagerPosition = position;
                 reSetTabView(position);
             }
 
@@ -293,7 +290,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         if (UserEntity.getUser().isLogin(getActivity())) {
             contentLayout.setVisibility(View.VISIBLE);
             logoutLayout.setVisibility(View.GONE);
-            reSetTabView(0, true);
+            reSetTabView(pagerPosition, true);
         } else {
             contentLayout.setVisibility(View.GONE);
             logoutLayout.setVisibility(View.VISIBLE);

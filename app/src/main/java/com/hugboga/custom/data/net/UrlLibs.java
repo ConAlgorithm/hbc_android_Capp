@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 107
+    //current urlErrorCode 108
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -175,6 +175,7 @@ public class UrlLibs {
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
     public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
+    public static final String CANCEL_REASON                = "trade/v1.0/c/order/cancelReason";                        // 取消订单原因接口
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机

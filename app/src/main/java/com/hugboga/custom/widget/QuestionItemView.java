@@ -34,6 +34,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
     LinearLayout containerLayout;
 
     private ServiceQuestionBean serviceQuestionBean;
+    private int lastCustomRole;
 
     public QuestionItemView(Context context) {
         this(context, null);
@@ -83,7 +84,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
             ServiceQuestionBean.QuestionItem questionItem = questionList.get(i);
             int childIndex = i + isWelcome;
             View itemView = null;
-            if (childIndex < containerChildCount) {
+            if (childIndex < containerChildCount) {//复用view
                 itemView = containerLayout.getChildAt(childIndex);
                 itemView.setVisibility(VISIBLE);
             } else {
@@ -92,14 +93,18 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
 
             ImageView arrowIV = (ImageView) itemView.findViewById(R.id.question_member_arrow_iv);
             TextView titleTV = (TextView) itemView.findViewById(R.id.question_member_title_tv);
-            if (questionItem.type == 2) {
-                titleTV.setText(questionItem.answer);//答案
+            if (questionItem.isAnswer) {//答案
+                titleTV.setText(questionItem.answer);
                 arrowIV.setVisibility(View.GONE);
             } else {
-                titleTV.setText(questionItem.adviceName);//问题
+                titleTV.setText(questionItem.adviceName);
                 arrowIV.setVisibility(View.VISIBLE);
             }
-            resetViewHight(titleTV, titleTV.getText() != null ? titleTV.getText().toString() : "", questionItem.type != 2, itemView);
+            if (questionItem.type == 3) {//记录最近一条客服ID
+                lastCustomRole = questionItem.customRole;
+            }
+
+            resetViewHight(titleTV, titleTV.getText() != null ? titleTV.getText().toString() : "", !questionItem.isAnswer, itemView);
 
             //分割线的隐藏
             View lineView= itemView.findViewById(R.id.question_member_line_view);
@@ -110,7 +115,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                     lineViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1);
                     lineViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 }
-                if (questionItem.type != 1 || questionList.get(i + 1).type != 1) {
+                if (questionItem.type == 3 || questionList.get(i + 1).type == 3 || questionItem.isAnswer) {
                     lineViewParams.leftMargin = 0;
                     lineViewParams.rightMargin = 0;
                 } else {
@@ -150,8 +155,11 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                     return;
                 }
                 ServiceQuestionBean.QuestionItem questionItem = questionList.get(index);
-                if (questionItem == null || questionItem.type == 2 || (questionItem.type == 1 && questionItem.questionItemList == null)) {
+                if (questionItem == null || questionItem.isAnswer || (questionItem.type == 1 && questionItem.questionItemList == null)) {
                     return;
+                }
+                if (questionItem.type == 2) {
+                    questionItem.lastCustomRole = lastCustomRole;
                 }
                 EventBus.getDefault().post(new EventAction(EventType.QUESTION_ITEM, questionItem));
             }

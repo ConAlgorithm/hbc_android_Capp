@@ -532,18 +532,12 @@ public class DialogUtil implements DialogUtilInterface {
                 || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
             return showCallDialogTitle(_context, null);
         }
-        String [] str = {"境内客服：" + Constants.CALL_NUMBER_IN, "境外客服：" + Constants.CALL_NUMBER_OUT, "在线聊天"};
+        String [] str = {"在线聊天", "境内客服：" + Constants.CALL_NUMBER_IN, "境外客服：" + Constants.CALL_NUMBER_OUT};
         AlertDialog dialog = new AlertDialog.Builder(_context).setTitle("咨询小助手")
                 .setItems(str,new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
-                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
-                        } else if (which == 1) {
-                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
-                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
-                        } else {
                             if (!CommonUtils.isLogin(_context)) {
                                 return;
                             }
@@ -555,6 +549,12 @@ public class DialogUtil implements DialogUtilInterface {
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             _context.startActivity(intent);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
+                        } else if (which == 1) {
+                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
+                        } else {
+                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
                         }
                     }
                 }).create();

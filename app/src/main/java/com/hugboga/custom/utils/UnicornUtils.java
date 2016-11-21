@@ -61,18 +61,16 @@ public class UnicornUtils {
     }
 
     public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId) {
-        Unicorn.setUserInfo(null);
-        SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
+        SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
 
-        Context context = MyApplication.getAppContext();
         YSFUserInfo userInfo = new YSFUserInfo();
-        userInfo.userId = UserEntity.getUser().getUserId(context);
+        userInfo.userId = UserEntity.getUser().getUserId(activity);
         userInfo.data = getServiceUserInfo();
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
         uiCustomization.leftAvatar = CUSTOMER_AVATAR;
-        uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(context);
+        uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(activity);
         uiCustomization.titleBackgroundColor = 0xFF2D2B24;
         uiCustomization.titleBarStyle = 1;
         YSFOptions options = getDefaultOptions();
@@ -90,8 +88,10 @@ public class UnicornUtils {
         if (productDetail != null) {
             source.productDetail = productDetail;
         }
-        ServiceMessageFragment fragment = new ServiceMessageFragment();
-        fragment.setArguments("皇包车客服", source, new FrameLayout(activity));
+        ServiceMessageFragment fragment = Unicorn.newServiceFragment("皇包车客服", source, new FrameLayout(activity));
+        if (fragment == null) {
+            return;
+        }
         FragmentManager fm = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(containerId, fragment);
@@ -191,7 +191,7 @@ public class UnicornUtils {
 
             @Override
             public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                if (listener != null) {
+                if (listener != null && e != null) {
                     listener.onLoadFailed(e.getCause());
                 }
             }
