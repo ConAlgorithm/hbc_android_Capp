@@ -37,8 +37,6 @@
         android:visibility="gone"/>
 
     <com.qiyukf.nim.uikit.common.ui.imageview.HeadImageView
-        app:ysf_siv_border_width="1dp"
-        app:ysf_siv_border_color="@android:color/white"
         android:id="@+id/message_item_portrait_left"
         android:layout_width="@dimen/ysf_avatar_size"
         android:layout_height="@dimen/ysf_avatar_size"
@@ -48,8 +46,6 @@
         android:visibility="gone"/>
 
     <com.qiyukf.nim.uikit.common.ui.imageview.HeadImageView
-        app:ysf_siv_border_width="1dp"
-        app:ysf_siv_border_color="@android:color/white"
         android:id="@+id/message_item_portrait_right"
         android:layout_width="@dimen/ysf_avatar_size"
         android:layout_height="@dimen/ysf_avatar_size"

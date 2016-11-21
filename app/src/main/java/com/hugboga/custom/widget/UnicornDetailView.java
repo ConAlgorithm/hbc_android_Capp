@@ -50,6 +50,7 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
 
             ProductDetail.Builder builder = new ProductDetail.Builder();
             builder.setTitle("定制包车游");
+            builder.setPicture("http://fr.huangbaoche.com/default/dingzhi.png");
             builder.setDesc(title);
             builder.setShow(1);
             productDetail = builder.create();
@@ -72,8 +73,18 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
         ProductDetail.Builder builder = new ProductDetail.Builder();
         builder.setTitle("线路包车游");
         builder.setDesc(skuItemBean.goodsName);
-        builder.setUrl(skuItemBean.skuDetailUrl);
+        builder.setPicture(skuItemBean.goodsPicture);
         builder.setShow(1);
+
+        if (!TextUtils.isEmpty(skuItemBean.perPrice)) {
+            String otherStr = getContext().getResources().getString(R.string.sign_rmb) + skuItemBean.perPrice +"起/人 · %1$s日";
+            otherStr = String.format(otherStr, skuItemBean.daysCount);
+            if (skuItemBean.hotelStatus == 1) {// 是否含酒店
+                otherStr += " · 含酒店";
+            }
+            builder.setNote(otherStr);
+        }
+
         productDetail = builder.create();
     }
 

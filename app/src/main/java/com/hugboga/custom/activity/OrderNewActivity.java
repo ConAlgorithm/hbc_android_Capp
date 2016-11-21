@@ -546,7 +546,7 @@ public class OrderNewActivity extends BaseActivity {
         serverTime = this.getIntent().getStringExtra("serverTime");
         carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
 
-        citysLineTitle.setText("当地时间" + serverDate + "(" + DateUtils.getWeekOfDate(serverDate) + ")" + "  " + serverTime);
+        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(serverDate) + "  " + serverTime);
         citys_line_title_tips.setVisibility(GONE);
 
         cancleTipsTime = serverDate + " " + serverTime + ":00";
@@ -621,7 +621,7 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = flightBean.depDate + " " + flightBean.arrivalTime + ":00";
 
-        citysLineTitle.setText("当地时间" + flightBean.arrivalTime + "(" + DateUtils.getWeekOfDate(flightBean.depDate) + ")");
+        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(flightBean.arrDate) + "  " + flightBean.arrivalTime);
         citys_line_title_tips.setText("航班" + flightBean.flightNo + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
 
 
@@ -680,7 +680,7 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
-        citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
+        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(startDate) + "  "+ serverTime);
 
         startHospitalTitle.setText(startPoi.placeName);
         startHospitalTitleTips.setText(startPoi.placeDetail);
@@ -698,7 +698,6 @@ public class OrderNewActivity extends BaseActivity {
         pick_name_layout.setVisibility(GONE);
         hospital_layout.setVisibility(GONE);
     }
-
 
     int hotelPrice = 0;
     int hourseNum = 1;
@@ -720,7 +719,7 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
-        citysLineTitle.setText("当地时间" + startDate + "(" + DateUtils.getWeekOfDate(startDate) + ")");
+        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(startDate) + "  "+ serverTime);
         citys_line_title_tips.setVisibility(GONE);
         goodsVersion = skuBean.goodsVersion + "";
         goodsNo = skuBean.goodsNo + "";
@@ -802,20 +801,15 @@ public class OrderNewActivity extends BaseActivity {
     private void genDairy() {
         upAddressLeft.setText("上车地点");
         show_day_layout.setVisibility(View.VISIBLE);
+        String localTime = "当地时间 " + DateUtils.getOrderDateFormat(startDate);
         if (isHalfTravel) {
             citysLineTitle.setText(startBean.name + "-0.5天包车");
             day_show_all.setVisibility(GONE);
         } else {
             citysLineTitle.setText(startBean.name + "-" + dayNums + "天包车");
+            localTime += " 至 " + DateUtils.getOrderDateFormat(endDate);
         }
-
-
-
-        String startWeekDay = "";
-        startWeekDay = DateUtils.getWeekOfDate(startDate);
-        String endWeekDay = "";
-        endWeekDay = DateUtils.getWeekOfDate(endDate);
-        citys_line_title_tips.setText("当地时间" + startDate + "(" + startWeekDay + ") 至" + "  " + endDate + " (" + endWeekDay + ")");
+        citys_line_title_tips.setText(localTime);
         if (isHalfTravel) {
             dayView = LayoutInflater.from(activity).inflate(R.layout.day_order_item, null);
             top_line = dayView.findViewById(R.id.top_line);
@@ -888,7 +882,6 @@ public class OrderNewActivity extends BaseActivity {
 
 
     }
-
 
     //旅游基金
     String travelFund = "0";

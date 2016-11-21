@@ -348,8 +348,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                     if (mBusinessType == Constants.BUSINESS_TYPE_SEND && flightBean != null) {
                     } else {
                         String flightInfoStr = flightBean.flightNo + " ";
-                        flightInfoStr += flightBean.depCityName + "-" + flightBean.arrCityName;
-                        flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.depTime + " 降落";
+                        flightInfoStr += flightBean.depAirportName + "-" + flightBean.arrAirportName;
+                        flightInfoStr += "\n当地时间" + flightBean.arrDate + " " + flightBean.arrivalTime + " 降落";
                         infoTips.setVisibility(GONE);
                         airTitle.setVisibility(View.VISIBLE);
                         airDetail.setVisibility(View.VISIBLE);
