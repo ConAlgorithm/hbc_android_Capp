@@ -267,7 +267,7 @@ public class FgChooseAirNumber extends BaseFragment {
             CommonUtils.showToast("请选择航班时间");
             return;
         }
-
+        noStr = noStr.replaceAll(" ", "");
         Bundle bundle = new Bundle();
         bundle.putString(PickFlightListActivity.KEY_FLIGHT_NO, noStr.toUpperCase());
         bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time1Str);
