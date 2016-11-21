@@ -90,6 +90,12 @@ public class UnicornServiceActivity extends BaseActivity{
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hideSoftInput();
+    }
+
     public static class SourceType {
         public static final int TYPE_DEFAULT = 0x000;   // 默认
         public static final int TYPE_CHARTERED = 0x001; // 自定义包车游

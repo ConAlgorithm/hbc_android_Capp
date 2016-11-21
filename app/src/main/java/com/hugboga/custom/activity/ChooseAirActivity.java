@@ -181,10 +181,4 @@ public class ChooseAirActivity extends BaseActivity {
                 break;
         }
     }
-
-    private void hideSoftInput() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(ChooseAirActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
 }
