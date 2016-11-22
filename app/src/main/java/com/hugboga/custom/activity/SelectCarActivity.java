@@ -441,13 +441,19 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
             mansNum.setText(carBean.capOfPerson+"");
             luggageNumTv.setText(carBean.capOfLuggage+"");
+
             String carDesc = "";
-            if(null != carBean.carLicenceNoCovered){
-                fgCarIntro.setTextColor(ContextCompat.getColor(activity,R.color.basic_red));
-                carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNoCovered;
-            }else{
-                fgCarIntro.setTextColor(Color.parseColor("#b2b2b2"));
+            if (guideCarBeanList != null && selctIndex < guideCarBeanList.size() && guideCarBeanList.get(selctIndex) != null) {
+                GuideCarBean guideCarBean = guideCarBeanList.get(selctIndex);
+                carDesc = TextUtils.isEmpty(guideCarBean.carInfo2) ? carBean.models : guideCarBean.carInfo2;
+            } else {
                 carDesc = carBean.models;
+            }
+            if (null != carBean.carLicenceNoCovered) {
+                fgCarIntro.setTextColor(ContextCompat.getColor(activity,R.color.basic_red));
+                carDesc += "     车牌:" + carBean.carLicenceNoCovered;
+            } else {
+                fgCarIntro.setTextColor(Color.parseColor("#b2b2b2"));
             }
             if(TextUtils.isEmpty(carDesc)){
                 fgCarIntro.setVisibility(GONE);
@@ -498,14 +504,14 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 
         daysRight.setText("用车费用" + Tools.getRMB(activity) + carBean.vehiclePrice + "\n+司导费用" + Tools.getRMB(activity) + carBean.servicePrice);
         allMoneyRight.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
-        averageMoney.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice) / mans);
+        averageMoney.setText(Tools.getRMB(activity) + carBean.avgSpend);
         allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.vehiclePrice + carBean.servicePrice));
     }
 
     public void genTotal() {
         carBean = carList.get(selctIndex);
-        mans.setText(String.format(getString(R.string.have_mas), carBean.capOfPerson));
-        baggages.setText(String.format(getString(R.string.have_baggages), carBean.capOfLuggage));
+        mans.setText(String.format(getString(R.string.have_mas), "" + carBean.capOfPerson));
+        baggages.setText(String.format(getString(R.string.have_baggages), "" + carBean.capOfLuggage));
         carType.setText(carBean.carDesc);
         carContent.setText(carBean.models);
         if (TextUtils.isEmpty(carBean.serviceCityNote)) {
