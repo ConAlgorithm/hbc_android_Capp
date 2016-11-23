@@ -316,7 +316,6 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
         if (chatBean.targetType==3) {
-            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
             UnicornUtils.openDefaultServiceActivity(getContext());
         } else if (chatBean.targetType==1) {
             if(!IMUtil.getInstance().isLogined()){
