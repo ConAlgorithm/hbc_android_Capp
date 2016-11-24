@@ -19,6 +19,13 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public String guideImId; //导游的im 账号
     public int inBlack; //是否拉黑
     public String guideCarId;
+    public String flag;//司导所在国家的国旗
+    public int timediff;//时差
+    public int timezone;
+    public String cityName;
+    public int cityId;
+    public String countryName;
+    public int countryId;
 
     @Override
     public int describeContents() {
@@ -37,6 +44,13 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         dest.writeInt(this.storeStatus);
         dest.writeString(this.guideImId);
         dest.writeString(this.guideCarId);
+        dest.writeString(this.flag);
+        dest.writeInt(this.timediff);
+        dest.writeInt(this.timezone);
+        dest.writeString(this.cityName);
+        dest.writeInt(this.cityId);
+        dest.writeString(this.countryName);
+        dest.writeInt(this.countryId);
     }
 
     public OrderGuideInfo() {
@@ -53,6 +67,13 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         this.storeStatus = in.readInt();
         this.guideImId = in.readString();
         this.guideCarId = in.readString();
+        this.flag = in.readString();
+        this.timediff = in.readInt();
+        this.timezone = in.readInt();
+        this.cityName = in.readString();
+        this.cityId = in.readInt();
+        this.countryName = in.readString();
+        this.countryId = in.readInt();
     }
 
     public boolean isCollected() {

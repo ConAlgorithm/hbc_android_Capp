@@ -314,6 +314,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 chatInfo.targetType = "1";
                 chatInfo.inBlack = guideInfo.inBlack;
                 chatInfo.imUserId = guideInfo.guideImId;
+                chatInfo.flag = guideInfo.flag;
+                chatInfo.timediff = guideInfo.timediff;
+                chatInfo.timezone = guideInfo.timezone;
+                chatInfo.cityName = guideInfo.cityName;
+                chatInfo.countryName = guideInfo.countryName;
 
                 if(!IMUtil.getInstance().isLogined()){
                     return;
@@ -322,7 +327,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null,new ParserChatInfo().toJsonString(chatInfo));
-                //RongIM.getInstance().startPrivateChat(OrderDetailActivity.this, guideInfo.guideImId, new ParserChatInfo().toJsonString(chatInfo));
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {

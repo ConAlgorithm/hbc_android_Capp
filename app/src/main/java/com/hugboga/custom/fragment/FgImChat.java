@@ -321,7 +321,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
             if(!IMUtil.getInstance().isLogined()){
                 return;
             }
-            String titleJson = getChatInfo(chatBean.targetId, chatBean.targetAvatar, chatBean.targetName, chatBean.targetType+"",chatBean.inBlack,chatBean.nTargetId);
+            String titleJson = getChatInfo(chatBean);
             MyApplication.requestRemoteNimUserInfo(chatBean.nTargetId);
             NIMChatActivity.start(getContext(),chatBean.nTargetId,null,titleJson,chatBean.isCancel);
         } else {
@@ -329,15 +329,20 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         }
     }
 
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType,int inBlack,String imUserid) {
+    private String getChatInfo(ChatBean chatBean) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
-        chatInfo.userId = userId;
-        chatInfo.userAvatar = userAvatar;
-        chatInfo.title = title;
-        chatInfo.targetType = targetType;
-        chatInfo.inBlack = inBlack;
-        chatInfo.imUserId = imUserid;
+        chatInfo.userId = chatBean.targetId;
+        chatInfo.userAvatar = chatBean.targetAvatar;
+        chatInfo.title = chatBean.targetName;
+        chatInfo.targetType = "" + chatBean.targetType;
+        chatInfo.inBlack = chatBean.inBlack;
+        chatInfo.imUserId = chatBean.nTargetId;
+        chatInfo.flag = chatBean.flag;
+        chatInfo.timediff = chatBean.timediff;
+        chatInfo.timezone = chatBean.timezone;
+        chatInfo.cityName = chatBean.cityName;
+        chatInfo.countryName = chatBean.countryName;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 
