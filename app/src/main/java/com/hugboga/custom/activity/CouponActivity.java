@@ -30,6 +30,7 @@ import com.hugboga.custom.data.request.RequestAvailableCoupon;
 import com.hugboga.custom.data.request.RequestCoupon;
 import com.hugboga.custom.data.request.RequestCouponExchange;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.CouponItemView;
@@ -106,6 +107,8 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
         initView();
         requestData();
+
+        setSensorsDefaultEvent("优惠券", SensorsConstant.COUPON);
     }
 
     @Override

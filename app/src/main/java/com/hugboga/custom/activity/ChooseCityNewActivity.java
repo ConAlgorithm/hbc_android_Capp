@@ -29,6 +29,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -88,14 +89,13 @@ public class ChooseCityNewActivity extends BaseActivity {
         headSearch.setHint(R.string.home_search_hint);
         headTextRight.setVisibility(GONE);
         initPop();
+        setSensorsDefaultEvent("搜索目的地页", SensorsConstant.SEARCH);
     }
 
     @Override
     public String getEventId() {
         return StatisticConstant.SEARCH_LAUNCH;
     }
-
-
 
     SearchNewAdapter searchNewAdapter;
 //    PopupWindow popupWindow = null;
