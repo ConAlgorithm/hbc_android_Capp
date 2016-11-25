@@ -60,7 +60,7 @@
     </LinearLayout>
 
     <com.hugboga.custom.widget.CountryLocalTimeView
-        android:id="@+id/country_flag"
+        android:id="@+id/imchat_local_time_view"
         android:layout_below="@+id/imchat_viewpage_layout"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"

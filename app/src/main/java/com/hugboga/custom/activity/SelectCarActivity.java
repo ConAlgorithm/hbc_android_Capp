@@ -199,12 +199,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     RelativeLayout bottom;
     @Bind(R.id.call_phone)
     LinearLayout callPhone;
-    @Bind(R.id.fg_car_name)
-    TextView fgCarName;
-    @Bind(R.id.mans_num)
-    TextView mansNum;
-    @Bind(R.id.luggage_num_text)
-    TextView luggageNumTv;
     @Bind(R.id.fg_car_intro)
     TextView fgCarIntro;
     @Bind(R.id.header_right_image)
@@ -439,16 +433,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             carType.setText(carBean.carDesc);
             carContent.setText(carBean.models);
 
-            mansNum.setText(carBean.capOfPerson+"");
-            luggageNumTv.setText(carBean.capOfLuggage+"");
-
-            String carDesc = "";
-            if (guideCarBeanList != null && selctIndex < guideCarBeanList.size() && guideCarBeanList.get(selctIndex) != null) {
-                GuideCarBean guideCarBean = guideCarBeanList.get(selctIndex);
-                carDesc = TextUtils.isEmpty(guideCarBean.carInfo2) ? carBean.models : guideCarBean.carInfo2;
-            } else {
-                carDesc = carBean.models;
-            }
+            String carDesc = carBean.models;
             if (null != carBean.carLicenceNoCovered) {
                 fgCarIntro.setTextColor(ContextCompat.getColor(activity,R.color.basic_red));
                 carDesc += "     车牌:" + carBean.carLicenceNoCovered;

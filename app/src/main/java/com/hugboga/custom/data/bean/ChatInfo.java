@@ -13,4 +13,9 @@ public class ChatInfo {
     public String targetType;
     public int inBlack;//标识对方是否被自己拉黑，1是 0否
     public int isHideMoreBtn;
+    public String flag;  // 国旗
+    public int timediff; // 与北京时间差时
+    public int timezone;
+    public String cityName;
+    public String countryName;
 }

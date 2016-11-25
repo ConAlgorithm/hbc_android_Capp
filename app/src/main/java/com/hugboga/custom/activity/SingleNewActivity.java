@@ -150,8 +150,7 @@ public class SingleNewActivity extends BaseActivity {
     private double distance;//预估路程（单位：公里）
     private int interval;//预估时间（单位：分钟）
     private ArrayList<CarBean> carList = new ArrayList<CarBean>();
-    ;
-    private CarViewpagerAdapter mAdapter;
+
     private int cityId;
     private String airportCode;
     private int urgentFlag;//是否急单，1是，0非

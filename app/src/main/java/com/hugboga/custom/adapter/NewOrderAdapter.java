@@ -31,6 +31,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -420,14 +421,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
-
-                    if(orderBean.isIm){
-                        vh.mBtnChat.setVisibility(View.VISIBLE);
-                        vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
-                        showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
-                    }else{
-                        vh.mBtnChat.setVisibility(View.GONE);
-                    }
+                    vh.mBtnChat.setVisibility(View.GONE);
                 } else {
                     vh.mStatusLayout.setVisibility(View.GONE);
                     vh.lineView.setVisibility(View.INVISIBLE);
@@ -455,14 +449,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
-
-                    if(orderBean.isIm){
-                        vh.mBtnChat.setVisibility(View.VISIBLE);
-                        vh.mBtnChat.setOnClickListener(new TravelOnClickListener(orderBean));
-                        showMessageNum(vh.mBtnChatNum, orderBean.imcount);//显示未读小红点个数
-                    }else{
-                        vh.mBtnChat.setVisibility(View.GONE);
-                    }
+                    vh.mBtnChat.setVisibility(View.GONE);
                 } else {
                     vh.mStatusLayout.setVisibility(View.GONE);
                     vh.lineView.setVisibility(View.INVISIBLE);
@@ -527,7 +514,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
                     if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
-                        requestImChatId(mOrderBean.orderGuideInfo.guideID,mOrderBean.orderGuideInfo.guideAvatar,mOrderBean.orderGuideInfo.guideName);
+                        requestImChatId(mOrderBean.orderGuideInfo);
                     }
                     break;
                 case R.id.travel_item_head_img:
@@ -550,8 +537,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         }
     }
 
-    private void requestImChatId(final String chatId,final String targetAvatar,final String targetName){
-        RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2",chatId,"1");
+    private void requestImChatId(final OrderGuideInfo orderGuideInfo){
+        RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2",orderGuideInfo.guideID,"1");
         HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -559,7 +546,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;
-                    gotoChatView(chatId,targetAvatar,targetName,imChatInfo.neTargetId,imChatInfo.inBlack);
+                    gotoChatView(orderGuideInfo, imChatInfo.neTargetId, imChatInfo.inBlack);
                 }
             }
 
@@ -573,23 +560,27 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         });
     }
 
-    private void gotoChatView( final String chatId,String targetAvatar,String targetName,String imChatId,int inblack) {
+    private void gotoChatView(OrderGuideInfo orderGuideInfo, String imChatId,int inblack) {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        String titleJson = getChatInfo(chatId,  targetAvatar, targetName, "1",imChatId,inblack);
+        String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
         NIMChatActivity.start(context,imChatId,null,titleJson);
-        //RongIM.getInstance().startPrivateChat(context, imChatId, titleJson);
     }
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType,String imChatId,int inblack) {
+    private String getChatInfo(final OrderGuideInfo orderGuideInfo, String targetType,String imChatId,int inblack) {
         ChatInfo chatInfo = new ChatInfo();
         chatInfo.isChat = true;
-        chatInfo.userId = userId;
+        chatInfo.userId = orderGuideInfo.guideID;
         chatInfo.imUserId =imChatId;
-        chatInfo.userAvatar = userAvatar;
-        chatInfo.title = title;
+        chatInfo.userAvatar = orderGuideInfo.guideAvatar;
+        chatInfo.title = orderGuideInfo.guideName;
         chatInfo.targetType = targetType;
         chatInfo.inBlack = inblack;
+        chatInfo.flag = orderGuideInfo.flag;
+        chatInfo.timediff = orderGuideInfo.timediff;
+        chatInfo.timezone = orderGuideInfo.timezone;
+        chatInfo.cityName = orderGuideInfo.cityName;
+        chatInfo.countryName = orderGuideInfo.countryName;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 

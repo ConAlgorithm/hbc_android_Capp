@@ -25,6 +25,12 @@ public class ChatBean implements Serializable{
     public int inBlack;//判断是否加入黑名单
     public long timeStamp;
 
+    public String flag; //司导所在国家的国旗
+    public int timediff; //与北京时间差时
+    public int timezone;
+    public String cityName;
+    public String countryName;
+
     //public String rTargetId;//融云用户id;
     //public String rTargetToken; //融云用户token
     public String nTargetId; //云信用户名  登录云信时的用户名
