@@ -49,9 +49,8 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
     private volatile long delayedMillis;
     private volatile boolean isStop = false;
 
-    private String cityName;
-    private String countryName;
     private SimpleDateFormat dateFormat, dateFormat2;
+    private String regionStr;
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
@@ -75,8 +74,13 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
     public void setData(String flag, int timediff, int _timezone, String cityName, String countryName) {
         this.isStop = false;
 
-        this.cityName = cityName;
-        this.countryName = countryName;
+        regionStr = TextUtils.isEmpty(cityName) ? countryName : cityName;
+        if (TextUtils.isEmpty(regionStr)) {
+            this.setVisibility(View.GONE);
+            return;
+        } else {
+            this.setVisibility(View.VISIBLE);
+        }
 
         if (TextUtils.isEmpty(flag)) {
             countryImageIV.setImageResource(R.mipmap.country_flag_default);
@@ -140,7 +144,6 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
                     long sysTime = System.currentTimeMillis();
                     CharSequence sysTimeStr = dateFormat.format(sysTime);
                     CharSequence sysTimeStr2 = dateFormat2.format(sysTime);
-                    String regionStr = TextUtils.isEmpty(cityName) ? countryName : cityName;
                     localTimeDetialTV.setText(String.format("Hi，%1$s现在是 %2$s %3$s", regionStr, sysTimeStr, sysTimeStr2));
                     localTimeTV.setText(String.format("%1$s\n%2$s", sysTimeStr2, regionStr));
                 break;
