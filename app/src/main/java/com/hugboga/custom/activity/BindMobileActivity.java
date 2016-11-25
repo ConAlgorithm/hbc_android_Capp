@@ -23,6 +23,7 @@ import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -41,6 +42,8 @@ import butterknife.OnClick;
  */
 public class BindMobileActivity extends BaseActivity{
 
+    public static final String SOURCE_TYPE = "source_type";
+
     @Bind(R.id.bind_mobile_areacode)
     TextView areaCodeTextView;
     @Bind(R.id.bind_mobile_mobile)
@@ -56,6 +59,7 @@ public class BindMobileActivity extends BaseActivity{
     private String mobile = "";
     private String unionid = "";
     private boolean isAfterProcess = false;
+    private String sourceType;
 
     public static int REQUEST_CODE = 0x001;
 
@@ -105,6 +109,7 @@ public class BindMobileActivity extends BaseActivity{
             unionid = bundle.getString("unionid");
             source = bundle.getString("source");
             isAfterProcess = bundle.getBoolean("isAfterProcess");
+            sourceType = bundle.getString(SOURCE_TYPE);
         }
 
         if(isAfterProcess){
@@ -112,6 +117,10 @@ public class BindMobileActivity extends BaseActivity{
         }else{
             fgRightBtn.setVisibility(View.VISIBLE);
             fgLeftBtn.setVisibility(View.INVISIBLE);
+        }
+
+        if (sourceType.equals("wechat")) {
+            setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
     }
 

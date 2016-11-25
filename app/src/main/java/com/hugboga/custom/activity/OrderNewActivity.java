@@ -56,6 +56,7 @@ import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -66,9 +67,13 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.hugboga.custom.widget.TopTipsLayout;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1152,6 +1157,8 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = eventPayBean;
+                requestParams.orderType = orderBean.orderType;
+                requestParams.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
 
                 Intent intent = new Intent(activity,ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
@@ -1168,10 +1175,22 @@ public class OrderNewActivity extends BaseActivity {
                     Intent intent = new Intent(OrderNewActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
+                    setSensorsPayResultEvent();
                 }
             }
         }
+    }
 
+    private void setSensorsPayResultEvent() {
+        if (orderBean == null || orderBean.orderPriceInfo == null) {
+            return;
+        }
+        SensorsUtils.setSensorsPayResultEvent(orderBean.orderType
+                , !TextUtils.isEmpty(orderBean.guideCollectId)
+                , "" + orderInfoBean.getPriceActual()
+                , "支付宝"
+                , orderInfoBean.getOrderno()
+                , true);
     }
 
     private EventPayBean getChoosePaymentStatisticParams() {
@@ -1491,7 +1510,46 @@ public class OrderNewActivity extends BaseActivity {
                 break;
             case R.id.all_money_submit_click:
                 checkData();
+                setSensorsEvent();
                 break;
+        }
+    }
+
+    //神策统计_确认行程
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            switch (type) {
+                case 1:
+                    properties.put("sku_type", "接机");
+                    break;
+                case 2:
+                    properties.put("sku_type", "送机");
+                    break;
+                case 3:
+                    properties.put("sku_type", "定制包车游");
+                    break;
+                case 4:
+                    properties.put("sku_type", "单次接送");
+                    break;
+                case 5:
+                    properties.put("sku_type", "固定线路");
+                    break;
+                case 6:
+                    properties.put("sku_type", "推荐线路");
+                    break;
+            }
+            properties.put("price_total", orderBean.priceChannel);//费用总计
+            properties.put("price_coupon", orderBean.coupPriceInfo);//使用优惠券
+            properties.put("price_tra_fund", orderBean.travelFund);//使用旅游基金
+            int priceActual = CommonUtils.getCountInteger(orderBean.priceChannel) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+            if (priceActual < 0) {
+                priceActual = 0;
+            }
+            properties.put("price_actually", "" + priceActual);//实际支付金额
+            properties.put("is_appoint_guide", guideCollectId == null ? false : true);//指定司导下单
+            SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
+        } catch (Exception e) {
         }
     }
 }

@@ -20,12 +20,11 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckVersion;
-import com.hugboga.custom.fragment.BaseFragment;
-import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -134,6 +133,12 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 mContext.startActivity(new Intent(mContext, MainActivity.class));
             }
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
+            try {
+                // 用户退出清空 注册ID
+                SensorsDataAPI.sharedInstance(mContext).logout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

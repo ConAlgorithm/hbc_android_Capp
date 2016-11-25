@@ -16,10 +16,14 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.BaseFragment implements View.OnClickListener {
@@ -46,6 +50,18 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         getBusinessType();
     }
 
+    protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("web_title", webTitle);
+            properties.put("web_url", webUrl);
+            SensorsDataAPI.sharedInstance(getContext()).track("page_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void getFrom(){
         if(null != this.getArguments()) {

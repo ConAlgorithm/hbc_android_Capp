@@ -29,6 +29,7 @@ import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -140,6 +141,8 @@ public class GuideDetailActivity extends BaseActivity{
 
         initUI();
         requestData();
+
+        setSensorsDefaultEvent("司导个人页", SensorsConstant.GPROFILE);
     }
 
     @Override

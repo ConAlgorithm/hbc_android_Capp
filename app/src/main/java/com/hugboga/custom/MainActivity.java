@@ -68,12 +68,16 @@ import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.common.util.FileUtil;
 import org.xutils.view.annotation.ContentView;
@@ -728,7 +732,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_ACCESS_COARSE_LOCATION);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
         } else {
             requestLocation();
         }
@@ -775,6 +778,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                 location.getLatitude(), location.getLongitude(), location.getAccuracy());
 
                 LocationUtils.saveLocationInfo(MainActivity.this,location.getLatitude()+"",location.getLongitude()+"");
+
+
+                // 神策 公共属性
+                try {
+                    JSONObject properties = new JSONObject();
+                    properties.put("longitude", location.getLongitude());   // 经度
+                    properties.put("latitude", location.getLatitude());     // 纬度
+                    SensorsDataAPI.sharedInstance(MainActivity.this).registerSuperProperties(properties);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InvalidDataException e) {
+                    e.printStackTrace();
+                }
                 if(timer == null) {
                     uploadLocation();
                 }

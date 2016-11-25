@@ -45,7 +45,10 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.MoneyTextView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -814,6 +817,28 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         return super.getEventMap();
     }
 
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("sku_type", "定制包车游");
+            properties.put("is_appoint_guide", TextUtils.isEmpty(guideId) ? false : true);// 指定司导下单
+            properties.put("adultNum", adultNum + "");// 出行成人数
+            properties.put("childNum", childrenNum + "");// 出行儿童数
+            properties.put("childseatNum", childseatNum + "");// 儿童座椅数
+            properties.put("car_type", carBean.carDesc);// 车型选择
+            properties.put("price_total", "" + (carBean.vehiclePrice + carBean.servicePrice));// 费用总计
+            properties.put("start_time", startDate);// 出发日期
+            properties.put("end_time", endDate);// 结束日期
+            properties.put("service_city", startBean.placeName);// 用车城市
+            properties.put("total_days", isHalfTravel ? "0.5" : carBean.totalDays);// 游玩天数
+            SensorsDataAPI.sharedInstance(this).track("buy_r_confrim", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void goNext() {
 //        FGOrderNew fgOrderNew = new FGOrderNew();
         Bundle bundleCar = new Bundle();
@@ -845,11 +870,13 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 
-        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R, source, EventUtil.getInstance().sourceDetail, carBean.carDesc + "", (adultNum + childrenNum) + "");
         Intent intent = new Intent(activity, OrderNewActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, source);
         intent.putExtras(bundleCar);
         startActivity(intent);
+
+        StatisticClickEvent.selectCarClick(StatisticConstant.CARNEXT_R, source, EventUtil.getInstance().sourceDetail, carBean.carDesc + "", (adultNum + childrenNum) + "");
+        setSensorsConfirmEvent();
     }
 
     private void initListData(List<CarBean> cars) {
