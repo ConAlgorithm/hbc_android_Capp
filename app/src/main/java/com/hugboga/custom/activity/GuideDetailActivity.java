@@ -27,6 +27,7 @@ import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
@@ -369,6 +370,7 @@ public class GuideDetailActivity extends BaseActivity{
                         getString(R.string.guide_detail_share_title),
                         getString(R.string.guide_detail_share_content),
                         ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(this)));
+                MobClickUtils.onEvent(StatisticConstant.SHAREG);
                 break;
         }
     }

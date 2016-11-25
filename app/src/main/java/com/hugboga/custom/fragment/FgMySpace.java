@@ -296,6 +296,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     intent = new Intent(getContext(), TravelFundActivity.class);
                     startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
+                    MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
                 }
                 break;
         }
