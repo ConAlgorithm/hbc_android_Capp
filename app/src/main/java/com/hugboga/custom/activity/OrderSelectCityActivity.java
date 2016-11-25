@@ -53,14 +53,18 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBCityUtils;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ScreenUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,6 +171,9 @@ public class OrderSelectCityActivity extends BaseActivity {
     @Bind(R.id.time_text_click)
     TextView time_text_click;
 
+    @Bind(R.id.order_select_web_iv)
+    ImageView dailyWebIV;
+
     boolean isFromGuideList = false;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
@@ -178,27 +185,18 @@ public class OrderSelectCityActivity extends BaseActivity {
         enableNextBtn();
 
         startBean = (CityBean) this.getIntent().getSerializableExtra("cityBean");
-
+        if (startBean == null) {
+            String startCityId = getIntent().getStringExtra(Constants.PARAMS_CITY_ID);
+            if (!TextUtils.isEmpty(startCityId)) {
+                startBean = DBHelper.findCityById(startCityId);
+            }
+        }
         if (null != startBean) {
             endBean = startBean;
             startCity = startBean.name;
             endCityId = startBean.cityId + "";
             startCityClick.setText(startCity);
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(OrderSelectCityActivity.this, ChooseCityActivity.class);
-                    intent.putExtra(BaseFragment.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-                    intent.putExtra("fromDaily", true);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.push_bottom_in, 0);
-                }
-            }, 500);
-
         }
-
-
         collectGuideBean = (CollectGuideBean) this.getIntent().getSerializableExtra("collectGuideBean");
         if (null != collectGuideBean) {
             driver_layout.setVisibility(View.VISIBLE);
@@ -284,14 +282,17 @@ public class OrderSelectCityActivity extends BaseActivity {
         });
         try {
             EventUtil eventUtil = EventUtil.getInstance();
+            eventUtil.sourceDetail = getIntentSource();
             eventUtil.source = getIntentSource();
             Map map = new HashMap();
-            map.put(Constants.PARAMS_SOURCE, getIntentSource());
-            map.put(Constants.PARAMS_SOURCE_DETAIL, eventUtil.sourceDetail);
+            map.put(Constants.PARAMS_SOURCE, source);
+            map.put(Constants.PARAMS_SOURCE_DETAIL, source);
             MobClickUtils.onEvent(getEventId(), map);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)(140/750.0 * UIUtils.getScreenWidth()));
+        dailyWebIV.setLayoutParams(params);
     }
 
     //退出界面显示提示
@@ -607,7 +608,7 @@ public class OrderSelectCityActivity extends BaseActivity {
             public void onClick(View v) {
                 if (baggageList.isShown()) {
                     baggageNum = baggageList.getValue();
-                    baggageTextClick.setText(String.format(getString(R.string.select_city_baggage_num), baggageNum));
+                    baggageTextClick.setText(String.format(getString(R.string.select_city_baggage_num), "" + baggageNum));
                     baggageTextClick.setTextColor(Color.parseColor("#000000"));
                 } else {
                     childNum = childList.getValue();
@@ -619,7 +620,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                         showChildSeatLayout.setVisibility(GONE);
                     }
                     if (manNum == 0) manNum = 1;
-                    peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), manNum, childNum));
+                    peopleTextClick.setText(String.format(getString(R.string.select_city_man_child_num), "" + manNum, "" + childNum));
                     if (childNum < childSeatNums) {
                         childSeatNums = childNum;
                         childText.setText(getString(R.string.select_city_child) + childSeatNums);
@@ -881,7 +882,10 @@ public class OrderSelectCityActivity extends BaseActivity {
     private final int TYPE_SINGLE = 1;
     private final int TYPE_RANGE = 2;
 
-    @OnClick({R.id.header_right_txt, R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus, R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout, R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click, R.id.go_city_text_click, R.id.next_btn_click})
+    @OnClick({R.id.header_right_txt, R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus
+            , R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout
+            , R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click
+            , R.id.go_city_text_click, R.id.next_btn_click, R.id.order_select_web_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_right_txt:
@@ -963,7 +967,6 @@ public class OrderSelectCityActivity extends BaseActivity {
                 }
                 break;
             case R.id.next_btn_click:
-
                 if (checkNextBtnStatus()) {
 
                     if (null != collectGuideBean) {
@@ -990,6 +993,19 @@ public class OrderSelectCityActivity extends BaseActivity {
                     }
 
                 }
+                break;
+            case R.id.order_select_web_iv:
+                String userId = UserEntity.getUser().getUserId(this);
+                String params = "";
+                if(!TextUtils.isEmpty(userId)){
+                    params += "?userId=" + userId;
+                }
+                Intent intent = new Intent(this, DailyWebInfoActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, "包车下单");
+                intent.putExtra("cityBean", startBean);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
+                intent.putExtra("goodtype", "包车");
+                startActivity(intent);
                 break;
         }
     }

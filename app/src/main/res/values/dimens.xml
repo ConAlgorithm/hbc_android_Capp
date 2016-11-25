@@ -94,5 +94,7 @@
     <dimen name="city_home_height_toolbar_size">180px</dimen>
     <dimen name="city_home_line_height">180px</dimen>
 
+    <dimen name="unicorn_view_left_size">16dp</dimen>
+
 
 </resources>

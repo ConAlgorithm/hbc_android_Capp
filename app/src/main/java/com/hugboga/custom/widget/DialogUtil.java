@@ -4,8 +4,8 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -19,18 +19,18 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.NIMChatActivity;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.UnicornUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -412,132 +412,6 @@ public class DialogUtil implements DialogUtilInterface {
         return customDialog;
     }
 
-//    /**
-//     * 根据state 做系统事件
-//     *
-//     * @param content 内容提示
-//     * @param state   状态值
-//     * @param opr     辅助参数
-//     * @return Dialog    返回类型
-//     * @Title showCustomDialog
-//     * @author aceway-liwei
-//     * @date 2013-3-7 下午02:16:02
-//     */
-//    public Dialog showCustomDialog(String content, final int state, final String opr) {
-//        VersionBean versionBean = null;
-//        if(state==-999){
-//            //强制更新，解析内容
-//            versionBean = new VersionBean();
-//            try {
-//                versionBean.parser(content);
-//                content = versionBean.content;
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                content = "系统错误";
-//            }
-//        }
-//        final VersionBean finalVersionBean = versionBean;
-//        OnClickListener listener = new OnClickListener() {
-//            private Intent intent;
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                switch (state) {
-//                    case 10012://userToken不合法或已失效，登录信息失效，请重新登录
-//                        UserEntity.getUser().setUserId(mContext, null);
-//                        UserEntity.getUser().setUserToken(mContext, null);
-//                        if (mContext instanceof BaseFragmentActivity) {
-//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-//                            BaseFragment fragment = null;
-//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-//                                if (fg != null && fg instanceof BaseFragment) {
-//                                    fragment = (BaseFragment) fg;
-//                                }
-//                            }
-//                            if (fragment != null) {
-//                                fragment.bringToFront(FgHome.class, new Bundle());
-//                                fragment.startFragment(new FgLogin());
-//                            }
-//                        }
-//                        break;
-//                    case 10013:
-//                        //  设备禁止访问，则直接退出重新登录
-//                        UserEntity.getUser().clean(mContext);
-//                        if (mContext instanceof BaseFragmentActivity) {
-//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-//                            BaseFragment fragment = null;
-//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-//                                if (fg != null && fg instanceof BaseFragment) {
-//                                    fragment = (BaseFragment) fg;
-//                                }
-//                            }
-//                            if (fragment != null) {
-//                                fragment.bringToFront(FgHome.class, new Bundle());
-//                                fragment.startFragment(new FgLogin());
-//                            }
-//                        }
-//                        break;
-//                    case -888:
-//                        //强制退出
-//                        UserEntity.getUser().clean(mContext);
-//                        if (mContext instanceof BaseFragmentActivity) {
-//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-//                            BaseFragment fragment = null;
-//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-//                                if (fg != null && fg instanceof BaseFragment) {
-//                                    fragment = (BaseFragment) fg;
-//                                }
-//                            }
-//                            if (fragment != null) {
-//                                fragment.finish();
-//                            }
-//                        }
-//                        System.exit(0); //强制退出
-//                        break;
-//                    case -999:
-//                        //强制更新
-//                        if (mContext instanceof BaseFragmentActivity) {
-//                            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
-//                            BaseFragment fragment = null;
-//                            for (Fragment fg : activity.getSupportFragmentManager().getFragments()) {
-//                                if (fg != null && fg instanceof BaseFragment) {
-//                                    fragment = (BaseFragment) fg;
-//                                }
-//                            }
-//                            if (fragment != null) {
-//                                // 强制更新，并且点击开始下载更新
-//                                PushUtils.startDownloadApk(mContext, finalVersionBean.url);
-//                            }
-//                        }
-//                        break;
-//                }
-//            }
-//        };
-//        customDialog = showCustomDialog(content, listener);
-//        return customDialog;
-//    }
-
-    private Intent getStartAcitityIntent(int opr) {
-        Intent intent = null;
-        /*switch (opr) {
-        case 0://登录
-			intent=new Intent(mContext,LoginActivity.class);
-			break;
-		case 1://首页
-			intent =new Intent(mContext,LoginActivity.class);
-			break;
-		case 2://关于
-			intent =new Intent(mContext,LoginActivity.class);
-			break;
-		case 3://个人信息
-			intent =new Intent(mContext,PersonalInfoAcitity.class);
-			break;
-		default:
-			break;
-		}*/
-        return intent;
-    }
-
     public void showUpdateDialog(boolean hasUpdate,boolean force, String content, final String url, OnClickListener positiveClick, OnClickListener negativeClick) {
         MLog.e("版本检测 hasUpdate="+hasUpdate+" force="+force);
         if (TextUtils.isEmpty(url)||!hasUpdate) {
@@ -566,56 +440,6 @@ public class DialogUtil implements DialogUtilInterface {
         return versionDialog;
     }
 
-    /* public Dialog showVersionCheck(String title, String content,final String downloadUrl,final boolean forceUpdate,View.OnClickListener closeClickListener){
-            Builder builder = new Builder(mContext,R.style.ContentOverlay);
-            View  view = LayoutInflater.from(mContext).inflate(R.layout.dialog_layout, null);
-            TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
-            TextView tv_msg = (TextView) view.findViewById(R.id.tv_msg);
-            tv_title.setText(title);
-            tv_msg.setText(content);
-            View.OnClickListener onclick = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openBrower(downloadUrl);
-                }
-            };
-            setVersionButton(view, forceUpdate,downloadUrl, onclick,closeClickListener);
-//			builder.setView(view);
-            mUpdateVersionDialog = builder.create();
-            mUpdateVersionDialog.setCancelable(!forceUpdate);
-            mUpdateVersionDialog.show();
-            mUpdateVersionDialog.getWindow().setContentView(view);
-
-         return mUpdateVersionDialog;
-     }*/
-    /* private void setVersionButton(View view ,boolean  forceUpdate,String url,View.OnClickListener updateClickListener,final View.OnClickListener closeClickListener) {
-            TextView tv_negative = (TextView) view.findViewById(R.id.tv_negative);
-			TextView tv_positive = (TextView) view.findViewById(R.id.tv_positive);
-			tv_negative.setTag(url);
-			tv_positive.setTag(url);
-			if(forceUpdate){
-				tv_positive.setText("现在升级");
-				tv_negative.setText("退出程序");
-				tv_negative.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mContext.finish();
-					}
-				});
-			}else{
-				tv_positive.setText("现在升级");
-				tv_negative.setText("稍后升级");
-				tv_negative.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mUpdateVersionDialog.dismiss();
-						if(closeClickListener!=null)
-						closeClickListener.onClick(v);
-					}
-				});
-			}
-			tv_positive.setOnClickListener(updateClickListener);
-		}*/
     //打开浏览器
     protected void openBrowser(String url) {
 
@@ -672,61 +496,64 @@ public class DialogUtil implements DialogUtilInterface {
         dialog.show();
     }
 
-    public void showCallDialogTitle(String title) {
+    public static AlertDialog showCallDialogTitle(final Context _context, final String _title) {
+        String title = _title;
+        if (TextUtils.isEmpty(title)) {
+            title = "咨询小助手";
+        }
         String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
-        AlertDialog dialog = new AlertDialog.Builder(getRootActivity(mContext))
+        AlertDialog dialog = new AlertDialog.Builder(_context)
                 .setTitle(title)
                 .setItems(str, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
+                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
                         } else {
-                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
+                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
                         }
                     }
                 }).create();
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+        return dialog;
     }
 
-    public void showLittleHelperDialog(final String... source){
-        String [] str={"境内客服："+Constants.CALL_NUMBER_IN,"境外客服："+Constants.CALL_NUMBER_OUT,"在线聊天"};
-        AlertDialog dialog=new AlertDialog.Builder(getRootActivity(mContext)).setTitle("咨询小助手")
+    public static AlertDialog showServiceDialog(final Context _context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
+        if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
+                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
+            return showCallDialogTitle(_context, null);
+        }
+        String [] str = {"在线聊天", "境内客服：" + Constants.CALL_NUMBER_IN, "境外客服：" + Constants.CALL_NUMBER_OUT};
+        AlertDialog dialog = new AlertDialog.Builder(_context).setTitle("咨询小助手")
                 .setItems(str,new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which==0){
-                            if (source != null && source.length == 3) {
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put("source", source[0]);
-                                MobclickAgent.onEvent(getRootActivity(mContext), source[1], map);
+                        if (which == 0) {
+                            if (!CommonUtils.isLogin(_context)) {
+                                return;
                             }
-                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
-                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"电话");
-                        }else if(which==1){
-                            if (source != null && source.length == 3) {
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put("source", source[0]);
-                                MobclickAgent.onEvent(getRootActivity(mContext), source[2], map);
-                            }
-                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
-                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"电话");
-                        }else {
-                            if (source!=null&&source.length==3){
-                                HashMap<String,String>map=new HashMap<String, String>();
-                                map.put("source",source[0]);
-                                MobclickAgent.onEvent(getRootActivity(mContext), source[3], map);
-                            }
-                            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
-                            UnicornUtils.openServiceActivity();
-                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE,"IM");
+                            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+                            params.sourceType = sourceType;
+                            params.orderBean = orderBean;
+                            params.skuItemBean = skuItemBean;
+                            Intent intent = new Intent(_context, ServiceQuestionActivity.class);
+                            intent.putExtra(Constants.PARAMS_DATA, params);
+                            _context.startActivity(intent);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
+                        } else if (which == 1) {
+                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
+                        } else {
+                            PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
                         }
                     }
                 }).create();
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+        return dialog;
     }
 }

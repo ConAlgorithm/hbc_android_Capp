@@ -386,13 +386,12 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
 
     private  void setCarInfo(){
-        String carDesc = "";
+        String carDesc = carBean.models;
         if(null != carBean.carLicenceNoCovered){
             fgCarIntro.setTextColor(ContextCompat.getColor(this.getActivity(),R.color.basic_red));
-            carDesc = (null == carBean.carBrandName?"":carBean.carBrandName) + (null == carBean.carName?"":carBean.carName) +"     车牌:"+carBean.carLicenceNoCovered;
+            carDesc += "     车牌:"+carBean.carLicenceNoCovered;
         }else{
             fgCarIntro.setTextColor(Color.parseColor("#b2b2b2"));
-            carDesc = carBean.models;
         }
         fgCarIntro.setText(carDesc);
     }

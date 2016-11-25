@@ -14,25 +14,25 @@
         android:paddingLeft="@dimen/default_margin_xlarge"
         android:paddingRight="@dimen/default_margin_xlarge"
         android:paddingTop="@dimen/default_margin_medium">
+        <com.hugboga.custom.widget.CircleImageView
+            android:id="@+id/letter_item_img"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/chat_head"/>
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/letter_item_img_layout"
-            android:background="@color/basic_white"
-            android:layout_width="@dimen/letter_img_width"
-            android:layout_height="@dimen/letter_img_width">
-
-            <com.hugboga.custom.widget.CircleImageView
-                android:id="@+id/letter_item_img"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@mipmap/chat_head"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp">
 
             <TextView
                 android:id="@+id/footer_order_btn_point"
                 android:layout_width="wrap_content"
                 android:minWidth="@dimen/letter_img_point_width_x"
                 android:layout_height="@dimen/letter_img_point_width_x"
-                android:layout_alignParentRight="true"
                 android:background="@mipmap/tabbar_number"
                 android:gravity="center"
                 android:textColor="@color/basic_white"
@@ -43,21 +43,19 @@
                 android:id="@+id/footer_service_unread"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
                 android:background="@mipmap/tabbar_number"
                 android:textColor="@color/basic_white"
                 android:textSize="10sp"
                 android:visibility="gone" />
-        </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/default_margin_large"
-            android:layout_toRightOf="@id/letter_item_img_layout"
+            android:layout_toRightOf="@id/letter_item_img"
+            android:layout_toLeftOf="@+id/letter_item_img_layout"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -69,7 +67,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/letter_item_username"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:maxWidth="200dp"
                     android:textSize="@dimen/text_size_large" />
+                <TextView
+                    android:id="@+id/letter_item_service_icon_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/letter_item_username"
+                    android:layout_marginLeft="12dp"
+                    android:text="官方"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textSize="12sp"
+                    android:textColor="#111111"
+                    android:background="@drawable/shape_rounded_yellow_btn"/>
 
                 <TextView
                     android:id="@+id/letter_item_time"

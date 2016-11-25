@@ -54,12 +54,16 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
 
         if (chatBean != null) {
             vh.mUsername.setText(chatBean.targetName);
-            if(!TextUtils.isEmpty(chatBean.message) && chatBean.targetType!=3){
+            if (chatBean.targetType == 3) {
+                vh.mMessage.setText("您有任何问题，欢迎咨询客服小包子");
+                vh.serviceIconTV.setVisibility(View.VISIBLE);
+            } else if (!TextUtils.isEmpty(chatBean.message)) {
                 vh.mMessage.setText(chatBean.message.trim());
-            }else{
+                vh.serviceIconTV.setVisibility(View.GONE);
+            } else {
                 vh.mMessage.setText("");
+                vh.serviceIconTV.setVisibility(View.GONE);
             }
-            vh.mMessage.setText(chatBean.message);
             try {
                 vh.mTime.setText(DateUtils.resetLetterTime(chatBean.timeStr));
             } catch (ParseException e) {
@@ -133,6 +137,11 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
          NimRecentListSyncUtils.recentListSync(datas,recentContacts);
          this.notifyDataSetChanged();
      }
+
+
+    public void syncRemoveRepeatData(){
+        NimRecentListSyncUtils.removeRepeatData(datas);
+    }
 
     /**
      * 删除会话同步云信

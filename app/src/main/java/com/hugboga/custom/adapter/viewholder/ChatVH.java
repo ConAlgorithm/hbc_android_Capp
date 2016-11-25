@@ -36,6 +36,8 @@ public class ChatVH extends ZBaseViewHolder {
     public ChildListView mListView;
     @ViewInject(R.id.footer_service_unread)
     public View serviceUnread;
+    @ViewInject(R.id.letter_item_service_icon_tv)
+    public TextView serviceIconTV;
 
     public ChatVH(View itemView) {
         super(itemView);

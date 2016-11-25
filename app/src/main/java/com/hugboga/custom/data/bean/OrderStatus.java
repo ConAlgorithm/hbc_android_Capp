@@ -9,7 +9,7 @@ public enum OrderStatus {
     /**
      * 1: 未付款
      */
-    INITSTATE(1, "等待付款"),
+    INITSTATE(1, "等待支付"),
 
     /**
      * 2: 已付款

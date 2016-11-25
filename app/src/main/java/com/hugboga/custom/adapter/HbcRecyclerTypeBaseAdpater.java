@@ -33,11 +33,11 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
         this.datas = new ArrayList<T>();
     }
 
-    public void addDatas(List<T> _data) {
-        addDatas(_data, false);
+    public void addData(List<T> _data) {
+        addData(_data, false);
     }
 
-    public void addDatas(List<T> _data, boolean isNextPage) {
+    public void addData(List<T> _data, boolean isNextPage) {
         if (_data == null) {
             return;
         }
@@ -146,6 +146,13 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
     public void addFooterView(View v) {
         mFooterViewInfos.add(v);
         this.notifyDataSetChanged();
+    }
+
+    public void cleanAllFooterView(boolean isNotifyData) {
+        mFooterViewInfos.clear();
+        if (isNotifyData) {
+            this.notifyDataSetChanged();
+        }
     }
 
     protected abstract View getItemView(int position);

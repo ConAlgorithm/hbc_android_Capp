@@ -18,11 +18,12 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.SERVER_IP_ORDER_CANCEL, builder = NewParamsBuilder.class)
 public class RequestOrderCancel extends BaseRequest {
 
-    public RequestOrderCancel(Context context, String orderID, double cancelPrice, String memo) {
+    public RequestOrderCancel(Context context, String orderID, double cancelPrice, String reason) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("orderNo", orderID);
         map.put("cancelPrice", cancelPrice);
+        map.put("reason", reason);
     }
 
     @Override

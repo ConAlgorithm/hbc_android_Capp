@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.PoiSearchAdapter;
@@ -69,6 +70,8 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     private SharedPre sharedPre;
     private ArrayList<String> placeHistoryArray = new ArrayList<String>();
     private String source = "";
+
+    private boolean isLoading = false;
 
     int mBusinessType = 1;
 
@@ -180,6 +183,14 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
     String pageToken = null;
     private void requestKeyword(int offset) {
+        if (sortListView.state == ZListView.LOADING_MORE && TextUtils.isEmpty(pageToken)) {
+            return;
+        }
+        if (isLoading) {
+            return;
+        } else {
+            isLoading = true;
+        }
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE,getIntentSource());
         map.put("searchinput",searchWord);
@@ -220,9 +231,15 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 sortListView.onRefreshComplete();
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
+            isLoading = false;
         }
     }
 
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        isLoading = false;
+    }
 
     @OnClick({R.id.header_left_btn, R.id.head_search_clean, R.id.head_text_right})
     public void onClick(View view) {

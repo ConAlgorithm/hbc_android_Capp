@@ -52,8 +52,8 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 100940
-        versionName "3.0.0"
+        versionCode 101060
+        versionName "3.1.0"
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {

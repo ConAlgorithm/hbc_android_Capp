@@ -164,12 +164,18 @@ public class TravelFundActivity extends BaseActivity {
                     break;
                 }
                 MobClickUtils.onEvent(StatisticConstant.CLICK_INVITE);
-                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this),
-                        UserEntity.getUser().getUserName(this),
-                        invitationCode);
+
+                TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
+                String shareName = "我";
+                if (!TextUtils.isEmpty(rewardFields.name)) {
+                    shareName = rewardFields.name;
+                } else if (!TextUtils.isEmpty(rewardFields.nickName)) {
+                    shareName = rewardFields.nickName;
+                }
+                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this), shareName, invitationCode);
                 CommonUtils.shareDialog(activity, R.mipmap.share_coupon
-                        , getString(R.string.invite_friends_share_title, travelFundData.getRewardFields().getCouponAmount())
-                        , getString(R.string.invite_friends_share_content)
+                        , rewardFields.headline
+                        , rewardFields.subhead
                         , shareUrl
                         , getClass().getSimpleName()
                         , new ShareDialog.OnShareListener() {

@@ -24,6 +24,13 @@ public class ParserGuideInfo extends ImplParser {
             orderGuideInfo.carNumber = jsonObj.optString("carNumber");
             orderGuideInfo.storeStatus = jsonObj.optInt("storeStatus", 0);
             orderGuideInfo.guideCarId = jsonObj.optString("guideCarId");
+            orderGuideInfo.flag = jsonObj.optString("flag");
+            orderGuideInfo.timediff = jsonObj.optInt("timediff", 0);
+            orderGuideInfo.timezone = jsonObj.optInt("timezone", 0);
+            orderGuideInfo.cityName = jsonObj.optString("cityName");
+            orderGuideInfo.cityId = jsonObj.optInt("cityId", 0);
+            orderGuideInfo.countryName = jsonObj.optString("countryName");
+            orderGuideInfo.countryId = jsonObj.optInt("countryId", 0);
         }
 
         return orderGuideInfo;

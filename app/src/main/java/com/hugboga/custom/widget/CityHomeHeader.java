@@ -1,41 +1,29 @@
 package com.hugboga.custom.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
-import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityHomeBean;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
 
 import static com.hugboga.custom.R.id.cityHome_toolbar_custom_car;
 import static com.hugboga.custom.R.id.cityHome_toolbar_home_pick_send_airport;
@@ -263,22 +251,12 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
     }
 
     private void goDairy(){
-        Bundle bundle = new Bundle();
-        HashMap<String,String> map = new HashMap<String,String>();
-        bundle.putString("source","城市页");
-        String userId = UserEntity.getUser().getUserId(this.getContext());
-        String params = "";
-        if(!TextUtils.isEmpty(userId)){
-            params += "?userId=" + userId;
-        }
-        Intent intent = new Intent(this.getContext(), DailyWebInfoActivity.class);
+        Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, "城市页");
-        intent.putExtras(bundle);
-        intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
-        intent.putExtra("goodtype","包车");
-        this.getContext().startActivity(intent);
-        map.put("source", "城市页");
-        MobclickAgent.onEvent(getContext(), "chose_oneday", map);
+        if (cityHomeBean != null && cityHomeBean.cityContent != null) {
+            intent.putExtra(Constants.PARAMS_CITY_ID, "" + cityHomeBean.cityContent.cityId);
+        }
+        getContext().startActivity(intent);
     }
 
     /**
@@ -292,6 +270,9 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
 
     private void goSingle(){
         Intent intent = new Intent(getContext(),SingleNewActivity.class);
+        if (cityHomeBean != null && cityHomeBean.cityContent != null) {
+            intent.putExtra(Constants.PARAMS_CITY_ID, "" + cityHomeBean.cityContent.cityId);
+        }
         intent.putExtra("source","首页");
         getContext().startActivity(intent);
     }

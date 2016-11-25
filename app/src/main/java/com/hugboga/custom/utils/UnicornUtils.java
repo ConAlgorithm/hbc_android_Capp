@@ -1,19 +1,30 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.qiyukf.unicorn.activity.ServiceMessageFragment;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
+import com.qiyukf.unicorn.api.OnMessageItemClickListener;
+import com.qiyukf.unicorn.api.ProductDetail;
 import com.qiyukf.unicorn.api.SavePowerConfig;
-import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
 import com.qiyukf.unicorn.api.UICustomization;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnicornImageLoader;
@@ -22,6 +33,7 @@ import com.qiyukf.unicorn.api.YSFUserInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by on 16/8/26.
@@ -37,19 +49,29 @@ public class UnicornUtils {
         Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize());
     }
 
-    public static void openServiceActivity() {
-//        if (!Unicorn.isServiceAvailable()) {
-//            return;
-//        }
-        Context context = MyApplication.getAppContext();
+    public static void openDefaultServiceActivity(Context context) {
+        if (!CommonUtils.isLogin(context)) {
+            return;
+        }
+        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+        params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
+        Intent intent = new Intent(context, ServiceQuestionActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
+    }
+
+    public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId) {
+        SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
+        SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_GROUP_ID, staffId);
+
         YSFUserInfo userInfo = new YSFUserInfo();
-        userInfo.userId = UserEntity.getUser().getUserId(context);
+        userInfo.userId = UserEntity.getUser().getUserId(activity);
         userInfo.data = getServiceUserInfo();
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
         uiCustomization.leftAvatar = CUSTOMER_AVATAR;
-        uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(context);
+        uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(activity);
         uiCustomization.titleBackgroundColor = 0xFF2D2B24;
         uiCustomization.titleBarStyle = 1;
         YSFOptions options = getDefaultOptions();
@@ -61,9 +83,24 @@ public class UnicornUtils {
         // 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入三个参数分别为来源页面的url，来源页面标题，来源页面额外信息（可自由定义）
         // 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
         ConsultSource source = new ConsultSource("", "CAPP_Android", "");
-//        source.groupId = UnicornUtils.GROUP_ID;
-        source.staffId = 46770;
-        Unicorn.openServiceActivity(MyApplication.getAppContext(), "皇包车客服", source);
+        if (staffId > 0) {
+            source.groupId = staffId;
+        }
+        if (productDetail != null) {
+            source.productDetail = productDetail;
+        }
+        ServiceMessageFragment fragment = Unicorn.newServiceFragment("皇包车客服", source, new FrameLayout(activity));
+        if (fragment == null) {
+            return;
+        }
+        FragmentManager fm = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(containerId, fragment);
+        try {
+            transaction.commitAllowingStateLoss();
+        } catch (Exception e) {
+
+        }
     }
 
     private static String getServiceUserInfo() {
@@ -100,6 +137,15 @@ public class UnicornUtils {
     private static YSFOptions getDefaultOptions() {
         YSFOptions options = new YSFOptions();
         options.savePowerConfig = new SavePowerConfig();
+        OnMessageItemClickListener messageItemClickListener = new OnMessageItemClickListener() {
+            // 响应 url 点击事件
+            public void onURLClicked(Context context, String url) {
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                context.startActivity(intent);
+            }
+        };
+        options.onMessageItemClickListener = messageItemClickListener;
         return options;
     }
 
@@ -146,7 +192,7 @@ public class UnicornUtils {
 
             @Override
             public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                if (listener != null) {
+                if (listener != null && e != null) {
                     listener.onLoadFailed(e.getCause());
                 }
             }

@@ -651,11 +651,11 @@ public class DateUtils {
      * @param dateStr
      * @return
      */
-    public static String getWeekOfDate(String  dateStr) {
+    public static String getWeekOfDate(String dateStr) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = format.parse(dateStr);
-            String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+            String[] weekOfDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
             Calendar calendar = Calendar.getInstance();
             if (date != null) {
                 calendar.setTime(date);
@@ -665,6 +665,27 @@ public class DateUtils {
                 w = 0;
             }
             return weekOfDays[w];
+        }catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String getOrderDateFormat(String dateStr) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(dateStr);
+            String[] weekOfDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+            Calendar calendar = Calendar.getInstance();
+            if (date != null) {
+                calendar.setTime(date);
+            }
+            int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+            if (w < 0) {
+                w = 0;
+            }
+            SimpleDateFormat resultFormat = new SimpleDateFormat("MM月dd日");
+            return resultFormat.format(date) + "(" + weekOfDays[w] +")";
         }catch (Exception e){
             e.printStackTrace();
             return "";

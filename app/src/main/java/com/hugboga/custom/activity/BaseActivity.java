@@ -176,6 +176,15 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         }
     }
 
+
+    public void hideSoftInput() {
+        if (getCurrentFocus() == null || getCurrentFocus().getWindowToken() == null) {
+            return;
+        }
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
     protected Callback.Cancelable requestData(BaseRequest request) {
         cancelable = HttpRequestUtils.request(this, request, this);
         return cancelable;
