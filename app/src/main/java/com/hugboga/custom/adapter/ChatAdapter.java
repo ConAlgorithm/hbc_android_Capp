@@ -138,6 +138,11 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
          this.notifyDataSetChanged();
      }
 
+
+    public void syncRemoveRepeatData(){
+        NimRecentListSyncUtils.removeRepeatData(datas);
+    }
+
     /**
      * 删除会话同步云信
      * @param recentContact

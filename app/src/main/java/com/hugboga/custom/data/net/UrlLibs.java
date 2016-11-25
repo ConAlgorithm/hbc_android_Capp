@@ -222,7 +222,6 @@ public class UrlLibs {
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息
-    public static final String SERVER_IP_IM_TOKEN_UPDATE    = "communication/v2.0/c/im/token";                          // IM 通知更新 ??? 3.0
     public static final String SERVER_IP_NIM_TOKEN_UPDATE   = "communication/v3.0/c/im/token";                          // 获取云信token
     public static final String GET_CHAT_ID                  = "communication/v3.0/c/im/chat/info";                      // 获取chat/info
     public static final String SERVER_IP_IM_UPDATE          = "communication/v2.0/c/im/clear";                          // IM 通知更新为已读 ??? 3.0
