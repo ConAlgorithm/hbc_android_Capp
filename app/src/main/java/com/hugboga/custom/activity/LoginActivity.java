@@ -217,26 +217,25 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserEntity.getUser().setNimUserId(activity,user.nimUserId);
             UserEntity.getUser().setNimUserToken(activity,user.nimToken);
 
-//            if (TextUtils.isEmpty(user.imToken)) {
-//                ApiFeedbackUtils.requestIMFeedback(1, "49001", "获取到的imToken为空，不能连接IM服务器");
-//                CommonUtils.showToast("服务器忙翻了，请稍后再试");
-//            }
-
             connectIM();
+            Unicorn.setUserInfo(null);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("source", getIntentSource());
             map.put("loginstyle", "手机号");
             map.put("head", !TextUtils.isEmpty(user.avatar) ? "是" : "否");
             map.put("nickname", !TextUtils.isEmpty(user.nickname) ? "是" : "否");
             map.put("phone", !TextUtils.isEmpty(user.mobile) ? "是" : "否");
-
             MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED,map);
-//            finishForResult(new Bundle());
             CommonUtils.showToast("登录成功");
-            Unicorn.setUserInfo(null);
+            if (user.mustRestPwd && passwordEditText.getText() != null) {
+                final String password = passwordEditText.getText().toString();
+                Intent intent = new Intent(this, InitPasswordActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, password);
+                startActivity(intent);
+            }
             finish();
-
         } else if (request instanceof RequestLoginCheckOpenId) {
             RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
             UserBean userBean = request1.getData();

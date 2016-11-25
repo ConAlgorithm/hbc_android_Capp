@@ -32,6 +32,7 @@ public class UserBean implements IBaseBean {
     public String nimToken;//云信token
     //public String rimUserId;//融云用户id
     public String nimUserId; //云信账号id
+    public boolean mustRestPwd = false;//添加初始密码登陆需要重置密码标记字段
 
     public String getGenderStr() {
         switch (gender) {

@@ -322,10 +322,5 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
                 break;
         }
     }
-
-    private void hideSoftInput() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(AddInsureActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
 }
 

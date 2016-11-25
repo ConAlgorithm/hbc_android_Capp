@@ -56,6 +56,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
@@ -139,6 +140,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Bind(R.id.header_right_btn)
     ImageView header_right_btn;
 
+    @Bind(R.id.imchat_local_time_view)
+    CountryLocalTimeView localTimeView;
+
     //public final String USER_IM_ADD = "G";
     private boolean isChat = false; //是否开启聊天
     private String userId; //用户ID
@@ -147,6 +151,12 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
     private int isHideMoreBtn;
+
+    private String nationalFlag;
+    private int timediff;
+    private int timezone;
+    private String cityName;
+    private String countryName;
 
     private UserInfoObservable.UserInfoObserver uinfoObserver;
 
@@ -187,6 +197,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
          addConversationFragment();
         //刷新订单信息
+
+        localTimeView.setData(nationalFlag, timediff, timezone, cityName, countryName);
     }
 
     private void addConversationFragment(){
@@ -267,6 +279,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             targetType = imInfo.targetType;
             inBlack = imInfo.inBlack;
             isHideMoreBtn = imInfo.isHideMoreBtn;
+            nationalFlag = imInfo.flag;
+            timediff = imInfo.timediff;
+            timezone = imInfo.timezone;
+            cityName = imInfo.cityName;
+            countryName = imInfo.countryName;
             resetRightBtn();
             initRunningOrder(); //构建和该用户之间的订单
         } catch (JSONException e) {
@@ -706,6 +723,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         clearImChat(); //进入后清空消息提示
         registerObservers(false);
         unregisterUserInfoObserver();
+        if (localTimeView != null) {
+            localTimeView.setStop(true);
+        }
         super.onDestroy();
     }
 

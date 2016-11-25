@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -7,13 +8,17 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.LinearLayout;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.ServiceQuestionAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ServiceQuestionBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequsetServiceQuestionList;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 
@@ -64,6 +69,33 @@ public class ServiceQuestionActivity extends BaseActivity{
         mRecyclerView.setAdapter(adapter);
 
         requestData();
+
+        unreadMsg();
+    }
+
+    private void unreadMsg() {
+        int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
+        if (unreadCount > 0) {
+            AlertDialogUtils.showAlertDialog(activity, "您有未读的客服消息，前去查看？",
+                    "去查看", "忽略", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
+                            questionItem.customRole = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_GROUP_ID, 0);
+                            params.questionItem = questionItem;
+                            Intent intent = new Intent(ServiceQuestionActivity.this, UnicornServiceActivity.class);
+                            intent.putExtra(Constants.PARAMS_DATA, params);
+                            startActivity(intent);
+                            finish();
+                            dialog.dismiss();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
     }
 
     @Override

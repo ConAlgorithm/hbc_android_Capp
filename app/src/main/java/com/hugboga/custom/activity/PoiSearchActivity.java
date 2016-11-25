@@ -183,6 +183,9 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
     String pageToken = null;
     private void requestKeyword(int offset) {
+        if (sortListView.state == ZListView.LOADING_MORE && TextUtils.isEmpty(pageToken)) {
+            return;
+        }
         if (isLoading) {
             return;
         } else {

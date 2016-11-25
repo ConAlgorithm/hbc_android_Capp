@@ -62,6 +62,7 @@ public class UnicornUtils {
 
     public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId) {
         SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
+        SharedPre.setInteger(UserEntity.getUser().getUserId(activity), SharedPre.QY_GROUP_ID, staffId);
 
         YSFUserInfo userInfo = new YSFUserInfo();
         userInfo.userId = UserEntity.getUser().getUserId(activity);

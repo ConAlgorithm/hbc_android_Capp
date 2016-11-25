@@ -1,11 +1,13 @@
 package com.hugboga.custom.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.hugboga.custom.data.bean.ChatBean;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -18,29 +20,30 @@ public class NimRecentListSyncUtils {
 
     /**
      * 服务器后台会话列表同云信本地数据列表同步，以云信数据为主
+     *
      * @param chatBeanList
      * @param recentContacts
      * @return
      */
-    public static void recentListSync(List<ChatBean> chatBeanList, List<RecentContact> recentContacts){
+    public static void recentListSync(List<ChatBean> chatBeanList, List<RecentContact> recentContacts) {
 
-        if(recentContacts == null || recentContacts.size()==0){
-            return ;
+        if (recentContacts == null || recentContacts.size() == 0) {
+            return;
         }
 
-        for(Iterator<ChatBean> iter = chatBeanList.iterator();iter.hasNext();){
+        for (Iterator<ChatBean> iter = chatBeanList.iterator(); iter.hasNext(); ) {
             //客服数据排除不同步
             ChatBean chatBean = iter.next();
-            if(chatBean.targetType==3){
+            if (chatBean.targetType == 3) {
                 continue;
             }
             boolean exist = false;
-            for (RecentContact recentContact:recentContacts){
-                if(chatBean.nTargetId.toLowerCase().equals(recentContact.getContactId().toLowerCase())){
+            for (RecentContact recentContact : recentContacts) {
+                if (chatBean.nTargetId.toLowerCase().equals(recentContact.getContactId().toLowerCase())) {
                     chatBean.message = recentContact.getContent();
-                    if(recentContact.getMsgType()== MsgTypeEnum.tip){
+                    if (recentContact.getMsgType() == MsgTypeEnum.tip) {
                         chatBean.imCount = 0;
-                    }else{
+                    } else {
                         chatBean.imCount = recentContact.getUnreadCount();
                     }
                     chatBean.timeStamp = recentContact.getTime();
@@ -57,41 +60,43 @@ public class NimRecentListSyncUtils {
 
     /**
      * 删除会话与云信数据同步
+     *
      * @param chatBeans
      * @param recentContact
      */
-    public static int deleteSync(List<ChatBean> chatBeans,RecentContact recentContact){
-        if(chatBeans!=null && recentContact!=null){
-            for(int i=0;i<chatBeans.size();i++){
+    public static int deleteSync(List<ChatBean> chatBeans, RecentContact recentContact) {
+        if (chatBeans != null && recentContact != null) {
+            for (int i = 0; i < chatBeans.size(); i++) {
                 ChatBean chatBean = chatBeans.get(i);
-                if(TextUtils.equals(chatBean.nTargetId,recentContact.getContactId().toLowerCase())){
+                if (TextUtils.equals(chatBean.nTargetId, recentContact.getContactId().toLowerCase())) {
                     chatBeans.remove(chatBean);
                     return i;
                 }
             }
         }
-       // sortRecentContacts(chatBeans);
+        // sortRecentContacts(chatBeans);
         return -1;
     }
 
     /**
      * 云信新消息同步页面更新
+     *
      * @param chatBeens
      * @param messages
      */
-    public static boolean updateRecentSync(List<ChatBean> chatBeens,List<RecentContact> messages){
-        if(messages==null || messages.size()==0){
+    public static boolean updateRecentSync(List<ChatBean> chatBeens, List<RecentContact> messages) {
+        if (messages == null || messages.size() == 0) {
             return false;
         }
         boolean hasNewContact = false;
-        for (RecentContact recentContact:messages){
+        for (RecentContact recentContact : messages) {
             boolean flag = false;
-            for (ChatBean chatBean:chatBeens){
-                if(TextUtils.equals(recentContact.getContactId().toLowerCase(),chatBean.nTargetId)){
+            for (ChatBean chatBean : chatBeens) {
+                if (TextUtils.equals(recentContact.getContactId().toLowerCase(), chatBean.nTargetId)) {
                     chatBean.message = recentContact.getContent();
-                    if(recentContact.getMsgType()==MsgTypeEnum.tip){
+                    if (recentContact.getMsgType() == MsgTypeEnum.tip) {
                         chatBean.imCount = 0;
-                    }else {
+                    } else {
                         chatBean.imCount = recentContact.getUnreadCount();
                     }
                     chatBean.timeStamp = recentContact.getTime();
@@ -99,7 +104,7 @@ public class NimRecentListSyncUtils {
                     break;
                 }
             }
-            if(!flag){
+            if (!flag) {
                 hasNewContact = true;
             }
         }
@@ -110,11 +115,12 @@ public class NimRecentListSyncUtils {
 
     /**
      * 服务器会话列表为空，所有会话数据从云信拉取
+     *
      * @param chatBeans
      * @param recentContacts
      */
-    private static void syncAllRecent(List<ChatBean> chatBeans,List<RecentContact> recentContacts){
-        for(RecentContact recentContact:recentContacts){
+    private static void syncAllRecent(List<ChatBean> chatBeans, List<RecentContact> recentContacts) {
+        for (RecentContact recentContact : recentContacts) {
             ChatBean chatBean = new ChatBean();
             chatBeans.add(chatBean);
         }
@@ -134,13 +140,45 @@ public class NimRecentListSyncUtils {
         @Override
         public int compare(ChatBean o1, ChatBean o2) {
             //先判断是不是客服
-            long sticky = o1.targetType- o2.targetType;
+            long sticky = o1.targetType - o2.targetType;
             if (sticky != 0) {
                 return sticky > 0 ? -1 : 1;
             } else {
-                long time = o1.timeStamp- o2.timeStamp;
+                long time = o1.timeStamp - o2.timeStamp;
                 return time == 0 ? 0 : (time > 0 ? -1 : 1);
             }
         }
     };
+
+
+    public static void removeRepeatData(List<ChatBean> chatBeanList){
+        if(chatBeanList==null || chatBeanList.size()<10){
+            return;
+        }
+        List<ChatBean> lastPageChatList = new ArrayList<>(chatBeanList.subList(chatBeanList.size()-10,chatBeanList.size()));
+        boolean hasRepeat = false;
+        for(int i=0;i<chatBeanList.size()-10;i++){
+            ChatBean chatBean = chatBeanList.get(i);
+            for(Iterator<ChatBean> lastIter = lastPageChatList.iterator();lastIter.hasNext();){
+                ChatBean temp = lastIter.next();
+                if(chatBean.nTargetId.equals(temp.nTargetId)){
+                    lastIter.remove();
+                    hasRepeat = true;
+                }
+            }
+        }
+
+        if(hasRepeat){
+            for(int i=0;i<10;i++){
+                chatBeanList.remove(chatBeanList.size()-1);
+            }
+            chatBeanList.addAll(lastPageChatList);
+        }
+
+
+        for(int i=0;i<chatBeanList.size();i++){
+            Log.e("test","after repeat id:" + chatBeanList.get(i).nTargetId);
+        }
+
+    }
 }

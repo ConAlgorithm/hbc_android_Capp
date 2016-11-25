@@ -149,6 +149,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         setContentView(R.layout.fg_city_new);
         ButterKnife.bind(this);
 
+        initView();
     }
 
     private void showSearchPop(List<SearchGroupBean> list) {
@@ -475,7 +476,6 @@ public class ChooseCityNewActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        initView();
         genHistoryCity();
     }
 
