@@ -29,6 +29,7 @@ import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
@@ -38,6 +39,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateListItemView;
 import com.hugboga.custom.widget.GuideDetailCarInfoView;
 import com.hugboga.custom.widget.GuideDetailScrollView;
+import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.widget.SimpleRatingBar;
 import com.hugboga.custom.widget.TagGroup;
 
@@ -369,7 +371,15 @@ public class GuideDetailActivity extends BaseActivity{
                 CommonUtils.shareDialog(this, data.avatar,
                         getString(R.string.guide_detail_share_title),
                         getString(R.string.guide_detail_share_content),
-                        ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(this)));
+                        ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(this)),
+                        GuideDetailActivity.class.getSimpleName(),
+                        new ShareDialog.OnShareListener() {
+                            @Override
+                            public void onShare(int type) {
+                                StatisticClickEvent.clickShare(StatisticConstant.SHARE_KANJIA, type == 1 ? "微信好友" : "朋友圈");
+                            }
+                        });
+
                 MobClickUtils.onEvent(StatisticConstant.SHAREG);
                 break;
         }

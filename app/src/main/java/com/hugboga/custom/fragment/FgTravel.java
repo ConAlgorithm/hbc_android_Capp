@@ -35,6 +35,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 
@@ -283,6 +285,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), TravelFundActivity.class);
                 getContext().startActivity(intent);
+                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
             }
         });
         adapter.addFooterView(footerView);

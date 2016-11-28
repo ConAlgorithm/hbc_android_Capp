@@ -169,6 +169,7 @@ public class StatisticConstant {
     public static final String LAUNCH_GPROFILE = "07_launch_Gprofile";            // 0司导个人页展开
     public static final String CLICK_TRAVELFOUND_SY = "05_click_travelfound_sy";  // 首页点击旅行基金
     public static final String CLICK_TRAVELFOUND_WD = "05_click_travelfound_wd";  // 个人中心点击旅行基金
+    public static final String CLICK_TRAVELFOUND_XC = "05_click_travelfound_xc";  // 行程点击旅行基金（送你30元+更多）
 
     public static final String LAUNCH_KANJIA = "06_launch_kanjia";                // 展示砍价活动
     public static final String CLICK_KANJIA = "06_click_kanjia";                  // 点击砍价
@@ -185,4 +186,6 @@ public class StatisticConstant {
     public static final String PLAY_VIDEO="01_playvideo";                           //点击播放视频
 
     public static final String SHAREG = "07_shareG";                                // 在司导个人页点击分享司导
+    public static final String SHAREG_TYPE = "07_shareG_type";                      // 在司导个人页，分享浮层中点击微信好友或朋友圈
+
 }
