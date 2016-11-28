@@ -217,7 +217,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserEntity.getUser().setNimUserId(activity,user.nimUserId);
             UserEntity.getUser().setNimUserToken(activity,user.nimToken);
 
-            connectIM();
+            //connectIM();
             Unicorn.setUserInfo(null);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
 

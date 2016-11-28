@@ -160,13 +160,13 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      * 新的会话消息同步更新
      * @param list
      */
-    public boolean syncNewMsgUpdate(List<RecentContact> list){
-        boolean refresh = false;
+    public List<String> syncNewMsgUpdate(List<RecentContact> list){
+        List<String> newTargetIds = null;
         if(datas!=null){
-            refresh = NimRecentListSyncUtils.updateRecentSync(datas,list);
+            newTargetIds = NimRecentListSyncUtils.updateRecentSync(datas,list);
             notifyDataSetChanged();
         }
-        return  refresh;
+        return  newTargetIds;
     }
 
 }

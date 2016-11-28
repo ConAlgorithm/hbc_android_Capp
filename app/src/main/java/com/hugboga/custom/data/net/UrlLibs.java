@@ -224,7 +224,6 @@ public class UrlLibs {
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息
     public static final String SERVER_IP_NIM_TOKEN_UPDATE   = "communication/v3.0/c/im/token";                          // 获取云信token
     public static final String GET_CHAT_ID                  = "communication/v3.0/c/im/chat/info";                      // 获取chat/info
-    public static final String SERVER_IP_IM_UPDATE          = "communication/v2.0/c/im/clear";                          // IM 通知更新为已读 ??? 3.0
     public static final String SERVER_IP_NIM_UPDATE         = "communication/v3.0/c/im/clear";                          // 云信通知更新为已读
     public static final String SERVER_IP_PUSH_TOKEN         = "communication/v2.0/c/push/token";                        // 获取用户注册信息 - 注册极光别名时调用该接口进行反馈（Android + IOS）
     public static final String SERVER_IP_PUSH_CLICK         = "communication/v2.0/c/push/click";                        // APP收到的push被点击时，调用该接口进行反馈（Android + IOS）
@@ -235,12 +234,9 @@ public class UrlLibs {
     public static final String ADD_NIM_BLACK                = "communication/v3.0/c/im/black/add";                      // 云信私聊对象加入黑名单
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单
 
-    public static final String SERVER_IP_CHAT_LIST          = "communication/v2.0/c/im/list";                           // 聊天
-    public static final String REMOVE_CHAT                  = "communication/v2.0/c/im/chat/remove";                    // 私聊列表删除对话接口
-    public static final String ADD_BLACK                    = "communication/v2.0/c/im/black/add";                      // 私聊对象加入黑名单
-    public static final String REMOVE_BLACK                 = "communication/v2.0/c/im/black/remove";                   // 私聊对象移出黑名单
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
 
+    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                  // 聊天列表订单信息
 }

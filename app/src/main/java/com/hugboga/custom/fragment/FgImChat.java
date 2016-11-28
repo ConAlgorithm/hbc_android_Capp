@@ -5,19 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
-import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -32,23 +26,19 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.adapter.ChatAdapter;
-import com.hugboga.custom.adapter.LetterOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestChatList;
+import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.data.request.RequestNIMRemoveChat;
-import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.NimRecentListSyncUtils;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
@@ -56,13 +46,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
-import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
@@ -425,6 +411,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                //if(NIMClient.)
                 NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override
                     public void onResult(int code, final List<RecentContact> recents, Throwable exception) {
@@ -480,15 +467,49 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
-        public void onEvent(List<RecentContact> messages) {
+        public void onEvent(final List<RecentContact> messages) {
             if (messages != null && adapter != null) {
-                boolean hasNewContacts = adapter.syncNewMsgUpdate(messages);
+                List<String> newContacts = adapter.syncNewMsgUpdate(messages);
                 if (recyclerView != null && recyclerView.getAdapter() != null) {
                     recyclerView.getAdapter().notifyDataSetChanged();
                     computeTotalUnreadCount(adapter.getDatas());
                 }
-                if (hasNewContacts) {
-                    loadData();
+                if (newContacts!=null && newContacts.size()>0) {
+                    for(int i=0;i<newContacts.size();i++){
+                        RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(),newContacts.get(i));
+                        HttpRequestUtils.request(getContext(), requestChatOrderDetail, new HttpRequestListener() {
+                            @Override
+                            public void onDataRequestSucceed(BaseRequest request) {
+                                ChatBean chatBean = (ChatBean) request.getData();
+                                if(messages!=null && messages.size()>0){
+                                    for(RecentContact recentContact:messages){
+                                        if(recentContact.getContactId().toLowerCase().equals(chatBean.nTargetId.toLowerCase())){
+                                            chatBean.message = recentContact.getContent();
+                                            chatBean.imCount = recentContact.getUnreadCount();
+                                            chatBean.timeStamp = recentContact.getTime();
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(adapter!=null && adapter.getDatas()!=null){
+                                    adapter.getDatas().add(chatBean);
+                                    NimRecentListSyncUtils.sortRecentContacts(adapter.getDatas());
+                                    computeTotalUnreadCount(adapter.getDatas());
+                                    adapter.notifyDataSetChanged();
+                                    if(recyclerView!=null && recyclerView.getAdapter()!=null){
+                                        recyclerView.getAdapter().notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onDataRequestCancel(BaseRequest request) {
+                            }
+
+                            @Override
+                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                            }
+                        });
+                    }
                 }
             }
 

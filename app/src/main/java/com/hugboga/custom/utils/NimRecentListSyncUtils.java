@@ -54,7 +54,7 @@ public class NimRecentListSyncUtils {
 //                iter.remove();
 //            }
         }
-        //sortRecentContacts(chatBeanList);
+        sortRecentContacts(chatBeanList);
     }
 
 
@@ -74,7 +74,7 @@ public class NimRecentListSyncUtils {
                 }
             }
         }
-        // sortRecentContacts(chatBeans);
+        sortRecentContacts(chatBeans);
         return -1;
     }
 
@@ -84,11 +84,12 @@ public class NimRecentListSyncUtils {
      * @param chatBeens
      * @param messages
      */
-    public static boolean updateRecentSync(List<ChatBean> chatBeens, List<RecentContact> messages) {
+    public static List<String> updateRecentSync(List<ChatBean> chatBeens, List<RecentContact> messages) {
         if (messages == null || messages.size() == 0) {
-            return false;
+            return null;
         }
-        boolean hasNewContact = false;
+        //boolean hasNewContact = false;
+        List<String> targetIds = null;
         for (RecentContact recentContact : messages) {
             boolean flag = false;
             for (ChatBean chatBean : chatBeens) {
@@ -105,10 +106,14 @@ public class NimRecentListSyncUtils {
                 }
             }
             if (!flag) {
-                hasNewContact = true;
+                if(targetIds==null){
+                    targetIds = new ArrayList<>();
+                }
+                targetIds.add(recentContact.getContactId().toLowerCase());
             }
         }
-        return hasNewContact;
+        sortRecentContacts(chatBeens);
+        return targetIds;
         //sortRecentContacts(chatBeens);
     }
 
@@ -129,7 +134,7 @@ public class NimRecentListSyncUtils {
     /**
      * **************************** 排序 ***********************************
      */
-    private static void sortRecentContacts(List<ChatBean> list) {
+    public static void sortRecentContacts(List<ChatBean> list) {
         if (list.size() == 0) {
             return;
         }

@@ -56,7 +56,6 @@ public class NimUserInfoCache {
         if (TextUtils.isEmpty(account)) {
             return;
         }
-
         if (requestUserInfoMap.containsKey(account)) {
             if (callback != null) {
                 requestUserInfoMap.get(account).add(callback);

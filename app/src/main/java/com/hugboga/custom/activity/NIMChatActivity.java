@@ -5,20 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -38,18 +34,13 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestApiFeedback;
-import com.hugboga.custom.data.request.RequestBlackMan;
-import com.hugboga.custom.data.request.RequestIMClear;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
 import com.hugboga.custom.data.request.RequestNIMClear;
 import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
-import com.hugboga.custom.data.request.RequestUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -743,10 +734,10 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
             }
             if (code.wontAutoLogin()) {
-                IMUtil.getInstance().connect();
+                //IMUtil.getInstance().connect();
                 if(emptyView!=null){
                     emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText("聊天账号被踢出登录，正在重新登录...");
+                    emptyView.setText("聊天账号被踢出登录");
                 }
             } else {
                 if (code == StatusCode.NET_BROKEN) {
