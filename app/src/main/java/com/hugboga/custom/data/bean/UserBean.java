@@ -90,5 +90,8 @@ public class UserBean implements IBaseBean {
         //UserEntity.getUser().setRimUserId(context,rimUserId);
         UserEntity.getUser().setNimUserId(context,nimUserId);
         UserEntity.getUser().setNimUserToken(context,nimToken);
+
+        UserEntity.getUser().setGender(context, getGenderStr());
+        UserEntity.getUser().setAgeType(context, getAgeStr());
     }
 }

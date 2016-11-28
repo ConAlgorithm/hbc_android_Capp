@@ -1,5 +1,6 @@
 package com.hugboga.custom.data.bean;
 
+import com.google.gson.annotations.SerializedName;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 

@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.HomeBannerView;
 import com.hugboga.custom.widget.HomeChoicenessRouteView;
@@ -20,7 +21,6 @@ import com.hugboga.custom.widget.HomeHotCityView;
 import com.hugboga.custom.widget.HomeScrollView;
 import com.hugboga.custom.widget.HomeSearchView;
 import com.hugboga.custom.widget.HomeTravelStoriesView;
-
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -67,6 +67,7 @@ public class FgHome extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        setSensorsDefaultEvent("首页", SensorsConstant.DISCOVERY);
         return rootView;
     }
 
@@ -76,7 +77,6 @@ public class FgHome extends BaseFragment {
         if (bannerView != null) {
             bannerView.onDestroy();
         }
-        
     }
 
     @Override

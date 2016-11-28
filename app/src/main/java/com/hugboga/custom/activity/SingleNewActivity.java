@@ -50,10 +50,14 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.MoneyTextView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -177,10 +181,50 @@ public class SingleNewActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         initView();
         initHeader();
-
+        setSensorsEvent();
     }
 
+    //神策统计_初始页浏览
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("sku_type", "单次接送");
+            properties.put("refer", source);
+            SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            int total = carBean.price;
+            if (null != manLuggageBean) {
+                int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
+                int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                total += seat1Price + seat2Price;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("sku_type", "单次接送");
+            properties.put("is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
+            properties.put("adultNum", manLuggageBean.mans + "");// 出行成人数
+            properties.put("childNum", manLuggageBean.childs + "");// 出行儿童数
+            properties.put("childseatNum", manLuggageBean.childSeats + "");// 儿童座椅数
+            properties.put("car_type", carBean.desc);//车型选择
+            properties.put("price_total", total);//费用总计
+            properties.put("distance", carListBean.distance + "");// 全程公里数
+            properties.put("geton_time", serverDate + " " + serverTime);// 出发时间
+            properties.put("geton_location", startBean.placeName);// 出发地
+            properties.put("dest_location", arrivalBean.placeName);// 送达地
+            properties.put("service_city", cityBean.name);// 用车城市
+            SensorsDataAPI.sharedInstance(this).track("buy_confrim", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void initHeader() {
         headerTitle.setText("单次接送");
@@ -613,11 +657,13 @@ public class SingleNewActivity extends BaseActivity {
 
         bundle.putSerializable("manLuggageBean", manLuggageBean);
 
-        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,source,carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
         Intent intent = new Intent(activity,OrderNewActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
         intent.putExtras(bundle);
         startActivity(intent);
+
+        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,source,carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
+        setSensorsConfirmEvent();
     }
 
     FragmentManager fm;

@@ -17,6 +17,7 @@ import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -156,5 +157,6 @@ public class ShareGuidesActivity extends BaseActivity{
                 , evaluateData.wechatShareTitle
                 , evaluateData.wechatShareContent
                 , shareUrl);
+        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "司导");
     }
 }

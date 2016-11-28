@@ -164,9 +164,12 @@ public class StatisticConstant {
     public static final String CLICK_SKIP_ACTIVITY = "06_click_skip_activity";   // 0启动页点击跳过活动
 
     // MARK: 07_司导
-    public static final String COLLECTG = "07_collectG";                     // 0点击收藏司导
-    public static final String LAUNCH_COLLCTGLIST = "07_launch_collctGlist"; // 0我收藏的司导展示
-    public static final String LAUNCH_GPROFILE = "07_launch_Gprofile";       // 0司导个人页展开
+    public static final String COLLECTG = "07_collectG";                          // 0点击收藏司导
+    public static final String LAUNCH_COLLCTGLIST = "07_launch_collctGlist";      // 0我收藏的司导展示
+    public static final String LAUNCH_GPROFILE = "07_launch_Gprofile";            // 0司导个人页展开
+    public static final String CLICK_TRAVELFOUND_SY = "05_click_travelfound_sy";  // 首页点击旅行基金
+    public static final String CLICK_TRAVELFOUND_WD = "05_click_travelfound_wd";  // 个人中心点击旅行基金
+    public static final String CLICK_TRAVELFOUND_XC = "05_click_travelfound_xc";  // 行程点击旅行基金（送你30元+更多）
 
     public static final String LAUNCH_KANJIA = "06_launch_kanjia";                // 展示砍价活动
     public static final String CLICK_KANJIA = "06_click_kanjia";                  // 点击砍价
@@ -181,4 +184,8 @@ public class StatisticConstant {
     public static final String GSCREEN_TRIGGER="01_Gscreen_trigger";                //触发商品筛选
     public static final String GSCREEN_CLICK="01_Gscreen_click";                    //点击商品筛选值
     public static final String PLAY_VIDEO="01_playvideo";                           //点击播放视频
+
+    public static final String SHAREG = "07_shareG";                                // 在司导个人页点击分享司导
+    public static final String SHAREG_TYPE = "07_shareG_type";                      // 在司导个人页，分享浮层中点击微信好友或朋友圈
+
 }

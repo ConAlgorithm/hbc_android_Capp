@@ -12,6 +12,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.widget.ZListView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +60,8 @@ public class CollectGuideListActivity extends BaseActivity{
         listView.setonLoadListener(onLoadListener);
 
         sendRequest();
+
+        setSensorsDefaultEvent("收藏司导列表", SensorsConstant.COLLCTGLIST);
     }
 
     @Override
