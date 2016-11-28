@@ -733,6 +733,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
     }
 
+    
     /**
      * 用户状态变化
      */
@@ -743,7 +744,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
             }
             if (code.wontAutoLogin()) {
-                IMUtil.getInstance().connect();
+                //IMUtil.getInstance().connect();
                 if(emptyView!=null){
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText("聊天账号被踢出登录，正在重新登录...");
