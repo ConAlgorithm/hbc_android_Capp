@@ -33,6 +33,7 @@ import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventPayResult;
 import com.hugboga.custom.statistic.event.EventPayShow;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
@@ -72,6 +73,8 @@ public class ChoosePaymentActivity extends BaseActivity {
     public RequestParams requestParams;
 
     public static class RequestParams implements Serializable {
+        public int orderType;
+        public boolean isSelectedGuide;
         public String orderId;
         public double shouldPay;
         public String couponId;
@@ -229,7 +232,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             ServerException exception = (ServerException) errorInfo.exception;
             if (exception.getCode() == 2) {
                 mDialogUtil.showLoadingDialog();
-                mHandler.sendEmptyMessageDelayed(1, 3000);
+                mHandler.sendEmptyMessage(2);
                 return;
             }
         }
@@ -273,6 +276,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);
+            setSensorsPayResultEvent(payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付", msg.what == 1);
         }
     };
 
@@ -336,5 +340,17 @@ public class ChoosePaymentActivity extends BaseActivity {
             return true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void setSensorsPayResultEvent(String payMethod, boolean payResult) {
+        if (requestParams == null) {
+            return;
+        }
+        SensorsUtils.setSensorsPayResultEvent(requestParams.orderType
+                , requestParams.isSelectedGuide
+                , "" + requestParams.shouldPay
+                , payMethod
+                , requestParams.orderId
+                , payResult);
     }
 }

@@ -37,6 +37,7 @@ import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -174,6 +175,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         listView.setOnItemClickListener(this);
 
         refreshContent();
+
+        setSensorsDefaultEvent("个人中心", SensorsConstant.USERCENTER);
     }
 
     public void refreshUserInfo() {
@@ -240,6 +243,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 Intent intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));
                 startActivity(intent);
+                setSensorsDefaultEvent("活动列表", SensorsConstant.ACTLIST);
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
@@ -292,6 +296,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     intent = new Intent(getContext(), TravelFundActivity.class);
                     startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
+                    MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
                 }
                 break;
         }

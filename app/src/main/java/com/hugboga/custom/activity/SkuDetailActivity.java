@@ -35,7 +35,6 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.GoodsSec;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -44,16 +43,21 @@ import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
@@ -217,9 +221,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                             }
                             webAgent.setSkuItemBean(skuItemBean);
                         }
+                        setSensorsEvent();
                     }
                 }
             }, isShowLoading);
+        } else {
+            setSensorsEvent();
         }
     }
 
@@ -269,19 +276,13 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     bundle.putSerializable(SkuDetailActivity.WEB_CITY, cityBean);
                 }
                 bundle.putString("source", source);
-//                startFragment(new FgSkuSubmit(), source);
-//                startFragment(new FgSkuNew(), bundle);
 
                 Intent intent = new Intent(activity,SkuNewActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
                 intent.putExtras(bundle);
                 startActivity(intent);
 
-//                if (cityBean != null) {
-//                    map.put("routecity", cityBean.name);
-//                }
                 map.put("routename", skuItemBean.goodsName);
-//                map.put("quoteprice", skuItemBean.goodsMinPrice);
                 int countResult = 0;
                 try {
                     countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
@@ -289,6 +290,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     LogUtil.e(e.toString());
                 }
                 MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
+                setSensorsOnClickEvent();
                 break;
             case R.id.goto_little_helper:
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
@@ -479,6 +481,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        setSensorsShowEvent();
     }
 
     @Override
@@ -503,6 +506,65 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     }
                 }
                 break;
+        }
+    }
+
+    //神策统计_浏览页面
+    private void setSensorsShowEvent() {
+        try {
+            String skuId = "";
+            if (skuItemBean != null) {
+                skuId = skuItemBean.goodsNo;
+            } else {
+                skuId = goodsNo;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("web_title", "商品详情页");
+            properties.put("web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuId);
+            SensorsDataAPI.sharedInstance(this).track("page_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_浏览商品线路
+    private void setSensorsEvent() {
+        try {
+            if (skuItemBean == null) {
+                return;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            properties.put("sku_id", skuItemBean.goodsNo);
+            properties.put("sku_name", skuItemBean.goodsName);
+            properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("city_name", skuItemBean.depCityName);
+            properties.put("price_average", skuItemBean.perPrice);
+            SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_商品进入下单
+    private void setSensorsOnClickEvent() {
+        try {
+            if (skuItemBean == null) {
+                return;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("sku_id", skuItemBean.goodsNo);
+            properties.put("sku_name", skuItemBean.goodsName);
+            properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

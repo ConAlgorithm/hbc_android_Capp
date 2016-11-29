@@ -41,11 +41,15 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -78,11 +82,40 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        appLaunchCount();
+
         UIUtils.initDisplayConfiguration(LoadingActivity.this);
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
         MobclickAgent.startWithConfigure(config);
 
         schemeIntent(getIntent());
+
+        setSensorsEvent();
+    }
+
+    private void appLaunchCount() {
+        int count = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
+        SharedPre.setInteger(SharedPre.APP_LAUNCH_COUNT, ++count);
+    }
+
+    private void setSensorsEvent() {
+        try {
+            // 公共属性
+            final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
+            if (appLaunchCount <= 1) {
+                JSONObject publicProperties = new JSONObject();
+                publicProperties.put("is_frist_time", true);
+                SensorsDataAPI.sharedInstance(this).registerSuperProperties(publicProperties);
+            }
+            //启动APP
+            JSONObject properties = new JSONObject();
+            properties.put("channelId", BuildConfig.FLAVOR);
+            SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

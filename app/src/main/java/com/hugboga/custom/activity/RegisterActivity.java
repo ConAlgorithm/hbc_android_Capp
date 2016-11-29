@@ -32,9 +32,12 @@ import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -111,6 +114,8 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
         phoneEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
+
+        setSensorsDefaultEvent("注册页", SensorsConstant.REGIST);
     }
 
     @Override
@@ -217,7 +222,16 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 UserEntity.getUser().setNickname(this, userBean.nickname);
                 UserEntity.getUser().setAvatar(this, userBean.avatar);
                 UserEntity.getUser().setOrderPoint(this, 0); //清空IM未读的小红点
+                UserEntity.getUser().setGender(this, userBean.getGenderStr());
+                UserEntity.getUser().setAgeType(this, userBean.getAgeStr());
                 showTip("登录成功");
+
+                try {
+                    SensorsDataAPI.sharedInstance(this).login(userBean.userID);
+                } catch (InvalidDataException e) {
+                    e.printStackTrace();
+                }
+
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
                 EventBus.getDefault().post(

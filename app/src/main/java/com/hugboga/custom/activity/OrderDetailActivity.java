@@ -36,6 +36,7 @@ import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -206,6 +207,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
+                    setSensorsPayResultEvent();
                 }
             }
         }
@@ -262,6 +264,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     requestParams.source = source;
                     requestParams.couponId = couponId;
                     requestParams.eventPayBean = eventPayBean;
+                    requestParams.orderType = orderBean.orderType;
+                    requestParams.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
                     intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, requestParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -513,6 +517,18 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public String getEventSource() {
         return "订单详情";
+    }
+
+    private void setSensorsPayResultEvent() {
+        if (orderBean == null || orderBean.orderPriceInfo == null) {
+            return;
+        }
+        SensorsUtils.setSensorsPayResultEvent(orderBean.orderType
+                , !TextUtils.isEmpty(orderBean.guideCollectId)
+                , "" + orderBean.orderPriceInfo.actualPay
+                , "支付宝"
+                , orderBean.orderNo
+                , true);
     }
 
 }

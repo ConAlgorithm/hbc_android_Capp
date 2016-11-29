@@ -35,6 +35,7 @@ import com.hugboga.custom.data.request.RequestRouteCityHomeList;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UIUtils;
@@ -45,9 +46,13 @@ import com.hugboga.custom.widget.CityHomeListItemFree;
 import com.hugboga.custom.widget.CityHomeListItemWorry;
 import com.hugboga.custom.widget.CityPlaceHolderView;
 import com.hugboga.custom.widget.SkuListEmptyView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
@@ -136,8 +141,78 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
 
         initView();
 
-        if (!EventBus.getDefault().isRegistered(this))
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+        }
+
+        setSensorsShowEvent();
+    }
+
+    //神策统计_浏览页面
+    private void setSensorsShowEvent() {
+        try {
+            if (paramsData == null) {
+                return;
+            }
+            final String id = "" + paramsData.id;
+            JSONObject properties = new JSONObject();
+            String webTitle = "";
+            String webUrl = SensorsConstant.CITIES;
+            switch (paramsData.cityHomeType) {
+                case CITY:
+                    webTitle = "城市";
+                    webUrl += "?city_id=";
+                    break;
+                case ROUTE:
+                    webTitle = "线路圈页";
+                    webUrl += "?linegroup_id=";
+                    break;
+                case COUNTRY:
+                    webTitle = "国家";
+                    webUrl += "?country_id=";
+                    break;
+            }
+            webUrl += id;
+            properties.put("web_title", webTitle);
+            properties.put("web_url", webUrl);
+            SensorsDataAPI.sharedInstance(this).track("page_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_浏览城市
+    private void setSensorsEvent() {
+        try {
+            if (paramsData == null || cityHomeBean == null) {
+                return;
+            }
+            final String id = "" + paramsData.id;
+            //浏览城市
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            switch (paramsData.cityHomeType) {
+                case CITY:
+                    properties.put("city_id", id);
+                    properties.put("city_name", cityHomeBean.cityContent.cityName);
+                    break;
+                case ROUTE:
+                    properties.put("linegroup_id", id);
+                    properties.put("linegroup_name", cityHomeBean.lineGroupContent.lineGroupName);
+                    break;
+                case COUNTRY:
+                    properties.put("country_id", id);
+                    properties.put("country_name", cityHomeBean.countryContent.countryName);
+                    break;
+            }
+            SensorsDataAPI.sharedInstance(this).track("view_citis", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void backEvent() {
@@ -528,6 +603,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         adapter.addData(cityHomeBean.goodsSecList, !isFirstRequest);
         swipeRefreshLayout.setRefreshing(false);
         isLoading = false;
+
+        setSensorsEvent();
     }
 
     @Override
