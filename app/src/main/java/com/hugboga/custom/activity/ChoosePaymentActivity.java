@@ -117,6 +117,12 @@ public class ChoosePaymentActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+    }
+
     private void initView() {
         initDefaultTitleBar();
         fgTitle.setText(getString(R.string.choose_payment_title));

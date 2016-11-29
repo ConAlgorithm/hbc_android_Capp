@@ -3,6 +3,8 @@ package com.hugboga.custom.wxapi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
@@ -35,6 +37,12 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         api.handleIntent(getIntent(), this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override

@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -163,6 +164,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             ActionController actionFactory = ActionController.getInstance(this);
             actionFactory.doAction(actionBean);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     private void checkVersion() {
