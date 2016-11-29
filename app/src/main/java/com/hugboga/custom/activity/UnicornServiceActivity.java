@@ -101,6 +101,7 @@ public class UnicornServiceActivity extends BaseActivity{
         public static final int TYPE_CHARTERED = 0x001; // 自定义包车游
         public static final int TYPE_LINE = 0x002;      // 固定线路、推荐线路
         public static final int TYPE_ORDER = 0x003;     // 订单信息
+        public static final int TYPE_CHAT_LIST = 0x004; // im_list
 
         /*
         * 返回请求所需的type(API_SERVICE_QUESTION_LIST)
@@ -110,6 +111,7 @@ public class UnicornServiceActivity extends BaseActivity{
             int result = 3;
             switch (_type) {
                 case TYPE_DEFAULT:
+                case TYPE_CHAT_LIST:
                     result = 3;
                     break;
                 case TYPE_CHARTERED:

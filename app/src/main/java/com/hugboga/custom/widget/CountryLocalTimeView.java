@@ -89,7 +89,7 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         }
 
         String timeDiffStr = "与北京没有时差，看到消息后我会立即回复，谢谢";
-        if (timediff > 0) {
+        if (Math.abs(timediff) != 0) {
             timeDiffStr = String.format("与北京有%1$s小时时差，看到消息后我会立即回复，谢谢", "" + Math.abs(timediff));
         }
         timeDiffTV.setText(timeDiffStr);

@@ -74,6 +74,9 @@ public class ServiceQuestionActivity extends BaseActivity{
     }
 
     private void unreadMsg() {
+        if (params == null || params.sourceType != UnicornServiceActivity.SourceType.TYPE_CHAT_LIST) {
+            return;
+        }
         int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
         if (unreadCount > 0) {
             AlertDialogUtils.showAlertDialog(activity, "您有未读的客服消息，前去查看？",
@@ -86,7 +89,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                             Intent intent = new Intent(ServiceQuestionActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             startActivity(intent);
-                            finish();
+                            ServiceQuestionActivity.this.finish();
                             dialog.dismiss();
                         }
                     }, new DialogInterface.OnClickListener() {
@@ -190,7 +193,6 @@ public class ServiceQuestionActivity extends BaseActivity{
             return;
         }
         Intent intent = new Intent(this, UnicornServiceActivity.class);
-        params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
     }
