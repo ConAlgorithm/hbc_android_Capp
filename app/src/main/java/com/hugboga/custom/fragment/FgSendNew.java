@@ -579,7 +579,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             properties.put("geton_time", serverDate + " " + serverTime);// 出发时间
             properties.put("geton_location", poiBean.placeName);// 出发地
             properties.put("is_checkin", checkInChecked);// 是否协助登机checkin
-            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

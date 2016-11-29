@@ -220,7 +220,7 @@ public class SingleNewActivity extends BaseActivity {
             properties.put("geton_location", startBean.placeName);// 出发地
             properties.put("dest_location", arrivalBean.placeName);// 送达地
             properties.put("service_city", cityBean.name);// 用车城市
-            SensorsDataAPI.sharedInstance(this).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

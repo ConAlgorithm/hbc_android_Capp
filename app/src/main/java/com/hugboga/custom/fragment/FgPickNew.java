@@ -637,7 +637,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             properties.put("geton_time", flightBean.arrivalTime);// 出发时间
             properties.put("dest_location", poiBean.placeName);// 送达地
             properties.put("is_pickUp", checkInChecked);// 是否接机举牌等待
-            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

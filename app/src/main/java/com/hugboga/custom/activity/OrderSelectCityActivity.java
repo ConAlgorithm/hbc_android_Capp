@@ -903,7 +903,7 @@ public class OrderSelectCityActivity extends BaseActivity {
             properties.put("end_time", isHalfTravel ? (halfDate) : (end_date_str));// 结束日期
             properties.put("service_city", startBean.name); // 用车城市
             properties.put("total_days", isHalfTravel ? 0.5 : nums);// 游玩天数
-            SensorsDataAPI.sharedInstance(this).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

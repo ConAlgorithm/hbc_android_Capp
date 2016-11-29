@@ -104,28 +104,26 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             routeView.update(orderBean.passByCity);
         }
 
-        if (!TextUtils.isEmpty(orderBean.startAddress)) {//出发地
+        //出发地
+        if (!TextUtils.isEmpty(orderBean.startAddress)) {
             addItemView(R.mipmap.order_place, orderBean.startAddress, null, orderBean.startAddressDetail);
         }
 
-        if (!TextUtils.isEmpty(orderBean.destAddress) && orderBean.orderType != 3) {//目的地
+        //目的地
+        if (!TextUtils.isEmpty(orderBean.destAddress) && orderBean.orderType != 3) {
             addItemView(R.mipmap.order_flag, orderBean.destAddress, null, orderBean.destAddressDetail);
         }
 
-        if (!TextUtils.isEmpty(orderBean.carDesc)) {//车型描述
-            String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, "" + (orderBean.adult + orderBean.child));//座位总数
-            if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
-                passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, "" + orderBean.childSeats.getChildSeatCount());
-            }
+        //车型描述
+        String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, "" + (orderBean.adult + orderBean.child));//座位总数
+        if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
+            passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, "" + orderBean.childSeats.getChildSeatCount());
+        }
+        if (orderBean.carPool) {//拼车
+            addCarDescView(R.mipmap.order_passanger, passengerInfos, null);
+        } else if (!TextUtils.isEmpty(orderBean.carDesc)) {
             passengerInfos = getContext().getString(R.string.order_detail_seat_info, passengerInfos);
-            LinearLayout itemView = addItemView(R.mipmap.order_car, orderBean.carDesc, passengerInfos, null);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            params.leftMargin = UIUtils.dip2px(25);
-            params.topMargin = UIUtils.dip2px(2);
-            params.bottomMargin = UIUtils.dip2px(2);
-            LuggageItemLayout luggageItemLayout = new LuggageItemLayout(getContext());
-            itemView.addView(luggageItemLayout, params);
-            luggageItemLayout.setText(CommonUtils.getCountString(orderBean.luggageNum) + getContext().getString(R.string.piece));//可携带行李数
+            addCarDescView(R.mipmap.order_car, orderBean.carDesc, passengerInfos);
         }
 
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
@@ -134,7 +132,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_checkin));
         }
 
-        if (orderBean.hotelStatus == 1) {//酒店预订
+        //酒店预订
+        if (orderBean.hotelStatus == 1) {
             addItemView(R.mipmap.order_jd, getContext().getString(R.string.order_detail_hotle_subscribe, "" + orderBean.hotelDays, "" + orderBean.hotelRoom));
         }
     }
@@ -187,6 +186,17 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         VerticalImageSpan span = new VerticalImageSpan(drawable);
         spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannable;
+    }
+
+    private void addCarDescView(int iconId, String title, String subtitle) {
+        LinearLayout itemView = addItemView(iconId, title, subtitle, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.leftMargin = UIUtils.dip2px(25);
+        params.topMargin = UIUtils.dip2px(2);
+        params.bottomMargin = UIUtils.dip2px(2);
+        LuggageItemLayout luggageItemLayout = new LuggageItemLayout(getContext());
+        itemView.addView(luggageItemLayout, params);
+        luggageItemLayout.setText(CommonUtils.getCountString(orderBean.luggageNum) + getContext().getString(R.string.piece));//可携带行李数
     }
 
     @Override
