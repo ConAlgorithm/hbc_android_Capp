@@ -75,7 +75,7 @@ public class MyApplication extends HbcApplication {
     //   SensorsDataAPI.DebugMode.DEBUG_ONLY - 打开 Debug 模式，校验数据，但不进行数据导入
     //   SensorsDataAPI.DebugMode.DEBUG_AND_TRACK - 打开 Debug 模式，校验数据，并将数据导入到 Sensors Analytics 中
     // 注意！请不要在正式发布的 App 中使用 Debug 模式！
-    final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_OFF;
+    final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_AND_TRACK;
 
     @Override
     public void onCreate() {
@@ -225,10 +225,10 @@ public class MyApplication extends HbcApplication {
         // 公共属性
         try {
             JSONObject properties = new JSONObject();
-            properties.put("plateform_type", "Android");        // 平台类型
-            properties.put("version", BuildConfig.VERSION_NAME);// C端产品版本
-            properties.put("$utm_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
-            properties.put("user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_plateform_type", "Android");        // 平台类型
+            properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
+            properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -131,12 +131,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
             properties.put("hbc_id", userEntity.getUserId(context));
-            properties.put("gender", userEntity.getGender(context));
-            properties.put("age", userEntity.getAgeType(context));
-            properties.put("phone", userEntity.getPhone(context));
-            properties.put("realname", userEntity.getUserName(context));
+            properties.put("hbc_gender", userEntity.getGender(context));
+            properties.put("hbc_age", userEntity.getAgeType(context));
+            properties.put("hbc_phone", userEntity.getPhone(context));
+            properties.put("hbc_realname", userEntity.getUserName(context));
             // 设定用户属性
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).profileSet(properties);
         } catch (InvalidDataException e) {

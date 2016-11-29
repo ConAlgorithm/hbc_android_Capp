@@ -823,15 +823,15 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             JSONObject properties = new JSONObject();
             properties.put("sku_type", "定制包车游");
             properties.put("is_appoint_guide", TextUtils.isEmpty(guideId) ? false : true);// 指定司导下单
-            properties.put("adultNum", adultNum + "");// 出行成人数
-            properties.put("childNum", childrenNum + "");// 出行儿童数
-            properties.put("childseatNum", childseatNum + "");// 儿童座椅数
+            properties.put("adultNum", adultNum);// 出行成人数
+            properties.put("childNum", childrenNum);// 出行儿童数
+            properties.put("childseatNum", childseatNum);// 儿童座椅数
             properties.put("car_type", carBean.carDesc);// 车型选择
-            properties.put("price_total", "" + (carBean.vehiclePrice + carBean.servicePrice));// 费用总计
+            properties.put("price_total", carBean.vehiclePrice + carBean.servicePrice);// 费用总计
             properties.put("start_time", startDate);// 出发日期
             properties.put("end_time", endDate);// 结束日期
             properties.put("service_city", startBean.placeName);// 用车城市
-            properties.put("total_days", isHalfTravel ? "0.5" : carBean.totalDays);// 游玩天数
+            properties.put("total_days", isHalfTravel ? 0.5 : carBean.totalDays);// 游玩天数
             SensorsDataAPI.sharedInstance(this).track("buy_r_confrim", properties);
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,6 +6,7 @@ import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.utils.CommonUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -44,7 +45,7 @@ public class SensorsUtils {
             JSONObject properties = new JSONObject();
             properties.put("sku_type", skuType);
             properties.put("is_appoint_guide", isSelectedGuide);//指定司导下单
-            properties.put("price_actually", shouldPay);//实际支付金额
+            properties.put("price_actually", CommonUtils.getCountInteger(shouldPay));//实际支付金额
             properties.put("pay_method", payMethod);//支付方式
             properties.put("order_id", orderNo);
             properties.put("pay_result", payResult);

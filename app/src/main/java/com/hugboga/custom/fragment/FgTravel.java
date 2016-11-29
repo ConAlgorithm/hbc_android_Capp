@@ -284,6 +284,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
             }

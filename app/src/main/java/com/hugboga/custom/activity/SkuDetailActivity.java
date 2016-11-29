@@ -521,6 +521,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             JSONObject properties = new JSONObject();
             properties.put("web_title", "商品详情页");
             properties.put("web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuId);
+            properties.put("refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

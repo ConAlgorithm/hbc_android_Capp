@@ -64,6 +64,7 @@ public class HomeCustomLayout extends LinearLayout{
                     break;
                 }
                 intent = new Intent(getContext(), TravelFundActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                 getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_SY);
                 break;
