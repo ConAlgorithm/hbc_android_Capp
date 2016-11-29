@@ -277,7 +277,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
-            case CLICK_USER_LOGIN:
+            //case CLICK_USER_LOGIN:
             case REFRESH_CHAT_LIST:
                 RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
                 recyclerView.setRequestData(parserChatList);
@@ -428,7 +428,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                     }
                 });
             }
-        }, 10);
+        }, 20);
     }
 
 
