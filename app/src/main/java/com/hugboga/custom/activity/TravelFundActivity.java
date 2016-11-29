@@ -25,11 +25,16 @@ import com.hugboga.custom.data.request.RequestTravelFundLogs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.ShareDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,6 +67,7 @@ public class TravelFundActivity extends BaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        setSensorsDefaultEvent("旅游基金", SensorsConstant.TRAVELFOUND);
     }
 
     @Override
@@ -164,6 +170,7 @@ public class TravelFundActivity extends BaseActivity {
                     break;
                 }
                 MobClickUtils.onEvent(StatisticConstant.CLICK_INVITE);
+                setSensorsOnClickEvent();
 
                 TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
                 String shareName = "我";
@@ -214,5 +221,17 @@ public class TravelFundActivity extends BaseActivity {
     @Override
     public String getEventId() {
         return StatisticConstant.LAUNCH_TRAVELFOUND;
+    }
+
+    protected void setSensorsOnClickEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("source", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("invite_friends", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

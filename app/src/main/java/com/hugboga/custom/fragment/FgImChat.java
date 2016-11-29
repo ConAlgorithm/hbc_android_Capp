@@ -35,6 +35,7 @@ import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.data.request.RequestNIMRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.NimRecentListSyncUtils;
@@ -113,6 +114,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         fgTitle.setLayoutParams(titleParams);
         fgTitle.setText("私聊");
         leftBtn.setVisibility(View.GONE);
+        setSensorsDefaultEvent("私聊", SensorsConstant.CHAT);
     }
 
     @Override

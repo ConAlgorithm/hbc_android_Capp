@@ -43,10 +43,14 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
@@ -108,6 +112,21 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        setSensorsEvent();
+    }
+
+    //神策统计_浏览商品线路
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("sku_type", "定制包车游");
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

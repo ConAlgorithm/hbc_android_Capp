@@ -31,6 +31,8 @@ public class UserEntity {
     private int travelFund;//旅游基金
     private int coupons;//优惠卷
 
+    public String gender;//性别
+    public String ageType;//年龄
 
 
     private String rimUserId;
@@ -184,6 +186,34 @@ public class UserEntity {
             phone = shared.getStringValue(SharedPre.PHONE);
         }
         return phone;
+    }
+
+    public void setGender(Context active, String gender) {
+        SharedPre shared = new SharedPre(active);
+        shared.saveStringValue(SharedPre.GENDER, gender);
+        this.gender = gender;
+    }
+
+    public String getGender(Context activity) {
+        if (gender == null) {
+            SharedPre shared = new SharedPre(activity);
+            gender = shared.getStringValue(SharedPre.GENDER);
+        }
+        return gender;
+    }
+
+    public void setAgeType(Context active, String ageType) {
+        SharedPre shared = new SharedPre(active);
+        shared.saveStringValue(SharedPre.AGETYPE, ageType);
+        this.ageType = ageType;
+    }
+
+    public String getAgeType(Context activity) {
+        if (ageType == null) {
+            SharedPre shared = new SharedPre(activity);
+            ageType = shared.getStringValue(SharedPre.AGETYPE);
+        }
+        return ageType;
     }
 
     public String getLoginPhone(Context activity) {

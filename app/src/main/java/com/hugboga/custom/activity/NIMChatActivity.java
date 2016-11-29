@@ -724,6 +724,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
     }
 
+    
     /**
      * 用户状态变化
      */
