@@ -102,9 +102,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
-        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null) {
-            loadData();
-        }
+
     }
 
     @Override
@@ -127,6 +125,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
         registerUserInfoObserver();
+
+        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null) {
+            loadData();
+        }
     }
 
 
