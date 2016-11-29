@@ -247,7 +247,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onPause() {
-        notifyChatList();
+        //notifyChatList();
         super.onPause();
     }
 
@@ -604,9 +604,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         });
     }
 
-    private void notifyChatList() {
-        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
-    }
+//    private void notifyChatList() {
+//        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
+//    }
 
 
     /**

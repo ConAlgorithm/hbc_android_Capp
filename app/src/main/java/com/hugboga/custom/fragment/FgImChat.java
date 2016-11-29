@@ -282,11 +282,11 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
             //case CLICK_USER_LOGIN:
-            case REFRESH_CHAT_LIST:
-                RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
-                recyclerView.setRequestData(parserChatList);
-                requestData();
-                break;
+//            case REFRESH_CHAT_LIST:
+//                RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
+//                recyclerView.setRequestData(parserChatList);
+//                requestData();
+//                break;
             case CLICK_USER_LOOUT:
                 chatLayout.setVisibility(View.GONE);
                 //清理列表数据
