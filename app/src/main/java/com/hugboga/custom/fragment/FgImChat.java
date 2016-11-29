@@ -25,6 +25,7 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.adapter.ChatAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
@@ -312,7 +313,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
         if (chatBean.targetType==3) {
-            UnicornUtils.openDefaultServiceActivity(getContext());
+            UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
         } else if (chatBean.targetType == 1) {
             if (!IMUtil.getInstance().isLogined()) {
                 return;

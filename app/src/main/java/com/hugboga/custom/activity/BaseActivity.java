@@ -152,7 +152,6 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override
