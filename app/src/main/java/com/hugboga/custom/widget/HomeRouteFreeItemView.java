@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -101,6 +102,7 @@ public class HomeRouteFreeItemView extends RelativeLayout implements HbcViewBeha
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
         intent.putExtra("goodtype",skuItemBean.goodsType);
         intent.putExtra("type","2");
+        intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
         getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_RT, "首页");
         StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT,"首页线路列表");

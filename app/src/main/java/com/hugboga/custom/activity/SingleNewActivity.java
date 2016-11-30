@@ -694,6 +694,7 @@ public class SingleNewActivity extends BaseActivity {
                 bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
             }
         }
+        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
 
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_single, fgCarNew);

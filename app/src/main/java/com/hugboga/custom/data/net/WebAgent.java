@@ -304,6 +304,9 @@ public class WebAgent implements HttpRequestListener {
                     message = json.optString("message");
                     bundle.putString(LoginActivity.KEY_AREA_CODE, countryCode);
                     bundle.putString(LoginActivity.KEY_PHONE, phone);
+                    if (mActivity instanceof BaseActivity) {
+                        bundle.putString(Constants.PARAMS_SOURCE, ((BaseActivity)mActivity).getEventSource());
+                    }
                 } catch (Exception e) {
                     MLog.e("gotoLogin", e);
                 }

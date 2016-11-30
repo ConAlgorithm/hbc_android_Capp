@@ -100,6 +100,11 @@ public class PersonInfoActivity extends BaseActivity{
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public String getEventSource() {
+        return "个人信息";
+    }
+
     private void initView() {
         if (userBean == null) {
             return;
@@ -255,7 +260,7 @@ public class PersonInfoActivity extends BaseActivity{
                     //绑定手机号
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isAfterProcess",true);
-                    bundle.putString("source","个人信息");
+                    bundle.putString("source", getEventSource());
                     intent = new Intent(PersonInfoActivity.this, BindMobileActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);

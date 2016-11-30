@@ -281,7 +281,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             if (userBean.isNotRegister == 1) {//未注册，走注册流程
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
-                bundle.putString("source", "提示弹层");
+                bundle.putString("source", getEventSource());
                 bundle.putString(BindMobileActivity.SOURCE_TYPE, "wechat");
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
                 intent.putExtras(bundle);

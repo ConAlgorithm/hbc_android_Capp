@@ -230,12 +230,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case Constants.PERSONAL_CENTER_BR://常用投保人
                 if (isLogin("个人中心-常用投保人")) {
                     Intent intent = new Intent(getContext(), InsureActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
                 if (isLogin("个人中心-收藏司导")) {
-                    startActivity(new Intent(getContext(), CollectGuideListActivity.class));
+                    Intent intent = new Intent(getContext(), CollectGuideListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
@@ -276,12 +279,14 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case R.id.tv_nickname:
                 if (isLogin("个人中心-用户信息")) {
                     intent = new Intent(getContext(), PersonInfoActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
                 if (isLogin("个人中心-优惠券")) {
                     intent = new Intent(getContext(), CouponActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
@@ -311,7 +316,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             return true;
         } else {
             Intent intent = new Intent(getContext(), LoginActivity.class);
-            intent.putExtra(Constants.PARAMS_SOURCE, source);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             getContext().startActivity(intent);
             return false;
         }

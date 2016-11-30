@@ -134,6 +134,11 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         return StatisticConstant.LAUNCH_DETAIL_R;
     }
 
+    @Override
+    public String getEventSource() {
+        return "定制包车游详情";
+    }
+
     WebChromeClient webChromeClient = new WebChromeClient() {
 
 

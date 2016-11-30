@@ -1073,6 +1073,7 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             bundle.putString("idStr", "");
                         }
+                        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
                         Intent intent = new Intent(activity,CouponActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -1279,6 +1280,7 @@ public class OrderNewActivity extends BaseActivity {
             }
         } else {
             Intent intent = new Intent(activity,LoginActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             startActivity(intent);
         }
     }
@@ -1542,10 +1544,10 @@ public class OrderNewActivity extends BaseActivity {
                     properties.put("sku_type", "推荐线路");
                     break;
             }
-            properties.put("price_total", CommonUtils.getCountInteger(orderBean.priceChannel));//费用总计
+            properties.put("price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
             properties.put("price_coupon", orderBean.coupPriceInfo);//使用优惠券
             properties.put("price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
-            int priceActual = CommonUtils.getCountInteger(orderBean.priceChannel) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
             if (priceActual < 0) {
                 priceActual = 0;
             }

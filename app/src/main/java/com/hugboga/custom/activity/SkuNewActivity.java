@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
@@ -221,7 +222,7 @@ public class SkuNewActivity extends BaseActivity {
             properties.put("childseatNum", manLuggageBean.childSeats + "");// 儿童座椅数
             properties.put("car_type", carBean.desc);//车型选择
             properties.put("price_total", total);//费用总计
-            properties.put("start_time", serverDayTime);//出发日期
+            properties.put("start_time", serverDate);//出发日期
             properties.put("sku_id", skuBean.goodsNo);//商品ID
             properties.put("sku_name", skuBean.goodsName);//商品名称
             SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
@@ -548,6 +549,7 @@ public class SkuNewActivity extends BaseActivity {
         }else{
             bundle.putInt("orderType", 6);
         }
+        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_sku, fgCarNew);
         transaction.commit();

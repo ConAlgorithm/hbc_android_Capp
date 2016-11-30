@@ -13,7 +13,9 @@ import com.bumptech.glide.request.target.Target;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.widget.ShareDialog;
 import com.ta.utdid2.android.utils.StringUtils;
@@ -216,6 +218,9 @@ public final class CommonUtils {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(context, LoginActivity.class);
+            if (context instanceof BaseActivity) {
+                intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity)context).getEventSource());
+            }
             context.startActivity(intent);
             return false;
         } else {
