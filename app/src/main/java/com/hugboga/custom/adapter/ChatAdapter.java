@@ -139,8 +139,11 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      }
 
 
-    public void syncRemoveRepeatData(){
-        NimRecentListSyncUtils.removeRepeatData(datas);
+    /**
+     * 数据会话去重
+     */
+    public void syncRemoveRepeatData(int pageSize){
+        NimRecentListSyncUtils.removeRepeatData(datas,pageSize);
     }
 
     /**
