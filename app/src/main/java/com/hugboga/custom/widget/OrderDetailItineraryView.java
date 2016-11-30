@@ -30,10 +30,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     private LinearLayout itineraryLayout;
     private TextView orderNumberTV;
-    private TextView carpoolTV;
 
     private TextView routeTV;
-    private ImageView routeIV;
+    private ImageView routeIV, routeTagIV;
     private RelativeLayout routeLayout;
 
     private OrderBean orderBean;
@@ -47,9 +46,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         inflate(context, R.layout.view_order_detail_itinerary, this);
         itineraryLayout = (LinearLayout) findViewById(R.id.order_itinerary_item_layout);
         orderNumberTV = (TextView) findViewById(R.id.order_itinerary_order_number_tv);
-        carpoolTV = (TextView) findViewById(R.id.order_itinerary_carpool_tv);
 
         routeTV = (TextView) findViewById(R.id.order_itinerary_route_tv);
+        routeTagIV = (ImageView) findViewById(R.id.order_itinerary_route_tag_iv);
         routeIV = (ImageView) findViewById(R.id.order_itinerary_route_iv);
         routeLayout = (RelativeLayout) findViewById(R.id.order_itinerary_route_layout);
     }
@@ -64,15 +63,13 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         itineraryLayout.removeAllViews();
 
         if (orderBean.orderType == 5 && !TextUtils.isEmpty(orderBean.lineSubject)) {//固定线路 超省心
-            setRouteLayoutVisible(R.mipmap.chaoshengxin);
+            setRouteLayoutVisible(R.mipmap.order_sku_tag_green);
         } else if(orderBean.orderType == 6 && !TextUtils.isEmpty(orderBean.lineSubject)) {//推荐路线 超自由
-            setRouteLayoutVisible(R.mipmap.chaoziyou);
+            setRouteLayoutVisible(R.mipmap.order_sku_tag_blue);
         } else {
             routeLayout.setVisibility(View.GONE);
             routeLayout.setOnClickListener(null);
         }
-
-        carpoolTV.setVisibility(orderBean.carPool ? View.VISIBLE : View.GONE);//拼车
 
         //"当地时间 04月21日（周五）10:05" orderBean.serviceTime
         String localTime = getContext().getString(R.string.order_detail_local_time, orderBean.serviceTimeStr);
@@ -173,7 +170,12 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     public void setRouteLayoutVisible(int resId) {
         routeLayout.setVisibility(View.VISIBLE);
         Tools.showRoundImage(routeIV, orderBean.picUrl, UIUtils.dip2px(5));
-        routeTV.setText(getRouteSpannableString(orderBean.lineSubject, resId));
+        routeTagIV.setBackgroundResource(resId);
+        if (orderBean.carPool) {//拼车
+            routeTV.setText(getRouteSpannableString(orderBean.lineSubject, R.mipmap.carpooling));
+        } else {
+            routeTV.setText(orderBean.lineSubject);
+        }
         if (orderBean.orderSource == 1 && !TextUtils.isEmpty(orderBean.skuDetailUrl)) {
             routeLayout.setOnClickListener(this);
         }
