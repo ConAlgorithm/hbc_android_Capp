@@ -160,6 +160,7 @@ public class MyApplication extends HbcApplication {
         HbcConfig.VERSION_NAME = BuildConfig.VERSION_NAME;
         HbcConfig.VERSION_CODE = BuildConfig.VERSION_CODE;
         HbcConfig.APP_NAME = getString(R.string.app_name);
+        HbcConfig.FLAVOR = BuildConfig.FLAVOR;
         x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = Constants.WX_APP_ID;
     }

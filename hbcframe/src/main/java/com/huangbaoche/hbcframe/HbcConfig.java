@@ -23,4 +23,5 @@ public class HbcConfig {
     public static  String serverHost = "";
     /**微信*/
     public static java.lang.String WX_APP_ID;
+    public static String FLAVOR;
 }
