@@ -104,6 +104,9 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
+        if(adapter!=null){
+            computeTotalUnreadCount(adapter.getDatas());
+        }
 
     }
 
