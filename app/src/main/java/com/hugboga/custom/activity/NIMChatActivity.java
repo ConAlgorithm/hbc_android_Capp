@@ -13,6 +13,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,8 +35,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
@@ -161,6 +160,23 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
         registerObservers(true);
         registerUserInfoObserver();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (localTimeView != null) {//隐藏时区View
+                    localTimeView.closeDescription();
+                    final float eventY = event.getY();
+                    final float viewY = localTimeView.getY();
+                    if (eventY >= viewY && eventY <= viewY + localTimeView.getHeight()) {
+                        return true;
+                    }
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     private void initView() {

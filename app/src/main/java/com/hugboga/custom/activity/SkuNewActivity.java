@@ -224,7 +224,7 @@ public class SkuNewActivity extends BaseActivity {
             properties.put("start_time", serverDayTime);//出发日期
             properties.put("sku_id", skuBean.goodsNo);//商品ID
             properties.put("sku_name", skuBean.goodsName);//商品名称
-            SensorsDataAPI.sharedInstance(this).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

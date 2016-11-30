@@ -215,12 +215,12 @@ public class SingleNewActivity extends BaseActivity {
             properties.put("childseatNum", manLuggageBean.childSeats + "");// 儿童座椅数
             properties.put("car_type", carBean.desc);//车型选择
             properties.put("price_total", total);//费用总计
-            properties.put("distance", carListBean.distance + "");// 全程公里数
+            properties.put("distance", carListBean.distance);// 全程公里数
             properties.put("geton_time", serverDate + " " + serverTime);// 出发时间
             properties.put("geton_location", startBean.placeName);// 出发地
             properties.put("dest_location", arrivalBean.placeName);// 送达地
             properties.put("service_city", cityBean.name);// 用车城市
-            SensorsDataAPI.sharedInstance(this).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

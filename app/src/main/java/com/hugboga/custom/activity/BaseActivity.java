@@ -78,6 +78,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             JSONObject properties = new JSONObject();
             properties.put("web_title", webTitle);
             properties.put("web_url", webUrl);
+            properties.put("refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

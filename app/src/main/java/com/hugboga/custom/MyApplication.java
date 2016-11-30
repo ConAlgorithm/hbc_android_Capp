@@ -225,10 +225,10 @@ public class MyApplication extends HbcApplication {
         // 公共属性
         try {
             JSONObject properties = new JSONObject();
-            properties.put("plateform_type", "Android");        // 平台类型
-            properties.put("version", BuildConfig.VERSION_NAME);// C端产品版本
-            properties.put("$utm_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
-            properties.put("user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_plateform_type", "Android");        // 平台类型
+            properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
+            properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
         } catch (JSONException e) {
             e.printStackTrace();

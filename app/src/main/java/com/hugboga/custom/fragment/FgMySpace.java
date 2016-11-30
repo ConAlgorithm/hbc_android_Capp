@@ -294,6 +294,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                         travelFundHintIV.setVisibility(View.GONE);
                     }
                     intent = new Intent(getContext(), TravelFundActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
                     MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
@@ -335,5 +336,10 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             couponUnitTV.setText("张");
             travelFundUnitTV.setText("元");
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "个人中心";
     }
 }

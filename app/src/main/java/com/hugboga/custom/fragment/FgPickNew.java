@@ -631,13 +631,13 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
             properties.put("childseatNum", manLuggageBean.childSeats + "");// 儿童座椅数
             properties.put("car_type", carBean.desc);//车型选择
             properties.put("price_total", total);//费用总计
-            properties.put("distance", carListBean.distance + "");// 全程公里数
+            properties.put("distance", carListBean.distance);// 全程公里数
             properties.put("flight_no", flightBean.flightNo);// 航班
             properties.put("airport", flightBean.arrAirportName);// 机场
             properties.put("geton_time", flightBean.arrivalTime);// 出发时间
             properties.put("dest_location", poiBean.placeName);// 送达地
             properties.put("is_pickUp", checkInChecked);// 是否接机举牌等待
-            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confrim", properties);
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

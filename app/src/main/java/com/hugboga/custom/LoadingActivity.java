@@ -100,16 +100,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     private void setSensorsEvent() {
         try {
-            // 公共属性
-            final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
-            if (appLaunchCount <= 1) {
-                JSONObject publicProperties = new JSONObject();
-                publicProperties.put("is_frist_time", true);
-                SensorsDataAPI.sharedInstance(this).registerSuperProperties(publicProperties);
-            }
             //启动APP
+            final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
             JSONObject properties = new JSONObject();
-            properties.put("channelId", BuildConfig.FLAVOR);
+            properties.put("hbc_channelId", BuildConfig.FLAVOR);
+            properties.put("is_first_time", appLaunchCount <= 1 ? true : false);
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

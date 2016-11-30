@@ -94,20 +94,22 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                 spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 vh.citysTV.setText(spannable);
+
+                vh.startAddressLayout.setVisibility(View.GONE);
             } else {
                 vh.citysTV.setText(orderBean.lineSubject);
+
+                if (TextUtils.isEmpty(orderBean.carDesc)) {
+                    vh.startAddressLayout.setVisibility(View.GONE);
+                } else {
+                    vh.startAddressLayout.setVisibility(View.VISIBLE);
+                    vh.startAddressIV.setBackgroundResource(R.mipmap.order_car);
+                    vh.startAddressTV.setText(orderBean.carDesc);
+                }
             }
 
             vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
             vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
-
-            if (TextUtils.isEmpty(orderBean.carDesc)) {
-                vh.startAddressLayout.setVisibility(View.GONE);
-            } else {
-                vh.startAddressLayout.setVisibility(View.VISIBLE);
-                vh.startAddressIV.setBackgroundResource(R.mipmap.order_car);
-                vh.startAddressTV.setText(orderBean.carDesc);
-            }
 
             if (TextUtils.isEmpty(orderBean.serviceCityName)) {
                 vh.endAddressLayout.setVisibility(View.GONE);

@@ -921,7 +921,9 @@ public class OrderNewActivity extends BaseActivity {
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(activity, TravelFundActivity.class));
+                            Intent intent = new Intent(activity, TravelFundActivity.class);
+                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1157,10 +1159,11 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = eventPayBean;
-                requestParams.orderType = orderBean.orderType;
-                requestParams.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
-
-                Intent intent = new Intent(activity,ChoosePaymentActivity.class);
+                requestParams.orderType = CommonUtils.getCountInteger(orderType);
+                if (orderBean != null) {
+                    requestParams.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
+                }
+                Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
@@ -1539,17 +1542,22 @@ public class OrderNewActivity extends BaseActivity {
                     properties.put("sku_type", "推荐线路");
                     break;
             }
-            properties.put("price_total", orderBean.priceChannel);//费用总计
+            properties.put("price_total", CommonUtils.getCountInteger(orderBean.priceChannel));//费用总计
             properties.put("price_coupon", orderBean.coupPriceInfo);//使用优惠券
-            properties.put("price_tra_fund", orderBean.travelFund);//使用旅游基金
+            properties.put("price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
             int priceActual = CommonUtils.getCountInteger(orderBean.priceChannel) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
             if (priceActual < 0) {
                 priceActual = 0;
             }
-            properties.put("price_actually", "" + priceActual);//实际支付金额
+            properties.put("price_actually", priceActual);//实际支付金额
             properties.put("is_appoint_guide", guideCollectId == null ? false : true);//指定司导下单
             SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "确认订单";
     }
 }

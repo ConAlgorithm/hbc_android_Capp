@@ -99,6 +99,7 @@ public class BargainActivity extends BaseActivity {
             JSONObject properties = new JSONObject();
             properties.put("web_title", "砍价页");
             properties.put("web_url", SensorsConstant.KANJIA + "?order_id=" + orderNo);
+            properties.put("refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
