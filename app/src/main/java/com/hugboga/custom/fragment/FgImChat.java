@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.page.Page;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -103,6 +104,9 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
+        if(adapter!=null){
+            computeTotalUnreadCount(adapter.getDatas());
+        }
 
     }
 
@@ -284,8 +288,8 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         switch (action.getType()) {
 //            case CLICK_USER_LOGIN:
 //            case REFRESH_CHAT_LIST:
-//                RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
-//                recyclerView.setRequestData(parserChatList);
+//                RequestNIMChatList parserChatList1 = new RequestNIMChatList(getActivity());
+//                recyclerView.setRequestData(parserChatList1);
 //                requestData();
 //                break;
             case CLICK_USER_LOOUT:
@@ -303,6 +307,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
                 recyclerView.setRequestData(parserChatList);
                 requestData();
+                registerObservers(true);
                 break;
             default:
                 break;
@@ -613,31 +618,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         }
     }
 
-
     private void removeRepeatChatBean() {
         if (adapter != null) {
-            adapter.syncRemoveRepeatData();
+            adapter.syncRemoveRepeatData(Page.DEFAULT_PAGESIZE);
         }
-    }
-
-
-    private void test() {
-        List<ChatBean> chatBeanList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            ChatBean chatBean = new ChatBean();
-            if (i == 90 || i == 91) {
-                chatBean.nTargetId = "" + (i - 90);
-            } else {
-                chatBean.nTargetId = "" + i;
-            }
-            chatBeanList.add(chatBean);
-        }
-
-        for (int i = 0; i < chatBeanList.size(); i++) {
-            Log.e("Test", "repeat before tid：" + chatBeanList.get(i).nTargetId);
-        }
-
-        NimRecentListSyncUtils.removeRepeatData(chatBeanList);
     }
 
 }

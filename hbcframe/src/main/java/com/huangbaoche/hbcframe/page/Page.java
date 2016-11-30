@@ -6,8 +6,9 @@ package com.huangbaoche.hbcframe.page;
 public class Page {
 
     public enum pageType{FIRST,NEXT}
+    public static int DEFAULT_PAGESIZE = 10;
 
-    private int pageSize = 10;
+    private int pageSize = DEFAULT_PAGESIZE;
     private int pageIndex = -pageSize;
 
     public int initFirstPage() {
