@@ -830,7 +830,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             properties.put("price_total", carBean.vehiclePrice + carBean.servicePrice);// 费用总计
             properties.put("start_time", startDate);// 出发日期
             properties.put("end_time", endDate);// 结束日期
-            properties.put("service_city", startBean.placeName);// 用车城市
+            properties.put("service_city", startBean.name);// 用车城市
             properties.put("total_days", isHalfTravel ? 0.5 : carBean.totalDays);// 游玩天数
             SensorsDataAPI.sharedInstance(this).track("buy_r_confirm", properties);
         } catch (Exception e) {

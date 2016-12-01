@@ -543,6 +543,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             properties.put("city_name", skuItemBean.depCityName);
             properties.put("price_average", skuItemBean.perPrice);
+            if (cityBean != null) {
+                properties.put("country_name", cityBean.placeName);
+            }
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

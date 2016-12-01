@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -34,7 +35,6 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
     LinearLayout containerLayout;
 
     private ServiceQuestionBean serviceQuestionBean;
-    private int lastCustomRole;
 
     public QuestionItemView(Context context) {
         this(context, null);
@@ -73,7 +73,17 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 itemView = addNewItemView(0);
             }
 
-            itemView.findViewById(R.id.question_member_line_view).setVisibility(View.VISIBLE);
+            View lineView= itemView.findViewById(R.id.question_member_line_view);
+            lineView.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams lineViewParams = (RelativeLayout.LayoutParams) lineView.getLayoutParams();
+            if (lineViewParams == null) {
+                lineViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1);
+                lineViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            }
+            lineViewParams.leftMargin = 0;
+            lineViewParams.rightMargin = 0;
+            lineView.setLayoutParams(lineViewParams);
+
             itemView.findViewById(R.id.question_member_arrow_iv).setVisibility(View.GONE);
             TextView titleTV = (TextView) itemView.findViewById(R.id.question_member_title_tv);
             titleTV.setText(serviceQuestionBean.welcome);
@@ -100,8 +110,8 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 titleTV.setText(questionItem.adviceName);
                 arrowIV.setVisibility(View.VISIBLE);
             }
-            if (questionItem.type == 3) {//记录最近一条客服ID
-                lastCustomRole = questionItem.customRole;
+            if (questionItem.type == 3 && getContext() instanceof ServiceQuestionActivity) {//记录最近一条客服ID
+                ((ServiceQuestionActivity) getContext()).lastCustomRole = questionItem.customRole;
             }
 
             resetViewHight(titleTV, titleTV.getText() != null ? titleTV.getText().toString() : "", !questionItem.isAnswer, itemView);
@@ -157,9 +167,6 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 ServiceQuestionBean.QuestionItem questionItem = questionList.get(index);
                 if (questionItem == null || questionItem.isAnswer || (questionItem.type == 1 && questionItem.questionItemList == null)) {
                     return;
-                }
-                if (questionItem.type == 2) {
-                    questionItem.lastCustomRole = lastCustomRole;
                 }
                 EventBus.getDefault().post(new EventAction(EventType.QUESTION_ITEM, questionItem));
             }

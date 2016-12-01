@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 /**
  * Created by qingcha on 16/7/15.
@@ -65,6 +66,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         } else {
             wxShareUtils.share(type, mParams.picUrl, mParams.title, mParams.content, mParams.shareUrl);
         }
+        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", mParams.source);
         dismiss();
     }
 

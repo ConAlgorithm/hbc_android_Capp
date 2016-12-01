@@ -358,7 +358,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 Intent intent = new Intent(getBaseContext(), ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn", false);
-                intent.putExtra("source", "小搜索框");
+                intent.putExtra("source", getEventSource());
                 startActivity(intent);
                 StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH,"城市切换");
             }

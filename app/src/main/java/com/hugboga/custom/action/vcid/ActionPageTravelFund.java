@@ -7,6 +7,7 @@ import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.constants.Constants;
 
 /**
  * Created by qingcha on 16/8/13.
@@ -18,6 +19,7 @@ public class ActionPageTravelFund extends ActionPageBase {
         super.intentPage(context, actionBean);
         if (ActionUtils.isLogin(context)) {
             Intent intent = new Intent(context, TravelFundActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
             context.startActivity(intent);
         }
     }

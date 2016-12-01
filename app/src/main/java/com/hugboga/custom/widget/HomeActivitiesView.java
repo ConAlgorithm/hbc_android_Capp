@@ -17,6 +17,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -224,7 +225,9 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                 public void onClick(View v) {
                     if (!UserEntity.getUser().isLogin(mContext)) {
                             CommonUtils.showToast(R.string.login_hint);
-                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        intent.putExtra(Constants.PARAMS_SOURCE, "首页-活动");
+                        mContext.startActivity(intent);
                         return;
                     }
                     if (itemData == null) {

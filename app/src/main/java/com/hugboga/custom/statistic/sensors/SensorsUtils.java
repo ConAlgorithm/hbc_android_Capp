@@ -6,7 +6,7 @@ import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
-import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -18,10 +18,10 @@ import org.json.JSONObject;
 public class SensorsUtils {
 
     //支付结果
-    public static void setSensorsPayResultEvent(int orderType, boolean isSelectedGuide, String shouldPay, String payMethod, String orderNo, boolean payResult) {
+    public static void setSensorsPayResultEvent(EventPayBean eventPayBean, String payMethod, boolean payResult) {
         try {
             String skuType = "";
-            switch (orderType) {
+            switch (eventPayBean.orderType) {
                 case 1:
                     skuType = "接机";
                     break;
@@ -44,16 +44,60 @@ public class SensorsUtils {
             }
             JSONObject properties = new JSONObject();
             properties.put("sku_type", skuType);
-            properties.put("is_appoint_guide", isSelectedGuide);//指定司导下单
-            properties.put("price_actually", CommonUtils.getCountInteger(shouldPay));//实际支付金额
+            properties.put("order_id", eventPayBean.orderId);
+            properties.put("is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
+            properties.put("price_total", eventPayBean.shouldPay);//费用总计
+            properties.put("price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
+            properties.put("price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
+            properties.put("price_actually", eventPayBean.actualPay);//实际支付金额
             properties.put("pay_method", payMethod);//支付方式
-            properties.put("order_id", orderNo);
             properties.put("pay_result", payResult);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("pay_result", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    //点击支付
+    public static void setSensorsPayOnClickEvent(EventPayBean eventPayBean, String payMethod) {
+        try {
+            String skuType = "";
+            switch (eventPayBean.orderType) {
+                case 1:
+                    skuType = "接机";
+                    break;
+                case 2:
+                    skuType = "送机";
+                    break;
+                case 3:
+                    skuType = "定制包车游";
+                    break;
+                case 4:
+                    skuType = "单次接送";
+                    break;
+                case 5:
+                    skuType = "固定线路";
+                    break;
+                case 6:
+                    skuType = "推荐线路";
+                    break;
+
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("sku_type", skuType);
+            properties.put("order_id", eventPayBean.orderId);
+            properties.put("is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
+            properties.put("price_total", eventPayBean.shouldPay);//费用总计
+            properties.put("price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
+            properties.put("price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
+            properties.put("price_actually", eventPayBean.actualPay);//实际支付金额
+            properties.put("pay_method", payMethod);//支付方式
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("buy_pay", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //分享
     public static void setSensorsShareEvent(String type, String _source) {

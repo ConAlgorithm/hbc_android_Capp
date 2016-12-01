@@ -40,6 +40,7 @@ public class ServiceQuestionActivity extends BaseActivity{
     private ServiceQuestionAdapter adapter;
 
     private UnicornServiceActivity.Params params;
+    public int lastCustomRole;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,10 +145,10 @@ public class ServiceQuestionActivity extends BaseActivity{
                         }
                         questionItem2.isAnswer = true;
                         questionList.add(questionItem2);
-                        if (questionItem.lastCustomRole > 0) {
+                        if (lastCustomRole > 0) {
                             ServiceQuestionBean.QuestionItem defaultServiceQuestionItem = new ServiceQuestionBean.QuestionItem();
                             defaultServiceQuestionItem.type = 3;
-                            defaultServiceQuestionItem.customRole = questionItem.lastCustomRole;
+                            defaultServiceQuestionItem.customRole = lastCustomRole;
                             defaultServiceQuestionItem.adviceName = "还没解决您的问题？转接人工服务";
                             questionList.add(defaultServiceQuestionItem);
                         }

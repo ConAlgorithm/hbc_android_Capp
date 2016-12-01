@@ -60,7 +60,9 @@ public class HomeCustomLayout extends LinearLayout{
                 Intent intent = null;
                 if (!UserEntity.getUser().isLogin(getContext())) {
                     CommonUtils.showToast(R.string.login_hint);
-                    getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+                    intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                    getContext().startActivity(intent);
                     break;
                 }
                 intent = new Intent(getContext(), TravelFundActivity.class);

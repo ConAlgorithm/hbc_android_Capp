@@ -858,4 +858,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
         setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
     }
+
+    @Override
+    public String getEventSource() {
+        return "IM聊天页";
+    }
 }

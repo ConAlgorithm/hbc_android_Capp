@@ -567,6 +567,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         params.totalDays = 1;
                         params.passCityId = cityId + "";
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
+                        bundle.putString(Constants.PARAMS_SOURCE, source);
                         Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);

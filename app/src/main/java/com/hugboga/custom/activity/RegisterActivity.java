@@ -294,6 +294,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                             bundle.putString("key_area_code", areaCode);
                             bundle.putString("key_phone", phone);
                             intent.putExtras(bundle);
+                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                             startActivity(intent);
 //                            startFragment(new FgLogin(), bundle);
                         }
@@ -358,6 +359,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 //跳转到登录
                 finish();
                 intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 break;
             case R.id.register_areacode:
@@ -367,6 +369,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 collapseSoftInputMethod(passwordEditText);
                 collapseSoftInputMethod(phoneEditText);
                 intent = new Intent(RegisterActivity.this, ChooseCountryActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(KEY_FROM, "register");
                 startActivity(intent);
                 break;
@@ -402,6 +405,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 handler.removeCallbacks(runnable);
                 setBtnVisible(true);
                 intent = new Intent(RegisterActivity.this, WebInfoActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROTOCOL);
                 startActivity(intent);
 

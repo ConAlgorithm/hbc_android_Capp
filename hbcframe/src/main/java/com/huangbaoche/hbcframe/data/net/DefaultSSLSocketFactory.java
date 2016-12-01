@@ -3,6 +3,7 @@ package com.huangbaoche.hbcframe.data.net;
 import android.content.Context;
 import android.net.SSLCertificateSocketFactory;
 
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.Common;
 import com.huangbaoche.hbcframe.util.MLog;
 
@@ -40,10 +41,17 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
             try {
                 instance = new DefaultSSLSocketFactory();;
                 keystorepw = Common.getKeyStorePsw(context);
-                keypw = Common.getClientP12Key(context);
+                String keystoreName = "";
+                if ("developer".equals(HbcConfig.FLAVOR) || "examination".equals(HbcConfig.FLAVOR)) {
+                    keypw = "123";
+                    keystoreName = "test.keystore";
+                } else {
+                    keypw = Common.getClientP12Key(context);
+                    keystoreName = "client.keystore";
+                }
                 long time = System.currentTimeMillis();
                 trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                InputStream ins = context.getResources().getAssets().open("client.keystore"); // 下载的证书放到项目中的assets目录中
+                InputStream ins = context.getResources().getAssets().open(keystoreName);
                 trustStore.load(ins, keystorepw.toCharArray());
                 MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
             } catch (Throwable var1) {
@@ -59,10 +67,17 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
             try {
                 try {
                     keystorepw = Common.getKeyStorePsw(context);
-                    keypw = Common.getClientP12Key(context);
+                    String keystoreName = "";
+                    if ("developer".equals(HbcConfig.FLAVOR) || "examination".equals(HbcConfig.FLAVOR)) {
+                        keypw = "123";
+                        keystoreName = "test.keystore";
+                    } else {
+                        keypw = Common.getClientP12Key(context);
+                        keystoreName = "client.keystore";
+                    }
                     long time = System.currentTimeMillis();
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                    InputStream ins = context.getResources().getAssets().open("client.keystore"); // 下载的证书放到项目中的assets目录中
+                    InputStream ins = context.getResources().getAssets().open(keystoreName);
                     trustStore.load(ins, keystorepw.toCharArray());
                     MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
                 } catch (Throwable var1) {

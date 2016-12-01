@@ -277,4 +277,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         MLog.e("url=" + url);
     }
 
+    @Override
+    public String getEventSource() {
+        return "web页面";
+    }
 }
