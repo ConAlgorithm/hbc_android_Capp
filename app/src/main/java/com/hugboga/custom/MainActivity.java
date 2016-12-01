@@ -138,6 +138,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         initBottomView();
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
 
