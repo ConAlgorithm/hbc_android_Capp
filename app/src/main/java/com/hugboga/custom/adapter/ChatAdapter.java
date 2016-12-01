@@ -31,11 +31,9 @@ import java.util.List;
  */
 public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
 
-    private final ImageOptions options;
 
     public ChatAdapter(Context context) {
         super(context);
-        options = new ImageOptions.Builder().setLoadingDrawableId(R.mipmap.chat_head).setFailureDrawableId(R.mipmap.chat_head).setCircular(true).build();
     }
 
     @Override

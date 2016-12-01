@@ -107,6 +107,9 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         if(adapter!=null){
             computeTotalUnreadCount(adapter.getDatas());
         }
+        if (recyclerView != null && recyclerView.getAdapter() != null) {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
 
     }
 
@@ -307,7 +310,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
                 recyclerView.setRequestData(parserChatList);
                 requestData();
-                registerObservers(true);
+                //registerObservers(true);
                 break;
             default:
                 break;
