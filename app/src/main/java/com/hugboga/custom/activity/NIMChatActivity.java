@@ -364,6 +364,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             viewPageLayout.setVisibility(View.VISIBLE);
             viewPage.setAdapter(new IMOrderPagerAdapter(orders));
             viewPage.addOnPageChangeListener(onPageChangeListener);
+
+            messageFragment.messageListScrollToBottom();
+
         } else {
             //无订单数据
             viewPageLayout.setVisibility(GONE);
@@ -649,8 +652,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             if (objs != null && objs[1] != null) {
                 ArrayList<OrderBean> datas = (ArrayList) objs[1];
                 flushOrderView(datas);
+
             }
             MLog.e("orderListener-onDataRequestSucceed");
+
+
         }
 
         @Override

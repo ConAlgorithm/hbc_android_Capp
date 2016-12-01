@@ -250,6 +250,13 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         messageListPanel.scrollToBottom();
     }
 
+
+    public void messageListScrollToBottom(){
+        if(messageListPanel!=null){
+            messageListPanel.scrollToBottom();
+        }
+    }
+
     @Override
     public void shouldCollapseInputPanel() {
         inputPanel.collapse(false);
