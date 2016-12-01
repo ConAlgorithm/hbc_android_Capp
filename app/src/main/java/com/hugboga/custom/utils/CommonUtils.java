@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -22,10 +23,8 @@ import com.ta.utdid2.android.utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.ArrayList;
+
 
 /**
  * Created by qingcha on 16/5/26.
@@ -226,5 +225,15 @@ public final class CommonUtils {
         } else {
             return true;
         }
+    }
+
+    public static void showLargerImage(Context context, String url) {
+        LargerImageActivity.Params params = new LargerImageActivity.Params();
+        ArrayList<String> imageUrlList = new ArrayList<String>(1);
+        imageUrlList.add(url);
+        params.imageUrlList = imageUrlList;
+        Intent intent = new Intent(context, LargerImageActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
     }
 }
