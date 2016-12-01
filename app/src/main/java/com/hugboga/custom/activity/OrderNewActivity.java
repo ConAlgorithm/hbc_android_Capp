@@ -1160,10 +1160,6 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = eventPayBean;
-                requestParams.orderType = CommonUtils.getCountInteger(orderType);
-                if (orderBean != null) {
-                    requestParams.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
-                }
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -1179,36 +1175,40 @@ public class OrderNewActivity extends BaseActivity {
                     Intent intent = new Intent(OrderNewActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
-                    setSensorsPayResultEvent();
+                    SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }
             }
         }
     }
 
-    private void setSensorsPayResultEvent() {
-        if (orderBean == null || orderBean.orderPriceInfo == null) {
-            return;
-        }
-        SensorsUtils.setSensorsPayResultEvent(orderBean.orderType
-                , !TextUtils.isEmpty(orderBean.guideCollectId)
-                , "" + orderInfoBean.getPriceActual()
-                , "支付宝"
-                , orderInfoBean.getOrderno()
-                , true);
-    }
-
     private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
-        eventPayBean.carType = carBean.carDesc;
-        eventPayBean.seatCategory = carBean.seatCategory;
-        eventPayBean.guestcount = carBean.capOfPerson+"";
-        eventPayBean.isFlightSign = orderBean.isFlightSign;
-        eventPayBean.isCheckin = orderBean.isCheckin;
         eventPayBean.guideCollectId = guideCollectId;
-        eventPayBean.orderStatus = orderBean.orderStatus;
         eventPayBean.orderType = type;
-        eventPayBean.forother = contactUsersBean.isForOther;
         eventPayBean.paysource = "下单过程中";
+        eventPayBean.orderType = CommonUtils.getCountInteger(orderType);
+
+        if (carBean != null) {
+            eventPayBean.carType = carBean.carDesc;
+            eventPayBean.seatCategory = carBean.seatCategory;
+            eventPayBean.guestcount = carBean.capOfPerson+"";
+            eventPayBean.shouldPay = carBean.vehiclePrice + carBean.servicePrice;
+        }
+        if (contactUsersBean != null) {
+            eventPayBean.forother = contactUsersBean.isForOther;
+        }
+        if (orderInfoBean != null) {
+            eventPayBean.orderId = orderInfoBean.getOrderno();
+            eventPayBean.actualPay = orderInfoBean.getPriceActual();
+        }
+        if (orderBean != null) {
+            eventPayBean.isFlightSign = orderBean.isFlightSign;
+            eventPayBean.isCheckin = orderBean.isCheckin;
+            eventPayBean.orderStatus = orderBean.orderStatus;
+            eventPayBean.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
+            eventPayBean.couponPrice = CommonUtils.getCountInteger(orderBean.coupPriceInfo);
+            eventPayBean.travelFundPrice = CommonUtils.getCountInteger(orderBean.travelFund);
+        }
         return eventPayBean;
     }
 

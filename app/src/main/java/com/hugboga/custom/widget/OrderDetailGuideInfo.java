@@ -95,7 +95,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     evaluateTV.setVisibility(View.VISIBLE);
                     chatTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                     evaluateTV.setText(getContext().getString(orderBean.isEvaluated() ? R.string.order_detail_evaluated : R.string.order_detail_evaluate));
-                    promptTV.setVisibility(orderBean.isEvaluated() || orderBean.priceCommentReward < 0 ? View.GONE : View.VISIBLE);
+                    promptTV.setVisibility(orderBean.isEvaluated() || orderBean.priceCommentReward <= 0 ? View.GONE : View.VISIBLE);
 
                     if (orderBean.guideAgencyType == 3) {//地接社不显示收藏按钮
                         collectTV.setVisibility(View.GONE);
