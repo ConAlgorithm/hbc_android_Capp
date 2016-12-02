@@ -33,7 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 
 
 /**
- * Created by qingcha on 16/5/24.
+ * Created by on 16/5/24.
  */
 public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
 
@@ -183,7 +183,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         holder.topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChartered && !collectGuideBean.isAppointments()) {
+                if (isChartered) {//&& !collectGuideBean.isAppointments()
                     return;
                 }
                 GuideDetailActivity.Params params = new GuideDetailActivity.Params();

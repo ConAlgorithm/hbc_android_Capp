@@ -107,7 +107,7 @@ android {
     productFlavors.all { flavor ->
         switch (flavor.name) {
             case 'developer':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api-dev.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-dev.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info-dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op-dev.huangbaoche.com/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act-dev.huangbaoche.com"')
@@ -121,7 +121,7 @@ android {
 //                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
 //                break;
             case 'examination':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api-test.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-test.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info-test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op-test.huangbaoche.com/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act-test.huangbaoche.com"')
@@ -149,7 +149,7 @@ android {
             case '10090':
             case '10091':
             default:
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op.huangbaoche.com/app/auth.html"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act.huangbaoche.com"')

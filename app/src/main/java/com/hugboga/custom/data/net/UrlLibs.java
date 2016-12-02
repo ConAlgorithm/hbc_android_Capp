@@ -17,10 +17,10 @@ public class UrlLibs {
     public static String SERVER_HTTP_SCHEME = SERVER_HTTP_SCHEME_HTTP;
 
 
-    public static String SERVER_IP_HOST_PUBLIC_DEV = "api-dev.huangbaoche.com/";//开发
-    public static String SERVER_IP_HOST_PUBLIC_EXAMINATION = "api-test.huangbaoche.com/";//test
-    public static String SERVER_IP_HOST_PUBLIC_STAGE = "api.huangbaoche.com/";//stage
-    public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api.huangbaoche.com/";//生产
+    public static String SERVER_IP_HOST_PUBLIC_DEV = "api5-dev.huangbaoche.com/";//开发
+    public static String SERVER_IP_HOST_PUBLIC_EXAMINATION = "api5-test.huangbaoche.com/";//test
+    public static String SERVER_IP_HOST_PUBLIC_STAGE = "api5.huangbaoche.com/";//stage
+    public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api5.huangbaoche.com/";//生产
 
     public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_DEV;//默认
 

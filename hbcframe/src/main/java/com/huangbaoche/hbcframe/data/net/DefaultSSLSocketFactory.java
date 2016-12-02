@@ -41,17 +41,10 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
             try {
                 instance = new DefaultSSLSocketFactory();;
                 keystorepw = Common.getKeyStorePsw(context);
-                String keystoreName = "";
-                if ("developer".equals(HbcConfig.FLAVOR) || "examination".equals(HbcConfig.FLAVOR)) {
-                    keypw = "123";
-                    keystoreName = "test.keystore";
-                } else {
-                    keypw = Common.getClientP12Key(context);
-                    keystoreName = "client.keystore";
-                }
+                keypw = "123";//Common.getClientP12Key(context);
                 long time = System.currentTimeMillis();
                 trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                InputStream ins = context.getResources().getAssets().open(keystoreName);
+                InputStream ins = context.getResources().getAssets().open("client.keystore");
                 trustStore.load(ins, keystorepw.toCharArray());
                 MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
             } catch (Throwable var1) {
@@ -67,17 +60,10 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
             try {
                 try {
                     keystorepw = Common.getKeyStorePsw(context);
-                    String keystoreName = "";
-                    if ("developer".equals(HbcConfig.FLAVOR) || "examination".equals(HbcConfig.FLAVOR)) {
-                        keypw = "123";
-                        keystoreName = "test.keystore";
-                    } else {
-                        keypw = Common.getClientP12Key(context);
-                        keystoreName = "client.keystore";
-                    }
+                    keypw = "123";//Common.getClientP12Key(context);
                     long time = System.currentTimeMillis();
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                    InputStream ins = context.getResources().getAssets().open(keystoreName);
+                    InputStream ins = context.getResources().getAssets().open("client.keystore");
                     trustStore.load(ins, keystorepw.toCharArray());
                     MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
                 } catch (Throwable var1) {

@@ -54,8 +54,8 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
         serviceQuestionBean = (ServiceQuestionBean) _data;
 
         ArrayList<ServiceQuestionBean.QuestionItem> questionList = serviceQuestionBean.questionList;
-        final int listSize = questionList.size();
-        if (questionList == null || questionList.size() <= 0) {
+        final int listSize = questionList != null ? questionList.size() : 0;
+        if ((questionList == null || listSize <= 0) && TextUtils.isEmpty(serviceQuestionBean.welcome)) {
             containerLayout.removeAllViews();
             return;
         }
@@ -74,15 +74,19 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
             }
 
             View lineView= itemView.findViewById(R.id.question_member_line_view);
-            lineView.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams lineViewParams = (RelativeLayout.LayoutParams) lineView.getLayoutParams();
-            if (lineViewParams == null) {
-                lineViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1);
-                lineViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            if (listSize > 0) {
+                lineView.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams lineViewParams = (RelativeLayout.LayoutParams) lineView.getLayoutParams();
+                if (lineViewParams == null) {
+                    lineViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1);
+                    lineViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                }
+                lineViewParams.leftMargin = 0;
+                lineViewParams.rightMargin = 0;
+                lineView.setLayoutParams(lineViewParams);
+            } else {
+                lineView.setVisibility(View.GONE);
             }
-            lineViewParams.leftMargin = 0;
-            lineViewParams.rightMargin = 0;
-            lineView.setLayoutParams(lineViewParams);
 
             itemView.findViewById(R.id.question_member_arrow_iv).setVisibility(View.GONE);
             TextView titleTV = (TextView) itemView.findViewById(R.id.question_member_title_tv);
