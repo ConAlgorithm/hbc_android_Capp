@@ -158,13 +158,26 @@ public final class CommonUtils {
     }
 
 
-    public static String getEncodedString(String str) {
+    public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {
             return "";
         }
         String encodedString = null;
         try {
             encodedString = URLEncoder.encode(URLEncoder.encode(str, "utf-8"), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodedString;
+    }
+
+    public static String getEncodedString(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return "";
+        }
+        String encodedString = null;
+        try {
+            encodedString = URLEncoder.encode(str, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
