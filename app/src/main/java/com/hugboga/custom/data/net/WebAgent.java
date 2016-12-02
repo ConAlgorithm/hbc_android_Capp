@@ -619,8 +619,7 @@ public class WebAgent implements HttpRequestListener {
                         if (which == 0) {
                             CommonUtils.showLargerImage(mActivity, url);
                         } else {
-                            File urlFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + url);
-                            SaveFileTask saveImageTask = new SaveFileTask(mActivity, urlFile, new SaveFileTask.FileDownLoadCallBack() {
+                            SaveFileTask saveImageTask = new SaveFileTask(mActivity, new SaveFileTask.FileDownLoadCallBack() {
                                 @Override
                                 public void onDownLoadSuccess(File file) {
                                      CommonUtils.showToast("图片保存成功");
