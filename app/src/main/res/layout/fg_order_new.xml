@@ -921,6 +921,15 @@
             android:textColor="@color/basic_white"
             android:textSize="14sp"
             android:visibility="gone" />
+        <TextView
+            android:id="@+id/money_pre_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/all_money_left"
+            android:visibility="gone"
+            android:layout_marginLeft="20sp"
+            android:textSize="14sp"
+            android:textColor="@color/basic_white"/>
     </RelativeLayout>
 
 </RelativeLayout>

@@ -359,11 +359,15 @@ public class SkuNewActivity extends BaseActivity {
         }
 
         allMoneyTextSku.setText(Tools.getRMB(activity) + total);
-        if(carListBean.showHotel) {
-            moneyPre.setVisibility(View.VISIBLE);
-            moneyPre.setText("人均:"+Tools.getRMB(activity)  + perPrice);
-            carListBean.hourseNum = hourseNum;
-        }
+//        if(carListBean.showHotel) {
+            if (manLuggageBean !=null && manLuggageBean.childs + manLuggageBean.mans > 1) {
+                moneyPre.setVisibility(View.VISIBLE);
+                moneyPre.setText("人均: " + Tools.getRMB(activity)  + perPrice);
+                carListBean.hourseNum = hourseNum;
+            } else {
+                moneyPre.setVisibility(View.GONE);
+            }
+//        }
     }
 
 

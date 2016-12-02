@@ -236,6 +236,9 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.agree_text)
     TextView agreeText;
 
+    @Bind(R.id.money_pre_tv)
+    TextView moneyPreTV;
+
     /**
      * 基于原来代码修改,有时间了优化
      */
@@ -383,24 +386,25 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
+                    int showPrice = 0;
                     if (null == mostFitBean || null == mostFitBean.actualPrice  ||  mostFitBean.actualPrice == 0) {
-                        int showPrice = 0;
                         if (null != couponBean) {
                             showPrice = couponBean.actualPrice.intValue();
-                            allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
                         } else {
                             showPrice = carBean.price;
                             //其他费用总和
                             int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
-                            allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + otherPriceTotal));
+                            showPrice += otherPriceTotal;
                         }
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                        setPerCapitaPrice(showPrice);
                     } else {
-                        int price = 0;
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
-                            price = mostFitBean.actualPrice.intValue();
+                            showPrice = mostFitBean.actualPrice.intValue();
                         }
-                        allMoneyLeftText.setText(Tools.getRMB(activity) +price);
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                        setPerCapitaPrice(showPrice);
                     }
                 }
             }
@@ -412,11 +416,14 @@ public class OrderNewActivity extends BaseActivity {
                     couponLeft.setChecked(false);
                     int otherPriceTotal =  hotelPrice + checkInOrPickupPrice
                             + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                    int showPrice = 0;
                     if (null == deductionBean || null == deductionBean.priceToPay) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + otherPriceTotal));
+                        showPrice = carBean.price + otherPriceTotal;
                     } else {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price - money + otherPriceTotal));
+                        showPrice = carBean.price - money + otherPriceTotal;
                     }
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                    setPerCapitaPrice(showPrice);
                 }
             }
         });
@@ -724,7 +731,7 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
-        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(startDate) + "  "+ serverTime);
+        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(startDate));
         citys_line_title_tips.setVisibility(GONE);
         goodsVersion = skuBean.goodsVersion + "";
         goodsNo = skuBean.goodsNo + "";
@@ -754,13 +761,19 @@ public class OrderNewActivity extends BaseActivity {
             hourseNum = carListBean.hourseNum;
             hotelPrice = carListBean.hotelPrice * hourseNum;
         }
-        allMoneyLeftText.setText(Tools.getRMB(activity)
-                + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+        int price = carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)
-                + hotelPrice));
-
+                + hotelPrice;
+        allMoneyLeftText.setText(Tools.getRMB(activity) + price);
         carSeat.setText(getCarDesc());
         genCarInfoText();
+        moneyPreTV.setVisibility(View.VISIBLE);
+        setPerCapitaPrice(price);
+    }
+
+    private void setPerCapitaPrice(int price) {
+        int perCapitaPrice = price / (CommonUtils.getCountInteger(adultNum) + CommonUtils.getCountInteger(childrenNum));
+        moneyPreTV.setText("人均: " + Tools.getRMB(activity) + perCapitaPrice);
     }
 
     boolean showAll = false;
@@ -915,7 +928,9 @@ public class OrderNewActivity extends BaseActivity {
                 } else {
                     dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + totalPrice));
+                        int price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                        setPerCapitaPrice(price);
                     }
                     dream_right_tips.setVisibility(View.VISIBLE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
@@ -1014,17 +1029,18 @@ public class OrderNewActivity extends BaseActivity {
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit) request;
                 mostFitBean = requestMostFit1.getData();
+                int price = 0;
                 if (null == mostFitBean.priceInfo) {
                     couponRight.setText("还没有优惠券");
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + totalPrice));
+                    price = carBean.price + totalPrice;
                 } else {
                     couponRight.setText((mostFitBean.priceInfo) + "优惠券");
-                    int price = 0;
                     if(null != mostFitBean && null != mostFitBean.actualPrice){
                         price = mostFitBean.actualPrice.intValue();
                     }
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + price);
                 }
+                allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                setPerCapitaPrice(price);
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1310,13 +1326,15 @@ public class OrderNewActivity extends BaseActivity {
                 couponBean = null;
                 couponRight.setText("");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    int price = carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                    setPerCapitaPrice(price);
                 }
             } else {
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
-//                    allMoneyLeftText.setText(Tools.getRMB(activity) + (couponBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     allMoneyLeftText.setText(Tools.getRMB(activity) + couponBean.actualPrice.intValue());
+                    setPerCapitaPrice(couponBean.actualPrice.intValue());
                 }
             }
             mostFitBean = null;
