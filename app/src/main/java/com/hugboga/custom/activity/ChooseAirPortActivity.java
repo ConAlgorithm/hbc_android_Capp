@@ -100,6 +100,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             @Override
             public void onClick(View v) {
                 String keyword = editSearch.getText().toString().trim();
+                hideInputMethod(editSearch);
                 if(!TextUtils.isEmpty(keyword)) {
                     requestDate(keyword); //进行点击搜索
                 }else{
@@ -136,7 +137,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         adapter = new AirportAdapter(activity, sourceDateList);
         sortListView.setAdapter(adapter);
         sideBar.setVisibility(View.VISIBLE);
-        initSideBar(sideBar);
+        initSideBar();
     }
 
     @Override
@@ -160,12 +161,36 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         return null;
     }
 
-    private void initSideBar(SideBar sideBar) {
-        String[] b = {"历史", "热门", "A", "B", "C", "D", "E", "F", "G", "H", "I",
-                "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-                "W", "X", "Y", "Z", "#"};
-        sideBar.setLetter(b);
-
+    private void initSideBar() {
+        if (sourceDateList == null || sourceDateList.size() <= 0) {
+            sideBar.setVisibility(View.GONE);
+            return;
+        }
+        sideBar.setVisibility(View.VISIBLE);
+        ArrayList<String> sectionIndices = new ArrayList<String>();
+        String lastFirstLetter = null;
+        for (int i = 0; i < sourceDateList.size(); i++) {
+            AirPort airPort = sourceDateList.get(i);
+            if (airPort == null) {
+                continue;
+            }
+            if (!TextUtils.equals(lastFirstLetter, airPort.cityFirstLetter)) {
+                String letter = airPort.cityFirstLetter;
+                if (letter.equals("热门机场")) {
+                    letter = "热门";
+                } else if(letter.equals("搜索历史")) {
+                    letter = "历史";
+                }
+                sectionIndices.add(letter);
+                lastFirstLetter = airPort.cityFirstLetter;
+            }
+        }
+        String[] sections = new String[sectionIndices.size()];
+        for (int i = 0; i < sectionIndices.size(); i++) {
+            sections[i] = sectionIndices.get(i);
+        }
+        sideBar.setHeightWrapContent(true);
+        sideBar.setLetter(sections);
     }
 
     @Override
@@ -215,6 +240,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         }
         selector.orderBy("city_initial");
         inflateContent();
+        initSideBar();
     }
 
     /**
@@ -242,6 +268,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         } catch (DbException e) {
             e.printStackTrace();
         }
+        initSideBar();
     }
 
     int mBusinessType = 0;
@@ -284,6 +311,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         } catch (DbException e) {
             e.printStackTrace();
         }
+        initSideBar();
     }
 
     @Override
