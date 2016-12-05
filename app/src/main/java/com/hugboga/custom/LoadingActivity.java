@@ -256,13 +256,13 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         adClick = true;
         Intent intent = null;
         handler.removeMessages(200);
-        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-            new SharedPre(this).setTravelFundHintIsShow(true);
-            intent = new Intent(LoadingActivity.this, SplashActivity.class);
-        } else {
+//        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+//            new SharedPre(this).setTravelFundHintIsShow(true);
+//            intent = new Intent(LoadingActivity.this, SplashActivity.class);
+//        } else {
             new SharedPre(this).setTravelFundHintIsShow(false);
             intent = new Intent(LoadingActivity.this, MainActivity.class);
-        }
+//        }
         if (actionBean != null) {
             intent.putExtra(Constants.PARAMS_ACTION, actionBean);
         }

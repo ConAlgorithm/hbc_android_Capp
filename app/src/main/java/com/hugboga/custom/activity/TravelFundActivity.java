@@ -179,7 +179,7 @@ public class TravelFundActivity extends BaseActivity {
                 } else if (!TextUtils.isEmpty(rewardFields.nickName)) {
                     shareName = rewardFields.nickName;
                 }
-                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this), shareName, invitationCode);
+                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this), shareName.trim(), invitationCode);
                 CommonUtils.shareDialog(activity, R.mipmap.share_coupon
                         , rewardFields.headline
                         , rewardFields.subhead
