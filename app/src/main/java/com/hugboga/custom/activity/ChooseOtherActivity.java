@@ -166,6 +166,7 @@ public class ChooseOtherActivity extends BaseActivity {
                     CommonUtils.showToast("乘车人名称和电话不能为空");
                     return;
                 }
+                hideSoftInput();
 
                 contactUsersBean = new ContactUsersBean();
                 contactUsersBean.userName = nameText.getText().toString();

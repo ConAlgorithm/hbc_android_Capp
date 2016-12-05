@@ -110,6 +110,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideInputMethod(editSearch);
                 finish();
             }
         });
