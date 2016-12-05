@@ -187,5 +187,6 @@ public class StatisticConstant {
 
     public static final String SHAREG = "07_shareG";                                // 在司导个人页点击分享司导
     public static final String SHAREG_TYPE = "07_shareG_type";                      // 在司导个人页，分享浮层中点击微信好友或朋友圈
+    public static final String SHAREG_BACK = "07_shareG_back";                      // 司导分享后回到应用内
 
 }
