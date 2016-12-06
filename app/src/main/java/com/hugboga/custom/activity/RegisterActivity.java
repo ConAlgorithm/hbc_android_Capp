@@ -192,6 +192,8 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 UserEntity.getUser().setAvatar(this, userBean.avatar);
                 UserEntity.getUser().setOrderPoint(this, 0); //清空IM未读的小红点
                 UserEntity.getUser().setUnionid(this, "");
+                UserEntity.getUser().setNimUserId(this,userBean.nimUserId);
+                UserEntity.getUser().setNimUserToken(this,userBean.nimToken);
                 showTip("注册成功");
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
