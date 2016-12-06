@@ -543,8 +543,8 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", "送机");
-            properties.put("refer", source);
+            properties.put("hbc_sku_type", "送机");
+            properties.put("hbc_refer", source);
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -568,18 +568,18 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 }
             }
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", "送机");
-            properties.put("is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
-            properties.put("adultNum", manLuggageBean.mans + "");// 出行成人数
-            properties.put("childNum", manLuggageBean.childs + "");// 出行儿童数
-            properties.put("childseatNum", manLuggageBean.childSeats + "");// 儿童座椅数
-            properties.put("car_type", carBean.desc);//车型选择
-            properties.put("price_total", total);//费用总计
-            properties.put("distance", carListBean.distance);// 全程公里数
-            properties.put("airport", airPortBean.airportName);// 机场
-            properties.put("geton_time", serverDate + " " + serverTime);// 出发时间
-            properties.put("geton_location", poiBean.placeName);// 出发地
-            properties.put("is_checkin", checkInChecked);// 是否协助登机checkin
+            properties.put("hbc_sku_type", "送机");
+            properties.put("hbc_is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
+            properties.put("hbc_adultNum", manLuggageBean.mans);// 出行成人数
+            properties.put("hbc_childNum", manLuggageBean.childs);// 出行儿童数
+            properties.put("hbc_childseatNum", manLuggageBean.childSeats);// 儿童座椅数
+            properties.put("hbc_car_type", carBean.desc);//车型选择
+            properties.put("hbc_price_total", total);//费用总计
+            properties.put("hbc_distance", carListBean.distance);// 全程公里数
+            properties.put("hbc_airport", airPortBean.airportName);// 机场
+            properties.put("hbc_geton_time", serverDate + " " + serverTime);// 出发时间
+            properties.put("hbc_geton_location", poiBean.placeName);// 出发地
+            properties.put("hbc_is_checkin", checkInChecked);// 是否协助登机checkin
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();

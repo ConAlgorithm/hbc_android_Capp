@@ -43,15 +43,15 @@ public class SensorsUtils {
 
             }
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", skuType);
-            properties.put("order_id", eventPayBean.orderId);
-            properties.put("is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
-            properties.put("price_total", eventPayBean.shouldPay);//费用总计
-            properties.put("price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
-            properties.put("price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
-            properties.put("price_actually", eventPayBean.actualPay);//实际支付金额
-            properties.put("pay_method", payMethod);//支付方式
-            properties.put("pay_result", payResult);
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_order_id", eventPayBean.orderId);
+            properties.put("hbc_is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
+            properties.put("hbc_price_total", eventPayBean.shouldPay);//费用总计
+            properties.put("hbc_price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
+            properties.put("hbc_price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
+            properties.put("hbc_price_actually", eventPayBean.actualPay);//实际支付金额
+            properties.put("hbc_pay_method", payMethod);//支付方式
+            properties.put("hbc_pay_result", payResult);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("pay_result", properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,14 +84,14 @@ public class SensorsUtils {
 
             }
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", skuType);
-            properties.put("order_id", eventPayBean.orderId);
-            properties.put("is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
-            properties.put("price_total", eventPayBean.shouldPay);//费用总计
-            properties.put("price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
-            properties.put("price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
-            properties.put("price_actually", eventPayBean.actualPay);//实际支付金额
-            properties.put("pay_method", payMethod);//支付方式
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_order_id", eventPayBean.orderId);
+            properties.put("hbc_is_appoint_guide", eventPayBean.isSelectedGuide);//指定司导下单
+            properties.put("hbc_price_total", eventPayBean.shouldPay);//费用总计
+            properties.put("hbc_price_coupon", "" + eventPayBean.couponPrice);//使用优惠券
+            properties.put("hbc_price_tra_fund", eventPayBean.travelFundPrice);//使用旅游基金
+            properties.put("hbc_price_actually", eventPayBean.actualPay);//实际支付金额
+            properties.put("hbc_pay_method", payMethod);//支付方式
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("buy_pay", properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,8 +114,8 @@ public class SensorsUtils {
             }
 
             JSONObject properties = new JSONObject();
-            properties.put("share_channelId", type);
-            properties.put("share_content", source);
+            properties.put("hbc_share_channelId", type);
+            properties.put("hbc_share_content", source);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("share", properties);
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,8 +152,8 @@ public class SensorsUtils {
             }
 
             JSONObject properties = new JSONObject();
-            properties.put("web_title", webTitle);
-            properties.put("cs_type", typeStr);
+            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_cs_type", typeStr);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contact_servicedesk", properties);
         } catch (Exception e) {
             e.printStackTrace();

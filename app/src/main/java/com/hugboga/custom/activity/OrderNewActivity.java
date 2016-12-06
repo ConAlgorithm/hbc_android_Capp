@@ -1542,35 +1542,37 @@ public class OrderNewActivity extends BaseActivity {
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
+            String skuType = "";
             switch (type) {
                 case 1:
-                    properties.put("sku_type", "接机");
+                    skuType = "接机";
                     break;
                 case 2:
-                    properties.put("sku_type", "送机");
+                    skuType = "送机";
                     break;
                 case 3:
-                    properties.put("sku_type", "定制包车游");
+                    skuType = "定制包车游";
                     break;
                 case 4:
-                    properties.put("sku_type", "单次接送");
+                    skuType = "单次接送";
                     break;
                 case 5:
-                    properties.put("sku_type", "固定线路");
+                    skuType = "固定线路";
                     break;
                 case 6:
-                    properties.put("sku_type", "推荐线路");
+                    skuType = "推荐线路";
                     break;
             }
-            properties.put("price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
-            properties.put("price_coupon", orderBean.coupPriceInfo);//使用优惠券
-            properties.put("price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
+            properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+            properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
             int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
             if (priceActual < 0) {
                 priceActual = 0;
             }
-            properties.put("price_actually", priceActual);//实际支付金额
-            properties.put("is_appoint_guide", guideCollectId == null ? false : true);//指定司导下单
+            properties.put("hbc_price_actually", priceActual);//实际支付金额
+            properties.put("hbc_is_appoint_guide", guideCollectId == null ? false : true);//指定司导下单
             SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
         } catch (Exception e) {
         }

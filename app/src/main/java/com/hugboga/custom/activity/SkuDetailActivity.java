@@ -519,9 +519,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 skuId = goodsNo;
             }
             JSONObject properties = new JSONObject();
-            properties.put("web_title", "商品详情页");
-            properties.put("web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuId);
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_web_title", "商品详情页");
+            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuId);
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -537,15 +537,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
-            properties.put("sku_id", skuItemBean.goodsNo);
-            properties.put("sku_name", skuItemBean.goodsName);
-            properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            properties.put("city_name", skuItemBean.depCityName);
-            properties.put("price_average", skuItemBean.perPrice);
-            if (cityBean != null) {
-                properties.put("country_name", cityBean.placeName);
-            }
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_id", skuItemBean.goodsNo);
+            properties.put("hbc_sku_name", skuItemBean.goodsName);
+            properties.put("hbc_sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("hbc_city_name", skuItemBean.depCityName);
+            properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -561,9 +558,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("sku_id", skuItemBean.goodsNo);
-            properties.put("sku_name", skuItemBean.goodsName);
-            properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("hbc_sku_id", skuItemBean.goodsNo);
+            properties.put("hbc_sku_name", skuItemBean.goodsName);
+            properties.put("hbc_sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

@@ -104,7 +104,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
             JSONObject properties = new JSONObject();
             properties.put("hbc_channelId", BuildConfig.FLAVOR);
-            properties.put("is_first_time", appLaunchCount <= 1 ? true : false);
+            properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

@@ -119,8 +119,8 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", "定制包车游");
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

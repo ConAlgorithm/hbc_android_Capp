@@ -53,9 +53,9 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("web_title", webTitle);
-            properties.put("web_url", webUrl);
-            properties.put("refer", "首页");
+            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_web_url", webUrl);
+            properties.put("hbc_refer", "首页");
             SensorsDataAPI.sharedInstance(getContext()).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

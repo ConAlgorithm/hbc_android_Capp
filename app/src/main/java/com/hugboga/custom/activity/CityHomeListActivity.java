@@ -173,9 +173,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     break;
             }
             webUrl += id;
-            properties.put("web_title", webTitle);
-            properties.put("web_url", webUrl);
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_web_url", webUrl);
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -193,19 +193,19 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             final String id = "" + paramsData.id;
             //浏览城市
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_refer", getIntentSource());
             switch (paramsData.cityHomeType) {
                 case CITY:
-                    properties.put("city_id", id);
-                    properties.put("city_name", cityHomeBean.cityContent.cityName);
+                    properties.put("hbc_city_id", id);
+                    properties.put("hbc_city_name", cityHomeBean.cityContent.cityName);
                     break;
                 case ROUTE:
-                    properties.put("linegroup_id", id);
-                    properties.put("linegroup_name", cityHomeBean.lineGroupContent.lineGroupName);
+                    properties.put("hbc_linegroup_id", id);
+                    properties.put("hbc_linegroup_name", cityHomeBean.lineGroupContent.lineGroupName);
                     break;
                 case COUNTRY:
-                    properties.put("country_id", id);
-                    properties.put("country_name", cityHomeBean.countryContent.countryName);
+                    properties.put("hbc_country_id", id);
+                    properties.put("hbc_country_name", cityHomeBean.countryContent.countryName);
                     break;
             }
             SensorsDataAPI.sharedInstance(this).track("view_citis", properties);

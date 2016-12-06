@@ -880,8 +880,8 @@ public class OrderSelectCityActivity extends BaseActivity {
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
-            properties.put("sku_type", "定制包车游");
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_type", "定制包车游");
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -894,15 +894,15 @@ public class OrderSelectCityActivity extends BaseActivity {
     private void setSensorsConfirmEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", "定制包车游");
-            properties.put("is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
-            properties.put("adultNum", manNum + "");// 出行成人数
-            properties.put("childNum", childNum + "");// 出行儿童数
-            properties.put("childseatNum", childSeatNums + "");// 儿童座椅数
-            properties.put("start_time", isHalfTravel ? (halfDate) : (start_date_str));// 出发日期
-            properties.put("end_time", isHalfTravel ? (halfDate) : (end_date_str));// 结束日期
-            properties.put("service_city", startBean.name); // 用车城市
-            properties.put("total_days", isHalfTravel ? 0.5 : nums);// 游玩天数
+            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
+            properties.put("hbc_adultNum", manNum);// 出行成人数
+            properties.put("hbc_childNum", childNum);// 出行儿童数
+            properties.put("hbc_childseatNum", childSeatNums);// 儿童座椅数
+            properties.put("hbc_start_time", isHalfTravel ? (halfDate) : (start_date_str));// 出发日期
+            properties.put("hbc_end_time", isHalfTravel ? (halfDate) : (end_date_str));// 结束日期
+            properties.put("hbc_service_city", startBean != null ? startBean.name : ""); // 用车城市
+            properties.put("hbc_total_days", isHalfTravel ? 0.5 : nums);// 游玩天数
             SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();

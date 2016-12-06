@@ -193,8 +193,8 @@ public class SkuNewActivity extends BaseActivity {
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", skuBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_sku_type", skuBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -215,16 +215,16 @@ public class SkuNewActivity extends BaseActivity {
             }
 
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", skuBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            properties.put("is_appoint_guide", false);// 指定司导下单
-            properties.put("adultNum", manLuggageBean.mans + "");// 出行成人数
-            properties.put("childNum", manLuggageBean.childs + "");// 出行儿童数
-            properties.put("childseatNum", manLuggageBean.childSeats + "");// 儿童座椅数
-            properties.put("car_type", carBean.desc);//车型选择
-            properties.put("price_total", total);//费用总计
-            properties.put("start_time", serverDate);//出发日期
-            properties.put("sku_id", skuBean.goodsNo);//商品ID
-            properties.put("sku_name", skuBean.goodsName);//商品名称
+            properties.put("hbc_sku_type", skuBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("hbc_is_appoint_guide", false);// 指定司导下单
+            properties.put("hbc_adultNum", manLuggageBean.mans);// 出行成人数
+            properties.put("hbc_childNum", manLuggageBean.childs);// 出行儿童数
+            properties.put("hbc_childseatNum", manLuggageBean.childSeats);// 儿童座椅数
+            properties.put("hbc_car_type", carBean.desc);//车型选择
+            properties.put("hbc_price_total", total);//费用总计
+            properties.put("hbc_start_time", serverDate);//出发日期
+            properties.put("hbc_sku_id", skuBean.goodsNo);//商品ID
+            properties.put("hbc_sku_name", skuBean.goodsName);//商品名称
             SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
