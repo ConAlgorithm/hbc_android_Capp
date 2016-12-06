@@ -194,7 +194,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
             if (textWidth % textScope > 0) {
                 ++lines;
             }
-            textHight = lines * textView.getLineHeight() + UIUtils.dip2px(12) * 2 + UIUtils.dip2px(3);
+            textHight = lines * (textView.getLineHeight() + UIUtils.dip2px(2)) + UIUtils.dip2px(12) * 2 + UIUtils.dip2px(3);
         }
         if (textHight <= UIUtils.dip2px(60)) {
             textHight = UIUtils.dip2px(60);
