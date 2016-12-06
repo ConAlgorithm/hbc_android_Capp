@@ -253,7 +253,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserEntity.getUser().setUserName(activity, user.name);
             UserEntity.getUser().setNimUserId(activity,user.nimUserId);
             UserEntity.getUser().setNimUserToken(activity,user.nimToken);
-
+            UserEntity.getUser().setUnionid(LoginActivity.this, "");
             try {
                 SensorsDataAPI.sharedInstance(this).login(user.userID);
                 setSensorsUserEvent();
@@ -283,11 +283,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         } else if (request instanceof RequestLoginCheckOpenId) {
             RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
             UserBean userBean = request1.getData();
+            UserEntity.getUser().setUnionid(LoginActivity.this, userBean.unionid);
             if (userBean.isNotRegister == 1) {//未注册，走注册流程
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
                 bundle.putString("source", getEventSource());
-                bundle.putString(BindMobileActivity.SOURCE_TYPE, "wechat");
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -296,6 +296,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             } else {//注册了，有用户信息
                 userBean.setUserEntity(activity);
                 UserSession.getUser().setUserToken(activity, userBean.userToken);
+                Unicorn.setUserInfo(null);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
 
