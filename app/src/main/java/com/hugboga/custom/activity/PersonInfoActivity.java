@@ -203,8 +203,9 @@ public class PersonInfoActivity extends BaseActivity{
                             showTip("没输入昵称，请重新填写");
                             return;
                         }
-                        nickNameTextView.setText(inputServer.getText().toString());
-                        submitChangeUserInfo(2, inputServer.getText().toString());
+                        nickStr = nickStr.replaceAll(" ", "");
+                        nickNameTextView.setText(nickStr);
+                        submitChangeUserInfo(2, nickStr);
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -286,8 +287,9 @@ public class PersonInfoActivity extends BaseActivity{
                                 }
                             }
                         }
-                        realNameTextView.setText(editText.getText().toString());
-                        submitChangeUserInfo(6, editText.getText().toString());
+                        nickStr = nickStr.replaceAll(" ", "");
+                        realNameTextView.setText(nickStr);
+                        submitChangeUserInfo(6, nickStr);
                     }
                 });
                 AlertDialog realNameDialog = realNameBuilder.create();

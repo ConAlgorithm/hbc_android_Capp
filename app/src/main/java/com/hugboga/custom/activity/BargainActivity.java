@@ -329,7 +329,7 @@ public class BargainActivity extends BaseActivity {
         popupView.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(nameEdit.getText())){
+                if(TextUtils.isEmpty(nameEdit.getText()) || TextUtils.isEmpty(nameEdit.getText().toString().trim())){
                     CommonUtils.showToast(R.string.real_name);
                     return;
                 }
@@ -340,6 +340,7 @@ public class BargainActivity extends BaseActivity {
                         return;
                     }
                 }
+                name = name.replaceAll(" ", "");
                 //真实姓名
                 RequestChangeUserInfo request = new RequestChangeUserInfo(activity, null, null, null, null, null, name);
                 HttpRequestUtils.request(activity, request, new HttpRequestListener() {
