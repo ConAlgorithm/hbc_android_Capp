@@ -118,7 +118,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         setContentView(R.layout.fg_login);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        initView();
+        initView(getIntent());
         initHeader();
         setSensorsDefaultEvent("登录页", SensorsConstant.LOGIN);
     }
@@ -188,15 +188,15 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         requestData(request);
     }
 
-    protected void initView() {
+    protected void initView(Intent intent) {
         login_register.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         login_register.getPaint().setAntiAlias(true);
         String areaCode = null;
         String phone = null;
         if (getIntent() != null) {
-            areaCode = getIntent().getStringExtra(KEY_AREA_CODE);
-            phone = getIntent().getStringExtra(KEY_PHONE);
-            source = getIntent().getStringExtra("source");
+            areaCode = intent.getStringExtra(KEY_AREA_CODE);
+            phone = intent.getStringExtra(KEY_PHONE);
+            source = intent.getStringExtra("source");
         }
         sharedPre = new SharedPre(activity);
         if (TextUtils.isEmpty(areaCode)) {
@@ -219,6 +219,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         passwordEditText.addTextChangedListener(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initView(intent);
+    }
 
     @Override
     public void onStop() {
@@ -365,7 +370,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             case R.id.login_register:
                 //注册
 //                collapseSoftInputMethod(); //隐藏键盘
-                finish();
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("areaCode", areaCode);
                 bundle2.putString("phone", phone);

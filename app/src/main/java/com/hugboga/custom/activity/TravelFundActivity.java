@@ -173,7 +173,7 @@ public class TravelFundActivity extends BaseActivity {
                 setSensorsOnClickEvent();
 
                 TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
-                String shareName = "我";
+                String shareName = "皇包车用户";
                 if (!TextUtils.isEmpty(rewardFields.name)) {
                     shareName = rewardFields.name;
                 } else if (!TextUtils.isEmpty(rewardFields.nickName)) {
