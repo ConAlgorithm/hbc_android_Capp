@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class EventEvaluateShare extends EventBase{
 
-    private String orderType;
+    private int orderType;
     private String source;
     private String shareType;
 
@@ -19,7 +19,7 @@ public class EventEvaluateShare extends EventBase{
      *  @param source     触发来源
      *  @param shareType  分享方式    微信好友、朋友圈
      * */
-    public EventEvaluateShare(String orderType, String source, String shareType) {
+    public EventEvaluateShare(int orderType, String source, String shareType) {
         this.orderType = orderType;
         this.source = source;
         this.shareType = shareType;
@@ -29,7 +29,7 @@ public class EventEvaluateShare extends EventBase{
     public String getEventId() {
         //goodsNo 订单类型：1-接机、2-送机、3-包车游、4-次租(单次接送)、5-固定线路、6-推荐线路；
         String result = null;
-        switch (CommonUtils.getCountInteger(orderType)) {
+        switch (orderType) {
             case 1:
                 result = StatisticConstant.SHAREM_J;
                 break;

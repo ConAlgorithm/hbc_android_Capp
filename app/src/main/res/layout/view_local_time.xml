@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:lineSpacingExtra="-2dp"
             android:maxWidth="50dp"
             android:maxLines="2"
             android:ellipsize="end"

@@ -79,7 +79,7 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
         String source = null;
         if (getContext() instanceof EvaluateActivity) {
             source = ((EvaluateActivity) getContext()).getEventSource();
-            MobClickUtils.onEvent(new EventEvaluateShare("" + orderBean.orderType, source, "" + type));
+            MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
         }
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
         WXShareUtils wxShareUtils = WXShareUtils.getInstance(getContext());
