@@ -282,7 +282,12 @@ public class OrderNewActivity extends BaseActivity {
         contactUsersBean.userName = userName;
         contactUsersBean.userPhone = userPhone;
         manName.setText(userName);
-        manPhone.setText(userPhone);
+        String areaCode = UserEntity.getUser().getAreaCode(activity);
+        String phone = userPhone;
+        if (!TextUtils.isEmpty(areaCode)) {
+            phone = "+" + areaCode + " " + userPhone;
+        }
+        manPhone.setText(phone);
         topTipsLayout.setText(R.string.order_detail_top2_tips);
     }
 

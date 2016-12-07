@@ -38,6 +38,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -300,6 +301,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 break;
         }
     }

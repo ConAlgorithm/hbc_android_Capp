@@ -236,8 +236,8 @@ public class BindMobileActivity extends BaseActivity{
                     UserSession.getUser().setUserToken(this, userBean.userToken);
                     connectIM();
                     EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
-                    EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 }
+                EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
                 intent.putExtras(bundle);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
