@@ -141,10 +141,6 @@ public class PersonInfoActivity extends BaseActivity{
             case BIND_MOBILE:
                 if (action.getData() instanceof UserBean) {
                     userBean = (UserBean) action.getData();
-                } else if (action.getData() instanceof String) {
-                    mobileTextView.setText((String)action.getData());
-                }
-                if (userBean != null) {
                     initView();
                 } else {
                     requestData();
@@ -164,6 +160,8 @@ public class PersonInfoActivity extends BaseActivity{
             UserEntity.getUser().setUserName(this, userBean.name);
             UserEntity.getUser().setTravelFund(this, userBean.travelFund);
             UserEntity.getUser().setCoupons(this, userBean.coupons);
+            UserEntity.getUser().setAreaCode(activity, userBean.areaCode);
+            UserEntity.getUser().setPhone(activity, userBean.mobile);
             initView();
         } else if (request instanceof RequestChangeUserInfo) {
             RequestChangeUserInfo requestChangeUserInfo = (RequestChangeUserInfo) request;
@@ -171,6 +169,8 @@ public class PersonInfoActivity extends BaseActivity{
             UserEntity.getUser().setNickname(this, userBean.nickname);
             UserEntity.getUser().setAvatar(this, userBean.avatar);
             UserEntity.getUser().setUserName(this, userBean.name);
+            UserEntity.getUser().setAreaCode(activity, userBean.areaCode);
+            UserEntity.getUser().setPhone(activity, userBean.mobile);
             initView();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
         } else if (request instanceof RequestUpLoadFile) {
