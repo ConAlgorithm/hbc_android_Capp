@@ -141,6 +141,8 @@ public class PersonInfoActivity extends BaseActivity{
             case BIND_MOBILE:
                 if (action.getData() instanceof UserBean) {
                     userBean = (UserBean) action.getData();
+                } else if (action.getData() instanceof String) {
+                    mobileTextView.setText((String)action.getData());
                 }
                 if (userBean != null) {
                     initView();
