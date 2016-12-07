@@ -304,6 +304,7 @@ public class OrderNewActivity extends BaseActivity {
     String startCityName;
     String dayNums = "0";
     CarBean carBean;
+    boolean isToday = false;
 
     CityBean startBean;
     CityBean endBean;
@@ -373,7 +374,7 @@ public class OrderNewActivity extends BaseActivity {
         skuBean = (SkuItemBean) getIntent().getSerializableExtra("web_sku");
         cityBean = (CityBean) getIntent().getSerializableExtra("web_city");
         serverDayTime = this.getIntent().getStringExtra("serverDayTime");
-
+        isToday = this.getIntent().getBooleanExtra("isToday", false);
 
         distance = this.getIntent().getStringExtra("distance");
         if (null == distance) {
@@ -832,6 +833,11 @@ public class OrderNewActivity extends BaseActivity {
             citysLineTitle.setText(startBean.name + "-" + dayNums + "天包车");
             localTime += " 至 " + DateUtils.getOrderDateFormat(endDate);
         }
+        if (isToday) {
+            localTime += " " + serverTime + ":00";
+            singleNoShowTime.setVisibility(View.GONE);
+        }
+
         citys_line_title_tips.setText(localTime);
         if (isHalfTravel) {
             dayView = LayoutInflater.from(activity).inflate(R.layout.day_order_item, null);

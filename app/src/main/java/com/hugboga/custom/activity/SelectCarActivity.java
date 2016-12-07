@@ -270,6 +270,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     public String luggageNum = "0";
     public String passCities = "204-1-1,204-1-2";
     public String channelId = "18";
+    public boolean isToday = false;
 
     public String serverTime = "";
 
@@ -326,6 +327,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         orderType = this.getIntent().getStringExtra("orderType");
         guideId = this.getIntent().getStringExtra("guideId");
 
+        isToday = this.getIntent().getBooleanExtra("isToday", false);
         if(null != guideId){
             getGuideCars();
         }else{
@@ -868,6 +870,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         bundleCar.putBoolean("isHalfTravel", isHalfTravel);
         bundleCar.putInt("type", 3);
         bundleCar.putString("orderType", "3");
+        bundleCar.putBoolean("isToday", isToday);
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 

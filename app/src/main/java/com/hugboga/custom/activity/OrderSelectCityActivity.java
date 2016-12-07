@@ -1073,7 +1073,9 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putBoolean("isHalfTravel", isHalfTravel);
         bundleCar.putSerializable("passCityList", passBeanList);
         bundleCar.putString("orderType", "3");
-
+        if (chooseDateBean != null) {
+            bundleCar.putBoolean("isToday", chooseDateBean.isToday);
+        }
         if(null != collectGuideBean) {
             bundleCar.putString("guideId", collectGuideBean.guideId);
         }
