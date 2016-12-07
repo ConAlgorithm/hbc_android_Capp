@@ -155,13 +155,16 @@ public class PersonInfoActivity extends BaseActivity{
         if (request instanceof RequestUserInfo) {
             RequestUserInfo requestUserInfo = (RequestUserInfo) request;
             userBean = requestUserInfo.getData();
+            if (userBean == null) {
+                return;
+            }
             UserEntity.getUser().setNickname(this, userBean.nickname);
             UserEntity.getUser().setAvatar(this, userBean.avatar);
             UserEntity.getUser().setUserName(this, userBean.name);
             UserEntity.getUser().setTravelFund(this, userBean.travelFund);
             UserEntity.getUser().setCoupons(this, userBean.coupons);
-            UserEntity.getUser().setAreaCode(activity, userBean.areaCode);
-            UserEntity.getUser().setPhone(activity, userBean.mobile);
+            UserEntity.getUser().setAreaCode(this, userBean.areaCode);
+            UserEntity.getUser().setPhone(this, userBean.mobile);
             initView();
         } else if (request instanceof RequestChangeUserInfo) {
             RequestChangeUserInfo requestChangeUserInfo = (RequestChangeUserInfo) request;
