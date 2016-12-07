@@ -169,6 +169,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
         getAD();
         timeSecond = (TextView) findViewById(R.id.time_second);
+        timeSecond.setVisibility(View.GONE);
         timeSecond.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -292,6 +293,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if (adPictureBean.displayFlag.equalsIgnoreCase("1")) {
+                timeSecond.setVisibility(View.VISIBLE);
                 bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
             }
