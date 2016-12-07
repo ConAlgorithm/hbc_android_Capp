@@ -871,6 +871,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         bundleCar.putInt("type", 3);
         bundleCar.putString("orderType", "3");
         bundleCar.putBoolean("isToday", isToday);
+        bundleCar.putString("serverTime", serverTime);
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 

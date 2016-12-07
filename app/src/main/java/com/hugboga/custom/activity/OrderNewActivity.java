@@ -825,6 +825,7 @@ public class OrderNewActivity extends BaseActivity {
     private void genDairy() {
         upAddressLeft.setText("上车地点");
         show_day_layout.setVisibility(View.VISIBLE);
+        serverTime = this.getIntent().getStringExtra("serverTime");
         String localTime = "当地时间 " + DateUtils.getOrderDateFormat(startDate);
         if (isHalfTravel) {
             citysLineTitle.setText(startBean.name + "-0.5天包车");
@@ -834,7 +835,7 @@ public class OrderNewActivity extends BaseActivity {
             localTime += " 至 " + DateUtils.getOrderDateFormat(endDate);
         }
         if (isToday) {
-            localTime += " " + serverTime + ":00";
+            localTime += " " + serverTime;
             singleNoShowTime.setVisibility(View.GONE);
         }
 
