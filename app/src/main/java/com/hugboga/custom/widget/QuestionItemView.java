@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -194,7 +195,9 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
             if (textWidth % textScope > 0) {
                 ++lines;
             }
-            textHight = lines * (textView.getLineHeight() + UIUtils.dip2px(2)) + UIUtils.dip2px(12) * 2 + UIUtils.dip2px(3);
+            //textView.getLineHeight()
+            textHight = lines * UIUtils.dip2px(23) + UIUtils.dip2px(12) * 2 + UIUtils.dip2px(3);
+//            Log.i("aa", "lines: " + lines + " textWidth" + textWidth + "  textScope: " + textScope + " textHight: " +textHight + " text: " +text);
         }
         if (textHight <= UIUtils.dip2px(60)) {
             textHight = UIUtils.dip2px(60);
