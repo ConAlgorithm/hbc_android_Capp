@@ -279,10 +279,11 @@ public class OrderNewActivity extends BaseActivity {
             userName = UserEntity.getUser().getNickname(activity);
         }
         String userPhone = UserEntity.getUser().getPhone(activity);
+        String areaCode = UserEntity.getUser().getAreaCode(activity);
         contactUsersBean.userName = userName;
         contactUsersBean.userPhone = userPhone;
+        contactUsersBean.phoneCode = areaCode;
         manName.setText(userName);
-        String areaCode = UserEntity.getUser().getAreaCode(activity);
         String phone = userPhone;
         if (!TextUtils.isEmpty(areaCode)) {
             phone = "+" + areaCode + " " + userPhone;
@@ -1247,7 +1248,7 @@ public class OrderNewActivity extends BaseActivity {
             CommonUtils.showToast("联系人姓名不能为空!");
             return;
         }
-        if (TextUtils.isEmpty(manPhone.getText())) {
+        if (contactUsersBean == null || TextUtils.isEmpty(contactUsersBean.userPhone)) {
             CommonUtils.showToast("联系人电话不能为空!");
             return;
         }
