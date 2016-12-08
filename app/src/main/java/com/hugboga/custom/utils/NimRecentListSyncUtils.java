@@ -26,11 +26,9 @@ public class NimRecentListSyncUtils {
      * @return
      */
     public static void recentListSync(List<ChatBean> chatBeanList, List<RecentContact> recentContacts) {
-
         if (recentContacts == null || recentContacts.size() == 0) {
             return;
         }
-
         for (Iterator<ChatBean> iter = chatBeanList.iterator(); iter.hasNext(); ) {
             //客服数据排除不同步
             ChatBean chatBean = iter.next();

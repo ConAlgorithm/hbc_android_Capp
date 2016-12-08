@@ -202,10 +202,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 //            if(adapter.getDatas()!=null){
 //                adapter.removeAll();
 //            }
-            adapter.notifyDataSetChanged();
-            if (recyclerView.getAdapter() != null) {
-                recyclerView.getAdapter().notifyDataSetChanged();
-            }
+//            adapter.notifyDataSetChanged();
+//            if (recyclerView.getAdapter() != null) {
+//                recyclerView.getAdapter().notifyDataSetChanged();
+//            }
         }
     }
 
@@ -426,7 +426,6 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //if(NIMClient.)
                 NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override
                     public void onResult(int code, final List<RecentContact> recents, Throwable exception) {
@@ -435,6 +434,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                         }
                         if (adapter != null) {
                             adapter.syncUpdate(recents);
+                            adapter.notifyDataSetChanged();
                             if (recyclerView != null) {
                                 recyclerView.getAdapter().notifyDataSetChanged();
                             }
@@ -443,7 +443,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                     }
                 });
             }
-        }, 20);
+        },0);
     }
 
 
