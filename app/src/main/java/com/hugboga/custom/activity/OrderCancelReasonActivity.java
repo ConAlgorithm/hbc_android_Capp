@@ -26,6 +26,7 @@ import com.hugboga.custom.data.request.RequestCancelReason;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CancelReasonItemView;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -143,6 +144,14 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                     if (editText.getText() == null || TextUtils.isEmpty(editText.getText().toString()) || TextUtils.isEmpty(editText.getText().toString().trim())) {
                         CommonUtils.showToast("请输入文字内容哦");
                         return;
+                    }
+                    String content = editText.getText().toString().trim();
+                    final int size = content.length();
+                    for(int i = 0; i < size; i++) {
+                        if (!Tools.isEmojiCharacter(content.charAt(i))) {
+                            CommonUtils.showToast("取消原因不能包含表情符号");
+                            return;
+                        }
                     }
                     selectedReasonItem.content += String.format("（%1$s）", editText.getText().toString().trim());
                 }

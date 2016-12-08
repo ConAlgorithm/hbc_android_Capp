@@ -1064,7 +1064,7 @@ public class OrderSelectCityActivity extends BaseActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (currentTimeMillis >0 && serverTimeMillis > 0 && serverTimeMillis < (currentTimeMillis + 2 * 60 * 60 * 1000)) {
+            if (currentTimeMillis != 0 && serverTimeMillis != 0 && Math.abs(serverTimeMillis) < (Math.abs(currentTimeMillis) + 2 * 60 * 60 * 1000)) {
                 CommonUtils.showToast("至少提前2小时预订");
                 return;
             }
