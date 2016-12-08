@@ -133,7 +133,6 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      */
      public void syncUpdate(List<RecentContact> recentContacts){
          NimRecentListSyncUtils.recentListSync(datas,recentContacts);
-         this.notifyDataSetChanged();
      }
 
 
