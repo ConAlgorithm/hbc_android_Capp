@@ -184,20 +184,22 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
         int textHight = 0;
         if (textWidth > 0) {
             // text实际显示区域,PreDrawListener略费内存
-            // 8 + 45(avatar) + 6 + {15 + textView + 15 + (9 + 15)(arrow)} + 8;
+            // 8 + 45(avatar) + 6 + {textView + (9 + 15)(arrow)} + 8;
             int textScope = 0;
             if (isShowArrowIV) {
-                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(121);
+                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(91);
             } else {
-                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(97);
+                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(67);
             }
             int lines = textWidth / textScope;
             if (textWidth % textScope > 0) {
                 ++lines;
             }
-            //textView.getLineHeight()
-            textHight = lines * UIUtils.dip2px(23) + UIUtils.dip2px(12) * 2 + UIUtils.dip2px(3);
-//            Log.i("aa", "lines: " + lines + " textWidth" + textWidth + "  textScope: " + textScope + " textHight: " +textHight + " text: " +text);
+            //TODO 获取文字长度有误差
+            if (lines >= 2) {
+                lines += 2;
+            }
+            textHight = lines * textView.getLineHeight() + UIUtils.dip2px(12) * 2;
         }
         if (textHight <= UIUtils.dip2px(60)) {
             textHight = UIUtils.dip2px(60);

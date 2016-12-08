@@ -313,8 +313,7 @@
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
                         android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/man_phone_name"
-                        android:layout_toEndOf="@+id/man_phone_name">
+                        android:layout_toRightOf="@+id/man_phone_name">
 
 
                         <TextView
@@ -325,7 +324,6 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:singleLine="true"
-                            android:lines="1"
                             android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
@@ -338,6 +336,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="5dp"
+                            android:singleLine="true"
                             android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
@@ -390,7 +389,8 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:minEms="4"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
                             android:textSize="14sp" />
@@ -402,7 +402,8 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:minEms="4"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
                             android:textSize="14sp" />

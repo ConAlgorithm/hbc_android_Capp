@@ -853,12 +853,6 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
-        if (serverTime.equalsIgnoreCase("00:00")) {
-            upRight.setVisibility(View.GONE);
-        } else {
-            upRight.setVisibility(View.VISIBLE);
-        }
-
         hotelPhoneTextCodeClick.setText("+" + startBean.areaCode);
 
         if (!isHalfTravel && null != passCityList) {
