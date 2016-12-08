@@ -124,20 +124,24 @@ public class SensorsUtils {
 
     //联系客服
     public static void setSensorsServiceEvent(int sourceType, int _type) {
-        try {
-            String webTitle = "其它";
-            switch (sourceType) {
-                case UnicornServiceActivity.SourceType.TYPE_CHARTERED:
-                    webTitle = "包车游详情";
-                    break;
-                case UnicornServiceActivity.SourceType.TYPE_LINE:
-                    webTitle = "商品详情";
-                    break;
-                case UnicornServiceActivity.SourceType.TYPE_ORDER:
-                    webTitle = "订单";
-                    break;
-            }
+        String webTitle = "其它";
+        switch (sourceType) {
+            case UnicornServiceActivity.SourceType.TYPE_CHARTERED:
+                webTitle = "包车游详情";
+                break;
+            case UnicornServiceActivity.SourceType.TYPE_LINE:
+                webTitle = "商品详情";
+                break;
+            case UnicornServiceActivity.SourceType.TYPE_ORDER:
+                webTitle = "订单";
+                break;
+        }
+        setSensorsServiceEvent(webTitle, _type);
+    }
 
+    //联系客服
+    public static void setSensorsServiceEvent(String source, int _type) {
+        try {
             String typeStr = "";
             switch (_type) {
                 case 0:
@@ -152,7 +156,7 @@ public class SensorsUtils {
             }
 
             JSONObject properties = new JSONObject();
-            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_web_title", source);
             properties.put("hbc_cs_type", typeStr);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contact_servicedesk", properties);
         } catch (Exception e) {
