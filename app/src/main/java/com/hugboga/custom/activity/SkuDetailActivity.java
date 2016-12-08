@@ -38,6 +38,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -300,6 +301,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 break;
         }
     }
@@ -512,15 +514,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     //神策统计_浏览页面
     private void setSensorsShowEvent() {
         try {
-            String skuId = "";
-            if (skuItemBean != null) {
-                skuId = skuItemBean.goodsNo;
-            } else {
-                skuId = goodsNo;
+            if (skuItemBean == null) {
+                return;
             }
             JSONObject properties = new JSONObject();
             properties.put("hbc_web_title", "商品详情页");
-            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuId);
+            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean.goodsNo);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {

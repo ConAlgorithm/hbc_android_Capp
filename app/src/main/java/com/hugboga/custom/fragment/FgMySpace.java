@@ -38,6 +38,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -254,9 +255,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_IN);
+                SensorsUtils.setSensorsServiceEvent(getEventSource(), 1);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
+                SensorsUtils.setSensorsServiceEvent(getEventSource(), 2);
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心-设置")) {

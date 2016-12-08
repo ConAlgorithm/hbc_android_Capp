@@ -70,11 +70,14 @@ import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -1050,6 +1053,22 @@ public class OrderSelectCityActivity extends BaseActivity {
 
 
     private void goToSelectCar(){
+        if (chooseDateBean != null && chooseDateBean.isToday && !TextUtils.isEmpty(serverTime)) {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            long currentTimeMillis = 0;
+            long serverTimeMillis = 0;
+            try {
+                currentTimeMillis = formatter.parse(formatter.format(System.currentTimeMillis())).getTime();
+                serverTimeMillis = formatter.parse(serverTime).getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (currentTimeMillis >0 && serverTimeMillis > 0 && serverTimeMillis < (currentTimeMillis + 2 * 60 * 60 * 1000)) {
+                CommonUtils.showToast("至少提前2小时预订");
+                return;
+            }
+        }
         Bundle bundleCar = new Bundle();
         bundleCar.putString("startCityId", startBean.cityId + "");
         bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
@@ -1073,7 +1092,9 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putBoolean("isHalfTravel", isHalfTravel);
         bundleCar.putSerializable("passCityList", passBeanList);
         bundleCar.putString("orderType", "3");
-
+        if (chooseDateBean != null) {
+            bundleCar.putBoolean("isToday", chooseDateBean.isToday);
+        }
         if(null != collectGuideBean) {
             bundleCar.putString("guideId", collectGuideBean.guideId);
         }

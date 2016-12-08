@@ -169,6 +169,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
         getAD();
         timeSecond = (TextView) findViewById(R.id.time_second);
+        timeSecond.setVisibility(View.GONE);
         timeSecond.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -178,7 +179,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             }
         });
         timeSecond.setText(String.format(getString(R.string.loading_time),loading_time+""));
-        handler.postDelayed(runnable,1000);
     }
 
 //    Handler timeHandler = new Handler();
@@ -292,8 +292,12 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if (adPictureBean.displayFlag.equalsIgnoreCase("1")) {
+                handler.postDelayed(runnable,1000);
+                timeSecond.setVisibility(View.VISIBLE);
                 bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
+            } else {
+                handler.sendEmptyMessage(200);
             }
         }
 
@@ -354,6 +358,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
         DialogUtil.getInstance(this).dismissLoadingDialog();
+        handler.sendEmptyMessage(200);
     }
 
     @Override

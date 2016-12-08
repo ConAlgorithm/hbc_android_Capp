@@ -237,6 +237,7 @@ public class BindMobileActivity extends BaseActivity{
                     connectIM();
                     EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
+                EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
                 intent.putExtras(bundle);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
@@ -250,11 +251,8 @@ public class BindMobileActivity extends BaseActivity{
                 UserSession.getUser().setUserToken(this, userBean.userToken);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
-//                Bundle bundle = new Bundle();
-//                bundle.putString(KEY_FRAGMENT_NAME, FgBindMobile.class.getSimpleName());
-//                finishForResult(bundle);
-                destroyHandler();
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
+                destroyHandler();
                 finish();
             }
         } else if(request instanceof RequestChangeMobile){
@@ -271,7 +269,7 @@ public class BindMobileActivity extends BaseActivity{
             intent.putExtras(bundle);
             finish();
             BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
-
+            EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
             MobClickUtils.onEvent(StatisticConstant.BIND_SUCCEED);
         }
     }

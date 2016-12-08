@@ -196,9 +196,14 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void showGoodsError() {
-        if (mActivity instanceof SkuDetailActivity) {
-            ((SkuDetailActivity) mActivity).goodsSoldOut();
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    ((SkuDetailActivity) mActivity).goodsSoldOut();
+                }
+            }
+        });
     }
 
     /**
@@ -562,11 +567,15 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void goodsHadOutOfStock() {
-
-        if (mActivity instanceof SkuDetailActivity) {
-            SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
-            fgSkuDetail.setGoodsOut();
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
+                    fgSkuDetail.setGoodsOut();
+                }
+            }
+        });
     }
 
     private void callBack(final String callBackMethod, final String callBackResult) {

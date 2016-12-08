@@ -19,11 +19,13 @@ import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.widget.ShareDialog;
-import com.ta.utdid2.android.utils.StringUtils;
+
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -198,10 +200,52 @@ public final class CommonUtils {
     }
 
     public static String replaceUrlValue(String url, String key, String value) {
-        if (!StringUtils.isEmpty(url) && !StringUtils.isEmpty(key)) {
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
             url = url.replaceAll("(" + key +"=[^&]*)", key + "=" + value);
         }
         return url;
+    }
+
+    public static String getUrlValue(String url, String key) {
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
+            Map<String, String> map = getUrlValues(url);
+            if (map != null && map.containsKey(key)) {
+                return map.get(key);
+            } else {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
+
+    public static Map<String, String> getUrlValues(String _url) {
+        if (TextUtils.isEmpty(_url)) {
+            return null;
+        }
+        String strAllParam = null;
+        String strURL = _url.trim();
+        String[] arrSplit = strURL.split("[?]");
+        if (strURL.length() > 1 && arrSplit.length > 1 && arrSplit[1] != null) {
+            strAllParam = arrSplit[1];
+        } else {
+            return null;
+        }
+        if (TextUtils.isEmpty(strAllParam)) {
+            return null;
+        }
+        Map<String, String> map = new HashMap<String, String>();
+        if (strAllParam.indexOf("&") > -1 && strAllParam.indexOf("=") > -1) {
+            String[] arrTemp = strAllParam.split("&");
+            for (String str : arrTemp) {
+                String[] qs = str.split("=");
+                map.put(qs[0], qs[1]);
+            }
+        } else if (strAllParam.indexOf("=") > -1) {
+            String[] qs = strAllParam.split("=");
+            map.put(qs[0], qs[1]);
+        }
+        return map;
     }
 
     public static String getDiskCacheDir() {
