@@ -1085,9 +1085,7 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putString("startCityName", startBean.name);
         bundleCar.putString("dayNums", nums + "");
         bundleCar.putSerializable("startBean", startBean);
-        if (passBeanList != null) {
-            bundleCar.putSerializable("endBean", passBeanList.get(passBeanList.size() - 1));
-        }
+        bundleCar.putSerializable("endBean", isHalfTravel ? endBean : passBeanList.get(passBeanList.size() - 1));
         bundleCar.putInt("outnum", getOutNum());
         bundleCar.putInt("innum", getInNum());
         bundleCar.putString("source", source);
