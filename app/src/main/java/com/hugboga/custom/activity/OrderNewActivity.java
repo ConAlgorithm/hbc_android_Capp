@@ -285,9 +285,7 @@ public class OrderNewActivity extends BaseActivity {
         contactUsersBean.phoneCode = areaCode;
         manName.setText(userName);
         String phone = userPhone;
-        if (!TextUtils.isEmpty(areaCode)) {
-            phone = "+" + areaCode + " " + userPhone;
-        }
+        phone = CommonUtils.addPhoneCodeSign(areaCode) + " " + userPhone;
         manPhone.setText(phone);
         topTipsLayout.setText(R.string.order_detail_top2_tips);
     }
@@ -548,7 +546,7 @@ public class OrderNewActivity extends BaseActivity {
         airPort = (AirPort) this.getIntent().getSerializableExtra("airPortBean");
         poiBean = (PoiBean) this.getIntent().getSerializableExtra("poiBean");
 
-        hotelPhoneTextCodeClick.setText("+" + airPort.areaCode);
+        hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(airPort.areaCode));
 
         cancleTipsId = airPort.cityId+"";
 
@@ -753,7 +751,7 @@ public class OrderNewActivity extends BaseActivity {
 
 
         if (null != startBean) {
-            hotelPhoneTextCodeClick.setText("+" + startBean.areaCode);
+            hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(startBean.areaCode));
             cancleTipsId = startBean.cityId+"";
         }
 
@@ -854,7 +852,7 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
-        hotelPhoneTextCodeClick.setText("+" + startBean.areaCode);
+        hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(startBean.areaCode));
 
         if (!isHalfTravel && null != passCityList) {
             if (passCityList.size() <= 3) {
@@ -1318,13 +1316,13 @@ public class OrderNewActivity extends BaseActivity {
             contactUsersBean = (ContactUsersBean) action.getData();
             if (!TextUtils.isEmpty(contactUsersBean.userName)) {
                 manName.setText(contactUsersBean.userName);
-                manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
+                manPhone.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.phoneCode) + " " + contactUsersBean.userPhone);
             }
 
             if (contactUsersBean.isForOther) {
                 otherLayout.setVisibility(View.VISIBLE);
                 otherName.setText(contactUsersBean.otherName);
-                otherPhone.setText(contactUsersBean.otherphoneCode + " " + contactUsersBean.otherPhone);
+                otherPhone.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.otherphoneCode) + " " + contactUsersBean.otherPhone);
             }
         } else if (action.getType() == EventType.SELECT_COUPON_BACK) {
             couponBean = (CouponBean) action.getData();
@@ -1353,7 +1351,7 @@ public class OrderNewActivity extends BaseActivity {
 
         }else if(action.getType() == EventType.CHOOSE_COUNTRY_BACK){
             AreaCodeBean areaCodeBean = (AreaCodeBean)action.getData();
-            hotelPhoneTextCodeClick.setText("+" + areaCodeBean.getCode());
+            hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
         }
     }
 

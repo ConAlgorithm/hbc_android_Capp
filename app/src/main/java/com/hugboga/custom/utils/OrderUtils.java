@@ -47,13 +47,13 @@ public class OrderUtils {
         StringBuffer userExJson = new StringBuffer();
         userExJson.append("[");
         if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
-            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
         }
         if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
         }
         if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
         }
         userExJson.append("]");
         return userExJson.toString();
@@ -64,7 +64,7 @@ public class OrderUtils {
         realUserExJson.append("[");
 
         if (!TextUtils.isEmpty(contactUsersBean.otherName)) {
-            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode) + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
         }
         realUserExJson.append("]");
         return realUserExJson.toString();
@@ -170,7 +170,7 @@ public class OrderUtils {
         orderBean.inTownDays = inNum;
         orderBean.oneCityTravel = outNum == 0 ? 1 : 2;//1：市内畅游  2：跨城市
         orderBean.serviceAddressTel = serviceAddressTel;
-        orderBean.serviceAreaCode = serviceAreaCode;
+        orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);
         orderBean.orderType = 1;
         orderBean.serviceCityId = startBean.cityId;
         orderBean.serviceEndCityid = endBean.cityId;
@@ -200,7 +200,7 @@ public class OrderUtils {
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
         orderBean.realUserName = contactUsersBean.otherName;
-        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
 
 
@@ -307,7 +307,7 @@ public class OrderUtils {
         orderBean.distance = distance;
         orderBean.priceMark = carBean.pricemark;
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
-        orderBean.serviceAreaCode = serviceAreaCode;//hotelPhoneTextCodeClick.getText().toString();
+        orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = userRemark;//mark.getText().toString();
@@ -316,7 +316,7 @@ public class OrderUtils {
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
         orderBean.realUserName = contactUsersBean.otherName;
-        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
         orderBean.isCheckin = isCheckIn ? "1" : "0";
 
@@ -435,7 +435,7 @@ public class OrderUtils {
         orderBean.priceMark = carBean.pricemark;
 
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
-        orderBean.serviceAreaCode = serviceAreaCode;//hotelPhoneTextCodeClick.getText().toString();
+        orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
 
 
         orderBean.userName = userName;//manName.getText().toString();
@@ -448,7 +448,7 @@ public class OrderUtils {
         orderBean.luggageNum = luggageNum;
 
         orderBean.realUserName = contactUsersBean.otherName;
-        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
@@ -518,7 +518,7 @@ public class OrderUtils {
                                          String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
                                          String guideCollectId,ManLuggageBean manLuggageBean) {
         OrderBean orderBean = new OrderBean();//订单
-        orderBean.serviceAreaCode = serviceAreaCode;//hotelPhoneTextCodeClick.getText().toString();
+        orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
         orderBean.urgentFlag = carBean.urgentFlag;
         orderBean.expectedCompTime = carBean.expectedCompTime;
@@ -554,7 +554,7 @@ public class OrderUtils {
         orderBean.userRemark = userRemark;//mark.getText().toString();
         orderBean.distance = carListBean.distance+"";
         orderBean.realUserName = contactUsersBean.otherName;
-        orderBean.realAreaCode = contactUsersBean.otherphoneCode;
+        orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
 
         orderBean.carId = carBean.carId;
@@ -669,7 +669,7 @@ public class OrderUtils {
         orderBean.luggageNum = luggageNum;
         orderBean.contact = new ArrayList<OrderContact>();
         OrderContact orderContact = new OrderContact();
-        orderContact.areaCode = "+86";
+        orderContact.areaCode = "86";
         orderContact.tel = "";
         orderBean.contact.add(orderContact);
         orderBean.memo = userRemark;//mark.getText().toString().trim();

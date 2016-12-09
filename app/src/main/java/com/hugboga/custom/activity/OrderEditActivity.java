@@ -177,8 +177,7 @@ public class OrderEditActivity extends BaseActivity {
                 pickNameLayout.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                String serviceCode = orderBean.serviceAreaCode;
-                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -191,8 +190,7 @@ public class OrderEditActivity extends BaseActivity {
                 airportName.setText(orderBean.flightNo);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                String serviceCode = orderBean.serviceAreaCode;
-                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -213,8 +211,7 @@ public class OrderEditActivity extends BaseActivity {
                 upAddressRight.setText(orderBean.startAddress);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                String serviceCode = orderBean.serviceAreaCode;
-                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -231,11 +228,7 @@ public class OrderEditActivity extends BaseActivity {
             String userName = userList.get(0).name;
             String userPhone = userList.get(0).mobile;
             manName.setText(userName);
-            if (TextUtils.isEmpty(userList.get(0).areaCode)) {
-                manPhone.setText(userPhone);
-            } else {
-                manPhone.setText(userList.get(0).areaCode + " " + userPhone);
-            }
+            manPhone.setText(CommonUtils.addPhoneCodeSign(userList.get(0).areaCode) + " " + userPhone);
             mark.setText(orderBean.memo);
             for (int i = 0; i < userList.size(); i++) {
                 if (i == 0) {
@@ -314,7 +307,7 @@ public class OrderEditActivity extends BaseActivity {
                 }
                 if (!TextUtils.isEmpty(contactUsersBean.userName)) {
                     manName.setText(contactUsersBean.userName);
-                    manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
+                    manPhone.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.phoneCode) + " " + contactUsersBean.userPhone);
                 }
                 if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
                     otherLayout.setVisibility(View.VISIBLE);
@@ -332,7 +325,7 @@ public class OrderEditActivity extends BaseActivity {
                     break;
                 }
                 orderBean.serviceAreaCode = areaCodeBean.getCode();
-                hotelPhoneTextCodeClick.setText("+" + areaCodeBean.getCode());
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
                 break;
             case CHOOSE_POI_BACK:
                 if (!(action.getData() instanceof PoiBean)) {
@@ -360,7 +353,7 @@ public class OrderEditActivity extends BaseActivity {
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                serverTime = hour + ":" + minute + ":00";
+                serverTime = hour + ":" + minute;
                 upRight.setText(serverTime + "(当地时间)");
                 orderBean.serviceStartTime = serverTime;
                 picker.dismiss();
@@ -433,7 +426,7 @@ public class OrderEditActivity extends BaseActivity {
         requestParams.orderNo = orderBean.orderNo;
         requestParams.orderType = orderBean.orderType;//int 可选1-接机；2-送机；3-日租；4-次租
         requestParams.serviceAddressTel = TextUtils.isEmpty(hotelPhoneText.getText()) ? "" : hotelPhoneText.getText().toString();//目的地酒店或者区域电话号码
-        requestParams.serviceAreaCode = orderBean.serviceAreaCode;//目的地区域
+        requestParams.serviceAreaCode = CommonUtils.removePhoneCodeSign(orderBean.serviceAreaCode);//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
         if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
             requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
@@ -464,15 +457,15 @@ public class OrderEditActivity extends BaseActivity {
         userExJson.append("[");
 
         if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
-            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
         }
 
         if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
         }
 
         if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
         }
         userExJson.append("]");
         return userExJson.toString();
@@ -482,7 +475,7 @@ public class OrderEditActivity extends BaseActivity {
         StringBuffer realUserExJson = new StringBuffer();
         if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
             realUserExJson.append("[");
-            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode) + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
             realUserExJson.append("]");
         }
         return realUserExJson.toString();
