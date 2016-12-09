@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 108
+    //current urlErrorCode 109
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -194,6 +194,7 @@ public class UrlLibs {
     public static final String GET_AD_PICTURE               = "marketing/v1.0/c/activity/effectivestart";               // 获取启动图
     public static final String MOSTFIT                      = "marketing/v1.1/c/coupons/mostFit";                       // 下单获取最适合的优惠券
     public static final String API_COUPONS_AVAILABLE        = "marketing/v1.1/c/coupons/available";                     // 获取可用优惠券
+    public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/couponactivity";                        // CApp3.2领券礼物活动
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
