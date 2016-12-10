@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -292,5 +294,17 @@ public final class CommonUtils {
         Intent intent = new Intent(context, LargerImageActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
+    }
+
+    public static boolean checkTextIsNull(EditText editText) {
+        if (editText == null) {
+            return true;
+        }
+        Editable editable = editText.getText();
+        if (editable != null && editable.toString() != null && !TextUtils.isEmpty(editable.toString().trim())) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

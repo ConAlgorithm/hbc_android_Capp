@@ -45,6 +45,7 @@ import com.hugboga.custom.widget.CityHomeHeader;
 import com.hugboga.custom.widget.CityHomeListItemFree;
 import com.hugboga.custom.widget.CityHomeListItemWorry;
 import com.hugboga.custom.widget.CityPlaceHolderView;
+import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.SkuListEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -146,6 +147,18 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         }
 
         setSensorsShowEvent();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GiftController.getInstance(this).showGiftDialog();
     }
 
     //神策统计_浏览页面

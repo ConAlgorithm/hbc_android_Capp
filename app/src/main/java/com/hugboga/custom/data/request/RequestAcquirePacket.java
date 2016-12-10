@@ -1,44 +1,40 @@
 package com.hugboga.custom.data.request;
 
-import android.content.Context;
-
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.CouponActivityBean;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.HbcParser;
-
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
 
 /**
- * CApp3.2领券礼物活动
- * Created by qingcha on 16/12/9.
+ * Created by qingcha on 16/12/10.
  */
-@HttpRequest(path = UrlLibs.COUPON_ACTIVITY, builder = NewParamsBuilder.class)
-public class RequestCouponActivity extends BaseRequest<CouponActivityBean> {
+@HttpRequest(path = UrlLibs.ACQUIRE_PACKET, builder = NewParamsBuilder.class)
+public class RequestAcquirePacket extends BaseRequest {
 
-    public RequestCouponActivity(Context context) {
-        super(context);
+    public RequestAcquirePacket(String areaCode) {
+        super(MyApplication.getAppContext());
         map = new HashMap<String, Object>();
+        map.put("areaCode", areaCode);
     }
 
     @Override
     public HttpMethod getHttpMethod() {
-        return HttpMethod.GET;
+        return HttpMethod.POST;
     }
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.COUPON_ACTIVITY, CouponActivityBean.class);
+        return null;
     }
 
     @Override
     public String getUrlErrorCode() {
-        return "40109";
+        return "40110";
     }
 
 }

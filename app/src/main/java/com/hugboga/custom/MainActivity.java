@@ -69,6 +69,7 @@ import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.zhy.m.permission.MPermissions;
@@ -114,6 +115,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TextView tabMenu[] = new TextView[4];
     private ActionBean actionBean;
+    private int currentPosition = 0;
 
     private FgHome fgHome;
     private FgImChat fgChat;
@@ -171,6 +173,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onResume() {
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+        if (currentPosition == 0) {
+            GiftController.getInstance(this).showGiftDialog();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
     }
 
     private void checkVersion() {
@@ -553,6 +564,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         MLog.e("onPageSelected = " + position);
         for (int i = 0; i < tabMenu.length; i++) {
             tabMenu[i].setSelected(position == i);
+        }
+        currentPosition = position;
+        if (position == 0) {
+            GiftController.getInstance(this).showGiftDialog();
+        } else {
+            GiftController.getInstance(this).abortion();
         }
     }
 

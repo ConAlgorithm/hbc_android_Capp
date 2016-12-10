@@ -50,6 +50,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -322,11 +323,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private String getCityName() {
         return cityBean != null ? cityBean.enName : "";
     }
@@ -460,12 +456,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     };
 
-
     @Override
     public void onPause() {
         super.onPause();
+        GiftController.getInstance(this).abortion();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GiftController.getInstance(this).showGiftDialog();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
