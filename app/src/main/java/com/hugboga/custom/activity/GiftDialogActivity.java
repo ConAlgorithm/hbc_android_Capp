@@ -1,8 +1,6 @@
-package com.hugboga.custom.widget;
+package com.hugboga.custom.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -27,19 +24,16 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCountryActivity;
-import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.activity.RegisterActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CouponActivityBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestAcquirePacket;
-import com.hugboga.custom.data.request.RequestCouponActivity;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.GiftController;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,7 +47,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/12/9.
  */
-public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBehavior, TextWatcher {
+public class GiftDialogActivity extends Activity implements HttpRequestListener, TextWatcher {
 
     //屏幕中的占比
     private static final float WIDTH_SCALE = 0.77f;
@@ -77,16 +71,28 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
     @Bind(R.id.dialog_gift_input_layout)
     LinearLayout inputLayout;
 
-    private CouponActivityBean data;
     private boolean isRequestSucceed = false;
+    private CouponActivityBean couponActivityBean;
 
-    public GiftDialog(Context context) {
-        super(context, R.style.MyDialog);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            couponActivityBean = (CouponActivityBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                couponActivityBean = (CouponActivityBean) bundle.getSerializable(Constants.PARAMS_DATA);
+            }
+        }
+
+        if (couponActivityBean == null || couponActivityBean.couponActiviyVo == null) {
+            finish();
+        }
         setContentView(R.layout.view_dialog_gift);
 
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        setCanceledOnTouchOutside(true);
 
         final int screenWidth = UIUtils.getScreenWidth();
         int dialogWidth = (int) (screenWidth * WIDTH_SCALE);
@@ -98,43 +104,63 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
         displayIV.setLayoutParams(imgParams);
 
         phoneET.addTextChangedListener(this);
+        setTitleTV(couponActivityBean.couponActiviyVo.activityTitle);
+        subtitleTV.setText("现在领取，即可在下单时使用");
     }
 
     @Override
-    public void dismiss() {
-        super.dismiss();
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(Constants.PARAMS_DATA, couponActivityBean);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @OnClick({R.id.dialog_gift_close_iv, R.id.dialog_gift_phone_code_tv, R.id.dialog_gift_confirm_tv})
     public void onClick(View view) {
-        Intent intent = null;
         switch (view.getId()) {
             case R.id.dialog_gift_close_iv:
-                dismiss();
+                finish();
                 break;
             case R.id.dialog_gift_phone_code_tv:
-                intent = new Intent(getContext(), ChooseCountryActivity.class);
-                getContext().startActivity(intent);
+                startActivity(new Intent(this, ChooseCountryActivity.class));
                 break;
             case R.id.dialog_gift_confirm_tv:
                 if (isRequestSucceed) {
-                    intent = new Intent(getContext(), LoginActivity.class);
-                    intent.putExtra(LoginActivity.KEY_AREA_CODE, phoneCodeTV.getText());
-                    intent.putExtra(LoginActivity.KEY_PHONE, phoneCodeTV.getText());
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra(LoginActivity.KEY_AREA_CODE, CommonUtils.removePhoneCodeSign(phoneCodeTV.getText().toString()));
+                    intent.putExtra(LoginActivity.KEY_PHONE, phoneET.getText().toString().replaceAll(" ",""));
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    getContext().startActivity(intent);
+                    startActivity(intent);
+                    finish();
                 } else {
                     if (CommonUtils.checkTextIsNull(phoneET)) {
                         phoneET.setBackgroundResource(R.drawable.bg_gift_phone_error);
                         errorHintTV.setVisibility(View.VISIBLE);
                         break;
                     }
+                    String code = CommonUtils.removePhoneCodeSign(phoneCodeTV.getText().toString());
+                    String phone = phoneET.getText().toString().replaceAll(" ","");
+                    if (code.equals("86") && phone.length() != 11) { //验证国内手机号
+                        phoneET.setBackgroundResource(R.drawable.bg_gift_phone_error);
+                        errorHintTV.setVisibility(View.VISIBLE);
+                        break;
+                    }
                     phoneET.setBackgroundResource(R.drawable.bg_gift_phone);
                     errorHintTV.setVisibility(View.INVISIBLE);
-
-//                    phoneET.getText().toString().replaceAll(" ","");
-//                  HttpRequestUtils.request(getContext(), new RequestAcquirePacket(), this, true);
+                    HttpRequestUtils.request(this, new RequestAcquirePacket(this, code, phone), this, true);
+                    isRequestSucceed = false;
+                    CommonUtils.hideSoftInputMethod(phoneET);
                 }
                 break;
         }
@@ -151,19 +177,9 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
                 if (areaCodeBean == null) {
                     break;
                 }
-                phoneCodeTV.setText("+" + areaCodeBean.getCode());//TODO
+                phoneCodeTV.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
                 break;
         }
-    }
-
-    @Override
-    public void update(Object _data) {
-        CouponActivityBean data = (CouponActivityBean) _data;
-        if (data == null) {
-            return;
-        }
-        setTitleTV(data.activityTitle);
-        subtitleTV.setText("现在领取，即可在下单时使用");
     }
 
     private void setTitleTV(String _title) {
@@ -188,19 +204,12 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
     public void onDataRequestSucceed(BaseRequest request) {
         ApiReportHelper.getInstance().addReport(request);
         if (request instanceof RequestAcquirePacket) {
-//            SharedPre.setBoolean(GiftController.PARAMS_GAINED, true);
-            //注册
-            boolean login = false;
-
+            SharedPre.setBoolean(GiftController.PARAMS_GAINED, true);
             inputLayout.setVisibility(View.GONE);
             titleTV.setText("领取成功");
-            if (login) {
-                confirmTV.setText("去登录");
-                subtitleTV.setText("登录后即可在\"我的优惠券\"中查看礼包");
-            } else {
-                confirmTV.setText("去注册");
-                subtitleTV.setText("注册后即可在\"我的优惠券\"中查看礼包");
-            }
+            confirmTV.setText("去登录");
+            subtitleTV.setText("登录后即可在\"我的优惠券\"中查看礼包");
+            isRequestSucceed = true;
         }
     }
 
@@ -211,7 +220,7 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        ErrorHandler errorHandler = new ErrorHandler((Activity) getContext(), this);
+        ErrorHandler errorHandler = new ErrorHandler(this, this);
         errorHandler.onDataRequestError(errorInfo, request);
     }
 

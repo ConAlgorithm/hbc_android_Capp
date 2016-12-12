@@ -1,13 +1,15 @@
 package com.hugboga.custom.widget;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.activity.GiftDialogActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponActivityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCouponActivity;
@@ -36,20 +38,16 @@ public class GiftController implements HttpRequestListener {
 
     private CouponActivityBean data;
     private boolean isAbort = false;
-    private GiftDialog giftDialog = null;
     private Handler mHandler = new Handler();
 
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
             if (mActivity != null && !mActivity.isFinishing() && data != null) {
-                if (giftDialog != null) {
-                    giftDialog.dismiss();
-                }
-//              SharedPre.setLong(PARAMS_FIRST_SHOW_TIME, System.currentTimeMillis());
-                giftDialog = new GiftDialog(mActivity);
-                giftDialog.update(data);
-                giftDialog.show();
+                SharedPre.setLong(PARAMS_FIRST_SHOW_TIME, System.currentTimeMillis());
+                Intent intent = new Intent(mActivity, GiftDialogActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, data);
+                mActivity.startActivity(intent);
             }
         }
     };
@@ -95,17 +93,18 @@ public class GiftController implements HttpRequestListener {
     }
 
     public void showGiftDialog() {
-        if (UserEntity.getUser().isLogin(mActivity) || mHandler == null || mRunnable == null || data == null || !data.activityStatus) {
+        if (UserEntity.getUser().isLogin(mActivity) || mHandler == null || mRunnable == null
+                || data == null || data.couponActiviyVo == null || !data.couponActiviyVo.activityStatus) {
             return;
         }
         abortion();
         long firstShowTime = SharedPre.getLong(PARAMS_FIRST_SHOW_TIME, 0);
         if (firstShowTime == 0) {//未展示过
             isAbort = false;
-            mHandler.postDelayed(mRunnable, data.scanTime * 1000);
+            mHandler.postDelayed(mRunnable, data.couponActiviyVo.scanTime * 1000);
         } else {//未领取过且距离首次展示X天
             boolean isGained = SharedPre.getBoolean(PARAMS_GAINED, false);
-            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.cycleTime * 1000);
+            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.couponActiviyVo.cycleTime * 1000);
             if (!isGained && cycleTime) {
                 isAbort = false;
                 mHandler.post(mRunnable);
@@ -119,9 +118,6 @@ public class GiftController implements HttpRequestListener {
         }
         isAbort = true;
         mHandler.removeCallbacks(mRunnable);
-        if (giftDialog != null) {
-            giftDialog.dismiss();
-        }
     }
 
 }

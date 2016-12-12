@@ -112,9 +112,9 @@ public class MyApplication extends HbcApplication {
     }
 
     private void initUrlHost() {
-        if (setDebugUrlHost()) {
-            return;
-        }
+//        if (setDebugUrlHost()) {
+//            return;
+//        }
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
         MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
         if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {

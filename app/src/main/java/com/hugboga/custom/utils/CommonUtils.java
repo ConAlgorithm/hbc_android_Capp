@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -328,5 +329,15 @@ public final class CommonUtils {
             }
         }
         return result;
+    }
+
+    public static void hideSoftInputMethod(EditText inputText) {
+        if (inputText == null) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) inputText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && inputText != null) {
+            imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
+        }
     }
 }

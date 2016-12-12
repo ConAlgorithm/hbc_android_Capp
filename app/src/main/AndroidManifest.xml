@@ -361,6 +361,13 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
+            android:name=".activity.GiftDialogActivity"
+            android:theme="@style/MyDialog"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity
             android:name=".activity.OrderCancelReasonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />

@@ -1,8 +1,9 @@
 package com.hugboga.custom.data.request;
 
+import android.content.Context;
+
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.Common;
@@ -20,12 +21,13 @@ public class RequestAcquirePacket extends BaseRequest {
 
     private static final String SIGN_KEY = "$RFVbgt5";
 
-    public RequestAcquirePacket(String mobile, String areaCode) {
-        super(MyApplication.getAppContext());
+    public RequestAcquirePacket(Context context, String areaCode, String mobile) {
+        super(context);
         map = new HashMap<String, Object>();
-        map.put("mobile", mobile);
+        map.put("source", "1");
         map.put("areaCode", areaCode);
-        map.put("sign", Common.md5(Common.md5(areaCode) + SIGN_KEY));
+        map.put("mobile", mobile);
+        map.put("sign", Common.md5(Common.md5(mobile) + SIGN_KEY));
     }
 
     @Override
