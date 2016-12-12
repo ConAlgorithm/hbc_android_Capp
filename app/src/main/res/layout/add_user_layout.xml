@@ -119,7 +119,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:hint="@string/add_user_phone_area_no"
-                        android:text="+ 86"
+                        android:text="+86"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
@@ -229,7 +229,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:hint="@string/add_user_phone_area_no"
-                        android:text="+ 86"
+                        android:text="+86"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
@@ -359,7 +359,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:hint="@string/add_user_phone_area_no"
-                        android:text="+ 86"
+                        android:text="+86"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />
@@ -536,7 +536,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:hint="@string/add_user_phone_area_no"
-                        android:text="+ 86"
+                        android:text="+86"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#c3c5c5"
                         android:textSize="14sp" />

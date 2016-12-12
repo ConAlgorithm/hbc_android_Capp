@@ -307,4 +307,26 @@ public final class CommonUtils {
             return true;
         }
     }
+
+    public static String removePhoneCodeSign(String phoneCode) {
+        String result = "";
+        if (TextUtils.isEmpty(phoneCode) || TextUtils.isEmpty(phoneCode.trim())) {
+            return result;
+        }
+        result = phoneCode.replaceAll(" ", "");
+        result = result.replace("+", "");
+        return result;
+    }
+
+    public static String addPhoneCodeSign(String phoneCode) {
+        String result = "+86";
+        if (!TextUtils.isEmpty(phoneCode)) {
+            if (phoneCode.contains("+")) {
+                result = phoneCode.replaceAll(" ","");
+            } else {
+                result = "+" + phoneCode.trim();
+            }
+        }
+        return result;
+    }
 }
