@@ -119,14 +119,9 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
                 break;
             case R.id.dialog_gift_confirm_tv:
                 if (isRequestSucceed) {
-//                    intent = new Intent(getContext(), LoginActivity.class);
-//                    intent.putExtra(LoginActivity.KEY_AREA_CODE, phoneCodeTV.getText());
-//                    intent.putExtra(LoginActivity.KEY_PHONE, phoneCodeTV.getText());
-//                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-//                    getContext().startActivity(intent);
-                    intent = new Intent(getContext(), RegisterActivity.class);
-                    intent.putExtra("areaCode", phoneCodeTV.getText());
-                    intent.putExtra("phone", phoneCodeTV.getText());
+                    intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra(LoginActivity.KEY_AREA_CODE, phoneCodeTV.getText());
+                    intent.putExtra(LoginActivity.KEY_PHONE, phoneCodeTV.getText());
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     getContext().startActivity(intent);
                 } else {
@@ -138,9 +133,8 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
                     phoneET.setBackgroundResource(R.drawable.bg_gift_phone);
                     errorHintTV.setVisibility(View.INVISIBLE);
 
-//                    phoneCodeTV.getText()
 //                    phoneET.getText().toString().replaceAll(" ","");
-//                  HttpRequestUtils.request(getContext(), new RequestCouponActivity(), this, true);
+//                  HttpRequestUtils.request(getContext(), new RequestAcquirePacket(), this, true);
                 }
                 break;
         }
@@ -194,7 +188,7 @@ public class GiftDialog extends Dialog implements HttpRequestListener, HbcViewBe
     public void onDataRequestSucceed(BaseRequest request) {
         ApiReportHelper.getInstance().addReport(request);
         if (request instanceof RequestAcquirePacket) {
-            SharedPre.setBoolean(GiftController.PARAMS_GAINED, true);
+//            SharedPre.setBoolean(GiftController.PARAMS_GAINED, true);
             //注册
             boolean login = false;
 

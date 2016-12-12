@@ -65,12 +65,7 @@ public class GiftController implements HttpRequestListener {
 
     private GiftController(Activity _context) {
         this.mActivity = _context;
-//        HttpRequestUtils.request(mActivity, new RequestCouponActivity(mActivity), this, false);
-        data = new CouponActivityBean();
-        data.activityStatus = true;
-        data.scanTime = 4;
-        data.cycleTime = 86400;
-        data.activityTitle = "300元大礼包";
+        HttpRequestUtils.request(mActivity, new RequestCouponActivity(mActivity), this, false);
     }
 
     private void setActivity(Activity _activity) {
@@ -107,13 +102,13 @@ public class GiftController implements HttpRequestListener {
         long firstShowTime = SharedPre.getLong(PARAMS_FIRST_SHOW_TIME, 0);
         if (firstShowTime == 0) {//未展示过
             isAbort = false;
-//            mHandler.postDelayed(mRunnable, data.scanTime * 1000);
+            mHandler.postDelayed(mRunnable, data.scanTime * 1000);
         } else {//未领取过且距离首次展示X天
             boolean isGained = SharedPre.getBoolean(PARAMS_GAINED, false);
             boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.cycleTime * 1000);
             if (!isGained && cycleTime) {
                 isAbort = false;
-//                mHandler.post(mRunnable);
+                mHandler.post(mRunnable);
             }
         }
     }
