@@ -289,11 +289,18 @@ public class SharedPre {
 		removeKey(NIM_USERID);
 	}
 
+	public static boolean setString(String key, String value) {
+		return setString(FILENAME, key, value);
+	}
 
-	public static String getString(String name, String key) {
+	public static String getString(String key, String defaultValue) {
+		return getString(FILENAME, key, defaultValue);
+	}
+
+	public static String getString(String name, String key, String defaultValue) {
 		Context context = MyApplication.getAppContext();
 		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
-		return mSharedPreferences.getString(key, "");
+		return mSharedPreferences.getString(key, defaultValue);
 	}
 
 	public static boolean setString(String name, String key, String value) {

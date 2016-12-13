@@ -67,7 +67,7 @@ public class FgHome extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-        setSensorsDefaultEvent("首页", SensorsConstant.DISCOVERY);
+        setSensorsDefaultEvent(getEventSource(), SensorsConstant.DISCOVERY);
         return rootView;
     }
 
@@ -131,5 +131,10 @@ public class FgHome extends BaseFragment {
                 requestData();
                 break;
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "首页";
     }
 }
