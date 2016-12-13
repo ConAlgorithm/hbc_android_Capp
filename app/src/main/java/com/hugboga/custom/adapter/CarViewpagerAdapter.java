@@ -51,9 +51,15 @@ public class CarViewpagerAdapter extends PagerAdapter {
         int resId = bean.imgRes;
         if (resId != 0)
             image.setImageResource(resId);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        if(bean.special == 1 && null != bean.carPictures){
-            Tools.showImage(image,bean.carPictures.get(0),R.mipmap.car_default);
+        if(bean.special == 1) {
+            if(null != bean.carPictures && bean.carPictures.size() > 0){
+                Tools.showImage(image,bean.carPictures.get(0),R.mipmap.car_default);
+            } else {
+                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                image.setImageResource(R.mipmap.car_default);
+            }
         }
         //416  143
         TextView tv = (TextView) view.findViewById(R.id.item_car_title);
