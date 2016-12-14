@@ -1,8 +1,8 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +21,8 @@ public class OrderDetailDeliverUnbilledView extends LinearLayout implements HbcV
 
     @Bind(R.id.order_detail_deliver_unbilled_title_tv)
     TextView titleTV;
+    @Bind(R.id.order_detail_deliver_unbilled_subtitle_tv)
+    TextView subtitleTV;
     @Bind(R.id.order_detail_deliver_unbilled_countdown_view)
     CountdownView countdownView;
 
@@ -30,8 +32,7 @@ public class OrderDetailDeliverUnbilledView extends LinearLayout implements HbcV
 
     public OrderDetailDeliverUnbilledView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setOrientation(LinearLayout.VERTICAL);
-        setGravity(Gravity.CENTER_VERTICAL);
+        setOrientation(LinearLayout.HORIZONTAL);
         final View view = inflate(context, R.layout.view_order_detail_deliver_unbilled, this);
         ButterKnife.bind(view);
     }
@@ -43,6 +44,8 @@ public class OrderDetailDeliverUnbilledView extends LinearLayout implements HbcV
             return;
         }
         titleTV.setText(deliverInfoBean.deliverMessage);
+        subtitleTV.setVisibility(TextUtils.isEmpty(deliverInfoBean.deliverDetail) ? View.GONE : View.VISIBLE);
+        subtitleTV.setText(deliverInfoBean.deliverDetail);
         countdownView.start(deliverInfoBean.span);
     }
 

@@ -51,7 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by on 16/8/4.
+ * Created by qingcha on 16/8/4.
  */
 public class GuideDetailActivity extends BaseActivity{
 

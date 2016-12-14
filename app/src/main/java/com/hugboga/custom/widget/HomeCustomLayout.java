@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by on 16/6/19.
+ * Created by qingcha on 16/6/19.
  */
 public class HomeCustomLayout extends LinearLayout{
 

@@ -48,7 +48,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
 
         countdownView.start(deliverInfoBean.deliverTimeSpan);
         countdownView.setOnCountdownEndListener(this);
-        int progress =  360 - (int)(360 * (deliverInfoBean.deliverTimeSpan /(float) deliverInfoBean.stayTime));
+        float progress =  360 - 360 * (deliverInfoBean.deliverTimeSpan / (float)deliverInfoBean.stayTime);
         progressView.setProgress(progress);
 
         setOnCountdownIntervalListener(1000, deliverInfoBean);
@@ -59,7 +59,7 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
             @Override
             public void onInterval(CountdownView cv, long remainTime) {
                 if (deliverInfoBean.stayTime > remainTime) {
-                    int progress = 360 - (int)(360 * (remainTime /(float) deliverInfoBean.stayTime));
+                    float progress = 360 - 360 * (remainTime / (float)deliverInfoBean.stayTime);
                     if (progress > 0) {
                         progressView.setProgress(progress);
                     }
