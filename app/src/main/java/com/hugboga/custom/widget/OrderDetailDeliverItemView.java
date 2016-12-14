@@ -145,7 +145,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
             subtitleIV.setText(deliverInfoBean.deliverDetail);
         }
 
-        if (orderType == 3 || orderType == 5 || orderType == 6) {
+        if (deliverInfoBean.isCanChoose()) {//是否可挑选司导
             subtitleIV.setTextColor(0xFFF63308);
             RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
             HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);

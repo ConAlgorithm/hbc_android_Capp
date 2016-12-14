@@ -26,6 +26,15 @@ public class DeliverInfoBean implements Serializable{
      * */
     public int stayTime;
 
+    /**
+     * 是否可挑选司导 0-不可挑选；1-可挑选
+     * */
+    private int canChoose;
+
+    public boolean isCanChoose() {
+        return canChoose == 1;
+    }
+
     public static class DeliverStatus {
         public static final int UNBILLED = 1;           // 未发单
         public static final int BILLED = 2;             // 已发单
