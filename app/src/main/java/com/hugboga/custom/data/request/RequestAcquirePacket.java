@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.AcquirePacketBean;
+import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.Common;
 
 import org.xutils.http.HttpMethod;
@@ -17,7 +20,7 @@ import java.util.HashMap;
  * Created by qingcha on 16/12/10.
  */
 @HttpRequest(path = UrlLibs.ACQUIRE_PACKET, builder = NewParamsBuilder.class)
-public class RequestAcquirePacket extends BaseRequest {
+public class RequestAcquirePacket extends BaseRequest<AcquirePacketBean> {
 
     private static final String SIGN_KEY = "$RFVbgt5";
 
@@ -37,7 +40,7 @@ public class RequestAcquirePacket extends BaseRequest {
 
     @Override
     public ImplParser getParser() {
-        return null;
+        return new HbcParser(UrlLibs.ACQUIRE_PACKET, AcquirePacketBean.class);
     }
 
     @Override

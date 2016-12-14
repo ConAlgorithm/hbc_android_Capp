@@ -36,7 +36,9 @@ import butterknife.OnClick;
 public class HomeCustomLayout extends LinearLayout{
 
     private static final String PARAMS_LAST_GUIDE_VERSION_NAME = "last_guide_version_name";
-    private  boolean hasMeasured = false;
+    private boolean hasMeasured = false;
+    private boolean isShow = false;
+    private Guide guide;
 
     public HomeCustomLayout(Context context) {
         this(context, null);
@@ -113,23 +115,33 @@ public class HomeCustomLayout extends LinearLayout{
         builder.setTargetView(findViewById(R.id.home_custom_chartered_layout))
                 .setAlpha(150)
                 .setHighTargetGraphStyle(Component.CIRCLE)
-                .setHighTargetPadding(-10)
+                .setHighTargetPadding(-5)
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false);
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
             @Override
             public void onShown() {
                 SharedPre.setString(PARAMS_LAST_GUIDE_VERSION_NAME, BuildConfig.VERSION_NAME);
+                isShow = true;
             }
 
             @Override
             public void onDismiss() {
+                isShow = false;
             }
         });
-
         builder.addComponent(new MutiComponent());
-        Guide guide = builder.createGuide();
+        guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(true);
         guide.show((Activity) getContext());
+    }
+
+    public boolean closeGuideView() {
+        if (isShow && guide != null) {
+            guide.dismiss();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

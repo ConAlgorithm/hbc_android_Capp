@@ -514,6 +514,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
+        if (fgHome != null && fgHome.closeGuideView()) {//关掉引导遮罩
+            return;
+        }
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
         } else if (mViewPager.getCurrentItem() != 0) {

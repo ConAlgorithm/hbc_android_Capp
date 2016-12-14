@@ -10,6 +10,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -25,6 +26,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AcquirePacketBean;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CouponActivityBean;
 import com.hugboga.custom.data.event.EventAction;
@@ -58,6 +60,8 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener,
     ImageView displayIV;
     @Bind(R.id.dialog_gift_title_tv)
     TextView titleTV;
+    @Bind(R.id.dialog_gift_first_register_tv)
+    TextView firstRegisterTV;
     @Bind(R.id.dialog_gift_subtitle_tv)
     TextView subtitleTV;
     @Bind(R.id.dialog_gift_phone_code_tv)
@@ -201,10 +205,15 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener,
     }
 
     @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        ApiReportHelper.getInstance().addReport(request);
-        if (request instanceof RequestAcquirePacket) {
+    public void onDataRequestSucceed(BaseRequest _request) {
+        ApiReportHelper.getInstance().addReport(_request);
+        if (_request instanceof RequestAcquirePacket) {
             SharedPre.setBoolean(GiftController.PARAMS_GAINED, true);
+            RequestAcquirePacket request = (RequestAcquirePacket)_request;
+            AcquirePacketBean acquirePacketBean = request.getData();
+            if (acquirePacketBean.registState == 1) {//新用户注册
+                firstRegisterTV.setVisibility(View.VISIBLE);
+            }
             inputLayout.setVisibility(View.GONE);
             titleTV.setText("领取成功");
             confirmTV.setText("去登录");

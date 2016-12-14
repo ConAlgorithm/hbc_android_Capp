@@ -38,15 +38,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="送你300元大礼包"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textColor="#262a33"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/dialog_gift_first_register_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="恭喜您成为皇包车用户，初始密码短信已下发，请注意查收。"
+            android:visibility="gone"
+            android:textColor="#111111"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/dialog_gift_subtitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="送你300元大礼包"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textColor="#111111"
             android:textSize="12sp" />
 
