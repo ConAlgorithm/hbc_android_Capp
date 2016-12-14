@@ -203,7 +203,7 @@
                     android:id="@+id/travel_item_head_img"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@mipmap/journey_head_portrait"/>
+                    android:src="@mipmap/icon_avatar_guide"/>
                 <TextView
                     android:id="@+id/travel_item_head_title"
                     android:layout_width="wrap_content"

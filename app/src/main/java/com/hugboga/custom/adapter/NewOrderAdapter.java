@@ -61,8 +61,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         this.context = _context;
         dialog = DialogUtil.getInstance((Activity) context);
         options = new ImageOptions.Builder()
-                .setFailureDrawableId(R.mipmap.chat_head)
-                .setLoadingDrawableId(R.mipmap.chat_head)
+                .setFailureDrawableId(R.mipmap.icon_avatar_user)
+                .setLoadingDrawableId(R.mipmap.icon_avatar_user)
                 .setCircular(true)
                 .build();
     }
@@ -311,9 +311,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.lineView.setVisibility(View.VISIBLE);
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -371,9 +371,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -417,9 +417,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -445,9 +445,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));

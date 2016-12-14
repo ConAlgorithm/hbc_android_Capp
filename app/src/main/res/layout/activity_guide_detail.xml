@@ -34,7 +34,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/journey_head_portrait"
+                    android:src="@mipmap/icon_avatar_guide"
                     app:poly_border="true"
                     app:poly_border_color="@android:color/white"
                     app:poly_border_width="5dp"

@@ -175,11 +175,11 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
             viewWidth +=  AVATAR_MARGIN + AVATAR_WIDTH;
             if (viewWidth > UIUtils.getScreenWidth() || (i == AVATAR_COUNT && size > AVATAR_COUNT)) {
                 CircleImageView moreImageView = getMoreImageView();
-                Tools.showImage(moreImageView, guidesList.get(i).getAvatarS(), R.mipmap.journey_head_portrait);
+                Tools.showImage(moreImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();
-            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.journey_head_portrait);
+            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
         }
 
         if (!TextUtils.isEmpty(orderNo)) {
@@ -212,7 +212,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
     private CircleImageView getCircleImageView() {
         CircleImageView circleImageView = new CircleImageView(getContext());
-        circleImageView.setImageResource(R.mipmap.journey_head_portrait);
+        circleImageView.setImageResource(R.mipmap.icon_avatar_guide);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(AVATAR_WIDTH, AVATAR_WIDTH);
         params.rightMargin = AVATAR_MARGIN;
         avatarLayout.addView(circleImageView, params);
@@ -223,7 +223,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         RelativeLayout relativeLayout = new RelativeLayout(getContext());
 
         CircleImageView circleImageView = new CircleImageView(getContext());
-        circleImageView.setImageResource(R.mipmap.journey_head_portrait);
+        circleImageView.setImageResource(R.mipmap.icon_avatar_guide);
         relativeLayout.addView(circleImageView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
         TextView textView = new TextView(getContext());

@@ -212,7 +212,7 @@ public class GuideDetailActivity extends BaseActivity{
             cityNameTV.setText(data.cityName + "-" + data.countryName);
 
             //地接社或司导头像
-            Tools.showImage(avatarIV, data.avatar, R.mipmap.journey_head_portrait);
+            Tools.showImage(avatarIV, data.avatar, R.mipmap.icon_avatar_guide);
 
             //地接社或司导名称
             nameTV.setText(data.guideName);
@@ -228,7 +228,7 @@ public class GuideDetailActivity extends BaseActivity{
             } else if (!TextUtils.isEmpty(data.agencyDriverName)) { //显示服务司导
                 genderIV.setVisibility(View.GONE);
                 driverLayout.setVisibility(View.VISIBLE);
-                Tools.showImage(driverAvatarIV, data.agencyDriverAvatar, R.mipmap.journey_head_portrait);
+                Tools.showImage(driverAvatarIV, data.agencyDriverAvatar, R.mipmap.icon_avatar_guide);
                 driverNameTV.setText("服务司导:" + data.agencyDriverName);
                 if (data.agencyDriverGender == 1 || data.agencyDriverGender == 2) {
                     driverGenderIV.setVisibility(View.VISIBLE);

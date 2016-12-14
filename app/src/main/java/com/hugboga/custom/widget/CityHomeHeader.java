@@ -160,7 +160,7 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
                 if(cityHomeBean.cityGuides.guideAmount>5 && i==5){
                     circleImageView.setBackgroundResource(R.mipmap.city_filter_more_bg);
                 }else{
-                    circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
+                    circleImageView.setBackgroundResource(R.mipmap.icon_avatar_guide);
                     Tools.showImage(circleImageView, cityHomeBean.cityGuides.guideAvatars.get(i));
                 }
                 if (circleImageView==null){

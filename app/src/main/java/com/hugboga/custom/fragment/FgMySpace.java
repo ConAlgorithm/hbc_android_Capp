@@ -191,7 +191,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
      */
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
-            my_icon_head.setImageResource(R.mipmap.chat_head);
+            my_icon_head.setImageResource(R.mipmap.icon_avatar_user_off);
             headerBgIV.setImageResource(R.mipmap.personal_bg);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
@@ -203,12 +203,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         } else {
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
-                Tools.showImage(my_icon_head, avatar, R.mipmap.chat_head);
+                Tools.showImage(my_icon_head, avatar, R.mipmap.icon_avatar_user);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
                 headerBgIV.setImageResource(R.mipmap.personal_bg);
             } else {
                 headerBgIV.setImageResource(R.mipmap.personal_bg);
-                my_icon_head.setImageResource(R.mipmap.chat_head);
+                my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             }
             tv_nickname.setTextColor(0xFF3c3731);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(getContext()))) {

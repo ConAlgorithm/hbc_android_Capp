@@ -335,7 +335,7 @@ public class MyApplication extends HbcApplication {
 
         @Override
         public int getDefaultIconResId() {
-            return R.mipmap.chat_head;
+            return R.mipmap.icon_avatar_user;
         }
 
         @Override

@@ -14,7 +14,7 @@
                 android:layout_height="47dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="12dip"
-                android:src="@mipmap/collection_icon_pic"
+                android:src="@mipmap/icon_avatar_user"
                 app:poly_corner_radius="15"
                 app:poly_vertices="0" />
 

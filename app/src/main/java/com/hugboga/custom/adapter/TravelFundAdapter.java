@@ -52,9 +52,9 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
 
         if (type == TravelFundRecordActivity.TYPE_INVITE_FRIENDS) {
             if (TextUtils.isEmpty(bean.getAvatar())) {
-                holder.avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+                holder.avatarIV.setImageResource(R.mipmap.icon_avatar_user);
             } else {
-                Tools.showImage(holder.avatarIV, bean.getAvatar(), R.mipmap.collection_icon_pic);
+                Tools.showImage(holder.avatarIV, bean.getAvatar(), R.mipmap.icon_avatar_user);
             }
             holder.nameTV.setText(bean.getUserName());
             holder.sourceTV.setText("");

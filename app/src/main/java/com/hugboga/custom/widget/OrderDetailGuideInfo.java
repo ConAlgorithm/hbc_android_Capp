@@ -106,7 +106,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     break;
             }
 
-            Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+            Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
             ((SimpleRatingBar)findViewById(R.id.ogi_ratingview)).setRating((float)guideInfo.guideStarLevel);
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);

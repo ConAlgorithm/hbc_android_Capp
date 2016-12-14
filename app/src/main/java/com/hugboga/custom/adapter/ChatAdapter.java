@@ -68,9 +68,9 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
                 e.printStackTrace();
             }
             if (!TextUtils.isEmpty(chatBean.targetAvatar)) {
-                Tools.showImage(vh.mImage, chatBean.targetAvatar, R.mipmap.journey_head_portrait);
+                Tools.showImage(vh.mImage, chatBean.targetAvatar, R.mipmap.icon_avatar_guide);
             } else {
-                vh.mImage.setImageResource(R.mipmap.journey_head_portrait);
+                vh.mImage.setImageResource(R.mipmap.icon_avatar_guide);
             }
 
             flushOrder(vh, chatBean);
