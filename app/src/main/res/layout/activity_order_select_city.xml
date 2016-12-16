@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e8eaeb"
-    android:orientation="vertical">>
+    android:orientation="vertical">
 
     <include
         android:id="@+id/head"
@@ -22,13 +22,44 @@
             android:layout_height="match_parent"
             android:background="#e7e7e7"
             android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff3c3"
+                android:layout_marginBottom="6dp">
+                <ImageView
+                    android:id="@+id/order_select_msg_iv"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_msg_icon_horn"/>
+                <TextView
+                    android:layout_toRightOf="@id/order_select_msg_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="#906b12"
+                    android:text="预定成功后，您可以挑选心仪司导为您服务啦！"
+                    android:textSize="12sp"/>
+                <View android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="#fecf03"
+                    />
+            </RelativeLayout>
             <ImageView
                 android:id="@+id/order_select_web_iv"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:src="@mipmap/chartered_web_btn"
+                android:visibility="gone"
                 android:scaleType="centerCrop"
                 />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

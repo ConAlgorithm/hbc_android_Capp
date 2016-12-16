@@ -289,11 +289,18 @@ public class SharedPre {
 		removeKey(NIM_USERID);
 	}
 
+	public static boolean setString(String key, String value) {
+		return setString(FILENAME, key, value);
+	}
 
-	public static String getString(String name, String key) {
+	public static String getString(String key, String defaultValue) {
+		return getString(FILENAME, key, defaultValue);
+	}
+
+	public static String getString(String name, String key, String defaultValue) {
 		Context context = MyApplication.getAppContext();
 		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
-		return mSharedPreferences.getString(key, "");
+		return mSharedPreferences.getString(key, defaultValue);
 	}
 
 	public static boolean setString(String name, String key, String value) {
@@ -326,10 +333,40 @@ public class SharedPre {
 		return mSharedPreferences.getInt(key, defaultValue);
 	}
 
-	public static boolean getBoolean(String name, String key) {
+	public static boolean setLong(String key, long value) {
+		return setLong(FILENAME, key, value);
+	}
+
+	public static long getLong(String key, long defaultValue) {
+		return getLong(FILENAME, key, defaultValue);
+	}
+
+	public static boolean setLong(String name, String key, long value) {
 		Context context = MyApplication.getAppContext();
 		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
-		return mSharedPreferences.getBoolean(key, false);
+		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+		mEditor.putLong(key, value);
+		return mEditor.commit();
+	}
+
+	public static long getLong(String name, String key, long defaultValue) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		return mSharedPreferences.getLong(key, defaultValue);
+	}
+
+	public static boolean setBoolean(String key, boolean value) {
+		return setBoolean(FILENAME, key, value);
+	}
+
+	public static boolean getBoolean(String key, boolean defaultValue) {
+		return getBoolean(FILENAME, key, defaultValue);
+	}
+
+	public static boolean getBoolean(String name, String key, boolean defaultValue) {
+		Context context = MyApplication.getAppContext();
+		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
+		return mSharedPreferences.getBoolean(key, defaultValue);
 	}
 
 	public static boolean setBoolean(String name, String key, boolean value) {

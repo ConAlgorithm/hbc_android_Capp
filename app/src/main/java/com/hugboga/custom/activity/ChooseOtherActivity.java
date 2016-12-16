@@ -132,48 +132,57 @@ public class ChooseOtherActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(nameText.getText())
+                        || TextUtils.isEmpty(nameText.getText().toString().trim())
                         || TextUtils.isEmpty(userPhoneText.getText())
+                        || TextUtils.isEmpty(userPhoneText.getText().toString().trim())
                         || TextUtils.isEmpty(userPhoneTextCodeClick.getText())) {
                     CommonUtils.showToast("联系人名称和电话不能为空");
                     return;
                 }
 
                 if(user1Layout.isShown() && (TextUtils.isEmpty(name1Text.getText())
+                        || TextUtils.isEmpty(name1Text.getText().toString().trim())
                         || TextUtils.isEmpty(user1PhoneText.getText())
+                        || TextUtils.isEmpty(user1PhoneText.getText().toString().trim())
                         || TextUtils.isEmpty(user1PhoneTextCodeClick.getText()))) {
                     CommonUtils.showToast("备用联系人名称和电话不能为空");
                     return;
                 }
 
                 if(user2Layout.isShown() && (TextUtils.isEmpty(name2Text.getText())
+                        || TextUtils.isEmpty(name2Text.getText().toString().trim())
                         || TextUtils.isEmpty(user2PhoneText.getText())
+                        || TextUtils.isEmpty(user2PhoneText.getText().toString().trim())
                         || TextUtils.isEmpty(user2PhoneTextCodeClick.getText()))) {
                     CommonUtils.showToast("备用联系人名称和电话不能为空");
                     return;
                 }
 
                 if(otherCheck.isChecked() && (TextUtils.isEmpty(passengerText.getText())
+                        || TextUtils.isEmpty(passengerText.getText().toString().trim())
                         || TextUtils.isEmpty(passengerPhoneTextCodeClick.getText())
-                        || TextUtils.isEmpty(passengerPhoneText.getText()))) {
+                        || TextUtils.isEmpty(passengerPhoneText.getText())
+                        || TextUtils.isEmpty(passengerPhoneText.getText().toString().trim()))) {
                     CommonUtils.showToast("乘车人名称和电话不能为空");
                     return;
                 }
+                hideSoftInput();
 
                 contactUsersBean = new ContactUsersBean();
                 contactUsersBean.userName = nameText.getText().toString();
-                contactUsersBean.phoneCode = userPhoneTextCodeClick.getText().toString();
+                contactUsersBean.phoneCode = CommonUtils.removePhoneCodeSign(userPhoneTextCodeClick.getText().toString());
                 contactUsersBean.userPhone = userPhoneText.getText().toString();
 
                 contactUsersBean.user1Name = name1Text.getText().toString();
-                contactUsersBean.phone1Code = user1PhoneTextCodeClick.getText().toString();
+                contactUsersBean.phone1Code = CommonUtils.removePhoneCodeSign(user1PhoneTextCodeClick.getText().toString());
                 contactUsersBean.user1Phone = user1PhoneText.getText().toString();
 
                 contactUsersBean.user2Name = name2Text.getText().toString();
-                contactUsersBean.phone2Code = user2PhoneTextCodeClick.getText().toString();
+                contactUsersBean.phone2Code = CommonUtils.removePhoneCodeSign(user2PhoneTextCodeClick.getText().toString());
                 contactUsersBean.user2Phone = user2PhoneText.getText().toString();
 
                 contactUsersBean.otherName = passengerText.getText().toString();
-                contactUsersBean.otherphoneCode = passengerPhoneTextCodeClick.getText().toString();
+                contactUsersBean.otherphoneCode = CommonUtils.removePhoneCodeSign(passengerPhoneTextCodeClick.getText().toString());
                 contactUsersBean.otherPhone = passengerPhoneText.getText().toString();
                 contactUsersBean.isForOther = otherCheck.isChecked();
                 contactUsersBean.isSendMessage = messageCheck.isChecked();
@@ -243,7 +252,7 @@ public class ChooseOtherActivity extends BaseActivity {
                 nameText.setText(contactUsersBean.userName);
             }
             if(!TextUtils.isEmpty(contactUsersBean.phoneCode)) {
-                userPhoneTextCodeClick.setText(contactUsersBean.phoneCode);
+                userPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.phoneCode));
             }
             if(!TextUtils.isEmpty(contactUsersBean.userPhone)) {
                 userPhoneText.setText(contactUsersBean.userPhone);
@@ -256,7 +265,7 @@ public class ChooseOtherActivity extends BaseActivity {
                 name1Text.setText(contactUsersBean.user1Name);
             }
             if(!TextUtils.isEmpty(contactUsersBean.phone1Code)) {
-                user1PhoneTextCodeClick.setText(contactUsersBean.phone1Code);
+                user1PhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.phone1Code));
             }
             if(!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
                 user1PhoneText.setText(contactUsersBean.user1Phone);
@@ -271,7 +280,7 @@ public class ChooseOtherActivity extends BaseActivity {
                 name2Text.setText(contactUsersBean.user2Name);
             }
             if(!TextUtils.isEmpty(contactUsersBean.phone2Code)) {
-                user2PhoneTextCodeClick.setText(contactUsersBean.phone2Code);
+                user2PhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.phone2Code));
             }
             if(!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
                 user2PhoneText.setText(contactUsersBean.user2Phone);
@@ -281,7 +290,7 @@ public class ChooseOtherActivity extends BaseActivity {
                 passengerText.setText(contactUsersBean.otherName);
             }
             if(!TextUtils.isEmpty(contactUsersBean.otherphoneCode)) {
-                passengerPhoneTextCodeClick.setText(contactUsersBean.otherphoneCode);
+                passengerPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.otherphoneCode));
             }
             if(!TextUtils.isEmpty(contactUsersBean.otherPhone)) {
                 passengerPhoneText.setText(contactUsersBean.otherPhone);

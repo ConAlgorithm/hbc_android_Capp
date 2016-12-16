@@ -39,9 +39,9 @@ public class QuestionUserItemView extends LinearLayout implements HbcViewBehavio
 
         final String avatar = UserEntity.getUser().getAvatar(getContext());
         if (!TextUtils.isEmpty(avatar)) {
-            Tools.showImage(avatarIV, avatar, R.mipmap.chat_head);
+            Tools.showImage(avatarIV, avatar, R.mipmap.icon_avatar_user);
         } else {
-            avatarIV.setImageResource(R.mipmap.chat_head);
+            avatarIV.setImageResource(R.mipmap.icon_avatar_user);
         }
     }
 

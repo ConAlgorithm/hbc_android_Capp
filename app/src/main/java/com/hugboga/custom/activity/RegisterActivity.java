@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.BuildConfig;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
@@ -34,10 +35,10 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.qiyukf.unicorn.api.Unicorn;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -190,17 +191,22 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 UserEntity.getUser().setNickname(this, userBean.nickname);
                 UserEntity.getUser().setAvatar(this, userBean.avatar);
                 UserEntity.getUser().setOrderPoint(this, 0); //清空IM未读的小红点
+                UserEntity.getUser().setUnionid(this, "");
+                UserEntity.getUser().setNimUserId(this,userBean.nimUserId);
+                UserEntity.getUser().setNimUserToken(this,userBean.nimToken);
                 showTip("注册成功");
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLogin", true);
-                EventBus.getDefault().post(
-                        new EventAction(EventType.CLICK_USER_LOGIN));
+
+                IMUtil.getInstance().connect();
+                Unicorn.setUserInfo(null);
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
 
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("source", source);
                 MobclickAgent.onEvent(this, "regist_succeed", map);
                 destroyHandler();
-                finish();
+                startActivity(new Intent(this, MainActivity.class));
             }
         } else if (request instanceof RequestVerity) {
             RequestVerity parserVerity = (RequestVerity) request;
@@ -208,41 +214,6 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
             setBtnVisible(false);
             time = 59;
             handler.postDelayed(runnable, 0);
-        } else if (request instanceof RequestLogin) {
-            RequestLogin requestLogin = (RequestLogin) request;
-            UserBean userBean = requestLogin.getData();
-            if (userBean != null) {
-                //登录成功
-                UserEntity.getUser().setUserId(this, userBean.userID);
-                UserEntity.getUser().setUserToken(this, userBean.userToken);
-                UserEntity.getUser().setPhone(this, phone); //手机号已经不再返回
-                UserEntity.getUser().setAreaCode(this, areaCode);
-                UserEntity.getUser().setLoginAreaCode(this, areaCode);
-                UserEntity.getUser().setLoginPhone(this, phone);
-                UserEntity.getUser().setNickname(this, userBean.nickname);
-                UserEntity.getUser().setAvatar(this, userBean.avatar);
-                UserEntity.getUser().setOrderPoint(this, 0); //清空IM未读的小红点
-                UserEntity.getUser().setGender(this, userBean.getGenderStr());
-                UserEntity.getUser().setAgeType(this, userBean.getAgeStr());
-                showTip("登录成功");
-
-                try {
-                    SensorsDataAPI.sharedInstance(this).login(userBean.userID);
-                } catch (InvalidDataException e) {
-                    e.printStackTrace();
-                }
-
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("isLogin", true);
-                EventBus.getDefault().post(
-                        new EventAction(EventType.CLICK_USER_LOGIN));
-
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(this, "regist_succeed", map);
-                destroyHandler();
-                finish();
-            }
         }
     }
 
@@ -286,16 +257,15 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                     }, "登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                             destroyHandler();
-                            finish();
                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             Bundle bundle = new Bundle();
                             bundle.putString("key_area_code", areaCode);
                             bundle.putString("key_phone", phone);
                             intent.putExtras(bundle);
+                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                             startActivity(intent);
-//                            startFragment(new FgLogin(), bundle);
                         }
                     }).show();
                     return;
@@ -356,8 +326,8 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
             case R.id.register_login:
                 destroyHandler();
                 //跳转到登录
-                finish();
                 intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 break;
             case R.id.register_areacode:
@@ -367,6 +337,7 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 collapseSoftInputMethod(passwordEditText);
                 collapseSoftInputMethod(phoneEditText);
                 intent = new Intent(RegisterActivity.this, ChooseCountryActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(KEY_FROM, "register");
                 startActivity(intent);
                 break;
@@ -394,14 +365,10 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
                 StatisticClickEvent.click(StatisticConstant.CLICK_VERIFTXT,"点击获取短信验证码");
                 break;
             case R.id.register_protocol:
-//                FgWebInfo fgWebInfo = new FgWebInfo();
-//                Bundle bundle1 = new Bundle();
-//                bundle1.putString(FgWebInfo.WEB_URL, UrlLibs.H5_PROTOCOL);
-//                fgWebInfo.setArguments(bundle1);
-//                startFragment(fgWebInfo);
                 handler.removeCallbacks(runnable);
                 setBtnVisible(true);
                 intent = new Intent(RegisterActivity.this, WebInfoActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROTOCOL);
                 startActivity(intent);
 

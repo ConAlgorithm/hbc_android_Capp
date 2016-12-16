@@ -271,19 +271,16 @@ public class ChooseCityNewActivity extends BaseActivity {
                 levelCityAdapterMiddle.notifyDataSetChanged();
 
                 if (groupList2.get(position).spot_id == -1) {
-                    finish();
                     Intent intent = new Intent(activity, PickSendActivity.class);
                     intent.putExtra("source",getIntentSource());
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -2) {
-                    finish();
                     Intent intent = new Intent(activity, SingleNewActivity.class);
                     intent.putExtra("source",getIntentSource());
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -3) {
-                    finish();
                     Intent intent = new Intent(activity, OrderSelectCityActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);

@@ -40,6 +40,7 @@ import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
@@ -269,6 +270,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     public String luggageNum = "0";
     public String passCities = "204-1-1,204-1-2";
     public String channelId = "18";
+    public boolean isToday = false;
 
     public String serverTime = "";
 
@@ -325,6 +327,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         orderType = this.getIntent().getStringExtra("orderType");
         guideId = this.getIntent().getStringExtra("guideId");
 
+        isToday = this.getIntent().getBooleanExtra("isToday", false);
         if(null != guideId){
             getGuideCars();
         }else{
@@ -821,18 +824,18 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     private void setSensorsConfirmEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("sku_type", "定制包车游");
-            properties.put("is_appoint_guide", TextUtils.isEmpty(guideId) ? false : true);// 指定司导下单
-            properties.put("adultNum", adultNum + "");// 出行成人数
-            properties.put("childNum", childrenNum + "");// 出行儿童数
-            properties.put("childseatNum", childseatNum + "");// 儿童座椅数
-            properties.put("car_type", carBean.carDesc);// 车型选择
-            properties.put("price_total", "" + (carBean.vehiclePrice + carBean.servicePrice));// 费用总计
-            properties.put("start_time", startDate);// 出发日期
-            properties.put("end_time", endDate);// 结束日期
-            properties.put("service_city", startBean.placeName);// 用车城市
-            properties.put("total_days", isHalfTravel ? "0.5" : carBean.totalDays);// 游玩天数
-            SensorsDataAPI.sharedInstance(this).track("buy_r_confrim", properties);
+            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_is_appoint_guide", TextUtils.isEmpty(guideId) ? false : true);// 指定司导下单
+            properties.put("hbc_adultNum", CommonUtils.getCountInteger(adultNum));// 出行成人数
+            properties.put("hbc_childNum", CommonUtils.getCountInteger(childrenNum));// 出行儿童数
+            properties.put("hbc_childseatNum", CommonUtils.getCountInteger(childseatNum));// 儿童座椅数
+            properties.put("hbc_car_type", carBean.carDesc);// 车型选择
+            properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);// 费用总计
+            properties.put("hbc_start_time", startDate);// 出发日期
+            properties.put("hbc_end_time", endDate);// 结束日期
+            properties.put("hbc_service_city", startBean.name);// 用车城市
+            properties.put("hbc_total_days", isHalfTravel ? 0.5 : carBean.totalDays);// 游玩天数
+            SensorsDataAPI.sharedInstance(this).track("buy_r_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -867,6 +870,8 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         bundleCar.putBoolean("isHalfTravel", isHalfTravel);
         bundleCar.putInt("type", 3);
         bundleCar.putString("orderType", "3");
+        bundleCar.putBoolean("isToday", isToday);
+        bundleCar.putString("serverTime", serverTime);
 //        fgOrderNew.setArguments(bundleCar);
 //        startFragment(fgOrderNew);
 

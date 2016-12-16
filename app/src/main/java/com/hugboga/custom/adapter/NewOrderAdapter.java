@@ -61,8 +61,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         this.context = _context;
         dialog = DialogUtil.getInstance((Activity) context);
         options = new ImageOptions.Builder()
-                .setFailureDrawableId(R.mipmap.chat_head)
-                .setLoadingDrawableId(R.mipmap.chat_head)
+                .setFailureDrawableId(R.mipmap.icon_avatar_user)
+                .setLoadingDrawableId(R.mipmap.icon_avatar_user)
                 .setCircular(true)
                 .build();
     }
@@ -94,20 +94,22 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                 spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 vh.citysTV.setText(spannable);
+
+                vh.startAddressLayout.setVisibility(View.GONE);
             } else {
                 vh.citysTV.setText(orderBean.lineSubject);
+
+                if (TextUtils.isEmpty(orderBean.carDesc)) {
+                    vh.startAddressLayout.setVisibility(View.GONE);
+                } else {
+                    vh.startAddressLayout.setVisibility(View.VISIBLE);
+                    vh.startAddressIV.setBackgroundResource(R.mipmap.order_car);
+                    vh.startAddressTV.setText(orderBean.carDesc);
+                }
             }
 
             vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
             vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
-
-            if (TextUtils.isEmpty(orderBean.carDesc)) {
-                vh.startAddressLayout.setVisibility(View.GONE);
-            } else {
-                vh.startAddressLayout.setVisibility(View.VISIBLE);
-                vh.startAddressIV.setBackgroundResource(R.mipmap.order_car);
-                vh.startAddressTV.setText(orderBean.carDesc);
-            }
 
             if (TextUtils.isEmpty(orderBean.serviceCityName)) {
                 vh.endAddressLayout.setVisibility(View.GONE);
@@ -309,9 +311,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.lineView.setVisibility(View.VISIBLE);
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -369,9 +371,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -415,9 +417,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
@@ -443,9 +445,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
 
                     vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
-                        vh.mHeadImg.setImageResource(R.mipmap.journey_head_portrait);
+                        vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
-                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+                        Tools.showImage(vh.mHeadImg, orderBean.orderGuideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
                     }
                     vh.mHeadTitle.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));

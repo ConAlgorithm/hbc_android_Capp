@@ -95,7 +95,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     evaluateTV.setVisibility(View.VISIBLE);
                     chatTV.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                     evaluateTV.setText(getContext().getString(orderBean.isEvaluated() ? R.string.order_detail_evaluated : R.string.order_detail_evaluate));
-                    promptTV.setVisibility(orderBean.isEvaluated() ? View.GONE : View.VISIBLE);
+                    promptTV.setVisibility(orderBean.isEvaluated() || orderBean.priceCommentReward <= 0 ? View.GONE : View.VISIBLE);
 
                     if (orderBean.guideAgencyType == 3) {//地接社不显示收藏按钮
                         collectTV.setVisibility(View.GONE);
@@ -106,7 +106,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     break;
             }
 
-            Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+            Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
             ((TextView)findViewById(R.id.ogi_name_tv)).setText(guideInfo.guideName);
             ((SimpleRatingBar)findViewById(R.id.ogi_ratingview)).setRating((float)guideInfo.guideStarLevel);
             ((TextView)findViewById(R.id.ogi_describe_tv)).setText(guideInfo.guideCar);

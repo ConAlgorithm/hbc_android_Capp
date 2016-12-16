@@ -173,13 +173,13 @@ public class TravelFundActivity extends BaseActivity {
                 setSensorsOnClickEvent();
 
                 TravelFundData.RewardFields rewardFields = travelFundData.getRewardFields();
-                String shareName = "我";
+                String shareName = "皇包车用户";
                 if (!TextUtils.isEmpty(rewardFields.name)) {
                     shareName = rewardFields.name;
                 } else if (!TextUtils.isEmpty(rewardFields.nickName)) {
                     shareName = rewardFields.nickName;
                 }
-                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this), shareName, invitationCode);
+                String shareUrl = ShareUrls.getShareThirtyCouponUrl(UserEntity.getUser().getAvatar(this), shareName.trim(), invitationCode, rewardFields.subhead);
                 CommonUtils.shareDialog(activity, R.mipmap.share_coupon
                         , rewardFields.headline
                         , rewardFields.subhead
@@ -226,7 +226,7 @@ public class TravelFundActivity extends BaseActivity {
     protected void setSensorsOnClickEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("source", getIntentSource());
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("invite_friends", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

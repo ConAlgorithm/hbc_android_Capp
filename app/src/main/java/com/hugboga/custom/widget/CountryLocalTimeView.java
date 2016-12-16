@@ -51,6 +51,7 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
 
     private SimpleDateFormat dateFormat, dateFormat2;
     private String regionStr;
+    private boolean isShowDescription = false;
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
@@ -89,7 +90,7 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         }
 
         String timeDiffStr = "与北京没有时差，看到消息后我会立即回复，谢谢";
-        if (timediff > 0) {
+        if (Math.abs(timediff) != 0) {
             timeDiffStr = String.format("与北京有%1$s小时时差，看到消息后我会立即回复，谢谢", "" + Math.abs(timediff));
         }
         timeDiffTV.setText(timeDiffStr);
@@ -161,21 +162,29 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         localLayout.startAnimation(animation);
     }
 
-    @OnClick({R.id.country_flag_layout, R.id.local_time_detial_layout})
+    @OnClick({R.id.country_flag_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.country_flag_layout:
+                if (isShowDescription) {
+                    return;
+                }
                 localLayout.setVisibility(View.GONE);
                 localTimeDetialLayout.setVisibility(View.VISIBLE);
 
                 AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
                 alphaAnimation.setDuration(300);
                 localTimeDetialLayout.startAnimation(alphaAnimation);
+                isShowDescription = true;
                 break;
-            case R.id.local_time_detial_layout:
-                localLayout.setVisibility(View.VISIBLE);
-                localTimeDetialLayout.setVisibility(View.GONE);
-                break;
+        }
+    }
+
+    public void closeDescription() {
+        if (isShowDescription) {
+            localLayout.setVisibility(View.VISIBLE);
+            localTimeDetialLayout.setVisibility(View.GONE);
+            isShowDescription = false;
         }
     }
 }

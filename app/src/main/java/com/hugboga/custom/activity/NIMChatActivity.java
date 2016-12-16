@@ -13,6 +13,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,8 +35,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
@@ -163,6 +162,23 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         registerUserInfoObserver();
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (localTimeView != null) {//隐藏时区View
+                    localTimeView.closeDescription();
+                    final float eventY = event.getY();
+                    final float viewY = localTimeView.getY();
+                    if (eventY >= viewY && eventY <= viewY + localTimeView.getHeight()) {
+                        return true;
+                    }
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
     private void initView() {
         initDefaultTitleBar();
         fgRightBtn.setVisibility(GONE);
@@ -247,7 +263,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onPause() {
-        notifyChatList();
+        //notifyChatList();
         super.onPause();
     }
 
@@ -348,6 +364,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             viewPageLayout.setVisibility(View.VISIBLE);
             viewPage.setAdapter(new IMOrderPagerAdapter(orders));
             viewPage.addOnPageChangeListener(onPageChangeListener);
+
+            messageFragment.messageListScrollToBottom();
+
         } else {
             //无订单数据
             viewPageLayout.setVisibility(GONE);
@@ -604,9 +623,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         });
     }
 
-    private void notifyChatList() {
-        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
-    }
+//    private void notifyChatList() {
+//        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
+//    }
 
 
     /**
@@ -633,8 +652,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             if (objs != null && objs[1] != null) {
                 ArrayList<OrderBean> datas = (ArrayList) objs[1];
                 flushOrderView(datas);
+
             }
             MLog.e("orderListener-onDataRequestSucceed");
+
+
         }
 
         @Override
@@ -841,5 +863,10 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             return;
         }
         setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+    }
+
+    @Override
+    public String getEventSource() {
+        return "IM聊天页";
     }
 }

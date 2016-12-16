@@ -38,6 +38,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -49,6 +50,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -300,6 +302,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
                 break;
         }
     }
@@ -318,11 +321,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                         }
                     }
                 });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private String getCityName() {
@@ -458,12 +456,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     };
 
-
     @Override
     public void onPause() {
         super.onPause();
+        GiftController.getInstance(this).abortion();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GiftController.getInstance(this).showGiftDialog();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -512,15 +515,13 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     //神策统计_浏览页面
     private void setSensorsShowEvent() {
         try {
-            String skuId = "";
-            if (skuItemBean != null) {
-                skuId = skuItemBean.goodsNo;
-            } else {
-                skuId = goodsNo;
+            if (skuItemBean == null) {
+                return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("web_title", "商品详情页");
-            properties.put("web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuId);
+            properties.put("hbc_web_title", "商品详情页");
+            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean.goodsNo);
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -536,12 +537,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
-            properties.put("sku_id", skuItemBean.goodsNo);
-            properties.put("sku_name", skuItemBean.goodsName);
-            properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            properties.put("city_name", skuItemBean.depCityName);
-            properties.put("price_average", skuItemBean.perPrice);
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_id", skuItemBean.goodsNo);
+            properties.put("hbc_sku_name", skuItemBean.goodsName);
+            properties.put("hbc_sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("hbc_city_name", skuItemBean.depCityName);
+            properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -557,9 +558,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("sku_id", skuItemBean.goodsNo);
-            properties.put("sku_name", skuItemBean.goodsName);
-            properties.put("sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties.put("hbc_sku_id", skuItemBean.goodsNo);
+            properties.put("hbc_sku_name", skuItemBean.goodsName);
+            properties.put("hbc_sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

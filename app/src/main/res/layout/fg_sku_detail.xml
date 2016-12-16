@@ -95,6 +95,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/view_line" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="预定成功后，您可以挑选新仪司导服务啦！"
+            android:textColor="#926c11"
+            android:paddingLeft="15dp"
+            android:paddingRight="13dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="58dp"
+            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:background="@drawable/icon_msg_popbg"/>
     </RelativeLayout>
 </LinearLayout>

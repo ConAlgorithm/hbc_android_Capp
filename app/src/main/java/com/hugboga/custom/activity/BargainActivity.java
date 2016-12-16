@@ -97,8 +97,9 @@ public class BargainActivity extends BaseActivity {
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("web_title", "砍价页");
-            properties.put("web_url", SensorsConstant.KANJIA + "?order_id=" + orderNo);
+            properties.put("hbc_web_title", "砍价页");
+            properties.put("hbc_web_url", SensorsConstant.KANJIA + "?order_id=" + orderNo);
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -328,7 +329,7 @@ public class BargainActivity extends BaseActivity {
         popupView.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(nameEdit.getText())){
+                if(TextUtils.isEmpty(nameEdit.getText()) || TextUtils.isEmpty(nameEdit.getText().toString().trim())){
                     CommonUtils.showToast(R.string.real_name);
                     return;
                 }
@@ -339,6 +340,7 @@ public class BargainActivity extends BaseActivity {
                         return;
                     }
                 }
+                name = name.replaceAll(" ", "");
                 //真实姓名
                 RequestChangeUserInfo request = new RequestChangeUserInfo(activity, null, null, null, null, null, name);
                 HttpRequestUtils.request(activity, request, new HttpRequestListener() {

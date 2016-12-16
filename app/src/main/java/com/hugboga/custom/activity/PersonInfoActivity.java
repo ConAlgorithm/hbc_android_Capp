@@ -100,14 +100,19 @@ public class PersonInfoActivity extends BaseActivity{
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public String getEventSource() {
+        return "个人信息";
+    }
+
     private void initView() {
         if (userBean == null) {
             return;
         }
         if (!TextUtils.isEmpty(userBean.avatar)) {
-            Tools.showImage(headImageView, userBean.avatar, R.mipmap.chat_head);
+            Tools.showImage(headImageView, userBean.avatar, R.mipmap.icon_avatar_user);
         } else {
-            headImageView.setImageResource(R.mipmap.chat_head);
+            headImageView.setImageResource(R.mipmap.icon_avatar_user);
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);
@@ -136,8 +141,6 @@ public class PersonInfoActivity extends BaseActivity{
             case BIND_MOBILE:
                 if (action.getData() instanceof UserBean) {
                     userBean = (UserBean) action.getData();
-                }
-                if (userBean != null) {
                     initView();
                 } else {
                     requestData();
@@ -152,11 +155,16 @@ public class PersonInfoActivity extends BaseActivity{
         if (request instanceof RequestUserInfo) {
             RequestUserInfo requestUserInfo = (RequestUserInfo) request;
             userBean = requestUserInfo.getData();
+            if (userBean == null) {
+                return;
+            }
             UserEntity.getUser().setNickname(this, userBean.nickname);
             UserEntity.getUser().setAvatar(this, userBean.avatar);
             UserEntity.getUser().setUserName(this, userBean.name);
             UserEntity.getUser().setTravelFund(this, userBean.travelFund);
             UserEntity.getUser().setCoupons(this, userBean.coupons);
+            UserEntity.getUser().setAreaCode(this, userBean.areaCode);
+            UserEntity.getUser().setPhone(this, userBean.mobile);
             initView();
         } else if (request instanceof RequestChangeUserInfo) {
             RequestChangeUserInfo requestChangeUserInfo = (RequestChangeUserInfo) request;
@@ -164,6 +172,8 @@ public class PersonInfoActivity extends BaseActivity{
             UserEntity.getUser().setNickname(this, userBean.nickname);
             UserEntity.getUser().setAvatar(this, userBean.avatar);
             UserEntity.getUser().setUserName(this, userBean.name);
+            UserEntity.getUser().setAreaCode(activity, userBean.areaCode);
+            UserEntity.getUser().setPhone(activity, userBean.mobile);
             initView();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
         } else if (request instanceof RequestUpLoadFile) {
@@ -198,8 +208,9 @@ public class PersonInfoActivity extends BaseActivity{
                             showTip("没输入昵称，请重新填写");
                             return;
                         }
-                        nickNameTextView.setText(inputServer.getText().toString());
-                        submitChangeUserInfo(2, inputServer.getText().toString());
+                        nickStr = nickStr.replaceAll(" ", "");
+                        nickNameTextView.setText(nickStr);
+                        submitChangeUserInfo(2, nickStr);
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -255,7 +266,7 @@ public class PersonInfoActivity extends BaseActivity{
                     //绑定手机号
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isAfterProcess",true);
-                    bundle.putString("source","个人信息");
+                    bundle.putString("source", getEventSource());
                     intent = new Intent(PersonInfoActivity.this, BindMobileActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -281,8 +292,9 @@ public class PersonInfoActivity extends BaseActivity{
                                 }
                             }
                         }
-                        realNameTextView.setText(editText.getText().toString());
-                        submitChangeUserInfo(6, editText.getText().toString());
+                        nickStr = nickStr.replaceAll(" ", "");
+                        realNameTextView.setText(nickStr);
+                        submitChangeUserInfo(6, nickStr);
                     }
                 });
                 AlertDialog realNameDialog = realNameBuilder.create();

@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgPayResult;
@@ -45,6 +46,12 @@ public class PayResultActivity extends BaseActivity{
         if (params != null) {
             outState.putSerializable(Constants.PARAMS_DATA, params);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override

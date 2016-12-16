@@ -50,6 +50,8 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
      */
     public static final float BANNER_RATIO_DEFAULT = 0.562f;
 
+    @Bind(R.id.home_banner_parent_layout)
+    RelativeLayout parentLayout;
     @Bind(R.id.home_banner_video_textureView)
     TextureView myTextureView;
     @Bind(R.id.home_banner_default_bg_iv)
@@ -75,6 +77,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
 
         bannerHeight = (int)(UIUtils.getScreenWidth() * BANNER_RATIO_DEFAULT);
         RelativeLayout.LayoutParams bgParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, bannerHeight);
+        parentLayout.setLayoutParams(bgParams);
         myTextureView.setLayoutParams(bgParams);
 
         mediaPlayer = new MediaPlayer();

@@ -31,11 +31,9 @@ import java.util.List;
  */
 public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
 
-    private final ImageOptions options;
 
     public ChatAdapter(Context context) {
         super(context);
-        options = new ImageOptions.Builder().setLoadingDrawableId(R.mipmap.chat_head).setFailureDrawableId(R.mipmap.chat_head).setCircular(true).build();
     }
 
     @Override
@@ -70,9 +68,9 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
                 e.printStackTrace();
             }
             if (!TextUtils.isEmpty(chatBean.targetAvatar)) {
-                Tools.showImage(vh.mImage, chatBean.targetAvatar, R.mipmap.journey_head_portrait);
+                Tools.showImage(vh.mImage, chatBean.targetAvatar, R.mipmap.icon_avatar_guide);
             } else {
-                vh.mImage.setImageResource(R.mipmap.journey_head_portrait);
+                vh.mImage.setImageResource(R.mipmap.icon_avatar_guide);
             }
 
             flushOrder(vh, chatBean);
@@ -135,12 +133,14 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
      */
      public void syncUpdate(List<RecentContact> recentContacts){
          NimRecentListSyncUtils.recentListSync(datas,recentContacts);
-         this.notifyDataSetChanged();
      }
 
 
-    public void syncRemoveRepeatData(){
-        NimRecentListSyncUtils.removeRepeatData(datas);
+    /**
+     * 数据会话去重
+     */
+    public void syncRemoveRepeatData(int pageSize){
+        NimRecentListSyncUtils.removeRepeatData(datas,pageSize);
     }
 
     /**

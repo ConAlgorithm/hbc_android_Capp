@@ -18,7 +18,7 @@
             android:id="@+id/letter_item_img"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@mipmap/chat_head"/>
+            android:src="@mipmap/icon_avatar_user"/>
 
         <FrameLayout
             android:id="@+id/letter_item_img_layout"

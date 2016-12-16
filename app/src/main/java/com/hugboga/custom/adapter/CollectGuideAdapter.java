@@ -33,7 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 
 
 /**
- * Created by qingcha on 16/5/24.
+ * Created by on 16/5/24.
  */
 public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
 
@@ -70,9 +70,9 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         }
         final CollectGuideBean collectGuideBean = getItem(position);
         if (TextUtils.isEmpty(collectGuideBean.avatar)) {
-            holder.avatarIV.setImageResource(R.mipmap.journey_head_portrait);
+            holder.avatarIV.setImageResource(R.mipmap.icon_avatar_guide);
         } else {
-            Tools.showImage(holder.avatarIV, collectGuideBean.avatar, R.mipmap.journey_head_portrait);
+            Tools.showImage(holder.avatarIV, collectGuideBean.avatar, R.mipmap.icon_avatar_guide);
         }
         holder.nameTV.setText(collectGuideBean.name);
         holder.ratingView.setRating(collectGuideBean.stars);
@@ -183,7 +183,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         holder.topLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChartered && !collectGuideBean.isAppointments()) {
+                if (isChartered) {//&& !collectGuideBean.isAppointments()
                     return;
                 }
                 GuideDetailActivity.Params params = new GuideDetailActivity.Params();

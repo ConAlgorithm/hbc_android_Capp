@@ -151,13 +151,10 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (isSubmitEvaluated) {
-//                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION, orderBean.orderNo));
-//                }
                 finish();
             }
         });
-        Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.journey_head_portrait);
+        Tools.showImage(avatarIV, guideInfo.guideAvatar, R.mipmap.icon_avatar_guide);
         nameTV.setText(guideInfo.guideName);
         scoreRatingview.setRating((float)guideInfo.guideStarLevel);
         describeTV.setText(guideInfo.guideCar);
@@ -301,6 +298,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
+                params.orderType = orderBean.orderType;
                 params.totalScore = (int) orderBean.appraisement.totalScore;
                 params.guideAgencyType = orderBean.guideAgencyType;
                 Intent intent = new Intent(EvaluateActivity.this, ShareGuidesActivity.class);

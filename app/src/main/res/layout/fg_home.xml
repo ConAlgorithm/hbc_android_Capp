@@ -26,6 +26,7 @@
                 android:layout_height="@dimen/home_search_layout_height" />
 
             <com.hugboga.custom.widget.HomeCustomLayout
+                android:id="@+id/home_custom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

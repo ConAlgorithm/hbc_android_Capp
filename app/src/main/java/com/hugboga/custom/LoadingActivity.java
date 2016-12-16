@@ -100,16 +100,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     private void setSensorsEvent() {
         try {
-            // 公共属性
-            final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
-            if (appLaunchCount <= 1) {
-                JSONObject publicProperties = new JSONObject();
-                publicProperties.put("is_frist_time", true);
-                SensorsDataAPI.sharedInstance(this).registerSuperProperties(publicProperties);
-            }
             //启动APP
+            final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
             JSONObject properties = new JSONObject();
-            properties.put("channelId", BuildConfig.FLAVOR);
+            properties.put("hbc_channelId", BuildConfig.FLAVOR);
+            properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -174,6 +169,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
         getAD();
         timeSecond = (TextView) findViewById(R.id.time_second);
+        timeSecond.setVisibility(View.GONE);
         timeSecond.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -183,7 +179,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             }
         });
         timeSecond.setText(String.format(getString(R.string.loading_time),loading_time+""));
-        handler.postDelayed(runnable,1000);
     }
 
 //    Handler timeHandler = new Handler();
@@ -261,13 +256,13 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         adClick = true;
         Intent intent = null;
         handler.removeMessages(200);
-        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-            new SharedPre(this).setTravelFundHintIsShow(true);
-            intent = new Intent(LoadingActivity.this, SplashActivity.class);
-        } else {
+//        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+//            new SharedPre(this).setTravelFundHintIsShow(true);
+//            intent = new Intent(LoadingActivity.this, SplashActivity.class);
+//        } else {
             new SharedPre(this).setTravelFundHintIsShow(false);
             intent = new Intent(LoadingActivity.this, MainActivity.class);
-        }
+//        }
         if (actionBean != null) {
             intent.putExtra(Constants.PARAMS_ACTION, actionBean);
         }
@@ -297,8 +292,12 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if (adPictureBean.displayFlag.equalsIgnoreCase("1")) {
+                handler.postDelayed(runnable,1000);
+                timeSecond.setVisibility(View.VISIBLE);
                 bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
+            } else {
+                handler.sendEmptyMessage(200);
             }
         }
 
@@ -359,6 +358,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
         DialogUtil.getInstance(this).dismissLoadingDialog();
+        handler.sendEmptyMessage(200);
     }
 
     @Override

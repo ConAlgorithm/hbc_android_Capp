@@ -45,6 +45,7 @@ import com.hugboga.custom.widget.CityHomeHeader;
 import com.hugboga.custom.widget.CityHomeListItemFree;
 import com.hugboga.custom.widget.CityHomeListItemWorry;
 import com.hugboga.custom.widget.CityPlaceHolderView;
+import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.SkuListEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -148,6 +149,18 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         setSensorsShowEvent();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GiftController.getInstance(this).showGiftDialog();
+    }
+
     //神策统计_浏览页面
     private void setSensorsShowEvent() {
         try {
@@ -173,8 +186,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     break;
             }
             webUrl += id;
-            properties.put("web_title", webTitle);
-            properties.put("web_url", webUrl);
+            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_web_url", webUrl);
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -192,19 +206,19 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             final String id = "" + paramsData.id;
             //浏览城市
             JSONObject properties = new JSONObject();
-            properties.put("refer", getIntentSource());
+            properties.put("hbc_refer", getIntentSource());
             switch (paramsData.cityHomeType) {
                 case CITY:
-                    properties.put("city_id", id);
-                    properties.put("city_name", cityHomeBean.cityContent.cityName);
+                    properties.put("hbc_city_id", id);
+                    properties.put("hbc_city_name", cityHomeBean.cityContent.cityName);
                     break;
                 case ROUTE:
-                    properties.put("linegroup_id", id);
-                    properties.put("linegroup_name", cityHomeBean.lineGroupContent.lineGroupName);
+                    properties.put("hbc_linegroup_id", id);
+                    properties.put("hbc_linegroup_name", cityHomeBean.lineGroupContent.lineGroupName);
                     break;
                 case COUNTRY:
-                    properties.put("country_id", id);
-                    properties.put("country_name", cityHomeBean.countryContent.countryName);
+                    properties.put("hbc_country_id", id);
+                    properties.put("hbc_country_name", cityHomeBean.countryContent.countryName);
                     break;
             }
             SensorsDataAPI.sharedInstance(this).track("view_citis", properties);
@@ -357,7 +371,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 Intent intent = new Intent(getBaseContext(), ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn", false);
-                intent.putExtra("source", "小搜索框");
+                intent.putExtra("source", getEventSource());
                 startActivity(intent);
                 StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH,"城市切换");
             }

@@ -76,8 +76,9 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("web_title", webTitle);
-            properties.put("web_url", webUrl);
+            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_web_url", webUrl);
+            properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
@@ -152,7 +153,6 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override

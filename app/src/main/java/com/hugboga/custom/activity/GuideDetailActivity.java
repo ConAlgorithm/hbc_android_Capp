@@ -2,21 +2,16 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.GuideCarPhotosAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -46,6 +41,7 @@ import com.hugboga.custom.widget.TagGroup;
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by on 16/8/4.
+ * Created by qingcha on 16/8/4.
  */
 public class GuideDetailActivity extends BaseActivity{
 
@@ -141,6 +137,7 @@ public class GuideDetailActivity extends BaseActivity{
         }
         setContentView(R.layout.activity_guide_detail);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         initUI();
         requestData();
@@ -154,6 +151,12 @@ public class GuideDetailActivity extends BaseActivity{
         if (params != null) {
             outState.putSerializable(Constants.PARAMS_DATA, params);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initUI() {
@@ -209,7 +212,7 @@ public class GuideDetailActivity extends BaseActivity{
             cityNameTV.setText(data.cityName + "-" + data.countryName);
 
             //地接社或司导头像
-            Tools.showImage(avatarIV, data.avatar, R.mipmap.journey_head_portrait);
+            Tools.showImage(avatarIV, data.avatar, R.mipmap.icon_avatar_guide);
 
             //地接社或司导名称
             nameTV.setText(data.guideName);
@@ -225,7 +228,7 @@ public class GuideDetailActivity extends BaseActivity{
             } else if (!TextUtils.isEmpty(data.agencyDriverName)) { //显示服务司导
                 genderIV.setVisibility(View.GONE);
                 driverLayout.setVisibility(View.VISIBLE);
-                Tools.showImage(driverAvatarIV, data.agencyDriverAvatar, R.mipmap.journey_head_portrait);
+                Tools.showImage(driverAvatarIV, data.agencyDriverAvatar, R.mipmap.icon_avatar_guide);
                 driverNameTV.setText("服务司导:" + data.agencyDriverName);
                 if (data.agencyDriverGender == 1 || data.agencyDriverGender == 2) {
                     driverGenderIV.setVisibility(View.VISIBLE);
@@ -376,11 +379,23 @@ public class GuideDetailActivity extends BaseActivity{
                         new ShareDialog.OnShareListener() {
                             @Override
                             public void onShare(int type) {
-                                StatisticClickEvent.clickShare(StatisticConstant.SHARE_KANJIA, type == 1 ? "微信好友" : "朋友圈");
+                                StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
                             }
                         });
 
                 MobClickUtils.onEvent(StatisticConstant.SHAREG);
+                break;
+        }
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE_SUCCEED:
+                WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
+                if (getClass().getSimpleName().equals(wxShareUtils.source)) {//分享成功
+                    StatisticClickEvent.clickShare(StatisticConstant.SHAREG_BACK, "" + wxShareUtils.type);
+                }
                 break;
         }
     }

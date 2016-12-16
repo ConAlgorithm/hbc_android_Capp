@@ -16,7 +16,7 @@ public class ImageOptionUtils {
             //.setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
 //            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
             .setCircular(true)
-            .setLoadingDrawableId(R.mipmap.chat_head)
-            .setFailureDrawableId(R.mipmap.chat_head)
+            .setLoadingDrawableId(R.mipmap.icon_avatar_user)
+            .setFailureDrawableId(R.mipmap.icon_avatar_user)
             .build();
 }

@@ -17,10 +17,10 @@ public class UrlLibs {
     public static String SERVER_HTTP_SCHEME = SERVER_HTTP_SCHEME_HTTP;
 
 
-    public static String SERVER_IP_HOST_PUBLIC_DEV = "api.dev.hbc.tech/";//开发
-    public static String SERVER_IP_HOST_PUBLIC_EXAMINATION = "api.test.hbc.tech/";//test
-    public static String SERVER_IP_HOST_PUBLIC_STAGE = "api2.huangbaoche.com/";//stage
-    public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api2.huangbaoche.com/";//生产
+    public static String SERVER_IP_HOST_PUBLIC_DEV = "api5-dev.huangbaoche.com/";//开发
+    public static String SERVER_IP_HOST_PUBLIC_EXAMINATION = "api5-test.huangbaoche.com/";//test
+    public static String SERVER_IP_HOST_PUBLIC_STAGE = "api5.huangbaoche.com/";//stage
+    public static String SERVER_IP_HOST_PUBLIC_FORMAL = "api5.huangbaoche.com/";//生产
 
     public static String SERVER_IP_HOST_PUBLIC_DEFAULT = SERVER_IP_HOST_PUBLIC_DEV;//默认
 
@@ -32,28 +32,28 @@ public class UrlLibs {
 //    测试环境 host  res.test.hbc.tech
 //    生产环境 host  res2.huangbaoche.com
 
-    public static String DEV_H5_HOST = "http://info.dev.hbc.tech";
-    public static String TEST_H5_HOST = "http://info.test.hbc.tech";
+    public static String DEV_H5_HOST = "https://info-dev.huangbaoche.com";
+    public static String TEST_H5_HOST = "https://info-test.huangbaoche.com";
     public static String FORMAL_H5_HOST = "https://info.huangbaoche.com";
 
     public static String H5_HOST = BuildConfig.H5_HOST;
 
-    public static  String DEV_SHARE_BASE_URL_1 = "http://test.op.huangbaoche.com/dev/app/auth.html";
-    public static  String DEV_SHARE_BASE_URL_2 = "http://act.dev.huangbaoche.com";
-    public static  String DEV_SHARE_BASE_URL_3 = "http://act.dev.huangbaoche.com";
-    public static  String DEV_SHARE_BASE_URL_4 = "http://m.dev.huangbaoche.com";
+    public static  String DEV_SHARE_BASE_URL_1 = "https://op-dev.huangbaoche.com/app/auth.html";
+    public static  String DEV_SHARE_BASE_URL_2 = "https://act-dev.huangbaoche.com";
+    public static  String DEV_SHARE_BASE_URL_3 = "https://act-dev.huangbaoche.com";
+    public static  String DEV_SHARE_BASE_URL_4 = "https://m-dev.huangbaoche.com";
     public static  String DEV_SHARE_APPID = "wx1354271c597184ee";
 
-    public static  String TEST_SHARE_BASE_URL_1 = "http://test.op.huangbaoche.com/test/app/auth.html";
-    public static  String TEST_SHARE_BASE_URL_2 = "http://act.test.huangbaoche.com";
-    public static  String TEST_SHARE_BASE_URL_3 = "http://act.test.huangbaoche.com";
-    public static  String TEST_SHARE_BASE_URL_4 = "http://m.test.huangbaoche.com";
+    public static  String TEST_SHARE_BASE_URL_1 = "https://op-test.huangbaoche.com/app/auth.html";
+    public static  String TEST_SHARE_BASE_URL_2 = "https://act-test.huangbaoche.com";
+    public static  String TEST_SHARE_BASE_URL_3 = "https://act-test.huangbaoche.com";
+    public static  String TEST_SHARE_BASE_URL_4 = "https://m-test.huangbaoche.com";
     public static  String TEST_SHARE_APPID = "wx1354271c597184ee";
 
-    public static  String FORMAL_SHARE_BASE_URL_1 = "http://op.huangbaoche.com/app/auth.html";
-    public static  String FORMAL_SHARE_BASE_URL_2 = "http://act.huangbaoche.com";
-    public static  String FORMAL_SHARE_BASE_URL_3 = "http://act.huangbaoche.com";
-    public static  String FORMAL_SHARE_BASE_URL_4 = "http://m.huangbaoche.com";
+    public static  String FORMAL_SHARE_BASE_URL_1 = "https://op.huangbaoche.com/app/auth.html";
+    public static  String FORMAL_SHARE_BASE_URL_2 = "https://act.huangbaoche.com";
+    public static  String FORMAL_SHARE_BASE_URL_3 = "https://act.huangbaoche.com";
+    public static  String FORMAL_SHARE_BASE_URL_4 = "https://m.huangbaoche.com";
     public static  String FORMAL_SHARE_APPID = "wx62ad814ba9bf0b68";
 
     public static  String SHARE_BASE_URL_1 = FORMAL_SHARE_BASE_URL_1;
@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 108
+    //current urlErrorCode 110
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -187,13 +187,15 @@ public class UrlLibs {
     public static final String API_CITY_HOME_LIST           = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
     public static final String API_CITY_HOME_ROUTE_LIST     = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
-    public static final String API_GOODS_BY_ID              = "goods/v1.2/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String API_GOODS_BY_ID              = "goods/v1.3/c/home/goodsByNo";                            // 按商品编号查商品详情
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
     public static final String GET_AD_PICTURE               = "marketing/v1.0/c/activity/effectivestart";               // 获取启动图
     public static final String MOSTFIT                      = "marketing/v1.1/c/coupons/mostFit";                       // 下单获取最适合的优惠券
     public static final String API_COUPONS_AVAILABLE        = "marketing/v1.1/c/coupons/available";                     // 获取可用优惠券
+    public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
+    public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人

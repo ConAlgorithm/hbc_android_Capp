@@ -60,6 +60,14 @@ public class ChatBean  implements Serializable{
         this.nTargetId = jsonObject.optString("neTargetId");
         this.nTargetToken = jsonObject.optString("neTargetToken");
         this.isCancel = jsonObject.optInt("isCancel");
+
+        this.flag = jsonObject.optString("flag");
+        this.timediff = jsonObject.optInt("timediff");
+        this.timezone = jsonObject.optInt("timezone");
+        this.cityName = jsonObject.optString("city_name");
+        this.countryName = jsonObject.optString("country_name");
+
+
         //解析IM订单
         JSONArray orderArray = jsonObject.optJSONArray("orderInfo");
         this.orders = new ArrayList<>();

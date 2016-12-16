@@ -103,6 +103,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
                 params.isSelectedService = true;
                 Intent intent = new Intent(activity, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
         });
@@ -152,5 +153,10 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
                 break;
         }
         return str;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "表态司导列表";
     }
 }

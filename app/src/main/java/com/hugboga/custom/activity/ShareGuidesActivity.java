@@ -17,12 +17,11 @@ import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
 
-import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +50,7 @@ public class ShareGuidesActivity extends BaseActivity{
     public static class Params implements Serializable {
         public EvaluateData evaluateData;
         public String orderNo;
+        public int orderType;
         public int totalScore;
         public int guideAgencyType;
     }
@@ -157,6 +157,12 @@ public class ShareGuidesActivity extends BaseActivity{
                 , evaluateData.wechatShareTitle
                 , evaluateData.wechatShareContent
                 , shareUrl);
+        MobClickUtils.onEvent(new EventEvaluateShare(params.orderType, getEventSource(), "" + type));
         SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "司导");
+    }
+
+    @Override
+    public String getEventSource() {
+        return "评价成功页";
     }
 }

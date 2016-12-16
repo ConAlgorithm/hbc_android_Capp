@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
@@ -21,28 +23,28 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
-import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.iwgang.countdownview.CountdownView;
 
 /**
  * Created by qingcha on 16/9/8.
  */
 public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
+    private static final int AVATAR_COUNT = 6;
+    private static final int AVATAR_WIDTH = UIUtils.dip2px(30);
+    private static final int AVATAR_MARGIN = UIUtils.dip2px(5);
+
     @Bind(R.id.eliver_item_loading_view)
-    DeliverLoadingView loadingView;
+    ImageView loadingView;
     @Bind(R.id.eliver_item_countdown_view)
     OrderDetailDeliverCountDownView countdownLayout;
 
@@ -53,6 +55,8 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     TextView subtitleIV;
     @Bind(R.id.deliver_item_guide_avatar_layout)
     LinearLayout avatarLayout;
+    @Bind(R.id.deliver_item_arrow_iv)
+    ImageView arrowIV;
 
 
     private String orderNo;
@@ -67,7 +71,6 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         super(context, attrs);
         final View view = inflate(context, R.layout.view_deliver_item, this);
         ButterKnife.bind(view);
-        loadingView.setVisibility(View.GONE);
     }
 
     public void setOrderNo(String _orderNo, int orderType) {
@@ -83,11 +86,11 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         }
         //3种UI样式
         switch (deliverInfoBean.deliverStatus) {
-            case DeliverInfoBean.DeliverStatus.BILLED:          // 2.已发单
             case DeliverInfoBean.DeliverStatus.INFORMED:        // 3.已通知司导
             case DeliverInfoBean.DeliverStatus.INFORMED_GUIDE:  // 6.已通知该司导
                 countdownLayout(deliverInfoBean);
                 break;
+            case DeliverInfoBean.DeliverStatus.BILLED:          // 2.已发单
             case DeliverInfoBean.DeliverStatus.BEING_ARRANGED:  // 5.正在安排司导
             case DeliverInfoBean.DeliverStatus.COORDINATION:    // 7.为您协调司导
             case DeliverInfoBean.DeliverStatus.DELIVERING:      // 9.发单中
@@ -95,7 +98,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 break;
             case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
                 guideAvatarListLayout(deliverInfoBean);
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG,orderType+"");
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG, "" + orderType);
                 break;
         }
     }
@@ -105,11 +108,12 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         countdownLayout.setVisibility(View.GONE);
         avatarLayout.removeAllViews();
         avatarLayout.setVisibility(View.GONE);
+        arrowIV.setVisibility(View.GONE);
         subtitleIV.setVisibility(View.VISIBLE);
+        subtitleIV.setTextColor(0xFF929292);
 
         titleTV.setText(deliverInfoBean.deliverMessage);
         subtitleIV.setText(deliverInfoBean.deliverDetail);
-
     }
 
     private void countdownLayout(DeliverInfoBean deliverInfoBean) {
@@ -117,7 +121,9 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         countdownLayout.setVisibility(View.VISIBLE);
         avatarLayout.removeAllViews();
         avatarLayout.setVisibility(View.GONE);
+        arrowIV.setVisibility(View.GONE);
         subtitleIV.setVisibility(View.VISIBLE);
+        subtitleIV.setTextColor(0xFF929292);
 
         countdownLayout.update(deliverInfoBean);
         titleTV.setText(deliverInfoBean.deliverMessage);
@@ -127,20 +133,24 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     private void guideAvatarListLayout(DeliverInfoBean deliverInfoBean) {
         loadingView.setVisibility(View.GONE);
         countdownLayout.setVisibility(View.VISIBLE);
-        avatarLayout.setVisibility(View.VISIBLE);
-        subtitleIV.setVisibility(View.GONE);
 
         countdownLayout.update(deliverInfoBean);
         titleTV.setText(deliverInfoBean.deliverMessage);
-        RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
-        HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
-    }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (loadingView != null) {
-            loadingView.onStop();
+        if (TextUtils.isEmpty(deliverInfoBean.deliverDetail)) {
+            subtitleIV.setVisibility(View.GONE);
+        } else {
+            subtitleIV.setVisibility(View.VISIBLE);
+            subtitleIV.setTextColor(0xFF929292);
+            subtitleIV.setText(deliverInfoBean.deliverDetail);
+        }
+
+        if (deliverInfoBean.isCanChoose()) {//是否可挑选司导
+            subtitleIV.setTextColor(0xFFF63308);
+            RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
+            HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
+            avatarLayout.setVisibility(View.VISIBLE);
+            arrowIV.setVisibility(View.VISIBLE);
         }
     }
 
@@ -160,29 +170,19 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
         //TODO 每次刷新都重新new,当前刷新频率低,后续优化。
         int size = guidesList.size();
-        int viewWidth = UIUtils.dip2px(114) + UIUtils.dip2px(50);
-        boolean isShowMoreIV = true;
+        int viewWidth = UIUtils.dip2px(147) + AVATAR_MARGIN + AVATAR_WIDTH;;
         j:for (int i = 0; i < size; i++) {
-            viewWidth +=  UIUtils.dip2px(10) + UIUtils.dip2px(40);
-            if (viewWidth > UIUtils.getScreenWidth()) {
-                isShowMoreIV = true;
+            viewWidth +=  AVATAR_MARGIN + AVATAR_WIDTH;
+            if (viewWidth > UIUtils.getScreenWidth() || (i == AVATAR_COUNT && size > AVATAR_COUNT)) {
+                CircleImageView moreImageView = getMoreImageView();
+                Tools.showImage(moreImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();
-            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.journey_head_portrait);
-            isShowMoreIV = false;
+            Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
         }
-        CircleImageView circleImageView = getCircleImageView();
-        circleImageView.setBackgroundResource(R.mipmap.guide_avater_more);
-        circleImageView.setVisibility(isShowMoreIV ? View.VISIBLE : View.GONE);
 
-        if (!TextUtils.isEmpty(orderNo) && (orderType == 3 || orderType == 5 || orderType == 6)) {//接送次订单，隐藏表态司导列表，箭头隐藏，不可点击
-            ImageView iconIV = new ImageView(getContext());
-            iconIV.setImageResource(R.mipmap.personalcenter_right);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(20), LayoutParams.WRAP_CONTENT);
-            params.rightMargin = UIUtils.dip2px(10);
-            avatarLayout.addView(iconIV, params);
-
+        if (!TextUtils.isEmpty(orderNo)) {
             avatarLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -212,10 +212,31 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
 
     private CircleImageView getCircleImageView() {
         CircleImageView circleImageView = new CircleImageView(getContext());
-        circleImageView.setBackgroundResource(R.mipmap.journey_head_portrait);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UIUtils.dip2px(40), UIUtils.dip2px(40));
-        params.rightMargin = UIUtils.dip2px(10);
+        circleImageView.setImageResource(R.mipmap.icon_avatar_guide);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(AVATAR_WIDTH, AVATAR_WIDTH);
+        params.rightMargin = AVATAR_MARGIN;
         avatarLayout.addView(circleImageView, params);
+        return circleImageView;
+    }
+
+    private CircleImageView getMoreImageView() {
+        RelativeLayout relativeLayout = new RelativeLayout(getContext());
+
+        CircleImageView circleImageView = new CircleImageView(getContext());
+        circleImageView.setImageResource(R.mipmap.icon_avatar_guide);
+        relativeLayout.addView(circleImageView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        TextView textView = new TextView(getContext());
+        textView.setGravity(Gravity.CENTER);
+        textView.setText("more");
+        textView.setTextSize(10);
+        textView.setTextColor(0xFFFFFFFF);
+        textView.setBackgroundResource(R.drawable.bg_oval_shade_black);
+        relativeLayout.addView(textView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(AVATAR_WIDTH, AVATAR_WIDTH);
+        params.rightMargin = AVATAR_MARGIN;
+        avatarLayout.addView(relativeLayout, params);
         return circleImageView;
     }
 }

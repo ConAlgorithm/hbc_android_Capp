@@ -26,18 +26,15 @@ public class NimRecentListSyncUtils {
      * @return
      */
     public static void recentListSync(List<ChatBean> chatBeanList, List<RecentContact> recentContacts) {
-
         if (recentContacts == null || recentContacts.size() == 0) {
             return;
         }
-
         for (Iterator<ChatBean> iter = chatBeanList.iterator(); iter.hasNext(); ) {
             //客服数据排除不同步
             ChatBean chatBean = iter.next();
             if (chatBean.targetType == 3) {
                 continue;
             }
-            boolean exist = false;
             for (RecentContact recentContact : recentContacts) {
                 if (chatBean.nTargetId.toLowerCase().equals(recentContact.getContactId().toLowerCase())) {
                     chatBean.message = recentContact.getContent();
@@ -47,12 +44,8 @@ public class NimRecentListSyncUtils {
                         chatBean.imCount = recentContact.getUnreadCount();
                     }
                     chatBean.timeStamp = recentContact.getTime();
-                    exist = true;
                 }
             }
-//            if(!exist){
-//                iter.remove();
-//            }
         }
         sortRecentContacts(chatBeanList);
     }
@@ -156,13 +149,13 @@ public class NimRecentListSyncUtils {
     };
 
 
-    public static void removeRepeatData(List<ChatBean> chatBeanList){
-        if(chatBeanList==null || chatBeanList.size()<10){
+    public static void removeRepeatData(List<ChatBean> chatBeanList,int pageSize){
+        if(chatBeanList==null || chatBeanList.size()<pageSize){
             return;
         }
-        List<ChatBean> lastPageChatList = new ArrayList<>(chatBeanList.subList(chatBeanList.size()-10,chatBeanList.size()));
+        List<ChatBean> lastPageChatList = new ArrayList<>(chatBeanList.subList(chatBeanList.size()-pageSize,chatBeanList.size()));
         boolean hasRepeat = false;
-        for(int i=0;i<chatBeanList.size()-10;i++){
+        for(int i=0;i<chatBeanList.size()-pageSize;i++){
             ChatBean chatBean = chatBeanList.get(i);
             for(Iterator<ChatBean> lastIter = lastPageChatList.iterator();lastIter.hasNext();){
                 ChatBean temp = lastIter.next();
@@ -174,16 +167,15 @@ public class NimRecentListSyncUtils {
         }
 
         if(hasRepeat){
-            for(int i=0;i<10;i++){
+            for(int i=0;i<pageSize;i++){
                 chatBeanList.remove(chatBeanList.size()-1);
             }
             chatBeanList.addAll(lastPageChatList);
         }
 
-
-        for(int i=0;i<chatBeanList.size();i++){
-            Log.e("test","after repeat id:" + chatBeanList.get(i).nTargetId);
-        }
+//        for(int i=0;i<chatBeanList.size();i++){
+//            Log.e("test","after repeat id:" + chatBeanList.get(i).nTargetId);
+//        }
 
     }
 }

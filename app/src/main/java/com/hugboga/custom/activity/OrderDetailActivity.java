@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -143,6 +144,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (params != null) {
@@ -207,7 +214,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
-                    setSensorsPayResultEvent();
+                    EventPayBean eventPayBean = new EventPayBean();
+                    eventPayBean.transform(orderBean);
+                    SensorsUtils.setSensorsPayResultEvent(eventPayBean, "支付宝", true);
                 }
             }
         }
@@ -264,8 +273,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     requestParams.source = source;
                     requestParams.couponId = couponId;
                     requestParams.eventPayBean = eventPayBean;
-                    requestParams.orderType = orderBean.orderType;
-                    requestParams.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
                     intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, requestParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -518,17 +525,4 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     public String getEventSource() {
         return "订单详情";
     }
-
-    private void setSensorsPayResultEvent() {
-        if (orderBean == null || orderBean.orderPriceInfo == null) {
-            return;
-        }
-        SensorsUtils.setSensorsPayResultEvent(orderBean.orderType
-                , !TextUtils.isEmpty(orderBean.guideCollectId)
-                , "" + orderBean.orderPriceInfo.actualPay
-                , "支付宝"
-                , orderBean.orderNo
-                , true);
-    }
-
 }

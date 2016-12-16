@@ -92,9 +92,9 @@ public class EvaluateListItemView extends LinearLayout{
             return;
         }
         if (TextUtils.isEmpty(data.getAvatar())) {
-            avatarIV.setImageResource(R.mipmap.collection_icon_pic);
+            avatarIV.setImageResource(R.mipmap.icon_avatar_user);
         } else {
-            Tools.showImage(avatarIV, data.getAvatar(), R.mipmap.collection_icon_pic);
+            Tools.showImage(avatarIV, data.getAvatar(), R.mipmap.icon_avatar_user);
         }
         nameTV.setText(data.getName());
         stateTV.setText(data.getOrderTypeStr());

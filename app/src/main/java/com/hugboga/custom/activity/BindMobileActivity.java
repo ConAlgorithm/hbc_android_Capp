@@ -42,8 +42,6 @@ import butterknife.OnClick;
  */
 public class BindMobileActivity extends BaseActivity{
 
-    public static final String SOURCE_TYPE = "source_type";
-
     @Bind(R.id.bind_mobile_areacode)
     TextView areaCodeTextView;
     @Bind(R.id.bind_mobile_mobile)
@@ -59,7 +57,6 @@ public class BindMobileActivity extends BaseActivity{
     private String mobile = "";
     private String unionid = "";
     private boolean isAfterProcess = false;
-    private String sourceType;
 
     public static int REQUEST_CODE = 0x001;
 
@@ -109,7 +106,6 @@ public class BindMobileActivity extends BaseActivity{
             unionid = bundle.getString("unionid");
             source = bundle.getString("source");
             isAfterProcess = bundle.getBoolean("isAfterProcess");
-            sourceType = bundle.getString(SOURCE_TYPE);
         }
 
         if(isAfterProcess){
@@ -119,7 +115,7 @@ public class BindMobileActivity extends BaseActivity{
             fgLeftBtn.setVisibility(View.INVISIBLE);
         }
 
-        if (sourceType.equals("wechat")) {
+        if (!TextUtils.isEmpty(UserEntity.getUser().getUnionid(this))) {
             setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
     }
@@ -241,6 +237,7 @@ public class BindMobileActivity extends BaseActivity{
                     connectIM();
                     EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
+                EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
                 intent.putExtras(bundle);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
@@ -254,11 +251,8 @@ public class BindMobileActivity extends BaseActivity{
                 UserSession.getUser().setUserToken(this, userBean.userToken);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
-//                Bundle bundle = new Bundle();
-//                bundle.putString(KEY_FRAGMENT_NAME, FgBindMobile.class.getSimpleName());
-//                finishForResult(bundle);
-                destroyHandler();
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
+                destroyHandler();
                 finish();
             }
         } else if(request instanceof RequestChangeMobile){
@@ -275,7 +269,7 @@ public class BindMobileActivity extends BaseActivity{
             intent.putExtras(bundle);
             finish();
             BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
-
+            EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
             MobClickUtils.onEvent(StatisticConstant.BIND_SUCCEED);
         }
     }

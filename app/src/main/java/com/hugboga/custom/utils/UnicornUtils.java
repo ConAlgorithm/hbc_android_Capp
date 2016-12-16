@@ -49,12 +49,12 @@ public class UnicornUtils {
         Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize());
     }
 
-    public static void openDefaultServiceActivity(Context context) {
+    public static void openServiceActivity(Context context, int sourceType) {
         if (!CommonUtils.isLogin(context)) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-        params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
+        params.sourceType = sourceType;
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);

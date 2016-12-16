@@ -73,8 +73,6 @@ public class ChoosePaymentActivity extends BaseActivity {
     public RequestParams requestParams;
 
     public static class RequestParams implements Serializable {
-        public int orderType;
-        public boolean isSelectedGuide;
         public String orderId;
         public double shouldPay;
         public String couponId;
@@ -115,6 +113,12 @@ public class ChoosePaymentActivity extends BaseActivity {
         if (requestParams != null) {
             outState.putSerializable(Constants.PARAMS_DATA, requestParams);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     private void initView() {
@@ -159,6 +163,7 @@ public class ChoosePaymentActivity extends BaseActivity {
                 if (requestParams.eventPayBean != null) {
                     requestParams.eventPayBean.paystyle = this.payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
                     MobClickUtils.onEvent(new EventPayResult(requestParams.eventPayBean, (boolean) action.getData()));
+                    setSensorsPayResultEvent(payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付", (boolean) action.getData());
                 }
                 break;
             default:
@@ -166,12 +171,11 @@ public class ChoosePaymentActivity extends BaseActivity {
         }
     }
 
-
-
     private void sendRequest(int payType) {
         if (requestParams.eventPayBean != null) {
             requestParams.eventPayBean.paystyle = payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
             MobClickUtils.onEvent(new EventPay(requestParams.eventPayBean));
+            SensorsUtils.setSensorsPayOnClickEvent(requestParams.eventPayBean, requestParams.eventPayBean.paystyle);
         }
         this.payType = payType;
         RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);
@@ -276,7 +280,6 @@ public class ChoosePaymentActivity extends BaseActivity {
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);
-            setSensorsPayResultEvent(payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付", msg.what == 1);
         }
     };
 
@@ -343,14 +346,9 @@ public class ChoosePaymentActivity extends BaseActivity {
     }
 
     private void setSensorsPayResultEvent(String payMethod, boolean payResult) {
-        if (requestParams == null) {
+        if (requestParams == null || requestParams.eventPayBean == null) {
             return;
         }
-        SensorsUtils.setSensorsPayResultEvent(requestParams.orderType
-                , requestParams.isSelectedGuide
-                , "" + requestParams.shouldPay
-                , payMethod
-                , requestParams.orderId
-                , payResult);
+        SensorsUtils.setSensorsPayResultEvent(requestParams.eventPayBean, payMethod, payResult);
     }
 }

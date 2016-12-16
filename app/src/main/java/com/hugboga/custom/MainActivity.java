@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -68,6 +69,7 @@ import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.zhy.m.permission.MPermissions;
@@ -113,6 +115,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TextView tabMenu[] = new TextView[4];
     private ActionBean actionBean;
+    private int currentPosition = 0;
 
     private FgHome fgHome;
     private FgImChat fgChat;
@@ -137,6 +140,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         initBottomView();
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
 
@@ -163,6 +167,21 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             ActionController actionFactory = ActionController.getInstance(this);
             actionFactory.doAction(actionBean);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+        if (currentPosition == 0) {
+            GiftController.getInstance(this).showGiftDialog();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
     }
 
     private void checkVersion() {
@@ -353,7 +372,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
+                    if (cvBean.force && dialogUtil.getVersionDialog() != null) {
                         try {
                             Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
                             field.setAccessible(true);
@@ -364,13 +383,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     }
                     PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
                 }
-            },  new DialogInterface.OnClickListener() {
+            }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //在版本检测后 检测DB
                     UpdateResources.checkRemoteDB(MainActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
                         @Override
-                        public void onFinished() {}
+                        public void onFinished() {
+                        }
                     });
                 }
             });
@@ -453,7 +473,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE,params.source);
+        intent.putExtra(Constants.PARAMS_SOURCE, params.source);
         startActivity(intent);
     }
 
@@ -494,6 +514,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
+        if (fgHome != null && fgHome.closeGuideView()) {//关掉引导遮罩
+            return;
+        }
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
         } else if (mViewPager.getCurrentItem() != 0) {
@@ -545,6 +568,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         for (int i = 0; i < tabMenu.length; i++) {
             tabMenu[i].setSelected(position == i);
         }
+        currentPosition = position;
+        if (position == 0) {
+            GiftController.getInstance(this).showGiftDialog();
+        } else {
+            GiftController.getInstance(this).abortion();
+        }
     }
 
     @Override
@@ -593,7 +622,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             return true;
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra(Constants.PARAMS_SOURCE,source);
+            intent.putExtra(Constants.PARAMS_SOURCE, source);
             startActivity(intent);
             return false;
         }
@@ -649,7 +678,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-    public void setIMCount(int count,int serviceMsgCount) {
+    public void setIMCount(int count, int serviceMsgCount) {
         if (count > 0) {
             if (count > 99) {
                 bottomPoint2.setText("99+");
@@ -658,10 +687,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
             bottomPoint2.setVisibility(View.VISIBLE);
             qyServiceUnreadMsgCount.setVisibility(View.GONE);
-        } else if(serviceMsgCount>0){
+        } else if (serviceMsgCount > 0) {
             bottomPoint2.setVisibility(View.GONE);
             qyServiceUnreadMsgCount.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             bottomPoint2.setVisibility(View.GONE);
             bottomPoint2.setText("");
             qyServiceUnreadMsgCount.setVisibility(View.GONE);
@@ -682,7 +711,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-        switch(requestCode){
+        switch (requestCode) {
             case PERMISSION_ACCESS_COARSE_LOCATION:
             case PERMISSION_ACCESS_FINE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -713,13 +742,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private long calculateCacheFileSize() {
         long length = 0L;
-        try{
+        try {
             String cachePath = Glide.getPhotoCacheDir(MyApplication.getAppContext()).getPath();
             File cacheDir1 = new File(cachePath);
             if (cacheDir1 != null) {
                 length += FileUtil.getFileOrDirSize(cacheDir1);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return length;
@@ -740,7 +769,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     public void requestLocation() {
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+                return;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
