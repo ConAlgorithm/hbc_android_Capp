@@ -96,5 +96,12 @@
 
     <dimen name="unicorn_view_left_size">16dp</dimen>
 
+    <dimen name="sku_order_padding_left">17dp</dimen>
+    <dimen name="sku_order_padding_top">14dp</dimen>
+    <dimen name="sku_order_margin_vertical">12dp</dimen>
+    <dimen name="sku_order_min_item_hight">48dp</dimen>
 
+    <dimen name="order_bottom_height">56dp</dimen>
+
+    <dimen name="default_line_height">0.7dp</dimen>
 </resources>

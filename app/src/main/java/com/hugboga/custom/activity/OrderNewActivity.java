@@ -284,8 +284,7 @@ public class OrderNewActivity extends BaseActivity {
         contactUsersBean.userPhone = userPhone;
         contactUsersBean.phoneCode = areaCode;
         manName.setText(userName);
-        String phone = userPhone;
-        phone = CommonUtils.addPhoneCodeSign(areaCode) + " " + userPhone;
+        String phone = CommonUtils.addPhoneCodeSign(areaCode) + " " + userPhone;
         manPhone.setText(phone);
         topTipsLayout.setText(R.string.order_detail_top2_tips);
     }
@@ -1205,7 +1204,6 @@ public class OrderNewActivity extends BaseActivity {
     private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
         eventPayBean.guideCollectId = guideCollectId;
-        eventPayBean.orderType = type;
         eventPayBean.paysource = "下单过程中";
         eventPayBean.orderType = CommonUtils.getCountInteger(orderType);
 

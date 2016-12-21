@@ -673,7 +673,7 @@ public class OrderUtils {
         orderContact.tel = "";
         orderBean.contact.add(orderContact);
         orderBean.memo = userRemark;//mark.getText().toString().trim();
-        if (startBean != null) {
+        if (poiBean != null) {
             orderBean.startAddress = poiBean.placeName;//startBean.placeName;
             orderBean.startAddressDetail = poiBean.placeDetail;
             orderBean.startLocation = poiBean.location;
@@ -816,6 +816,20 @@ public class OrderUtils {
             intent.putExtra("web_url", url);
             activity.startActivity(intent);
         }
+    }
+
+    public static String getPassCityStr(SkuItemBean skuBean) {
+        String passCity = "";
+        if (skuBean != null) {
+            passCity += skuBean.depCityId + "-0";
+            if (null != skuBean.passCityList) {
+                for (CityBean city : skuBean.passCityList) {
+                    passCity += "," + city.cityId + "-0";
+                }
+            }
+            passCity += "," + skuBean.arrCityId + "-0";
+        }
+        return passCity;
     }
 
 

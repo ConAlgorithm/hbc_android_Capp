@@ -17,7 +17,7 @@ public class ChooseDateBean implements IBaseBean {
     public int dayNums;
     public boolean isToday;
     public int type;//1,单天,2 多天
-
+    public Date minDate;
 
     public ChooseDateBean() {
     }
