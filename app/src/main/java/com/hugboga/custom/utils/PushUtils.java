@@ -162,7 +162,6 @@ public class PushUtils {
         Bundle bundle = new Bundle();
         bundle.putSerializable(MainActivity.PUSH_BUNDLE_MSG, pushMessage);
         intent.putExtras(bundle);
-        Log.i("qingcha_push", "getIntent");
         return intent;
     }
 

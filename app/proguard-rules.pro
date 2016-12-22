@@ -197,6 +197,8 @@
     <init>(java.lang.Throwable);
 }
 
+-keep class com.hugboga.custom.receiver.XMPushReceiver {*;}
+
 -keep class com.hugboga.custom.data.event.EventAction { *; }
 -keep class com.hugboga.custom.activity.PersonInfoActivity{ *; }
 -keep class com.hugboga.custom.activity.IMChatActivity{ *; }
