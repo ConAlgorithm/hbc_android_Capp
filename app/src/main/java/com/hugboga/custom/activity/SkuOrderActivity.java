@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -90,6 +91,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     SkuOrderBottomView bottomView;
     @Bind(R.id.sku_order_explain_view)
     OrderExplainView explainView;
+    @Bind(R.id.sku_order_empty_layout)
+    LinearLayout emptyLayout;
 
     private SkuOrderActivity.Params params;
     private CarListBean carListBean;
@@ -157,7 +160,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        chooseDateView.setStartDate("2016-12-22");//TODO
+        chooseDateView.setStartDate("2016-12-24");//TODO
         explainView.setTermsLayoutVisibility(View.VISIBLE);
     }
 
@@ -167,7 +170,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, "订单未填写完，要离开吗", "离开", "取消", new DialogInterface.OnClickListener() {
+                hideSoftInput();
+                AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, "订单未填写完，要离开吗?", "离开", "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -209,17 +213,18 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 }
                 Intent intent = new Intent(activity, PoiSearchActivity.class);
                 intent.putExtras(bundle);
-                intent.putExtra("mBusinessType", params.skuItemBean.goodsClass == 1 ? 5 : 6);
+                intent.putExtra("mBusinessType", orderType);
                 startActivity(intent);
                 break;
             case SELECT_COUPON_BACK:
                 couponBean = (CouponBean) action.getData();
-                discountView.setCouponBean(couponBean);
                 if (couponBean.couponID.equalsIgnoreCase(couponId)) {
                     couponId = null;
                     couponBean = null;
                 }
                 mostFitBean = null;
+                Log.i("aa", "SELECT_COUPON_BACK 清空");
+                discountView.setCouponBean(couponBean);
                 break;
         }
     }
@@ -250,14 +255,15 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) _request).getData();
-            carTypeView.update(carListBean);
+            if (!checkDataIsEmpty(carListBean)) {
+                carTypeView.update(carListBean);
+            }
         } else if (_request instanceof RequestMostFit) {
             mostFitBean = ((RequestMostFit) _request).getData();
-            Log.i("aa", "onDataRequestSucceed 优惠券");
             discountView.setMostFitBean(mostFitBean);
+            Log.i("aa", "onDataRequestSucceed mostFitBean");
         } else if (_request instanceof RequestDeduction) {
             deductionBean = ((RequestDeduction) _request).getData();
-            Log.i("aa", "onDataRequestSucceed 旅游基金");
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestSubmitBase) {
             orderInfoBean = ((RequestSubmitBase) _request).getData();
@@ -305,11 +311,41 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         super.onDataRequestError(errorInfo, request);
     }
 
+    private boolean checkDataIsEmpty(CarListBean carListBean) {
+        boolean isEmpty = false;
+        if (carListBean == null || carListBean.carList == null || carListBean.carList.size() <= 0) {
+            isEmpty = true;
+        } else {
+            isEmpty = false;
+        }
+        emptyLayout.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+
+        int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
+        carTypeView.setVisibility(itemVisibility);
+        countView.setVisibility(itemVisibility);
+        travelerInfoView.setVisibility(itemVisibility);
+        discountView.setVisibility(itemVisibility);
+        bottomView.setVisibility(itemVisibility);
+        explainView.setVisibility(itemVisibility);
+
+        return isEmpty;
+    }
+
+    /* 滚动到顶部 */
+    private void scrollToTop() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        });
+    }
+
     /* 选择日期 */
     @Override
     public void onSelectedDate(String date) {
         requestPriceSku(date);
-        Log.i("aa", "onSelectedDate 选择日期 " );
+        scrollToTop();
     }
 
     /* 选择车辆 */
@@ -318,7 +354,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         this.carBean = carBean;
         countView.update(carBean, carListBean, serverDate);
         int additionalPrice = countView.getAdditionalPrice();
-        Log.i("aa", "onSelectedCar 卷" + additionalPrice);
         requestMostFit(additionalPrice);
         requestTravelFund(additionalPrice);
         requestCancleTips();
@@ -328,12 +363,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onClickHideMoreCar(boolean isShow) {
         if (!isShow) {
-            scrollView.post(new Runnable() {
-                @Override
-                public void run() {
-                    scrollView.smoothScrollTo(0, 0);
-                }
-            });
+            scrollToTop();
         }
     }
 
@@ -349,7 +379,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     /* 儿童座椅+酒店价格发生改变 */
     @Override
     public void onAdditionalPriceChange(int price) {
-        Log.i("aa", "onAdditionalPriceChange 卷" + price);
         requestMostFit(price);
         requestTravelFund(price);
     }
@@ -367,25 +396,24 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
 
         switch (type) {
             case SkuOrderDiscountView.TYPE_COUPON:
-                Log.i("aa", "chooseDiscount 优惠券");
                 if (mostFitBean == null || mostFitBean.actualPrice == null  ||  mostFitBean.actualPrice == 0) {
                     if (couponBean != null) {
                         actualPrice = couponBean.actualPrice.intValue();
+                        Log.i("aa", "chooseDiscount  111");
                     }
                 } else {
+                    Log.i("aa", "chooseDiscount  222222");
                     actualPrice = mostFitBean.actualPrice.intValue();
                 }
                 deductionPrice = totalPrice - actualPrice > 0 ? totalPrice - actualPrice : 0;
                 break;
             case SkuOrderDiscountView.TYPE_TRAVEL_FUND:
-                Log.i("aa", "chooseDiscount 旅游基金");
                 if (deductionBean != null && deductionBean.priceToPay != null) {
                     deductionPrice = CommonUtils.getCountInteger(deductionBean.deduction);
                     actualPrice = carBean.price - deductionPrice + additionalPrice;
                 }
                 break;
             case SkuOrderDiscountView.TYPE_INVALID:
-                Log.i("aa", "chooseDiscount 全部失效");
                 break;
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
@@ -438,6 +466,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         startActivity(intent);
     }
 
+    /* 去支付 */
     @Override
     public void onSubmitOrder() {
         hideSoftInput();
@@ -493,6 +522,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         requestData(requestDeduction);
     }
 
+    /*
+    * 提交订单
+    * */
     private void requestSubmitOrder() {
         orderBean = getSKUOrderByInput();
         switch (orderType) {
@@ -507,11 +539,17 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         }
     }
 
+    /*
+    * 金额为零，直接请求支付接口（支付宝）
+    * */
     private void requestPayNo(String orderNo) {
         RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
         requestData(pequestPayNo);
     }
 
+    /*
+    * 获取退改规则
+    * */
     private void requestCancleTips() {
         RequestCancleTips requestCancleTips = new RequestCancleTips(activity
                 , carBean
@@ -527,6 +565,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         requestData(requestCancleTips);
     }
 
+    /*
+    * 下单参数，参考OrderNewActivity
+    * */
     private OrderBean getSKUOrderByInput() {
         ManLuggageBean manLuggageBean = countView.getManLuggageBean();
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
@@ -561,6 +602,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , manLuggageBean.luggages + "");
     }
 
+    /*
+    * 后续页面需要的统计参数
+    * */
     private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
         eventPayBean.guideCollectId = "";

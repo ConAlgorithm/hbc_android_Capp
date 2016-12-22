@@ -38,6 +38,7 @@
         android:layout_toRightOf="@+id/sku_order_car_type_item_choose_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:textColor="#f9b800"
         android:textSize="12sp"
         />
@@ -48,15 +49,28 @@
         android:layout_marginRight="@dimen/sku_order_padding_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:textColor="#848484"
         android:textSize="12sp"
         />
     <View
+        android:id="@+id/sku_order_car_type_bottom_line_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_line_height"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="12dp"
         android:layout_below="@id/sku_order_car_type_description_tv"
+        android:background="@color/default_dividing_line"
+        />
+
+    <View
+        android:id="@+id/sku_order_car_type_bottom_line_view2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        android:layout_below="@id/sku_order_car_type_seat_tv"
         android:background="@color/default_dividing_line"
         />
 </RelativeLayout>

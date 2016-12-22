@@ -118,6 +118,8 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
             adultCountView.setMinCount(1).setCount(adultCount, false);
             childCountView.setCount(0, false);
             childSeatCountView.setCount(0, false);
+            childSeatLayout.setVisibility(View.GONE);
+            hintLayout.setVisibility(View.GONE);
             if (listener != null) {
                 listener.onCountChange(getManLuggageBean());
             }
@@ -213,8 +215,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     private boolean isResetCountView() {
-        double count = adultCount + childSeatCount * 1.5 + (childCount - childSeatCount);
-        return carBean.capOfPerson - count < 0.5;
+        return  adultCount + childSeatCount * 1.5 + (childCount - childSeatCount) > carBean.capOfPerson;
     }
 
     private void checkCountView() {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private boolean isShow = false;
     private ArrayList<CarBean> carList;
     private OnSelectedCarListener listener;
+    private CarBean oldCarBean;
 
     public SkuOrderCarTypeView(Context context) {
         this(context, null);
@@ -70,15 +72,15 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
                 itemView = containerLayot.getChildAt(i);
             } else {
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.view_sku_order_car_type_item, null);
-                containerLayot.addView(itemView);
+                containerLayot.addView(itemView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             }
             itemView.setId(i);
             itemView.setVisibility(i < DEFAULT_SHOW_COUNT ? View.VISIBLE : View.GONE);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == 0);
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv)).setText(getContext().getString(R.string.sign_rmb) + carBean.price);
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(carBean.carDesc + " + 中文司导");
-            ((TextView) itemView.findViewById(R.id.sku_order_car_type_description_tv)).setText(i == 0 ? carBean.models : "");
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);
+            showDescriptionTV(itemView, i == 0 ? carBean.models : "", size, i);
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,6 +91,11 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         itemViewOnClick(containerLayot.getChildAt(0));
         isShow = false;
         moreaArrowIV.setBackgroundResource(R.mipmap.icon_black_arrow);
+        if (size <= DEFAULT_SHOW_COUNT) {
+            moreLayout.setVisibility(View.GONE);
+        } else {
+            moreLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick({R.id.sku_order_car_type_more_layout})
@@ -122,7 +129,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     }
 
     private void itemViewOnClick(View view) {
-        if (carList == null) {
+        if (carList == null || view == null) {
             return;
         }
         final int size = carList.size();
@@ -132,12 +139,30 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         for (int i = 0; i < size; i++) {
             View itemView = containerLayot.getChildAt(i);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == view.getId());
-            ((TextView) itemView.findViewById(R.id.sku_order_car_type_description_tv)).setText(i == view.getId() ? carList.get(i).models : "");
+            showDescriptionTV(itemView, i == view.getId() ? carList.get(i).models : "", size, i);
         }
         CarBean carBean = carList.get(view.getId());
-        if (listener != null) {
+        if (listener != null && this.oldCarBean != carBean && carBean != null) {
+            this.oldCarBean = carBean;
             listener.onSelectedCar(carBean);
         }
+    }
+
+    private void showDescriptionTV(View itemView, String description, int size, int i) {
+        TextView descriptionTV = (TextView) itemView.findViewById(R.id.sku_order_car_type_description_tv);
+        View lineView = itemView.findViewById(R.id.sku_order_car_type_bottom_line_view);
+        View lineView2 = itemView.findViewById(R.id.sku_order_car_type_bottom_line_view2);
+        boolean isEmpty = TextUtils.isEmpty(description);
+
+        if (size <= DEFAULT_SHOW_COUNT && i == size - 1) {
+            lineView.setVisibility(isEmpty ? View.GONE : View.INVISIBLE);
+            lineView2.setVisibility(isEmpty ? View.INVISIBLE : View.GONE);
+        } else {
+            lineView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+            lineView2.setVisibility(isEmpty ? View.VISIBLE  : View.GONE);
+        }
+        descriptionTV.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        descriptionTV.setText(description);
     }
 
     private void setSeatTV(TextView textView, int person, int luggage) {
