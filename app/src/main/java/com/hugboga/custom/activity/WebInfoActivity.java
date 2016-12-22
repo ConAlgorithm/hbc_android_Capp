@@ -64,6 +64,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private CityBean cityBean;
     private boolean isLogin = false;
     private String url;
+    private WebAgent webAgent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             super.onPageFinished(view, url);
             if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
                 headerTitle.setText(view.getTitle());
+                if (webAgent != null) {
+                    webAgent.setTitle(view.getTitle());
+                }
             }
         }
 
@@ -176,6 +180,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             if (headerTitle != null) {
                 if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
                     headerTitle.setText(view.getTitle());
+                    if (webAgent != null) {
+                        webAgent.setTitle(view.getTitle());
+                    }
                 }
             }
         }
@@ -270,7 +277,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn, TAG), "javaObj");
+        webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn, TAG);
+        webView.addJavascriptInterface(webAgent, "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);
