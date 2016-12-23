@@ -448,7 +448,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     if (mViewPager != null) {
                         mViewPager.setCurrentItem(2);
                     }
-                } else {
+                } else {//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
                 }
             }
