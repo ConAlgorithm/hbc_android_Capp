@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 112
+    //current urlErrorCode 113
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -188,6 +188,7 @@ public class UrlLibs {
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
     public static final String API_CITY_HOME_ROUTE_LIST     = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
     public static final String API_GOODS_BY_ID              = "goods/v1.3/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String GOODS_BOOK_DATE              = "goods/v1.0/c/home/goodsbookdate";                        // 根据商品编号查询可预订日期
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定

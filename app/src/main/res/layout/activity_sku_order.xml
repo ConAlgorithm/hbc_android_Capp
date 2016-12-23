@@ -31,16 +31,18 @@
                 android:id="@+id/sku_order_description_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:layout_marginBottom="@dimen/sku_order_margin_vertical"
+                />
 
             <com.hugboga.custom.widget.SkuOrderChooseDateView
                 android:id="@+id/sku_order_choose_date_view"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sku_order_margin_vertical"
                 android:background="#ffffff" />
 
-            <LinearLayout
+            <com.hugboga.custom.widget.SkuOrderEmptyView
                 android:id="@+id/sku_order_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,20 +51,7 @@
                 android:gravity="center"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
-                    android:background="@drawable/icon_sku_order_empty_car"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:textSize="13sp"
-                    android:textColor="#a8a8a8"
-                    android:text="很抱歉，没有找到可客服的司导，换个日期试试"
-                    />
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <com.hugboga.custom.widget.SkuOrderCarTypeView
                 android:id="@+id/sku_order_car_type_view"

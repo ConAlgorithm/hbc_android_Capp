@@ -265,6 +265,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
                 break;
             case R.id.goto_order:
+                if (!CommonUtils.isLogin(this)) {
+                    return;
+                }
                 if (skuItemBean == null) {
                     getSkuItemBean(true);
                     break;
