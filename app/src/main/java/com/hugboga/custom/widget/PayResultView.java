@@ -178,6 +178,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         orderParams.orderId = orderId;
         Intent intent = new Intent(getContext(), OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, orderParams);
+        intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
         getContext().startActivity(intent);
     }
 

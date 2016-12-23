@@ -810,7 +810,7 @@
     <string name="choose_guide">选他服务</string>
     <string name="choose_guide_title">%1$d个已接单司导</string>
 
-    <string name="choose_guide_head">未来将开放选司导功能，敬请期待~\n本次由皇包车为您挑选</string>
+    <string name="choose_guide_footer">如果您未主动挑选司导，系统将在挑选时间结束后为您匹配一位最佳司导</string>
 
     <string name="order_detail_add_policy_holder">添加投保人</string>
     <string name="order_detail_timeright">内，添加投保人信息</string>

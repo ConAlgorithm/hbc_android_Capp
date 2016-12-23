@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -27,6 +28,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -110,17 +112,22 @@ public class GuideDetailActivity extends BaseActivity{
     @Bind(R.id.guide_detail_single_layout)
     RelativeLayout singleLayout;
 
+    @Bind(R.id.guide_detail_choose_guide_tv)
+    TextView chooseGuideTV;
 
     private Params params;
     private GuidesDetailData data;
 
     private DialogUtil mDialogUtil;
+    private ChooseGuideUtils chooseGuideUtils;
     private CollectGuideBean collectBean;
 
     public static class Params implements Serializable {
         public String guideId;
         public String guideCarId;
         public String guideAgencyDriverId;
+        public String orderNo;
+        public CanServiceGuideBean.GuidesBean chooseGuide;
         public boolean isSelectedService = false;
     }
 
@@ -142,7 +149,7 @@ public class GuideDetailActivity extends BaseActivity{
         initUI();
         requestData();
 
-        setSensorsDefaultEvent("司导个人页", SensorsConstant.GPROFILE);
+        setSensorsDefaultEvent(getEventSource(), SensorsConstant.GPROFILE);
     }
 
     @Override
@@ -160,6 +167,9 @@ public class GuideDetailActivity extends BaseActivity{
     }
 
     private void initUI() {
+        if (params.chooseGuide != null) {
+            chooseGuideTV.setVisibility(View.VISIBLE);
+        }
 
         mDialogUtil = DialogUtil.getInstance(this);
         collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
@@ -327,8 +337,8 @@ public class GuideDetailActivity extends BaseActivity{
         return tagTV;
     }
 
-    @OnClick({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout,
-            R.id.guide_detail_single_layout, R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn})
+    @OnClick({R.id.guide_detail_plane_layout, R.id.guide_detail_car_layout, R.id.guide_detail_single_layout,
+            R.id.header_detail_back_btn, R.id.header_detail_right_1_btn, R.id.header_detail_right_2_btn, R.id.guide_detail_choose_guide_tv})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -384,6 +394,15 @@ public class GuideDetailActivity extends BaseActivity{
                         });
 
                 MobClickUtils.onEvent(StatisticConstant.SHAREG);
+                break;
+            case R.id.guide_detail_choose_guide_tv://选Ta服务
+                if (params.chooseGuide == null || params.orderNo == null) {
+                    return;
+                }
+                if (chooseGuideUtils == null) {
+                    chooseGuideUtils = new ChooseGuideUtils(GuideDetailActivity.this, params.orderNo, getEventSource());
+                }
+                chooseGuideUtils.chooseGuide(params.chooseGuide);
                 break;
         }
     }

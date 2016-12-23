@@ -188,8 +188,8 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 public void onClick(View v) {
                         Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
                         intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
-                        intent.putExtra("orderNo", orderNo);
-                        intent.putExtra("ordertype",orderType);
+                        intent.putExtra(Constants.PARAMS_ORDER_NO, orderNo);
+                        intent.putExtra(Constants.PARAMS_ORDER_TYPE, orderType);
                         getContext().startActivity(intent);
                         StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default),orderType);
                 }
