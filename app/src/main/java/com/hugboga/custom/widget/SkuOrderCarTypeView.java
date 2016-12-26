@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,7 +79,12 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             itemView.setVisibility(i < DEFAULT_SHOW_COUNT ? View.VISIBLE : View.GONE);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == 0);
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv)).setText(getContext().getString(R.string.sign_rmb) + carBean.price);
-            ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(carBean.carDesc + " + 中文司导");
+            String title = carBean.carDesc;
+            List<String> serviceTags = carBean.serviceTags;
+            if (serviceTags != null && serviceTags.size() > 1 && serviceTags.get(i) != null) {
+                title += " + " + serviceTags.get(i);
+            }
+            ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(title);
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);
             showDescriptionTV(itemView, i == 0 ? carBean.models : "", size, i);
             itemView.setOnClickListener(new OnClickListener() {
@@ -102,7 +108,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sku_order_car_type_more_layout:
-                if (carList == null) {
+                if (carList == null && isShow) {
                     return;
                 }
                 final int size = carList.size();
@@ -124,6 +130,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
                 if (listener != null) {
                     listener.onClickHideMoreCar(isShow);
                 }
+                moreLayout.setVisibility(View.GONE);
                 break;
         }
     }
@@ -154,7 +161,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         View lineView2 = itemView.findViewById(R.id.sku_order_car_type_bottom_line_view2);
         boolean isEmpty = TextUtils.isEmpty(description);
 
-        if (size <= DEFAULT_SHOW_COUNT && i == size - 1) {
+        if (i == size - 1) {//size <= DEFAULT_SHOW_COUNT &&
             lineView.setVisibility(isEmpty ? View.GONE : View.INVISIBLE);
             lineView2.setVisibility(isEmpty ? View.INVISIBLE : View.GONE);
         } else {

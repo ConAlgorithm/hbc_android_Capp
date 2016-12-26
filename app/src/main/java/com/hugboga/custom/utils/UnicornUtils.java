@@ -18,7 +18,11 @@ import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.qiyukf.unicorn.activity.ServiceMessageFragment;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
@@ -49,6 +53,24 @@ public class UnicornUtils {
         Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize());
     }
 
+    public static void openServiceActivity(final Context context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
+        if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
+                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
+            return;
+        }
+        if (!CommonUtils.isLogin(context)) {
+            return;
+        }
+        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+        params.sourceType = sourceType;
+        params.orderBean = orderBean;
+        params.skuItemBean = skuItemBean;
+        Intent intent = new Intent(context, ServiceQuestionActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
+    }
+
     public static void openServiceActivity(Context context, int sourceType) {
         if (!CommonUtils.isLogin(context)) {
             return;
@@ -58,6 +80,7 @@ public class UnicornUtils {
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
     public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId) {

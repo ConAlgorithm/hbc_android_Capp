@@ -151,11 +151,9 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_left_text)
-    MoneyTextView allMoneyLeftText;
+    TextView allMoneyLeftText;
     @Bind(R.id.all_money_submit_click)
     TextView allMoneySubmitClick;
-    @Bind(R.id.all_money_info)
-    TextView allMoneyInfo;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
     @Bind(R.id.man_phone)
@@ -236,8 +234,6 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.agree_text)
     TextView agreeText;
 
-    @Bind(R.id.money_pre_tv)
-    TextView moneyPreTV;
 
     /**
      * 基于原来代码修改,有时间了优化
@@ -402,13 +398,11 @@ public class OrderNewActivity extends BaseActivity {
                             showPrice += otherPriceTotal;
                         }
                         allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
-                        setPerCapitaPrice(showPrice);
                     } else {
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
                             showPrice = mostFitBean.actualPrice.intValue();
                         }
                         allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
-                        setPerCapitaPrice(showPrice);
                     }
                 }
             }
@@ -427,7 +421,6 @@ public class OrderNewActivity extends BaseActivity {
                         showPrice = carBean.price - money + otherPriceTotal;
                     }
                     allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
-                    setPerCapitaPrice(showPrice);
                 }
             }
         });
@@ -771,13 +764,6 @@ public class OrderNewActivity extends BaseActivity {
         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
         carSeat.setText(getCarDesc());
         genCarInfoText();
-        moneyPreTV.setVisibility(View.VISIBLE);
-        setPerCapitaPrice(price);
-    }
-
-    private void setPerCapitaPrice(int price) {
-        int perCapitaPrice = price / (CommonUtils.getCountInteger(adultNum) + CommonUtils.getCountInteger(childrenNum));
-        moneyPreTV.setText("人均: " + Tools.getRMB(activity) + perCapitaPrice);
     }
 
     boolean showAll = false;
@@ -934,7 +920,6 @@ public class OrderNewActivity extends BaseActivity {
                     if (dreamLeft.isChecked()) {
                         int price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
                         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
-                        setPerCapitaPrice(price);
                     }
                     dream_right_tips.setVisibility(View.VISIBLE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
@@ -1044,7 +1029,6 @@ public class OrderNewActivity extends BaseActivity {
                     }
                 }
                 allMoneyLeftText.setText(Tools.getRMB(activity) + price);
-                setPerCapitaPrice(price);
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1331,13 +1315,11 @@ public class OrderNewActivity extends BaseActivity {
                 if (couponLeft.isChecked()) {
                     int price = carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
                     allMoneyLeftText.setText(Tools.getRMB(activity) + price);
-                    setPerCapitaPrice(price);
                 }
             } else {
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
                     allMoneyLeftText.setText(Tools.getRMB(activity) + couponBean.actualPrice.intValue());
-                    setPerCapitaPrice(couponBean.actualPrice.intValue());
                 }
             }
             mostFitBean = null;

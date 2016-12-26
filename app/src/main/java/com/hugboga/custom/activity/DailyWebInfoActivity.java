@@ -41,6 +41,7 @@ import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -89,8 +90,6 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     TextView gotoOrder;
     @Bind(R.id.webview)
     WebView webView;
-    @Bind(R.id.goto_little_helper)
-    TextView gotoLittleHelp;
 
     private SkuItemBean skuItemBean;//sku详情
 
@@ -364,7 +363,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         }
     }
 
-    @OnClick({R.id.header_right_btn,R.id.goto_order,R.id.goto_little_helper})
+    @OnClick({R.id.header_right_btn,R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout})
     public void onClick(View view){
         HashMap<String,String> map = new HashMap<String,String>();
         switch (view.getId()){
@@ -385,9 +384,13 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
-            case R.id.goto_little_helper:
-                DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
-                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"自定义包车游");
+            case R.id.sku_detail_bottom_service_layout:
+                DialogUtil.showCallDialogTitle(this, "");
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "自定义包车游");
+                break;
+            case R.id.sku_detail_bottom_online_layout:
+                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "自定义包车游");
                 break;
         }
     }

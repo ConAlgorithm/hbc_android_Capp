@@ -198,7 +198,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     @Bind(R.id.average_money)
     MoneyTextView averageMoney;
     @Bind(R.id.all_money_left_text)
-    MoneyTextView allMoneyLeftText;
+    TextView allMoneyLeftText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
     @Bind(R.id.call_phone)
@@ -454,13 +454,11 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             }
 
             if (carBean.match == 0) {
-                nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                nextBtnClick.setText("人数已超限，请更换车型");
+                nextBtnClick.setBackgroundResource(R.drawable.shape_rounded_gray_btn);
                 nextBtnClick.setClickable(false);
             } else {
                 nextBtnClick.setClickable(true);
-                nextBtnClick.setBackgroundColor(Color.parseColor("#fbd003"));
-                nextBtnClick.setText("下一步");
+                nextBtnClick.setBackgroundResource(R.drawable.shape_rounded_yellow_btn);
             }
             genServiceInfo(false);
             genCarsInfo(false);

@@ -582,18 +582,79 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/next_btn_click"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#d5dadb"
-        android:enabled="false"
-        android:gravity="center"
-        android:text="@string/go_next"
-        android:textColor="@color/basic_black"
-        android:textSize="20sp"
+        android:layout_height="@dimen/order_bottom_height"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/order_bottom_padding_left">
+
+        <LinearLayout
+            android:id="@+id/select_city_bottom_service_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:background="@mipmap/icon_call" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:textColor="#000000"
+                android:text="联系客服"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/select_city_bottom_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/select_city_bottom_service_layout"
+            android:background="@color/default_dividing_line" />
+
+        <LinearLayout
+            android:id="@+id/select_city_bottom_online_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/select_city_bottom_line"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@mipmap/icon_im" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:textColor="#000000"
+                android:text="在线咨询"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/next_btn_click"
+            style="@style/OrderBottomConfirm"
+            android:background="@drawable/shape_rounded_gray_btn"
+            android:text="@string/go_next"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
 
 </RelativeLayout>

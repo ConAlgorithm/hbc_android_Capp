@@ -2,7 +2,6 @@ package com.hugboga.custom.receiver;
 
 import android.content.Context;
 import android.text.TextUtils;
-
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -14,6 +13,7 @@ import com.hugboga.custom.data.request.RequestPushReceive;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PushUtils;
+import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
@@ -55,9 +55,13 @@ public class XMPushReceiver extends PushMessageReceiver implements HttpRequestLi
         if (context == null || TextUtils.isEmpty(miPushMessage.getContent())) {
             return;
         }
+
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(miPushMessage.getContent(), PushMessage.class);
         pushMessage.messageID = miPushMessage.getMessageId();
         pushMessage.title = miPushMessage.getTitle();
+        if (!TextUtils.isEmpty(miPushMessage.getDescription())) {
+            pushMessage.message = miPushMessage.getDescription();
+        }
         if (pushMessage == null) {
             return;
         }
@@ -67,6 +71,11 @@ public class XMPushReceiver extends PushMessageReceiver implements HttpRequestLi
         if ("IM".equals(pushMessage.type)) {
             EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
         }
+    }
+
+    @Override
+    public void onCommandResult(Context context, MiPushCommandMessage miPushCommandMessage) {
+        super.onCommandResult(context, miPushCommandMessage);
     }
 
     @Override

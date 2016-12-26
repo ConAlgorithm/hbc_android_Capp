@@ -58,6 +58,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -126,7 +127,7 @@ public class OrderSelectCityActivity extends BaseActivity {
     @Bind(R.id.go_city_text_click)
     TextView goCityTextClick;
     @Bind(R.id.next_btn_click)
-    Button nextBtnClick;
+    TextView nextBtnClick;
     @Bind(R.id.half_day_show)
     LinearLayout half_day_show;
 
@@ -354,7 +355,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     private void enableNextBtn() {
         nextBtnClick.setEnabled(true);
-        nextBtnClick.setBackgroundColor(ContextCompat.getColor(this.activity, R.color.all_bg_yellow));
+        nextBtnClick.setBackgroundResource(R.drawable.shape_rounded_yellow_btn);
     }
 
 
@@ -926,7 +927,9 @@ public class OrderSelectCityActivity extends BaseActivity {
     @OnClick({R.id.header_right_txt, R.id.time_text_click, R.id.go_city_text_layout, R.id.choose_driver, R.id.minus
             , R.id.add, R.id.header_left_btn, start_city_click, people_text_click, R.id.show_child_seat_layout
             , R.id.child_no_confirm_click, baggage_text_click, R.id.baggage_no_confirm_click, R.id.end_layout_click
-            , R.id.go_city_text_click, R.id.next_btn_click, R.id.order_select_web_iv})
+            , R.id.go_city_text_click, R.id.next_btn_click, R.id.order_select_web_iv
+            , R.id.select_city_bottom_service_layout, R.id.select_city_bottom_online_layout
+            })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_right_txt:
@@ -1047,6 +1050,14 @@ public class OrderSelectCityActivity extends BaseActivity {
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY + params);
                 intent.putExtra("goodtype", "包车");
                 startActivity(intent);
+                break;
+            case R.id.select_city_bottom_service_layout:
+                DialogUtil.showCallDialogTitle(this, "");
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "自定义包车游");
+                break;
+            case R.id.select_city_bottom_online_layout:
+                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "自定义包车游");
                 break;
         }
     }

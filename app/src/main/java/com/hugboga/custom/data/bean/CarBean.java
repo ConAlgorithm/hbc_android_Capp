@@ -61,6 +61,8 @@ public class CarBean implements IBaseBean ,Cloneable{
     public String carBrandName;
     public String carName;
 
+    public List<String> serviceTags;
+
     @Override
     public Object clone() {
         try {
