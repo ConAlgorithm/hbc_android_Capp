@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/choose_count_subtract_tv"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:textColor="@color/default_black"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="—" />
+    <View
+        android:layout_width="@dimen/default_line_height"
+        android:layout_height="match_parent"
+        android:background="@color/default_dividing_line"
+        />
+    <TextView
+        android:id="@+id/choose_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:minWidth="40dp"
+        android:gravity="center"
+        android:textColor="@color/default_black"
+        android:textSize="14sp"
+        android:text="0" />
+    <View
+        android:layout_width="@dimen/default_line_height"
+        android:layout_height="match_parent"
+        android:background="@color/default_dividing_line"
+        />
+    <TextView
+        android:id="@+id/choose_count_plus_tv"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/default_black"
+        android:textSize="14sp"
+        android:text="+" />
+
+
+</LinearLayout>

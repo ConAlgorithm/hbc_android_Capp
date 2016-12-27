@@ -2,15 +2,10 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -20,10 +15,10 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.utils.ApiReportHelper;
-import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.hugboga.custom.utils.ChooseGuideUtils;
+import com.hugboga.custom.widget.ZListView;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -32,100 +27,107 @@ import butterknife.ButterKnife;
 /**
  * Created on 16/9/9.
  */
+public class CanServiceGuideListActivity extends BaseActivity implements HttpRequestListener{
 
-public class CanServiceGuideListActivity extends BaseActivity implements View.OnKeyListener{
+    @Bind(R.id.choose_guide_listview)
+    ZListView listView;
 
-    @Bind(R.id.zlistview)
-    ListView zlistview;
+    private String orderNo;
+    private String orderType;
+
+    private ChooseGuideAdapter adapter;
+    private List<CanServiceGuideBean.GuidesBean> list;
+    private LinearLayout footerLayout;
+    private ChooseGuideUtils chooseGuideUtils;
 
     @Override
-    public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            orderNo = savedInstanceState.getString(Constants.PARAMS_ORDER_NO);
+            orderType = savedInstanceState.getString(Constants.PARAMS_ORDER_TYPE);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                orderNo = bundle.getString(Constants.PARAMS_ORDER_NO);
+                orderType = bundle.getString(Constants.PARAMS_ORDER_TYPE);
+            }
+        }
         setContentView(R.layout.activity_choose_guide);
         ButterKnife.bind(this);
-        initDefaultTitleBar();
-        getIntentData();
+
         initView();
-        getData();
-        setSensorsDefaultEvent("表态司导列表", SensorsConstant.WAITGLIST);
+
+        setSensorsDefaultEvent(getEventSource(), SensorsConstant.WAITGLIST);
     }
 
-    private void getIntentData() {
-        orderNo = this.getIntent().getStringExtra("orderNo");
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.PARAMS_ORDER_NO, orderNo);
+        outState.putString(Constants.PARAMS_ORDER_TYPE, orderType);
     }
 
-    ChooseGuideAdapter adapter;
-    String orderNo = "Z190347971527";
-    int limit = 20;
-    int offset = 0;
-    List<CanServiceGuideBean.GuidesBean> list = new ArrayList<>();
-    int total = 0;
-    private void getData(){
-        RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(activity,orderNo,limit,offset);
-        HttpRequestUtils.request(activity, requestAcceptGuide, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-                ApiReportHelper.getInstance().addReport(request);
-                CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
-                list.addAll(canServiceGuideBean.getGuides());
-                total = canServiceGuideBean.getTotalSize();
-                fgTitle.setText(String.format(getString(R.string.choose_guide_title),total));
-                if(offset == 0) {
-                    adapter.setList(list);
-                }
-                offset += limit;
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-                LogUtil.e("===","====");
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                LogUtil.e("===","===="+errorInfo.exception.getMessage());
-            }
-        });
-    }
-
-    LinearLayout headView;
     private void initView() {
-        headView = (LinearLayout)LayoutInflater.from(activity).inflate(R.layout.choose_guide_head,null);
-        zlistview.addHeaderView(headView);
-        adapter = new ChooseGuideAdapter(activity);
-        zlistview.setAdapter(adapter);
-        zlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
-                params.guideId = list.get(position-1).getGuideId();
-                params.isSelectedService = true;
-                Intent intent = new Intent(activity, GuideDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                startActivity(intent);
+        initDefaultTitleBar();
+        chooseGuideUtils = new ChooseGuideUtils(this, orderNo, getEventSource());
+
+        footerLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.choose_guide_footer, null);
+        footerLayout.setVisibility(View.GONE);
+        listView.addFooterView(footerLayout);
+        listView.setonRefreshListener(onRefreshListener);
+        listView.setonLoadListener(onLoadListener);
+        sendRequest(0);
+    }
+
+    ZListView.OnRefreshListener onRefreshListener = new ZListView.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            sendRequest(0);
+        }
+    };
+
+    ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
+        @Override
+        public void onLoad() {
+            if (adapter.getCount() > 0) {
+                sendRequest(adapter == null ? 0 : adapter.getCount());
             }
-        });
+        }
+    };
 
+    private void sendRequest(int pageIndex) {
+        if (pageIndex == 0 && adapter != null) {
+            adapter = null;
+        }
+        RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(this, orderNo, Constants.DEFAULT_PAGESIZE, pageIndex);
+        HttpRequestUtils.request(this, requestAcceptGuide, this);
+    }
 
-        zlistview.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
-                        if (offset < total) {
-                            getData();
-                        }
-                    }
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if (request instanceof RequestAcceptGuide) {
+            CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
+            fgTitle.setText(String.format(getString(R.string.choose_guide_title), canServiceGuideBean.getTotalSize()));
+            list = canServiceGuideBean.getGuides();
+            if (list != null) {
+                if (adapter == null) {
+                    adapter = new ChooseGuideAdapter(activity);
+                    listView.setAdapter(adapter);
+                    adapter.setList(list);
+                    footerLayout.setVisibility(View.VISIBLE);
+                } else {
+                    adapter.addList(list);
                 }
             }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+            if (list != null && list.size() < Constants.DEFAULT_PAGESIZE) {
+                listView.onLoadCompleteNone();
+            } else {
+                listView.onLoadComplete();
             }
-        });
+            listView.onRefreshComplete();
+        }
     }
 
     @Override
@@ -134,22 +136,17 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
     }
 
     @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        return false;
-    }
-
-    @Override
     public String getEventId() {
-        String str="";
-        switch (getIntent().getStringExtra("ordertype")){
+        String str = "";
+        switch (orderType) {
             case "3":
-                str="包车游";
-            break;
+                str = "包车游";
+                break;
             case "5":
-                str="固定线路";
-            break;
+                str = "固定线路";
+                break;
             case "6":
-                str="推荐线路";
+                str = "推荐线路";
                 break;
         }
         return str;
@@ -158,5 +155,21 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
     @Override
     public String getEventSource() {
         return "表态司导列表";
+    }
+
+    public void chooseGuide(CanServiceGuideBean.GuidesBean bean) {
+        chooseGuideUtils.chooseGuide(bean);
+    }
+
+    public void intentGuideDetail(CanServiceGuideBean.GuidesBean bean) {
+        GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+        params.guideId = bean.getGuideId();
+        params.isSelectedService = true;
+        params.chooseGuide = bean;
+        params.orderNo = orderNo;
+        Intent intent = new Intent(this, GuideDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        startActivity(intent);
     }
 }

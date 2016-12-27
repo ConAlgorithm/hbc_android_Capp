@@ -8,6 +8,7 @@ public class ManLuggageBean implements IBaseBean{
     public int luggages;
     public int childs;
     public int childSeats;
+    public int roomCount;
 
 
 

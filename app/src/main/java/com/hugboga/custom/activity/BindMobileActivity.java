@@ -89,8 +89,8 @@ public class BindMobileActivity extends BaseActivity{
     private void initView() {
         initDefaultTitleBar();
         fgTitle.setText("绑定手机号");
-        fgRightBtn.setText("跳过");
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        fgRightTV.setText("跳过");
+        fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(unionid)){
@@ -109,9 +109,9 @@ public class BindMobileActivity extends BaseActivity{
         }
 
         if(isAfterProcess){
-            fgRightBtn.setVisibility(View.INVISIBLE);
+            fgRightTV.setVisibility(View.INVISIBLE);
         }else{
-            fgRightBtn.setVisibility(View.VISIBLE);
+            fgRightTV.setVisibility(View.VISIBLE);
             fgLeftBtn.setVisibility(View.INVISIBLE);
         }
 

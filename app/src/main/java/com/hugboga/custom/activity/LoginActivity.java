@@ -217,6 +217,14 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         }
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
+
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSoftInput();
+                finish();
+            }
+        });
     }
 
     @Override

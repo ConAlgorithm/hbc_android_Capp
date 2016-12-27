@@ -7,9 +7,11 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 
@@ -689,6 +691,38 @@ public class DateUtils {
         }catch (Exception e){
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public static List<String> getOrderChooseDate(String startDateStr, String chooseDateStr) {
+        try {
+            List<String> resultList = new ArrayList<>(3);
+            final long day = 24 * 3600000;
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateDateFormat.parse(chooseDateStr);
+            if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
+                resultList.add(chooseDateStr);
+                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
+                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day * 2)));
+            } else {
+                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day)));
+                resultList.add(chooseDateStr);
+                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
+            }
+            return resultList;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String orderChooseDateTransform(String dateStr) {
+        try {
+            Date date = dateDateFormat.parse(dateStr);
+            return dateSimpleDateFormatMMdd.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -19,6 +19,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
@@ -64,6 +65,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private CityBean cityBean;
     private boolean isLogin = false;
     private String url;
+    private WebAgent webAgent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             super.onPageFinished(view, url);
             if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
                 headerTitle.setText(view.getTitle());
+                if (webAgent != null) {
+                    webAgent.setTitle(view.getTitle());
+                }
             }
         }
 
@@ -176,6 +181,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             if (headerTitle != null) {
                 if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
                     headerTitle.setText(view.getTitle());
+                    if (webAgent != null) {
+                        webAgent.setTitle(view.getTitle());
+                    }
                 }
             }
         }
@@ -254,9 +262,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             }
         });
         if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
+            RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+            headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+            headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            headerRightBtn.setLayoutParams(headerRightImageParams);
+            headerRightBtn.setPadding(0,0,0,0);
+            headerRightBtn.setImageResource(R.mipmap.icon_service);
             headerRightBtn.setVisibility(View.VISIBLE);
-            headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
-            headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
             headerRightBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -270,7 +283,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.addJavascriptInterface(new WebAgent(this, webView, cityBean, headerLeftBtn, TAG), "javaObj");
+        webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn, TAG);
+        webView.addJavascriptInterface(webAgent, "javaObj");
         webView.setOnKeyListener(this);
         webView.setWebViewClient(webClient);
         webView.setWebChromeClient(webChromeClient);

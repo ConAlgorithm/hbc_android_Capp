@@ -83,7 +83,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     @Bind(R.id.cityHome_list_empty_view)
     SkuListEmptyView emptyView;//和sku一样
 
-    @Bind(R.id.header_right_image)
+    @Bind(R.id.header_right_btn)
     ImageView headerRightIV;
     @Bind(R.id.city_home_filter_layout)
     CityFilterLayout cityFilterLayout;

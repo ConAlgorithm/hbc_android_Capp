@@ -12,32 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="94dp"
             android:layout_height="94dp"
             android:layout_marginTop="60dp"
-            android:background="@mipmap/city_filter_empty_icon"
-            />
+            android:background="@mipmap/city_filter_empty_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:text="该线路不存在"
             android:textColor="#333333"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
+
         <TextView
             android:id="@+id/sku_detail_empty_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_marginTop="22dp"
+            android:padding="10dp"
             android:text="去首页转转"
             android:textColor="#007ffa"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -45,69 +45,100 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/goto_order_lay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/order_bottom_height"
             android:layout_alignParentBottom="true"
-            android:background="@color/allbg_white"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:weightSum="3">
+            android:background="#ffffff"
+            android:paddingLeft="@dimen/order_bottom_padding_left">
 
-            <TextView
-                android:id="@+id/goto_little_helper"
+            <LinearLayout
+                android:id="@+id/sku_detail_bottom_service_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_little_helpe"
-                android:gravity="center"
-                android:text="咨询小助手"
-                android:textColor="#000000"
-                android:textSize="15sp" />
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:background="@mipmap/icon_call" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="#000000"
+                    android:text="联系客服"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/sku_detail_bottom_line"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/sku_detail_bottom_service_layout"
+                android:background="@color/default_dividing_line" />
+
+            <LinearLayout
+                android:id="@+id/sku_detail_bottom_online_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/sku_detail_bottom_line"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@mipmap/icon_im" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="#000000"
+                    android:text="在线咨询"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/goto_order"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="18dp"
-                android:layout_weight="2"
-                android:background="@drawable/selector_sku_detail_on_order"
-                android:gravity="center"
-                android:text="现在预订"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-        </LinearLayout>
+                style="@style/OrderBottomConfirm"
+                android:text="现在预订" />
 
-        <View
-            android:id="@+id/view_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_above="@+id/goto_order_lay"
-            android:background="@color/coupon_layout1_color" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/default_dividing_line" />
+        </RelativeLayout>
 
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/view_line" />
+            android:layout_above="@id/goto_order_lay" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="预定成功后，您可以挑选新仪司导服务啦！"
-            android:textColor="#926c11"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/icon_msg_popbg"
+            android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="13dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="58dp"
-            android:layout_marginRight="18dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:background="@drawable/icon_msg_popbg"/>
+            android:text="预定成功后，您可以挑选新仪司导服务啦！"
+            android:textColor="#926c11"
+            android:textSize="12sp" />
     </RelativeLayout>
 </LinearLayout>

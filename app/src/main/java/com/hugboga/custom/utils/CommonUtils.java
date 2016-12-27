@@ -277,9 +277,6 @@ public final class CommonUtils {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(context, LoginActivity.class);
-            if (context instanceof BaseActivity) {
-                intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity)context).getEventSource());
-            }
             context.startActivity(intent);
             return false;
         } else {

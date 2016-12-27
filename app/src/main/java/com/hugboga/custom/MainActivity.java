@@ -72,6 +72,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -289,6 +290,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         String imei = PhoneInfo.getIMEI(this);
         RequestPushToken request = new RequestPushToken(this, imei, imei, BuildConfig.VERSION_NAME, imei, PhoneInfo.getSoftwareVersion(this));
         HttpRequestUtils.request(this, request, this);
+        MiPushClient.setAlias(getApplicationContext(), imei, "");
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
@@ -448,7 +450,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     if (mViewPager != null) {
                         mViewPager.setCurrentItem(2);
                     }
-                } else {
+                } else {//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
                 }
             }

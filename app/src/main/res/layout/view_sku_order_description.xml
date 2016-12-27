@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sku_order_description"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingTop="18dp"
+    android:paddingBottom="18dp">
+    <ImageView
+        android:id="@+id/sku_order_itinerary_iv"
+        android:layout_width="100dp"
+        android:layout_height="68dp"
+        android:layout_marginLeft="16dp"
+        android:background="#dbdada" />
+
+    <ImageView
+        android:id="@+id/sku_order_itinerary_tag_iv"
+        android:layout_width="32dp"
+        android:layout_height="13dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="6dp"
+        android:background="@mipmap/order_sku_tag_blue" />
+
+    <TextView
+        android:id="@+id/sku_order_itinerary_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/sku_order_padding_left"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@id/sku_order_itinerary_iv"
+        android:text="asdasdasda建啥事阿萨德阿萨德阿萨德"
+        android:lineSpacingExtra="2dp"
+        android:textColor="@color/default_black"
+        android:textSize="15sp" />
+</RelativeLayout>

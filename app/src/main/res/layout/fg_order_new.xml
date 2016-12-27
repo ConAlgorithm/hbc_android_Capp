@@ -868,68 +868,43 @@
         </LinearLayout>
 
     </ScrollView>
-
     <RelativeLayout
         android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/basic_black"
-        android:orientation="vertical">f
-
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_bottom_height"
+        android:background="#ffffff"
+        >
         <TextView
             android:id="@+id/all_money_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:paddingTop="2.5dp"
+            android:textSize="14sp"
             android:text="@string/total_order"
-            android:textColor="@color/basic_white"
-            android:textSize="14sp" />
-
-        <com.hugboga.custom.widget.MoneyTextView
+            android:textColor="#000000"/>
+        <TextView
             android:id="@+id/all_money_left_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5sp"
             android:layout_toRightOf="@id/all_money_left"
-            android:textColor="#f8ca18"
-            android:textSize="22sp" />
-
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="¥0"
+            android:textColor="#f63408"/>
         <TextView
             android:id="@+id/all_money_submit_click"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10sp"
-            android:background="#f8ca18"
-            android:gravity="center"
             android:text="@string/progress_order"
-            android:textColor="@color/basic_black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/all_money_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/all_money_submit_click"
-            android:text="@string/order_info"
-            android:textColor="@color/basic_white"
-            android:textSize="14sp"
-            android:visibility="gone" />
-        <TextView
-            android:id="@+id/money_pre_tv"
+            style="@style/OrderBottomConfirm"
+            />
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/all_money_left"
-            android:visibility="gone"
-            android:layout_marginLeft="20sp"
-            android:textSize="14sp"
-            android:textColor="@color/basic_white"/>
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line"
+            />
     </RelativeLayout>
 
 </RelativeLayout>

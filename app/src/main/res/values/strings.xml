@@ -674,7 +674,7 @@
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服帮您解决服务过程中的纠纷。平台认定为司导问题，您可获得相应补偿。</string>
+    <string name="order_detail_tips"> 订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
     <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
@@ -751,6 +751,7 @@
 
     <string name="time_out_180">时间不能超过半年</string>
 
+    <string name="commit_agree_sku">点击“去支付”表示您已阅读并同意</string>
     <string name="commit_agree">点击“提交订单”表示您已阅读并同意皇包车协议和条款</string>
     <string name="commit_agree_click">皇包车协议和条款</string>
 
@@ -809,7 +810,7 @@
     <string name="choose_guide">选他服务</string>
     <string name="choose_guide_title">%1$d个已接单司导</string>
 
-    <string name="choose_guide_head">未来将开放选司导功能，敬请期待~\n本次由皇包车为您挑选</string>
+    <string name="choose_guide_footer">如果您未主动挑选司导，系统将在挑选时间结束后为您匹配一位最佳司导</string>
 
     <string name="order_detail_add_policy_holder">添加投保人</string>
     <string name="order_detail_timeright">内，添加投保人信息</string>

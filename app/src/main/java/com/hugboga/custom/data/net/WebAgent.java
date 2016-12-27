@@ -71,6 +71,8 @@ public class WebAgent implements HttpRequestListener {
     private String agentType = "";
     private SkuItemBean skuItemBean;
 
+    private String title;
+
     public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn, String agentType) {
         this.mActivity = activity;
         this.mWebView = webView;
@@ -86,6 +88,10 @@ public class WebAgent implements HttpRequestListener {
 
     public void setSkuItemBean(SkuItemBean skuItemBean) {
         this.skuItemBean = skuItemBean;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @JavascriptInterface
@@ -181,6 +187,7 @@ public class WebAgent implements HttpRequestListener {
                 if (!TextUtils.isEmpty(action)) {
                     ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
                     if (actionBean != null) {
+                        actionBean.source = TextUtils.isEmpty(title) ? "web页面" : title;
                         ActionController actionFactory = ActionController.getInstance(mActivity);
                         actionFactory.doAction(actionBean);
                     }
@@ -557,6 +564,7 @@ public class WebAgent implements HttpRequestListener {
                     WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
                     fgWebInfo.setTitle(title);
                     fgWebInfo.setHeaderTitle(title);
+                    WebAgent.this.title = title;
                 }
             }
         });

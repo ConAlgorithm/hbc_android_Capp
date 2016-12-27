@@ -157,9 +157,9 @@ public class OrderEditActivity extends BaseActivity {
                 finish();
             }
         });
-        fgRightBtn.setText("保存");
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        fgRightTV.setText("保存");
+        fgRightTV.setVisibility(View.VISIBLE);
+        fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendRequest();
@@ -216,11 +216,6 @@ public class OrderEditActivity extends BaseActivity {
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
             }
-            if (orderBean.orderType == 5 || orderBean.orderType == 6) {
-                upAddressLeft.setText(getString(R.string.up_site));
-            } else {
-                upAddressLeft.setText(" 上车地点");
-            }
         }
         contactUsersBean = new ContactUsersBean();
         ArrayList<OrderContactBean> userList = orderBean.userList;
@@ -262,8 +257,8 @@ public class OrderEditActivity extends BaseActivity {
 
         //1-5可以修改，后面的都不能改
         if (orderBean.orderStatus.code > 5) {
-            fgRightBtn.setVisibility(View.GONE);
-            fgRightBtn.setOnClickListener(null);
+            fgRightTV.setVisibility(View.GONE);
+            fgRightTV.setOnClickListener(null);
             otherTV.setVisibility(View.GONE);
             otherTV.setOnClickListener(null);
             manName.setEnabled(false);
@@ -413,11 +408,6 @@ public class OrderEditActivity extends BaseActivity {
         if (orderBean.orderType == 1 && "1".equals(orderBean.isFlightSign)) {//接机
             if (TextUtils.isEmpty(pickName.getText())) {
                 CommonUtils.showToast("接机牌姓名不能为空");
-                return;
-            }
-        } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路
-            if (TextUtils.isEmpty(upAddressRight.getText())) {
-                CommonUtils.showToast("上车地点不能为空");
                 return;
             }
         }

@@ -792,58 +792,51 @@
 
     <RelativeLayout
         android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/basic_black"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">f
-
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_bottom_height"
+        android:background="#ffffff"
+        >
         <TextView
             android:id="@+id/all_money_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:paddingTop="2.5dp"
+            android:textSize="14sp"
             android:text="总计:"
-            android:textColor="@color/basic_white"
-            android:textSize="15sp" />
-
-        <com.hugboga.custom.widget.MoneyTextView
+            android:textColor="#000000"/>
+        <TextView
             android:id="@+id/all_money_left_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5sp"
             android:layout_toRightOf="@id/all_money_left"
-            android:textColor="#f8ca18"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/next_btn_click"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10sp"
-            android:background="@color/all_bg_yellow"
-            android:gravity="center"
-            android:text="@string/go_next"
-            android:textColor="@color/basic_black"
-            android:textSize="18sp" />
-
+            android:textSize="20sp"
+            android:text="¥0"
+            android:textColor="#f63408"/>
         <TextView
             android:id="@+id/all_money_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/next_btn_click"
-            android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/bottom_arrow_up"
-            android:text="@string/order_info"
-            android:textColor="@color/basic_white"
-            android:textSize="15sp" />
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/all_money_left_text"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:paddingTop="3.5dp"
+            android:textSize="10sp"
+            android:text="明细 >"
+            android:textColor="#7f7f7f"/>
+        <TextView
+            android:id="@+id/next_btn_click"
+            android:text="下一步"
+            style="@style/OrderBottomConfirm"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line"
+            />
     </RelativeLayout>
 </RelativeLayout>

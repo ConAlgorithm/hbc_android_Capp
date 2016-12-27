@@ -73,6 +73,14 @@ public class ParserCheckPrice extends ImplParser {
                 }
 
                 carListBean.carList.add(bean);
+
+                bean.serviceTags = new ArrayList<>();
+                JSONArray serviceTags = jsonObj.optJSONArray("serviceTags");
+                if(null != serviceTags) {
+                    for (int n = 0; n < serviceTags.length(); n++) {
+                        bean.serviceTags.add(serviceTags.getString(n));
+                    }
+                }
             }
         }
 

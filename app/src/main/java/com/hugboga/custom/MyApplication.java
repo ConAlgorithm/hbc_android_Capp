@@ -49,6 +49,9 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,10 +103,11 @@ public class MyApplication extends HbcApplication {
         umengADPlus.sendMessage(this,"55ccb4cfe0f55ab500004a9d");
         initNim(this);
 
-        boolean inMainProcess = inMainProcess(mAppContext);
+        final boolean inMainProcess = inMainProcess(mAppContext);
         if (inMainProcess) {
             UnicornUtils.initUnicorn(); // 七鱼
-            initSensorsData();  // 初始化神策
+            initSensorsData();          // 初始化神策
+            initXMpush();               // 小米push
         }
     }
 
@@ -429,5 +433,9 @@ public class MyApplication extends HbcApplication {
         NimUIKit.registerTipMsgViewHolder(MsgViewHolderTip.class);
     }
 
+    public void initXMpush() {
+        MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
+        Logger.disablePushFileLog(MyApplication.getAppContext());
+    }
 
 }

@@ -49,6 +49,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
@@ -99,8 +100,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     TextView gotoOrder;
     @Bind(R.id.webview)
     WebView webView;
-    @Bind(R.id.goto_little_helper)
-    TextView gotoLittleHelp;
     @Bind(R.id.sku_detail_empty_layout)
     LinearLayout emptyLayout;
     @Bind(R.id.sku_detail_content_layout)
@@ -251,7 +250,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.goto_little_helper,R.id.sku_detail_empty_tv})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -265,6 +264,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
                 break;
             case R.id.goto_order:
+                if (!CommonUtils.isLogin(this)) {
+                    return;
+                }
                 if (skuItemBean == null) {
                     getSkuItemBean(true);
                     break;
@@ -272,16 +274,21 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 if (cityBean == null) {
                     cityBean = findCityById("" + skuItemBean.arrCityId);
                 }
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
-                if (cityBean != null) {
-                    bundle.putSerializable(SkuDetailActivity.WEB_CITY, cityBean);
-                }
-                bundle.putString("source", source);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
+//                if (cityBean != null) {
+//                    bundle.putSerializable(SkuDetailActivity.WEB_CITY, cityBean);
+//                }
+//                bundle.putString("source", source);
 
-                Intent intent = new Intent(activity,SkuNewActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
-                intent.putExtras(bundle);
+                SkuOrderActivity.Params params = new SkuOrderActivity.Params();
+                params.skuItemBean = skuItemBean;
+                params.cityBean = cityBean;
+//                Intent intent = new Intent(activity,SkuNewActivity.class);
+//                intent.putExtras(bundle);
+                Intent intent = new Intent(activity, SkuOrderActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
 
                 map.put("routename", skuItemBean.goodsName);
@@ -294,11 +301,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
                 setSensorsOnClickEvent();
                 break;
-            case R.id.goto_little_helper:
+            case R.id.sku_detail_bottom_service_layout://联系客服
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
                     StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
                 }
-                DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
+                DialogUtil.showCallDialogTitle(this, "");
+                break;
+            case R.id.sku_detail_bottom_online_layout://在线咨询
+                if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
+                    StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
+                }
+                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));

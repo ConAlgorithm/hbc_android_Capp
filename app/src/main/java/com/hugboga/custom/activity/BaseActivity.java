@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
@@ -49,7 +50,8 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     private ErrorHandler errorHandler;
 
     protected TextView fgTitle; //标题
-    protected TextView fgRightBtn; //右按钮
+    protected ImageView fgRightBtn; //右按钮
+    protected TextView fgRightTV; //右按钮(文字)
     protected View fgLeftBtn;//左按钮
 
     private String intentSource;
@@ -113,9 +115,10 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void initDefaultTitleBar() {
         fgTitle = (TextView) findViewById(R.id.header_title);
         fgLeftBtn = findViewById(R.id.header_left_btn);
-        fgRightBtn = (TextView) findViewById(R.id.header_right_txt);
-        if (fgRightBtn != null) {
-            fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        fgRightTV = (TextView) findViewById(R.id.header_right_txt);
+        fgRightBtn = (ImageView) findViewById(R.id.header_right_btn);
+        if (fgRightTV != null) {
+            fgRightTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Object o = v.getTag();

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sku_order_traveler_info_title_tv"
+        style="@style/SkuOrderSubtitleTextView"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:text="优惠方式" />
+
+    <RelativeLayout
+        android:id="@+id/sku_order_discount_coupon_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+
+        <ImageView
+            android:id="@+id/sku_order_discount_coupon_choose_iv"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/checkbox_sku_order_single" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/sku_order_discount_coupon_choose_iv"
+            android:text="使用优惠券"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/sku_order_discount_arrow_iv"
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:background="@mipmap/ente_icon"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/sku_order_padding_left" />
+
+        <TextView
+            android:id="@+id/sku_order_discount_coupon_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="80dp"
+            android:gravity="center|right"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/sku_order_discount_arrow_iv"
+            android:textColor="#f63308"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sku_order_discount_travel_fund_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+
+        <ImageView
+            android:id="@+id/sku_order_discount_travel_fund_choose_iv"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/checkbox_sku_order_single" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/sku_order_discount_travel_fund_choose_iv"
+            android:text="使用旅游基金"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/sku_order_discount_travel_fund_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="80dp"
+            android:gravity="center|right"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="33dp"
+            android:textColor="#a8a8a8"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_margin_vertical"
+        android:background="@color/default_bg" />
+
+    <RelativeLayout
+        android:id="@+id/sku_order_discount_insurance_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+
+        <ImageView
+            android:id="@+id/sku_order_discount_insurance_choose_iv"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="0.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/checkbox_sku_order_multi"/>
+
+        <TextView
+            android:id="@+id/sku_order_discount_insurance_title_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/sku_order_discount_insurance_choose_iv"
+            android:text="平安境外用车险"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/sku_order_discount_insurance_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/sku_order_discount_insurance_title_iv"
+            android:text=" × 1份"
+            android:textColor="@color/default_black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="33dp"
+            android:text="免费赠送"
+            android:textColor="#f63308"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</LinearLayout>
