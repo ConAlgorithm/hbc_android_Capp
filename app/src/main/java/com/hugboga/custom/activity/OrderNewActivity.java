@@ -63,6 +63,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.MoneyTextView;
@@ -98,8 +99,6 @@ public class OrderNewActivity extends BaseActivity {
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightBtn;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
     @Bind(R.id.citys_line_title)
@@ -108,7 +107,7 @@ public class OrderNewActivity extends BaseActivity {
     LinearLayout day_layout;
     @Bind(R.id.show_day_layout)
     LinearLayout show_day_layout;
-    @Bind(R.id.header_right_image)
+    @Bind(R.id.header_right_btn)
     ImageView headerRightImage;
 
     @Bind(R.id.day_show_all)
@@ -250,17 +249,13 @@ public class OrderNewActivity extends BaseActivity {
                 finish();
             }
         });
-
-//        headerRightTxt.setText(R.string.noraml_question);
-//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activity, WebInfoActivity.class);
-//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-//                startActivity(intent);
-//            }
-//        });
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        headerRightImage.setLayoutParams(headerRightImageParams);
+        headerRightImage.setPadding(0,0,0,0);
+        headerRightImage.setImageResource(R.mipmap.icon_service);
         headerRightImage.setVisibility(View.VISIBLE);
         headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override

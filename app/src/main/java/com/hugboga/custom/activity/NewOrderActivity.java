@@ -65,7 +65,7 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
         initDefaultTitleBar();
         initTitle(searchType);
         fgTitle.setText(R.string.letter_chat_btn);
-        fgRightBtn.setVisibility(View.GONE);
+        fgRightTV.setVisibility(View.GONE);
 
         adapter = new NewOrderAdapter(this);
         recyclerView.setAdapter(adapter);

@@ -46,16 +46,4 @@
         android:textSize="@dimen/text_size_large"
         android:visibility="invisible" />
 
-    <ImageView
-        android:id="@+id/header_right_image"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:src="@mipmap/order_deatil_service"
-        android:layout_width="?android:attr/actionBarSize"
-        android:layout_height="match_parent"
-        android:padding="@dimen/default_margin_larges"
-        android:visibility="gone"
-        />
-
 </RelativeLayout>

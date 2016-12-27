@@ -81,8 +81,8 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv)).setText(getContext().getString(R.string.sign_rmb) + carBean.price);
             String title = carBean.carDesc;
             List<String> serviceTags = carBean.serviceTags;
-            if (serviceTags != null && serviceTags.size() > 1 && serviceTags.get(i) != null) {
-                title += " + " + serviceTags.get(i);
+            if (serviceTags != null && serviceTags.size() >= 1 && serviceTags.get(0) != null) {
+                title += " + " + serviceTags.get(0);
             }
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(title);
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);

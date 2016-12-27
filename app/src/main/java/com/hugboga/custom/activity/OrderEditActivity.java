@@ -157,9 +157,9 @@ public class OrderEditActivity extends BaseActivity {
                 finish();
             }
         });
-        fgRightBtn.setText("保存");
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        fgRightTV.setText("保存");
+        fgRightTV.setVisibility(View.VISIBLE);
+        fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendRequest();
@@ -257,8 +257,8 @@ public class OrderEditActivity extends BaseActivity {
 
         //1-5可以修改，后面的都不能改
         if (orderBean.orderStatus.code > 5) {
-            fgRightBtn.setVisibility(View.GONE);
-            fgRightBtn.setOnClickListener(null);
+            fgRightTV.setVisibility(View.GONE);
+            fgRightTV.setOnClickListener(null);
             otherTV.setVisibility(View.GONE);
             otherTV.setOnClickListener(null);
             manName.setEnabled(false);

@@ -67,7 +67,6 @@ import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -181,7 +180,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     private void initView() {
         initDefaultTitleBar();
-        fgRightBtn.setVisibility(GONE);
+        fgRightTV.setVisibility(GONE);
         if (isHideMoreBtn == 1) {
             header_right_btn.setVisibility(GONE);
         } else {

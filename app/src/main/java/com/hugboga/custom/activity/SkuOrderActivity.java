@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -45,6 +46,8 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
@@ -188,7 +191,22 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 });
             }
         });
-        fgRightBtn.setVisibility(View.GONE);
+        fgRightTV.setVisibility(View.GONE);
+
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        fgRightBtn.setLayoutParams(headerRightImageParams);
+        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean);
+            }
+        });
     }
 
     @Subscribe
