@@ -69,7 +69,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         phoneET.setText(travelerInfoBean.travelerPhone);
     }
 
-    @OnClick({R.id.sku_order_traveler_info_address_book_tv, R.id.sku_order_traveler_info_code_tv, R.id.sku_order_traveler_info_start_address_layout})
+    @OnClick({R.id.sku_order_traveler_info_address_book_tv, R.id.sku_order_traveler_info_code_arrow_iv, R.id.sku_order_traveler_info_code_tv, R.id.sku_order_traveler_info_start_address_layout})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -80,6 +80,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
                 ((Activity)getContext()).startActivityForResult(intent, SkuOrderActivity.REQUEST_CODE_PICK_CONTACTS);
                 break;
             case R.id.sku_order_traveler_info_code_tv://区号
+            case R.id.sku_order_traveler_info_code_arrow_iv:
                 intent = new Intent(getContext(), ChooseCountryActivity.class);
                 getContext().startActivity(intent);
                 break;

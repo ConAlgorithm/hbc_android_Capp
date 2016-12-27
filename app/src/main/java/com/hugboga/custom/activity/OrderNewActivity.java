@@ -802,7 +802,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车界面
     private void genDairy() {
-        upAddressLeft.setText("上车地点");
+        upAddressLeft.setText(" 上车地点");
         show_day_layout.setVisibility(View.VISIBLE);
         String localTime = "当地时间 " + DateUtils.getOrderDateFormat(startDate);
         if (isHalfTravel) {
