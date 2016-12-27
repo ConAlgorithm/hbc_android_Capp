@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -40,13 +41,16 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         findViewById(R.id.header_detail_back_btn).setOnClickListener(this);
 
         serviceIV = (ImageView)findViewById(R.id.header_detail_right_2_btn);
-        serviceIV.setImageResource(R.mipmap.order_deatil_service);
-        serviceIV.setPadding(UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14));
+        serviceIV.setImageResource(R.mipmap.icon_service);
+        serviceIV.setPadding(0, 0, 0, 0);
         serviceIV.setOnClickListener(this);
+        RelativeLayout.LayoutParams serviceIVParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        serviceIVParams.addRule(RelativeLayout.LEFT_OF, R.id.header_detail_right_1_btn);
+        serviceIVParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        serviceIV.setLayoutParams(serviceIVParams);
 
         otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
         otherIV.setImageResource(R.mipmap.top_more);
-        serviceIV.setPadding(UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14), UIUtils.dip2px(14));
         otherIV.setOnClickListener(this);
 
         //title类型：中文接机、中文送机、包车游、单次接送、路线包车游

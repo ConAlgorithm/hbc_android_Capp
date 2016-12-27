@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -112,15 +113,23 @@ public class ServicerCenterActivity extends BaseActivity {
                 finish();
             }
         });
+
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        headerRightBtn.setLayoutParams(headerRightImageParams);
+        headerRightBtn.setPadding(0,0,0,0);
+        headerRightBtn.setImageResource(R.mipmap.icon_service);
         headerRightBtn.setVisibility(View.VISIBLE);
-        headerRightBtn.setImageResource(R.mipmap.order_deatil_service);
-        headerRightBtn.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12), UIUtils.dip2px(12));
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogUtil.getInstance(activity).showCallDialog();
             }
         });
+
+
     }
 
 
