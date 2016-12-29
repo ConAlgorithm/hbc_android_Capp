@@ -142,21 +142,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         fgTitle.setText("我");
         leftBtn.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
-        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
-        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
-        fgRightBtn.setLayoutParams(headerRightImageParams);
-        fgRightBtn.setPadding(0,0,0,0);
-        fgRightBtn.setImageResource(R.mipmap.icon_service);
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogUtil.getInstance((Activity)getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
-            }
-        });
-
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View header = inflater.inflate(R.layout.nav_header_main, null);
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);

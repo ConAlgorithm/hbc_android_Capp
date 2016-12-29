@@ -52,6 +52,7 @@
                 android:layout_height="24dp"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
+                android:visibility="gone"
                 android:background="@mipmap/deliver_item_arrow_right" />
 
             <TextView

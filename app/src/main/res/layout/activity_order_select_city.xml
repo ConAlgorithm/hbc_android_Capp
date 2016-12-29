@@ -43,7 +43,7 @@
                     android:paddingBottom="10dp"
                     android:layout_centerVertical="true"
                     android:textColor="#906b12"
-                    android:text="预定成功后，您可以挑选心仪司导为您服务啦！"
+                    android:text="预订成功后，您可以挑选心仪司导为您服务啦！"
                     android:textSize="12sp"/>
                 <View android:layout_width="match_parent"
                     android:layout_height="1px"

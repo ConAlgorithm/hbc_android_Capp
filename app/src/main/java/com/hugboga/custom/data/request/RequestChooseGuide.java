@@ -24,12 +24,13 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.GUIDE_CHOOSE, builder = NewParamsBuilder.class)
 public class RequestChooseGuide extends BaseRequest<ChooseGuideMessageBean> {
 
-    public RequestChooseGuide(Context context, String allocatGno, String orderNo) {
+    public RequestChooseGuide(Context context, String allocatGno, String orderNo, String guideId) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("userName", UserEntity.getUser().getUserName(MyApplication.getAppContext()));
         map.put("allocatGno", allocatGno);
         map.put("orderNo", orderNo);
+        map.put("guideId", guideId);
     }
 
     @Override

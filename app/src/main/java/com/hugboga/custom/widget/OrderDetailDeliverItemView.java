@@ -98,8 +98,11 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 loadingLayout(deliverInfoBean);
                 break;
             case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
-                guideAvatarListLayout(deliverInfoBean);
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG, "" + orderType);
+                if (deliverInfoBean.isCanChoose()) {
+                    guideAvatarListLayout(deliverInfoBean);
+                } else {
+                    countdownLayout(deliverInfoBean);
+                }
                 break;
         }
     }
@@ -154,6 +157,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
             arrowIV.setVisibility(View.VISIBLE);
             avatarLayout.setClickable(false);
             arrowIV.setClickable(false);
+            StatisticClickEvent.click(StatisticConstant.LAUNCH_WAITG, "" + orderType);
         }
     }
 
