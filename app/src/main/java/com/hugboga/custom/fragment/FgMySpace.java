@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -45,6 +47,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DialogUtil;
 
 import net.grobas.view.PolygonImageView;
 
@@ -138,6 +141,21 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         fgTitle.setLayoutParams(titleParams);
         fgTitle.setText("我");
         leftBtn.setVisibility(View.GONE);
+
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        fgRightBtn.setLayoutParams(headerRightImageParams);
+        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.getInstance((Activity)getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
+            }
+        });
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View header = inflater.inflate(R.layout.nav_header_main, null);

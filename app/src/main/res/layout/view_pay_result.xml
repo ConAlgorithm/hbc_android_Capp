@@ -27,43 +27,47 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/view_pay_result_prompt_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             android:text="@string/par_result_succeed_prompt"
             android:textColor="#333333"
             android:textSize="13sp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/view_pay_result_btn_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_pay_result_state_layout"
         android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:orientation="vertical">
+        android:paddingTop="12dp">
+
         <LinearLayout
             android:id="@+id/view_pay_result_succeed_prompt_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="9dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <ImageView
                 android:layout_width="23dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="1dp"
                 android:background="@mipmap/pay_result_succeed_hint" />
+
             <TextView
                 android:id="@+id/view_pay_result_succeed_prompt_tv"
                 android:layout_width="wrap_content"
@@ -74,11 +78,12 @@
                 android:textColor="#666666"
                 android:textSize="13sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -89,8 +94,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_pay_result"
                 android:gravity="center"
-                android:textSize="15sp"
-                android:textColor="#333333" />
+                android:textColor="#333333"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/view_pay_result_right_tv"
@@ -100,24 +105,25 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_pay_result"
                 android:gravity="center"
-                android:textSize="15sp"
-                android:textColor="#333333" />
+                android:textColor="#333333"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/view_pay_result_service_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:background="@mipmap/pay_result_service" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,16 +132,17 @@
                 android:textColor="#666666"
                 android:textSize="13sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/view_pay_result_domestic_service_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="23dp"
-            android:visibility="gone"
+            android:layout_marginTop="6dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,6 +151,7 @@
                 android:text="@string/domestic_call"
                 android:textColor="#000000"
                 android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -152,16 +160,17 @@
                 android:textColor="#007aff"
                 android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/view_pay_result_overseas_service_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="23dp"
-            android:visibility="gone"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -170,6 +179,7 @@
                 android:text="@string/overseas_call"
                 android:textColor="#000000"
                 android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -178,23 +188,44 @@
                 android:textColor="#007aff"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view_pay_result_bargain_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_pay_result_btn_layout"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_rounded_yellow_btn"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我要砍价"
+                android:textColor="#111111"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="砍价金额直接返现，争取砍到0元"
+                android:textColor="#111111"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
-    <ImageView
-        android:id="@+id/view_pay_result_ad_iv"
-        android:layout_below="@id/view_pay_result_btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/pay_result_ad"
-        android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/view_pay_result_line_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
+        android:paddingBottom="20dp"
         android:textColor="#000000"
         android:textSize="15sp" />
 </merge>
