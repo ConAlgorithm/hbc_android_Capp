@@ -33,6 +33,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/9/8.
@@ -151,6 +152,8 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
             HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
             avatarLayout.setVisibility(View.VISIBLE);
             arrowIV.setVisibility(View.VISIBLE);
+            avatarLayout.setClickable(false);
+            arrowIV.setClickable(false);
         }
     }
 
@@ -183,17 +186,8 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         }
 
         if (!TextUtils.isEmpty(orderNo)) {
-            avatarLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
-                        intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
-                        intent.putExtra(Constants.PARAMS_ORDER_NO, orderNo);
-                        intent.putExtra(Constants.PARAMS_ORDER_TYPE, orderType);
-                        getContext().startActivity(intent);
-                        StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default),orderType);
-                }
-            });
+            avatarLayout.setClickable(true);
+            arrowIV.setClickable(true);
         }
     }
 
@@ -238,5 +232,15 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         params.rightMargin = AVATAR_MARGIN;
         avatarLayout.addView(relativeLayout, params);
         return circleImageView;
+    }
+
+    @OnClick({R.id.deliver_item_guide_avatar_layout, R.id.deliver_item_arrow_iv})
+    public void intentServiceGuideList() {
+        Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
+        intent.putExtra(Constants.PARAMS_ORDER_NO, orderNo);
+        intent.putExtra(Constants.PARAMS_ORDER_TYPE, orderType);
+        getContext().startActivity(intent);
+        StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default),orderType);
     }
 }
