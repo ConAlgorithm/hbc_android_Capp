@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -397,7 +398,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
-        countView.update(carBean, carListBean, serverDate);
+        countView.update(carBean, carListBean, serverDate, params.skuItemBean);
         int additionalPrice = countView.getAdditionalPrice();
         requestMostFit(additionalPrice);
         requestTravelFund(additionalPrice);
@@ -441,7 +442,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
 
         switch (type) {
             case SkuOrderDiscountView.TYPE_COUPON:
-                if (mostFitBean == null || mostFitBean.actualPrice == null  ||  mostFitBean.actualPrice == 0) {
+                if (mostFitBean == null || mostFitBean.actualPrice == null) {
                     if (couponBean != null) {
                         actualPrice = couponBean.actualPrice.intValue();
                     }
@@ -459,6 +460,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             case SkuOrderDiscountView.TYPE_INVALID:
                 break;
         }
+        Log.i("aa", "updatePrice actualPrice " +actualPrice  + " deductionPrice  " + deductionPrice);
         bottomView.updatePrice(actualPrice, deductionPrice);
     }
 
