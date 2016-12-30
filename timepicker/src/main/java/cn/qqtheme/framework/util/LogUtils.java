@@ -2,7 +2,6 @@ package cn.qqtheme.framework.util;
 
 import android.os.Debug;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -12,8 +11,8 @@ import java.io.StringWriter;
 import cn.qqtheme.framework.AppConfig;
 
 /**
- * 将信息记录到“LogCat”，显示调用方法及所在的文件、行号，方便调试查错。
- * 在Debug状态下开启，在Release状态下关闭以提高程序性能。
+ * 将信息记录到控制台的LogCat，显示调用方法及所在的文件、行号，方便开发时调试查错。
+ * 注意：在Debug状态下开启，在Release状态下关闭，敏感信息不宜打印，否则被非法之徒抓取贻害无穷。
  *
  * @author 李玉江[QQ:1023694760]
  * @since 2013/11/2
@@ -47,18 +46,14 @@ public final class LogUtils {
     /**
      * 记录“verbose”级别的信息
      *
-     * @param tag     the tag
-     * @param message the message
+     * @param tag the tag
+     * @param msg the msg
      */
-    public static void verbose(String tag, String message) {
+    public static void verbose(String tag, String msg) {
         if (isDebug) {
-            tag = debugTag + (TextUtils.isEmpty(tag) ? "" : "-" + tag);
-            String msg = message + getTraceElement();
-            try {
-                Log.v(tag, msg);
-            } catch (Exception e) {
-                System.out.println(tag + ">>>" + msg);
-            }
+            tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
+            msg = msg + getTraceElement();
+            Log.v(tag, msg);
         }
     }
 
@@ -84,18 +79,14 @@ public final class LogUtils {
     /**
      * 记录“debug”级别的信息
      *
-     * @param tag     the tag
-     * @param message the message
+     * @param tag the tag
+     * @param msg the msg
      */
-    public static void debug(String tag, String message) {
+    public static void debug(String tag, String msg) {
         if (isDebug) {
-            tag = debugTag + (TextUtils.isEmpty(tag) ? "" : "-" + tag);
-            String msg = message + getTraceElement();
-            try {
-                Log.d(tag, msg);
-            } catch (Exception e) {
-                System.out.println(tag + ">>>" + msg);
-            }
+            tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
+            msg = msg + getTraceElement();
+            Log.d(tag, msg);
         }
     }
 
@@ -140,18 +131,14 @@ public final class LogUtils {
     /**
      * 记录“warn”级别的信息
      *
-     * @param tag     the tag
-     * @param message the message
+     * @param tag the tag
+     * @param msg the msg
      */
-    public static void warn(String tag, String message) {
+    public static void warn(String tag, String msg) {
         if (isDebug) {
-            tag = debugTag + (TextUtils.isEmpty(tag) ? "" : "-" + tag);
-            String msg = message + getTraceElement();
-            try {
-                Log.w(tag, msg);
-            } catch (Exception e) {
-                System.out.println(tag + ">>>" + msg);
-            }
+            tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
+            msg = msg + getTraceElement();
+            Log.w(tag, msg);
         }
     }
 
@@ -196,18 +183,14 @@ public final class LogUtils {
     /**
      * 记录“error”级别的信息
      *
-     * @param tag     the tag
-     * @param message the message
+     * @param tag the tag
+     * @param msg the msg
      */
-    public static void error(String tag, String message) {
+    public static void error(String tag, String msg) {
         if (isDebug) {
-            tag = debugTag + (TextUtils.isEmpty(tag) ? "" : "-" + tag);
-            String msg = message + getTraceElement();
-            try {
-                Log.e(tag, msg);
-            } catch (Exception e) {
-                System.err.println(tag + ">>>" + msg);
-            }
+            tag = debugTag + ((tag == null || tag.trim().length() == 0) ? "" : "-") + tag;
+            msg = msg + getTraceElement();
+            Log.e(tag, msg);
         }
     }
 
@@ -252,6 +235,7 @@ public final class LogUtils {
             String disclaimer = " [stack trace too large]";
             stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length()) + disclaimer;
         }
+        pw.close();
         return stackTraceString;
     }
 
@@ -280,7 +264,7 @@ public final class LogUtils {
                 builder.append("\n")
                         .append(level)
                         .append(_getSimpleClassName(trace[stackIndex].getClassName()))
-                        .append(".")
+                        .append("")
                         .append(trace[stackIndex].getMethodName())
                         .append(" ")
                         .append("(")
@@ -314,7 +298,7 @@ public final class LogUtils {
     }
 
     private static String _getSimpleClassName(String name) {
-        int lastIndex = name.lastIndexOf(".");
+        int lastIndex = name.lastIndexOf("");
         return name.substring(lastIndex + 1);
     }
 

@@ -3,6 +3,7 @@ package cn.qqtheme.framework.popup;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -17,16 +18,18 @@ import android.widget.TextView;
 import cn.qqtheme.framework.util.ConvertUtils;
 
 /**
- * 带确定及取消按钮的
+ * 带确定及取消按钮的弹窗
  *
  * @param <V> the type parameter
  * @author 李玉江[QQ:1032694760]
  * @since 2015/10/21
  */
-public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
+public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
     protected boolean topLineVisible = true;
     protected int topLineColor = 0xFFDDDDDD;
-    protected int topBackgroundColor = Color.WHITE;
+    protected int topLineHeight = 1;//dp
+    protected int topBackgroundColor = 0xFFFED631;
+    protected int topHeight = 46;//dp
     protected boolean cancelVisible = true;
     protected CharSequence cancelText = "";
     protected CharSequence submitText = "";
@@ -34,138 +37,161 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
     protected int cancelTextColor = Color.WHITE;
     protected int submitTextColor = Color.WHITE;
     protected int titleTextColor = Color.WHITE;
+    protected int pressedTextColor = 0XFF0288CE;
+    protected int cancelTextSize = 0;
+    protected int submitTextSize = 0;
+    protected int titleTextSize = 14;
+    protected int backgroundColor = Color.WHITE;
+    private TextView titleView;
 
-    /**
-     * Instantiates a new Confirm popup.
-     *
-     * @param activity the activity
-     */
     public ConfirmPopup(Activity activity) {
         super(activity);
         cancelText = activity.getString(android.R.string.cancel);
         submitText = activity.getString(android.R.string.ok);
-        setTitleText("请选择出发时间");
-    }
-
-    public void setTitle(String text){
-        setTitleText(text);
     }
 
     /**
-     * Sets top line color.
-     *
-     * @param topLineColor the top line color
+     * 设置顶部标题栏下划线颜色
      */
     public void setTopLineColor(@ColorInt int topLineColor) {
         this.topLineColor = topLineColor;
     }
 
     /**
-     * Sets top background color.
-     *
-     * @param topBackgroundColor the top background color
+     * 设置顶部标题栏下划线高度，单位为dp
+     */
+    public void setTopLineHeight(int topLineHeight) {
+        this.topLineHeight = topLineHeight;
+    }
+
+    /**
+     * 设置顶部标题栏背景颜色
      */
     public void setTopBackgroundColor(@ColorInt int topBackgroundColor) {
         this.topBackgroundColor = topBackgroundColor;
     }
 
     /**
-     * Sets top line visible.
-     *
-     * @param topLineVisible the top line visible
+     * 设置顶部标题栏高度（单位为dp）
+     */
+    public void setTopHeight(@IntRange(from = 10, to = 80) int topHeight) {
+        this.topHeight = topHeight;
+    }
+
+    /**
+     * 设置顶部标题栏下划线是否显示
      */
     public void setTopLineVisible(boolean topLineVisible) {
         this.topLineVisible = topLineVisible;
     }
 
     /**
-     * Sets cancel visible.
-     *
-     * @param cancelVisible the cancel visible
+     * 设置顶部标题栏取消按钮是否显示
      */
     public void setCancelVisible(boolean cancelVisible) {
         this.cancelVisible = cancelVisible;
     }
 
     /**
-     * Sets cancel text.
-     *
-     * @param cancelText the cancel text
+     * 设置顶部标题栏取消按钮文字
      */
     public void setCancelText(CharSequence cancelText) {
         this.cancelText = cancelText;
     }
 
     /**
-     * Sets cancel text.
-     *
-     * @param textRes the text res
+     * 设置顶部标题栏取消按钮文字
      */
     public void setCancelText(@StringRes int textRes) {
         this.cancelText = activity.getString(textRes);
     }
 
     /**
-     * Sets submit text.
-     *
-     * @param submitText the submit text
+     * 设置顶部标题栏确定按钮文字
      */
     public void setSubmitText(CharSequence submitText) {
         this.submitText = submitText;
     }
 
     /**
-     * Sets submit text.
-     *
-     * @param textRes the text res
+     * 设置顶部标题栏确定按钮文字
      */
     public void setSubmitText(@StringRes int textRes) {
         this.submitText = activity.getString(textRes);
     }
 
     /**
-     * Sets title text.
-     *
-     * @param titleText the title text
+     * 设置顶部标题栏标题文字
      */
     public void setTitleText(CharSequence titleText) {
-        this.titleText = titleText;
+        if (titleView != null) {
+            titleView.setText(titleText);
+        } else {
+            this.titleText = titleText;
+        }
     }
 
     /**
-     * Sets title text.
-     *
-     * @param textRes the text res
+     * 设置顶部标题栏标题文字
      */
     public void setTitleText(@StringRes int textRes) {
         this.titleText = activity.getString(textRes);
     }
 
     /**
-     * Sets cancel text color.
-     *
-     * @param cancelTextColor the cancel text color
+     * 设置顶部标题栏取消按钮文字颜色
      */
     public void setCancelTextColor(@ColorInt int cancelTextColor) {
         this.cancelTextColor = cancelTextColor;
     }
 
     /**
-     * Sets submit text color.
-     *
-     * @param submitTextColor the submit text color
+     * 设置顶部标题栏确定按钮文字颜色
      */
     public void setSubmitTextColor(@ColorInt int submitTextColor) {
         this.submitTextColor = submitTextColor;
     }
 
     /**
-     * Sets title text color.
-     *
-     * @param titleTextColor the title text color
+     * 设置顶部标题栏标题文字颜色
      */
     public void setTitleTextColor(@ColorInt int titleTextColor) {
         this.titleTextColor = titleTextColor;
+    }
+
+    /**
+     * 设置按下时的文字颜色
+     */
+    public void setPressedTextColor(int pressedTextColor) {
+        this.pressedTextColor = pressedTextColor;
+    }
+
+    /**
+     * 设置顶部标题栏取消按钮文字大小（单位为sp）
+     */
+    public void setCancelTextSize(@IntRange(from = 10, to = 40) int cancelTextSize) {
+        this.cancelTextSize = cancelTextSize;
+    }
+
+    /**
+     * 设置顶部标题栏确定按钮文字大小（单位为sp）
+     */
+    public void setSubmitTextSize(@IntRange(from = 10, to = 40) int submitTextSize) {
+        this.submitTextSize = submitTextSize;
+    }
+
+    /**
+     * 设置顶部标题栏标题文字大小（单位为sp）
+     */
+    public void setTitleTextSize(@IntRange(from = 10, to = 40) int titleTextSize) {
+        this.titleTextSize = titleTextSize;
+    }
+
+    /**
+     * 设置选择器主体背景颜色
+     */
+    public void setBackgroundColor(@ColorInt int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     /**
@@ -177,7 +203,7 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
     protected final View makeContentView() {
         LinearLayout rootLayout = new LinearLayout(activity);
         rootLayout.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-        rootLayout.setBackgroundColor(Color.WHITE);
+        rootLayout.setBackgroundColor(backgroundColor);
         rootLayout.setOrientation(LinearLayout.VERTICAL);
         rootLayout.setGravity(Gravity.CENTER);
         rootLayout.setPadding(0, 0, 0, 0);
@@ -188,7 +214,8 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         }
         if (topLineVisible) {
             View lineView = new View(activity);
-            lineView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, 1));
+            int height = ConvertUtils.toPx(activity, topLineHeight);
+            lineView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, height));
             lineView.setBackgroundColor(topLineColor);
             rootLayout.addView(lineView);
         }
@@ -200,30 +227,30 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         return rootLayout;
     }
 
-    /**
-     * Make header view view.
-     *
-     * @return the view
-     */
     @Nullable
     protected View makeHeaderView() {
         RelativeLayout topButtonLayout = new RelativeLayout(activity);
-        topButtonLayout.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, ConvertUtils.toPx(activity, 40)));
-        topButtonLayout.setBackgroundColor(Color.parseColor("#fbd003"));
+        topButtonLayout.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, ConvertUtils.toPx(activity, topHeight)));
+        topButtonLayout.setBackgroundColor(topBackgroundColor);
         topButtonLayout.setGravity(Gravity.CENTER_VERTICAL);
 
+        int padding = ConvertUtils.toPx(activity, 10);
         Button cancelButton = new Button(activity);
         cancelButton.setVisibility(cancelVisible ? View.VISIBLE : View.GONE);
-        RelativeLayout.LayoutParams cancelButtonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        RelativeLayout.LayoutParams cancelButtonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
         cancelButtonLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         cancelButtonLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
         cancelButton.setLayoutParams(cancelButtonLayoutParams);
         cancelButton.setBackgroundColor(Color.TRANSPARENT);
         cancelButton.setGravity(Gravity.CENTER);
+        cancelButton.setPadding(padding, 0, padding, 0);
         if (!TextUtils.isEmpty(cancelText)) {
             cancelButton.setText(cancelText);
         }
-        cancelButton.setTextColor(cancelTextColor);
+        cancelButton.setTextColor(ConvertUtils.toColorStateList(cancelTextColor, pressedTextColor));
+        if (cancelTextSize != 0) {
+            cancelButton.setTextSize(cancelTextSize);
+        }
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,7 +260,7 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         });
         topButtonLayout.addView(cancelButton);
 
-        TextView titleView = new TextView(activity);
+        titleView = new TextView(activity);
         RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         int margin = ConvertUtils.toPx(activity, 20);
         titleLayoutParams.leftMargin = margin;
@@ -246,23 +273,30 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
             titleView.setText(titleText);
         }
         titleView.setTextColor(titleTextColor);
+        if (titleTextSize != 0) {
+            titleView.setTextSize(titleTextSize);
+        }
         topButtonLayout.addView(titleView);
 
         Button submitButton = new Button(activity);
-        RelativeLayout.LayoutParams submitButtonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        RelativeLayout.LayoutParams submitButtonLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
         submitButtonLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
         submitButtonLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
         submitButton.setLayoutParams(submitButtonLayoutParams);
         submitButton.setBackgroundColor(Color.TRANSPARENT);
         submitButton.setGravity(Gravity.CENTER);
+        submitButton.setPadding(padding, 0, padding, 0);
         if (!TextUtils.isEmpty(submitText)) {
             submitButton.setText(submitText);
         }
-        submitButton.setTextColor(submitTextColor);
+        submitButton.setTextColor(ConvertUtils.toColorStateList(submitTextColor, pressedTextColor));
+        if (submitTextSize != 0) {
+            submitButton.setTextSize(submitTextSize);
+        }
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                dismiss();
+                dismiss();
                 onSubmit();
             }
         });
@@ -271,34 +305,18 @@ public abstract class ConfirmPopup<V extends View> extends BottomPopup<View> {
         return topButtonLayout;
     }
 
-    /**
-     * Init center view v.
-     *
-     * @return the v
-     */
     @NonNull
     protected abstract V makeCenterView();
 
-    /**
-     * Make footer view view.
-     *
-     * @return the view
-     */
     @Nullable
     protected View makeFooterView() {
         return null;
     }
 
-    /**
-     * On submit.
-     */
     protected void onSubmit() {
 
     }
 
-    /**
-     * On cancel.
-     */
     protected void onCancel() {
 
     }

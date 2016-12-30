@@ -1127,8 +1127,8 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
-        picker.setTitle("请选择上车时间");
+        picker = new TimePicker(activity, TimePicker.HOUR_24);
+        picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
