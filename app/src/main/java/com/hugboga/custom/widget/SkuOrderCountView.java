@@ -69,6 +69,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     private int childCount = 0;      // 儿童数
     private int childSeatCount = 0;  // 儿童座椅数
     private int roomCount = 0;       // 房间数
+    private int maxLuuages = 0;      // 可携带最大行李数
 
     private int additionalPrice = 0; // 总价格（儿童座椅 + 酒店）
     private int seatTotalPrice = 0;  // 儿童座椅总价
@@ -128,7 +129,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         checkCountView();
 
         //可携带行李数
-        luggageCountTV.setText("" + carBean.capOfLuggage);
+        setMaxLuggage();
 
         //酒店
         if (skuItemBean.hotelStatus == 1) {
@@ -146,6 +147,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
             case R.id.sku_order_count_adult_choose_count_view://成人数
                 this.adultCount = count;
                 checkCountView();
+                setMaxLuggage();
                 break;
             case R.id.sku_order_count_child_choose_count_view://儿童数
                 this.childCount = count;
@@ -170,12 +172,14 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                     hintLayout.setVisibility(View.GONE);
                 }
 
+                setMaxLuggage();
                 break;
             case R.id.sku_order_count_child_seat_choose_count_view://儿童座椅
                 this.childSeatCount = count;
                 checkCountView();
                 getSeatTotalPrice();
                 checkPrice();
+                setMaxLuggage();
                 setPriceText(childSeatPriceTV, seatTotalPrice, childSeatCount);
                 break;
             case R.id.sku_order_count_room_choose_count_view://房间数
@@ -207,7 +211,11 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         }
     }
 
-    private boolean checkCount(int type) {//type 1:成人、2:儿童、3:儿童座椅(1.5)
+    /**
+     * type 1:成人、2:儿童、3:儿童座椅(1.5)
+     * 乘车人数 =（成人数 + 儿童座椅数 * 1.5 + 不用座椅儿童数）
+     * */
+    private boolean checkCount(int type) {
         switch (type) {
             case 1:
             case 2:
@@ -222,6 +230,15 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
 
     private boolean isResetCountView() {
         return  adultCount + childSeatCount * 1.5 + (childCount - childSeatCount) > carBean.capOfPerson;
+    }
+
+    /**
+     *  可携带行李数
+     *  行李数 =（最大乘车人数 + 最大行李数）- （成人数 + 儿童座椅数 * 1.5 + 不用座椅儿童数）
+     */
+    private void setMaxLuggage() {
+        maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson) - (adultCount + (int)Math.round(childSeatCount * 1.5) + (childCount - childSeatCount));
+        luggageCountTV.setText("" + maxLuuages);
     }
 
     private void checkCountView() {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -460,7 +459,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             case SkuOrderDiscountView.TYPE_INVALID:
                 break;
         }
-        Log.i("aa", "updatePrice actualPrice " +actualPrice  + " deductionPrice  " + deductionPrice);
         bottomView.updatePrice(actualPrice, deductionPrice);
     }
 
