@@ -476,7 +476,7 @@
     <string name="sku_go_date_tips">请选择出发日期</string>
     <string name="sku_new_title">安排您的行程</string>当前城市机场
 
-    <string name="back_alert_msg">离开当前页面所选行程将会丢失，确定要离开吗？</string>
+    <string name="back_alert_msg">订单未填写完，要离开吗?</string>
     <string name="location_airport">当前城市机场</string>
     <string name="location_fail">定位失败，请开启GPS</string>
 
@@ -677,7 +677,8 @@
     <string name="order_detail_tips"> 订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
-    <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
+    <string name="order_detail_bargain_end">共砍掉</string>
+    <string name="order_detail_bargain">已砍掉</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 

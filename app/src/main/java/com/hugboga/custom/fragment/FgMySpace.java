@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -45,6 +47,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DialogUtil;
 
 import net.grobas.view.PolygonImageView;
 

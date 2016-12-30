@@ -91,7 +91,7 @@ public class ChooseGuideUtils implements HttpRequestListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                RequestChooseGuide requestChooseGuide = new RequestChooseGuide(mActivity, selectedBean.getAllocatGno(), orderNo);
+                RequestChooseGuide requestChooseGuide = new RequestChooseGuide(mActivity, selectedBean.getAllocatGno(), orderNo, selectedBean.getGuideId());
                 HttpRequestUtils.request(mActivity, requestChooseGuide, ChooseGuideUtils.this);
             }
         }, new DialogInterface.OnClickListener() {

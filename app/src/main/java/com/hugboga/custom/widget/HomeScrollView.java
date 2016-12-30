@@ -1,19 +1,13 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
-
-import butterknife.Bind;
 
 /**
  * Created by qingcha on 16/6/19.
@@ -59,10 +53,12 @@ public class HomeScrollView extends ScrollView {
         if (scrollY >= binnerHeight && isHide) {
             searchLayout.removeAllViews();
             searchFloatLayout.addView(searchView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            searchView.setServiceViewVisibility(View.VISIBLE);
             isHide = false;
         } else if (scrollY < binnerHeight && !isHide) {
             searchFloatLayout.removeAllViews();
             searchLayout.addView(searchView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            searchView.setServiceViewVisibility(View.GONE);
             isHide = true;
         }
     }

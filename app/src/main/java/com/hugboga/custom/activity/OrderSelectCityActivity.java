@@ -311,7 +311,7 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     //退出界面显示提示
     private void showSaveDialog() {
-        AlertDialogUtils.showAlertDialog(activity, "离开当前页面所选行程将会丢失，确定要离开吗？", "离开", "取消", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(activity, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -1127,8 +1127,8 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
-        picker.setTitle("请选择上车时间");
+        picker = new TimePicker(activity, TimePicker.HOUR_24);
+        picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override

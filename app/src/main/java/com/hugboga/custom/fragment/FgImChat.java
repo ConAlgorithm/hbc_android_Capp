@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +43,9 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.NimRecentListSyncUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
@@ -122,6 +125,21 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         fgTitle.setText("私聊");
         leftBtn.setVisibility(View.GONE);
         setSensorsDefaultEvent("私聊", SensorsConstant.CHAT);
+
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        fgRightBtn.setLayoutParams(headerRightImageParams);
+        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setVisibility(View.VISIBLE);
+        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.getInstance((Activity)getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
+            }
+        });
     }
 
     @Override

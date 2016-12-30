@@ -802,7 +802,7 @@ public class OrderNewActivity extends BaseActivity {
 
     //包车界面
     private void genDairy() {
-        upAddressLeft.setText("上车地点");
+        upAddressLeft.setText(" 上车地点");
         show_day_layout.setVisibility(View.VISIBLE);
         String localTime = "当地时间 " + DateUtils.getOrderDateFormat(startDate);
         if (isHalfTravel) {
@@ -1115,8 +1115,8 @@ public class OrderNewActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY,9);
         calendar.set(Calendar.MINUTE,0);
-        picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
-        picker.setTitle("请选择上车时间");
+        picker = new TimePicker(activity, TimePicker.HOUR_24);
+        picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override

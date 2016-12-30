@@ -255,7 +255,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
         picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
         picker.setRange(1900,2050);
-        picker.setTitle("请选择出生日期");
+        picker.setTitleText("请选择出生日期");
         picker.setSelectedItem(1990,1,1);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override

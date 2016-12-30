@@ -16,6 +16,7 @@ import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -92,8 +93,8 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         roomCountView.setOnCountChangeListener(this);
     }
 
-    public void update(CarBean _carBean, CarListBean _carListBean, String _serverDate) {
-        if (_carBean == null || _carListBean == null) {
+    public void update(CarBean _carBean, CarListBean _carListBean, String _serverDate, SkuItemBean skuItemBean) {
+        if (_carBean == null || _carListBean == null || skuItemBean == null) {
             return;
         }
 
@@ -129,11 +130,11 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         //可携带行李数
         luggageCountTV.setText("" + carBean.capOfLuggage);
 
-        //房间
-        if (carListBean.showHotel) {
+        //酒店
+        if (skuItemBean.hotelStatus == 1) {
             roomLayout.setVisibility(View.VISIBLE);
-            roomTitleTV.setText(String.format("%1$s晚", "" + carListBean.hotelNum));
-            setPriceText(roomPriceTV, carListBean.hotelPrice, roomCount);
+            roomTitleTV.setText(String.format("%1$s晚", "" + skuItemBean.hotelCostAmount));
+            setPriceText(roomPriceTV, getHotelTotalPrice(), roomCount);
         } else {
             roomLayout.setVisibility(View.GONE);
         }
@@ -149,6 +150,11 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
             case R.id.sku_order_count_child_choose_count_view://儿童数
                 this.childCount = count;
                 checkCountView();
+
+                if (childSeatCount > childCount) {
+                    childSeatCount--;
+                    childSeatCountView.setCount(childSeatCount);
+                }
 
                 if (childCount > 0) {
                     hintLayout.setVisibility(View.VISIBLE);

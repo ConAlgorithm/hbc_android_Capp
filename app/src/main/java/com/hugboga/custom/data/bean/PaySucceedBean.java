@@ -18,6 +18,8 @@ public class PaySucceedBean implements Serializable{
     private int cityId;
     private List<String> content;
 
+    private String highLightStr = "";
+
     public boolean getBargainStatus() {
         return bargainStatus == 1;
     }
@@ -30,6 +32,10 @@ public class PaySucceedBean implements Serializable{
         return cityId;
     }
 
+    public String getHighLightStr() {
+        return highLightStr;
+    }
+
     public String getSucceedPrompt() {
         String result = "";
         if (content == null) {
@@ -37,9 +43,21 @@ public class PaySucceedBean implements Serializable{
         }
         final int size = content.size();
         for (int i = 0; i < size; i++) {
-            result += content.get(i);
-            if (i + 1 < size) {
-                result += "\n";
+            if ((i == 1 || i == 2) && size >= 3) {
+                result += content.get(i);
+                if (i == 1) {
+                    result += "，";
+                } else if (i == 2) {
+                    highLightStr = content.get(i);
+                    if (i + 1 < size) {
+                        result += "\n";
+                    }
+                }
+            } else {
+                result += content.get(i);
+                if (i + 1 < size) {
+                    result += "\n";
+                }
             }
         }
         return result;

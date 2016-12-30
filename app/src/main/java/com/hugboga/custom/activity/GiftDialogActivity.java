@@ -49,7 +49,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/12/9.
  */
-public class GiftDialogActivity extends Activity implements HttpRequestListener, TextWatcher {
+public class GiftDialogActivity extends Activity implements HttpRequestListener {
 
     //屏幕中的占比
     private static final float WIDTH_SCALE = 0.77f;
@@ -107,7 +107,6 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener,
         RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(dialogWidth, imgHeight);
         displayIV.setLayoutParams(imgParams);
 
-        phoneET.addTextChangedListener(this);
         setTitleTV(couponActivityBean.couponActiviyVo.activityTitle);
         subtitleTV.setText("现在领取，即可在下单时使用");
     }
@@ -181,7 +180,12 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener,
                 if (areaCodeBean == null) {
                     break;
                 }
-                phoneCodeTV.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
+                String areaCode = areaCodeBean.getCode();
+                if (!"86".equals(areaCode)) {
+                    phoneET.setBackgroundResource(R.drawable.bg_gift_phone);
+                    errorHintTV.setVisibility(View.INVISIBLE);
+                }
+                phoneCodeTV.setText(CommonUtils.addPhoneCodeSign(areaCode));
                 break;
         }
     }
@@ -231,25 +235,6 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener,
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         ErrorHandler errorHandler = new ErrorHandler(this, this);
         errorHandler.onDataRequestError(errorInfo, request);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (CommonUtils.checkTextIsNull(phoneET)) {
-            confirmTV.setBackgroundResource(R.drawable.shape_rounded_gray_btn);
-        } else {
-            confirmTV.setBackgroundResource(R.drawable.shape_rounded_yellow_btn);
-        }
     }
 
     public String getEventSource() {

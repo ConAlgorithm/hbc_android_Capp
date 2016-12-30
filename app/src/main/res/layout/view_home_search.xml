@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
     <ImageView
         android:id="@+id/home_search_logo_iv"
         android:layout_width="75dp"
         android:layout_height="25.5dp"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
         android:layout_centerVertical="true"
-        android:background="@mipmap/home_logo_icon"
-        />
+        android:layout_marginLeft="@dimen/home_view_padding_left"
+        android:background="@mipmap/home_logo_icon" />
+
+    <ImageView
+        android:id="@+id/home_search_service_iv"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/home_view_padding_left"
+        android:src="@mipmap/icon_service"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/home_search_layout"
-        android:layout_toRightOf="@id/home_search_logo_iv"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="@dimen/home_view_padding_left"
-        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/home_search_service_iv"
+        android:layout_toRightOf="@id/home_search_logo_iv"
         android:background="@drawable/bg_home_search"
-        >
+        android:gravity="center_vertical">
+
         <ImageView
-            android:layout_marginLeft="18dp"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:background="@mipmap/search_box_icon"
-            />
+            android:layout_marginLeft="18dp"
+            android:background="@mipmap/search_box_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textSize="14sp"
-            android:textColor="#676767"
             android:text="@string/home_search_hint"
-            />
-        </LinearLayout>
+            android:textColor="#676767"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 </merge>
