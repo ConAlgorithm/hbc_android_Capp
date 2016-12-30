@@ -146,6 +146,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
+        deliverView.refreshData(false);
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 

@@ -81,6 +81,12 @@ import cn.iwgang.countdownview.CountdownView;
         }
     }
 
+    public void refreshData(boolean isShowLoadingView) {
+        if (orderBean != null && orderBean.orderStatus == OrderStatus.PAYSUCCESS) {
+            sendRequest(isShowLoadingView);
+        }
+    }
+
     private void sendRequest(boolean isShowLoadingView) {
         if (orderBean == null) {
             return;
