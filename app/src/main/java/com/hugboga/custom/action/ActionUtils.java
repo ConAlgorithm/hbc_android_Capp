@@ -15,7 +15,6 @@ public class ActionUtils {
     public static boolean isLogin(Context context) {
         boolean isLogin = UserEntity.getUser().isLogin(context);
         if (!isLogin) {
-//            context.startActivity(new Intent(context, MainActivity.class));
             context.startActivity(new Intent(context, LoginActivity.class));
         }
         return isLogin;
