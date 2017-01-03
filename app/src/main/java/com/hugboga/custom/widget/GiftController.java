@@ -104,7 +104,8 @@ public class GiftController implements HttpRequestListener {
             mHandler.postDelayed(mRunnable, data.couponActiviyVo.scanTime * 1000);
         } else {//未领取过且距离首次展示X天
             boolean isGained = SharedPre.getBoolean(PARAMS_GAINED, false);
-            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.couponActiviyVo.cycleTime * 1000);
+//            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.couponActiviyVo.cycleTime * 1000);
+            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + 10 * 60 * 1000);//fixme 
             if (!isGained && cycleTime) {
                 isAbort = false;
                 mHandler.post(mRunnable);

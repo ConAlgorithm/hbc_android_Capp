@@ -183,8 +183,6 @@ public class OrderSelectCityActivity extends BaseActivity {
     boolean isFromGuideList = false;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightImage;
 
     public void initView() {
         initSelectPeoplePop(false);
@@ -280,20 +278,6 @@ public class OrderSelectCityActivity extends BaseActivity {
         headerTitle.setText(R.string.select_city_title);
         headerRightTxt.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
-        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
-        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
-        headerRightImage.setLayoutParams(headerRightImageParams);
-        headerRightImage.setPadding(0,0,0,0);
-        headerRightImage.setImageResource(R.mipmap.icon_service);
-        headerRightImage.setVisibility(View.VISIBLE);
-        headerRightImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogUtil.getInstance(activity).showCallDialog();
-            }
-        });
         try {
             EventUtil eventUtil = EventUtil.getInstance();
             eventUtil.sourceDetail = getIntentSource();
