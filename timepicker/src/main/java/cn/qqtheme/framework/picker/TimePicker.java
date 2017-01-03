@@ -24,40 +24,45 @@ import cn.qqtheme.framework.widget.WheelView;
  * @since 2015/12/14
  */
 public class TimePicker extends WheelPicker {
-    /**
-     * 24小时
-     */
-    public static final int HOUR_OF_DAY = 0;
-    /**
-     * 12小时
-     */
-    public static final int HOUR = 1;
+    public static final int HOUR_24 = 0;//24小时制
+    public static final int HOUR_12 = 1;//12小时制
+    private OnWheelListener onWheelListener;
     private OnTimePickListener onTimePickListener;
     private int mode;
     private String hourLabel = "时", minuteLabel = "分";
     private String selectedHour = "", selectedMinute = "";
+    private int startHour, startMinute = 0;
+    private int endHour, endMinute = 59;
 
     /**
      * 安卓开发应避免使用枚举类（enum），因为相比于静态常量enum会花费两倍以上的内存。
      * http://developer.android.com/training/articles/memory.html#Overhead
      */
-    @IntDef(flag = false, value = {HOUR_OF_DAY, HOUR})
+    @IntDef(value = {HOUR_24, HOUR_12})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Mode {
     }
 
     public TimePicker(Activity activity) {
-        this(activity, HOUR_OF_DAY);
+        this(activity, HOUR_24);
     }
 
     /**
-     * @see #HOUR_OF_DAY
-     * @see #HOUR
+     * @see #HOUR_24
+     * @see #HOUR_12
      */
     public TimePicker(Activity activity, @Mode int mode) {
         super(activity);
         this.mode = mode;
-        selectedHour = DateUtils.fillZero(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        if (mode == HOUR_12) {
+            startHour = 1;
+            endHour = 12;
+            selectedHour = DateUtils.fillZero(Calendar.getInstance().get(Calendar.HOUR));
+        } else {
+            startHour = 0;
+            endHour = 23;
+            selectedHour = DateUtils.fillZero(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        }
         selectedMinute = DateUtils.fillZero(Calendar.getInstance().get(Calendar.MINUTE));
     }
 
@@ -70,20 +75,66 @@ public class TimePicker extends WheelPicker {
     }
 
     /**
+     * 设置范围：开始的时分
+     */
+    public void setRangeStart(int startHour, int startMinute) {
+        boolean illegal = false;
+        if (startHour < 0 || startMinute < 0 || startMinute > 59) {
+            illegal = true;
+        }
+        if (mode == HOUR_12 && (startHour == 0 || startHour > 12)) {
+            illegal = true;
+        }
+        if (mode == HOUR_24 && startHour >= 24) {
+            illegal = true;
+        }
+        if (illegal) {
+            throw new IllegalArgumentException("out of range");
+        }
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+    }
+
+    /**
+     * 设置范围：结束的时分
+     */
+    public void setRangeEnd(int endHour, int endMinute) {
+        boolean illegal = false;
+        if (endHour < 0 || endMinute < 0 || endMinute > 59) {
+            illegal = true;
+        }
+        if (mode == HOUR_12 && (endHour == 0 || endHour > 12)) {
+            illegal = true;
+        }
+        if (mode == HOUR_24 && endHour >= 24) {
+            illegal = true;
+        }
+        if (illegal) {
+            throw new IllegalArgumentException("out of range");
+        }
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+    }
+
+    /**
      * 设置默认选中的时间
      */
     public void setSelectedItem(int hour, int minute) {
-        selectedHour = String.valueOf(DateUtils.fillZero(hour));
-        selectedMinute = DateUtils.getFirstMinute(minute);
+        selectedHour = DateUtils.fillZero(hour);
+        selectedMinute = DateUtils.fillZero(minute);
+    }
+
+    /**
+     * 设置滑动监听器
+     */
+    public void setOnWheelListener(OnWheelListener onWheelListener) {
+        this.onWheelListener = onWheelListener;
     }
 
     public void setOnTimePickListener(OnTimePickListener listener) {
         this.onTimePickListener = listener;
     }
 
-
-    ArrayList<String> minutes = new ArrayList<String>();
-    ArrayList<String> hours = new ArrayList<String>();
     @Override
     @NonNull
     protected View makeCenterView() {
@@ -94,8 +145,8 @@ public class TimePicker extends WheelPicker {
         hourView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         hourView.setTextSize(textSize);
         hourView.setTextColor(textColorNormal, textColorFocus);
-        hourView.setLineVisible(lineVisible);
-        hourView.setLineColor(lineColor);
+        hourView.setLineConfig(lineConfig);
+        hourView.setCycleDisable(cycleDisable);
         layout.addView(hourView);
         TextView hourTextView = new TextView(activity);
         hourTextView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
@@ -105,13 +156,13 @@ public class TimePicker extends WheelPicker {
             hourTextView.setText(hourLabel);
         }
         layout.addView(hourTextView);
-        WheelView minuteView = new WheelView(activity);
+        final WheelView minuteView = new WheelView(activity);
         minuteView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         minuteView.setTextSize(textSize);
         minuteView.setTextColor(textColorNormal, textColorFocus);
-        minuteView.setLineVisible(lineVisible);
-        minuteView.setLineColor(lineColor);
+        minuteView.setLineConfig(lineConfig);
         minuteView.setOffset(offset);
+        minuteView.setCycleDisable(cycleDisable);
         layout.addView(minuteView);
         TextView minuteTextView = new TextView(activity);
         minuteTextView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
@@ -121,33 +172,68 @@ public class TimePicker extends WheelPicker {
             minuteTextView.setText(minuteLabel);
         }
         layout.addView(minuteTextView);
-        if (mode == HOUR) {
-            for (int i = 1; i <= 12; i++) {
-                hours.add(DateUtils.fillZero(i));
-            }
-        } else {
-            for (int i = 0; i < 24; i++) {
-                hours.add(DateUtils.fillZero(i));
-            }
+        ArrayList<String> hours = new ArrayList<String>();
+        for (int i = startHour; i <= endHour; i++) {
+            hours.add(DateUtils.fillZero(i));
+        }
+        if (hours.indexOf(selectedHour) == -1) {
+            //当前设置的小时不在指定范围，则默认选中范围开始的小时
+            selectedHour = hours.get(0);
         }
         hourView.setItems(hours, selectedHour);
-        for (int i = 0; i < 6; i++) {
-            minutes.add(DateUtils.endAddZero(i));
-        }
-        minuteView.setItems(minutes, selectedMinute);
-        hourView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+        minuteView.setItems(changeMinuteData(selectedHour), selectedMinute);
+        hourView.setOnWheelListener(new WheelView.OnWheelListener() {
             @Override
-            public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedHour = hours.get(selectedIndex);//item;
+            public void onSelected(boolean isUserScroll, int index, String item) {
+                selectedHour = item;
+                if (onWheelListener != null) {
+                    onWheelListener.onHourWheeled(index, selectedHour);
+                }
+                minuteView.setItems(changeMinuteData(item), selectedMinute);
             }
         });
-        minuteView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+        minuteView.setOnWheelListener(new WheelView.OnWheelListener() {
             @Override
-            public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedMinute = minutes.get(selectedIndex);//item;
+            public void onSelected(boolean isUserScroll, int index, String item) {
+                selectedMinute = item;
+                if (onWheelListener != null) {
+                    onWheelListener.onMinuteWheeled(index, selectedMinute);
+                }
             }
         });
         return layout;
+    }
+
+    private ArrayList<String> changeMinuteData(String hour) {
+        ArrayList<String> minutes = new ArrayList<String>();
+        int hourInt = DateUtils.trimZero(hour);
+        if (startHour == endHour) {
+            if (startMinute > endMinute) {
+                int temp = startMinute;
+                startMinute = endMinute;
+                endMinute = temp;
+            }
+            for (int i = startMinute; i <= endMinute; i++) {
+                minutes.add(DateUtils.fillZero(i));
+            }
+        } else if (hourInt == startHour) {
+            for (int i = startMinute; i <= 59; i++) {
+                minutes.add(DateUtils.fillZero(i));
+            }
+        } else if (hourInt == endHour) {
+            for (int i = 0; i <= endMinute; i++) {
+                minutes.add(DateUtils.fillZero(i));
+            }
+        } else {
+            for (int i = 0; i <= 59; i++) {
+                minutes.add(DateUtils.fillZero(i));
+            }
+        }
+        if (minutes.indexOf(selectedMinute) == -1) {
+            //当前设置的分钟不在指定范围，则默认选中范围开始的分钟
+            selectedMinute = minutes.get(0);
+        }
+        return minutes;
     }
 
     @Override
@@ -157,36 +243,25 @@ public class TimePicker extends WheelPicker {
         }
     }
 
-    /**
-     * Gets selected hour.
-     *
-     * @return the selected hour
-     */
     public String getSelectedHour() {
         return selectedHour;
     }
 
-    /**
-     * Gets selected minute.
-     *
-     * @return the selected minute
-     */
     public String getSelectedMinute() {
         return selectedMinute;
     }
 
-    /**
-     * The interface On time pick listener.
-     */
     public interface OnTimePickListener {
 
-        /**
-         * On time picked.
-         *
-         * @param hour   the hour
-         * @param minute the minute
-         */
         void onTimePicked(String hour, String minute);
+
+    }
+
+    public interface OnWheelListener {
+
+        void onHourWheeled(int index, String hour);
+
+        void onMinuteWheeled(int index, String minute);
 
     }
 

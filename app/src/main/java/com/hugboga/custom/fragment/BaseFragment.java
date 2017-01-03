@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -37,7 +38,8 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     protected int mGoodsType = -1;//1: 接机 2: 送机 3: 市内包车(由日租拆分出来) 4: 次租 5: 精品线路(由日租拆分出来) 6: 小长途 (由日租拆分出来)7: 大长途 (由日租拆分出来)
 
     protected TextView fgTitle; //标题
-    protected TextView fgRightBtn; //右按钮
+    protected TextView fgRightTV; //右按钮(文字)
+    protected ImageView fgRightBtn; //右按钮
     protected View fgLeftBtn;//左按钮
 
     protected String source = ""; //友盟统计用 获取从哪个界面进入
@@ -76,8 +78,9 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
         if (contentView != null) {
             fgTitle = (TextView) contentView.findViewById(R.id.header_title);
             fgLeftBtn = contentView.findViewById(R.id.header_left_btn);
-            fgRightBtn = (TextView) contentView.findViewById(R.id.header_right_txt);
-            if (fgRightBtn != null) fgRightBtn.setOnClickListener(this);
+            fgRightTV = (TextView) contentView.findViewById(R.id.header_right_txt);
+            fgRightBtn = (ImageView) contentView.findViewById(R.id.header_right_btn);
+            if (fgRightTV != null) fgRightTV.setOnClickListener(this);
             if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
         }
         return contentView;

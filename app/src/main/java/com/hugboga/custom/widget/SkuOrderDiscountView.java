@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -127,11 +126,13 @@ public class SkuOrderDiscountView extends LinearLayout{
 
     public void setDeductionBean(DeductionBean deductionBean) {
         int price = CommonUtils.getCountInteger(deductionBean.deduction);
-        travelFundCountTV.setText("- " + getContext().getString(R.string.sign_rmb) + price);
+
         if (price <= 0) {
-            isInvalidCoupon = true;
+            travelFundCountTV.setText(getContext().getString(R.string.sign_rmb) + price);
+            isInvalidTravelFund = true;
         } else {
-            isInvalidCoupon = false;
+            travelFundCountTV.setText("- " + getContext().getString(R.string.sign_rmb) + price);
+            isInvalidTravelFund = false;
         }
         resetCheckedView();
     }
@@ -156,7 +157,6 @@ public class SkuOrderDiscountView extends LinearLayout{
                 listener.chooseDiscount(currentType);
             }
         }
-
     }
 
     public void setInsuranceCount(int count) {

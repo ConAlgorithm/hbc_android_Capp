@@ -55,13 +55,17 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
             cityStr += "  " + model.getCarBrandName();
         }
         viewHolder.city.setText(cityStr);
-        if(model.getServiceStar() == 0 || model.getOrderCounts() == 0) {
+        if(model.getServiceStar() == 0) {
             viewHolder.score.setText("暂无评价");
             viewHolder.ratingBar.setVisibility(View.GONE);
         }else{
             viewHolder.ratingBar.setVisibility(View.VISIBLE);
             viewHolder.ratingBar.setRating((float)model.getServiceStar());
-            viewHolder.score.setText(model.getServiceStar() + "分/"+model.getOrderCounts()+"单");
+            String scoreStr = model.getServiceStar() + "分";
+            if (model.getOrderCounts() > 0) {
+                scoreStr += "/" + model.getOrderCounts() + "单";
+            }
+            viewHolder.score.setText(scoreStr);
         }
         if(model.getGender() == 1){
             viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.man_icon,0);

@@ -34,6 +34,7 @@ public class ParserCheckPrice extends ImplParser {
         carListBean.additionalServicePrice = gson.fromJson(obj.optString("additionalServicePrice"), CarAdditionalServicePrice.class);
         carListBean.estTime = obj.optString("estTime");
         carListBean.enableLocal = obj.optString("enableLocal");
+        carListBean.noneCarsReason = obj.optString("noneCarsReason");
 
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;

@@ -177,7 +177,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             @Override
             public void onClick(View v) {
                 hideSoftInput();
-                AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, "订单未填写完，要离开吗?", "离开", "取消", new DialogInterface.OnClickListener() {
+                AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -397,7 +397,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
-        countView.update(carBean, carListBean, serverDate);
+        countView.update(carBean, carListBean, serverDate, params.skuItemBean);
         int additionalPrice = countView.getAdditionalPrice();
         requestMostFit(additionalPrice);
         requestTravelFund(additionalPrice);
@@ -441,7 +441,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
 
         switch (type) {
             case SkuOrderDiscountView.TYPE_COUPON:
-                if (mostFitBean == null || mostFitBean.actualPrice == null  ||  mostFitBean.actualPrice == 0) {
+                if (mostFitBean == null || mostFitBean.actualPrice == null) {
                     if (couponBean != null) {
                         actualPrice = couponBean.actualPrice.intValue();
                     }
