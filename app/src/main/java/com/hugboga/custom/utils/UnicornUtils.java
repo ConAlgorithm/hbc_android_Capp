@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
@@ -47,7 +48,7 @@ public class UnicornUtils {
 
     private static final String APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
     private static final long GROUP_ID = 128411;
-    private static final String CUSTOMER_AVATAR = "http://fr.huangbaoche.com/im/avatar/default/k_head.jpg";
+    private static  String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
 
     public static void initUnicorn() {
         Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize());
@@ -93,6 +94,11 @@ public class UnicornUtils {
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
+        if(HbcConfig.IS_DEBUG){
+            CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head_test.jpg";
+        }else{
+            CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
+        }
         uiCustomization.leftAvatar = CUSTOMER_AVATAR;
         uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(activity);
         uiCustomization.titleBackgroundColor = 0xFF2D2B24;
