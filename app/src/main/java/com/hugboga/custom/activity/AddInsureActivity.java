@@ -263,7 +263,6 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
             if (!TextUtils.isEmpty(birthday.getText())) {
                 if (dateDateFormat == null) {
                     dateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    dateDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
                 }
                 calendar.setTime(dateDateFormat.parse(birthday.getText().toString()));
             }
