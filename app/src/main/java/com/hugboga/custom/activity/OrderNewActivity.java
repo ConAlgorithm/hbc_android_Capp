@@ -76,6 +76,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -1113,8 +1114,12 @@ public class OrderNewActivity extends BaseActivity {
     TimePicker picker;
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        calendar.set(Calendar.MINUTE,0);
+        try {
+            calendar.setTime(DateUtils.timeFormat.parse(serverTime + ":00"));
+        } catch (ParseException e) {
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.MINUTE, 0);
+        }
         picker = new TimePicker(activity, TimePicker.HOUR_24);
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));

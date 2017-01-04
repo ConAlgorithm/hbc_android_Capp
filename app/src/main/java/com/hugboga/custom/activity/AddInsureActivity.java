@@ -33,6 +33,11 @@ import com.hugboga.custom.data.request.RequestEditInsure;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -246,17 +251,29 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     }
 
     DatePicker picker;
+    SimpleDateFormat dateDateFormat;
     public void showDaySelect() {
 //        Intent intent = new Intent(activity,DatePickerActivity.class);
 //        intent.putExtra("startDate","1990-01-01");
 //        intent.putExtra("title","请选择出生日期");
 //        intent.putExtra("type",3);
 //        startActivity(intent);
+        Calendar calendar = Calendar.getInstance();
+        try {
+            if (!TextUtils.isEmpty(birthday.getText())) {
+                if (dateDateFormat == null) {
+                    dateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    dateDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+                }
+                calendar.setTime(dateDateFormat.parse(birthday.getText().toString()));
+            }
+        } catch (ParseException e) {
 
+        }
         picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
         picker.setRange(1900,2050);
         picker.setTitleText("请选择出生日期");
-        picker.setSelectedItem(1990,1,1);
+        picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {

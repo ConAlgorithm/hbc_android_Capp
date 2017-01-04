@@ -698,7 +698,6 @@ public class DateUtils {
         try {
             List<String> resultList = new ArrayList<>(3);
             final long day = 24 * 3600000;
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateDateFormat.parse(chooseDateStr);
             if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
                 resultList.add(chooseDateStr);

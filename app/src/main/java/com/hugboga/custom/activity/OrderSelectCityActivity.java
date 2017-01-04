@@ -1111,6 +1111,12 @@ public class OrderSelectCityActivity extends BaseActivity {
 
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
+        try {
+            if (!"00:00".equals(serverTime)) {
+                calendar.setTime(DateUtils.timeFormat.parse(serverTime + ":00"));
+            }
+        } catch (ParseException e) {
+        }
         picker = new TimePicker(activity, TimePicker.HOUR_24);
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
