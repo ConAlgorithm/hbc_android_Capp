@@ -46,7 +46,7 @@ public class SkuOrderEmptyView extends LinearLayout{
         if (visibility == View.VISIBLE) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.icon_sku_order_empty_car);
-            hintTV.setText("很抱歉，没有找到可客服的司导，换个日期试试");
+            hintTV.setText("很抱歉，没有找到可服务的司导，换个日期试试");
             refreshTV.setVisibility(View.GONE);
         } else {
             setVisibility(View.GONE);
