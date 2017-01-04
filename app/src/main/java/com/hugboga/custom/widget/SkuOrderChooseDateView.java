@@ -55,13 +55,15 @@ public class SkuOrderChooseDateView extends LinearLayout{
         dateTVs[2] = dateTV3;
     }
 
-    private void updateDateTV(String startDateStr, String chooseDateStr) {
+    private void updateDateTV(String startDateStr, String chooseDateStr, String lastDateStr) {
         if (TextUtils.isEmpty(startDateStr) || TextUtils.isEmpty(chooseDateStr)) {
             return;
         }
-        dateList = DateUtils.getOrderChooseDate(startDateStr, chooseDateStr);
+        dateList = DateUtils.getOrderChooseDate(startDateStr, chooseDateStr, lastDateStr);
         int selectedIndex = 1;
-        if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
+        if (chooseDateStr.equalsIgnoreCase(lastDateStr)) {
+            selectedIndex = 2;
+        } else if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
             selectedIndex = 0;
         }
         setDateTVSelected(selectedIndex);
@@ -88,7 +90,7 @@ public class SkuOrderChooseDateView extends LinearLayout{
 
     public void setStartDate(String data) {
         this.startDate = data;
-        updateDateTV(startDate, startDate);
+        updateDateTV(startDate, startDate, null);
     }
 
     public String getServiceDate() {
@@ -99,7 +101,7 @@ public class SkuOrderChooseDateView extends LinearLayout{
         if (chooseDateBean == null || TextUtils.isEmpty(chooseDateBean.halfDateStr)) {
             return;
         }
-        updateDateTV(startDate, chooseDateBean.halfDateStr);
+        updateDateTV(startDate, chooseDateBean.halfDateStr, chooseDateBean.maxDateStr);
     }
 
     @OnClick({R.id.sku_order_date_tv1, R.id.sku_order_date_tv2, R.id.sku_order_date_tv3, R.id.sku_order_date_other_tv})
