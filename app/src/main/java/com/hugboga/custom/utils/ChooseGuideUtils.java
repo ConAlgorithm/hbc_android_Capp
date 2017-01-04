@@ -54,22 +54,10 @@ public class ChooseGuideUtils implements HttpRequestListener {
                 return;
             }
             ChooseGuideMessageBean messageBean = ((RequestGuideCropValid)request).getData();
-            if (messageBean.isSucceed()) {
-                showDialogSucceed();
-            } else if (messageBean.result == 0) {
-                showDialogError(messageBean.message);
-            } else {
-                showDialogIntentDetail(messageBean.message);
-            }
+            showDialog(messageBean);
         } else if (request instanceof RequestChooseGuide) {
             ChooseGuideMessageBean messageBean = ((RequestChooseGuide)request).getData();
-            if (messageBean.isSucceed()) {
-                intentOrderDetail();
-            } else if (messageBean.result == 0) {
-                showDialogError(messageBean.message);
-            } else {
-                showDialogIntentDetail(messageBean.message);
-            }
+            showDialog(messageBean);
         }
     }
 
@@ -84,6 +72,18 @@ public class ChooseGuideUtils implements HttpRequestListener {
             errorHandler = new ErrorHandler(mActivity, this);
         }
         errorHandler.onDataRequestError(errorInfo, request);
+    }
+
+    private void showDialog(ChooseGuideMessageBean messageBean) {
+        if (messageBean.isSucceed()) {
+            intentOrderDetail();
+        } else if (messageBean.result == 0) {
+            showDialogError(messageBean.message, "我知道了");
+        } else if (messageBean.result == -5) {
+            showDialogIntentDetail(messageBean.message, "我知道了");
+        } else {
+            showDialogIntentDetail(messageBean.message, "回订单详情");
+        }
     }
 
     public void showDialogSucceed() {
@@ -102,12 +102,12 @@ public class ChooseGuideUtils implements HttpRequestListener {
         });
     }
 
-    public void showDialogError(String content) {
-        AlertDialogUtils.showAlertDialogOneBtn(mActivity, content, "我知道了");
+    public void showDialogError(String content, String confirmStr) {
+        AlertDialogUtils.showAlertDialogOneBtn(mActivity, content, confirmStr);
     }
 
-    public void showDialogIntentDetail(String content) {
-        AlertDialogUtils.showAlertDialog(mActivity, content, "回订单详情", new DialogInterface.OnClickListener() {
+    public void showDialogIntentDetail(String content, String confirmStr) {
+        AlertDialogUtils.showAlertDialog(mActivity, content, confirmStr, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
