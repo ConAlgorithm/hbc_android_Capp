@@ -41,7 +41,7 @@ public class MonthView extends LinearLayout {
     final MonthView view = (MonthView) inflater.inflate(R.layout.month, parent, false);
     view.setDayViewAdapter(adapter);
     view.setDividerColor(dividerColor);
-    view.setDayTextColor(dayTextColorResId);
+//    view.setDayTextColor(dayTextColorResId);
     view.setTitleTextColor(titleTextColor);
     view.setDisplayHeader(displayHeader);
     view.setHeaderTextColor(headerTextColor);
@@ -103,7 +103,7 @@ public class MonthView extends LinearLayout {
   }
 
   public void init(MonthDescriptor month, List<List<MonthCellDescriptor>> cells,
-      boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface) {
+      boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface, Calendar minCal, Calendar maxCal) {
     Logr.d("Initializing MonthView (%d) for %s", System.identityHashCode(this), month);
     long start = System.currentTimeMillis();
     title.setText(month.getLabel());
@@ -120,26 +120,25 @@ public class MonthView extends LinearLayout {
         for (int c = 0; c < week.size(); c++) {
           MonthCellDescriptor cell = week.get(isRtl ? 6 - c : c);
           CalendarCellView cellView = (CalendarCellView) weekRow.getChildAt(c);
-          cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#000000"));
-          if((c ==0 || c == week.size() -1 ) && cell.isCurrentMonth()){
-            cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#ff0000"));
-          }
-
-          if(!cell.isCurrentMonth()){
-            cellView.getDayOfMonthTextView().setTextColor(Color.parseColor("#c9cacb"));
-            cellView.getDayOfMonthTextView().setVisibility(GONE);
-          }else{
-            cellView.getDayOfMonthTextView().setVisibility(VISIBLE);
+          TextView dayOfMonthTextView = cellView.getDayOfMonthTextView();
+          if (!cell.isCurrentMonth()) {
+            dayOfMonthTextView.setTextColor(0x00000000);
+          } else if (!CalendarPickerView.betweenDates(cell.getDate(), minCal, maxCal)) {
+            dayOfMonthTextView.setTextColor(0xFFC9CACB);
+          } else if((c ==0 || c == week.size() -1 )){
+            dayOfMonthTextView.setTextColor(0xFFFF0000);
+          } else {
+            dayOfMonthTextView.setTextColor(0xFF000000);
           }
 
           String cellDate = numberFormatter.format(cell.getValue());
-          if (!cellView.getDayOfMonthTextView().getText().equals(cellDate)) {
+          if (!dayOfMonthTextView.getText().equals(cellDate)) {
             if(cell.isToday()){
-              cellView.getDayOfMonthTextView().setTextSize(12);
-              cellView.getDayOfMonthTextView().setText("今天");
+              dayOfMonthTextView.setTextSize(12);
+              dayOfMonthTextView.setText("今天");
             }else {
-              cellView.getDayOfMonthTextView().setTextSize(15);
-              cellView.getDayOfMonthTextView().setText(cellDate);
+              dayOfMonthTextView.setTextSize(15);
+              dayOfMonthTextView.setText(cellDate);
             }
           }
           cellView.setEnabled(cell.isCurrentMonth());
