@@ -457,7 +457,6 @@ public class MessageListPanel implements TAdapterDelegate {
 
     private class MessageLoader implements AutoRefreshListView.OnRefreshListener {
 
-        private static final int LOAD_MESSAGE_COUNT = 20;
 
         private QueryDirectionEnum direction = null;
 
@@ -494,7 +493,7 @@ public class MessageListPanel implements TAdapterDelegate {
             // query old
             this.direction = QueryDirectionEnum.QUERY_OLD;
             messageListView.onRefreshStart(AutoRefreshListView.Mode.START);
-            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, LOAD_MESSAGE_COUNT, true)
+            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, AutoRefreshListView.LOAD_MESSAGE_COUNT, true)
                     .setCallback(new RequestCallbackWrapper<List<IMMessage>>() {
                         @Override
                         public void onResult(int code, List<IMMessage> messages, Throwable exception) {
@@ -506,7 +505,7 @@ public class MessageListPanel implements TAdapterDelegate {
                             // query new
                             direction = QueryDirectionEnum.QUERY_NEW;
                             messageListView.onRefreshStart(AutoRefreshListView.Mode.END);
-                            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, LOAD_MESSAGE_COUNT, true)
+                            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, AutoRefreshListView.LOAD_MESSAGE_COUNT, true)
                                     .setCallback(new RequestCallbackWrapper<List<IMMessage>>() {
                                         @Override
                                         public void onResult(int code, List<IMMessage> messages, Throwable exception) {
@@ -525,14 +524,19 @@ public class MessageListPanel implements TAdapterDelegate {
         private void loadFromLocal(QueryDirectionEnum direction) {
             this.direction = direction;
             messageListView.onRefreshStart(direction == QueryDirectionEnum.QUERY_NEW ? AutoRefreshListView.Mode.END : AutoRefreshListView.Mode.START);
-            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, LOAD_MESSAGE_COUNT, true)
+            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, AutoRefreshListView.LOAD_MESSAGE_COUNT, true)
                     .setCallback(callback);
         }
 
         private void loadFromRemote() {
             this.direction = QueryDirectionEnum.QUERY_OLD;
-            NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), LOAD_MESSAGE_COUNT, true)
+            NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), AutoRefreshListView.LOAD_MESSAGE_COUNT, true)
                     .setCallback(callback);
+        }
+
+        private void loadFromRemoteNonCallback(){
+            this.direction = QueryDirectionEnum.QUERY_OLD;
+            NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), AutoRefreshListView.LOAD_MESSAGE_COUNT, true);
         }
 
         private IMMessage anchor() {
@@ -554,6 +558,7 @@ public class MessageListPanel implements TAdapterDelegate {
 
             if (remote) {
                 Collections.reverse(messages);
+                remote = false;
             }
 
             if (firstLoad && items.size() > 0) {
@@ -586,13 +591,18 @@ public class MessageListPanel implements TAdapterDelegate {
             if (firstLoad) {
                 ListViewUtil.scrollToBottom(messageListView);
                 sendReceipt(); // 发送已读回执
+                if(result.size()==0){
+                    loadFromRemote();
+                    this.remote = true;
+                }
             }
+            loadFromRemoteNonCallback();
 
             adapter.updateShowTimeItem(items, true, firstLoad);
             updateReceipt(items); // 更新已读回执标签
 
             refreshMessageList();
-            messageListView.onRefreshComplete(count, LOAD_MESSAGE_COUNT, true);
+            messageListView.onRefreshComplete(count, AutoRefreshListView.LOAD_MESSAGE_COUNT, true);
 
             firstLoad = false;
         }
