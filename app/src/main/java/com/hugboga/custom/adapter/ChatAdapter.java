@@ -112,7 +112,6 @@ public class ChatAdapter extends ZBaseAdapter<ChatBean, ChatVH> {
 
     /**
      * 刷新IM订单显示
-     *
      * @param vh
      */
     private void flushOrder(ChatVH vh, ChatBean chatBean) {

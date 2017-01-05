@@ -182,17 +182,12 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                                 @Override
                                 public void onDataRequestSucceed(BaseRequest request) {
                                     deleteNimRecent(chatBean, position);
-                                    //adapter.removeDatas(position);
                                 }
-
                                 @Override
                                 public void onDataRequestCancel(BaseRequest request) {
-
                                 }
-
                                 @Override
                                 public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
                                 }
                             });
                             dialog.dismiss();
@@ -218,13 +213,6 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         if (recyclerView != null) {
             emptyTV.setVisibility(View.GONE);
             recyclerView.showPageFirst();
-//            if(adapter.getDatas()!=null){
-//                adapter.removeAll();
-//            }
-//            adapter.notifyDataSetChanged();
-//            if (recyclerView.getAdapter() != null) {
-//                recyclerView.getAdapter().notifyDataSetChanged();
-//            }
         }
     }
 
@@ -308,12 +296,6 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
-//            case CLICK_USER_LOGIN:
-//            case REFRESH_CHAT_LIST:
-//                RequestNIMChatList parserChatList1 = new RequestNIMChatList(getActivity());
-//                recyclerView.setRequestData(parserChatList1);
-//                requestData();
-//                break;
             case CLICK_USER_LOOUT:
                 chatLayout.setVisibility(View.GONE);
                 //清理列表数据

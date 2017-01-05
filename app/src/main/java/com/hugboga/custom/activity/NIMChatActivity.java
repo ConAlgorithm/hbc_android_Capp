@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,6 +49,9 @@ import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.constant.Extras;
@@ -82,6 +86,8 @@ import static android.view.View.GONE;
  * Created by on 16/8/9.
  */
 public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener{
+
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
 
     public static final String ORDER_INFO_KEY = "order_info_key";
 
@@ -155,10 +161,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         setContentView(R.layout.activity_nimchat);
         ButterKnife.bind(this);
         initView();
-        grantAudio();
 
         registerObservers(true);
         registerUserInfoObserver();
+
+        requestBasicPermission();
     }
 
     @Override
@@ -196,14 +203,12 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             }
         }
 
-
         Bundle bundle = getIntent().getExtras();
         String orderJson = bundle.getString(ORDER_INFO_KEY);
         getUserInfoToOrder(orderJson);
 
          addConversationFragment();
         //刷新订单信息
-
         localTimeView.setData(nationalFlag, timediff, timezone, cityName, countryName);
     }
 
@@ -240,7 +245,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
             }
         });
-        loadRemoteMsg();
+        //loadRemoteMsg();
+
     }
 
     @Override
@@ -262,10 +268,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onPause() {
-        //notifyChatList();
         super.onPause();
     }
-
 
     /**
      * 解析用户ID信息
@@ -315,25 +319,40 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      * 展示司导和用户之间的订单
      */
     private void initRunningOrder() {
-
         //setUserInfo(); //设置聊天对象头像
         //resetChatting(); //设置是否可以聊天
         loadImOrder(); //显示聊天订单信息
     }
 
     /**
-     * 授权获取手机音频权限
+     * 基本权限管理
      */
-    private void grantAudio() {
-        MPermissions.requestPermissions(this, PermissionRes.IM_PERMISSION, android.Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
+    private void requestBasicPermission() {
+        MPermission.with(this)
+                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE
+                )
+                .request();
     }
 
-    @PermissionGrant(PermissionRes.IM_PERMISSION)
-    public void requestAudioSuccess() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
-    @PermissionDenied(PermissionRes.IM_PERMISSION)
-    public void requestAudioFailed() {
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess(){
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed(){
         android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
         dialog.setCancelable(false);
         dialog.setTitle(R.string.grant_fail_title);
@@ -344,17 +363,15 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    grantAudio();
+                    requestBasicPermission();
                 }
             });
         }
         dialog.show();
     }
 
-
     /**
      * 根据数据刷新界面
-     *
      * @param orders
      */
     private void flushOrderView(ArrayList<OrderBean> orders) {
@@ -363,9 +380,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             viewPageLayout.setVisibility(View.VISIBLE);
             viewPage.setAdapter(new IMOrderPagerAdapter(orders));
             viewPage.addOnPageChangeListener(onPageChangeListener);
-
             messageFragment.messageListScrollToBottom();
-
         } else {
             //无订单数据
             viewPageLayout.setVisibility(GONE);
@@ -374,7 +389,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     /**
      * 获取构建viewPage数据
-     *
      * @param datas
      * @return
      */
@@ -806,32 +820,32 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         MLog.i("nim send message success!");
     }
 
-    private void loadRemoteMsg(){
-        StatusCode statusCode = NIMClient.getStatus();
-        if(statusCode!=StatusCode.LOGINED){
-            return;
-        }
-       NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), 100, true).setCallback(new RequestCallback<List<IMMessage>>() {
-           @Override
-           public void onSuccess(List<IMMessage> imMessages) {
-               MLog.i("nim history messags size:" +imMessages.size());
-           }
-
-           @Override
-           public void onFailed(int i) {
-               MLog.i("pull nim history messags failed! code:" + i);
-           }
-
-           @Override
-           public void onException(Throwable throwable) {
-               MLog.i("pull nim history messags excption");
-           }
-       });
-    }
-
-    private IMMessage anchor(){
-       return MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.P2P, 0);
-    }
+//    private void loadRemoteMsg(){
+//        StatusCode statusCode = NIMClient.getStatus();
+//        if(statusCode!=StatusCode.LOGINED){
+//            return;
+//        }
+//       NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), 100, true).setCallback(new RequestCallback<List<IMMessage>>() {
+//           @Override
+//           public void onSuccess(List<IMMessage> imMessages) {
+//               MLog.i("nim history messags size:" +imMessages.size());
+//           }
+//
+//           @Override
+//           public void onFailed(int i) {
+//               MLog.i("pull nim history messags failed! code:" + i);
+//           }
+//
+//           @Override
+//           public void onException(Throwable throwable) {
+//               MLog.i("pull nim history messags excption");
+//           }
+//       });
+//    }
+//
+//    private IMMessage anchor(){
+//       return MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.P2P, 0);
+//    }
 
     private void registerUserInfoObserver() {
         if (uinfoObserver == null) {
