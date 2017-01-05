@@ -137,7 +137,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance((Activity)getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
+                DialogUtil.getInstance((Activity)getContext()).showCallDialogTitle(getContext(), null);
             }
         });
     }

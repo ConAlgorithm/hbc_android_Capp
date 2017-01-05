@@ -232,7 +232,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, params.cityBean.cityId);
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, params.cityBean.location);
                 }
-                Intent intent = new Intent(activity, PoiSearchActivity.class);
+                Intent intent = new Intent(this, PoiSearchActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtra("mBusinessType", orderType);
                 startActivity(intent);

@@ -112,9 +112,9 @@ public class UnicornServiceActivity extends BaseActivity{
             switch (_type) {
                 case TYPE_DEFAULT:
                 case TYPE_CHAT_LIST:
+                case TYPE_CHARTERED:
                     result = 3;
                     break;
-                case TYPE_CHARTERED:
                 case TYPE_LINE:
                     result = 2;
                     break;

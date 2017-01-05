@@ -86,7 +86,7 @@ public  class ErrorHandler implements HttpRequestListener{
             if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_NET){
                 Toast.makeText(mActivity, "请检查您的网络连接是否正常", Toast.LENGTH_LONG).show();
             }else {
-                if (request.getData() != null && request.getData() instanceof String) {
+                if (!HbcConfig.IS_DEBUG && request.getData() != null && request.getData() instanceof String) {
                     if (((String) request.getData()).contains("\"status\":200")) {
                         return;
                     }

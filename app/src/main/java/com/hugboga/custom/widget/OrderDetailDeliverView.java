@@ -145,7 +145,11 @@ import cn.iwgang.countdownview.CountdownView;
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
-            resetItemView(deliverInfoBean);
+            if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
+            } else {
+                resetItemView(deliverInfoBean);
+            }
         }
     }
 

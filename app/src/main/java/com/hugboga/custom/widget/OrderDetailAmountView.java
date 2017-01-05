@@ -160,7 +160,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         }
         String priceText = getContext().getString(R.string.sign_rmb) + price;
         if (titleID == R.string.order_detail_cost_coupon || titleID == R.string.order_detail_cost_travelfund) {//旅游基金和优惠券需要加减号
-            priceText = getContext().getString(R.string.sign_rmb) + " -" + price;
+            priceText =  "- " + getContext().getString(R.string.sign_rmb) + price;
         } else if (titleID == R.string.order_detail_cost_realpay) {
             priceTV.setTextColor(0xFFFF6633);
         }

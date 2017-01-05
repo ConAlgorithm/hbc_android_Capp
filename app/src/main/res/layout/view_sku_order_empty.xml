@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="很抱歉，没有找到可客服的司导，换个日期试试"
+        android:text="很抱歉，没有找到可服务的司导，换个日期试试"
         android:textColor="#a8a8a8"
         android:textSize="13sp" />
 

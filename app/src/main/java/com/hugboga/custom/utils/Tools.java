@@ -47,7 +47,7 @@ public class Tools {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        imageView.setBackgroundResource(resId);
+//        imageView.setBackgroundResource(resId);
         Glide.with(MyApplication.getAppContext())
                 .load(url)
                 .centerCrop()
@@ -55,10 +55,10 @@ public class Tools {
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        if (imageView != null && resId != 0) {
-                            imageView.setBackgroundResource(0);
+//                        if (imageView != null && resId != 0) {
+//                            imageView.setBackgroundResource(0);
                             imageView.setImageResource(resId);
-                        }
+//                        }
                         return false;
                     }
 

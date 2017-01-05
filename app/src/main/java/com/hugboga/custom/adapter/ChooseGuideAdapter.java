@@ -38,6 +38,7 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.canservice_guide_item, null);
             viewHolder.name = (TextView) view.findViewById(R.id.name);
+            viewHolder.gender =  (ImageView) view.findViewById(R.id.gender);
             viewHolder.city = (TextView) view.findViewById(R.id.city);
             viewHolder.head = (ImageView) view.findViewById(R.id.head);
             viewHolder.score = (TextView) view.findViewById(R.id.score);
@@ -68,10 +69,10 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
             viewHolder.score.setText(scoreStr);
         }
         if(model.getGender() == 1){
-            viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.man_icon,0);
+            viewHolder.gender.setBackgroundResource(R.mipmap.man_icon);
             viewHolder.choose.setText("选他服务");
         }else{
-            viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.woman_icon,0);
+            viewHolder.gender.setBackgroundResource(R.mipmap.woman_icon);
             viewHolder.choose.setText("选她服务");
         }
 
@@ -100,6 +101,7 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
 
     final static class ViewHolder {
         TextView name;
+        ImageView gender;
         TextView city;
         TextView score;
         ImageView auth;

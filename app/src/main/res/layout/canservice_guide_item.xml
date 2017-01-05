@@ -20,12 +20,22 @@
         android:textSize="15sp"
         android:layout_alignTop="@id/head"
         android:layout_toRightOf="@id/head"
+        android:paddingTop="1.5dp"
         android:singleLine="true"
-        android:maxLength="20"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/man_icon"
+        android:ellipsize="end"
+        android:maxWidth="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/gender"
+        android:layout_marginTop="4.2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignTop="@id/head"
+        android:layout_toRightOf="@id/name"
+        android:background="@mipmap/man_icon"
+        />
 
     <ImageView
         android:id="@+id/auth"
@@ -33,7 +43,7 @@
         android:layout_alignTop="@id/name"
         android:layout_marginTop="3dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/name"
+        android:layout_toRightOf="@id/gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

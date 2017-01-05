@@ -55,11 +55,10 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:hint="请填写姓名"
-            android:textColorHint="#7f7f7f"
+            android:textColorHint="#cccccc"
             android:singleLine="true"
             android:ellipsize="end"
             android:maxLength="50"
-            android:text="疯狂小茶仔"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
         <View
@@ -121,7 +120,7 @@
             android:background="#00000000"
             android:inputType="phone"
             android:maxLength="50"
-            android:textColorHint="#7f7f7f"
+            android:textColorHint="#cccccc"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="@dimen/sku_order_padding_left"
             android:layout_centerVertical="true"
@@ -168,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="请选择上车地点"
-            android:textColorHint="#7f7f7f"
+            android:textColorHint="#cccccc"
             android:layout_marginTop="14.6dp"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
@@ -182,7 +181,7 @@
             android:visibility="gone"
             android:paddingTop="2dp"
             android:layout_marginBottom="13dp"
-            android:textColor="#7f7f7f"
+            android:textColor="#cccccc"
             android:textSize="12sp" />
 
     </RelativeLayout>
@@ -212,7 +211,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:hint="给司导捎句话"
-            android:textColorHint="#7f7f7f"
+            android:textColorHint="#cccccc"
             android:maxLength="500"
             android:layout_marginRight="10dp"
             android:paddingTop="15dp"

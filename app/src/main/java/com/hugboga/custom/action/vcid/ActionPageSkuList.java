@@ -2,8 +2,6 @@ package com.hugboga.custom.action.vcid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
-
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
@@ -15,6 +13,8 @@ import com.hugboga.custom.utils.JsonUtils;
 
 /**
  * Created by qingcha on 16/9/27.
+ *
+ * test = "{\"t\": \"2\", \"v\": \"4\", \"d\": {\"t\":\"3\", \"ai\":\"204\"}}";
  */
 public class ActionPageSkuList extends ActionPageBase {
 
@@ -30,7 +30,7 @@ public class ActionPageSkuList extends ActionPageBase {
         }
         CityHomeListActivity.Params params = new CityHomeListActivity.Params();
         params.id = CommonUtils.getCountInteger(bean.areaId);
-        switch (CommonUtils.getCountInteger(bean.areaId)) {
+        switch (CommonUtils.getCountInteger(bean.type)) {
             case 1:
                 params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
                 break;

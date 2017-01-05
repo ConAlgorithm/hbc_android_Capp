@@ -21,11 +21,13 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -205,7 +207,8 @@ public class OrderEditActivity extends BaseActivity {
             pickNameLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
-                upRight.setText(orderBean.serviceStartTime + "(当地时间)");
+                String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
+                upRight.setText(time + "(当地时间)");
             }
             if (!TextUtils.isEmpty(orderBean.startAddress)) {
                 upAddressRight.setText(orderBean.startAddress);
@@ -340,17 +343,21 @@ public class OrderEditActivity extends BaseActivity {
     TimePicker picker;
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        calendar.set(Calendar.MINUTE,0);
+        try {
+            calendar.setTime(DateUtils.timeFormat.parse(orderBean.serviceStartTime));
+        } catch (ParseException e) {
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.MINUTE, 0);
+        }
         picker = new TimePicker(activity, TimePicker.HOUR_24);
         picker.setTitleText("请选择上车时间");
-        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
                 serverTime = hour + ":" + minute;
                 upRight.setText(serverTime + "(当地时间)");
-                orderBean.serviceStartTime = serverTime;
+                orderBean.serviceStartTime = serverTime + ":00";
                 picker.dismiss();
             }
         });
