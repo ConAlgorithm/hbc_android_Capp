@@ -40,7 +40,6 @@ import butterknife.OnClick;
  */
 public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
-    private static final int AVATAR_COUNT = 6;
     private static final int AVATAR_WIDTH = UIUtils.dip2px(30);
     private static final int AVATAR_MARGIN = UIUtils.dip2px(5);
 
@@ -180,9 +179,14 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         int viewWidth = UIUtils.dip2px(147) + AVATAR_MARGIN + AVATAR_WIDTH;;
         j:for (int i = 0; i < size; i++) {
             viewWidth +=  AVATAR_MARGIN + AVATAR_WIDTH;
-            if (viewWidth > UIUtils.getScreenWidth() || (i == AVATAR_COUNT && size > AVATAR_COUNT)) {
-                CircleImageView moreImageView = getMoreImageView();
-                Tools.showImage(moreImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
+            if (viewWidth > UIUtils.getScreenWidth()) {
+                if (i < size - 1) {
+                    CircleImageView moreImageView = getMoreImageView();
+                    Tools.showImage(moreImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
+                } else {
+                    CircleImageView circleImageView = getCircleImageView();
+                    Tools.showImage(circleImageView, guidesList.get(i).getAvatarS(), R.mipmap.icon_avatar_guide);
+                }
                 break j;
             }
             CircleImageView circleImageView = getCircleImageView();

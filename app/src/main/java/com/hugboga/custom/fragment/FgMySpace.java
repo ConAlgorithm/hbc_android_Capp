@@ -71,8 +71,6 @@ import butterknife.ButterKnife;
 @ContentView(R.layout.fg_myspace)
 public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener{
 
-    @ViewInject(R.id.header_left_btn)
-    private ImageView leftBtn;
     @Bind(R.id.fg_space_listview)
     ListView listView;
 
@@ -136,12 +134,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     @Override
     protected void initHeader(Bundle savedInstanceState) {
-        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        fgTitle.setLayoutParams(titleParams);
-        fgTitle.setText("我");
-        leftBtn.setVisibility(View.GONE);
-
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View header = inflater.inflate(R.layout.nav_header_main, null);
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);

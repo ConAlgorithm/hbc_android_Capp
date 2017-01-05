@@ -155,12 +155,23 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/sku_order_count_luggage_count_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/sku_order_count_luggage_count_unit_tv"
+            android:layout_width="30dp"
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:gravity="center_vertical"
+            android:layout_marginRight="4dp"
+            android:gravity="center"
+            android:text="件"
+            android:textColor="@color/default_black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/sku_order_count_luggage_count_tv"
+            android:layout_toLeftOf="@id/sku_order_count_luggage_count_unit_tv"
+            android:layout_width="wrap_content"
+            android:minWidth="40dp"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:gravity="center"
             android:text="5"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
