@@ -54,10 +54,10 @@ public class ChooseGuideUtils implements HttpRequestListener {
                 return;
             }
             ChooseGuideMessageBean messageBean = ((RequestGuideCropValid)request).getData();
-            showDialog(messageBean);
+            showDialog(messageBean, true);
         } else if (request instanceof RequestChooseGuide) {
             ChooseGuideMessageBean messageBean = ((RequestChooseGuide)request).getData();
-            showDialog(messageBean);
+            showDialog(messageBean, false);
         }
     }
 
@@ -74,9 +74,13 @@ public class ChooseGuideUtils implements HttpRequestListener {
         errorHandler.onDataRequestError(errorInfo, request);
     }
 
-    private void showDialog(ChooseGuideMessageBean messageBean) {
+    private void showDialog(ChooseGuideMessageBean messageBean, boolean isFirstValidator) {
         if (messageBean.isSucceed()) {
-            intentOrderDetail();
+            if (isFirstValidator) {
+                showDialogSucceed();
+            } else {
+                intentOrderDetail();
+            }
         } else if (messageBean.result == 0) {
             showDialogError(messageBean.message, "我知道了");
         } else if (messageBean.result == -5) {
