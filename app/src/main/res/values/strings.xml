@@ -235,7 +235,7 @@
     <string name="run_flush">正在刷新&#8230;</string>
     <string name="near_update">最近更新</string>
 
-    <string name="loading_msg">ⓒ 皇包车 2016</string>
+    <string name="loading_msg">ⓒ 皇包车 2017</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
 
@@ -489,7 +489,7 @@
     <string name="back_title">订单退改规则:</string>
     <string name="huangbaoche_buy">由皇包车支付</string>
 
-    <string name="about_copyright">Copyright@2014-2016皇包车</string>
+    <string name="about_copyright">Copyright@2014-2017皇包车</string>
     <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
     <string name="about_check_update">检测新版本</string>
     <string name="about_grade">给我评分</string>
