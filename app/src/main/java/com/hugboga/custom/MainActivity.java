@@ -25,7 +25,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,8 +51,8 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgMySpace;
+import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -119,7 +118,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private int currentPosition = 0;
 
     private FgHome fgHome;
-    private FgImChat fgChat;
+    private FgNimChat fgChat;
     private FgTravel fgTravel;
     private FgMySpace fgMySpace;
     private SharedPre sharedPre;
@@ -326,7 +325,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgTravel = new FgTravel();
-        fgChat = new FgImChat();
+        fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
         addFragment(fgHome);
         addFragment(fgChat);

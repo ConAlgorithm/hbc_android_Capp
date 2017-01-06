@@ -20,11 +20,11 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
     private ArrayList<View> mHeaderViewInfos = null;
     private ArrayList<View> mFooterViewInfos = null;
 
-    protected List<T> datas;
+    protected ArrayList<T> datas;
     private int curretPosition = -1;
 
     private OnItemClickListener onItemClickListener;
-
+    private OnItemLongClickListener onItemLongClickListener;
 
     public HbcRecyclerTypeBaseAdpater(Context context) {
         this.mContext = context;
@@ -53,7 +53,7 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
         }
     }
 
-    public List<T> getDatas() {
+    public ArrayList<T> getDatas() {
         return datas;
     }
 
@@ -91,13 +91,23 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
                 return;
             }
             int position = _position - getHeadersCount();
-            final Object itemData = datas.get(position);
+            final T itemData = datas.get(position);
             itemHolder.getItemView().update(itemData);
             if (onItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         onItemClickListener.onItemClick(itemHolder.itemView, _position, itemData);
+                    }
+                });
+            }
+
+            if(onItemLongClickListener !=null){
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                    @Override
+                    public boolean onLongClick(View v) {
+                        onItemLongClickListener.onItemLongClick(itemHolder.itemView,_position,itemData);
+                        return false;
                     }
                 });
             }
@@ -187,7 +197,15 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
         void onItemClick(View view, int position, Object itemData);
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view,int position,Object itemData);
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 }

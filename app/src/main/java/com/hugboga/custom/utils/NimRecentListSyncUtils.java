@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/8/25.
+ * Created by Spw on 2016/8/25.
  */
 public class NimRecentListSyncUtils {
 
@@ -36,8 +36,8 @@ public class NimRecentListSyncUtils {
                 continue;
             }
             for (RecentContact recentContact : recentContacts) {
-                if (chatBean.nTargetId.toLowerCase().equals(recentContact.getContactId().toLowerCase())) {
-                    chatBean.message = recentContact.getContent();
+                if (chatBean.neTargetId.toLowerCase().equals(recentContact.getContactId().toLowerCase())) {
+                    chatBean.lastMsg = recentContact.getContent();
                     if (recentContact.getMsgType() == MsgTypeEnum.tip) {
                         chatBean.imCount = 0;
                     } else {
@@ -61,7 +61,7 @@ public class NimRecentListSyncUtils {
         if (chatBeans != null && recentContact != null) {
             for (int i = 0; i < chatBeans.size(); i++) {
                 ChatBean chatBean = chatBeans.get(i);
-                if (TextUtils.equals(chatBean.nTargetId, recentContact.getContactId().toLowerCase())) {
+                if (TextUtils.equals(chatBean.neTargetId, recentContact.getContactId().toLowerCase())) {
                     chatBeans.remove(chatBean);
                     return i;
                 }
@@ -86,8 +86,8 @@ public class NimRecentListSyncUtils {
         for (RecentContact recentContact : messages) {
             boolean flag = false;
             for (ChatBean chatBean : chatBeens) {
-                if (TextUtils.equals(recentContact.getContactId().toLowerCase(), chatBean.nTargetId)) {
-                    chatBean.message = recentContact.getContent();
+                if (TextUtils.equals(recentContact.getContactId().toLowerCase(), chatBean.neTargetId)) {
+                    chatBean.lastMsg = recentContact.getContent();
                     if (recentContact.getMsgType() == MsgTypeEnum.tip) {
                         chatBean.imCount = 0;
                     } else {
@@ -159,7 +159,7 @@ public class NimRecentListSyncUtils {
             ChatBean chatBean = chatBeanList.get(i);
             for(Iterator<ChatBean> lastIter = lastPageChatList.iterator();lastIter.hasNext();){
                 ChatBean temp = lastIter.next();
-                if(chatBean.nTargetId.equals(temp.nTargetId)){
+                if(chatBean.neTargetId.equals(temp.neTargetId)){
                     lastIter.remove();
                     hasRepeat = true;
                 }
