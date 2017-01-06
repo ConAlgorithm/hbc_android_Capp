@@ -842,7 +842,7 @@
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:minEms="4"
-                    android:text="@string/change_title_txt"
+                    android:text="@string/order_detail_unsubscribe"
                     android:textColor="#8e8e8e"
                     android:textSize="14sp" />
 

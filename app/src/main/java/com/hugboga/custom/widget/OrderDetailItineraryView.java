@@ -73,7 +73,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
         //"当地时间 04月21日（周五）10:05" orderBean.serviceTime
         String localTime = getContext().getString(R.string.order_detail_local_time, orderBean.serviceTimeStr);
-        if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
+        if (orderBean.orderType == 3) {
             //主标题：东京-6天包车  副标题：当地时间
             String totalDays = "" + orderBean.totalDays;
             if (orderBean.isHalfDaily == 1) {//半日包
@@ -82,6 +82,9 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
                 localTime = localTime + " - " + orderBean.serviceEndTimeStr;
             }
             addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, totalDays), null, localTime);
+        } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {
+            localTime += getContext().getString(R.string.order_detail_up);
+            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, "" + orderBean.totalDays), null, localTime);
         } else {
             //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"
             String flight = "";
