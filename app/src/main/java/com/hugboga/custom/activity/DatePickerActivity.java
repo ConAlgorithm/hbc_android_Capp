@@ -132,8 +132,8 @@ public class DatePickerActivity extends BaseActivity {
                     chooseDateBean.showHalfDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
-                    chooseDateBean.maxDateStr = mChooseDateBean.maxDate == null ? "" : DateUtils.dateDateFormat.format(mChooseDateBean.maxDate);
                     if (null != mChooseDateBean) {
+                        chooseDateBean.maxDateStr = mChooseDateBean.maxDate == null ? "" : DateUtils.dateDateFormat.format(mChooseDateBean.maxDate);
                         chooseDateBean.startDate = mChooseDateBean.startDate;
                         chooseDateBean.endDate = mChooseDateBean.endDate;
                         chooseDateBean.start_date = mChooseDateBean.start_date;

@@ -235,7 +235,7 @@
     <string name="run_flush">正在刷新&#8230;</string>
     <string name="near_update">最近更新</string>
 
-    <string name="loading_msg">ⓒ 皇包车 2016</string>
+    <string name="loading_msg">ⓒ 皇包车 2017</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
 
@@ -489,7 +489,7 @@
     <string name="back_title">订单退改规则:</string>
     <string name="huangbaoche_buy">由皇包车支付</string>
 
-    <string name="about_copyright">Copyright@2014-2016皇包车</string>
+    <string name="about_copyright">Copyright@2014-2017皇包车</string>
     <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
     <string name="about_check_update">检测新版本</string>
     <string name="about_grade">给我评分</string>
@@ -727,8 +727,9 @@
     <string name="now_enter">立即体验</string>
 
     <string name="share_evaluate_title">评价成功</string>
-    <string name="share_evaluate_description_1">感谢您的评价!分享您的评价到微信</string>
-    <string name="share_evaluate_description_2">\n把靠谱司导推荐给好友</string>
+    <string name="share_evaluate_description_1">感谢您的评价!</string>
+    <string name="share_evaluate_description_2">\n立即分享，把靠谱司导推荐给好友</string>
+    <string name="share_evaluate_description_4">\n立即分享，送Ta大礼包赢基金</string>
     <string name="share_evaluate_description_3">好友可得%1$s皇包车体验大礼包\n当Ta完成首单,你也能赚旅游基金</string>
     <string name="share_evaluate_collected_tv">根据您的好评已为您收藏该司导</string>
 
