@@ -22,8 +22,12 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 
 import java.util.HashMap;
@@ -65,6 +69,20 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_web_title", webTitle);
+            properties.put("hbc_web_url", webUrl);
+            properties.put("hbc_refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("page_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -135,7 +153,6 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
     }
 
     @Override

@@ -5,23 +5,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
-import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.page.Page;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
@@ -31,24 +26,22 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.adapter.ChatAdapter;
-import com.hugboga.custom.adapter.LetterOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserChatInfo;
-import com.hugboga.custom.data.request.RequestChatList;
+import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.data.request.RequestNIMRemoveChat;
-import com.hugboga.custom.data.request.RequestRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.NimRecentListSyncUtils;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
@@ -56,13 +49,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
-import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
@@ -115,9 +104,14 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
-        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null && !recyclerView.isLoading() && adapter != null) {
-            loadData();
+        if(adapter!=null){
+            computeTotalUnreadCount(adapter.getDatas());
+            adapter.notifyDataSetChanged();
         }
+        if (recyclerView != null && recyclerView.getAdapter() != null) {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -127,6 +121,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         fgTitle.setLayoutParams(titleParams);
         fgTitle.setText("私聊");
         leftBtn.setVisibility(View.GONE);
+        setSensorsDefaultEvent("私聊", SensorsConstant.CHAT);
     }
 
     @Override
@@ -139,6 +134,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
         registerUserInfoObserver();
+
+        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null) {
+            loadData();
+        }
     }
 
 
@@ -204,10 +203,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 //            if(adapter.getDatas()!=null){
 //                adapter.removeAll();
 //            }
-            adapter.notifyDataSetChanged();
-            if (recyclerView.getAdapter() != null) {
-                recyclerView.getAdapter().notifyDataSetChanged();
-            }
+//            adapter.notifyDataSetChanged();
+//            if (recyclerView.getAdapter() != null) {
+//                recyclerView.getAdapter().notifyDataSetChanged();
+//            }
         }
     }
 
@@ -291,12 +290,12 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
-            case CLICK_USER_LOGIN:
-            case REFRESH_CHAT_LIST:
-                RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
-                recyclerView.setRequestData(parserChatList);
-                requestData();
-                break;
+//            case CLICK_USER_LOGIN:
+//            case REFRESH_CHAT_LIST:
+//                RequestNIMChatList parserChatList1 = new RequestNIMChatList(getActivity());
+//                recyclerView.setRequestData(parserChatList1);
+//                requestData();
+//                break;
             case CLICK_USER_LOOUT:
                 chatLayout.setVisibility(View.GONE);
                 //清理列表数据
@@ -309,7 +308,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 ((MainActivity) getActivity()).setIMCount(0, 0);
                 break;
             case NIM_LOGIN_SUCCESS:
+                RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
+                recyclerView.setRequestData(parserChatList);
                 requestData();
+                //registerObservers(true);
                 break;
             default:
                 break;
@@ -320,7 +322,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onItemClick(View view, int position) {
         ChatBean chatBean = adapter.getDatas().get(position);
         if (chatBean.targetType==3) {
-            UnicornUtils.openDefaultServiceActivity(getContext());
+            UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
         } else if (chatBean.targetType == 1) {
             if (!IMUtil.getInstance().isLogined()) {
                 return;
@@ -433,6 +435,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                         }
                         if (adapter != null) {
                             adapter.syncUpdate(recents);
+                            adapter.notifyDataSetChanged();
                             if (recyclerView != null) {
                                 recyclerView.getAdapter().notifyDataSetChanged();
                             }
@@ -441,7 +444,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                     }
                 });
             }
-        }, 10);
+        },0);
     }
 
 
@@ -480,15 +483,49 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
 
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
-        public void onEvent(List<RecentContact> messages) {
+        public void onEvent(final List<RecentContact> messages) {
             if (messages != null && adapter != null) {
-                boolean hasNewContacts = adapter.syncNewMsgUpdate(messages);
+                List<String> newContacts = adapter.syncNewMsgUpdate(messages);
                 if (recyclerView != null && recyclerView.getAdapter() != null) {
                     recyclerView.getAdapter().notifyDataSetChanged();
                     computeTotalUnreadCount(adapter.getDatas());
                 }
-                if (hasNewContacts) {
-                    loadData();
+                if (newContacts!=null && newContacts.size()>0) {
+                    for(int i=0;i<newContacts.size();i++){
+                        RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(),newContacts.get(i));
+                        HttpRequestUtils.request(getContext(), requestChatOrderDetail, new HttpRequestListener() {
+                            @Override
+                            public void onDataRequestSucceed(BaseRequest request) {
+                                ChatBean chatBean = (ChatBean) request.getData();
+                                if(messages!=null && messages.size()>0){
+                                    for(RecentContact recentContact:messages){
+                                        if(recentContact.getContactId().toLowerCase().equals(chatBean.nTargetId.toLowerCase())){
+                                            chatBean.message = recentContact.getContent();
+                                            chatBean.imCount = recentContact.getUnreadCount();
+                                            chatBean.timeStamp = recentContact.getTime();
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(adapter!=null && adapter.getDatas()!=null){
+                                    adapter.getDatas().add(chatBean);
+                                    NimRecentListSyncUtils.sortRecentContacts(adapter.getDatas());
+                                    computeTotalUnreadCount(adapter.getDatas());
+                                    adapter.notifyDataSetChanged();
+                                    if(recyclerView!=null && recyclerView.getAdapter()!=null){
+                                        recyclerView.getAdapter().notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onDataRequestCancel(BaseRequest request) {
+                            }
+
+                            @Override
+                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                            }
+                        });
+                    }
                 }
             }
 
@@ -585,31 +622,10 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         }
     }
 
-
     private void removeRepeatChatBean() {
         if (adapter != null) {
-            adapter.syncRemoveRepeatData();
+            adapter.syncRemoveRepeatData(Page.DEFAULT_PAGESIZE);
         }
-    }
-
-
-    private void test() {
-        List<ChatBean> chatBeanList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            ChatBean chatBean = new ChatBean();
-            if (i == 90 || i == 91) {
-                chatBean.nTargetId = "" + (i - 90);
-            } else {
-                chatBean.nTargetId = "" + i;
-            }
-            chatBeanList.add(chatBean);
-        }
-
-        for (int i = 0; i < chatBeanList.size(); i++) {
-            Log.e("Test", "repeat before tid：" + chatBeanList.get(i).nTargetId);
-        }
-
-        NimRecentListSyncUtils.removeRepeatData(chatBeanList);
     }
 
 }

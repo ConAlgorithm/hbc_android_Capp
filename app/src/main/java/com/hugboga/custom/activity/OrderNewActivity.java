@@ -56,6 +56,7 @@ import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -66,9 +67,13 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.hugboga.custom.widget.TopTipsLayout;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -231,6 +236,9 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.agree_text)
     TextView agreeText;
 
+    @Bind(R.id.money_pre_tv)
+    TextView moneyPreTV;
+
     /**
      * 基于原来代码修改,有时间了优化
      */
@@ -274,7 +282,12 @@ public class OrderNewActivity extends BaseActivity {
         contactUsersBean.userName = userName;
         contactUsersBean.userPhone = userPhone;
         manName.setText(userName);
-        manPhone.setText(userPhone);
+        String areaCode = UserEntity.getUser().getAreaCode(activity);
+        String phone = userPhone;
+        if (!TextUtils.isEmpty(areaCode)) {
+            phone = "+" + areaCode + " " + userPhone;
+        }
+        manPhone.setText(phone);
         topTipsLayout.setText(R.string.order_detail_top2_tips);
     }
 
@@ -291,6 +304,7 @@ public class OrderNewActivity extends BaseActivity {
     String startCityName;
     String dayNums = "0";
     CarBean carBean;
+    boolean isToday = false;
 
     CityBean startBean;
     CityBean endBean;
@@ -360,7 +374,7 @@ public class OrderNewActivity extends BaseActivity {
         skuBean = (SkuItemBean) getIntent().getSerializableExtra("web_sku");
         cityBean = (CityBean) getIntent().getSerializableExtra("web_city");
         serverDayTime = this.getIntent().getStringExtra("serverDayTime");
-
+        isToday = this.getIntent().getBooleanExtra("isToday", false);
 
         distance = this.getIntent().getStringExtra("distance");
         if (null == distance) {
@@ -378,24 +392,25 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
+                    int showPrice = 0;
                     if (null == mostFitBean || null == mostFitBean.actualPrice  ||  mostFitBean.actualPrice == 0) {
-                        int showPrice = 0;
                         if (null != couponBean) {
                             showPrice = couponBean.actualPrice.intValue();
-                            allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
                         } else {
                             showPrice = carBean.price;
                             //其他费用总和
                             int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
-                            allMoneyLeftText.setText(Tools.getRMB(activity) + (showPrice + otherPriceTotal));
+                            showPrice += otherPriceTotal;
                         }
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                        setPerCapitaPrice(showPrice);
                     } else {
-                        int price = 0;
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
-                            price = mostFitBean.actualPrice.intValue();
+                            showPrice = mostFitBean.actualPrice.intValue();
                         }
-                        allMoneyLeftText.setText(Tools.getRMB(activity) +price);
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                        setPerCapitaPrice(showPrice);
                     }
                 }
             }
@@ -407,11 +422,14 @@ public class OrderNewActivity extends BaseActivity {
                     couponLeft.setChecked(false);
                     int otherPriceTotal =  hotelPrice + checkInOrPickupPrice
                             + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                    int showPrice = 0;
                     if (null == deductionBean || null == deductionBean.priceToPay) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + otherPriceTotal));
+                        showPrice = carBean.price + otherPriceTotal;
                     } else {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price - money + otherPriceTotal));
+                        showPrice = carBean.price - money + otherPriceTotal;
                     }
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                    setPerCapitaPrice(showPrice);
                 }
             }
         });
@@ -719,7 +737,7 @@ public class OrderNewActivity extends BaseActivity {
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
 
-        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(startDate) + "  "+ serverTime);
+        citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(startDate));
         citys_line_title_tips.setVisibility(GONE);
         goodsVersion = skuBean.goodsVersion + "";
         goodsNo = skuBean.goodsNo + "";
@@ -749,13 +767,19 @@ public class OrderNewActivity extends BaseActivity {
             hourseNum = carListBean.hourseNum;
             hotelPrice = carListBean.hotelPrice * hourseNum;
         }
-        allMoneyLeftText.setText(Tools.getRMB(activity)
-                + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+        int price = carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)
-                + hotelPrice));
-
+                + hotelPrice;
+        allMoneyLeftText.setText(Tools.getRMB(activity) + price);
         carSeat.setText(getCarDesc());
         genCarInfoText();
+        moneyPreTV.setVisibility(View.VISIBLE);
+        setPerCapitaPrice(price);
+    }
+
+    private void setPerCapitaPrice(int price) {
+        int perCapitaPrice = price / (CommonUtils.getCountInteger(adultNum) + CommonUtils.getCountInteger(childrenNum));
+        moneyPreTV.setText("人均: " + Tools.getRMB(activity) + perCapitaPrice);
     }
 
     boolean showAll = false;
@@ -801,6 +825,7 @@ public class OrderNewActivity extends BaseActivity {
     private void genDairy() {
         upAddressLeft.setText("上车地点");
         show_day_layout.setVisibility(View.VISIBLE);
+        serverTime = this.getIntent().getStringExtra("serverTime");
         String localTime = "当地时间 " + DateUtils.getOrderDateFormat(startDate);
         if (isHalfTravel) {
             citysLineTitle.setText(startBean.name + "-0.5天包车");
@@ -809,6 +834,11 @@ public class OrderNewActivity extends BaseActivity {
             citysLineTitle.setText(startBean.name + "-" + dayNums + "天包车");
             localTime += " 至 " + DateUtils.getOrderDateFormat(endDate);
         }
+        if (isToday) {
+            localTime += " " + serverTime;
+            singleNoShowTime.setVisibility(View.GONE);
+        }
+
         citys_line_title_tips.setText(localTime);
         if (isHalfTravel) {
             dayView = LayoutInflater.from(activity).inflate(R.layout.day_order_item, null);
@@ -822,12 +852,6 @@ public class OrderNewActivity extends BaseActivity {
         }
 
         cancleTipsTime = startDate + " " + serverTime + ":00";
-
-        if (serverTime.equalsIgnoreCase("00:00")) {
-            upRight.setVisibility(View.GONE);
-        } else {
-            upRight.setVisibility(View.VISIBLE);
-        }
 
         hotelPhoneTextCodeClick.setText("+" + startBean.areaCode);
 
@@ -910,13 +934,17 @@ public class OrderNewActivity extends BaseActivity {
                 } else {
                     dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {
-                        allMoneyLeftText.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.priceToPay) + totalPrice));
+                        int price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
+                        allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                        setPerCapitaPrice(price);
                     }
                     dream_right_tips.setVisibility(View.VISIBLE);
                     dream_right_tips.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(activity, TravelFundActivity.class));
+                            Intent intent = new Intent(activity, TravelFundActivity.class);
+                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                            startActivity(intent);
                         }
                     });
                 }
@@ -1007,17 +1035,18 @@ public class OrderNewActivity extends BaseActivity {
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit) request;
                 mostFitBean = requestMostFit1.getData();
+                int price = 0;
                 if (null == mostFitBean.priceInfo) {
                     couponRight.setText("还没有优惠券");
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + totalPrice));
+                    price = carBean.price + totalPrice;
                 } else {
                     couponRight.setText((mostFitBean.priceInfo) + "优惠券");
-                    int price = 0;
                     if(null != mostFitBean && null != mostFitBean.actualPrice){
                         price = mostFitBean.actualPrice.intValue();
                     }
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + price);
                 }
+                allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                setPerCapitaPrice(price);
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1066,6 +1095,7 @@ public class OrderNewActivity extends BaseActivity {
                         } else {
                             bundle.putString("idStr", "");
                         }
+                        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
                         Intent intent = new Intent(activity,CouponActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
@@ -1152,8 +1182,7 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = eventPayBean;
-
-                Intent intent = new Intent(activity,ChoosePaymentActivity.class);
+                Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
@@ -1168,24 +1197,40 @@ public class OrderNewActivity extends BaseActivity {
                     Intent intent = new Intent(OrderNewActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
+                    SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }
             }
         }
-
     }
 
     private EventPayBean getChoosePaymentStatisticParams() {
         EventPayBean eventPayBean = new EventPayBean();
-        eventPayBean.carType = carBean.carDesc;
-        eventPayBean.seatCategory = carBean.seatCategory;
-        eventPayBean.guestcount = carBean.capOfPerson+"";
-        eventPayBean.isFlightSign = orderBean.isFlightSign;
-        eventPayBean.isCheckin = orderBean.isCheckin;
         eventPayBean.guideCollectId = guideCollectId;
-        eventPayBean.orderStatus = orderBean.orderStatus;
         eventPayBean.orderType = type;
-        eventPayBean.forother = contactUsersBean.isForOther;
         eventPayBean.paysource = "下单过程中";
+        eventPayBean.orderType = CommonUtils.getCountInteger(orderType);
+
+        if (carBean != null) {
+            eventPayBean.carType = carBean.carDesc;
+            eventPayBean.seatCategory = carBean.seatCategory;
+            eventPayBean.guestcount = carBean.capOfPerson+"";
+            eventPayBean.shouldPay = carBean.vehiclePrice + carBean.servicePrice;
+        }
+        if (contactUsersBean != null) {
+            eventPayBean.forother = contactUsersBean.isForOther;
+        }
+        if (orderInfoBean != null) {
+            eventPayBean.orderId = orderInfoBean.getOrderno();
+            eventPayBean.actualPay = orderInfoBean.getPriceActual();
+        }
+        if (orderBean != null) {
+            eventPayBean.isFlightSign = orderBean.isFlightSign;
+            eventPayBean.isCheckin = orderBean.isCheckin;
+            eventPayBean.orderStatus = orderBean.orderStatus;
+            eventPayBean.isSelectedGuide = !TextUtils.isEmpty(orderBean.guideCollectId);
+            eventPayBean.couponPrice = CommonUtils.getCountInteger(orderBean.coupPriceInfo);
+            eventPayBean.travelFundPrice = CommonUtils.getCountInteger(orderBean.travelFund);
+        }
         return eventPayBean;
     }
 
@@ -1257,6 +1302,7 @@ public class OrderNewActivity extends BaseActivity {
             }
         } else {
             Intent intent = new Intent(activity,LoginActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             startActivity(intent);
         }
     }
@@ -1286,13 +1332,15 @@ public class OrderNewActivity extends BaseActivity {
                 couponBean = null;
                 couponRight.setText("");
                 if (couponLeft.isChecked()) {
-                    allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                    int price = carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                    allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                    setPerCapitaPrice(price);
                 }
             } else {
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
-//                    allMoneyLeftText.setText(Tools.getRMB(activity) + (couponBean.actualPrice.intValue() + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
                     allMoneyLeftText.setText(Tools.getRMB(activity) + couponBean.actualPrice.intValue());
+                    setPerCapitaPrice(couponBean.actualPrice.intValue());
                 }
             }
             mostFitBean = null;
@@ -1491,7 +1539,53 @@ public class OrderNewActivity extends BaseActivity {
                 break;
             case R.id.all_money_submit_click:
                 checkData();
+                setSensorsEvent();
                 break;
         }
+    }
+
+    //神策统计_确认行程
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            String skuType = "";
+            switch (type) {
+                case 1:
+                    skuType = "接机";
+                    break;
+                case 2:
+                    skuType = "送机";
+                    break;
+                case 3:
+                    skuType = "定制包车游";
+                    break;
+                case 4:
+                    skuType = "单次接送";
+                    break;
+                case 5:
+                    skuType = "固定线路";
+                    break;
+                case 6:
+                    skuType = "推荐线路";
+                    break;
+            }
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
+            properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+            properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+            if (priceActual < 0) {
+                priceActual = 0;
+            }
+            properties.put("hbc_price_actually", priceActual);//实际支付金额
+            properties.put("hbc_is_appoint_guide", guideCollectId == null ? false : true);//指定司导下单
+            SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "确认订单";
     }
 }

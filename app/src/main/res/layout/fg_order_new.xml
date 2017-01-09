@@ -306,15 +306,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:layout_marginRight="110dp"
+                        android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@id/for_other_man"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
                         android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/man_phone_name"
-                        android:layout_toEndOf="@+id/man_phone_name">
+                        android:layout_toRightOf="@+id/man_phone_name">
 
 
                         <TextView
@@ -324,8 +323,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:minEms="4"
-                            android:lines="1"
+                            android:singleLine="true"
                             android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
@@ -338,7 +336,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="5dp"
-                            android:minEms="4"
+                            android:singleLine="true"
                             android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
@@ -391,7 +389,8 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:minEms="4"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="@color/basic_black"
                             android:textSize="14sp" />
@@ -403,7 +402,8 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:minEms="4"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             android:text="@string/air_info"
                             android:textColor="#9d9e9f"
                             android:textSize="14sp" />
@@ -921,6 +921,15 @@
             android:textColor="@color/basic_white"
             android:textSize="14sp"
             android:visibility="gone" />
+        <TextView
+            android:id="@+id/money_pre_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/all_money_left"
+            android:visibility="gone"
+            android:layout_marginLeft="20sp"
+            android:textSize="14sp"
+            android:textColor="@color/basic_white"/>
     </RelativeLayout>
 
 </RelativeLayout>

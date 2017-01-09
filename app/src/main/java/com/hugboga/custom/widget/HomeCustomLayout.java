@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
@@ -59,11 +60,15 @@ public class HomeCustomLayout extends LinearLayout{
                 Intent intent = null;
                 if (!UserEntity.getUser().isLogin(getContext())) {
                     CommonUtils.showToast(R.string.login_hint);
-                    getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+                    intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                    getContext().startActivity(intent);
                     break;
                 }
                 intent = new Intent(getContext(), TravelFundActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                 getContext().startActivity(intent);
+                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_SY);
                 break;
         }
     }

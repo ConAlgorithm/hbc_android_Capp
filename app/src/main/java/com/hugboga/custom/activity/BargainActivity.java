@@ -29,6 +29,7 @@ import com.hugboga.custom.data.request.RequestBargin;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
@@ -36,9 +37,13 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountDownLayout;
 import com.hugboga.custom.widget.ShareDialog;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -82,10 +87,25 @@ public class BargainActivity extends BaseActivity {
         getData();
         EventBus.getDefault().register(this);
         StatisticClickEvent.click(StatisticConstant.LAUNCH_KANJIA,"订单详情");
+        setSensorsEvent();
     }
 
     private void getIntentValue(){
         orderNo = getIntent().getStringExtra("orderNo");
+    }
+
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_web_title", "砍价页");
+            properties.put("hbc_web_url", SensorsConstant.KANJIA + "?order_id=" + orderNo);
+            properties.put("hbc_refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("page_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private String orderNo = "R122621569604";
@@ -309,7 +329,7 @@ public class BargainActivity extends BaseActivity {
         popupView.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(nameEdit.getText())){
+                if(TextUtils.isEmpty(nameEdit.getText()) || TextUtils.isEmpty(nameEdit.getText().toString().trim())){
                     CommonUtils.showToast(R.string.real_name);
                     return;
                 }
@@ -320,6 +340,7 @@ public class BargainActivity extends BaseActivity {
                         return;
                     }
                 }
+                name = name.replaceAll(" ", "");
                 //真实姓名
                 RequestChangeUserInfo request = new RequestChangeUserInfo(activity, null, null, null, null, null, name);
                 HttpRequestUtils.request(activity, request, new HttpRequestListener() {

@@ -35,6 +35,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravel;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -140,8 +143,10 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!EventBus.getDefault().isRegistered(this))
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+        }
+        setSensorsDefaultEvent("行程", SensorsConstant.ORDERLIST);
     }
 
     @Override
@@ -279,7 +284,9 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
+                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
             }
         });
         adapter.addFooterView(footerView);

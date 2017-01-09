@@ -274,6 +274,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.TravelFundActivity"

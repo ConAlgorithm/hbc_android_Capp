@@ -18,7 +18,7 @@ public class ActionPageSearch extends ActionPageBase {
         super.intentPage(context, actionBean);
         Intent intent = new Intent(context, ChooseCityNewActivity.class);
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-        intent.putExtra("source","小搜索按钮");
+        intent.putExtra("source", actionBean.source);
         context.startActivity(intent);
     }
 

@@ -132,32 +132,41 @@ public class ChooseOtherActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(nameText.getText())
+                        || TextUtils.isEmpty(nameText.getText().toString().trim())
                         || TextUtils.isEmpty(userPhoneText.getText())
+                        || TextUtils.isEmpty(userPhoneText.getText().toString().trim())
                         || TextUtils.isEmpty(userPhoneTextCodeClick.getText())) {
                     CommonUtils.showToast("联系人名称和电话不能为空");
                     return;
                 }
 
                 if(user1Layout.isShown() && (TextUtils.isEmpty(name1Text.getText())
+                        || TextUtils.isEmpty(name1Text.getText().toString().trim())
                         || TextUtils.isEmpty(user1PhoneText.getText())
+                        || TextUtils.isEmpty(user1PhoneText.getText().toString().trim())
                         || TextUtils.isEmpty(user1PhoneTextCodeClick.getText()))) {
                     CommonUtils.showToast("备用联系人名称和电话不能为空");
                     return;
                 }
 
                 if(user2Layout.isShown() && (TextUtils.isEmpty(name2Text.getText())
+                        || TextUtils.isEmpty(name2Text.getText().toString().trim())
                         || TextUtils.isEmpty(user2PhoneText.getText())
+                        || TextUtils.isEmpty(user2PhoneText.getText().toString().trim())
                         || TextUtils.isEmpty(user2PhoneTextCodeClick.getText()))) {
                     CommonUtils.showToast("备用联系人名称和电话不能为空");
                     return;
                 }
 
                 if(otherCheck.isChecked() && (TextUtils.isEmpty(passengerText.getText())
+                        || TextUtils.isEmpty(passengerText.getText().toString().trim())
                         || TextUtils.isEmpty(passengerPhoneTextCodeClick.getText())
-                        || TextUtils.isEmpty(passengerPhoneText.getText()))) {
+                        || TextUtils.isEmpty(passengerPhoneText.getText())
+                        || TextUtils.isEmpty(passengerPhoneText.getText().toString().trim()))) {
                     CommonUtils.showToast("乘车人名称和电话不能为空");
                     return;
                 }
+                hideSoftInput();
 
                 contactUsersBean = new ContactUsersBean();
                 contactUsersBean.userName = nameText.getText().toString();

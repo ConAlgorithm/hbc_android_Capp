@@ -121,6 +121,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private DialogUtil mDialogUtil;
     private int mBusinessType;
 
+    private List<CityBean> hotCityList;
+    private List<CityBean> historyList;
+
     public volatile int groupId = -1;
     public volatile String startCityName;
 
@@ -393,7 +396,6 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city_choose_btn:
-                //FIXME qingcha
 //                Bundle bundle = new Bundle(getArguments());
 //                bundle.putSerializable(KEY_CITY_LIST, chooseCityList);
 //                finishForResult(bundle);
@@ -565,8 +567,12 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             if (showType == ShowType.PICK_UP) {
                 sectionIndices.add("定位");
             }
-            sectionIndices.add("历史");
-            sectionIndices.add("热门");
+            if (historyList != null && historyList.size() > 0) {
+                sectionIndices.add("历史");
+            }
+            if (hotCityList != null && hotCityList.size() > 0) {
+                sectionIndices.add("热门");
+            }
         }
         String lastFirstLetter = null;
         for (int i = 0; i < cityList.size(); i++) {
@@ -724,15 +730,17 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (msg.obj == null) {
                         break;
                     }
-                    List<CityBean> hotCityList = (List<CityBean>) msg.obj;
+                    hotCityList = (List<CityBean>) msg.obj;
                     headerView.setHotCitysData(hotCityList);
+                    setSectionIndices();
                     break;
                 case MessageType.SEARCH_HISTORY:
                     if (msg.obj == null) {
                         break;
                     }
-                    List<CityBean> historyList = (List<CityBean>) msg.obj;
+                    historyList = (List<CityBean>) msg.obj;
                     headerView.setHistoryData(historyList);
+                    setSectionIndices();
                     break;
                 case MessageType.LOCATION:
                     CityBean cityBean = null;

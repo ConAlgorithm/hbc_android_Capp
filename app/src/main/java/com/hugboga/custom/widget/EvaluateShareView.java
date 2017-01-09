@@ -21,6 +21,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.event.EventEvaluate;
 import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.event.EventEvaluateShareFloat;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 
@@ -78,7 +79,7 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
         String source = null;
         if (getContext() instanceof EvaluateActivity) {
             source = ((EvaluateActivity) getContext()).getEventSource();
-            MobClickUtils.onEvent(new EventEvaluateShare("" + orderBean.orderType, source, "" + type));
+            MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
         }
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());
         WXShareUtils wxShareUtils = WXShareUtils.getInstance(getContext());
@@ -88,6 +89,7 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
+        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "评价");
     }
 
     public void toggle(boolean _isShow) {

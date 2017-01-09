@@ -40,6 +40,7 @@ public class ServiceQuestionActivity extends BaseActivity{
     private ServiceQuestionAdapter adapter;
 
     private UnicornServiceActivity.Params params;
+    public int lastCustomRole;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,9 @@ public class ServiceQuestionActivity extends BaseActivity{
     }
 
     private void unreadMsg() {
+        if (params == null || params.sourceType != UnicornServiceActivity.SourceType.TYPE_CHAT_LIST) {
+            return;
+        }
         int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
         if (unreadCount > 0) {
             AlertDialogUtils.showAlertDialog(activity, "您有未读的客服消息，前去查看？",
@@ -86,7 +90,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                             Intent intent = new Intent(ServiceQuestionActivity.this, UnicornServiceActivity.class);
                             intent.putExtra(Constants.PARAMS_DATA, params);
                             startActivity(intent);
-                            finish();
+                            ServiceQuestionActivity.this.finish();
                             dialog.dismiss();
                         }
                     }, new DialogInterface.OnClickListener() {
@@ -141,10 +145,10 @@ public class ServiceQuestionActivity extends BaseActivity{
                         }
                         questionItem2.isAnswer = true;
                         questionList.add(questionItem2);
-                        if (questionItem.lastCustomRole > 0) {
+                        if (lastCustomRole > 0) {
                             ServiceQuestionBean.QuestionItem defaultServiceQuestionItem = new ServiceQuestionBean.QuestionItem();
                             defaultServiceQuestionItem.type = 3;
-                            defaultServiceQuestionItem.customRole = questionItem.lastCustomRole;
+                            defaultServiceQuestionItem.customRole = lastCustomRole;
                             defaultServiceQuestionItem.adviceName = "还没解决您的问题？转接人工服务";
                             questionList.add(defaultServiceQuestionItem);
                         }
@@ -190,7 +194,6 @@ public class ServiceQuestionActivity extends BaseActivity{
             return;
         }
         Intent intent = new Intent(this, UnicornServiceActivity.class);
-        params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
     }

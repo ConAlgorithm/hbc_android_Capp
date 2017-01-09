@@ -94,6 +94,7 @@ public class HomeRouteItemView extends RelativeLayout implements HbcViewBehavior
         intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
         intent.putExtra("goodtype",skuItemBean.goodsType);
         intent.putExtra("type","1");
+        intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
         getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
         StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");

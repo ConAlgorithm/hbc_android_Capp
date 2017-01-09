@@ -3,8 +3,8 @@ package com.hugboga.custom.data.net;
 
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.utils.CommonUtils;
 
@@ -42,25 +42,26 @@ public final class ShareUrls {
      */
     public static String getShareGuideUrl(GuidesDetailData data, String userId) {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
-        params.put("gid", CommonUtils.getEncodedString(data.guideId));//司导ID
-        params.put("uid", CommonUtils.getEncodedString(userId));
+        params.put("gid", CommonUtils.getDoubleEncodedString(data.guideId));//司导ID
+        params.put("uid", CommonUtils.getDoubleEncodedString(userId));
         params.put("reurl", SHARE_GUIDE);
-        return SHARE_BASE_WECHAT_URL + getUri(UrlLibs.SHARE_BASE_URL_1, params) + getScope("snsapi_base");
+        return SHARE_BASE_WECHAT_URL + getUri(BuildConfig.SHARE_BASE_URL_1, params, true) + getScope("snsapi_base");
     }
 
     /**
      * 邀请好友页面，30元大礼包
      */
-    public static String getShareThirtyCouponUrl(String avatar, String name, String qcode) {
+    public static String getShareThirtyCouponUrl(String avatar, String name, String qcode, String description) {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
         params.put("avatar", avatar);
         params.put("name", CommonUtils.getEncodedString(name));
         params.put("qcode", qcode);//邀请码
-        params.put("reurl", SHARE_THIRTY_COUPON);
-        return SHARE_BASE_WECHAT_URL + getUri(UrlLibs.SHARE_BASE_URL_1, params) + getScope("snsapi_userinfo");
+        params.put("title", CommonUtils.getEncodedString("我已经领了！你也快来领皇包车600元大礼包吧，出国就用皇包车。"));//二次分享标题
+        params.put("description", CommonUtils.getEncodedString(description));//二次分享描述
+        return getUri(SHARE_THIRTY_COUPON, params, false);
     }
 
-    private static String getUri(String _baseUrl, ArrayMap<String, String> _params ) {
+    private static String getUri(String _baseUrl, ArrayMap<String, String> _params, boolean isEncode) {
         String params = null;
         if (_params != null) {
             ArrayList<String> ps = new ArrayList<String>(_params.size());
@@ -70,10 +71,14 @@ public final class ShareUrls {
             params = TextUtils.join("&", ps);
         }
         String result = null;
-        try {
-            result = URLEncoder.encode(String.format("%s?%s", _baseUrl, params), "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (isEncode) {
+            try {
+                result = URLEncoder.encode(String.format("%s?%s", _baseUrl, params), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            result = String.format("%s?%s", _baseUrl, params);
         }
         return result;
     }

@@ -69,6 +69,11 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
         }
         titleTV.setText(skuItemBean.goodsName);
         priceTV.setText(skuItemBean.perPrice);
+        String otherStr = String.format("起/人 · %1$s日", skuItemBean.daysCount);
+        if (skuItemBean.hotelStatus == 1) {// 是否含酒店
+            otherStr += " · 含酒店";
+        }
+        unitTV.setText(otherStr);
 
         ProductDetail.Builder builder = new ProductDetail.Builder();
         builder.setTitle("线路包车游");
@@ -77,12 +82,7 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
         builder.setShow(1);
 
         if (!TextUtils.isEmpty(skuItemBean.perPrice)) {
-            String otherStr = getContext().getResources().getString(R.string.sign_rmb) + skuItemBean.perPrice +"起/人 · %1$s日";
-            otherStr = String.format(otherStr, skuItemBean.daysCount);
-            if (skuItemBean.hotelStatus == 1) {// 是否含酒店
-                otherStr += " · 含酒店";
-            }
-            builder.setNote(otherStr);
+            builder.setNote(getContext().getResources().getString(R.string.sign_rmb) + skuItemBean.perPrice + otherStr);
         }
 
         productDetail = builder.create();

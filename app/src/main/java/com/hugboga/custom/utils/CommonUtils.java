@@ -13,17 +13,20 @@ import com.bumptech.glide.request.target.Target;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.widget.ShareDialog;
-import com.ta.utdid2.android.utils.StringUtils;
+
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Created by qingcha on 16/5/26.
@@ -157,13 +160,26 @@ public final class CommonUtils {
     }
 
 
-    public static String getEncodedString(String str) {
+    public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {
             return "";
         }
         String encodedString = null;
         try {
             encodedString = URLEncoder.encode(URLEncoder.encode(str, "utf-8"), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodedString;
+    }
+
+    public static String getEncodedString(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return "";
+        }
+        String encodedString = null;
+        try {
+            encodedString = URLEncoder.encode(str, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -184,10 +200,52 @@ public final class CommonUtils {
     }
 
     public static String replaceUrlValue(String url, String key, String value) {
-        if (!StringUtils.isEmpty(url) && !StringUtils.isEmpty(key)) {
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
             url = url.replaceAll("(" + key +"=[^&]*)", key + "=" + value);
         }
         return url;
+    }
+
+    public static String getUrlValue(String url, String key) {
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
+            Map<String, String> map = getUrlValues(url);
+            if (map != null && map.containsKey(key)) {
+                return map.get(key);
+            } else {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
+
+    public static Map<String, String> getUrlValues(String _url) {
+        if (TextUtils.isEmpty(_url)) {
+            return null;
+        }
+        String strAllParam = null;
+        String strURL = _url.trim();
+        String[] arrSplit = strURL.split("[?]");
+        if (strURL.length() > 1 && arrSplit.length > 1 && arrSplit[1] != null) {
+            strAllParam = arrSplit[1];
+        } else {
+            return null;
+        }
+        if (TextUtils.isEmpty(strAllParam)) {
+            return null;
+        }
+        Map<String, String> map = new HashMap<String, String>();
+        if (strAllParam.indexOf("&") > -1 && strAllParam.indexOf("=") > -1) {
+            String[] arrTemp = strAllParam.split("&");
+            for (String str : arrTemp) {
+                String[] qs = str.split("=");
+                map.put(qs[0], qs[1]);
+            }
+        } else if (strAllParam.indexOf("=") > -1) {
+            String[] qs = strAllParam.split("=");
+            map.put(qs[0], qs[1]);
+        }
+        return map;
     }
 
     public static String getDiskCacheDir() {
@@ -216,10 +274,23 @@ public final class CommonUtils {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(context, LoginActivity.class);
+            if (context instanceof BaseActivity) {
+                intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity)context).getEventSource());
+            }
             context.startActivity(intent);
             return false;
         } else {
             return true;
         }
+    }
+
+    public static void showLargerImage(Context context, String url) {
+        LargerImageActivity.Params params = new LargerImageActivity.Params();
+        ArrayList<String> imageUrlList = new ArrayList<String>(1);
+        imageUrlList.add(url);
+        params.imageUrlList = imageUrlList;
+        Intent intent = new Intent(context, LargerImageActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
     }
 }

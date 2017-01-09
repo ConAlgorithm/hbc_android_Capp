@@ -59,18 +59,25 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -265,7 +272,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     goCollectGuid(2);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source", getIntentSource());
+                    intent.putExtra("source", getEventSource());
                     startActivity(intent);
                 }
             }
@@ -783,7 +790,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
-                    intent.putExtra("source", getIntentSource());
+                    intent.putExtra("source", getEventSource());
                     startActivity(intent);
                 }
             }
@@ -869,6 +876,40 @@ public class OrderSelectCityActivity extends BaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        setSensorsEvent();
+    }
+
+    //神策统计_初始页浏览
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_type", "定制包车游");
+            SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
+            properties.put("hbc_adultNum", manNum);// 出行成人数
+            properties.put("hbc_childNum", childNum);// 出行儿童数
+            properties.put("hbc_childseatNum", childSeatNums);// 儿童座椅数
+            properties.put("hbc_start_time", isHalfTravel ? (halfDate) : (start_date_str));// 出发日期
+            properties.put("hbc_end_time", isHalfTravel ? (halfDate) : (end_date_str));// 结束日期
+            properties.put("hbc_service_city", startBean != null ? startBean.name : ""); // 用车城市
+            properties.put("hbc_total_days", isHalfTravel ? 0.5 : nums);// 游玩天数
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -1012,6 +1053,22 @@ public class OrderSelectCityActivity extends BaseActivity {
 
 
     private void goToSelectCar(){
+        if (chooseDateBean != null && chooseDateBean.isToday && !TextUtils.isEmpty(serverTime)) {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            long currentTimeMillis = 0;
+            long serverTimeMillis = 0;
+            try {
+                currentTimeMillis = formatter.parse(formatter.format(System.currentTimeMillis())).getTime();
+                serverTimeMillis = formatter.parse(serverTime).getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (currentTimeMillis != 0 && serverTimeMillis != 0 && Math.abs(serverTimeMillis) < (Math.abs(currentTimeMillis) + 2 * 60 * 60 * 1000)) {
+                CommonUtils.showToast("至少提前2小时预订");
+                return;
+            }
+        }
         Bundle bundleCar = new Bundle();
         bundleCar.putString("startCityId", startBean.cityId + "");
         bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
@@ -1035,7 +1092,9 @@ public class OrderSelectCityActivity extends BaseActivity {
         bundleCar.putBoolean("isHalfTravel", isHalfTravel);
         bundleCar.putSerializable("passCityList", passBeanList);
         bundleCar.putString("orderType", "3");
-
+        if (chooseDateBean != null) {
+            bundleCar.putBoolean("isToday", chooseDateBean.isToday);
+        }
         if(null != collectGuideBean) {
             bundleCar.putString("guideId", collectGuideBean.guideId);
         }
@@ -1046,7 +1105,7 @@ public class OrderSelectCityActivity extends BaseActivity {
         intent.putExtras(bundleCar);
         startActivity(intent);
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
-
+        setSensorsConfirmEvent();
     }
 
     TimePicker picker;

@@ -67,6 +67,7 @@ public class ChooseAirActivity extends BaseActivity {
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideSoftInput();
                 finish();
             }
         });

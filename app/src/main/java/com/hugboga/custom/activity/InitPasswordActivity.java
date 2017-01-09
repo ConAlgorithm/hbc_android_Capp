@@ -52,7 +52,7 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
         ButterKnife.bind(this);
 
         initDefaultTitleBar();
-        fgTitle.setText("新用户注册");
+        fgTitle.setText("设置密码");
         fgLeftBtn.setVisibility(View.GONE);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);

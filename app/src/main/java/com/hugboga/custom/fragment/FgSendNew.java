@@ -49,9 +49,13 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.MoneyTextView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -185,6 +189,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 bundle.putString("endTime", DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)));
             }
         }
+        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         fgCarNew.setArguments(bundle);
         transaction.add(R.id.show_cars_layout_send, fgCarNew);
         transaction.commit();
@@ -499,13 +504,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         bundle.putString("orderType", "2");
         bundle.putBoolean("needCheckin", checkInChecked);
         bundle.putSerializable("manLuggageBean", manLuggageBean);
-        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,source,carBean.desc+"",checkInChecked,(manLuggageBean.mans + manLuggageBean.childs));
         Intent intent = new Intent(getActivity(),OrderNewActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE,source);
         intent.putExtras(bundle);
         startActivity(intent);
+        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,source,carBean.desc+"",checkInChecked,(manLuggageBean.mans + manLuggageBean.childs));
+        setSensorsConfirmEvent();
     }
-
 
     private void getData() {
         cityId = airPortBean.cityId;
@@ -530,7 +535,55 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         Map map = new HashMap();
         map.put("source",source);
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_J,map);
+        setSensorsEvent();
         return rootView;
+    }
+
+    //神策统计_初始页浏览
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "送机");
+            properties.put("hbc_refer", source);
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            int total = carBean.price;
+            if(null != manLuggageBean){
+                int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
+                int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
+                total += seat1Price + seat2Price;
+            }
+            if(checkInChecked){
+                if (!TextUtils.isEmpty(carListBean.additionalServicePrice.checkInPrice)) {
+                    total += Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
+                }
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "送机");
+            properties.put("hbc_is_appoint_guide", null != collectGuideBean ? true : false);// 指定司导下单
+            properties.put("hbc_adultNum", manLuggageBean.mans);// 出行成人数
+            properties.put("hbc_childNum", manLuggageBean.childs);// 出行儿童数
+            properties.put("hbc_childseatNum", manLuggageBean.childSeats);// 儿童座椅数
+            properties.put("hbc_car_type", carBean.desc);//车型选择
+            properties.put("hbc_price_total", total);//费用总计
+            properties.put("hbc_distance", carListBean.distance);// 全程公里数
+            properties.put("hbc_airport", airPortBean.airportName);// 机场
+            properties.put("hbc_geton_time", serverDate + " " + serverTime);// 出发时间
+            properties.put("hbc_geton_location", poiBean.placeName);// 出发地
+            properties.put("hbc_is_checkin", checkInChecked);// 是否协助登机checkin
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

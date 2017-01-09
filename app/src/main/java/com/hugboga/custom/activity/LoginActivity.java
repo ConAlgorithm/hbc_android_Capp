@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
@@ -32,11 +34,14 @@ import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DrawableCenterButton;
 import com.qiyukf.unicorn.api.Unicorn;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -44,9 +49,12 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
@@ -110,8 +118,32 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         setContentView(R.layout.fg_login);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        initView();
+        initView(getIntent());
         initHeader();
+        setSensorsDefaultEvent("登录页", SensorsConstant.LOGIN);
+    }
+
+    public static void setSensorsUserEvent() {
+        try {
+            UserEntity userEntity = UserEntity.getUser();
+            Context context = MyApplication.getAppContext();
+            if (!userEntity.isLogin(context)) {
+                return;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_id", userEntity.getUserId(context));
+            properties.put("hbc_gender", userEntity.getGender(context));
+            properties.put("hbc_age", userEntity.getAgeType(context));
+            properties.put("hbc_phone", userEntity.getPhone(context));
+            properties.put("hbc_realname", userEntity.getUserName(context));
+            // 设定用户属性
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).profileSet(properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -156,15 +188,15 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         requestData(request);
     }
 
-    protected void initView() {
+    protected void initView(Intent intent) {
         login_register.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         login_register.getPaint().setAntiAlias(true);
         String areaCode = null;
         String phone = null;
         if (getIntent() != null) {
-            areaCode = getIntent().getStringExtra(KEY_AREA_CODE);
-            phone = getIntent().getStringExtra(KEY_PHONE);
-            source = getIntent().getStringExtra("source");
+            areaCode = intent.getStringExtra(KEY_AREA_CODE);
+            phone = intent.getStringExtra(KEY_PHONE);
+            source = intent.getStringExtra("source");
         }
         sharedPre = new SharedPre(activity);
         if (TextUtils.isEmpty(areaCode)) {
@@ -187,6 +219,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         passwordEditText.addTextChangedListener(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initView(intent);
+    }
 
     @Override
     public void onStop() {
@@ -216,6 +253,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserEntity.getUser().setUserName(activity, user.name);
             UserEntity.getUser().setNimUserId(activity,user.nimUserId);
             UserEntity.getUser().setNimUserToken(activity,user.nimToken);
+            UserEntity.getUser().setUnionid(LoginActivity.this, "");
+            try {
+                SensorsDataAPI.sharedInstance(this).login(user.userID);
+                setSensorsUserEvent();
+            } catch (InvalidDataException e) {
+                e.printStackTrace();
+            }
 
             connectIM();
             Unicorn.setUserInfo(null);
@@ -239,10 +283,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         } else if (request instanceof RequestLoginCheckOpenId) {
             RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
             UserBean userBean = request1.getData();
+            UserEntity.getUser().setUnionid(LoginActivity.this, userBean.unionid);
             if (userBean.isNotRegister == 1) {//未注册，走注册流程
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
-                bundle.putString("source", "提示弹层");
+                bundle.putString("source", getEventSource());
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -251,6 +296,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             } else {//注册了，有用户信息
                 userBean.setUserEntity(activity);
                 UserSession.getUser().setUserToken(activity, userBean.userToken);
+                Unicorn.setUserInfo(null);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
 
@@ -325,7 +371,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             case R.id.login_register:
                 //注册
 //                collapseSoftInputMethod(); //隐藏键盘
-                finish();
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("areaCode", areaCode);
                 bundle2.putString("phone", phone);

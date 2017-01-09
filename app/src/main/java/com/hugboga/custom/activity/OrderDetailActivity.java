@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -36,6 +37,7 @@ import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -142,6 +144,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (params != null) {
@@ -206,6 +214,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
+                    EventPayBean eventPayBean = new EventPayBean();
+                    eventPayBean.transform(orderBean);
+                    SensorsUtils.setSensorsPayResultEvent(eventPayBean, "支付宝", true);
                 }
             }
         }
@@ -514,5 +525,4 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     public String getEventSource() {
         return "订单详情";
     }
-
 }

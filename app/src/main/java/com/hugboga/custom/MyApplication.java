@@ -15,6 +15,7 @@ import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.adapter.viewholder.MsgViewHolderTip;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
@@ -44,9 +45,13 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -61,6 +66,17 @@ public class MyApplication extends HbcApplication {
 
     private static Context mAppContext;
 
+    // 数据接收的 URL（神策）
+    final String SA_SERVER_URL = "https://scdata.huangbaoche.com/sa?project=customer_m";
+    // 配置分发的 URL（神策）
+    final String SA_CONFIGURE_URL = "https://scadmin.hbc.tech/config?project=customer_m";
+    // Debug 模式选项（神策）
+    //   SensorsDataAPI.DebugMode.DEBUG_OFF - 关闭 Debug 模式
+    //   SensorsDataAPI.DebugMode.DEBUG_ONLY - 打开 Debug 模式，校验数据，但不进行数据导入
+    //   SensorsDataAPI.DebugMode.DEBUG_AND_TRACK - 打开 Debug 模式，校验数据，并将数据导入到 Sensors Analytics 中
+    // 注意！请不要在正式发布的 App 中使用 Debug 模式！
+    final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_OFF;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -74,19 +90,21 @@ public class MyApplication extends HbcApplication {
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-//            CrashReport.initCrashReport(this, "900024779", false);
+            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (inMainProcess(mAppContext)) {
-           UnicornUtils.initUnicorn();
-        }
 
         UmengADPlus umengADPlus = new UmengADPlus();
         umengADPlus.sendMessage(this,"55ccb4cfe0f55ab500004a9d");
-        //initRongIm(this); // 初始化融云IM
         initNim(this);
+
+        boolean inMainProcess = inMainProcess(mAppContext);
+        if (inMainProcess) {
+            UnicornUtils.initUnicorn(); // 七鱼
+            initSensorsData();  // 初始化神策
+        }
     }
 
     public static Context getAppContext() {
@@ -194,6 +212,32 @@ public class MyApplication extends HbcApplication {
         }
         HbcConfig.serverHost = UrlLibs.SERVER_IP_HOST_PUBLIC;
         return false;
+    }
+
+    public void initSensorsData() {
+        // 神策 初始化 SDK
+        SensorsDataAPI.sharedInstance(
+                this,                               // 传入 Context
+                SA_SERVER_URL,                      // 数据接收的 URL
+                SA_CONFIGURE_URL,                   // 配置分发的 URL
+                SA_DEBUG_MODE);                     // Debug 模式选项
+
+        // 公共属性
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_plateform_type", "Android");        // 平台类型
+            properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
+            properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+
+        //初始化用户属性
+        LoginActivity.setSensorsUserEvent();
     }
 
     /**

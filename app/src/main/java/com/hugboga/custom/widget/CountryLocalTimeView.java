@@ -49,9 +49,9 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
     private volatile long delayedMillis;
     private volatile boolean isStop = false;
 
-    private String cityName;
-    private String countryName;
     private SimpleDateFormat dateFormat, dateFormat2;
+    private String regionStr;
+    private boolean isShowDescription = false;
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
@@ -75,8 +75,13 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
     public void setData(String flag, int timediff, int _timezone, String cityName, String countryName) {
         this.isStop = false;
 
-        this.cityName = cityName;
-        this.countryName = countryName;
+        regionStr = TextUtils.isEmpty(cityName) ? countryName : cityName;
+        if (TextUtils.isEmpty(regionStr)) {
+            this.setVisibility(View.GONE);
+            return;
+        } else {
+            this.setVisibility(View.VISIBLE);
+        }
 
         if (TextUtils.isEmpty(flag)) {
             countryImageIV.setImageResource(R.mipmap.country_flag_default);
@@ -85,7 +90,7 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         }
 
         String timeDiffStr = "与北京没有时差，看到消息后我会立即回复，谢谢";
-        if (timediff > 0) {
+        if (Math.abs(timediff) != 0) {
             timeDiffStr = String.format("与北京有%1$s小时时差，看到消息后我会立即回复，谢谢", "" + Math.abs(timediff));
         }
         timeDiffTV.setText(timeDiffStr);
@@ -140,7 +145,6 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
                     long sysTime = System.currentTimeMillis();
                     CharSequence sysTimeStr = dateFormat.format(sysTime);
                     CharSequence sysTimeStr2 = dateFormat2.format(sysTime);
-                    String regionStr = TextUtils.isEmpty(cityName) ? countryName : cityName;
                     localTimeDetialTV.setText(String.format("Hi，%1$s现在是 %2$s %3$s", regionStr, sysTimeStr, sysTimeStr2));
                     localTimeTV.setText(String.format("%1$s\n%2$s", sysTimeStr2, regionStr));
                 break;
@@ -158,21 +162,29 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         localLayout.startAnimation(animation);
     }
 
-    @OnClick({R.id.country_flag_layout, R.id.local_time_detial_layout})
+    @OnClick({R.id.country_flag_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.country_flag_layout:
+                if (isShowDescription) {
+                    return;
+                }
                 localLayout.setVisibility(View.GONE);
                 localTimeDetialLayout.setVisibility(View.VISIBLE);
 
                 AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
                 alphaAnimation.setDuration(300);
                 localTimeDetialLayout.startAnimation(alphaAnimation);
+                isShowDescription = true;
                 break;
-            case R.id.local_time_detial_layout:
-                localLayout.setVisibility(View.VISIBLE);
-                localTimeDetialLayout.setVisibility(View.GONE);
-                break;
+        }
+    }
+
+    public void closeDescription() {
+        if (isShowDescription) {
+            localLayout.setVisibility(View.VISIBLE);
+            localTimeDetialLayout.setVisibility(View.GONE);
+            isShowDescription = false;
         }
     }
 }

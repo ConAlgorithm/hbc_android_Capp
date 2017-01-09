@@ -41,11 +41,15 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
@@ -78,11 +82,35 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        appLaunchCount();
+
         UIUtils.initDisplayConfiguration(LoadingActivity.this);
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, "55ccb4cfe0f55ab500004a9d", ChannelUtils.getChannel(this));
         MobclickAgent.startWithConfigure(config);
 
         schemeIntent(getIntent());
+
+        setSensorsEvent();
+    }
+
+    private void appLaunchCount() {
+        int count = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
+        SharedPre.setInteger(SharedPre.APP_LAUNCH_COUNT, ++count);
+    }
+
+    private void setSensorsEvent() {
+        try {
+            //启动APP
+            final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_channelId", BuildConfig.FLAVOR);
+            properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
+            SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -141,6 +169,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         }
         getAD();
         timeSecond = (TextView) findViewById(R.id.time_second);
+        timeSecond.setVisibility(View.GONE);
         timeSecond.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -150,7 +179,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             }
         });
         timeSecond.setText(String.format(getString(R.string.loading_time),loading_time+""));
-        handler.postDelayed(runnable,1000);
     }
 
 //    Handler timeHandler = new Handler();
@@ -228,13 +256,13 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         adClick = true;
         Intent intent = null;
         handler.removeMessages(200);
-        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-            new SharedPre(this).setTravelFundHintIsShow(true);
-            intent = new Intent(LoadingActivity.this, SplashActivity.class);
-        } else {
+//        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+//            new SharedPre(this).setTravelFundHintIsShow(true);
+//            intent = new Intent(LoadingActivity.this, SplashActivity.class);
+//        } else {
             new SharedPre(this).setTravelFundHintIsShow(false);
             intent = new Intent(LoadingActivity.this, MainActivity.class);
-        }
+//        }
         if (actionBean != null) {
             intent.putExtra(Constants.PARAMS_ACTION, actionBean);
         }
@@ -264,8 +292,12 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             RequestADPicture requestADPicture = (RequestADPicture) request;
             ADPictureBean adPictureBean = requestADPicture.getData();
             if (adPictureBean.displayFlag.equalsIgnoreCase("1")) {
+                handler.postDelayed(runnable,1000);
+                timeSecond.setVisibility(View.VISIBLE);
                 bottom_txt.setVisibility(View.GONE);
                 showAd(adPictureBean);
+            } else {
+                handler.sendEmptyMessage(200);
             }
         }
 
@@ -326,6 +358,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         errorHandler.onDataRequestError(errorInfo, request);
         errorHandler = null;
         DialogUtil.getInstance(this).dismissLoadingDialog();
+        handler.sendEmptyMessage(200);
     }
 
     @Override

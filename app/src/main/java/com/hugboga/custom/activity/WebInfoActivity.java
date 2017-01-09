@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.WebAgent;
@@ -88,13 +90,24 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            webView.loadUrl(url);
+            if (!TextUtils.isEmpty(url) && url.contains("/app/detail.html")) {
+                String goodsNo = CommonUtils.getUrlValue(url, "goodsNo");
+                if (TextUtils.isEmpty(goodsNo)) {
+                    return false;
+                }
+                Intent intent = new Intent(WebInfoActivity.this, SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                intent.putExtra(Constants.PARAMS_ID, goodsNo);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                WebInfoActivity.this.startActivity(intent);
+                return true;
+            }
             return false;
         }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//            handler.proceed();
             handler.cancel();
         }
 
@@ -277,4 +290,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         MLog.e("url=" + url);
     }
 
+    @Override
+    public String getEventSource() {
+        return "web页面";
+    }
 }

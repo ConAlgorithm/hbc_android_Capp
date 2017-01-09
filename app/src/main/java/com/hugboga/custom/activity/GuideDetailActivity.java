@@ -2,21 +2,16 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.GuideCarPhotosAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -27,8 +22,11 @@ import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestGuideDetail;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -36,12 +34,14 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateListItemView;
 import com.hugboga.custom.widget.GuideDetailCarInfoView;
 import com.hugboga.custom.widget.GuideDetailScrollView;
+import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.widget.SimpleRatingBar;
 import com.hugboga.custom.widget.TagGroup;
 
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -137,9 +137,12 @@ public class GuideDetailActivity extends BaseActivity{
         }
         setContentView(R.layout.activity_guide_detail);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         initUI();
         requestData();
+
+        setSensorsDefaultEvent("司导个人页", SensorsConstant.GPROFILE);
     }
 
     @Override
@@ -148,6 +151,12 @@ public class GuideDetailActivity extends BaseActivity{
         if (params != null) {
             outState.putSerializable(Constants.PARAMS_DATA, params);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initUI() {
@@ -365,7 +374,28 @@ public class GuideDetailActivity extends BaseActivity{
                 CommonUtils.shareDialog(this, data.avatar,
                         getString(R.string.guide_detail_share_title),
                         getString(R.string.guide_detail_share_content),
-                        ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(this)));
+                        ShareUrls.getShareGuideUrl(data, UserEntity.getUser().getUserId(this)),
+                        GuideDetailActivity.class.getSimpleName(),
+                        new ShareDialog.OnShareListener() {
+                            @Override
+                            public void onShare(int type) {
+                                StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
+                            }
+                        });
+
+                MobClickUtils.onEvent(StatisticConstant.SHAREG);
+                break;
+        }
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE_SUCCEED:
+                WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
+                if (getClass().getSimpleName().equals(wxShareUtils.source)) {//分享成功
+                    StatisticClickEvent.clickShare(StatisticConstant.SHAREG_BACK, "" + wxShareUtils.type);
+                }
                 break;
         }
     }

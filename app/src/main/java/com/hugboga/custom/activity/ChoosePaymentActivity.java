@@ -33,6 +33,7 @@ import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventPayResult;
 import com.hugboga.custom.statistic.event.EventPayShow;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
@@ -114,6 +115,12 @@ public class ChoosePaymentActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+    }
+
     private void initView() {
         initDefaultTitleBar();
         fgTitle.setText(getString(R.string.choose_payment_title));
@@ -156,6 +163,7 @@ public class ChoosePaymentActivity extends BaseActivity {
                 if (requestParams.eventPayBean != null) {
                     requestParams.eventPayBean.paystyle = this.payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
                     MobClickUtils.onEvent(new EventPayResult(requestParams.eventPayBean, (boolean) action.getData()));
+                    setSensorsPayResultEvent(payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付", (boolean) action.getData());
                 }
                 break;
             default:
@@ -163,12 +171,11 @@ public class ChoosePaymentActivity extends BaseActivity {
         }
     }
 
-
-
     private void sendRequest(int payType) {
         if (requestParams.eventPayBean != null) {
             requestParams.eventPayBean.paystyle = payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
             MobClickUtils.onEvent(new EventPay(requestParams.eventPayBean));
+            SensorsUtils.setSensorsPayOnClickEvent(requestParams.eventPayBean, requestParams.eventPayBean.paystyle);
         }
         this.payType = payType;
         RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);
@@ -229,7 +236,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             ServerException exception = (ServerException) errorInfo.exception;
             if (exception.getCode() == 2) {
                 mDialogUtil.showLoadingDialog();
-                mHandler.sendEmptyMessageDelayed(1, 3000);
+                mHandler.sendEmptyMessage(2);
                 return;
             }
         }
@@ -336,5 +343,12 @@ public class ChoosePaymentActivity extends BaseActivity {
             return true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void setSensorsPayResultEvent(String payMethod, boolean payResult) {
+        if (requestParams == null || requestParams.eventPayBean == null) {
+            return;
+        }
+        SensorsUtils.setSensorsPayResultEvent(requestParams.eventPayBean, payMethod, payResult);
     }
 }

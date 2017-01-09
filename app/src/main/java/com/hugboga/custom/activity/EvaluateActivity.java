@@ -151,9 +151,6 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (isSubmitEvaluated) {
-//                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_EVALUATION, orderBean.orderNo));
-//                }
                 finish();
             }
         });
@@ -301,6 +298,7 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
                 ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
                 params.evaluateData = evaluateData;
                 params.orderNo = orderBean.orderNo;
+                params.orderType = orderBean.orderType;
                 params.totalScore = (int) orderBean.appraisement.totalScore;
                 params.guideAgencyType = orderBean.guideAgencyType;
                 Intent intent = new Intent(EvaluateActivity.this, ShareGuidesActivity.class);

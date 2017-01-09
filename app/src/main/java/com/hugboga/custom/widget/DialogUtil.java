@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -549,6 +550,7 @@ public class DialogUtil implements DialogUtilInterface {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
                         }
+                        SensorsUtils.setSensorsServiceEvent(sourceType, which);
                     }
                 }).create();
         dialog.setCancelable(true);

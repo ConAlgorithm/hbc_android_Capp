@@ -53,7 +53,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 101060
-        versionName "3.0.0"
+        versionName "3.1.0"
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
@@ -107,12 +107,12 @@ android {
     productFlavors.all { flavor ->
         switch (flavor.name) {
             case 'developer':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.dev.hbc.tech/"')
-                flavor.buildConfigField('String', 'H5_HOST','"http://info.dev.hbc.tech"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/dev/app/auth.html"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.dev.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.dev.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-dev.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'H5_HOST','"https://info-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op-dev.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"https://act-dev.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"https://m-dev.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
@@ -121,12 +121,12 @@ android {
 //                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
 //                break;
             case 'examination':
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"http://api.test.hbc.tech/"')
-                flavor.buildConfigField('String', 'H5_HOST','"http://info.test.hbc.tech"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://test.op.huangbaoche.com/test/app/auth.html"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.test.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.test.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-test.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'H5_HOST','"https://info-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op-test.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"https://act-test.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"https://m-test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
@@ -149,12 +149,12 @@ android {
             case '10090':
             case '10091':
             default:
-                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api2.huangbaoche.com/"')
+                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"http://op.huangbaoche.com/app/auth.html"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"http://act.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"http://act.huangbaoche.com"')
-                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"http://m.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op.huangbaoche.com/app/auth.html"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_2','"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_3','"https://act.huangbaoche.com"')
+                flavor.buildConfigField('String', 'SHARE_BASE_URL_4','"https://m.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx62ad814ba9bf0b68"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: ""+flavor.name, RONG_CLOUD_APP_KEY: "6tnym1brna4s7")
                 break;
@@ -178,9 +178,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:design:25.0.1'
-    compile 'com.android.support:support-v4:25.0.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:support-v4:23.2.0'
     compile project(':hbcframe')
     //compile project(':IMKit')
     compile project(':nimlib')
@@ -208,4 +208,5 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
     compile project(':countdown')
     compile 'jp.wasabeef:blurry:2.0.3'
+    compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.6.28'
 }

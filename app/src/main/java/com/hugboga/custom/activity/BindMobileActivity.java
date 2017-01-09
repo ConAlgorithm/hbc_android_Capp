@@ -23,6 +23,7 @@ import com.hugboga.custom.data.request.RequestChangeMobile;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -112,6 +113,10 @@ public class BindMobileActivity extends BaseActivity{
         }else{
             fgRightBtn.setVisibility(View.VISIBLE);
             fgLeftBtn.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(UserEntity.getUser().getUnionid(this))) {
+            setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
     }
 
@@ -232,6 +237,7 @@ public class BindMobileActivity extends BaseActivity{
                     connectIM();
                     EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
+                EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
                 intent.putExtras(bundle);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
@@ -245,11 +251,8 @@ public class BindMobileActivity extends BaseActivity{
                 UserSession.getUser().setUserToken(this, userBean.userToken);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
-//                Bundle bundle = new Bundle();
-//                bundle.putString(KEY_FRAGMENT_NAME, FgBindMobile.class.getSimpleName());
-//                finishForResult(bundle);
-                destroyHandler();
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
+                destroyHandler();
                 finish();
             }
         } else if(request instanceof RequestChangeMobile){
@@ -266,7 +269,7 @@ public class BindMobileActivity extends BaseActivity{
             intent.putExtras(bundle);
             finish();
             BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
-
+            EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
             MobClickUtils.onEvent(StatisticConstant.BIND_SUCCEED);
         }
     }

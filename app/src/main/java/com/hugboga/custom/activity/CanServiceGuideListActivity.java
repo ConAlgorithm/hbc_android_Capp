@@ -19,6 +19,7 @@ import com.hugboga.custom.adapter.ChooseGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.request.RequestAcceptGuide;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 
@@ -46,6 +47,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
         getIntentData();
         initView();
         getData();
+        setSensorsDefaultEvent("表态司导列表", SensorsConstant.WAITGLIST);
     }
 
     private void getIntentData() {
@@ -101,6 +103,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
                 params.isSelectedService = true;
                 Intent intent = new Intent(activity, GuideDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
         });
@@ -150,5 +153,10 @@ public class CanServiceGuideListActivity extends BaseActivity implements View.On
                 break;
         }
         return str;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "表态司导列表";
     }
 }

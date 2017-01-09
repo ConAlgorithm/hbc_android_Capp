@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.data.bean.ServiceQuestionBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -34,7 +36,6 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
     LinearLayout containerLayout;
 
     private ServiceQuestionBean serviceQuestionBean;
-    private int lastCustomRole;
 
     public QuestionItemView(Context context) {
         this(context, null);
@@ -54,8 +55,8 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
         serviceQuestionBean = (ServiceQuestionBean) _data;
 
         ArrayList<ServiceQuestionBean.QuestionItem> questionList = serviceQuestionBean.questionList;
-        final int listSize = questionList.size();
-        if (questionList == null || questionList.size() <= 0) {
+        final int listSize = questionList != null ? questionList.size() : 0;
+        if ((questionList == null || listSize <= 0) && TextUtils.isEmpty(serviceQuestionBean.welcome)) {
             containerLayout.removeAllViews();
             return;
         }
@@ -73,7 +74,21 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 itemView = addNewItemView(0);
             }
 
-            itemView.findViewById(R.id.question_member_line_view).setVisibility(View.VISIBLE);
+            View lineView= itemView.findViewById(R.id.question_member_line_view);
+            if (listSize > 0) {
+                lineView.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams lineViewParams = (RelativeLayout.LayoutParams) lineView.getLayoutParams();
+                if (lineViewParams == null) {
+                    lineViewParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1);
+                    lineViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                }
+                lineViewParams.leftMargin = 0;
+                lineViewParams.rightMargin = 0;
+                lineView.setLayoutParams(lineViewParams);
+            } else {
+                lineView.setVisibility(View.GONE);
+            }
+
             itemView.findViewById(R.id.question_member_arrow_iv).setVisibility(View.GONE);
             TextView titleTV = (TextView) itemView.findViewById(R.id.question_member_title_tv);
             titleTV.setText(serviceQuestionBean.welcome);
@@ -100,8 +115,8 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 titleTV.setText(questionItem.adviceName);
                 arrowIV.setVisibility(View.VISIBLE);
             }
-            if (questionItem.type == 3) {//记录最近一条客服ID
-                lastCustomRole = questionItem.customRole;
+            if (questionItem.type == 3 && getContext() instanceof ServiceQuestionActivity) {//记录最近一条客服ID
+                ((ServiceQuestionActivity) getContext()).lastCustomRole = questionItem.customRole;
             }
 
             resetViewHight(titleTV, titleTV.getText() != null ? titleTV.getText().toString() : "", !questionItem.isAnswer, itemView);
@@ -158,9 +173,6 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 if (questionItem == null || questionItem.isAnswer || (questionItem.type == 1 && questionItem.questionItemList == null)) {
                     return;
                 }
-                if (questionItem.type == 2) {
-                    questionItem.lastCustomRole = lastCustomRole;
-                }
                 EventBus.getDefault().post(new EventAction(EventType.QUESTION_ITEM, questionItem));
             }
         });
@@ -172,18 +184,22 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
         int textHight = 0;
         if (textWidth > 0) {
             // text实际显示区域,PreDrawListener略费内存
-            // 8 + 45(avatar) + 6 + {15 + textView + 15 + (9 + 15)(arrow)} + 8;
+            // 8 + 45(avatar) + 6 + {textView + (9 + 15)(arrow)} + 8;
             int textScope = 0;
             if (isShowArrowIV) {
-                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(121);
+                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(91);
             } else {
-                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(97);
+                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(67);
             }
             int lines = textWidth / textScope;
             if (textWidth % textScope > 0) {
                 ++lines;
             }
-            textHight = lines * textView.getLineHeight() + UIUtils.dip2px(12) * 2 + UIUtils.dip2px(3);
+            //TODO 获取文字长度有误差
+            if (lines >= 2) {
+                lines += 2;
+            }
+            textHight = lines * textView.getLineHeight() + UIUtils.dip2px(12) * 2;
         }
         if (textHight <= UIUtils.dip2px(60)) {
             textHight = UIUtils.dip2px(60);

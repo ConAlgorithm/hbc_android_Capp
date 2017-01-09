@@ -1,10 +1,12 @@
 package com.hugboga.custom.data.net;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,22 +39,21 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CurrentServerInfoData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.UnicornUtils;
+import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.json.JSONObject;
+
+import java.io.File;
 
 
 /**
@@ -195,9 +196,14 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void showGoodsError() {
-        if (mActivity instanceof SkuDetailActivity) {
-            ((SkuDetailActivity) mActivity).goodsSoldOut();
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    ((SkuDetailActivity) mActivity).goodsSoldOut();
+                }
+            }
+        });
     }
 
     /**
@@ -304,6 +310,9 @@ public class WebAgent implements HttpRequestListener {
                     message = json.optString("message");
                     bundle.putString(LoginActivity.KEY_AREA_CODE, countryCode);
                     bundle.putString(LoginActivity.KEY_PHONE, phone);
+                    if (mActivity instanceof BaseActivity) {
+                        bundle.putString(Constants.PARAMS_SOURCE, ((BaseActivity)mActivity).getEventSource());
+                    }
                 } catch (Exception e) {
                     MLog.e("gotoLogin", e);
                 }
@@ -558,11 +567,15 @@ public class WebAgent implements HttpRequestListener {
      */
     @JavascriptInterface
     public void goodsHadOutOfStock() {
-
-        if (mActivity instanceof SkuDetailActivity) {
-            SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
-            fgSkuDetail.setGoodsOut();
-        }
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof SkuDetailActivity) {
+                    SkuDetailActivity fgSkuDetail = ((SkuDetailActivity) mActivity);
+                    fgSkuDetail.setGoodsOut();
+                }
+            }
+        });
     }
 
     private void callBack(final String callBackMethod, final String callBackResult) {
@@ -600,5 +613,37 @@ public class WebAgent implements HttpRequestListener {
         } else {
             new ErrorHandler(mActivity, this).onDataRequestError(errorInfo, request);
         }
+    }
+
+    /**
+     * 长按下载图片
+     */
+    @JavascriptInterface
+    public void saveImageToNative(final String url) {
+        String [] str = {"查看大图", "保存图片"};
+        AlertDialog dialog = new AlertDialog.Builder(mActivity)
+                .setItems(str,new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            CommonUtils.showLargerImage(mActivity, url);
+                        } else {
+                            SaveFileTask saveImageTask = new SaveFileTask(mActivity, new SaveFileTask.FileDownLoadCallBack() {
+                                @Override
+                                public void onDownLoadSuccess(File file) {
+                                     CommonUtils.showToast("图片保存成功");
+                                }
+                                @Override
+                                public void onDownLoadFailed() {
+
+                                }
+                            });
+                            saveImageTask.execute(url);
+                        }
+                    }
+                }).create();
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }

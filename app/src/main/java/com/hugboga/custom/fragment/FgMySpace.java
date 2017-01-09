@@ -37,6 +37,8 @@ import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -174,6 +176,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         listView.setOnItemClickListener(this);
 
         refreshContent();
+
+        setSensorsDefaultEvent("个人中心", SensorsConstant.USERCENTER);
     }
 
     public void refreshUserInfo() {
@@ -227,12 +231,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case Constants.PERSONAL_CENTER_BR://常用投保人
                 if (isLogin("个人中心-常用投保人")) {
                     Intent intent = new Intent(getContext(), InsureActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
                 if (isLogin("个人中心-收藏司导")) {
-                    startActivity(new Intent(getContext(), CollectGuideListActivity.class));
+                    Intent intent = new Intent(getContext(), CollectGuideListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    startActivity(intent);
                 }
                 break;
             case Constants.PERSONAL_CENTER_HD://活动
@@ -240,6 +247,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 Intent intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));
                 startActivity(intent);
+                setSensorsDefaultEvent("活动列表", SensorsConstant.ACTLIST);
                 break;
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
@@ -247,9 +255,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_IN);
+                SensorsUtils.setSensorsServiceEvent(getEventSource(), 1);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
+                SensorsUtils.setSensorsServiceEvent(getEventSource(), 2);
                 break;
             case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心-设置")) {
@@ -272,12 +282,14 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case R.id.tv_nickname:
                 if (isLogin("个人中心-用户信息")) {
                     intent = new Intent(getContext(), PersonInfoActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
                 if (isLogin("个人中心-优惠券")) {
                     intent = new Intent(getContext(), CouponActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }
@@ -290,8 +302,10 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                         travelFundHintIV.setVisibility(View.GONE);
                     }
                     intent = new Intent(getContext(), TravelFundActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
+                    MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
                 }
                 break;
         }
@@ -305,7 +319,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             return true;
         } else {
             Intent intent = new Intent(getContext(), LoginActivity.class);
-            intent.putExtra(Constants.PARAMS_SOURCE, source);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             getContext().startActivity(intent);
             return false;
         }
@@ -330,5 +344,10 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             couponUnitTV.setText("张");
             travelFundUnitTV.setText("元");
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "个人中心";
     }
 }
