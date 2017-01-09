@@ -100,6 +100,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
+    public static final String PARAMS_PAGE_INDEX = "page_index";
 
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
@@ -126,12 +127,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int pagePosition = -1;
         if (savedInstanceState != null) {
             actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
+            pagePosition = savedInstanceState.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                currentPosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
            }
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
@@ -166,6 +170,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         if (actionBean != null) {
             ActionController actionFactory = ActionController.getInstance(this);
             actionFactory.doAction(actionBean);
+        }
+
+        if (pagePosition != -1) {
+            currentPosition = pagePosition;
+            mViewPager.setCurrentItem(currentPosition);
         }
     }
 
@@ -245,6 +254,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onSaveInstanceState(outState);
         if (actionBean != null) {
             outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
+            outState.putInt(MainActivity.PARAMS_PAGE_INDEX, currentPosition);
         }
     }
 
@@ -415,6 +425,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                int pagePosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
+                if (pagePosition != -1) {
+                    currentPosition = pagePosition;
+                    mViewPager.setCurrentItem(currentPosition);
+                }
             }
             if (actionBean != null) {
                 ActionController actionFactory = ActionController.getInstance(this);
