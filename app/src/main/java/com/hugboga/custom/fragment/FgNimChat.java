@@ -132,7 +132,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance((Activity)getContext()).showCallDialogTitle(getContext(), null);
+                DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
             }
         });
     }
