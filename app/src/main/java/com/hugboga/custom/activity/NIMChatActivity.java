@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,10 +32,12 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.parser.ParserChatInfo;
+import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
 import com.hugboga.custom.data.request.RequestNIMClear;
@@ -45,7 +46,6 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.netease.nim.uikit.NimUIKit;
@@ -60,16 +60,10 @@ import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
-import com.netease.nimlib.sdk.msg.MessageBuilder;
-import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -246,6 +240,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             }
         });
         //loadRemoteMsg();
+        validateAllowMessage();
 
     }
 
@@ -881,5 +876,25 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public String getEventSource() {
         return "IM聊天页";
+    }
+
+    private void validateAllowMessage(){
+        RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(),sessionId);
+        HttpRequestUtils.request(this, requestChatOrderDetail, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ChatBean chatBean = (ChatBean) request.getData();
+                if(messageFragment!=null){
+                    messageFragment.setAllowSendMsg(chatBean.isCancel);
+                }
+            }
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            }
+        });
     }
 }

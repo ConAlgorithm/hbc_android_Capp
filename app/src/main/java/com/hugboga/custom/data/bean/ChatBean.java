@@ -40,7 +40,7 @@ public class ChatBean  implements Serializable{
 
     public String neTargetId; //云信用户名  登录云信时的用户名
     public String nTargetToken; //云信token
-    public int isCancel;//判断和当前司导是否有正在进行的订单
+    public int isCancel;//判断和当前司导是否有正在进行的订单 // 1:订单已取消
 
 
     public void parseObject(JSONObject jsonObject) throws Throwable {
