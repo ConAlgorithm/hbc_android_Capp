@@ -75,11 +75,16 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
                 mMessage.setText("");
                 serviceIconTV.setVisibility(View.GONE);
             }
-            try {
-                mTime.setText(DateUtils.resetLetterTime(chatBean.lastTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(chatBean.timeStamp!=0){
+                try {
+                    mTime.setText(DateUtils.getDate(chatBean.timeStamp));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                mTime.setText("");
             }
+
             if (!TextUtils.isEmpty(chatBean.targetAvatar)) {
                 Tools.showImage(mImage, chatBean.targetAvatar, R.mipmap.icon_avatar_guide);
             } else {

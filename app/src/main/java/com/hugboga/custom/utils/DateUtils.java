@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -726,6 +727,15 @@ public class DateUtils {
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static String getDate(long time){
+        try {
+            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            return dateformatter.format(new Date(time));
+        }catch (Exception e){
+            return "";
         }
     }
 }

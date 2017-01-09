@@ -49,8 +49,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ImItemView;
-import com.netease.nim.uikit.uinfo.UserInfoHelper;
-import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -149,7 +147,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
-        registerUserInfoObserver();
+        //registerUserInfoObserver();
 
         loadImList();
     }
@@ -300,7 +298,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onDestroyView() {
         registerObservers(false);
         Unicorn.addUnreadCountChangeListener(null, false);
-        unregisterUserInfoObserver();
+        //unregisterUserInfoObserver();
         super.onDestroyView();
     }
 
@@ -588,23 +586,23 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         }
     };
 
-    private UserInfoObservable.UserInfoObserver userInfoObserver;
-    private void registerUserInfoObserver() {
-        if (userInfoObserver == null) {
-            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
-                @Override
-                public void onUserInfoChanged(List<String> accounts) {
-                }
-            };
-        }
-        UserInfoHelper.registerObserver(userInfoObserver);
-    }
+//    private UserInfoObservable.UserInfoObserver userInfoObserver;
+//    private void registerUserInfoObserver() {
+//        if (userInfoObserver == null) {
+//            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+//                @Override
+//                public void onUserInfoChanged(List<String> accounts) {
+//                }
+//            };
+//        }
+//        UserInfoHelper.registerObserver(userInfoObserver);
+//    }
 
-    private void unregisterUserInfoObserver() {
-        if (userInfoObserver != null) {
-            UserInfoHelper.unregisterObserver(userInfoObserver);
-        }
-    }
+//    private void unregisterUserInfoObserver() {
+//        if (userInfoObserver != null) {
+//            UserInfoHelper.unregisterObserver(userInfoObserver);
+//        }
+//    }
 
 
     private void saveLettersToLocal() {
