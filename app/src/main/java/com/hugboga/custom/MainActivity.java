@@ -417,7 +417,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         MLog.e(errorInfo == null ? "" : errorInfo.toString());
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
