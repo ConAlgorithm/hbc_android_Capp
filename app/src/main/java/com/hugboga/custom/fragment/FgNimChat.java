@@ -149,7 +149,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
-        registerUserInfoObserver();
+        //registerUserInfoObserver();
 
         loadImList();
     }
@@ -300,7 +300,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onDestroyView() {
         registerObservers(false);
         Unicorn.addUnreadCountChangeListener(null, false);
-        unregisterUserInfoObserver();
+        //unregisterUserInfoObserver();
         super.onDestroyView();
     }
 
@@ -588,23 +588,23 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         }
     };
 
-    private UserInfoObservable.UserInfoObserver userInfoObserver;
-    private void registerUserInfoObserver() {
-        if (userInfoObserver == null) {
-            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
-                @Override
-                public void onUserInfoChanged(List<String> accounts) {
-                }
-            };
-        }
-        UserInfoHelper.registerObserver(userInfoObserver);
-    }
+//    private UserInfoObservable.UserInfoObserver userInfoObserver;
+//    private void registerUserInfoObserver() {
+//        if (userInfoObserver == null) {
+//            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+//                @Override
+//                public void onUserInfoChanged(List<String> accounts) {
+//                }
+//            };
+//        }
+//        UserInfoHelper.registerObserver(userInfoObserver);
+//    }
 
-    private void unregisterUserInfoObserver() {
-        if (userInfoObserver != null) {
-            UserInfoHelper.unregisterObserver(userInfoObserver);
-        }
-    }
+//    private void unregisterUserInfoObserver() {
+//        if (userInfoObserver != null) {
+//            UserInfoHelper.unregisterObserver(userInfoObserver);
+//        }
+//    }
 
 
     private void saveLettersToLocal() {
