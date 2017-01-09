@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -21,7 +20,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
-import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
@@ -64,7 +63,6 @@ import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -75,6 +73,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -90,7 +89,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     @ViewInject(R.id.chat_content)
     RelativeLayout chatLayout; //主题内容显示
     @ViewInject(R.id.listview)
-    ZListPageView recyclerView;
+    ZListRecyclerView recyclerView;
     @ViewInject(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
     @ViewInject(R.id.chat_logout)
@@ -106,11 +105,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     private int reRequestTimes = 0;
 
     private int limitSize = Constants.DEFAULT_PAGESIZE;
-    //private int limitSize = 2;
+    //private int limitSize = 10;
 
     ImListBean imListBean;
 
     HbcRecyclerSingleTypeAdpater<ChatBean> adapter;
+
+    boolean isLoading = false;
+
 
     @Override
     protected void initHeader() {
@@ -183,16 +185,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
             }
-
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE ){
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-//                    if(imListBean==null || imListBean.totalSize==0){
-//                        return;
-//                    }
+                    if(imListBean==null || imListBean.totalSize==0){
+                        return;
+                    }
                     int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                     int totalItemCount = layoutManager.getItemCount()-1;
                     if (lastVisibleItem >= totalItemCount -adapter.getHeadersCount()-adapter.getFootersCount()  && adapter.getListCount() < imListBean.totalSize) {
@@ -203,10 +203,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         });
     }
 
-    private Callback.Cancelable sendRequest(int pageIndex,boolean needShowLoading){
+    private void sendRequest(int pageIndex,boolean needShowLoading){
         emptyTV.setVisibility(View.GONE);
+        if(isLoading){
+            return ;
+        }
+        isLoading = true;
         RequestNIMChatList request = new RequestNIMChatList(getActivity(),pageIndex,limitSize);
-        return HttpRequestUtils.request(getActivity(), request, this, needShowLoading);
+        HttpRequestUtils.request(getActivity(), request, this, needShowLoading);
     }
 
 
@@ -246,6 +250,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (loginBtn != null)
                 loginBtn.setVisibility(View.VISIBLE);
         }
+
     }
 
 
@@ -253,14 +258,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
         requestError();
-        swipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
     public void onDataRequestCancel(BaseRequest _request) {
         super.onDataRequestCancel(_request);
         requestError();
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -314,8 +318,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 chatLayout.setVisibility(View.GONE);
                 //清理列表数据
                 if (adapter.getDatas() != null)
-                    adapter.getDatas().clear();
-                adapter.notifyDataSetChanged();
+                    adapter.clearData();
+                    adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
                 if (loginBtn != null)
                     loginBtn.setVisibility(View.VISIBLE);
@@ -397,6 +401,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
 
     private void requestError(){
+        isLoading = false;
+        swipeRefreshLayout.setRefreshing(false);
         if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
             return;
         }
@@ -414,10 +420,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (adapter != null) {
                 adapter.clearData();
                 adapter.addData(list);
-                adapter.notifyDataSetChanged();
-                if (recyclerView != null && recyclerView.getAdapter() != null) {
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }
             }
         }
     }
@@ -437,11 +439,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         }
     }
 
-
     private void syncChatData() {
-        removeRepeatChatBean();
         queryLocalRecentList();
-        saveLettersToLocal();
+
     }
 
     Handler handler = new Handler();
@@ -453,6 +453,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override
                     public void onResult(int code, final List<RecentContact> recents, Throwable exception) {
+                        isLoading = false;
                         if (code != ResponseCode.RES_SUCCESS || recents == null) {
                             return;
                         }
@@ -460,14 +461,18 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                             updateUI();
                             if(imListBean!=null && imListBean.resultBean!=null){
                                 if(imListBean.offset==0){
-                                    adapter.getDatas().clear();
+                                    adapter.clearData();
                                 }
-                                adapter.getDatas().addAll(imListBean.resultBean);
-                                NimRecentListSyncUtils.removeRepeatData(adapter.getDatas(),limitSize);
-                                NimRecentListSyncUtils.recentListSync(adapter.getDatas(),recents);
-                                adapter.notifyDataSetChanged();
+                                ArrayList<ChatBean> chatBeen = new ArrayList<>();
+                                chatBeen.addAll(adapter.getDatas());
+                                chatBeen.addAll(imListBean.resultBean);
+                                NimRecentListSyncUtils.removeRepeatData(chatBeen,limitSize);
+                                NimRecentListSyncUtils.recentListSync(chatBeen,recents);
+                                adapter.clearData();
+                                adapter.addData(chatBeen);
+                                computeTotalUnreadCount(adapter.getDatas());
                             }
-                            computeTotalUnreadCount(adapter.getDatas());
+                            saveLettersToLocal();
                         }
                     }
                 });
@@ -510,6 +515,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(final List<RecentContact> messages) {
+            if(imListBean==null){
+                return;
+            }
             if (messages != null && adapter != null) {
                 List<String> newContacts = NimRecentListSyncUtils.updateRecentSync(adapter.getDatas(),messages);
                 if (recyclerView != null && adapter != null) {
@@ -534,7 +542,16 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                     }
                                 }
                                 if(adapter!=null && adapter.getDatas()!=null){
-                                    adapter.getDatas().add(chatBean);
+                                    boolean hasExist = false;
+                                    for(ChatBean tmp:adapter.getDatas()){
+                                        if(tmp.neTargetId.toLowerCase().equals(chatBean.neTargetId.toLowerCase())){
+                                            hasExist = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!hasExist){
+                                        adapter.getDatas().add(chatBean);
+                                    }
                                     NimRecentListSyncUtils.sortRecentContacts(adapter.getDatas());
                                     computeTotalUnreadCount(adapter.getDatas());
                                     adapter.notifyDataSetChanged();
@@ -551,6 +568,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     }
                 }
             }
+
         }
     };
 
@@ -564,10 +582,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (count > 0) {
                 SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
                 if (adapter != null) {
-                    if (recyclerView != null && recyclerView.getAdapter() != null) {
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        computeTotalUnreadCount(adapter.getDatas());
-                    }
+                    adapter.notifyDataSetChanged();
                 }
             }
         }
@@ -591,12 +606,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         }
     }
 
-    private void removeRepeatChatBean() {
-        NimRecentListSyncUtils.removeRepeatData(adapter.getDatas(),limitSize);
-    }
 
     private void saveLettersToLocal() {
-        if (adapter != null && adapter.getDatas() != null && adapter.getDatas().size() > 10) {
+        if (adapter != null && adapter.getDatas() != null && adapter.getDatas().size() > limitSize) {
             return;
         }
         List<ChatBean> list = adapter.getDatas();
