@@ -204,7 +204,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean);
+                DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
             }
         });
     }

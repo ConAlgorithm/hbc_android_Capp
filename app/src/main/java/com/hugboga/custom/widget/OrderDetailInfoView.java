@@ -46,6 +46,8 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
 
         insuranceGetLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_get_layout);
+
+        findViewById(R.id.order_detail_insurance_iv).setOnClickListener(this);//不做任何处理
     }
 
     @Override

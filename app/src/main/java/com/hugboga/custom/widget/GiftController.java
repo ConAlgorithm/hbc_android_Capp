@@ -31,6 +31,7 @@ public class GiftController implements HttpRequestListener {
 
     public static final String PARAMS_FIRST_SHOW_TIME = "gift_first_show_time"; //首次弹出时间
     public static final String PARAMS_GAINED= "gift_gained"; //是否领取成功
+    public static final String PARAMS_SHOW_COUNT= "show_count"; //展示次数
 
     private static GiftController instance = null;
 
@@ -93,12 +94,14 @@ public class GiftController implements HttpRequestListener {
     }
 
     public void showGiftDialog() {
+        int count = SharedPre.getInteger(PARAMS_SHOW_COUNT, 0);
         if (UserEntity.getUser().isLogin(mActivity) || mHandler == null || mRunnable == null
-                || data == null || data.couponActiviyVo == null || !data.couponActiviyVo.activityStatus) {
+                || data == null || data.couponActiviyVo == null || !data.couponActiviyVo.activityStatus || count >= 2) {
             return;
         }
         abortion();
         long firstShowTime = SharedPre.getLong(PARAMS_FIRST_SHOW_TIME, 0);
+
         if (firstShowTime == 0) {//未展示过
             isAbort = false;
             mHandler.postDelayed(mRunnable, data.couponActiviyVo.scanTime * 1000);
@@ -111,6 +114,7 @@ public class GiftController implements HttpRequestListener {
                 mHandler.post(mRunnable);
             }
         }
+        SharedPre.setInteger(PARAMS_SHOW_COUNT, ++count);
     }
 
     public void abortion() {
