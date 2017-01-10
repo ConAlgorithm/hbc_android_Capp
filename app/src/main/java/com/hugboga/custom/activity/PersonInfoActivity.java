@@ -81,6 +81,8 @@ public class PersonInfoActivity extends BaseActivity{
     UserBean userBean;
     Bitmap head;//头像Bitmap
 
+    boolean isSetHead = false;
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -109,10 +111,14 @@ public class PersonInfoActivity extends BaseActivity{
         if (userBean == null) {
             return;
         }
-        if (!TextUtils.isEmpty(userBean.avatar)) {
-            Tools.showImage(headImageView, userBean.avatar, R.mipmap.icon_avatar_user);
+        if (!isSetHead) {
+            if (!TextUtils.isEmpty(userBean.avatar)) {
+                Tools.showImage(headImageView, userBean.avatar, R.mipmap.icon_avatar_user);
+            } else {
+                headImageView.setImageResource(R.mipmap.icon_avatar_user);
+            }
         } else {
-            headImageView.setImageResource(R.mipmap.icon_avatar_user);
+            isSetHead = false;
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);
@@ -561,7 +567,9 @@ public class PersonInfoActivity extends BaseActivity{
             case 2:
                 if (resultCode == Activity.RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(data.getData()));
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize = 2;
+                        Bitmap bitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(data.getData()), null, options);
                         FileUtil.saveBitmapToFile(bitmap, Constants.IMAGE_DIR, cropPic);
                         cropPhoto();//裁剪图片
                     } catch (Exception e) {
@@ -575,6 +583,7 @@ public class PersonInfoActivity extends BaseActivity{
                     if (resultUri != null) {
                         Bitmap bitmap = getBitmapFromUri(resultUri);
                         if (bitmap != null) {
+                            isSetHead = true;
                             headImageView.setImageURI(resultUri);
                             String fileName = setPicToView(bitmap);//保存在SD卡中
                             MLog.e("fileName=" + fileName);
