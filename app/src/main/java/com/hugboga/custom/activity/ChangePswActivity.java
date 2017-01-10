@@ -62,8 +62,8 @@ public class ChangePswActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         hideSoftInput();
     }
 

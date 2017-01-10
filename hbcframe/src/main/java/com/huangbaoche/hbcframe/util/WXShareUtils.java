@@ -118,7 +118,7 @@ public class WXShareUtils {
                         public void onDownloadComplete(int id) {
                             MLog.e("onSuccess=====1111==c");
                             BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.inSampleSize = 2;
+                            options.inSampleSize = 1;
                             try {
                                 Bitmap bitmap = BitmapFactory.decodeFile(destinationUri.getPath(), options);
                                 while(bitmap.getByteCount() >= 32*1024){

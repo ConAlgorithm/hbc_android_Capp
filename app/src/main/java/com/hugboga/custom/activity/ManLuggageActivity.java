@@ -377,7 +377,7 @@ public class ManLuggageActivity extends BaseActivity {
                 break;
             case R.id.c_sub:
                 if (cNums > 0) {
-                    if (seatNums > 0) {
+                    if (seatNums > 0 && seatNums >= cNums) {
                         seatNums--;
                         cSeatNum.setText(seatNums + "");
                         hideChildSeatLayout();
