@@ -100,6 +100,7 @@ public class PersonInfoActivity extends BaseActivity{
         super.onDestroy();
         ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
+        hideSoftInput();
     }
 
     @Override
