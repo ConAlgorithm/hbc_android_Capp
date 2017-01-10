@@ -1336,7 +1336,9 @@ public class OrderNewActivity extends BaseActivity {
 
         }else if(action.getType() == EventType.CHOOSE_COUNTRY_BACK){
             AreaCodeBean areaCodeBean = (AreaCodeBean)action.getData();
-            hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
+            if (areaCodeBean.viewId == R.id.hotel_phone_text_code_click) {
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
+            }
         }
     }
 
@@ -1516,7 +1518,7 @@ public class OrderNewActivity extends BaseActivity {
                 break;
             case R.id.hotel_phone_text_code_click:
                 Bundle bundleCode = new Bundle();
-                bundleCode.putInt("airportCode", view.getId());
+                bundleCode.putInt("viewId", view.getId());
                 intent = new Intent(activity,ChooseCountryActivity.class);
                 intent.putExtras(bundleCode);
                 startActivity(intent);
