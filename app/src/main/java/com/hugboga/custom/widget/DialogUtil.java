@@ -496,7 +496,7 @@ public class DialogUtil implements DialogUtilInterface {
 //        dialog.setCancelable(true);
 //        dialog.setCanceledOnTouchOutside(true);
 //        dialog.show();
-        showDefaultServiceDialog(mContext, "联系客服", source != null ? source[0] : "");
+        showDefaultServiceDialog(mContext, "联系客服", source != null && source.length > 0 ? source[0] : "");
     }
 
     public static AlertDialog showCallDialogTitle(final Context _context, final String _title) {
