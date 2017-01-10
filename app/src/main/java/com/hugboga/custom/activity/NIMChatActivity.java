@@ -747,6 +747,11 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         if (localTimeView != null) {
             localTimeView.setStop(true);
         }
+        View view = this.getCurrentFocus();
+        if(view!=null){
+            view.clearFocus();
+            hideInputMethod(view);
+        }
         super.onDestroy();
     }
 

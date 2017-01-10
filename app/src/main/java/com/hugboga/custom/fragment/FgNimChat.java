@@ -402,6 +402,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         isLoading = false;
         swipeRefreshLayout.setRefreshing(false);
         if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
+            setLocalData();
             return;
         }
         reRequestTimes++;
@@ -409,6 +410,11 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             sendRequest(0,false);
             return;
         }
+
+        setLocalData();
+    }
+
+    private void setLocalData(){
         if (UserEntity.getUser().isLogin(getActivity())) {
             List<ChatBean> list = getLocalLetters();
             if (list == null || list.size() == 0) {
@@ -420,8 +426,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 adapter.addData(list);
             }
         }
-    }
 
+    }
 
     private void computeTotalUnreadCount(List<ChatBean> chatBeans) {
         if (chatBeans != null && chatBeans.size() > 0) {
