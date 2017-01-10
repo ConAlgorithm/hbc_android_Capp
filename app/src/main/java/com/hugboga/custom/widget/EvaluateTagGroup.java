@@ -197,6 +197,7 @@ public class EvaluateTagGroup extends TagGroup implements TagGroup.OnTagItemClic
                     } else if (i == getChildCount() - 1 ) {//更多
                         tagTV.setVisibility(View.VISIBLE);
                         isShow = false;
+                        tagTV.setText(getContext().getString(R.string.more));
                     } else {
                         tagTV.setVisibility(View.GONE);
                     }

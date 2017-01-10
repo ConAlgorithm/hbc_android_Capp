@@ -270,7 +270,9 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
         }
         picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
-        picker.setRange(1900,2050);
+        picker.setRangeStart(1900, 01, 01);
+        Calendar currentCalendar = Calendar.getInstance();
+        picker.setRangeEnd(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.DATE));
         picker.setTitleText("请选择出生日期");
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {

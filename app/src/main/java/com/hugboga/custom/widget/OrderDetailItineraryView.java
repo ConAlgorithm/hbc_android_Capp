@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -83,8 +84,15 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
             addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, totalDays), null, localTime);
         } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {
-            localTime += getContext().getString(R.string.order_detail_up);
-            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, "" + orderBean.totalDays), null, localTime);
+            String serviceTimeFormatStr = DateUtils.getOrderDateFormat(orderBean.serviceTime);
+            String serviceTime = "";
+            if (!TextUtils.isEmpty(serviceTimeFormatStr)) {
+                serviceTime = getContext().getString(R.string.order_detail_local_time, serviceTimeFormatStr);
+            } else {
+                serviceTime = localTime;
+            }
+            serviceTime += getContext().getString(R.string.order_detail_up);
+            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, "" + orderBean.totalDays), null, serviceTime);
         } else {
             //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"
             String flight = "";
