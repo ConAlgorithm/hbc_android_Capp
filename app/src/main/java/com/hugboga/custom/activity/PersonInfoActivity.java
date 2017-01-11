@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -208,7 +210,14 @@ public class PersonInfoActivity extends BaseActivity{
                 final EditText inputServer = (EditText) rl.findViewById(R.id.person_info_nick_text);
                 inputServer.setText(nickNameTextView.getText().toString());
                 inputServer.setSelection(inputServer.getText().length());
-                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl).setTitle("填写昵称").setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl).setTitle("填写昵称").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(inputServer.getWindowToken(), 0);
+                        dialog.cancel();
+                    }
+                }).setPositiveButton("提交", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String nickStr = inputServer.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
@@ -222,7 +231,7 @@ public class PersonInfoActivity extends BaseActivity{
                 });
                 AlertDialog dialog = builder.create();
                 dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
+                dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
                 break;
             case R.id.my_info_menu_layout3:
@@ -285,7 +294,14 @@ public class PersonInfoActivity extends BaseActivity{
                 final EditText editText = (EditText) layout.findViewById(R.id.person_info_nick_text);
                 editText.setText(realNameTextView.getText().toString());
                 editText.setSelection(editText.getText().length());
-                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout).setTitle("填写真实姓名").setNegativeButton("取消", null).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout).setTitle("填写真实姓名").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        dialog.cancel();
+                    }
+                }).setPositiveButton("提交", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String nickStr = editText.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
@@ -306,7 +322,7 @@ public class PersonInfoActivity extends BaseActivity{
                 });
                 AlertDialog realNameDialog = realNameBuilder.create();
                 realNameDialog.setCancelable(true);
-                realNameDialog.setCanceledOnTouchOutside(true);
+                realNameDialog.setCanceledOnTouchOutside(false);
                 realNameDialog.show();
                 break;
             default:
