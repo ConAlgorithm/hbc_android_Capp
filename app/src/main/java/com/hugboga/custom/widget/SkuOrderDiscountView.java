@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,13 +117,10 @@ public class SkuOrderDiscountView extends LinearLayout{
         if (TextUtils.isEmpty(mostFitBean.priceInfo)) {
             couponCountTV.setText("无优惠券可用");
             isInvalidCoupon = true;
-            Log.i("aa", "setMostFitBean  null" );
         } else {
             couponCountTV.setText(mostFitBean.priceInfo);
             isInvalidCoupon = false;
-            Log.i("aa", "setMostFitBean  " + mostFitBean.priceInfo );
         }
-
         resetCheckedView();
     }
 
@@ -134,11 +130,9 @@ public class SkuOrderDiscountView extends LinearLayout{
         if (price <= 0) {
             travelFundCountTV.setText(getContext().getString(R.string.sign_rmb) + price);
             isInvalidTravelFund = true;
-            Log.i("aa", "setDeductionBean null" );
         } else {
             travelFundCountTV.setText("- " + getContext().getString(R.string.sign_rmb) + price);
             isInvalidTravelFund = false;
-            Log.i("aa", "setDeductionBean price  " + price);
         }
         resetCheckedView();
     }
@@ -161,12 +155,8 @@ public class SkuOrderDiscountView extends LinearLayout{
         if (currentType == TYPE_INVALID || isTravelFund || isCoupon) {
             if (listener != null) {
                 listener.chooseDiscount(currentType);
-                Log.i("aa", "chooseDiscount " + currentType);
             }
-        } else {
-            Log.i("aa", "chooseDiscount 2222  " + currentType);
         }
-
     }
 
     public void setInsuranceCount(int count) {

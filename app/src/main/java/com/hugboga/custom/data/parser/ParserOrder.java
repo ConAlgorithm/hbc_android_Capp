@@ -75,7 +75,7 @@ public class ParserOrder extends ImplParser {
         }
         orderbean.priceActual = jsonObj.optString("priceActual");
 
-        orderbean.imcount = jsonObj.optInt("imCount");
+        //orderbean.imcount = jsonObj.optInt("imCount");
         orderbean.imToken = jsonObj.optString("imToken");
         orderbean.canChat = jsonObj.optBoolean("canChat");
 

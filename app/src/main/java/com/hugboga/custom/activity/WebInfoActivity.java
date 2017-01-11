@@ -95,18 +95,25 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (!TextUtils.isEmpty(url) && url.contains("/app/detail.html")) {
-                String goodsNo = CommonUtils.getUrlValue(url, "goodsNo");
-                if (TextUtils.isEmpty(goodsNo)) {
-                    return false;
+            if (!TextUtils.isEmpty(url)) {
+                if (url.contains("/app/detail.html")) {
+                    String goodsNo = CommonUtils.getUrlValue(url, "goodsNo");
+                    if (TextUtils.isEmpty(goodsNo)) {
+                        return false;
+                    }
+                    Intent intent = new Intent(WebInfoActivity.this, SkuDetailActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, url);
+                    intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                    intent.putExtra(Constants.PARAMS_ID, goodsNo);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    WebInfoActivity.this.startActivity(intent);
+                    return true;
+                } else if (url.contains("tel:")) {
+                    String mobile = url.substring(url.lastIndexOf("/") + 1);
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile));
+                    WebInfoActivity.this.startActivity(intent);
                 }
-                Intent intent = new Intent(WebInfoActivity.this, SkuDetailActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, url);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                intent.putExtra(Constants.PARAMS_ID, goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                WebInfoActivity.this.startActivity(intent);
-                return true;
+
             }
             return false;
         }

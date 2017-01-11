@@ -244,6 +244,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         return true;
     }
 
+    public void setAllowSendMsg(int allowSendMsg){
+        this.allowSendMsg = allowSendMsg;
+    }
+
+
     @Override
     public void onInputPanelExpand() {
         messageListPanel.jumpReload();

@@ -55,7 +55,7 @@
             android:padding="10dp"
             android:background="@drawable/btn_choose_date"
             android:textColor="#000000"
-            android:text="其它日期"
+            android:text="其他日期"
             android:textSize="12sp"/>
     </LinearLayout>
 </LinearLayout>

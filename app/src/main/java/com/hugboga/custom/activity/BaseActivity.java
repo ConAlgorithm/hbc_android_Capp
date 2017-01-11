@@ -141,6 +141,11 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    View focusView = BaseActivity.this.getCurrentFocus();
+                    if(focusView!=null){
+                        focusView.clearFocus();
+                        hideInputMethod(focusView);
+                    }
                     finish();
                 }
             });

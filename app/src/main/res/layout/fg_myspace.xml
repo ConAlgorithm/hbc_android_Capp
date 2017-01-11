@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/include_header" />
-
     <ListView
         android:id="@+id/fg_space_listview"
         android:layout_width="wrap_content"
@@ -13,5 +11,5 @@
         android:background="@color/default_bg"
         android:clipToPadding="false"
         android:divider="@null"
-        android:listSelector="?attr/selectableItemBackground" />
+        />
 </LinearLayout>

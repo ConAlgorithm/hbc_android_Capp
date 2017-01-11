@@ -45,7 +45,7 @@ public class HomeSearchView extends RelativeLayout {
         serviceIV.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance((Activity) getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
+                DialogUtil.showDefaultServiceDialog(getContext(), "首页搜索框");
             }
         });
     }

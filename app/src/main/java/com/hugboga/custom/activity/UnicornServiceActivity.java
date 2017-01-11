@@ -114,8 +114,8 @@ public class UnicornServiceActivity extends BaseActivity{
                 case TYPE_CHAT_LIST:
                     result = 3;
                     break;
-                case TYPE_CHARTERED:
                 case TYPE_LINE:
+                case TYPE_CHARTERED:
                     result = 2;
                     break;
                 case TYPE_ORDER:

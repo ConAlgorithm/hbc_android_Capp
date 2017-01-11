@@ -152,6 +152,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                     actionBean.source = "外部调起";
                 } catch (Exception e) {
                     //为空就直接进首页,没毛病
+                    MLog.i("hbcc 短信跳转 解析出错或数据为空");
                 }
             }
         }

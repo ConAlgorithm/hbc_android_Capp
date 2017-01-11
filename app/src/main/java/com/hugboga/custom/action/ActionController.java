@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import com.hugboga.custom.action.constants.ActionPageType;
 import com.hugboga.custom.action.constants.ActionType;
 import com.hugboga.custom.action.data.ActionBean;
-import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.JsonUtils;
 
 import java.lang.reflect.Constructor;
 
@@ -89,6 +89,15 @@ public class ActionController implements ActionControllerBehavior {
 
     private void nonsupportToast() {
         CommonUtils.showToast("版本较低，请升级到最新版本，体验新功能！");
+    }
+
+    public static void doAction(Context context, String action, String source) {
+        ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
+        if (actionBean != null) {
+            actionBean.source = source;
+            ActionController actionFactory = ActionController.getInstance(context);
+            actionFactory.doAction(actionBean);
+        }
     }
 
 }

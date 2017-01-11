@@ -39,6 +39,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
@@ -164,6 +165,19 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
+    @JavascriptInterface
+    public void webShareWithParams(final String param) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ShareBean shareBean = JsonUtils.getObject(param, ShareBean.class);
+                if (shareBean == null) {
+                    return;
+                }
+                WXShareUtils.getInstance(mActivity).share(shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
+            }
+        });
+    }
 
     @JavascriptInterface
     public void backUrl() {

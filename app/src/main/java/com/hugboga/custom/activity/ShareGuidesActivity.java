@@ -109,7 +109,7 @@ public class ShareGuidesActivity extends BaseActivity{
             descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
         } else {
             collectedTV.setVisibility(View.INVISIBLE);
-            descriptionTV1.setText(getString(R.string.share_evaluate_description_1));
+            descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_4));
         }
 
         String commentTipParam = params.evaluateData.commentTipParam1;

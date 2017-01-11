@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -205,7 +204,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean);
+                DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
             }
         });
     }
@@ -233,7 +232,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, params.cityBean.cityId);
                     bundle.putString(PoiSearchActivity.KEY_LOCATION, params.cityBean.location);
                 }
-                Intent intent = new Intent(activity, PoiSearchActivity.class);
+                Intent intent = new Intent(this, PoiSearchActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtra("mBusinessType", orderType);
                 startActivity(intent);
@@ -460,7 +459,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             case SkuOrderDiscountView.TYPE_INVALID:
                 break;
         }
-        Log.i("aa", "updatePrice actualPrice " +actualPrice  + " deductionPrice  " + deductionPrice);
         bottomView.updatePrice(actualPrice, deductionPrice);
     }
 

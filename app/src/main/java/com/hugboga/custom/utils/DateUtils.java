@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -694,13 +695,16 @@ public class DateUtils {
         }
     }
 
-    public static List<String> getOrderChooseDate(String startDateStr, String chooseDateStr) {
+    public static List<String> getOrderChooseDate(String startDateStr, String chooseDateStr, String lastDateStr) {
         try {
             List<String> resultList = new ArrayList<>(3);
             final long day = 24 * 3600000;
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateDateFormat.parse(chooseDateStr);
-            if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
+            if (chooseDateStr.equalsIgnoreCase(lastDateStr)) {
+                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day * 2)));
+                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day)));
+                resultList.add(chooseDateStr);
+            } else if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
                 resultList.add(chooseDateStr);
                 resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
                 resultList.add(dateDateFormat.format(new Date(date.getTime() +  day * 2)));
@@ -723,6 +727,15 @@ public class DateUtils {
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static String getDate(long time){
+        try {
+            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            return dateformatter.format(new Date(time));
+        }catch (Exception e){
+            return "";
         }
     }
 }

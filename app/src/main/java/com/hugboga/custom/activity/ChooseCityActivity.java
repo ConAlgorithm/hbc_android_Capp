@@ -614,6 +614,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     } catch (DbException e) {
                         e.printStackTrace();
                     }
+                } else if (msg.obj instanceof ArrayList) {
+                    message.obj = msg.obj;
                 }
                 onPostExecuteHandler.sendMessage(message);
             }
@@ -688,7 +690,27 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (cityHistory.size() == 0) {
                         return;
                     }
-                    message.obj = DatabaseManager.getHistoryDateSql(mBusinessType, groupId, cityId, from, cityHistory);
+                    Selector selector = DatabaseManager.getHistoryDateSql(mBusinessType, groupId, cityId, from, cityHistory);
+                    try {
+                        List<CityBean> list = selector.findAll();
+                        List<CityBean> historyList = new ArrayList<CityBean>();
+                        if (list == null || list.size() < cityHistory.size()) {
+                            message.obj = selector;
+                        } else {
+                            for (int i = 0; i < cityHistory.size(); i++) {
+                                c:for (int y = 0; y < list.size(); y++) {
+                                    CityBean cityBean = list.get(y);
+                                    if (cityHistory.get(i).equals(cityBean.cityId + "")) {
+                                        historyList.add(cityBean);
+                                        break c;
+                                    }
+                                }
+                            }
+                        }
+                        message.obj = historyList;
+                    } catch (Exception e) {
+                        message.obj = selector;
+                    }
                     mAsyncHandler.sendMessage(message);
                     break;
                 case MessageType.LOCATION:

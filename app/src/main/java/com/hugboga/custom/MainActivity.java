@@ -25,7 +25,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,8 +51,8 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgMySpace;
+import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -70,6 +69,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
+import com.hugboga.custom.widget.HomeCustomLayout;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -101,6 +101,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
+    public static final String PARAMS_PAGE_INDEX = "page_index";
 
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
@@ -119,7 +120,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private int currentPosition = 0;
 
     private FgHome fgHome;
-    private FgImChat fgChat;
+    private FgNimChat fgChat;
     private FgTravel fgTravel;
     private FgMySpace fgMySpace;
     private SharedPre sharedPre;
@@ -127,12 +128,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int pagePosition = -1;
         if (savedInstanceState != null) {
             actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
+            pagePosition = savedInstanceState.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                currentPosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
            }
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
@@ -168,6 +172,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             ActionController actionFactory = ActionController.getInstance(this);
             actionFactory.doAction(actionBean);
         }
+
+        if (pagePosition != -1) {
+            currentPosition = pagePosition;
+            mViewPager.setCurrentItem(currentPosition);
+        }
     }
 
     @Override
@@ -175,7 +184,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
         if (currentPosition == 0) {
-            GiftController.getInstance(this).showGiftDialog();
+            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
+            if (BuildConfig.VERSION_NAME.equals(versionName)) {
+                GiftController.getInstance(this).showGiftDialog();
+            }
         }
     }
 
@@ -246,6 +258,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onSaveInstanceState(outState);
         if (actionBean != null) {
             outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
+            outState.putInt(MainActivity.PARAMS_PAGE_INDEX, currentPosition);
         }
     }
 
@@ -326,7 +339,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgTravel = new FgTravel();
-        fgChat = new FgImChat();
+        fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
         addFragment(fgHome);
         addFragment(fgChat);
@@ -408,7 +421,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         MLog.e(errorInfo == null ? "" : errorInfo.toString());
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -416,6 +428,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                int pagePosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
+                if (pagePosition != -1) {
+                    currentPosition = pagePosition;
+                    mViewPager.setCurrentItem(currentPosition);
+                }
             }
             if (actionBean != null) {
                 ActionController actionFactory = ActionController.getInstance(this);
@@ -493,6 +510,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 int index = Integer.valueOf(action.data.toString());
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
+                break;
+            case SHOW_GIFT_DIALOG:
+                if (currentPosition == 0) {
+                    GiftController.getInstance(this).showGiftDialog();
+                }
                 break;
             default:
                 break;

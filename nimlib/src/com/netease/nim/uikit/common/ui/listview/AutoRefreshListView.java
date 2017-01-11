@@ -3,6 +3,7 @@ package com.netease.nim.uikit.common.ui.listview;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutoRefreshListView extends ListView {
+
+    public static final int LOAD_MESSAGE_COUNT = 100;
 
     public enum State {
         REFRESHING,
@@ -283,9 +286,19 @@ public class AutoRefreshListView extends ListView {
         refreshHeader.setPadding(0, offsetY, 0, 0);
     }
 
+    private int times = 0;
     private void onTouchEnd() {
         if (isBeingDragged) {
+            Log.i("im","isBeingdragged");
             refreshHeader.setPadding(0, 0, 0, 0);
+            if(getCount()<LOAD_MESSAGE_COUNT && times<3){
+                if (mode != Mode.END) {
+                    currentMode = Mode.START;
+                    state = State.REFRESHING;
+                    refreshListener.onRefreshFromStart();
+                    times++;
+                }
+            }
         }
 
         isBeingDragged = false;

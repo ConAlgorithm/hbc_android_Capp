@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 /**
  * Created by qingcha on 16/9/8.
+ * http://wiki.hbc.tech/pages/viewpage.action?pageId=6619604
  */
 @HttpRequest(path = UrlLibs.DELIVER_INFO, builder = NewParamsBuilder.class)
 public class RequestDeliverInfo extends BaseRequest<DeliverInfoBean> {

@@ -76,6 +76,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -233,6 +234,9 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.agree_text)
     TextView agreeText;
 
+    @Bind(R.id.insure_iv)
+    ImageView insureIV;
+
 
     /**
      * 基于原来代码修改,有时间了优化
@@ -278,6 +282,8 @@ public class OrderNewActivity extends BaseActivity {
         String phone = CommonUtils.addPhoneCodeSign(areaCode) + " " + userPhone;
         manPhone.setText(phone);
         topTipsLayout.setText(R.string.order_detail_top2_tips);
+
+        insureIV.setSelected(true);
     }
 
     String startCityId;
@@ -1113,8 +1119,12 @@ public class OrderNewActivity extends BaseActivity {
     TimePicker picker;
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        calendar.set(Calendar.MINUTE,0);
+        try {
+            calendar.setTime(DateUtils.timeFormat.parse(serverTime + ":00"));
+        } catch (ParseException e) {
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.MINUTE, 0);
+        }
         picker = new TimePicker(activity, TimePicker.HOUR_24);
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
@@ -1326,7 +1336,9 @@ public class OrderNewActivity extends BaseActivity {
 
         }else if(action.getType() == EventType.CHOOSE_COUNTRY_BACK){
             AreaCodeBean areaCodeBean = (AreaCodeBean)action.getData();
-            hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
+            if (areaCodeBean.viewId == R.id.hotel_phone_text_code_click) {
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
+            }
         }
     }
 
@@ -1484,7 +1496,7 @@ public class OrderNewActivity extends BaseActivity {
     }
 
     Intent intent;
-    @OnClick({R.id.all_money_submit_click, R.id.other_phone_layout, R.id.other_phone_name, R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text})
+    @OnClick({R.id.all_money_submit_click, R.id.other_phone_layout, R.id.other_phone_name, R.id.for_other_man, man_name, R.id.man_phone, R.id.man_phone_layout, up_right, up_address_right, R.id.hotel_phone_text_code_click, R.id.hotel_phone_text, R.id.insure_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.man_phone_layout:
@@ -1506,7 +1518,7 @@ public class OrderNewActivity extends BaseActivity {
                 break;
             case R.id.hotel_phone_text_code_click:
                 Bundle bundleCode = new Bundle();
-                bundleCode.putInt("airportCode", view.getId());
+                bundleCode.putInt("viewId", view.getId());
                 intent = new Intent(activity,ChooseCountryActivity.class);
                 intent.putExtras(bundleCode);
                 startActivity(intent);
@@ -1514,6 +1526,9 @@ public class OrderNewActivity extends BaseActivity {
             case R.id.all_money_submit_click:
                 checkData();
                 setSensorsEvent();
+                break;
+            case R.id.insure_iv:
+                view.setSelected(!view.isSelected());
                 break;
         }
     }

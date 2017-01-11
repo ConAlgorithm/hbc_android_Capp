@@ -33,6 +33,11 @@ import com.hugboga.custom.data.request.RequestEditInsure;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -246,17 +251,32 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     }
 
     DatePicker picker;
+    SimpleDateFormat dateDateFormat;
     public void showDaySelect() {
 //        Intent intent = new Intent(activity,DatePickerActivity.class);
 //        intent.putExtra("startDate","1990-01-01");
 //        intent.putExtra("title","请选择出生日期");
 //        intent.putExtra("type",3);
 //        startActivity(intent);
-
+        Calendar calendar = Calendar.getInstance();
         picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
-        picker.setRange(1900,2050);
+        picker.setRangeStart(1900, 01, 01);
+        Calendar currentCalendar = Calendar.getInstance();
+        picker.setRangeEnd(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.DATE));
         picker.setTitleText("请选择出生日期");
-        picker.setSelectedItem(1990,1,1);
+        try {
+            if (!TextUtils.isEmpty(birthday.getText())) {
+                if (dateDateFormat == null) {
+                    dateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                }
+                calendar.setTime(dateDateFormat.parse(birthday.getText().toString()));
+                picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
+            } else {
+                picker.setSelectedItem(1990, 1, 1);
+            }
+        } catch (ParseException e) {
+            picker.setSelectedItem(1990, 1, 1);
+        }
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {

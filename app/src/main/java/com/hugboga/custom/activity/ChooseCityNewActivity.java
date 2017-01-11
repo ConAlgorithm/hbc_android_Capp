@@ -86,7 +86,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             headerLeftBtn.setImageResource(closed_btn);
         }
         headTextRight.setText("取消");
-        headSearch.setHint(R.string.home_search_hint);
+        headSearch.setHint("请输入目的地名称");
         headTextRight.setVisibility(GONE);
         initPop();
         setSensorsDefaultEvent("搜索目的地页", SensorsConstant.SEARCH);

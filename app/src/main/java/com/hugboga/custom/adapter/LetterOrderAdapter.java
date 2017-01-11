@@ -39,7 +39,7 @@ public class LetterOrderAdapter extends BaseAdapter<ChatOrderBean> {
         if (chatOrderBean != null) {
             viewHolder.mOrderState.setText(chatOrderBean.status);
             resetStatusColor(viewHolder.mOrderState, chatOrderBean.status);
-            viewHolder.mOrderType.setText(chatOrderBean.orderTypeStr);
+            viewHolder.mOrderType.setText(chatOrderBean.type);
             //viewHolder.mOrderTime.setText(chatOrderBean.serviceTime);
             setFormatTime(viewHolder.mOrderTime,chatOrderBean);
         }

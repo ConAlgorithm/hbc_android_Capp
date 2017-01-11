@@ -233,7 +233,7 @@ public class UrlLibs {
     public static final String SERVER_IP_PUSH_CLICK         = "communication/v2.0/c/push/click";                        // APP收到的push被点击时，调用该接口进行反馈（Android + IOS）
     public static final String SERVER_IP_PUSH_RECEIVE       = "communication/v2.0/c/push/receive";                      // Android APP 接到push未点击时，调用该接口进行反馈（Android）
 
-    public static final String SERVER_IP_NIMCHAT_LIST       = "communication/v3.0/c/im/list";                           // 云信最新聊天列表
+    public static final String SERVER_IP_NIMCHAT_LIST       = "communication/v3.1/c/im/list";                           // 云信最新聊天列表
     public static final String REMOVE_NIM_CHAT              = "communication/v3.0/c/im/chat/remove";                    // 云信私聊列表删除对话接口
     public static final String ADD_NIM_BLACK                = "communication/v3.0/c/im/black/add";                      // 云信私聊对象加入黑名单
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单

@@ -63,9 +63,9 @@ public class ChangeMobileActivtiy extends BaseActivity{
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        hideInputMethod(mobileEditText);
+    protected void onPause() {
+        super.onPause();
+        hideSoftInput();
     }
 
     private void initView() {

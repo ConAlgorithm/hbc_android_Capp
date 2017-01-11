@@ -369,7 +369,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance((Activity)getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
+                DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
             }
         });
 

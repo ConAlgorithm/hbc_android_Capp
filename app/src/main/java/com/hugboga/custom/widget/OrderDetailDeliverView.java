@@ -81,6 +81,12 @@ import cn.iwgang.countdownview.CountdownView;
         }
     }
 
+    public void refreshData(boolean isShowLoadingView) {
+        if (orderBean != null && orderBean.orderStatus == OrderStatus.PAYSUCCESS) {
+            sendRequest(isShowLoadingView);
+        }
+    }
+
     private void sendRequest(boolean isShowLoadingView) {
         if (orderBean == null) {
             return;
@@ -139,7 +145,11 @@ import cn.iwgang.countdownview.CountdownView;
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
-            resetItemView(deliverInfoBean);
+            if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
+            } else {
+                resetItemView(deliverInfoBean);
+            }
         }
     }
 

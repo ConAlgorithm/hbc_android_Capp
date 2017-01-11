@@ -142,6 +142,9 @@ public class FgHome extends BaseFragment {
     }
 
     public boolean closeGuideView() {
+        if (customLayout == null) {
+            return false;
+        }
         return customLayout.closeGuideView();
     }
 }

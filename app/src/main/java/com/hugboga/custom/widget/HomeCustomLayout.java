@@ -18,6 +18,8 @@ import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
@@ -27,6 +29,8 @@ import com.hugboga.custom.widget.guideview.Guide;
 import com.hugboga.custom.widget.guideview.GuideBuilder;
 import com.hugboga.custom.widget.guideview.MutiComponent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -35,7 +39,7 @@ import butterknife.OnClick;
  */
 public class HomeCustomLayout extends LinearLayout{
 
-    private static final String PARAMS_LAST_GUIDE_VERSION_NAME = "last_guide_version_name";
+    public static final String PARAMS_LAST_GUIDE_VERSION_NAME = "last_guide_version_name";
     private boolean hasMeasured = false;
     private boolean isShow = false;
     private Guide guide;
@@ -121,13 +125,14 @@ public class HomeCustomLayout extends LinearLayout{
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
             @Override
             public void onShown() {
-                SharedPre.setString(PARAMS_LAST_GUIDE_VERSION_NAME, BuildConfig.VERSION_NAME);
                 isShow = true;
             }
 
             @Override
             public void onDismiss() {
+                SharedPre.setString(PARAMS_LAST_GUIDE_VERSION_NAME, BuildConfig.VERSION_NAME);
                 isShow = false;
+                EventBus.getDefault().post(new EventAction(EventType.SHOW_GIFT_DIALOG));
             }
         });
         builder.addComponent(new MutiComponent());

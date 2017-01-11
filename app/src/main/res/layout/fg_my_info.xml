@@ -78,6 +78,7 @@
         <TextView
             android:id="@+id/my_info_nickname"
             android:layout_toLeftOf="@id/my_info_menu_arrow2"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,6 +122,7 @@
         <TextView
             android:id="@+id/my_info_realname"
             android:layout_toLeftOf="@id/my_info_realname_arrow"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

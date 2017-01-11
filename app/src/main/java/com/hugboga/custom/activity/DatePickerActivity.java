@@ -34,8 +34,6 @@ import static android.view.View.GONE;
 
 public class DatePickerActivity extends BaseActivity {
 
-    public static final String PARAM_MIN_DATE = "param_min_date";
-
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
@@ -50,7 +48,6 @@ public class DatePickerActivity extends BaseActivity {
 
     int clickTimes = 0;
 
-    String minDateStr;
     Date selectedDate;
     CustomDayViewAdapter customDayViewAdapter;
 
@@ -67,7 +64,6 @@ public class DatePickerActivity extends BaseActivity {
         ButterKnife.bind(this);
         calender_type = this.getIntent().getIntExtra("type", 1);
         startDate = this.getIntent().getStringExtra("startDate");
-        minDateStr = this.getIntent().getStringExtra(PARAM_MIN_DATE);
         initViews();
         initWeek();
         mChooseDateBean = (ChooseDateBean)this.getIntent().getSerializableExtra("chooseDateBean");
@@ -95,6 +91,7 @@ public class DatePickerActivity extends BaseActivity {
             }else if(calender_type == 3 && null != mChooseDateBean.halfDate){
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
                 Date minDate = mChooseDateBean.minDate != null ? mChooseDateBean.minDate : lastYear.getTime();
+                mChooseDateBean.maxDate = nextYear.getTime() != null ? new Date(nextYear.getTime().getTime() - 24 * 3600000) : null;
                 calendar.init(minDate, nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
                 showTips.setText(R.string.show_tips_half);
             } else {
@@ -118,13 +115,6 @@ public class DatePickerActivity extends BaseActivity {
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             } else if(calender_type == 3){
                 Date minDate = lastYear.getTime();
-                if (!TextUtils.isEmpty(minDateStr)) {
-                    try {
-                        minDate = DateUtils.dateDateFormat.parse(minDateStr);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
                 showTips.setText(R.string.show_tips_half);
                 calendar.init(minDate, nextYear.getTime()).inMode(model);
@@ -143,6 +133,7 @@ public class DatePickerActivity extends BaseActivity {
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
                     if (null != mChooseDateBean) {
+                        chooseDateBean.maxDateStr = mChooseDateBean.maxDate == null ? "" : DateUtils.dateDateFormat.format(mChooseDateBean.maxDate);
                         chooseDateBean.startDate = mChooseDateBean.startDate;
                         chooseDateBean.endDate = mChooseDateBean.endDate;
                         chooseDateBean.start_date = mChooseDateBean.start_date;

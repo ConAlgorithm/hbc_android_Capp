@@ -4,23 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.page.Page;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
-import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
+import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
+import com.huangbaoche.hbcframe.widget.recycler.ZListRecyclerView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
@@ -28,9 +28,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
-import com.hugboga.custom.adapter.ChatAdapter;
+import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.ImListBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.parser.ParserChatInfo;
@@ -46,8 +48,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.netease.nim.uikit.uinfo.UserInfoHelper;
-import com.netease.nim.uikit.uinfo.UserInfoObservable;
+import com.hugboga.custom.widget.ImItemView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -60,7 +61,6 @@ import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -75,12 +75,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * Created by Administrator on 2016/8/24.
+ * Created by SPW on 2017/1/5.
  */
 @ContentView(R.layout.fg_chat)
-public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickListener, ZListPageView.NoticeViewTask {
+public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener,HbcRecyclerSingleTypeAdpater.OnItemLongClickListener {
 
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
@@ -88,7 +87,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     @ViewInject(R.id.chat_content)
     RelativeLayout chatLayout; //主题内容显示
     @ViewInject(R.id.listview)
-    ZListPageView recyclerView;
+    ZListRecyclerView recyclerView;
     @ViewInject(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
     @ViewInject(R.id.chat_logout)
@@ -100,22 +99,18 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     @ViewInject(R.id.login_btn)
     TextView loginBtn;
 
-    private ChatAdapter adapter;
 
     private int reRequestTimes = 0;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(adapter!=null){
-            computeTotalUnreadCount(adapter.getDatas());
-            adapter.notifyDataSetChanged();
-        }
-        if (recyclerView != null && recyclerView.getAdapter() != null) {
-            recyclerView.getAdapter().notifyDataSetChanged();
-        }
+    private int limitSize = Constants.DEFAULT_PAGESIZE;
+    //private int limitSize = 10;
 
-    }
+    ImListBean imListBean;
+
+    HbcRecyclerSingleTypeAdpater<ChatBean> adapter;
+
+    boolean isLoading = false;
+
 
     @Override
     protected void initHeader() {
@@ -137,7 +132,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance((Activity)getContext()).showServiceDialog(getContext(), UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null);
+                DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
             }
         });
     }
@@ -146,111 +141,128 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     protected void initView() {
         MLog.e(this + " initView");
         initListView();
+
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
 
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
-        registerUserInfoObserver();
+        //registerUserInfoObserver();
 
-        if (UserEntity.getUser().isLogin(getActivity()) && recyclerView != null) {
-            loadData();
-        }
+        loadImList();
     }
 
 
     private void initListView() {
         MLog.e(this + " initListView");
-        adapter = new ChatAdapter(getActivity());
+        adapter = new HbcRecyclerSingleTypeAdpater<>(getActivity(), ImItemView.class);
         recyclerView.setAdapter(adapter);
-        recyclerView.setzSwipeRefreshLayout(swipeRefreshLayout);
-        recyclerView.setEmptyLayout(emptyLayout);
-        RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
-        recyclerView.setRequestData(parserChatList);
-        recyclerView.setOnItemClickListener(this);
-        recyclerView.setNoticeViewTask(this);
-        recyclerView.setOnItemLongClickListener(new ZBaseAdapter.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(View view, final int position) {
-                if (position != 0) {
-                    final ChatBean chatBean = adapter.getDatas().get(position);
-                    AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(), chatBean.targetId);
-                            HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
-                                @Override
-                                public void onDataRequestSucceed(BaseRequest request) {
-                                    deleteNimRecent(chatBean, position);
-                                    //adapter.removeDatas(position);
-                                }
-
-                                @Override
-                                public void onDataRequestCancel(BaseRequest request) {
-
-                                }
-
-                                @Override
-                                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-                                }
-                            });
-                            dialog.dismiss();
-                        }
-                    }, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                }
-            }
-        });
+        ZDefaultDivider divider = recyclerView.getItemDecoration();
+        divider.setItemOffsets(5, 10, 5, 10);
+        adapter.setOnItemClickListener(this);
+        adapter.setOnItemLongClickListener(this);
         if (!UserEntity.getUser().isLogin(getActivity())) {
             emptyTV.setVisibility(View.GONE);
         }
+        setReFreshEvent();
+        addOnScrollEvent();
     }
 
-    /**
-     * 加载数据
-     */
-    public void loadData() {
-        if (recyclerView != null) {
-            emptyTV.setVisibility(View.GONE);
-            recyclerView.showPageFirst();
-//            if(adapter.getDatas()!=null){
-//                adapter.removeAll();
-//            }
-//            adapter.notifyDataSetChanged();
-//            if (recyclerView.getAdapter() != null) {
-//                recyclerView.getAdapter().notifyDataSetChanged();
-//            }
+
+    private void setReFreshEvent(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                sendRequest(0,false);
+            }
+        });
+    }
+
+
+    private void addOnScrollEvent(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            }
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE ){
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    if(imListBean==null || imListBean.totalSize==0){
+                        return;
+                    }
+                    int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    int totalItemCount = layoutManager.getItemCount()-1;
+                    if (lastVisibleItem >= totalItemCount -adapter.getHeadersCount()-adapter.getFootersCount()  && adapter.getListCount() < imListBean.totalSize) {
+                        sendRequest(adapter.getListCount(), false);//加载下一页
+                    }
+                }
+            }
+        });
+    }
+
+    private void sendRequest(int pageIndex,boolean needShowLoading){
+        emptyTV.setVisibility(View.GONE);
+        if(isLoading){
+            return ;
         }
+        isLoading = true;
+        RequestNIMChatList request = new RequestNIMChatList(getActivity(),pageIndex,limitSize);
+        HttpRequestUtils.request(getActivity(), request, this, needShowLoading);
     }
 
-    @Override
-    protected Callback.Cancelable requestData() {
+
+    protected void loadImList() {
         MLog.e("isLogin=" + UserEntity.getUser().isLogin(getActivity()));
         if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
             emptyLayout.setVisibility(View.VISIBLE);
             chatLayout.setVisibility(View.GONE);
-            return null;
         } else {
             emptyLayout.setVisibility(View.GONE);
             chatLayout.setVisibility(View.VISIBLE);
-            loadData();
-            return null;
+            sendRequest(0,true);
         }
     }
 
-    @Override
-    protected void inflateContent() {
-    }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
+        if(request instanceof  RequestNIMChatList){
+             imListBean = ((RequestNIMChatList)request).getData();
+             reRequestTimes = 0;
+             syncChatData();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+
+    private void updateUI(){
+        emptyTV.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
+        if (UserEntity.getUser().isLogin(MyApplication.getAppContext())) {
+            if (loginBtn != null)
+                loginBtn.setVisibility(View.GONE);
+        } else {
+            if (loginBtn != null)
+                loginBtn.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
+        requestError();
+
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest _request) {
+        super.onDataRequestCancel(_request);
+        requestError();
     }
 
     @Override
@@ -277,26 +289,18 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 startActivity(intent);
                 break;
             case R.id.chat_list_empty_tv:
-                loadData();
+                sendRequest(0,true);
                 break;
         }
-    }
-
-
-    @Override
-    public void onFragmentResult(Bundle bundle) {
-        MLog.e("onFragmentResult " + bundle);
-        requestData();
     }
 
     @Override
     public void onDestroyView() {
         registerObservers(false);
         Unicorn.addUnreadCountChangeListener(null, false);
-        unregisterUserInfoObserver();
+        //unregisterUserInfoObserver();
         super.onDestroyView();
     }
-
 
     @Override
     public void onDestroy() {
@@ -308,28 +312,19 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
-//            case CLICK_USER_LOGIN:
-//            case REFRESH_CHAT_LIST:
-//                RequestNIMChatList parserChatList1 = new RequestNIMChatList(getActivity());
-//                recyclerView.setRequestData(parserChatList1);
-//                requestData();
-//                break;
             case CLICK_USER_LOOUT:
                 chatLayout.setVisibility(View.GONE);
                 //清理列表数据
                 if (adapter.getDatas() != null)
-                    adapter.getDatas().clear();
-                adapter.notifyDataSetChanged();
+                    adapter.clearData();
+                    adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
                 if (loginBtn != null)
                     loginBtn.setVisibility(View.VISIBLE);
                 ((MainActivity) getActivity()).setIMCount(0, 0);
                 break;
             case NIM_LOGIN_SUCCESS:
-                RequestNIMChatList parserChatList = new RequestNIMChatList(getActivity());
-                recyclerView.setRequestData(parserChatList);
-                requestData();
-                //registerObservers(true);
+                loadImList();
                 break;
             default:
                 break;
@@ -337,8 +332,8 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        ChatBean chatBean = adapter.getDatas().get(position);
+    public void onItemClick(View view, int position, Object itemData) {
+        ChatBean chatBean = (ChatBean)itemData;
         if (chatBean.targetType==3) {
             UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
         } else if (chatBean.targetType == 1) {
@@ -346,12 +341,44 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 return;
             }
             String titleJson = getChatInfo(chatBean);
-            MyApplication.requestRemoteNimUserInfo(chatBean.nTargetId);
-            NIMChatActivity.start(getContext(), chatBean.nTargetId, null, titleJson, chatBean.isCancel);
+            MyApplication.requestRemoteNimUserInfo(chatBean.neTargetId);
+            NIMChatActivity.start(getContext(), chatBean.neTargetId, null, titleJson, chatBean.isCancel);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }
     }
+
+    @Override
+    public void onItemLongClick(View view, final int position, Object itemData) {
+            final ChatBean chatBean = (ChatBean)itemData;
+            if(chatBean.targetType!=3){
+                AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(), chatBean.targetId);
+                        HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
+                            @Override
+                            public void onDataRequestSucceed(BaseRequest request) {
+                                deleteNimRecent(chatBean, position);
+                            }
+                            @Override
+                            public void onDataRequestCancel(BaseRequest request) {
+                            }
+                            @Override
+                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+    }
+
 
     private String getChatInfo(ChatBean chatBean) {
         ChatInfo chatInfo = new ChatInfo();
@@ -361,44 +388,33 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         chatInfo.title = chatBean.targetName;
         chatInfo.targetType = "" + chatBean.targetType;
         chatInfo.inBlack = chatBean.inBlack;
-        chatInfo.imUserId = chatBean.nTargetId;
+        chatInfo.imUserId = chatBean.neTargetId;
         chatInfo.flag = chatBean.flag;
         chatInfo.timediff = chatBean.timediff;
         chatInfo.timezone = chatBean.timezone;
-        chatInfo.cityName = chatBean.cityName;
-        chatInfo.countryName = chatBean.countryName;
+        chatInfo.cityName = chatBean.city_name;
+        chatInfo.countryName = chatBean.country_name;
         return new ParserChatInfo().toJsonString(chatInfo);
     }
 
-    @Override
-    public void notice(Object object) {
-        List<ChatBean> chatBeans = adapter.getDatas();
-        computeTotalUnreadCount(chatBeans);
-        emptyTV.setVisibility(View.GONE);
-        emptyLayout.setVisibility(View.GONE);
-        if (UserEntity.getUser().isLogin(MyApplication.getAppContext())) {
-            if (loginBtn != null)
-                loginBtn.setVisibility(View.GONE);
-        } else {
-            if (loginBtn != null)
-                loginBtn.setVisibility(View.VISIBLE);
-        }
 
-        syncChatData();
-        reRequestTimes = 0;
-    }
-
-
-    @Override
-    public void error(ExceptionInfo errorInfo, BaseRequest request) {
+    private void requestError(){
+        isLoading = false;
+        swipeRefreshLayout.setRefreshing(false);
         if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
+            setLocalData();
             return;
         }
         reRequestTimes++;
         if (reRequestTimes < 3) {
-            loadData();
+            sendRequest(0,false);
             return;
         }
+
+        setLocalData();
+    }
+
+    private void setLocalData(){
         if (UserEntity.getUser().isLogin(getActivity())) {
             List<ChatBean> list = getLocalLetters();
             if (list == null || list.size() == 0) {
@@ -406,16 +422,12 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                 return;
             }
             if (adapter != null) {
-                adapter.removeAll();
-                adapter.addDatas(list);
-                adapter.notifyDataSetChanged();
-                if (recyclerView != null && recyclerView.getAdapter() != null) {
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }
+                adapter.clearData();
+                adapter.addData(list);
             }
         }
-    }
 
+    }
 
     private void computeTotalUnreadCount(List<ChatBean> chatBeans) {
         if (chatBeans != null && chatBeans.size() > 0) {
@@ -431,48 +443,53 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         }
     }
 
-
     private void syncChatData() {
-        removeRepeatChatBean();
         queryLocalRecentList();
-        saveLettersToLocal();
+
     }
 
     Handler handler = new Handler();
 
     private void queryLocalRecentList() {
-        // 查询最近联系人列表数据
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override
                     public void onResult(int code, final List<RecentContact> recents, Throwable exception) {
+                        isLoading = false;
                         if (code != ResponseCode.RES_SUCCESS || recents == null) {
                             return;
                         }
-                        if (adapter != null) {
-                            adapter.syncUpdate(recents);
-                            adapter.notifyDataSetChanged();
-                            if (recyclerView != null) {
-                                recyclerView.getAdapter().notifyDataSetChanged();
+                        if(adapter!=null){
+                            updateUI();
+                            if(imListBean!=null && imListBean.resultBean!=null){
+                                if(imListBean.offset==0){
+                                    adapter.clearData();
+                                }
+                                ArrayList<ChatBean> chatBeen = new ArrayList<>();
+                                chatBeen.addAll(adapter.getDatas());
+                                chatBeen.addAll(imListBean.resultBean);
+                                NimRecentListSyncUtils.removeRepeatData(chatBeen,limitSize);
+                                NimRecentListSyncUtils.recentListSync(chatBeen,recents);
+                                adapter.clearData();
+                                adapter.addData(chatBeen);
+                                computeTotalUnreadCount(adapter.getDatas());
                             }
-                            computeTotalUnreadCount(adapter.getDatas());
+                            saveLettersToLocal();
                         }
                     }
                 });
             }
-        },0);
+        },20);
     }
 
 
     private void deleteNimRecent(final ChatBean chatBean, final int position) {
         if (adapter != null) {
-            adapter.removeDatas(position);
-            if (recyclerView != null && recyclerView.getAdapter() != null) {
-                recyclerView.getAdapter().notifyItemRemoved(position);
-                computeTotalUnreadCount(adapter.getDatas());
-            }
+            adapter.getDatas().remove(position);
+            adapter.notifyDataSetChanged();
+            computeTotalUnreadCount(adapter.getDatas());
         }
         NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
             @Override
@@ -481,7 +498,7 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                     return;
                 }
                 for (RecentContact recentContact : recents) {
-                    if (recentContact.getContactId().toLowerCase().equals(chatBean.nTargetId.toLowerCase())) {
+                    if (recentContact.getContactId().toLowerCase().equals(chatBean.neTargetId.toLowerCase())) {
                         NIMClient.getService(MsgService.class).deleteRecentContact(recentContact);
                     }
                 }
@@ -502,10 +519,13 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(final List<RecentContact> messages) {
+            if(imListBean==null){
+                return;
+            }
             if (messages != null && adapter != null) {
-                List<String> newContacts = adapter.syncNewMsgUpdate(messages);
-                if (recyclerView != null && recyclerView.getAdapter() != null) {
-                    recyclerView.getAdapter().notifyDataSetChanged();
+                List<String> newContacts = NimRecentListSyncUtils.updateRecentSync(adapter.getDatas(),messages);
+                if (recyclerView != null && adapter != null) {
+                    adapter.notifyDataSetChanged();
                     computeTotalUnreadCount(adapter.getDatas());
                 }
                 if (newContacts!=null && newContacts.size()>0) {
@@ -517,8 +537,8 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                                 ChatBean chatBean = (ChatBean) request.getData();
                                 if(messages!=null && messages.size()>0){
                                     for(RecentContact recentContact:messages){
-                                        if(recentContact.getContactId().toLowerCase().equals(chatBean.nTargetId.toLowerCase())){
-                                            chatBean.message = recentContact.getContent();
+                                        if(recentContact.getContactId().toLowerCase().equals(chatBean.neTargetId.toLowerCase())){
+                                            chatBean.lastMsg = recentContact.getContent();
                                             chatBean.imCount = recentContact.getUnreadCount();
                                             chatBean.timeStamp = recentContact.getTime();
                                             break;
@@ -526,13 +546,19 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
                                     }
                                 }
                                 if(adapter!=null && adapter.getDatas()!=null){
-                                    adapter.getDatas().add(chatBean);
+                                    boolean hasExist = false;
+                                    for(ChatBean tmp:adapter.getDatas()){
+                                        if(tmp.neTargetId.toLowerCase().equals(chatBean.neTargetId.toLowerCase())){
+                                            hasExist = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!hasExist){
+                                        adapter.getDatas().add(chatBean);
+                                    }
                                     NimRecentListSyncUtils.sortRecentContacts(adapter.getDatas());
                                     computeTotalUnreadCount(adapter.getDatas());
                                     adapter.notifyDataSetChanged();
-                                    if(recyclerView!=null && recyclerView.getAdapter()!=null){
-                                        recyclerView.getAdapter().notifyDataSetChanged();
-                                    }
                                 }
                             }
                             @Override
@@ -550,8 +576,43 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
         }
     };
 
+
+
+
+    // 添加未读数变化监听，add 为 true 是添加，为 false 是撤销监听。退出界面时，必须撤销，以免造成资源泄露
+    private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
+        @Override
+        public void onUnreadCountChange(int count) {
+            if (count > 0) {
+                SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    };
+
+//    private UserInfoObservable.UserInfoObserver userInfoObserver;
+//    private void registerUserInfoObserver() {
+//        if (userInfoObserver == null) {
+//            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+//                @Override
+//                public void onUserInfoChanged(List<String> accounts) {
+//                }
+//            };
+//        }
+//        UserInfoHelper.registerObserver(userInfoObserver);
+//    }
+
+//    private void unregisterUserInfoObserver() {
+//        if (userInfoObserver != null) {
+//            UserInfoHelper.unregisterObserver(userInfoObserver);
+//        }
+//    }
+
+
     private void saveLettersToLocal() {
-        if (adapter != null && adapter.getDatas() != null && adapter.getDatas().size() > 10) {
+        if (adapter != null && adapter.getDatas() != null && adapter.getDatas().size() > limitSize) {
             return;
         }
         List<ChatBean> list = adapter.getDatas();
@@ -606,44 +667,5 @@ public class FgImChat extends BaseFragment implements ZBaseAdapter.OnItemClickLi
     }
 
 
-    // 添加未读数变化监听，add 为 true 是添加，为 false 是撤销监听。退出界面时，必须撤销，以免造成资源泄露
-    private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
-        @Override
-        public void onUnreadCountChange(int count) {
-            if (count > 0) {
-                SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
-                if (adapter != null) {
-                    if (recyclerView != null && recyclerView.getAdapter() != null) {
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        computeTotalUnreadCount(adapter.getDatas());
-                    }
-                }
-            }
-        }
-    };
-
-    private UserInfoObservable.UserInfoObserver userInfoObserver;
-    private void registerUserInfoObserver() {
-        if (userInfoObserver == null) {
-            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
-                @Override
-                public void onUserInfoChanged(List<String> accounts) {
-                }
-            };
-        }
-        UserInfoHelper.registerObserver(userInfoObserver);
-    }
-
-    private void unregisterUserInfoObserver() {
-        if (userInfoObserver != null) {
-            UserInfoHelper.unregisterObserver(userInfoObserver);
-        }
-    }
-
-    private void removeRepeatChatBean() {
-        if (adapter != null) {
-            adapter.syncRemoveRepeatData(Page.DEFAULT_PAGESIZE);
-        }
-    }
 
 }

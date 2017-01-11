@@ -14,7 +14,7 @@ public class ParserChatOrder extends ImplParser {
         ChatOrderBean contactBean = new ChatOrderBean();
         contactBean.orderNo = obj.optString("orderNo");
         contactBean.status = obj.optString("status");
-        contactBean.orderTypeStr = obj.optString("type");
+        contactBean.type = obj.optString("type");
         contactBean.startAddress = obj.optString("startAddress");
         contactBean.destAddress = obj.optString("destAddress");
         contactBean.serviceTime = obj.optString("serviceTime");
