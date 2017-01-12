@@ -22,7 +22,7 @@ import java.util.HashMap;
  * Created by qingcha on 16/5/24.
  */
 @HttpRequest(path = UrlLibs.COLLECT_GUIDES_FILTER, builder = NewParamsBuilder.class)
-public class RequestCollectGuidesFilter extends BaseRequest<ArrayList<CollectGuideBean>> {
+public class RequestCollectGuidesFilter extends BaseRequest<ParserCollectGuideList.CollectGuideList> {
     public RequestCollectGuidesFilter(Context context, CollectGuidesFilterParams params, int offset) {
         super(context);
         map = new HashMap<String, Object>();

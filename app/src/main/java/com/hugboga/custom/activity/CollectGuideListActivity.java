@@ -9,6 +9,7 @@ import com.hugboga.custom.adapter.CollectGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.parser.ParserCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -126,16 +127,20 @@ public class CollectGuideListActivity extends BaseActivity{
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
-        List<CollectGuideBean> list = null;
+        ParserCollectGuideList.CollectGuideList collectGuideList = null;
         if (_request instanceof RequestCollectGuideList) {
             RequestCollectGuideList request = (RequestCollectGuideList) _request;
-            list = request.getData();
+            collectGuideList = request.getData();
         } else if (_request instanceof RequestCollectGuidesFilter) {
             RequestCollectGuidesFilter filterRequest = (RequestCollectGuidesFilter) _request;
-            list = filterRequest.getData();
+            collectGuideList = filterRequest.getData();
         }
+        if (collectGuideList == null) {
+            return;
+        }
+        List<CollectGuideBean> list = collectGuideList.listDate;
         if (list != null) {
-            if (adapter == null) {
+            if (adapter == null || adapter.getCount() <= collectGuideList.count) {
                 adapter = new CollectGuideAdapter(this, paramsData != null);
                 if (paramsData != null) {
                     adapter.setShowStatusLayout(false);

@@ -20,7 +20,7 @@ import java.util.HashMap;
  * Created by qingcha on 16/5/23.
  */
 @HttpRequest(path = UrlLibs.COLLECT_GUIDES_LIST, builder = NewParamsBuilder.class)
-public class RequestCollectGuideList extends BaseRequest<ArrayList<CollectGuideBean>> {
+public class RequestCollectGuideList extends BaseRequest<ParserCollectGuideList.CollectGuideList> {
     public RequestCollectGuideList(Context context, int offset) {
         super(context);
         map = new HashMap<String, Object>();

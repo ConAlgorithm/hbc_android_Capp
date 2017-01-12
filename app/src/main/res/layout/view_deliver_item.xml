@@ -31,13 +31,13 @@
         android:layout_marginLeft="15dp"
         android:orientation="vertical"
         android:paddingBottom="5dp"
-        android:paddingTop="12dp">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/deliver_item_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="5dp"
             android:text="正在查询司导状态，请稍后..."
             android:textColor="#111111"
             android:textSize="15sp" />
@@ -61,7 +61,6 @@
                 android:layout_toLeftOf="@id/deliver_item_arrow_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:textColor="#929292"
                 android:textSize="14sp" />
 
@@ -69,7 +68,7 @@
                 android:id="@+id/deliver_item_guide_avatar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_below="@id/deliver_item_subtitle_tv"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" />
