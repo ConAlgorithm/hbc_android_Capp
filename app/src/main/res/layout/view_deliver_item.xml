@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/deliver_item_layout"
     android:orientation="horizontal">
 
     <FrameLayout
@@ -10,14 +11,14 @@
         android:layout_marginTop="5dp">
 
         <ImageView
-            android:id="@+id/eliver_item_loading_view"
+            android:id="@+id/deliver_item_loading_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/icon_head_noguide"
             />
 
         <com.hugboga.custom.widget.OrderDetailDeliverCountDownView
-            android:id="@+id/eliver_item_countdown_view"
+            android:id="@+id/deliver_item_countdown_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"

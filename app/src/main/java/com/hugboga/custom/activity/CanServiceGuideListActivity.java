@@ -39,6 +39,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
     private List<CanServiceGuideBean.GuidesBean> list;
     private LinearLayout footerLayout;
     private ChooseGuideUtils chooseGuideUtils;
+    private int totalSize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,8 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
     ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
         @Override
         public void onLoad() {
-            if (adapter.getCount() > 0) {
+            int count = adapter.getCount();
+            if (count > 0 && count < totalSize) {
                 sendRequest(adapter == null ? 0 : adapter.getCount());
             }
         }
@@ -109,7 +111,8 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
         super.onDataRequestSucceed(request);
         if (request instanceof RequestAcceptGuide) {
             CanServiceGuideBean canServiceGuideBean = ((RequestAcceptGuide)request).getData();
-            fgTitle.setText(String.format(getString(R.string.choose_guide_title), canServiceGuideBean.getTotalSize()));
+            totalSize = canServiceGuideBean.getTotalSize();
+            fgTitle.setText(String.format(getString(R.string.choose_guide_title), totalSize));
             list = canServiceGuideBean.getGuides();
             if (list != null) {
                 if (adapter == null) {
