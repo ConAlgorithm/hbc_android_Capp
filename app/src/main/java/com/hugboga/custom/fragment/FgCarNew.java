@@ -365,7 +365,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void genData() {
         genCar();
-        if (canService) {
+        if (canService && carListBean != null) {
             this.distance = carListBean.distance;
             this.interval = carListBean.interval;
             if (carList == null || carList.size() == 0) {

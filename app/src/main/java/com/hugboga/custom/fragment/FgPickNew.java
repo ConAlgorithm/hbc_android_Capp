@@ -247,7 +247,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
 
         if(checkInChecked) {
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice) && null != carListBean.additionalServicePrice) {
+            if (carListBean != null && !TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice) && null != carListBean.additionalServicePrice) {
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
         }
