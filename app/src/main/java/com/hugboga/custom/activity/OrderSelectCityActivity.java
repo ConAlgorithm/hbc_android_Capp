@@ -1307,6 +1307,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     driver_name.setText(collectGuideBean.name);
                     choose_driver.setVisibility(GONE);
                     guideCollectId = collectGuideBean.guideId;
+                    driver_tips.setVisibility(GONE);
                 }
                 break;
             case CHOOSE_DATE:

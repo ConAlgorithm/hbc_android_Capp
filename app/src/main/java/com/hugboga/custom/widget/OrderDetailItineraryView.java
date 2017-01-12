@@ -91,7 +91,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             } else {
                 serviceTime = localTime;
             }
-            serviceTime += getContext().getString(R.string.order_detail_up);
             addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, "" + orderBean.totalDays), null, serviceTime);
         } else {
             //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"

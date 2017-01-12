@@ -146,7 +146,9 @@ public class DialogUtil implements DialogUtilInterface {
      */
     public void dismissLoadingDialog() {
         if (!mContext.isFinishing() && mLoadingDialog != null&&mLoadingDialog.isShowing())
-            mLoadingDialog.dismiss();
+            try {
+                mLoadingDialog.dismiss();
+            } catch (Exception e){}
     }
 
     public void dismissDialog() {

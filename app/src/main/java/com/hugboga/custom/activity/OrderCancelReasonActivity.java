@@ -98,10 +98,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
     @Override
     protected void onPause() {
         super.onPause();
-        if (otherReasonView != null) {
-            EditText editText = (EditText) otherReasonView.findViewById(R.id.cancel_reason_other_et);
-            showSoftInputMethod(editText);
-        }
+        hideSoftInput();
     }
 
     private void requestData() {
@@ -139,7 +136,10 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                     CommonUtils.showToast("请选择取消原因");
                     return;
                 }
+                CancelReasonBean.CancelReasonItem cancelReasonItem = null;
                 if(selectedReasonItem.isOtherReason()) {
+                    cancelReasonItem =  new CancelReasonBean.CancelReasonItem();
+                    cancelReasonItem.type = selectedReasonItem.type;
                     EditText editText = (EditText) otherReasonView.findViewById(R.id.cancel_reason_other_et);
                     if (editText.getText() == null || TextUtils.isEmpty(editText.getText().toString()) || TextUtils.isEmpty(editText.getText().toString().trim())) {
                         CommonUtils.showToast("请输入文字内容哦");
@@ -153,11 +153,13 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                             return;
                         }
                     }
-                    selectedReasonItem.content += String.format("（%1$s）", editText.getText().toString().trim());
+                    cancelReasonItem.content = selectedReasonItem.content + String.format("（%1$s）", editText.getText().toString().trim());
+                } else {
+                    cancelReasonItem = selectedReasonItem;
                 }
-                String cancelReason = JsonUtils.toJson(selectedReasonItem);
+                String cancelReason = JsonUtils.toJson(cancelReasonItem);
                 if (orderBean.orderStatus == OrderStatus.INITSTATE) {
-                    cancelOrder(orderBean.orderNo, 0, JsonUtils.toJson(selectedReasonItem));
+                    cancelOrder(orderBean.orderNo, 0, cancelReason);
                 } else {
                     orderBean.cancelReason = cancelReason;
                     Intent intent = new Intent(OrderCancelReasonActivity.this, OrderCancelActivity.class);
@@ -191,6 +193,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                 mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
             } else {
                 mAdapter.cleanAllFooterView(false);
+                hideSoftInput();
             }
             mAdapter.notifyDataSetChanged();
         }
