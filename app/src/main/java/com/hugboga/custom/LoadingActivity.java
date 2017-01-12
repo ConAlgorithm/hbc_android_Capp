@@ -106,9 +106,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             properties.put("hbc_channelId", BuildConfig.FLAVOR);
             properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
