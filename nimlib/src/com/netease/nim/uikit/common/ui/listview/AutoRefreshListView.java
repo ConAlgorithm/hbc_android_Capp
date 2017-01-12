@@ -290,8 +290,9 @@ public class AutoRefreshListView extends ListView {
     private void onTouchEnd() {
         if (isBeingDragged) {
             Log.i("im","isBeingdragged");
+            int paddingTop = refreshHeader.getPaddingTop();
             refreshHeader.setPadding(0, 0, 0, 0);
-            if(getCount()<LOAD_MESSAGE_COUNT && times<3){
+            if(getCount()<LOAD_MESSAGE_COUNT && times<3 && paddingTop>0){
                 if (mode != Mode.END) {
                     currentMode = Mode.START;
                     state = State.REFRESHING;
