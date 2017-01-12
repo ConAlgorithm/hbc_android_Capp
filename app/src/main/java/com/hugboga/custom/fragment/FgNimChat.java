@@ -666,6 +666,4 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         return list;
     }
 
-
-
 }
