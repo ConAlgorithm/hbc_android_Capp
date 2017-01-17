@@ -53,6 +53,12 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
      * 1:好友,2:朋友圈；
      * */
     private void setShare(int type) {
+        if (getContext() instanceof Activity) {
+            Activity activity = (Activity) getContext();
+            if (activity.isFinishing()) {
+                return;
+            }
+        }
         if (mParams == null) {
             return;
         }
