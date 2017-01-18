@@ -46,6 +46,10 @@ public class GiftController implements HttpRequestListener {
         public void run() {
             if (mActivity != null && !mActivity.isFinishing() && data != null) {
                 SharedPre.setLong(PARAMS_FIRST_SHOW_TIME, System.currentTimeMillis());
+
+                int count = SharedPre.getInteger(PARAMS_SHOW_COUNT, 0);
+                SharedPre.setInteger(PARAMS_SHOW_COUNT, ++count);
+
                 Intent intent = new Intent(mActivity, GiftDialogActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, data);
                 mActivity.startActivity(intent);
@@ -95,6 +99,7 @@ public class GiftController implements HttpRequestListener {
 
     public void showGiftDialog() {
         int count = SharedPre.getInteger(PARAMS_SHOW_COUNT, 0);
+
         if (UserEntity.getUser().isLogin(mActivity) || mHandler == null || mRunnable == null
                 || data == null || data.couponActiviyVo == null || !data.couponActiviyVo.activityStatus || count >= 2) {
             return;
@@ -107,14 +112,12 @@ public class GiftController implements HttpRequestListener {
             mHandler.postDelayed(mRunnable, data.couponActiviyVo.scanTime * 1000);
         } else {//未领取过且距离首次展示X天
             boolean isGained = SharedPre.getBoolean(PARAMS_GAINED, false);
-//            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.couponActiviyVo.cycleTime * 1000);
-            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + 10 * 60 * 1000);//fixme 
+            boolean cycleTime =  System.currentTimeMillis() >= (firstShowTime + data.couponActiviyVo.cycleTime * 1000);
             if (!isGained && cycleTime) {
                 isAbort = false;
                 mHandler.post(mRunnable);
             }
         }
-        SharedPre.setInteger(PARAMS_SHOW_COUNT, ++count);
     }
 
     public void abortion() {

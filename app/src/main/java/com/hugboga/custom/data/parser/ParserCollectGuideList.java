@@ -22,7 +22,7 @@ public class ParserCollectGuideList extends ImplParser {
         Gson gson = new Gson();
         CollectGuideList collectGuideList = gson.fromJson(obj.toString(), CollectGuideList.class);
         if (collectGuideList != null) {
-            return collectGuideList.listDate;
+            return collectGuideList;
         } else {
             return null;
         }
@@ -31,6 +31,8 @@ public class ParserCollectGuideList extends ImplParser {
     public static class CollectGuideList {
         @SerializedName("guides")
         public ArrayList<CollectGuideBean> listDate;
+
+        public int count;
     }
 }
 
