@@ -161,7 +161,6 @@ public class UrlLibs {
     public static final String RECOMMENDLIN                 = "trade/v1.0/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
     public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.2/c/order/detail?";                             // 订单详情
-    public static final String SERVER_IP_ORDER_LIST         = "trade/v1.2/c/order/list?";                               // 订单列表
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
     public static final String GET_USER_COUPON              = "trade/v1.0/c/order/home?";                               // 获取用户优惠卷
     public static final String SERVER_IP_GUIDES_COMMENTS    = "trade/v1.3/c/order/evaluate?";                           // 对车导评价 *** 1.0
@@ -176,6 +175,10 @@ public class UrlLibs {
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
     public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
     public static final String CANCEL_REASON                = "trade/v1.0/c/order/cancelReason";                        // 取消订单原因接口
+    public static final String ORDER_LIST_ALL               = "trade/v1.3/c/order/list/all";                            // 订单列表 全部 114
+    public static final String ORDER_LIST_UNPAY             = "trade/v1.3/c/order/list/unpay";                          // 订单列表 待支付 115
+    public static final String ORDER_LIST_DOING             = "trade/v1.3/c/order/list/doing";                          // 订单列表 进行中 116
+    public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.3/c/order/list/unevaludate";                    // 订单列表 待评价 117
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机
