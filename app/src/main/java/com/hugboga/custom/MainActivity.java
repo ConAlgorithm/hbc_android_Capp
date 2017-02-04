@@ -169,8 +169,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         showAdWebView(getIntent().getStringExtra("url"));
 
         if (actionBean != null) {
-            ActionController actionFactory = ActionController.getInstance(this);
-            actionFactory.doAction(actionBean);
+            ActionController actionFactory = ActionController.getInstance();
+            actionFactory.doAction(this, actionBean);
         }
 
         if (pagePosition != -1) {
@@ -435,8 +435,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 }
             }
             if (actionBean != null) {
-                ActionController actionFactory = ActionController.getInstance(this);
-                actionFactory.doAction(actionBean);
+                ActionController actionFactory = ActionController.getInstance();
+                actionFactory.doAction(this, actionBean);
             }
         }
         receivePushMessage(intent);
@@ -452,8 +452,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             ActionBean actionBean = message.getActionBean();
             if (actionBean != null) {
                 actionBean.source = "push调起";
-                ActionController actionFactory = ActionController.getInstance(this);
-                actionFactory.doAction(actionBean);
+                ActionController actionFactory = ActionController.getInstance();
+                actionFactory.doAction(this, actionBean);
                 this.actionBean = actionBean;
             } else {
                 if ("IM".equals(message.type)) {
@@ -501,8 +501,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 if (actionBean != null) {
-                    ActionController actionFactory = ActionController.getInstance(this);
-                    actionFactory.doAction(actionBean);
+                    ActionController actionFactory = ActionController.getInstance();
+                    actionFactory.doAction(this, actionBean);
                     actionBean = null;
                 }
                 break;
