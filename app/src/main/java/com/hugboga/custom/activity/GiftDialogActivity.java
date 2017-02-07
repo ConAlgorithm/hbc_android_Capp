@@ -36,9 +36,13 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GiftController;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
@@ -109,6 +113,8 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
 
         setTitleTV(couponActivityBean.couponActiviyVo.activityTitle);
         subtitleTV.setText("现在领取，即可在下单时使用");
+
+        setSeneorCouponShow();
     }
 
     @Override
@@ -145,6 +151,7 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
                     intent.putExtra(LoginActivity.KEY_PHONE, phoneET.getText().toString().replaceAll(" ",""));
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                    setSensorsLogin();
                     finish();
                 } else {
                     if (CommonUtils.checkTextIsNull(phoneET)) {
@@ -164,6 +171,7 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
                     HttpRequestUtils.request(this, new RequestAcquirePacket(this, code, phone), this, true);
                     isRequestSucceed = false;
                     CommonUtils.hideSoftInputMethod(phoneET);
+                    setSeneorsCouponGet();
                 }
                 break;
         }
@@ -239,5 +247,37 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
 
     public String getEventSource() {
         return "领取礼包弹框";
+    }
+
+    //神策统计_未登录弹层显示
+    public void setSeneorCouponShow(){
+        try {
+            SensorsDataAPI.sharedInstance(this).track("coupon_show",null);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_未登录领券填写手机
+    public void setSeneorsCouponGet(){
+        JSONObject properties=new JSONObject();
+        try {
+            properties.put("hbc_areacode",phoneCodeTV.getText().toString().trim());
+            properties.put("hbc_tel",phoneET.getText().toString().trim());
+            SensorsDataAPI.sharedInstance(this).track("coupon_get",properties);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_未登录领券登录
+    public void setSensorsLogin(){
+        try {
+            SensorsDataAPI.sharedInstance(this).track("coupon_login",null);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
     }
 }

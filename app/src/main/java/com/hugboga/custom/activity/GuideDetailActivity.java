@@ -39,11 +39,15 @@ import com.hugboga.custom.widget.GuideDetailScrollView;
 import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.widget.SimpleRatingBar;
 import com.hugboga.custom.widget.TagGroup;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -322,6 +326,7 @@ public class GuideDetailActivity extends BaseActivity{
             collectBean = new CollectGuideBean();
             collectBean.guideId = data.guideId;
             collectBean.name = data.guideName;
+            collectBean.cityName=data.cityName;
         }
         return collectBean;
     }
@@ -347,18 +352,22 @@ public class GuideDetailActivity extends BaseActivity{
                 intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
+                setSensorsPointGuide(getCollectBean(),"接送");
                 break;
             case R.id.guide_detail_car_layout:
                 intent = new Intent(this, OrderSelectCityActivity.class);
                 intent.putExtra("collectGuideBean", getCollectBean());
+                intent.putExtra("fromSourse","collectionGuide");
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
+                setSensorsPointGuide(getCollectBean(),"定制");
                 break;
             case R.id.guide_detail_single_layout:
                 intent = new Intent(this, SingleNewActivity.class);
                 intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
+                setSensorsPointGuide(getCollectBean(),"单次");
                 break;
             case R.id.header_detail_back_btn:
                 finish();
@@ -427,5 +436,20 @@ public class GuideDetailActivity extends BaseActivity{
     @Override
     public String getEventId() {
         return StatisticConstant.LAUNCH_GPROFILE;
+    }
+
+    //神策统计_指定司导下单
+    public void setSensorsPointGuide(CollectGuideBean collectGuideBean,String serviceType){
+        try {
+            JSONObject properties=new JSONObject();
+            properties.put("hbc_appoint_entrance","司导个人页");//司导个人页
+            properties.put("hbc_appoint_type",serviceType);//服务类型
+            properties.put("guide_city",collectGuideBean.cityName);//司导所在城市
+            SensorsDataAPI.sharedInstance(this).track("appoint_guide",properties);//事件
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
     }
 }

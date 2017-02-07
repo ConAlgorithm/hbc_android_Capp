@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -18,6 +21,8 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by ZONGFI on 2015/5/14.
@@ -48,8 +53,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                     LoginActivity.isWXLogin = false;
                     EventBus.getDefault().post(new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
+                }else {
+                    EventBus.getDefault().post(new EventAction(EventType.WECHAT_SHARE_SUCCEED));
+                    setSensorsShareBack();
                 }
-                EventBus.getDefault().post(new EventAction(EventType.WECHAT_SHARE_SUCCEED));
                 //分享成功
                 Log.i(TAG, "分享成功");
                 break;
@@ -75,5 +82,20 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
         }
         finish();
+    }
+
+    //神策统计_分享后返回
+    public void setSensorsShareBack(){
+        JSONObject properties=new JSONObject();
+        try {
+            WXShareUtils wxShareUtils=WXShareUtils.getInstance(getBaseContext());
+//            properties.put("share_type",resp.getType()== SendMessageToWX.Req.WXSceneSession?"微信好友":"朋友圈");
+            properties.put("share_type",wxShareUtils.type== 1?"微信好友":"朋友圈");
+            SensorsDataAPI.sharedInstance(getBaseContext()).track("share_back",properties);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
     }
 }

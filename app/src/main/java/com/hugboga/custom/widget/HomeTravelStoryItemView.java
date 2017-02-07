@@ -18,6 +18,8 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import java.util.Random;
 
@@ -69,7 +71,17 @@ public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBe
                 intent.putExtra(WebInfoActivity.WEB_URL, data.storyUrl);
                 getContext().startActivity(intent);
                 StatisticClickEvent.click(StatisticConstant.CLICK_STORY, "首页");
+                setSensorGuideStories();
             }
         });
+    }
+
+    //神策统计_司导故事
+    public void setSensorGuideStories(){
+        try {
+            SensorsDataAPI.sharedInstance(getContext()).track("G_story",null);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        }
     }
 }
