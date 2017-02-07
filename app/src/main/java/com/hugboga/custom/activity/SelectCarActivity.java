@@ -397,7 +397,11 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                         coupon_listview_empty.setVisibility(View.VISIBLE);
                         scrollView.setVisibility(GONE);
                         nextBtnClick.setVisibility(GONE);
-                        empty_text.setText("很抱歉,暂时无法提供服务");
+                        if (!TextUtils.isEmpty(bean.noneCarsReason)) {
+                            empty_text.setText(bean.noneCarsReason);
+                        } else {
+                            empty_text.setText("很抱歉,暂时无法提供服务");
+                        }
                         callPhone.setVisibility(GONE);
                         bottom.setVisibility(GONE);
                     }else {

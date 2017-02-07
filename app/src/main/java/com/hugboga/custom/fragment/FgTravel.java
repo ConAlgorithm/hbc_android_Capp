@@ -36,6 +36,10 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestOrderListAll;
+import com.hugboga.custom.data.request.RequestOrderListDoing;
+import com.hugboga.custom.data.request.RequestOrderListUnevaludate;
+import com.hugboga.custom.data.request.RequestOrderListUnpay;
 import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -187,7 +191,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         fgTravelRunning.setzSwipeRefreshLayout(runningSwipeRefresh);
         fgTravelRunning.setEmptyLayout(runningEmptyLayout);
         fgTravelRunning.setNoticeViewTask(this);
-        fgTravelRunning.setRequestData(new RequestTravel(getActivity(), 0));
+        fgTravelRunning.setRequestData(new RequestOrderListAll(getActivity()));
         fgTravelRunning.setOnItemClickListener(new TravelOnItemClickListener(fgTravelRunning));
         addFooterView(inflater, runningAdapter);
         ZDefaultDivider zDefaultDivider = fgTravelRunning.getItemDecoration();
@@ -205,7 +209,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         fgTravelFinish.setzSwipeRefreshLayout(finishSwipeRefresh);
         fgTravelFinish.setEmptyLayout(finishEmptyLayout);
         fgTravelFinish.setNoticeViewTask(this);
-        fgTravelFinish.setRequestData(new RequestTravel(getActivity(), 4));
+        fgTravelFinish.setRequestData(new RequestOrderListUnpay(getActivity()));
         fgTravelFinish.setOnItemClickListener(new TravelOnItemClickListener(fgTravelFinish));
         ZDefaultDivider zDefaultDivider2 = fgTravelFinish.getItemDecoration();
         zDefaultDivider2.setItemOffsets(0, 15, 0, 15);
@@ -221,7 +225,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         fgTravelCancel.setzSwipeRefreshLayout(cancelSwipeRefresh);
         fgTravelCancel.setEmptyLayout(cancelEmptyLayout);
         fgTravelCancel.setNoticeViewTask(this);
-        fgTravelCancel.setRequestData(new RequestTravel(getActivity(), 5));
+        fgTravelCancel.setRequestData(new RequestOrderListDoing(getActivity()));
         fgTravelCancel.setOnItemClickListener(new TravelOnItemClickListener(fgTravelCancel));
         ZDefaultDivider zDefaultDivider3 = fgTravelCancel.getItemDecoration();
         zDefaultDivider3.setItemOffsets(0, 15, 0, 15);
@@ -237,7 +241,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         fgTravelEvaluate.setzSwipeRefreshLayout(evaluateSwipeRefresh);
         fgTravelEvaluate.setEmptyLayout(evaluateEmptyLayout);
         fgTravelEvaluate.setNoticeViewTask(this);
-        fgTravelEvaluate.setRequestData(new RequestTravel(getActivity(), 6));
+        fgTravelEvaluate.setRequestData(new RequestOrderListUnevaludate(getActivity()));
         fgTravelEvaluate.setOnItemClickListener(new TravelOnItemClickListener(fgTravelEvaluate));
         ZDefaultDivider zDefaultDivider4 = fgTravelEvaluate.getItemDecoration();
         zDefaultDivider4.setItemOffsets(0, 15, 0, 15);
@@ -485,27 +489,32 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
     public void notice(Object object) {
         if (object != null) {
             Object[] obj = (Object[]) object;
-            int tab2Count = CommonUtils.getCountInteger("" + obj[2]);
-            if (tab2Count > 0) {
-                tab2NumberTextView.setVisibility(View.VISIBLE);
-                tab2NumberTextView.setText(tab2Count > 100 ? "..." : "" + tab2Count);
-            } else {
-                tab2NumberTextView.setVisibility(View.GONE);
+            switch (pagerPosition) {
+                case 0:
+                    setListCount(tab2NumberTextView, obj[2]);
+                    setListCount(tab3NumberTextView, obj[3]);
+                    setListCount(tab4NumberTextView, obj[4]);
+                    break;
+                case 1:
+                    setListCount(tab2NumberTextView, obj[0]);
+                    break;
+                case 2:
+                    setListCount(tab3NumberTextView, obj[0]);
+                    break;
+                case 3:
+                    setListCount(tab4NumberTextView, obj[0]);
+                    break;
             }
-            int tab3Count = CommonUtils.getCountInteger("" + obj[3]);
-            if (tab3Count > 0) {
-                tab3NumberTextView.setVisibility(View.VISIBLE);
-                tab3NumberTextView.setText(tab3Count > 100 ? "..." : "" + tab3Count);
-            } else {
-                tab3NumberTextView.setVisibility(View.GONE);
-            }
-            int tab4Count = CommonUtils.getCountInteger("" + obj[4]);
-            if (tab4Count > 0) {
-                tab4NumberTextView.setVisibility(View.VISIBLE);
-                tab4NumberTextView.setText(tab4Count > 100 ? "..." : "" + tab4Count);
-            } else {
-                tab4NumberTextView.setVisibility(View.GONE);
-            }
+        }
+    }
+
+    private void setListCount(TextView textView, Object _count) {
+        int count = CommonUtils.getCountInteger("" + _count);
+        if (count > 0) {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(count > 100 ? "..." : "" + count);
+        } else {
+            textView.setVisibility(View.GONE);
         }
     }
 

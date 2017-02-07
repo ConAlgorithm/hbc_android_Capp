@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 113
+    //current urlErrorCode 117
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -161,7 +161,6 @@ public class UrlLibs {
     public static final String RECOMMENDLIN                 = "trade/v1.0/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
     public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.2/c/order/detail?";                             // 订单详情
-    public static final String SERVER_IP_ORDER_LIST         = "trade/v1.2/c/order/list?";                               // 订单列表
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
     public static final String GET_USER_COUPON              = "trade/v1.0/c/order/home?";                               // 获取用户优惠卷
     public static final String SERVER_IP_GUIDES_COMMENTS    = "trade/v1.3/c/order/evaluate?";                           // 对车导评价 *** 1.0
@@ -176,6 +175,11 @@ public class UrlLibs {
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
     public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
     public static final String CANCEL_REASON                = "trade/v1.0/c/order/cancelReason";                        // 取消订单原因接口
+    public static final String ORDER_LIST_ALL               = "trade/v1.3/c/order/list/all";                            // 订单列表 全部 114
+    public static final String ORDER_LIST_UNPAY             = "trade/v1.3/c/order/list/unpay";                          // 订单列表 待支付 115
+    public static final String ORDER_LIST_DOING             = "trade/v1.3/c/order/list/doing";                          // 订单列表 进行中 116
+    public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.3/c/order/list/unevaludate";                    // 订单列表 待评价 117
+    public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机
@@ -207,7 +211,6 @@ public class UrlLibs {
     public static final String SERVER_IP_FLIGHTS_BY_NO      = "flight/v1.0/c/flights?";                                 // 航班查询 通过航班号
     public static final String SERVER_IP_FLIGHTS_BY_CITY    = "flight/v1.0/c/city/flights?";                            // 航班查询 通过城市
 
-    public static final String SERVER_IP_POI                = "poi/v1.1/c/places?";                                     // poi 地理搜索
     public static final String UPLOAD_LOCATION              = "poi/v1.0/c/city?";                                       // 上传经纬度
     public static final String UPLOAD_LOCATION_V11          = "poi/v1.1/c/city?";                                       // 获取定位城市机场列表
 
@@ -237,12 +240,10 @@ public class UrlLibs {
     public static final String REMOVE_NIM_CHAT              = "communication/v3.0/c/im/chat/remove";                    // 云信私聊列表删除对话接口
     public static final String ADD_NIM_BLACK                = "communication/v3.0/c/im/black/add";                      // 云信私聊对象加入黑名单
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单
-
+    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                    // 聊天列表订单信息
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
 
-    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                    // 聊天列表订单信息
-
-    public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口
+    public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
 }

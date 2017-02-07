@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:text="0"
             android:textSize="18sp"
-            android:textColor="#fe6732"
+            android:textColor="#f63308"
             />
         <TextView
             android:id="@+id/choose_payment_sign_tv"
@@ -40,7 +40,7 @@
             android:layout_toLeftOf="@id/choose_payment_price_tv"
             android:text="@string/sign_rmb"
             android:textSize="12sp"
-            android:textColor="#fe6732"
+            android:textColor="#f63308"
             />
 
     </RelativeLayout>
