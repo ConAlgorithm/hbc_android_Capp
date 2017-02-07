@@ -21,7 +21,10 @@ import com.hugboga.custom.utils.Tools;
 import org.xutils.view.annotation.ViewInject;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,7 +80,7 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             }
             if(chatBean.timeStamp!=0){
                 try {
-                    mTime.setText(DateUtils.getDate(chatBean.timeStamp));
+                    mTime.setText(getDate(chatBean.timeStamp));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -135,6 +138,25 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             mListView.setAdapter(adapter);
         } else {
             mOrdersLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private String getDate(long time) {
+        Date date = new Date(time);
+        if (DateUtils.isToday(date)) {
+            try {
+                SimpleDateFormat dateformatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                return dateformatter.format(date);
+            }catch (Exception e){
+                return "";
+            }
+        } else {
+            try {
+                SimpleDateFormat dateformatter = new SimpleDateFormat("MM-dd", Locale.getDefault());
+                return dateformatter.format(date);
+            }catch (Exception e){
+                return "";
+            }
         }
     }
 }
