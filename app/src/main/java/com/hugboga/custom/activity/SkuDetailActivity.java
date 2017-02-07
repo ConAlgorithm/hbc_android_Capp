@@ -147,6 +147,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             url = CommonUtils.getBaseUrl(url) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
         }
+
+        try {
+            SensorsDataAPI.sharedInstance(this).showUpWebView(webView, false);
+        } catch (Exception e) {
+
+        }
     }
 
     public void setGoodsOut() {// 商品已下架
@@ -250,7 +256,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv,R.id.hint_iv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -316,6 +322,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                break;
+            case R.id.hint_iv:
+                findViewById(R.id.hint_layout).setVisibility(View.GONE);
                 break;
         }
     }

@@ -33,6 +33,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -309,6 +310,12 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
+
+        try {
+            SensorsDataAPI.sharedInstance(this).showUpWebView(webView, false);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
