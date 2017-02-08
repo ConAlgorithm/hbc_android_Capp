@@ -303,7 +303,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             searchWord = searchWord.trim();
             saveHistoryDate(searchWord);
             onRefresh();
-            arrivalTip.setText(R.string.arrival_tip_same);
+            arrivalTip.setText(R.string.arrival_tip_hotel);
         } else {
             arrivalTip.setText(R.string.arrival_tip_hotel);
             sourceDateList = null;
