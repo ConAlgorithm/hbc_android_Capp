@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/activity_search_edit_head" />
@@ -11,14 +12,13 @@
         android:id="@+id/arrival_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/basic_white"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="81dp"
             android:layout_marginTop="50dip"
             android:src="@drawable/error_show" />
 
@@ -26,8 +26,9 @@
             android:id="@+id/arrival_empty_layout_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
-            android:text="@string/empty_text" />
+            android:layout_marginTop="20dip"
+            android:text="@string/empty_text"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView
@@ -36,22 +37,13 @@
         android:layout_height="wrap_content"
         android:background="@color/item_title_bg"
         android:padding="10dp"
-        android:visibility="gone"
         android:text="@string/arrival_tip_hotel"
-        android:textColor="@color/basic_rent_toolbar_color" />
+        android:textColor="@color/basic_rent_toolbar_color"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/basic_white">
-
-        <com.hugboga.custom.widget.ZListView
-            android:id="@+id/country_lvcountry"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:background="@color/basic_white" />
-    </LinearLayout>
+    <com.hugboga.custom.widget.ZListView
+        android:id="@+id/country_lvcountry"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center" />
 
 </LinearLayout>
