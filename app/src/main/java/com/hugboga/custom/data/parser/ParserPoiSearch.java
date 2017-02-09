@@ -18,7 +18,7 @@ public class ParserPoiSearch extends ImplParser {
     public Object parseObject(JSONObject obj) throws Throwable {
         JSONArray contentArray = obj.optJSONArray("places");
         newPoiBean = new NewPoiBean();
-        newPoiBean.pageToken = obj.optString("pageToken");
+        newPoiBean.count = obj.optInt("count");
         if (contentArray != null) {
             newPoiBean.listDate = new ArrayList<PoiBean>();
             JSONObject segObj;

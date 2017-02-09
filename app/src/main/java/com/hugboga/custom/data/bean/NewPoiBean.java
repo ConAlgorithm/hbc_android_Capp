@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 public class NewPoiBean implements IBaseBean{
     public ArrayList<PoiBean> listDate;
-    public String pageToken;
+    public int count;
 }

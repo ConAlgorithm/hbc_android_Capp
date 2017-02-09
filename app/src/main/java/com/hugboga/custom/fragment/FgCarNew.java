@@ -564,15 +564,17 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         params.startCityId = cityId;
                         params.startTime = startTime;
                         params.endTime = endTime;
-                        params.adultNum = guideCarList.get(currentIndex).capOfPerson;
                         params.childrenNum = 0;
-                        params.childSeatNum = guideCarList.get(currentIndex).carSeat;
-                        params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
                         params.orderType = orderType;
                         params.totalDays = 1;
                         params.passCityId = cityId + "";
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
                         bundle.putString(Constants.PARAMS_SOURCE, source);
+                        if (guideCarList != null && guideCarList.size() > currentIndex && guideCarList.get(currentIndex) != null) {
+                            params.adultNum = guideCarList.get(currentIndex).capOfPerson;
+                            params.childSeatNum = guideCarList.get(currentIndex).carSeat;
+                            params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
+                        }
                         Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);

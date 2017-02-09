@@ -317,6 +317,12 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
+
+        try {
+            SensorsDataAPI.sharedInstance(this).showUpWebView(webView, false);
+        } catch (Exception e) {
+
+        }
     }
 
     public void initHeader() {

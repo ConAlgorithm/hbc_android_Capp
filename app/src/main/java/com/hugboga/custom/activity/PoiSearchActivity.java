@@ -181,9 +181,9 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         arrivalTip.setText(R.string.arrival_tip_hotel);
     }
 
-    String pageToken = null;
+    int listCount = 0;
     private void requestKeyword(int offset) {
-        if (sortListView.state == ZListView.LOADING_MORE && TextUtils.isEmpty(pageToken)) {
+        if (sortListView.state == ZListView.LOADING_MORE && adapter.getCount() >= listCount) {
             return;
         }
         if (isLoading) {
@@ -196,9 +196,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         map.put("searchinput",searchWord);
         MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
 
-        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity,
-                cityId, location, searchWord,
-                offset, PAGESIZE,mBusinessType,pageToken);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE);
         requestData(requestPoiSearch);
     }
 
@@ -208,7 +206,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         if (request instanceof RequestPoiSearch) {
             RequestPoiSearch requestPoiSearch = (RequestPoiSearch) request;
             NewPoiBean newPoiBean = (requestPoiSearch.getData());//listDate;
-            pageToken = newPoiBean.pageToken;
+            listCount = newPoiBean.count;
             ArrayList<PoiBean> dateList = newPoiBean.listDate;
             sortListView.setEmptyView(emptyView);
             if (TextUtils.isEmpty(editSearch.getText())) {
@@ -229,6 +227,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 adapter.setList(dateList);
 //                sortListView.setAdapter(adapter);
                 sortListView.onRefreshComplete();
+                sortListView.setSelection(0);
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
             isLoading = false;
@@ -304,7 +303,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             searchWord = searchWord.trim();
             saveHistoryDate(searchWord);
             onRefresh();
-            arrivalTip.setText(R.string.arrival_tip_same);
+            arrivalTip.setText(R.string.arrival_tip_hotel);
         } else {
             arrivalTip.setText(R.string.arrival_tip_hotel);
             sourceDateList = null;
@@ -339,7 +338,6 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onRefresh() {
         sortListView.state = ZListView.RELEASE_To_REFRESH;
-        pageToken = null;
         if(!TextUtils.isEmpty(searchWord)) {
             requestKeyword(0);
         }else{

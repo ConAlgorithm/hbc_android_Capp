@@ -1274,7 +1274,7 @@ public class OrderNewActivity extends BaseActivity {
                     break;
                 case 3:
                 case 5:
-                    RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(activity, getOrderByInput());
+                    RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(activity, getOrderByInput(), true);
                     requestData(requestSubmitBase);
                     break;
                 case 6:
@@ -1514,7 +1514,7 @@ public class OrderNewActivity extends BaseActivity {
                 showYearMonthDayTimePicker();
                 break;
             case up_address_right:
-                startArrivalSearch(Integer.valueOf((null == startCityId) ? poiBean.id + "" : startCityId), (null == startBean) ? poiBean.location : startBean.location);
+                startArrivalSearch(CommonUtils.getCountInteger(startCityId), (null == startBean) ? poiBean.location : startBean.location);
                 break;
             case R.id.hotel_phone_text_code_click:
                 Bundle bundleCode = new Bundle();

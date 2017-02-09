@@ -90,6 +90,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -169,8 +170,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         showAdWebView(getIntent().getStringExtra("url"));
 
         if (actionBean != null) {
-            ActionController actionFactory = ActionController.getInstance(this);
-            actionFactory.doAction(actionBean);
+            ActionController actionFactory = ActionController.getInstance();
+            actionFactory.doAction(this, actionBean);
         }
 
         if (pagePosition != -1) {
@@ -246,6 +247,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void showAdWebView(String url){
         if(null != url) {
+            if (CommonUtils.isLogin(activity)) {
+                url = CommonUtils.getBaseUrl(url) + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
+            }
             Intent intent = new Intent(activity,WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
@@ -435,8 +439,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 }
             }
             if (actionBean != null) {
-                ActionController actionFactory = ActionController.getInstance(this);
-                actionFactory.doAction(actionBean);
+                ActionController actionFactory = ActionController.getInstance();
+                actionFactory.doAction(this, actionBean);
             }
         }
         receivePushMessage(intent);
@@ -452,8 +456,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             ActionBean actionBean = message.getActionBean();
             if (actionBean != null) {
                 actionBean.source = "push调起";
-                ActionController actionFactory = ActionController.getInstance(this);
-                actionFactory.doAction(actionBean);
+                ActionController actionFactory = ActionController.getInstance();
+                actionFactory.doAction(this, actionBean);
                 this.actionBean = actionBean;
             } else {
                 if ("IM".equals(message.type)) {
@@ -501,8 +505,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 if (actionBean != null) {
-                    ActionController actionFactory = ActionController.getInstance(this);
-                    actionFactory.doAction(actionBean);
+                    ActionController actionFactory = ActionController.getInstance();
+                    actionFactory.doAction(this, actionBean);
                     actionBean = null;
                 }
                 break;

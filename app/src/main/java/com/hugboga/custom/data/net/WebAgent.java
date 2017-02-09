@@ -202,8 +202,8 @@ public class WebAgent implements HttpRequestListener {
                     ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
                     if (actionBean != null) {
                         actionBean.source = TextUtils.isEmpty(title) ? "web页面" : title;
-                        ActionController actionFactory = ActionController.getInstance(mActivity);
-                        actionFactory.doAction(actionBean);
+                        ActionController actionFactory = ActionController.getInstance();
+                        actionFactory.doAction(mActivity, actionBean);
                     }
                 }
 
