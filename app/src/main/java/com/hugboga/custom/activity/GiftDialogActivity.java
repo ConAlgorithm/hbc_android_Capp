@@ -114,7 +114,7 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
         setTitleTV(couponActivityBean.couponActiviyVo.activityTitle);
         subtitleTV.setText("现在领取，即可在下单时使用");
 
-        setSeneorCouponShow();
+        setSensorsCouponShow();
     }
 
     @Override
@@ -171,7 +171,7 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
                     HttpRequestUtils.request(this, new RequestAcquirePacket(this, code, phone), this, true);
                     isRequestSucceed = false;
                     CommonUtils.hideSoftInputMethod(phoneET);
-                    setSeneorsCouponGet();
+                    setSensorsCouponGet();
                 }
                 break;
         }
@@ -250,33 +250,31 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
     }
 
     //神策统计_未登录弹层显示
-    public void setSeneorCouponShow(){
+    public void setSensorsCouponShow() {
         try {
-            SensorsDataAPI.sharedInstance(this).track("coupon_show",null);
-        } catch (InvalidDataException e) {
+            SensorsDataAPI.sharedInstance(this).track("coupon_show", null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //神策统计_未登录领券填写手机
-    public void setSeneorsCouponGet(){
-        JSONObject properties=new JSONObject();
+    public void setSensorsCouponGet() {
+        JSONObject properties = new JSONObject();
         try {
-            properties.put("hbc_areacode",phoneCodeTV.getText().toString().trim());
-            properties.put("hbc_tel",phoneET.getText().toString().trim());
-            SensorsDataAPI.sharedInstance(this).track("coupon_get",properties);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
+            properties.put("hbc_areacode", phoneCodeTV.getText().toString().trim());
+            properties.put("hbc_tel", phoneET.getText().toString().trim());
+            SensorsDataAPI.sharedInstance(this).track("coupon_get", properties);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //神策统计_未登录领券登录
-    public void setSensorsLogin(){
+    public void setSensorsLogin() {
         try {
-            SensorsDataAPI.sharedInstance(this).track("coupon_login",null);
-        } catch (InvalidDataException e) {
+            SensorsDataAPI.sharedInstance(this).track("coupon_login", null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

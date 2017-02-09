@@ -877,25 +877,23 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     }
 
     //神策统计_筛选
-    public void setSensorsFilter(int type,String content){
+    public void setSensorsFilter(int type, String content) {
         try {
-            JSONObject properties=new JSONObject();
-            switch (type){
+            JSONObject properties = new JSONObject();
+            switch (type) {
                 case 0:
-                    properties.put("hbc_filter_type","商品类型");
+                    properties.put("hbc_filter_type", "商品类型");
                     break;
                 case 1:
-                    properties.put("hbc_filter_type","天数");
+                    properties.put("hbc_filter_type", "天数");
                     break;
                 case 2:
-                    properties.put("hbc_filter_type","主题");
+                    properties.put("hbc_filter_type", "主题");
                     break;
             }
-        properties.put("hbc_filter_content",content);
-        SensorsDataAPI.sharedInstance(this).track("filter",properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            properties.put("hbc_filter_content", content);
+            SensorsDataAPI.sharedInstance(this).track("filter", properties);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

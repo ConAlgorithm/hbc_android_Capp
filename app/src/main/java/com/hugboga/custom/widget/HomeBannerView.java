@@ -220,7 +220,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
     public void setSensorPlayVideo(){
         try {
             SensorsDataAPI.sharedInstance(getContext()).track("play_video",null);
-        } catch (InvalidDataException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

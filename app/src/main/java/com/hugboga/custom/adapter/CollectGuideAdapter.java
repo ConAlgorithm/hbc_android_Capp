@@ -130,7 +130,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                             intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getIntentSource());
                         }
                         context.startActivity(intent);
-                        setSensorsPointGuide(collectGuideBean,"接送");
+                        setSensorsPointGuide(collectGuideBean, "接送");
                     }
                 });
                 holder.carLayout.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +143,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                             intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getIntentSource());
                         }
                         context.startActivity(intent);
-                        setSensorsPointGuide(collectGuideBean,"定制");
+                        setSensorsPointGuide(collectGuideBean, "定制");
                     }
                 });
                 holder.singleLayout.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +156,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                             intent.putExtra(Constants.PARAMS_SOURCE, ((GuideDetailActivity) context).getIntentSource());
                         }
                         context.startActivity(intent);
-                        setSensorsPointGuide(collectGuideBean,"单次");
+                        setSensorsPointGuide(collectGuideBean, "单次");
                     }
                 });
             }
@@ -241,16 +241,14 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
     }
 
     //神策统计_指定司导下单
-    public void setSensorsPointGuide(CollectGuideBean collectGuideBean,String serviceType){
+    public void setSensorsPointGuide(CollectGuideBean collectGuideBean, String serviceType) {
         try {
-            JSONObject properties=new JSONObject();
-            properties.put("hbc_appoint_entrance","选择已收藏司导下单");//选择已收藏司导下单"
-            properties.put("hbc_appoint_type",serviceType);//服务类型
-            properties.put("service_city",collectGuideBean.cityName);//下单中选择有此属性
-            SensorsDataAPI.sharedInstance(context).track("appoint_guide",properties);//事件
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_appoint_entrance", "选择已收藏司导下单");//选择已收藏司导下单"
+            properties.put("hbc_appoint_type", serviceType);//服务类型
+            properties.put("service_city", collectGuideBean.cityName);//下单中选择有此属性
+            SensorsDataAPI.sharedInstance(context).track("appoint_guide", properties);//事件
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

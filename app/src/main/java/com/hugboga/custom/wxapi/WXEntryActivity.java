@@ -53,7 +53,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                     LoginActivity.isWXLogin = false;
                     EventBus.getDefault().post(new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
-                }else {
+                } else {
                     EventBus.getDefault().post(new EventAction(EventType.WECHAT_SHARE_SUCCEED));
                     setSensorsShareBack();
                 }
@@ -85,16 +85,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     //神策统计_分享后返回
-    public void setSensorsShareBack(){
-        JSONObject properties=new JSONObject();
+    public void setSensorsShareBack() {
+        JSONObject properties = new JSONObject();
         try {
-            WXShareUtils wxShareUtils=WXShareUtils.getInstance(getBaseContext());
+            WXShareUtils wxShareUtils = WXShareUtils.getInstance(getBaseContext());
 //            properties.put("share_type",resp.getType()== SendMessageToWX.Req.WXSceneSession?"微信好友":"朋友圈");
-            properties.put("share_type",wxShareUtils.type== 1?"微信好友":"朋友圈");
-            SensorsDataAPI.sharedInstance(getBaseContext()).track("share_back",properties);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
+            properties.put("share_type", wxShareUtils.type == 1 ? "微信好友" : "朋友圈");
+            SensorsDataAPI.sharedInstance(getBaseContext()).track("share_back", properties);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

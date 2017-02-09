@@ -77,10 +77,10 @@ public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBe
     }
 
     //神策统计_司导故事
-    public void setSensorGuideStories(){
+    public void setSensorGuideStories() {
         try {
-            SensorsDataAPI.sharedInstance(getContext()).track("G_story",null);
-        } catch (InvalidDataException e) {
+            SensorsDataAPI.sharedInstance(getContext()).track("G_story", null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

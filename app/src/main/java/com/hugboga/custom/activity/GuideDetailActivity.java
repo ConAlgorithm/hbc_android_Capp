@@ -61,6 +61,8 @@ import butterknife.OnClick;
  */
 public class GuideDetailActivity extends BaseActivity{
 
+    public final static  String TAG="GuideDetailActivity";
+
     @Bind(R.id.guide_detail_titlebar)
     RelativeLayout titlebar;
     @Bind(R.id.header_detail_right_2_btn)
@@ -352,22 +354,22 @@ public class GuideDetailActivity extends BaseActivity{
                 intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                setSensorsPointGuide(getCollectBean(),"接送");
+                setSensorsPointGuide(getCollectBean(), "接送");
                 break;
             case R.id.guide_detail_car_layout:
                 intent = new Intent(this, OrderSelectCityActivity.class);
                 intent.putExtra("collectGuideBean", getCollectBean());
-                intent.putExtra("fromSourse","collectionGuide");
+                intent.putExtra("fromSource", TAG);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                setSensorsPointGuide(getCollectBean(),"定制");
+                setSensorsPointGuide(getCollectBean(), "定制");
                 break;
             case R.id.guide_detail_single_layout:
                 intent = new Intent(this, SingleNewActivity.class);
                 intent.putExtra("collectGuideBean", getCollectBean());
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-                setSensorsPointGuide(getCollectBean(),"单次");
+                setSensorsPointGuide(getCollectBean(), "单次");
                 break;
             case R.id.header_detail_back_btn:
                 finish();
@@ -439,16 +441,14 @@ public class GuideDetailActivity extends BaseActivity{
     }
 
     //神策统计_指定司导下单
-    public void setSensorsPointGuide(CollectGuideBean collectGuideBean,String serviceType){
+    public void setSensorsPointGuide(CollectGuideBean collectGuideBean, String serviceType) {
         try {
-            JSONObject properties=new JSONObject();
-            properties.put("hbc_appoint_entrance","司导个人页");//司导个人页
-            properties.put("hbc_appoint_type",serviceType);//服务类型
-            properties.put("guide_city",collectGuideBean.cityName);//司导所在城市
-            SensorsDataAPI.sharedInstance(this).track("appoint_guide",properties);//事件
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_appoint_entrance", "司导个人页");//司导个人页
+            properties.put("hbc_appoint_type", serviceType);//服务类型
+            properties.put("guide_city", collectGuideBean.cityName);//司导所在城市
+            SensorsDataAPI.sharedInstance(this).track("appoint_guide", properties);//事件
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

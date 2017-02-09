@@ -155,7 +155,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                             ServiceQuestionBean.QuestionItem defaultServiceQuestionItem = new ServiceQuestionBean.QuestionItem();
                             defaultServiceQuestionItem.type = 3;
                             defaultServiceQuestionItem.customRole = lastCustomRole;
-                            defaultServiceQuestionItem.parentName=questionItem2.adviceName;
+                            defaultServiceQuestionItem.parentName = questionItem2.adviceName;
                             defaultServiceQuestionItem.adviceName = "还没解决您的问题？转接人工服务";
                             questionList.add(defaultServiceQuestionItem);
                         }
@@ -207,65 +207,61 @@ public class ServiceQuestionActivity extends BaseActivity{
     }
 
     //神策统计_IM客服（定位im的入口和用户进行的操作）
-    public void setSensorsIM(ServiceQuestionBean.QuestionItem questionItem ){
+    public void setSensorsIM(ServiceQuestionBean.QuestionItem questionItem) {
         try {
-            JSONObject properties=new JSONObject();
-            switch (params.sourceType){
+            JSONObject properties = new JSONObject();
+            switch (params.sourceType) {
                 case UnicornServiceActivity.SourceType.TYPE_DEFAULT:
-                    properties.put("hbc_im_type","统一入口");
+                    properties.put("hbc_im_type", "统一入口");
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_CHARTERED:
-                    properties.put("hbc_im_type","包车详情");//在线客服进入路径：订单页
+                    properties.put("hbc_im_type", "包车详情");//在线客服进入路径：订单页
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_ORDER:
-                    properties.put("hbc_im_type","订单页");//在线客服进入路径：订单页
+                    properties.put("hbc_im_type", "订单页");//在线客服进入路径：订单页
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_LINE:
-                    properties.put("hbc_im_type","商品详情");//在线客服进入路径：商品详情
+                    properties.put("hbc_im_type", "商品详情");//在线客服进入路径：商品详情
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_CHAT_LIST:
-                    properties.put("hbc_im_type","私聊");//在线客服进入路径：私聊
+                    properties.put("hbc_im_type", "私聊");//在线客服进入路径：私聊
                     break;
             }
-            properties.put("hbc_im_title",questionItem.adviceName);//IM标题（进入IM后点击热门问题，人工客服等）
-            if(TextUtils.isEmpty(questionItem.parentName)){
-                properties.put("hbc_im_father","");//该标题的父级，无父级记为空
-            }else {
-                properties.put("hbc_im_father",questionItem.parentName);//该标题的父级，无父级记为空
+            properties.put("hbc_im_title", questionItem.adviceName);//IM标题（进入IM后点击热门问题，人工客服等）
+            if (TextUtils.isEmpty(questionItem.parentName)) {
+                properties.put("hbc_im_father", "");//该标题的父级，无父级记为空
+            } else {
+                properties.put("hbc_im_father", questionItem.parentName);//该标题的父级，无父级记为空
             }
-            SensorsDataAPI.sharedInstance(this).track("contact_im",properties);//事件
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
+            SensorsDataAPI.sharedInstance(this).track("contact_im", properties);//事件
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //神策统计_聊天入口展开
-    public void setSensorsLaunchIM(){
-        JSONObject properties=new JSONObject();
+    public void setSensorsLaunchIM() {
+        JSONObject properties = new JSONObject();
         try {
-            switch (params.sourceType){
+            switch (params.sourceType) {
                 case UnicornServiceActivity.SourceType.TYPE_DEFAULT:
-                    properties.put("launch_type","统一入口");
+                    properties.put("launch_type", "统一入口");
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_CHARTERED:
-                    properties.put("launch_type","包车详情");//在线客服进入路径：订单页
+                    properties.put("launch_type", "包车详情");//在线客服进入路径：订单页
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_ORDER:
-                    properties.put("launch_type","订单页");//在线客服进入路径：订单页
+                    properties.put("launch_type", "订单页");//在线客服进入路径：订单页
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_LINE:
-                    properties.put("launch_type","商品详情");//在线客服进入路径：商品详情
+                    properties.put("launch_type", "商品详情");//在线客服进入路径：商品详情
                     break;
                 case UnicornServiceActivity.SourceType.TYPE_CHAT_LIST:
-                    properties.put("launch_type","私聊");//在线客服进入路径：私聊
+                    properties.put("launch_type", "私聊");//在线客服进入路径：私聊
                     break;
             }
-            SensorsDataAPI.sharedInstance(this).track("launch_im",properties);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InvalidDataException e) {
+            SensorsDataAPI.sharedInstance(this).track("launch_im", properties);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
