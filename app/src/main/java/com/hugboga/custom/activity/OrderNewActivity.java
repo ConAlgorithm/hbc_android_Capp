@@ -1274,7 +1274,7 @@ public class OrderNewActivity extends BaseActivity {
                     break;
                 case 3:
                 case 5:
-                    RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(activity, getOrderByInput());
+                    RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(activity, getOrderByInput(), true);
                     requestData(requestSubmitBase);
                     break;
                 case 6:

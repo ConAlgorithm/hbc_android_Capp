@@ -13,7 +13,7 @@ import org.xutils.http.annotation.HttpRequest;
  */
 @HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_DAILY12, builder = NewParamsBuilder.class)
 public class RequestSubmitDaily extends RequestSubmitBase {
-    public RequestSubmitDaily(Context context, OrderBean orderBean) {
+    public RequestSubmitDaily(Context context, OrderBean orderBean, boolean isDaily) {
         super(context, orderBean);
         map.put("startCityId", orderBean.serviceCityId);
         map.put("startCityName", orderBean.serviceCityName);
@@ -62,6 +62,10 @@ public class RequestSubmitDaily extends RequestSubmitBase {
             map.put("priceHotel", orderBean.orderPriceInfo.priceHotel);
         }
         map.put("hotelRoom", orderBean.hotelRoom);
+
+        if (!isDaily) {//固定线路一口价 价格验证需要
+            map.put("promationDetailCheck", 1);
+        }
 
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数
