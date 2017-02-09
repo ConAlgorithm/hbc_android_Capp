@@ -102,6 +102,9 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         } else {
             moreLayout.setVisibility(View.VISIBLE);
         }
+        for (int i = size; i < childCount; i++) {
+            containerLayot.getChildAt(i).setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.sku_order_car_type_more_layout})

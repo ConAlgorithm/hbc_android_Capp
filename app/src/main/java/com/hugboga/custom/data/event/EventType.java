@@ -91,4 +91,6 @@ public enum EventType {
     CITY_FILTER_CLOSE,//关闭城市过滤
 
     SHOW_GIFT_DIALOG,//显示未登录领卷
+
+    SKU_ORDER_REFRESH,//线路下单 数据刷新
 }

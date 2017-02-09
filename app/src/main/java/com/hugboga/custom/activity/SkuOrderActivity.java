@@ -246,6 +246,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
                 break;
+            case SKU_ORDER_REFRESH://价格或数量变更 刷新
+                onRefresh();
+                break;
         }
     }
 
@@ -338,6 +341,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestSubmitBase || request instanceof RequestPayNo) {
+            return;
+        }
         emptyLayout.setErrorVisibility(View.VISIBLE);
         setItemVisibility(View.GONE);
     }
@@ -580,7 +586,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         orderBean = getSKUOrderByInput();
         switch (orderType) {
             case 5:
-                RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(this, orderBean);
+                RequestSubmitDaily requestSubmitBase = new RequestSubmitDaily(this, orderBean, false);
                 requestData(requestSubmitBase);
                 break;
             case 6:
