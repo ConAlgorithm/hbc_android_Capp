@@ -338,7 +338,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if(TextUtils.isEmpty(chatInfo.imUserId)){
                     return;
                 }
-                NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null,new ParserChatInfo().toJsonString(chatInfo));
+                NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null/*,new ParserChatInfo().toJsonString(chatInfo)*/);
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {

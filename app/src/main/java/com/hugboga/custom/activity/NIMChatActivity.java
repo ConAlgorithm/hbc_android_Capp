@@ -90,7 +90,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private String sessionId;
 
     public static void start(Context context, String contactId, SessionCustomization customization, String orderJson) {
-      start(context,contactId,null,orderJson,0);
+      start(context,contactId,null/*,orderJson,0*/);
     }
 
 
@@ -99,15 +99,13 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      * @param context
      * @param contactId
      * @param customization
-     * @param orderJson
-     * @param allowSendMsg 是否能给对方发送消息，如果订单已取消不能发送消息，0可以发送，1不能发送
      */
-    public static void start(Context context, String contactId, SessionCustomization customization, String orderJson,int allowSendMsg) {
+    public static void start(Context context, String contactId, SessionCustomization customization/*, String orderJson,int allowSendMsg*/) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
-        intent.putExtra(MessageFragment.ALLOW_SEND_MSG_KEY,allowSendMsg);
-        intent.putExtra(ORDER_INFO_KEY,orderJson);
+        //intent.putExtra(MessageFragment.ALLOW_SEND_MSG_KEY,allowSendMsg);
+        //intent.putExtra(ORDER_INFO_KEY,orderJson);
         intent.setClass(context, NIMChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -135,8 +133,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     //public final String USER_IM_ADD = "G";
     private boolean isChat = false; //是否开启聊天
     private String userId; //用户ID
-    private String imUserId; //用户ID
-    private String userAvatar; //用户头像
+    //private String imUserId; //用户ID
+    //private String userAvatar; //用户头像
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
     private int isHideMoreBtn;
@@ -197,13 +195,13 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             }
         }
 
-        Bundle bundle = getIntent().getExtras();
-        String orderJson = bundle.getString(ORDER_INFO_KEY);
-        getUserInfoToOrder(orderJson);
+        //Bundle bundle = getIntent().getExtras();
+        //String orderJson = bundle.getString(ORDER_INFO_KEY);
+        //getUserInfoToOrder();
 
          addConversationFragment();
         //刷新订单信息
-        localTimeView.setData(nationalFlag, timediff, timezone, cityName, countryName);
+
     }
 
     private void addConversationFragment(){
@@ -269,33 +267,39 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     /**
      * 解析用户ID信息
      */
-    private void getUserInfoToOrder(String jsonStr) {
-        if(TextUtils.isEmpty(jsonStr)){
-            return;
-        }
-        try {
-            ChatInfo imInfo = new ParserChatInfo().parseObject(new JSONObject(jsonStr));
-            if (imInfo == null) return;
-            isChat = imInfo.isChat;
-            userId = imInfo.userId;
-            imUserId = imInfo.imUserId;
-            userAvatar = imInfo.userAvatar;
-            fgTitle.setText(imInfo.title); //设置标题
-            targetType = imInfo.targetType;
-            inBlack = imInfo.inBlack;
-            isHideMoreBtn = imInfo.isHideMoreBtn;
-            nationalFlag = imInfo.flag;
-            timediff = imInfo.timediff;
-            timezone = imInfo.timezone;
-            cityName = imInfo.cityName;
-            countryName = imInfo.countryName;
-            resetRightBtn();
-            initRunningOrder(); //构建和该用户之间的订单
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+    private void getUserInfoToOrder() {
+        resetRightBtn();
+        initRunningOrder(); //构建和该用户之间的订单
+//        if(TextUtils.isEmpty(jsonStr)){
+//            return;
+//        }
+//        try {
+//            ChatInfo imInfo = new ParserChatInfo().parseObject(new JSONObject(jsonStr));
+//            if (imInfo == null) return;
+            //isChat = imInfo.isChat;
+            //imUserId = imInfo.imUserId;
+            //userAvatar = imInfo.userAvatar;
+            //isHideMoreBtn = imInfo.isHideMoreBtn;
+
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        } catch (Throwable throwable) {
+//            throwable.printStackTrace();
+//        }
+    }
+
+    private void setOrderData(ChatBean chatBean){
+        userId = chatBean.userId;
+        fgTitle.setText(chatBean.targetName); //设置标题
+        targetType = String.valueOf(chatBean.targetType);
+        inBlack = chatBean.inBlack;
+        nationalFlag = chatBean.flag;
+        timediff = chatBean.timediff;
+        timezone = chatBean.timezone;
+        cityName = chatBean.city_name;
+        countryName = chatBean.country_name;
+        localTimeView.setData(nationalFlag, timediff, timezone, cityName, countryName);
+        getUserInfoToOrder();
     }
 
     private void resetRightBtn() {
@@ -889,6 +893,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ChatBean chatBean = (ChatBean) request.getData();
+                setOrderData(chatBean);
                 if(messageFragment!=null){
                     messageFragment.setAllowSendMsg(chatBean.isCancel);
                 }

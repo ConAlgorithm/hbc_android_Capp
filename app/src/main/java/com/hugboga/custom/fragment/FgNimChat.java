@@ -340,9 +340,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (!IMUtil.getInstance().isLogined()) {
                 return;
             }
-            String titleJson = getChatInfo(chatBean);
+            //String titleJson = getChatInfo(chatBean);
             MyApplication.requestRemoteNimUserInfo(chatBean.neTargetId);
-            NIMChatActivity.start(getContext(), chatBean.neTargetId, null, titleJson, chatBean.isCancel);
+            NIMChatActivity.start(getContext(), chatBean.neTargetId, null/*, titleJson, chatBean.isCancel*/);
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }

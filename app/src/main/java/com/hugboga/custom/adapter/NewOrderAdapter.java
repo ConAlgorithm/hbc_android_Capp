@@ -566,8 +566,8 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
-        NIMChatActivity.start(context,imChatId,null,titleJson);
+        //String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
+        NIMChatActivity.start(context,imChatId,null/*,titleJson*/);
     }
     private String getChatInfo(final OrderGuideInfo orderGuideInfo, String targetType,String imChatId,int inblack) {
         ChatInfo chatInfo = new ChatInfo();
