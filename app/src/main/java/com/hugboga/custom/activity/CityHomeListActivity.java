@@ -483,7 +483,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             Object obj = labelView.getTag();
             if(obj!=null){
                 if((Boolean)obj){
-                    if (topPadding <= animTopPadding || topPadding >= UIUtils.getScreenHeight()-animationIconLabelPaddingDistance){
+                    if (topPadding <= animTopPadding-labelView.getHeight() || topPadding >= UIUtils.getScreenHeight()+labelView.getHeight()){
                         labelView.setTag(false);
                         labelView.setVisibility(View.GONE);
                     }else{
@@ -733,6 +733,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 cityHomeHeader.setFilterTypeTabValue(filterData.label);
                 hideFilterView();
                 setEvent(0,filterData.value);
+                setSensorsFilter(0,filterData.value);
                 break;
             case CITY_FILTER_DAY:
                 CityFilterData dayFilterData = (CityFilterData) action.getData();
@@ -741,6 +742,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 cityHomeHeader.setFilterDayTabValue(dayFilterData.label);
                 hideFilterView();
                 setEvent(1,dayFilterData.value);
+                setSensorsFilter(1,dayFilterData.value);
                 break;
             case CITY_FILTER_THEME:
                 CityHomeBean.GoodsThemes goodsThemes = (CityHomeBean.GoodsThemes) action.getData();
@@ -754,6 +756,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 }
                 hideFilterView();
                 setEvent(2,goodsThemes.themeName);
+                setSensorsFilter(2,goodsThemes.themeName);
                 break;
             case CITY_FILTER_CLOSE:
                 if(cityFilterLayout!=null){
@@ -871,5 +874,27 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 break;
         }
         StatisticClickEvent.showGscreenClick(StatisticConstant.GSCREEN_CLICK,StatisticConstant.GSCREEN_TRIGGER,themesValues,dayValue,themesValues);
+    }
+
+    //神策统计_筛选
+    public void setSensorsFilter(int type, String content) {
+        try {
+            JSONObject properties = new JSONObject();
+            switch (type) {
+                case 0:
+                    properties.put("hbc_filter_type", "商品类型");
+                    break;
+                case 1:
+                    properties.put("hbc_filter_type", "天数");
+                    break;
+                case 2:
+                    properties.put("hbc_filter_type", "主题");
+                    break;
+            }
+            properties.put("hbc_filter_content", content);
+            SensorsDataAPI.sharedInstance(this).track("filter", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
