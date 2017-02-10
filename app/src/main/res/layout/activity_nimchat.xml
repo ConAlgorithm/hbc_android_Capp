@@ -20,7 +20,7 @@
     <RelativeLayout
         android:id="@+id/imchat_viewpage_layout"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="110dp"
         android:layout_below="@id/im_emptyview"
         android:background="@color/basic_white"
         android:visibility="gone">
@@ -44,8 +44,8 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/imchat_viewpage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/imchat_point_layout" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"/>
 
     </RelativeLayout>
 

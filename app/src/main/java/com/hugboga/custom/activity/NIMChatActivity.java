@@ -400,15 +400,14 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             View view = View.inflate(NIMChatActivity.this, R.layout.im_chat_orders_item, null);
             //设置状态
             TextView textView = (TextView) view.findViewById(R.id.im_chat_orders_item_state);
-            textView.setText(getOrderStatus(orderBean.orderStatus));
-//            resetStatusColor(textView, letterOrder.status);
+            textView.setText(getOrderStatus(textView, orderBean.orderStatus));
             //订单类型
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
             textViewtype.setText(getTypeStr(orderBean));
             //时间
             TextView textViewTime=(TextView)view.findViewById(R.id.im_chat_orders_item_address0);
             try {
-                textViewTime.setText("时间："+DateUtils.getStrWeekFormat3(orderBean.serviceTime));
+                textViewTime.setText("时间：" + DateUtils.getStrWeekFormat3(orderBean.serviceTime));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -433,17 +432,18 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     private String getTypeStr(OrderBean orderBean) {
-        StringBuilder sb = new StringBuilder();
-        MLog.e("orderGoodsType =" + orderBean.orderGoodsType);
-        MLog.e("getOrderTypeStr = " + orderBean.getOrderTypeStr(NIMChatActivity.this));
-        if (orderBean.orderGoodsType == 5) {
-            sb.append( orderBean.getOrderTypeStr(NIMChatActivity.this));
-            sb.append(orderBean.lineSubject);
-        } else {
-            sb.append(orderBean.getOrderTypeStr(NIMChatActivity.this));
-        }
-        return sb.toString();
+//        StringBuilder sb = new StringBuilder();
+//        MLog.e("orderGoodsType =" + orderBean.orderGoodsType);
+//        MLog.e("getOrderTypeStr = " + orderBean.getOrderTypeStr(NIMChatActivity.this));
+//        if (orderBean.orderGoodsType == 5) {
+//            sb.append( orderBean.getOrderTypeStr(NIMChatActivity.this));
+//            sb.append(orderBean.lineSubject);
+//        } else {
+//            sb.append(orderBean.getOrderTypeStr(NIMChatActivity.this));
+//        }
+        return getOrderTypeStr(orderBean.orderType);
     }
+
 
     private String getAddr1(OrderBean orderBean) {
         StringBuilder sb = new StringBuilder();
@@ -458,6 +458,29 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             sb.append(orderBean.serviceCityName + "-" + orderBean.serviceEndCityName);
         }
         return sb.toString();
+    }
+
+    public String getOrderTypeStr(int type) {
+        String result = "";
+        switch (type) {
+            case 1:
+                result = "中文接机";
+                break;
+            case 2:
+                result = "中文送机";
+                break;
+            case 3:
+                result = "定制包车游";
+                break;
+            case 4:
+                result = "单次接送";
+                break;
+            case 5:
+            case 6:
+                result = "线路包车";
+                break;
+        }
+        return result;
     }
 
     private String getAddr2(OrderBean orderBean) {
@@ -712,7 +735,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
     };
 
-    public static String getOrderStatus(OrderStatus orderStatus){
+    public static String getOrderStatus(TextView textView, OrderStatus orderStatus){
+        textView.setTextColor(0xFFADADAD);
         switch (orderStatus) {
             case INITSTATE:     // 未支付
                 return  "未支付";
@@ -722,9 +746,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             case ARRIVED:
             case SERVICING:
             case COMPLAINT:    // 已支付--服务中
-                return "进行中";
             case NOT_EVALUATED:     // 未评价
-                return "进行中";
+                textView.setTextColor(0xFFF9B800);
+                return "正在服务";
             case COMPLETE:     // 已评价（已完成）
                 return "已完成";
             case CANCELLED:     // 已取消（未支付）

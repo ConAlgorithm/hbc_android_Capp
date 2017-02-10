@@ -38,7 +38,7 @@ public class DateUtils {
     public static SimpleDateFormat dateSimpleDateFormatMMdd = new SimpleDateFormat("MM月dd日");
     public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
-    public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E HH:mm");
+    public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E");
 
     public static String getNowDatetime() {
         return dateTimeFormat.format(Calendar.getInstance().getTime());
