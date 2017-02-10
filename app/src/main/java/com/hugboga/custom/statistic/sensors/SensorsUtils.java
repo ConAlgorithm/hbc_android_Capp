@@ -1,11 +1,15 @@
 package com.hugboga.custom.statistic.sensors;
 
+import android.content.Context;
+import android.webkit.WebView;
+
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -159,6 +163,22 @@ public class SensorsUtils {
             properties.put("hbc_web_title", source);
             properties.put("hbc_cs_type", typeStr);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contact_servicedesk", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setSensorsShowUpWebView(WebView webView) {
+        Context context = MyApplication.getAppContext();
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_id", UserEntity.getUser().getUserId(context));
+            properties.put("hbc_gender", UserEntity.getUser().getGender(context));
+            properties.put("hbc_age", UserEntity.getUser().getAgeType(context));
+            properties.put("hbc_phone", UserEntity.getUser().getPhone(context));
+            properties.put("hbc_realname", UserEntity.getUser().getUserName(context));
+            SensorsDataAPI.sharedInstance(context).showUpWebView(webView, false, properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

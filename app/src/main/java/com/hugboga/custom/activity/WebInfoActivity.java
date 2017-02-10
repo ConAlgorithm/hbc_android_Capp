@@ -29,6 +29,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -314,11 +315,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
         MLog.e("url=" + url);
 
-        try {
-            SensorsDataAPI.sharedInstance(this).showUpWebView(webView, false);
-        } catch (Exception e) {
-
-        }
+        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     @Override
