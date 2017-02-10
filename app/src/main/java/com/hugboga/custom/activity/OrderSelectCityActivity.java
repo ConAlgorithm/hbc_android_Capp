@@ -93,6 +93,9 @@ import static com.hugboga.custom.R.id.start_city_click;
 
 
 public class OrderSelectCityActivity extends BaseActivity {
+
+    private String fromSource="";
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
@@ -864,6 +867,9 @@ public class OrderSelectCityActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_select_city);
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("fromSource"))) {
+            fromSource = getIntent().getStringExtra("fromSource");
+        }
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
@@ -1089,6 +1095,9 @@ public class OrderSelectCityActivity extends BaseActivity {
         startActivity(intent);
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
         setSensorsConfirmEvent();
+        if (null != collectGuideBean && !GuideDetailActivity.TAG.equals(fromSource)) {
+            setSensorsPointGuide(collectGuideBean, "定制");
+        }
     }
 
     TimePicker picker;
@@ -1331,6 +1340,19 @@ public class OrderSelectCityActivity extends BaseActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    //神策统计_指定司导下单
+    public void setSensorsPointGuide(CollectGuideBean collectGuideBean, String serviceType) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_appoint_entrance", "选择已收藏司导下单");
+            properties.put("hbc_appoint_type", serviceType);
+            properties.put("service_city", collectGuideBean.cityName);
+            SensorsDataAPI.sharedInstance(this).track("appoint_guide", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

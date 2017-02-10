@@ -22,8 +22,7 @@
             android:layout_height="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginLeft="10dp"
-            android:scaleType="centerCrop"
-            android:background="#ff0000" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/local_time_tv"
@@ -34,7 +33,6 @@
             android:maxWidth="50dp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="15:26\n波斯"
             android:textColor="#f5f5f5"
             android:textSize="10sp" />
     </LinearLayout>

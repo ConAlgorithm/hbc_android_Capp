@@ -175,10 +175,9 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             if (historyList.size() > 0)
                 arrivalTip.setTextColor(0xff242424);
             arrivalTip.setText("搜索历史");
+            arrivalTip.setVisibility(View.VISIBLE);
             return;
         }
-        arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
-        arrivalTip.setText(R.string.arrival_tip_hotel);
     }
 
     int listCount = 0;
@@ -228,6 +227,10 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 //                sortListView.setAdapter(adapter);
                 sortListView.onRefreshComplete();
                 sortListView.setSelection(0);
+
+                arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
+                arrivalTip.setText(R.string.arrival_tip_hotel);
+                arrivalTip.setVisibility(View.VISIBLE);
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
             isLoading = false;
@@ -297,15 +300,13 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
      * 根据输入字符进行搜索
      */
     private void search() {
-        arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
         searchWord = editSearch.getText().toString();
         if (!TextUtils.isEmpty(searchWord) && !TextUtils.isEmpty(searchWord.trim())) {
             searchWord = searchWord.trim();
             saveHistoryDate(searchWord);
             onRefresh();
-            arrivalTip.setText(R.string.arrival_tip_hotel);
         } else {
-            arrivalTip.setText(R.string.arrival_tip_hotel);
+            arrivalTip.setVisibility(View.GONE);
             sourceDateList = null;
             editSearch.setText("");
             adapter.setList(sourceDateList);
