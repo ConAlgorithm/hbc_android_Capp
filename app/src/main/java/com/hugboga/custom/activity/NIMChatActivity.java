@@ -45,6 +45,7 @@ import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
@@ -68,6 +69,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -400,13 +402,20 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             TextView textView = (TextView) view.findViewById(R.id.im_chat_orders_item_state);
             textView.setText(getOrderStatus(orderBean.orderStatus));
 //            resetStatusColor(textView, letterOrder.status);
-            //订单类型和时间
+            //订单类型
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
             textViewtype.setText(getTypeStr(orderBean));
+            //时间
+            TextView textViewTime=(TextView)view.findViewById(R.id.im_chat_orders_item_address0);
+            try {
+                textViewTime.setText("时间："+DateUtils.getStrWeekFormat3(orderBean.serviceTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             //订单地址1
             TextView textViewAddr1 = (TextView) view.findViewById(R.id.im_chat_orders_item_address1);
             textViewAddr1.setText(getAddr1(orderBean));
-            //订单地址1
+            //订单地址2
             TextView textViewAddr2 = (TextView) view.findViewById(R.id.im_chat_orders_item_address2);
             textViewAddr2.setText(getAddr2(orderBean));
             views.add(view);
@@ -428,10 +437,10 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         MLog.e("orderGoodsType =" + orderBean.orderGoodsType);
         MLog.e("getOrderTypeStr = " + orderBean.getOrderTypeStr(NIMChatActivity.this));
         if (orderBean.orderGoodsType == 5) {
-            sb.append("[" + orderBean.getOrderTypeStr(NIMChatActivity.this) + "]");
+            sb.append( orderBean.getOrderTypeStr(NIMChatActivity.this));
             sb.append(orderBean.lineSubject);
         } else {
-            sb.append("[" + orderBean.getOrderTypeStr(NIMChatActivity.this) + "]");
+            sb.append(orderBean.getOrderTypeStr(NIMChatActivity.this));
         }
         return sb.toString();
     }
@@ -443,8 +452,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             sb.append(orderBean.startAddress);
         } else if (orderBean.orderGoodsType == 5) {
             //线路
-            sb.append(orderBean.serviceTime + "至" + orderBean.serviceEndTime);
+            sb.append(orderBean.serviceTime + "-" + orderBean.serviceEndTime);
         } else {
+            sb.append("路线：");
             sb.append(orderBean.serviceCityName + "-" + orderBean.serviceEndCityName);
         }
         return sb.toString();
@@ -460,7 +470,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             sb.append("出发：");
             sb.append(orderBean.serviceCityName);
         } else {
-            sb.append(orderBean.serviceTime + "至" + orderBean.serviceEndTime);
+            sb.append("日期："+orderBean.serviceTime + "-" + orderBean.serviceEndTime);
         }
         return sb.toString();
     }

@@ -38,6 +38,7 @@ public class DateUtils {
     public static SimpleDateFormat dateSimpleDateFormatMMdd = new SimpleDateFormat("MM月dd日");
     public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
+    public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E HH:mm");
 
     public static String getNowDatetime() {
         return dateTimeFormat.format(Calendar.getInstance().getTime());
@@ -737,5 +738,16 @@ public class DateUtils {
         }catch (Exception e){
             return "";
         }
+    }
+
+    //格式化带周的时间
+    public static  String getStrWeekFormat3(String str) throws ParseException{
+        Date date=dateDateFormat.parse(str);
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        DateFormatSymbols symbols=dateWeekFormat3.getDateFormatSymbols();
+        symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+        dateWeekFormat3.setDateFormatSymbols(symbols);
+        return dateWeekFormat3.format(calendar.getTime());
     }
 }
