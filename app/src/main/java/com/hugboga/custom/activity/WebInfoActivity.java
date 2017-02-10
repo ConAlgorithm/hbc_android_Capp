@@ -67,6 +67,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private boolean isLogin = false;
     private String url;
     private WebAgent webAgent;
+    private String title;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
+                WebInfoActivity.this.title = view.getTitle();
                 headerTitle.setText(view.getTitle());
                 if (webAgent != null) {
                     webAgent.setTitle(view.getTitle());
@@ -184,10 +186,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
 
         @Override
-        public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
+        public void onReceivedTitle(WebView view, String _title) {
+            super.onReceivedTitle(view, _title);
             if (headerTitle != null) {
                 if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
+                    WebInfoActivity.this.title = view.getTitle();
                     headerTitle.setText(view.getTitle());
                     if (webAgent != null) {
                         webAgent.setTitle(view.getTitle());
@@ -320,6 +323,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public String getEventSource() {
-        return "web页面";
+        return TextUtils.isEmpty(title) ? "web页面" : title;
     }
 }
