@@ -38,6 +38,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
@@ -318,11 +319,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
         }
         MLog.e("url=" + url);
 
-        try {
-            SensorsDataAPI.sharedInstance(this).showUpWebView(webView, false);
-        } catch (Exception e) {
-
-        }
+        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     public void initHeader() {

@@ -82,7 +82,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         public EventPayBean eventPayBean;
 
         public String getShouldPay() {
-            return String.valueOf(shouldPay);
+            return String.valueOf(Math.round(shouldPay));
         }
     }
 

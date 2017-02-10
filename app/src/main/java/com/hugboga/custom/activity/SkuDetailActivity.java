@@ -45,6 +45,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -148,11 +149,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             webView.loadUrl(url);
         }
 
-        try {
-            SensorsDataAPI.sharedInstance(this).showUpWebView(webView, false);
-        } catch (Exception e) {
-
-        }
+        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     public void setGoodsOut() {// 商品已下架
