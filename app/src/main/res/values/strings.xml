@@ -89,7 +89,7 @@
     <string name="reconnect">连接失败，系统正在重新加载...</string>
     <string name="login_progress_dialog">正在登录...</string>
     <string name="no_content_info">没有相关项目</string>
-    <string name="arrival_tip_hotel">如果您的目的地是酒店,请搜索酒店名称</string>
+    <string name="arrival_tip_hotel">如果您的出发地点是酒店，请搜索酒店名称</string>
     <string name="arrival_tip_same">留意相似名称的地点,确认地址是否正确</string>
     <string name="arrival_empty_text">没有找到与『%s』相关的结果 请重新输入</string>
     <string name="data_load_error_retry">加载失败，点击重试！</string>
