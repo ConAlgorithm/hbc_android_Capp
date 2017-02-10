@@ -289,7 +289,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     private void setOrderData(ChatBean chatBean){
-        userId = chatBean.userId;
+        userId = chatBean.targetId;
         fgTitle.setText(chatBean.targetName); //设置标题
         targetType = String.valueOf(chatBean.targetType);
         inBlack = chatBean.inBlack;
@@ -327,7 +327,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      * 基本权限管理
      */
     private void requestBasicPermission() {
-        MPermission.with(this)
+        MPermission.with(NIMChatActivity.this)
                 .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
                 .permissions(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
