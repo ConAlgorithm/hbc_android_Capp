@@ -444,22 +444,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         return getOrderTypeStr(orderBean.orderType);
     }
 
-
-    private String getAddr1(OrderBean orderBean) {
-        StringBuilder sb = new StringBuilder();
-        if (orderBean.orderGoodsType == 1 || orderBean.orderGoodsType == 2 || orderBean.orderGoodsType == 4) {
-            sb.append("出发：");
-            sb.append(orderBean.startAddress);
-        } else if (orderBean.orderGoodsType == 5) {
-            //线路
-            sb.append(orderBean.serviceTime + "-" + orderBean.serviceEndTime);
-        } else {
-            sb.append("路线：");
-            sb.append(orderBean.serviceCityName + "-" + orderBean.serviceEndCityName);
-        }
-        return sb.toString();
-    }
-
     public String getOrderTypeStr(int type) {
         String result = "";
         switch (type) {
@@ -483,17 +467,26 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         return result;
     }
 
+    private String getAddr1(OrderBean orderBean) {
+        StringBuilder sb = new StringBuilder();
+        if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {
+            sb.append("出发：");
+            sb.append(orderBean.startAddress);
+        } else {
+            sb.append("路线：");
+            sb.append(orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
+        }
+        return sb.toString();
+    }
+
     private String getAddr2(OrderBean orderBean) {
         StringBuilder sb = new StringBuilder();
-        if (orderBean.orderGoodsType == 1 || orderBean.orderGoodsType == 2 || orderBean.orderGoodsType == 4) {
+        if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {
             sb.append("到达：");
             sb.append(orderBean.destAddress);
-        } else if (orderBean.orderGoodsType == 5) {
-            //线路
-            sb.append("出发：");
-            sb.append(orderBean.serviceCityName);
         } else {
-            sb.append("日期："+orderBean.serviceTime + "-" + orderBean.serviceEndTime);
+            sb.append("日期：" + DateUtils.getPointStrFromDate2(orderBean.serviceTime) + " - " + DateUtils.getPointStrFromDate2(orderBean.serviceEndTime));
+            sb.append(String.format(" 共%1$s天", orderBean.isHalfDaily == 1 ? "0.5" : "" + orderBean.totalDays));
         }
         return sb.toString();
     }

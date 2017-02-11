@@ -731,15 +731,6 @@ public class DateUtils {
         }
     }
 
-    public static String getDate(long time){
-        try {
-            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            return dateformatter.format(new Date(time));
-        }catch (Exception e){
-            return "";
-        }
-    }
-
     //格式化带周的时间
     public static  String getStrWeekFormat3(String str) throws ParseException{
         Date date=dateDateFormat.parse(str);
@@ -749,5 +740,14 @@ public class DateUtils {
         symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
         dateWeekFormat3.setDateFormatSymbols(symbols);
         return dateWeekFormat3.format(calendar.getTime());
+    }
+
+    public static String getPointStrFromDate2(String dateStr){
+        try {
+            Date date = dateDateFormat.parse(dateStr);
+            return dateSimpleDateFormat.format(date.getTime());
+        } catch (Exception e) {
+            return "";
+        }
     }
 }
