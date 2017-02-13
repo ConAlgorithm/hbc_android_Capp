@@ -6,6 +6,7 @@ import android.webkit.WebView;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.GuideDetailActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
@@ -115,6 +116,8 @@ public class SensorsUtils {
                 source = "砍价";
             } else if (_source.equals(SkuDetailActivity.class.getSimpleName())) {
                 source = "商品详情";
+            } else if (_source.equals(GuideDetailActivity.class.getSimpleName())) {
+                source = "司导";
             }
 
             JSONObject properties = new JSONObject();

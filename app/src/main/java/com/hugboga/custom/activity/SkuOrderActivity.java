@@ -57,9 +57,11 @@ import com.hugboga.custom.widget.SkuOrderDescriptionView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -314,6 +316,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
+                setSensorsEvent();
             }
         } else if (_request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) _request;
@@ -692,5 +695,67 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public String getEventSource() {
         return "线路下单页";
+    }
+
+    //神策统计_确认行程
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            OrderBean orderBean1 = orderBean;
+            String skuType = "";
+            switch (orderBean.orderType) {
+                case 1:
+                    skuType = "接机";
+                    break;
+                case 2:
+                    skuType = "送机";
+                    break;
+                case 3:
+                    skuType = "定制包车游";
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    break;
+                case 4:
+                    skuType = "单次接送";
+                    break;
+                case 5:
+                    skuType = "固定线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                    properties.put("hbc_room_num", orderBean.hotelRoom);
+                    properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    break;
+                case 6:
+                    skuType = "推荐线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                    properties.put("hbc_room_num", orderBean.hotelRoom);
+                    properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    break;
+            }
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
+            properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+            properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+            if (priceActual < 0) {
+                priceActual = 0;
+            }
+            properties.put("hbc_price_actually", priceActual);//实际支付金额
+            properties.put("hbc_is_appoint_guide", orderBean.guideCollectId == null ? false : true);//指定司导下单
+            SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
+        } catch (Exception e) {
+        }
     }
 }

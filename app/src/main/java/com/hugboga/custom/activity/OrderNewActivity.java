@@ -1547,15 +1547,36 @@ public class OrderNewActivity extends BaseActivity {
                     break;
                 case 3:
                     skuType = "定制包车游";
+                    properties.put("hbc_start_time",orderBean.serviceTime);
                     break;
                 case 4:
                     skuType = "单次接送";
                     break;
                 case 5:
                     skuType = "固定线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    properties.put("hbc_room_average", carListBean.hotelPrice);
+                    properties.put("hbc_room_num", orderBean.hotelRoom);
+                    properties.put("hbc_room_totalprice", hotelPrice);
                     break;
                 case 6:
                     skuType = "推荐线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    properties.put("hbc_room_average", carListBean.hotelPrice);
+                    properties.put("hbc_room_num", orderBean.hotelRoom);
+                    properties.put("hbc_room_totalprice", hotelPrice);
                     break;
             }
             properties.put("hbc_sku_type", skuType);
