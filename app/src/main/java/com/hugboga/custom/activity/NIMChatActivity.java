@@ -405,12 +405,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
             textViewtype.setText(getTypeStr(orderBean));
             //时间
-            TextView textViewTime=(TextView)view.findViewById(R.id.im_chat_orders_item_address0);
-            try {
-                textViewTime.setText("时间：" + DateUtils.getStrWeekFormat3(orderBean.serviceTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            TextView textViewTime = (TextView)view.findViewById(R.id.im_chat_orders_item_address0);
+            textViewTime.setText(getAddr(orderBean));
             //订单地址1
             TextView textViewAddr1 = (TextView) view.findViewById(R.id.im_chat_orders_item_address1);
             textViewAddr1.setText(getAddr1(orderBean));
@@ -461,10 +457,29 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 break;
             case 5:
             case 6:
-                result = "线路包车";
+                result = "线路包车游";
                 break;
         }
         return result;
+    }
+
+    private String getAddr(OrderBean orderBean) {
+        StringBuilder sb = new StringBuilder();
+        if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {
+            sb.append("时间：");
+            try {
+                sb.append(DateUtils.getStrWeekFormat3(orderBean.serviceTime));
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+        } else if (orderBean.orderType == 3) {
+            sb.append("路线：");
+            sb.append(orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
+        } else {
+            sb.append("路线：");
+            sb.append(orderBean.lineSubject);
+        }
+        return sb.toString();
     }
 
     private String getAddr1(OrderBean orderBean) {
@@ -473,8 +488,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             sb.append("出发：");
             sb.append(orderBean.startAddress);
         } else {
-            sb.append("路线：");
-            sb.append(orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
+            sb.append("日期：");
+            sb.append(DateUtils.getPointStrFromDate2(orderBean.serviceTime));
+            if (orderBean.isHalfDaily == 1) {
+                sb.append(String.format(" （%1$s天）", "0.5"));
+            } else if (orderBean.totalDays == 1) {
+                sb.append(String.format(" （%1$s天）", orderBean.totalDays));
+            } else {
+                sb.append(" - ");
+                sb.append(DateUtils.getPointStrFromDate2(orderBean.serviceEndTime));
+                sb.append(String.format(" （%1$s天）", orderBean.totalDays));
+            }
         }
         return sb.toString();
     }
@@ -484,9 +508,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {
             sb.append("到达：");
             sb.append(orderBean.destAddress);
-        } else {
-            sb.append("日期：" + DateUtils.getPointStrFromDate2(orderBean.serviceTime) + " - " + DateUtils.getPointStrFromDate2(orderBean.serviceEndTime));
-            sb.append(String.format(" 共%1$s天", orderBean.isHalfDaily == 1 ? "0.5" : "" + orderBean.totalDays));
         }
         return sb.toString();
     }
