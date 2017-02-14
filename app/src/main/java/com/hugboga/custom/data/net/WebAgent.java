@@ -6,9 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -25,7 +23,6 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
-import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
@@ -37,12 +34,10 @@ import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -454,16 +449,7 @@ public class WebAgent implements HttpRequestListener {
         }
     }
 
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = userId;
-        chatInfo.userAvatar = userAvatar;
-        chatInfo.title = title;
-        chatInfo.targetType = targetType;
-        chatInfo.isHideMoreBtn = 1;
-        return new ParserChatInfo().toJsonString(chatInfo);
-    }
+
 
     /**
      * 在线咨询客服
