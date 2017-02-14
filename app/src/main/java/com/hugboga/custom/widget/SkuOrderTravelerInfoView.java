@@ -155,9 +155,6 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         public TravelerInfoBean() {
             final Context context = MyApplication.getAppContext();
             travelerName = UserEntity.getUser().getUserName(context);
-            if (TextUtils.isEmpty(travelerName)) {
-                travelerName = UserEntity.getUser().getNickname(context);
-            }
             travelerPhone = UserEntity.getUser().getPhone(context);
             areaCode = UserEntity.getUser().getAreaCode(context);
         }

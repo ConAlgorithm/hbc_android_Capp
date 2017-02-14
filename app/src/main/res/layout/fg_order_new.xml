@@ -325,7 +325,8 @@
                             android:layout_marginRight="15dp"
                             android:singleLine="true"
                             android:ellipsize="end"
-                            android:text="@string/air_info"
+                            android:hint="请填写真实姓名"
+                            android:textColorHint="#c3c5c5"
                             android:textColor="@color/basic_black"
                             android:textSize="14sp" />
 
@@ -338,7 +339,8 @@
                             android:layout_marginRight="5dp"
                             android:singleLine="true"
                             android:ellipsize="end"
-                            android:text="@string/air_info"
+                            android:hint="请填写手机号"
+                            android:textColorHint="#c3c5c5"
                             android:textColor="#9d9e9f"
                             android:textSize="14sp" />
 
