@@ -165,7 +165,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
         emptyLayout.setOnRefreshDataListener(this);
-        explainView.setTermsLayoutVisibility(View.VISIBLE);
+        explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
         requestStartDate();
     }

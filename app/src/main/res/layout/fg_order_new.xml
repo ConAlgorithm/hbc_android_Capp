@@ -654,26 +654,39 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/sku_order_traveler_info_title_tv"
+                    style="@style/SkuOrderSubtitleTextView"
+                    android:paddingLeft="@dimen/sku_order_padding_left"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/basic_white"
+                    android:text="优惠方式" />
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:background="@color/basic_white"
                     android:clickable="true"
-                    android:minHeight="60dp">
+                    android:minHeight="48dp">
 
                     <RadioButton
                         android:id="@+id/coupon_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/basic_white"
-                        android:checked="true"
-                        android:minEms="4"
+                        android:layout_marginLeft="14dp"
+                        android:checked="true"/>
+                    <TextView
+                        android:layout_toRightOf="@id/coupon_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
                         android:text="@string/my_coupon"
                         android:textColor="@color/basic_black"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        />
 
                     <TextView
                         android:id="@+id/coupon_right"
@@ -689,72 +702,58 @@
                         android:paddingRight="15dp"
                         android:textColor="#c3c5c5"
                         android:textSize="12sp" />
-
-
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_line_height"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/sku_order_padding_left"
+                        android:background="@color/default_dividing_line" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:background="@color/basic_white"
                     android:clickable="true"
-                    android:minHeight="60dp">
+                    android:minHeight="48dp">
 
                     <RadioButton
                         android:id="@+id/dream_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/basic_white"
-                        android:minEms="4"
-                        android:text="@string/dream_money"
+                        android:layout_marginLeft="14dp"/>
+
+                    <TextView
+                        android:layout_toRightOf="@id/dream_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/my_coupon"
                         android:textColor="@color/basic_black"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        />
 
-
-                    <LinearLayout
+                    <com.hugboga.custom.widget.MoneyTextView
+                        android:id="@+id/dream_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:gravity="center_vertical">
-
-                        <com.hugboga.custom.widget.MoneyTextView
-                            android:id="@+id/dream_right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="15dp"
-                            android:gravity="center"
-                            android:textColor="#ec866d"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/dream_right_tips"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="15dp"
-                            android:drawablePadding="10dp"
-                            android:drawableRight="@mipmap/personalcenter_right"
-                            android:minEms="4"
-                            android:text="如何赚取基金?"
-                            android:textColor="#c3c5c5"
-                            android:textSize="12sp" />
-
-
-                    </LinearLayout>
-
-
+                        android:layout_marginRight="15dp"
+                        android:gravity="center"
+                        android:textColor="#F63308"
+                        android:textSize="14sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/basic_white"
                     android:clickable="true"
-                    android:minHeight="60dp">
+                    android:minHeight="48dp">
                     <ImageView
                         android:id="@+id/insure_iv"
                         android:layout_width="18dp"
@@ -771,7 +770,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="7dp"
                         android:minEms="4"
-                        android:text="@string/insure_8wan"
                         android:textColor="@color/basic_black"
                         android:textSize="14sp" />
 
@@ -782,92 +780,20 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:drawablePadding="10dp"
                         android:gravity="center"
                         android:minEms="4"
                         android:paddingRight="15dp"
                         android:text="@string/free_huangbaoche"
-                        android:textColor="#c3c5c5"
+                        android:textColor="#f63308"
                         android:textSize="12sp" />
 
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/agree_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="15dp"
-                    android:gravity="left"
-                    android:text="@string/commit_agree"
-                    android:textColor="#8e8e8e"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="15dp"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:minEms="4"
-                    android:text="@string/order_detail_tips_title"
-                    android:textColor="#8e8e8e"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:drawablePadding="10dp"
-                    android:gravity="left"
-                    android:minEms="4"
-                    android:text="@string/order_detail_tips"
-                    android:textColor="#b2b2b2"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/change_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="15dp"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:minEms="4"
-                    android:text="@string/order_detail_unsubscribe"
-                    android:textColor="#8e8e8e"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/change_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:drawablePadding="10dp"
-                    android:gravity="left"
-                    android:minEms="4"
-                    android:text="@string/change_detail_txt"
-                    android:textColor="#b2b2b2"
-                    android:textSize="14sp" />
+                <com.hugboga.custom.widget.OrderExplainView
+                    android:id="@+id/order_new_explain_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
