@@ -16,7 +16,6 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
@@ -24,7 +23,6 @@ import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
@@ -318,27 +316,14 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (guideInfo == null) {
                     return;
                 }
-                ChatInfo chatInfo = new ChatInfo();
-                chatInfo.isChat = true;
-                chatInfo.userId = guideInfo.guideID;
-                chatInfo.userAvatar = guideInfo.guideAvatar;
-                chatInfo.title = guideInfo.guideName;
-                chatInfo.targetType = "1";
-                chatInfo.inBlack = guideInfo.inBlack;
-                chatInfo.imUserId = guideInfo.guideImId;
-                chatInfo.flag = guideInfo.flag;
-                chatInfo.timediff = guideInfo.timediff;
-                chatInfo.timezone = guideInfo.timezone;
-                chatInfo.cityName = guideInfo.cityName;
-                chatInfo.countryName = guideInfo.countryName;
 
                 if(!IMUtil.getInstance().isLogined()){
                     return;
                 }
-                if(TextUtils.isEmpty(chatInfo.imUserId)){
+                if(TextUtils.isEmpty(guideInfo.guideImId)){
                     return;
                 }
-                NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null/*,new ParserChatInfo().toJsonString(chatInfo)*/);
+                NIMChatActivity.start(OrderDetailActivity.this,guideInfo.guideImId,null);
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {

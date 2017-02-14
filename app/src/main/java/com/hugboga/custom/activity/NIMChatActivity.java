@@ -33,10 +33,8 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
@@ -66,9 +64,6 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +79,6 @@ import static android.view.View.GONE;
 public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener{
 
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
-
-    public static final String ORDER_INFO_KEY = "order_info_key";
 
     private MessageFragment messageFragment;
 
@@ -106,8 +99,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
-        //intent.putExtra(MessageFragment.ALLOW_SEND_MSG_KEY,allowSendMsg);
-        //intent.putExtra(ORDER_INFO_KEY,orderJson);
         intent.setClass(context, NIMChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -272,22 +263,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private void getUserInfoToOrder() {
         resetRightBtn();
         initRunningOrder(); //构建和该用户之间的订单
-//        if(TextUtils.isEmpty(jsonStr)){
-//            return;
-//        }
-//        try {
-//            ChatInfo imInfo = new ParserChatInfo().parseObject(new JSONObject(jsonStr));
-//            if (imInfo == null) return;
-            //isChat = imInfo.isChat;
-            //imUserId = imInfo.imUserId;
-            //userAvatar = imInfo.userAvatar;
-            //isHideMoreBtn = imInfo.isHideMoreBtn;
-
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
     }
 
     private void setOrderData(ChatBean chatBean){
@@ -428,15 +403,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     private String getTypeStr(OrderBean orderBean) {
-//        StringBuilder sb = new StringBuilder();
-//        MLog.e("orderGoodsType =" + orderBean.orderGoodsType);
-//        MLog.e("getOrderTypeStr = " + orderBean.getOrderTypeStr(NIMChatActivity.this));
-//        if (orderBean.orderGoodsType == 5) {
-//            sb.append( orderBean.getOrderTypeStr(NIMChatActivity.this));
-//            sb.append(orderBean.lineSubject);
-//        } else {
-//            sb.append(orderBean.getOrderTypeStr(NIMChatActivity.this));
-//        }
         return getOrderTypeStr(orderBean.orderType);
     }
 
@@ -872,32 +838,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         MLog.i("nim send message success!");
     }
 
-//    private void loadRemoteMsg(){
-//        StatusCode statusCode = NIMClient.getStatus();
-//        if(statusCode!=StatusCode.LOGINED){
-//            return;
-//        }
-//       NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), 100, true).setCallback(new RequestCallback<List<IMMessage>>() {
-//           @Override
-//           public void onSuccess(List<IMMessage> imMessages) {
-//               MLog.i("nim history messags size:" +imMessages.size());
-//           }
-//
-//           @Override
-//           public void onFailed(int i) {
-//               MLog.i("pull nim history messags failed! code:" + i);
-//           }
-//
-//           @Override
-//           public void onException(Throwable throwable) {
-//               MLog.i("pull nim history messags excption");
-//           }
-//       });
-//    }
-//
-//    private IMMessage anchor(){
-//       return MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.P2P, 0);
-//    }
 
     private void registerUserInfoObserver() {
         if (uinfoObserver == null) {
