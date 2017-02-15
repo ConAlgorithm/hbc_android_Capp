@@ -464,6 +464,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
 
+            hideSoftInput();
             finish();
             if (null != from && from.equalsIgnoreCase("lastCity")) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
