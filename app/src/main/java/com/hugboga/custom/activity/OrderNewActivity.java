@@ -1530,27 +1530,76 @@ public class OrderNewActivity extends BaseActivity {
                     break;
                 case 3:
                     skuType = "定制包车游";
+                    properties.put("hbc_start_time",orderBean.serviceTime);
                     break;
                 case 4:
                     skuType = "单次接送";
                     break;
                 case 5:
                     skuType = "固定线路";
+                    properties.put("hbc_adultNum", adultNum);
+                    properties.put("hbc_childNum", childrenNum);
+                    properties.put("hbc_childseatNum", childseatNum);
+                    properties.put("hbc_car_type", carBean.carType);
+                    properties.put("hbc_start_time", serverDayTime);
+                    properties.put("hbc_sku_id", goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    if (carListBean.showHotel = true){
+                        properties.put("hbc_room_average", carListBean.hotelPrice);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", hotelPrice);
+                    }
                     break;
                 case 6:
                     skuType = "推荐线路";
+                    properties.put("hbc_adultNum", adultNum);
+                    properties.put("hbc_childNum", childrenNum);
+                    properties.put("hbc_childseatNum", childseatNum);
+                    properties.put("hbc_car_type", carBean.carType);
+                    properties.put("hbc_start_time", serverDayTime);
+                    properties.put("hbc_sku_id", goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    if (carListBean.showHotel = true) {
+                        properties.put("hbc_room_average", carListBean.hotelPrice);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", hotelPrice);
+                    }
                     break;
             }
             properties.put("hbc_sku_type", skuType);
-            properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
-            properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
-            properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
-            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
-            if (priceActual < 0) {
-                priceActual = 0;
+            if (1 == type || 2 == type) {
+                properties.put("hbc_price_total", mostFitBean.priceInfo);//费用总计
+                properties.put("hbc_price_coupon", mostFitBean.couponPrice);//使用优惠券
+                properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+                properties.put("hbc_price_actually", mostFitBean.actualPrice);//实际支付金额
+            } else if (4 == type) {
+                properties.put("hbc_price_total", orderBean.priceChannel);//费用总计
+                if (TextUtils.isEmpty(orderBean.coupPriceInfo)) {
+                    properties.put("hbc_price_coupon", 0);//使用优惠券
+                } else {
+                    properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+                }
+                if (TextUtils.isEmpty(orderBean.travelFund)) {
+                    properties.put("hbc_price_tra_fund", 0);//使用旅游基金
+                } else {
+                    properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+                }
+                if (TextUtils.isEmpty(orderBean.coupPriceInfo) && TextUtils.isEmpty(orderBean.travelFund)) {
+                    properties.put("hbc_price_actually", orderBean.priceChannel);//实际支付金额
+                } else {
+                    properties.put("hbc_price_actually", orderBean.priceActual);//实际支付金额
+                }
+            } else {
+                properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
+                properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+                properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+                int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+                if (priceActual < 0) {
+                    priceActual = 0;
+                }
+                properties.put("hbc_price_actually", priceActual);//实际支付金额
             }
-            properties.put("hbc_price_actually", priceActual);//实际支付金额
-            properties.put("hbc_is_appoint_guide", guideCollectId == null ? false : true);//指定司导下单
+            properties.put("hbc_is_appoint_guide", TextUtils.isEmpty(guideCollectId) ? false : true);//指定司导下单
             SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
         } catch (Exception e) {
         }

@@ -57,9 +57,12 @@ import com.hugboga.custom.widget.SkuOrderDescriptionView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -111,6 +114,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     private MostFitBean mostFitBean;
     private CouponBean couponBean;
     private String couponId;
+
+    private int sensorsActualPrice = 0;
 
     public static class Params implements Serializable {
         public SkuItemBean skuItemBean;
@@ -466,6 +471,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 break;
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
+        sensorsActualPrice = actualPrice;
     }
 
     /* 进入优惠券列表 */
@@ -526,6 +532,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             return;
         }
         requestSubmitOrder();
+        setSensorsEvent();
     }
 
     /*
@@ -692,5 +699,75 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public String getEventSource() {
         return "线路下单页";
+    }
+
+    //神策统计_确认行程
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            String skuType = "";
+            switch (orderBean.orderType) {
+                case 1:
+                    skuType = "接机";
+                    break;
+                case 2:
+                    skuType = "送机";
+                    break;
+                case 3:
+                    skuType = "定制包车游";
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    break;
+                case 4:
+                    skuType = "单次接送";
+                    break;
+                case 5:
+                    skuType = "固定线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    if (null != orderBean.orderPriceInfo && orderBean.orderPriceInfo.priceHotel != 0.0) {
+                        properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    }
+                    break;
+                case 6:
+                    skuType = "推荐线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    if (null != orderBean.orderPriceInfo && orderBean.orderPriceInfo.priceHotel != 0.0) {
+                        properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    }
+                    break;
+            }
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_price_total", orderBean.priceChannel);//费用总计
+            if (!TextUtils.isEmpty(orderBean.coupPriceInfo)) {
+                properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+            }
+            if (!TextUtils.isEmpty(orderBean.travelFund)) {
+                properties.put("hbc_price_tra_fund", orderBean.travelFund);//使用旅游基金
+            }
+//            int priceActual = CommonUtils.getCountInteger(orderBean.priceChannel) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+//            if (priceActual < 0) {
+//                priceActual = 0;
+//            }
+            properties.put("hbc_price_actually", sensorsActualPrice);//实际支付金额
+            properties.put("hbc_is_appoint_guide", orderBean.guideCollectId == null ? false : true);//指定司导下单
+            SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -158,7 +158,7 @@ public class ShareGuidesActivity extends BaseActivity{
                 , evaluateData.wechatShareContent
                 , shareUrl);
         MobClickUtils.onEvent(new EventEvaluateShare(params.orderType, getEventSource(), "" + type));
-        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "司导");
+        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", GuideDetailActivity.class.getSimpleName());
     }
 
     @Override
