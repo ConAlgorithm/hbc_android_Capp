@@ -559,9 +559,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     properties.put("hbc_sku_id", orderBean.goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
-                    properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
-                    properties.put("hbc_room_num", orderBean.hotelRoom);
-                    properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    if (null != orderBean.orderPriceInfo) {
+                        properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    }
                     break;
                 case 6:
                     skuType = "推荐线路";
@@ -572,21 +574,23 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     properties.put("hbc_sku_id", orderBean.goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
-                    properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
-                    properties.put("hbc_room_num", orderBean.hotelRoom);
-                    properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    if (null != orderBean.orderPriceInfo) {
+                        properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    }
                     break;
             }
             properties.put("hbc_sku_type", skuType);
-            properties.put("hbc_price_total", orderBean.orderPrice);//费用总计
-            properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
-            properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+            properties.put("hbc_price_total", orderBean.orderPriceInfo.shouldPay);//费用总计
+            properties.put("hbc_price_coupon", orderBean.orderPriceInfo.couponPrice);//使用优惠券
+            properties.put("hbc_price_tra_fund", orderBean.orderPriceInfo.travelFundPrice);//使用旅游基金
 //            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
 //            if (priceActual < 0) {
 //                priceActual = 0;
 //            }
             properties.put("hbc_price_actually", orderBean.orderPriceInfo.actualPay);//实际支付金额
-            properties.put("hbc_is_appoint_guide", orderBean.guideCollectId == null ? false : true);//指定司导下单
+            properties.put("hbc_is_appoint_guide", this.getIntent().getStringExtra("guideCollectId") == null ? false : true);//指定司导下单
             SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
         } catch (Exception e) {
         }
