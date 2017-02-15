@@ -3,35 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="40dp"
+    android:paddingBottom="20dp"
     android:paddingLeft="@dimen/sku_order_padding_left"
     android:paddingRight="@dimen/sku_order_padding_left"
     android:paddingTop="17dp">
 
-    <LinearLayout
-        android:id="@+id/order_detail_terms_layout"
+    <TextView
+        android:id="@+id/order_detail_terms_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:paddingTop="2dp"
-        android:visibility="gone"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/commit_agree_sku"
-            android:textColor="#7f7f7f"
-            android:textSize="14sp" />
-        <TextView
-            android:id="@+id/order_detail_terms_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/commit_agree_click"
-            android:layout_marginLeft="2dp"
-            android:textColor="#7f7f7f"
-            android:textSize="14sp" />
-    </LinearLayout>
+        android:textColor="#7f7f7f"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="wrap_content"

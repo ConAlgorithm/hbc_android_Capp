@@ -39,7 +39,6 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
@@ -67,13 +66,12 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.LuggageItemLayout;
 import com.hugboga.custom.widget.MoneyTextView;
+import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.TopTipsLayout;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -144,10 +142,8 @@ public class OrderNewActivity extends BaseActivity {
     TextView insureLeft;
     @Bind(R.id.insure_right)
     TextView insureRight;
-    @Bind(R.id.change_title)
-    TextView changeTitle;
-    @Bind(R.id.change_detail)
-    TextView changeDetail;
+    @Bind(R.id.order_new_explain_view)
+    OrderExplainView orderExplainView;
     @Bind(R.id.all_money_left)
     TextView allMoneyLeft;
     @Bind(R.id.all_money_left_text)
@@ -176,8 +172,6 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.pick_name_layout)
     RelativeLayout pick_name_layout;
 
-    @Bind(R.id.dream_right_tips)
-    TextView dream_right_tips;
     @Bind(R.id.sku_title)
     TextView skuTitle;
     @Bind(R.id.sku_day)
@@ -231,9 +225,6 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.luggage_item_layout)
     LuggageItemLayout luggageItemLayout;
 
-    @Bind(R.id.agree_text)
-    TextView agreeText;
-
     @Bind(R.id.insure_iv)
     ImageView insureIV;
 
@@ -270,15 +261,14 @@ public class OrderNewActivity extends BaseActivity {
 
         contactUsersBean = new ContactUsersBean();
         userName = UserEntity.getUser().getUserName(activity);
-        if (TextUtils.isEmpty(userName)) {
-            userName = UserEntity.getUser().getNickname(activity);
-        }
         String userPhone = UserEntity.getUser().getPhone(activity);
         String areaCode = UserEntity.getUser().getAreaCode(activity);
         contactUsersBean.userName = userName;
         contactUsersBean.userPhone = userPhone;
         contactUsersBean.phoneCode = areaCode;
-        manName.setText(userName);
+        if (!TextUtils.isEmpty(userName)) {
+            manName.setText(userName);
+        }
         String phone = CommonUtils.addPhoneCodeSign(areaCode) + " " + userPhone;
         manPhone.setText(phone);
         topTipsLayout.setText(R.string.order_detail_top2_tips);
@@ -375,8 +365,9 @@ public class OrderNewActivity extends BaseActivity {
         if (null == distance) {
             distance = "0";
         }
-        OrderUtils.genAgreeMent(activity,agreeText);
         genType(type);
+
+        orderExplainView.setTermsTextViewVisibility("提交订单", View.VISIBLE);
 
         requestMostFit();
         requestTravelFund();
@@ -445,7 +436,7 @@ public class OrderNewActivity extends BaseActivity {
                 for (String str : datas) {
                     cancleTips += str + "\n";
                 }
-                changeDetail.setText(cancleTips);
+                orderExplainView.setCancleTips(cancleTips);
             }
 
             @Override
@@ -530,6 +521,7 @@ public class OrderNewActivity extends BaseActivity {
         carInfo.append(")");
 
         carSeatTips.setText(carInfo.toString());
+        insureLeft.setText(String.format("平安境外用车险 × %1$s份", "" + allMansNum));
     }
 
     int checkInOrPickupPrice = 0;//协助登机 接机举牌
@@ -713,6 +705,7 @@ public class OrderNewActivity extends BaseActivity {
     int hourseNum = 1;
 
     //线路包车
+    @Deprecated
     private void genSKU() {
         if (skuBean.goodsClass == -1) {
             skuTitle.setText(skuBean.goodsName);
@@ -914,7 +907,6 @@ public class OrderNewActivity extends BaseActivity {
                }
 
                 if (0 == money) {
-                    dream_right_tips.setVisibility(View.GONE);
                     dreamRight.setText(Tools.getRMB(activity)+"0");
                 } else {
                     dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
@@ -922,15 +914,6 @@ public class OrderNewActivity extends BaseActivity {
                         int price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
                         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
                     }
-                    dream_right_tips.setVisibility(View.VISIBLE);
-                    dream_right_tips.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(activity, TravelFundActivity.class);
-                            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                            startActivity(intent);
-                        }
-                    });
                 }
             }
 
@@ -1021,7 +1004,7 @@ public class OrderNewActivity extends BaseActivity {
                 mostFitBean = requestMostFit1.getData();
                 int price = 0;
                 if (null == mostFitBean.priceInfo) {
-                    couponRight.setText("还没有优惠券");
+                    couponRight.setText("无优惠券可用");
                     price = carBean.price + totalPrice;
                 } else {
                     couponRight.setText((mostFitBean.priceInfo) + "优惠券");

@@ -28,14 +28,12 @@ import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestImChatId;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.DateUtils;
@@ -568,22 +566,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         }
         //String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
         NIMChatActivity.start(context,imChatId,null/*,titleJson*/);
-    }
-    private String getChatInfo(final OrderGuideInfo orderGuideInfo, String targetType,String imChatId,int inblack) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = orderGuideInfo.guideID;
-        chatInfo.imUserId =imChatId;
-        chatInfo.userAvatar = orderGuideInfo.guideAvatar;
-        chatInfo.title = orderGuideInfo.guideName;
-        chatInfo.targetType = targetType;
-        chatInfo.inBlack = inblack;
-        chatInfo.flag = orderGuideInfo.flag;
-        chatInfo.timediff = orderGuideInfo.timediff;
-        chatInfo.timezone = orderGuideInfo.timezone;
-        chatInfo.cityName = orderGuideInfo.cityName;
-        chatInfo.countryName = orderGuideInfo.countryName;
-        return new ParserChatInfo().toJsonString(chatInfo);
     }
 
 }

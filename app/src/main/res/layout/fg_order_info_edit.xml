@@ -63,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:hint="个人姓名"
+                android:hint="请填写真实姓名"
                 android:minEms="4"
                 android:textColor="@color/basic_black"
                 android:textSize="15sp"/>
@@ -76,7 +76,7 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:hint="手机号"
+                android:hint="请填写手机号"
                 android:textColorHint="#9a9a9a"
                 android:textColor="@color/basic_black"
                 android:textSize="14sp"/>

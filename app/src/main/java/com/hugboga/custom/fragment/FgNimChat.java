@@ -1,6 +1,5 @@
 package com.hugboga.custom.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,11 +30,9 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ImListBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.data.request.RequestNIMRemoveChat;
@@ -147,8 +144,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
         registerObservers(true);
         Unicorn.addUnreadCountChangeListener(listener, true);
-        //registerUserInfoObserver();
-
         loadImList();
     }
 
@@ -248,7 +243,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (loginBtn != null)
                 loginBtn.setVisibility(View.VISIBLE);
         }
-
     }
 
 
@@ -256,7 +250,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
         requestError();
-
     }
 
     @Override
@@ -298,7 +291,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onDestroyView() {
         registerObservers(false);
         Unicorn.addUnreadCountChangeListener(null, false);
-        //unregisterUserInfoObserver();
         super.onDestroyView();
     }
 
@@ -323,6 +315,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     loginBtn.setVisibility(View.VISIBLE);
                 ((MainActivity) getActivity()).setIMCount(0, 0);
                 break;
+            case CLICK_USER_LOGIN:
+                updateUI();
+                break;
             case NIM_LOGIN_SUCCESS:
                 loadImList();
                 break;
@@ -340,7 +335,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             if (!IMUtil.getInstance().isLogined()) {
                 return;
             }
-            //String titleJson = getChatInfo(chatBean);
             MyApplication.requestRemoteNimUserInfo(chatBean.neTargetId);
             NIMChatActivity.start(getContext(), chatBean.neTargetId, null/*, titleJson, chatBean.isCancel*/);
         } else {
@@ -377,24 +371,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     }
                 });
             }
-    }
-
-
-    private String getChatInfo(ChatBean chatBean) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = chatBean.targetId;
-        chatInfo.userAvatar = chatBean.targetAvatar;
-        chatInfo.title = chatBean.targetName;
-        chatInfo.targetType = "" + chatBean.targetType;
-        chatInfo.inBlack = chatBean.inBlack;
-        chatInfo.imUserId = chatBean.neTargetId;
-        chatInfo.flag = chatBean.flag;
-        chatInfo.timediff = chatBean.timediff;
-        chatInfo.timezone = chatBean.timezone;
-        chatInfo.cityName = chatBean.city_name;
-        chatInfo.countryName = chatBean.country_name;
-        return new ParserChatInfo().toJsonString(chatInfo);
     }
 
 
@@ -459,25 +435,35 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     public void onResult(int code, final List<RecentContact> recents, Throwable exception) {
                         isLoading = false;
                         if (code != ResponseCode.RES_SUCCESS || recents == null) {
-                            return;
-                        }
-                        if(adapter!=null){
                             updateUI();
-                            if(imListBean!=null && imListBean.resultBean!=null){
+                            if (imListBean != null && imListBean.resultBean != null && adapter != null) {
                                 if(imListBean.offset==0){
                                     adapter.clearData();
                                 }
-                                ArrayList<ChatBean> chatBeen = new ArrayList<>();
-                                chatBeen.addAll(adapter.getDatas());
-                                chatBeen.addAll(imListBean.resultBean);
-                                NimRecentListSyncUtils.removeRepeatData(chatBeen,limitSize);
-                                NimRecentListSyncUtils.recentListSync(chatBeen,recents);
-                                adapter.clearData();
-                                adapter.addData(chatBeen);
+                                adapter.addData(imListBean.resultBean);
                                 computeTotalUnreadCount(adapter.getDatas());
+                                return;
                             }
-                            saveLettersToLocal();
+                        }else{
+                            if(adapter!=null){
+                                updateUI();
+                                if(imListBean!=null && imListBean.resultBean!=null){
+                                    if(imListBean.offset==0){
+                                        adapter.clearData();
+                                    }
+                                    ArrayList<ChatBean> chatBeen = new ArrayList<>();
+                                    chatBeen.addAll(adapter.getDatas());
+                                    chatBeen.addAll(imListBean.resultBean);
+                                    NimRecentListSyncUtils.removeRepeatData(chatBeen,limitSize);
+                                    NimRecentListSyncUtils.recentListSync(chatBeen,recents);
+                                    adapter.clearData();
+                                    adapter.addData(chatBeen);
+                                    computeTotalUnreadCount(adapter.getDatas());
+                                }
+                                saveLettersToLocal();
+                            }
                         }
+
                     }
                 });
             }

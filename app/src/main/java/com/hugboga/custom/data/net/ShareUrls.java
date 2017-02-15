@@ -53,7 +53,7 @@ public final class ShareUrls {
      */
     public static String getShareThirtyCouponUrl(String avatar, String name, String qcode, String description) {
         ArrayMap<String, String> params = new ArrayMap<String, String>();
-        params.put("avatar", avatar);
+        params.put("avatar", TextUtils.isEmpty(avatar) ? "" : avatar);
         params.put("name", CommonUtils.getEncodedString(name));
         params.put("qcode", qcode);//邀请码
         params.put("title", CommonUtils.getEncodedString("我已经领了！你也快来领皇包车600元大礼包吧，出国就用皇包车。"));//二次分享标题

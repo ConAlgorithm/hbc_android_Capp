@@ -33,10 +33,8 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatBean;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
@@ -66,9 +64,6 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +79,6 @@ import static android.view.View.GONE;
 public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener{
 
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
-
-    public static final String ORDER_INFO_KEY = "order_info_key";
 
     private MessageFragment messageFragment;
 
@@ -106,8 +99,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
-        //intent.putExtra(MessageFragment.ALLOW_SEND_MSG_KEY,allowSendMsg);
-        //intent.putExtra(ORDER_INFO_KEY,orderJson);
         intent.setClass(context, NIMChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -272,22 +263,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private void getUserInfoToOrder() {
         resetRightBtn();
         initRunningOrder(); //构建和该用户之间的订单
-//        if(TextUtils.isEmpty(jsonStr)){
-//            return;
-//        }
-//        try {
-//            ChatInfo imInfo = new ParserChatInfo().parseObject(new JSONObject(jsonStr));
-//            if (imInfo == null) return;
-            //isChat = imInfo.isChat;
-            //imUserId = imInfo.imUserId;
-            //userAvatar = imInfo.userAvatar;
-            //isHideMoreBtn = imInfo.isHideMoreBtn;
-
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
     }
 
     private void setOrderData(ChatBean chatBean){
@@ -405,12 +380,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             TextView textViewtype = (TextView) view.findViewById(R.id.im_chat_orders_item_ordertime);
             textViewtype.setText(getTypeStr(orderBean));
             //时间
-            TextView textViewTime=(TextView)view.findViewById(R.id.im_chat_orders_item_address0);
-            try {
-                textViewTime.setText("时间：" + DateUtils.getStrWeekFormat3(orderBean.serviceTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            TextView textViewTime = (TextView)view.findViewById(R.id.im_chat_orders_item_address0);
+            textViewTime.setText(getAddr(orderBean));
             //订单地址1
             TextView textViewAddr1 = (TextView) view.findViewById(R.id.im_chat_orders_item_address1);
             textViewAddr1.setText(getAddr1(orderBean));
@@ -432,15 +403,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     private String getTypeStr(OrderBean orderBean) {
-//        StringBuilder sb = new StringBuilder();
-//        MLog.e("orderGoodsType =" + orderBean.orderGoodsType);
-//        MLog.e("getOrderTypeStr = " + orderBean.getOrderTypeStr(NIMChatActivity.this));
-//        if (orderBean.orderGoodsType == 5) {
-//            sb.append( orderBean.getOrderTypeStr(NIMChatActivity.this));
-//            sb.append(orderBean.lineSubject);
-//        } else {
-//            sb.append(orderBean.getOrderTypeStr(NIMChatActivity.this));
-//        }
         return getOrderTypeStr(orderBean.orderType);
     }
 
@@ -461,10 +423,29 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 break;
             case 5:
             case 6:
-                result = "线路包车";
+                result = "线路包车游";
                 break;
         }
         return result;
+    }
+
+    private String getAddr(OrderBean orderBean) {
+        StringBuilder sb = new StringBuilder();
+        if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {
+            sb.append("时间：");
+            try {
+                sb.append(DateUtils.getStrWeekFormat3(orderBean.serviceTime));
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+        } else if (orderBean.orderType == 3) {
+            sb.append("路线：");
+            sb.append(orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
+        } else {
+            sb.append("路线：");
+            sb.append(orderBean.lineSubject);
+        }
+        return sb.toString();
     }
 
     private String getAddr1(OrderBean orderBean) {
@@ -473,8 +454,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             sb.append("出发：");
             sb.append(orderBean.startAddress);
         } else {
-            sb.append("路线：");
-            sb.append(orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
+            sb.append("日期：");
+            sb.append(DateUtils.getPointStrFromDate2(orderBean.serviceTime));
+            if (orderBean.isHalfDaily == 1) {
+                sb.append(String.format(" （%1$s天）", "0.5"));
+            } else if (orderBean.totalDays == 1) {
+                sb.append(String.format(" （%1$s天）", orderBean.totalDays));
+            } else {
+                sb.append(" - ");
+                sb.append(DateUtils.getPointStrFromDate2(orderBean.serviceEndTime));
+                sb.append(String.format(" （%1$s天）", orderBean.totalDays));
+            }
         }
         return sb.toString();
     }
@@ -484,9 +474,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {
             sb.append("到达：");
             sb.append(orderBean.destAddress);
-        } else {
-            sb.append("日期：" + DateUtils.getPointStrFromDate2(orderBean.serviceTime) + " - " + DateUtils.getPointStrFromDate2(orderBean.serviceEndTime));
-            sb.append(String.format(" 共%1$s天", orderBean.isHalfDaily == 1 ? "0.5" : "" + orderBean.totalDays));
         }
         return sb.toString();
     }
@@ -851,32 +838,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         MLog.i("nim send message success!");
     }
 
-//    private void loadRemoteMsg(){
-//        StatusCode statusCode = NIMClient.getStatus();
-//        if(statusCode!=StatusCode.LOGINED){
-//            return;
-//        }
-//       NIMClient.getService(MsgService.class).pullMessageHistory(anchor(), 100, true).setCallback(new RequestCallback<List<IMMessage>>() {
-//           @Override
-//           public void onSuccess(List<IMMessage> imMessages) {
-//               MLog.i("nim history messags size:" +imMessages.size());
-//           }
-//
-//           @Override
-//           public void onFailed(int i) {
-//               MLog.i("pull nim history messags failed! code:" + i);
-//           }
-//
-//           @Override
-//           public void onException(Throwable throwable) {
-//               MLog.i("pull nim history messags excption");
-//           }
-//       });
-//    }
-//
-//    private IMMessage anchor(){
-//       return MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.P2P, 0);
-//    }
 
     private void registerUserInfoObserver() {
         if (uinfoObserver == null) {

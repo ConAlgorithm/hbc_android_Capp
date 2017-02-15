@@ -256,6 +256,16 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.evaluate_submit_tv:
+                if (commentET.getText() != null && !TextUtils.isEmpty(commentET.getText().toString())) {
+                    String content = commentET.getText().toString().trim();
+                    final int size = content.length();
+                    for (int i = 0; i < size; i++) {
+                        if (!Tools.isEmojiCharacter(content.charAt(i))) {
+                            CommonUtils.showToast("评价不能包含表情符号");
+                            return;
+                        }
+                    }
+                }
                 mDialogUtil.showLoadingDialog();
                 RequestEvaluateNew.RequestParams params = new RequestEvaluateNew.RequestParams();
                 params.fromUname = UserEntity.getUser().getNickname(this);
