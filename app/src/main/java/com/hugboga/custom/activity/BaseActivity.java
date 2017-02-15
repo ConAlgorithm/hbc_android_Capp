@@ -96,8 +96,12 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     }
 
     protected void hideInputMethod(View view) {
-        InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        m.hideSoftInputFromWindow(view.getWindowToken(),0);
+        try {
+            InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            m.hideSoftInputFromWindow(view.getWindowToken(),0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //获取上个界面的来源

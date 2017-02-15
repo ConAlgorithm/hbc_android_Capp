@@ -276,6 +276,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 bundle.putSerializable(KEY_ARRIVAL, bean);
 
 //                finishForResult(bundle);
+                hideSoftInput();
                 finish();
                 if(type != null){
                     if(null != bean){
