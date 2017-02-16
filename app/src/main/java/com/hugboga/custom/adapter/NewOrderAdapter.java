@@ -307,7 +307,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -367,7 +367,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
 
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -413,7 +413,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
 
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -441,7 +441,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
 
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
