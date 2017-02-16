@@ -513,8 +513,19 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
-                    if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
-                        requestImChatId(mOrderBean.orderGuideInfo);
+                    if(mOrderBean.imInfo!=null){
+                        String imId = mOrderBean.imInfo.neTargetId;
+                        if(!TextUtils.isEmpty(imId)){
+                            gotoChatView(imId);
+                        }else{
+                            if(mOrderBean.orderGuideInfo!=null){
+                                requestImChatId(mOrderBean.orderGuideInfo);
+                            }
+                        }
+                    }else{
+                        if(mOrderBean.orderGuideInfo!=null){
+                            requestImChatId(mOrderBean.orderGuideInfo);
+                        }
                     }
                     break;
                 case R.id.travel_item_head_img:
@@ -538,6 +549,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     }
 
     private void requestImChatId(final OrderGuideInfo orderGuideInfo){
+        if(TextUtils.isEmpty(orderGuideInfo.guideID)){
+            return;
+        }
         RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2",orderGuideInfo.guideID,"1");
         HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
             @Override
@@ -546,7 +560,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;
-                    gotoChatView(orderGuideInfo, imChatInfo.neTargetId, imChatInfo.inBlack);
+                    gotoChatView(imChatInfo.neTargetId);
                 }
             }
 
@@ -560,12 +574,12 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         });
     }
 
-    private void gotoChatView(OrderGuideInfo orderGuideInfo, String imChatId,int inblack) {
+    private void gotoChatView(String imChatId) {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
         //String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
-        NIMChatActivity.start(context,imChatId,null/*,titleJson*/);
+        NIMChatActivity.start(context,imChatId,null);
     }
 
 }

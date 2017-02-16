@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
@@ -312,18 +313,18 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (!eventVerification(action)) {
                     break;
                 }
-                final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
-                if (guideInfo == null) {
+                final ChatBean chatBean = orderBean.imInfo;
+                if (chatBean == null) {
                     return;
                 }
 
                 if(!IMUtil.getInstance().isLogined()){
                     return;
                 }
-                if(TextUtils.isEmpty(guideInfo.guideImId)){
+                if(TextUtils.isEmpty(chatBean.neTargetId)){
                     return;
                 }
-                NIMChatActivity.start(OrderDetailActivity.this,guideInfo.guideImId,null);
+                NIMChatActivity.start(OrderDetailActivity.this,chatBean.neTargetId,null);
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {
