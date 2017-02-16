@@ -26,6 +26,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public int cityId;
     public String countryName;
     public int countryId;
+    public String contact;//地接社队长名称（名称-队长）
 
     @Override
     public int describeContents() {
@@ -51,6 +52,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         dest.writeInt(this.cityId);
         dest.writeString(this.countryName);
         dest.writeInt(this.countryId);
+        dest.writeString(this.contact);
     }
 
     public OrderGuideInfo() {
@@ -74,6 +76,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
         this.cityId = in.readInt();
         this.countryName = in.readString();
         this.countryId = in.readInt();
+        this.contact = in.readString();
     }
 
     public boolean isCollected() {
