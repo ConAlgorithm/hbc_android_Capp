@@ -307,4 +307,14 @@ public class OrderBean implements IBaseBean{
         }
     }
 
+    public String getGuideName() {
+        if (orderGuideInfo == null) {
+            return "";
+        }
+        if (guideAgencyType == 3) {
+            return orderGuideInfo.contact;
+        } else {
+            return orderGuideInfo.guideName;
+        }
+    }
 }

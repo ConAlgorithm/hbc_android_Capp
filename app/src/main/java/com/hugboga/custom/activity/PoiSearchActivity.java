@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * Created on 16/8/4.
  */
 
-public class PoiSearchActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnKeyListener, ZListView.OnRefreshListener, ZListView.OnLoadListener {
+public class PoiSearchActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnKeyListener, ZListView.OnRefreshListener{
 
     public static final String KEY_ARRIVAL = "arrival";
 
@@ -65,7 +65,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     private List<PoiBean> sourceDateList;
     private int cityId;
     private String location;
-    private int PAGESIZE = 20;
+    private int PAGESIZE = 50;
     private String searchWord = "";
     private SharedPre sharedPre;
     private ArrayList<String> placeHistoryArray = new ArrayList<String>();
@@ -112,7 +112,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         adapter = new PoiSearchAdapter(activity);
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(this);
-        sortListView.setonLoadListener(this);
+//        sortListView.setonLoadListener(this);
         sortListView.setonRefreshListener(this);
         sortListView.getHeadView().setVisibility(View.GONE);
         sortListView.onLoadCompleteNone();
@@ -276,6 +276,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 bundle.putSerializable(KEY_ARRIVAL, bean);
 
 //                finishForResult(bundle);
+                hideSoftInput();
                 finish();
                 if(type != null){
                     if(null != bean){
@@ -329,11 +330,6 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             }
             sharedPre.saveStringValue(mBusinessType + SharedPre.RESOURCES_PLACE_HISTORY, TextUtils.join(",", placeHistoryArray));
         }
-    }
-
-    @Override
-    public void onLoad() {
-        requestKeyword(adapter.getCount());
     }
 
     @Override

@@ -776,20 +776,20 @@ public class OrderUtils {
     }
 
     //确认订单协议
-    public static void genAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT);
+    public static void genAgreeMent(final Activity activity, TextView textView,String source) {
+        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f);
     }
 
     //注册协议
     public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL);
+        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url) {
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color) {
         int start = agree_text.indexOf(agree_text_click);
         int end = agree_text.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity,url), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity,url,color), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
@@ -797,17 +797,26 @@ public class OrderUtils {
     static class MyCLickSpan extends ClickableSpan{
         Activity activity;
         String url;
+        int color = 0xff008cef;
+
         public MyCLickSpan(Activity activity,String url) {
             super();
             this.activity = activity;
             this.url = url;
         }
 
+        public MyCLickSpan(Activity activity,String url, int color) {
+            super();
+            this.activity = activity;
+            this.url = url;
+            this.color = color;
+        }
+
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
-            ds.setColor(0xff008cef);
-            ds.setUnderlineText(false);
+            ds.setColor(color);
+            ds.setUnderlineText(true);
         }
 
         @Override

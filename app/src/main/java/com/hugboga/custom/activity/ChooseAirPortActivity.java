@@ -381,6 +381,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             return;
         }
         saveHistoryDate(airPort);
+        hideInputMethod(headSearch);
         finish();
         EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK, sourceDateList.get(position)));
 

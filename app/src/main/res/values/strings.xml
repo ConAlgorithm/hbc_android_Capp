@@ -483,7 +483,7 @@
     <string name="choose_like_driver_order">选择已收藏司导下单</string>
 
     <string name="my_travel_title">我的行程单</string>
-    <string name="my_coupon">优惠券</string>
+    <string name="my_coupon">使用优惠券</string>
     <string name="my_get_money">梦想基金</string>
     <string name="free_8_insure">赠价值8万元平安保险</string>
     <string name="huangbaoche_buy">由皇包车支付</string>
@@ -576,10 +576,9 @@
     <string name="evaluate_list_title">%1$s条评价</string>
 
     <string name="coupon_num">%s张优惠券可用</string>
-    <string name="dream_money">旅游基金</string>
-    <string name="insure_8wan">赠价值8万元平安保险</string>
+    <string name="dream_money">使用旅游基金</string>
 
-    <string name="free_huangbaoche">由皇包车支付</string>
+    <string name="free_huangbaoche">免费赠送</string>
     <string name="change_detail_txt">服务开始前24小时退订,全额退还费用;小于24小时不可退订,全部费用将扣除用于补偿当地司导</string>
 
     <string name="dairy_choose_guide"> 请填写完所有出行信息，再来选择司导哟！</string>
@@ -672,7 +671,7 @@
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips"> 订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
+    <string name="order_detail_tips">订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
     <string name="order_detail_bargain_end">共砍掉</string>
@@ -752,8 +751,7 @@
 
     <string name="time_out_180">时间不能超过半年</string>
 
-    <string name="commit_agree_sku">点击“去支付”表示您已阅读并同意</string>
-    <string name="commit_agree">点击“提交订单”表示您已阅读并同意皇包车协议和条款</string>
+    <string name="commit_agree">点击“%1$s”表示您已阅读并同意皇包车协议和条款</string>
     <string name="commit_agree_click">皇包车协议和条款</string>
 
     <string name="choose_other_tips">温馨提示: 如果填写境内手机号,请记得在出发前开通运营商的国际漫游业务。避免到了境外司导打电话联系不上您。</string>
