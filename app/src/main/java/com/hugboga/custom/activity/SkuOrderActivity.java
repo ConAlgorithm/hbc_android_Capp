@@ -753,10 +753,14 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             }
             properties.put("hbc_sku_type", skuType);
             properties.put("hbc_price_total", orderBean.priceChannel);//费用总计
-            if (!TextUtils.isEmpty(orderBean.coupPriceInfo)) {
+            if (TextUtils.isEmpty(orderBean.coupPriceInfo)) {
+                properties.put("hbc_price_coupon", 0);//使用优惠券
+            } else {
                 properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
             }
-            if (!TextUtils.isEmpty(orderBean.travelFund)) {
+            if (TextUtils.isEmpty(orderBean.travelFund)) {
+                properties.put("hbc_price_tra_fund", 0);//使用旅游基金
+            } else {
                 properties.put("hbc_price_tra_fund", orderBean.travelFund);//使用旅游基金
             }
 //            int priceActual = CommonUtils.getCountInteger(orderBean.priceChannel) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
