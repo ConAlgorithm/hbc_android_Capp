@@ -257,6 +257,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         handler.removeMessages(200);
          if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
             new SharedPre(this).setTravelFundHintIsShow(true);
+             UserEntity.getUser().setVersion(this, PhoneInfo.getSoftwareVersion(this));
          } else {
              new SharedPre(this).setTravelFundHintIsShow(false);
          }
