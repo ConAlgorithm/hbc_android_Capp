@@ -291,6 +291,8 @@ public class OrderNewActivity extends BaseActivity {
     CarBean carBean;
     boolean isToday = false;
 
+    double sensorActualPrice = 0;
+
     CityBean startBean;
     CityBean endBean;
 
@@ -390,11 +392,13 @@ public class OrderNewActivity extends BaseActivity {
                             showPrice += otherPriceTotal;
                         }
                         allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                        sensorActualPrice = showPrice;
                     } else {
                         if(null != mostFitBean && null != mostFitBean.actualPrice){
                             showPrice = mostFitBean.actualPrice.intValue();
                         }
                         allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                        sensorActualPrice = showPrice;
                     }
                 }
             }
@@ -413,6 +417,7 @@ public class OrderNewActivity extends BaseActivity {
                         showPrice = carBean.price - money + otherPriceTotal;
                     }
                     allMoneyLeftText.setText(Tools.getRMB(activity) + showPrice);
+                    sensorActualPrice = showPrice;
                 }
             }
         });
@@ -569,6 +574,8 @@ public class OrderNewActivity extends BaseActivity {
 
         allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice));
+        sensorActualPrice = carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice;
 
         checkin.setText("协助办理登机check in");
         checkin.setVisibility(View.VISIBLE);
@@ -578,7 +585,10 @@ public class OrderNewActivity extends BaseActivity {
             if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.checkInPrice) {
                 checkin.setVisibility(View.VISIBLE);
                 checkInOrPickupPrice = Integer.valueOf(carListBean.additionalServicePrice.checkInPrice);
-                allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)) + hotelPrice);
+                allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                        + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)) + hotelPrice);
+                sensorActualPrice = (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                        + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)) + hotelPrice;
             } else {
                 checkin.setVisibility(View.GONE);
             }
@@ -642,12 +652,14 @@ public class OrderNewActivity extends BaseActivity {
         singleNoShowTime.setVisibility(GONE);
         singleNoShowAddress.setVisibility(GONE);
         allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+        sensorActualPrice = (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
 
         if (isCheckIn) {
             if (null != carListBean && null != carListBean.additionalServicePrice && null != carListBean.additionalServicePrice.pickupSignPrice) {
                 checkin.setVisibility(View.VISIBLE);
                 checkInOrPickupPrice = Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
                 allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+                sensorActualPrice = (carBean.price + checkInOrPickupPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
             } else {
                 checkin.setVisibility(View.GONE);
                 pick_name_layout.setVisibility(GONE);
@@ -695,6 +707,7 @@ public class OrderNewActivity extends BaseActivity {
         carSeat.setText(getCarDesc());
         genCarInfoText();
         allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
+        sensorActualPrice = (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
         citys_line_title_tips.setVisibility(GONE);
         checkin.setVisibility(GONE);
         pick_name_layout.setVisibility(GONE);
@@ -756,6 +769,7 @@ public class OrderNewActivity extends BaseActivity {
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)
                 + hotelPrice;
         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+        sensorActualPrice = price;
         carSeat.setText(getCarDesc());
         genCarInfoText();
     }
@@ -881,7 +895,8 @@ public class OrderNewActivity extends BaseActivity {
 
         allMoneyLeftText.setText(Tools.getRMB(activity) + (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)));
-
+        sensorActualPrice = (carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean));
 
     }
 
@@ -913,6 +928,7 @@ public class OrderNewActivity extends BaseActivity {
                     if (dreamLeft.isChecked()) {
                         int price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
                         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                        sensorActualPrice = price;
                     }
                 }
             }
@@ -1013,6 +1029,7 @@ public class OrderNewActivity extends BaseActivity {
                     }
                 }
                 allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                sensorActualPrice = price;
                 couponRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1303,11 +1320,13 @@ public class OrderNewActivity extends BaseActivity {
                 if (couponLeft.isChecked()) {
                     int price = carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
                     allMoneyLeftText.setText(Tools.getRMB(activity) + price);
+                    sensorActualPrice = price;
                 }
             } else {
                 couponRight.setText(couponBean.price + "优惠券");
                 if (couponLeft.isChecked()) {
                     allMoneyLeftText.setText(Tools.getRMB(activity) + couponBean.actualPrice.intValue());
+                    sensorActualPrice = couponBean.actualPrice.intValue();
                 }
             }
             mostFitBean = null;
@@ -1530,7 +1549,7 @@ public class OrderNewActivity extends BaseActivity {
                     break;
                 case 3:
                     skuType = "定制包车游";
-                    properties.put("hbc_start_time",orderBean.serviceTime);
+                    properties.put("hbc_start_time", orderBean.serviceTime);
                     break;
                 case 4:
                     skuType = "单次接送";
@@ -1540,11 +1559,11 @@ public class OrderNewActivity extends BaseActivity {
                     properties.put("hbc_adultNum", adultNum);
                     properties.put("hbc_childNum", childrenNum);
                     properties.put("hbc_childseatNum", childseatNum);
-                    properties.put("hbc_car_type", carBean.carType);
+                    properties.put("hbc_car_type", carBean.carType + "");
                     properties.put("hbc_start_time", serverDayTime);
                     properties.put("hbc_sku_id", goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
-                    if (carListBean.showHotel = true){
+                    if (carListBean.showHotel = true) {
                         properties.put("hbc_room_average", carListBean.hotelPrice);
                         properties.put("hbc_room_num", orderBean.hotelRoom);
                         properties.put("hbc_room_totalprice", hotelPrice);
@@ -1555,7 +1574,7 @@ public class OrderNewActivity extends BaseActivity {
                     properties.put("hbc_adultNum", adultNum);
                     properties.put("hbc_childNum", childrenNum);
                     properties.put("hbc_childseatNum", childseatNum);
-                    properties.put("hbc_car_type", carBean.carType);
+                    properties.put("hbc_car_type", carBean.carType + "");
                     properties.put("hbc_start_time", serverDayTime);
                     properties.put("hbc_sku_id", goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
@@ -1568,36 +1587,44 @@ public class OrderNewActivity extends BaseActivity {
             }
             properties.put("hbc_sku_type", skuType);
             if (1 == type || 2 == type) {
-                properties.put("hbc_price_total", mostFitBean.priceInfo);//费用总计
-                properties.put("hbc_price_coupon", mostFitBean.couponPrice);//使用优惠券
-                properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
-                properties.put("hbc_price_actually", mostFitBean.actualPrice);//实际支付金额
+                properties.put("hbc_price_total", Double.valueOf(orderBean.orderPrice));//费用总计
+                properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+                properties.put("hbc_price_tra_fund", money);//使用旅游基金
+                properties.put("hbc_price_actually", sensorActualPrice);//实际支付金额
             } else if (4 == type) {
-                properties.put("hbc_price_total", orderBean.priceChannel);//费用总计
+                properties.put("hbc_price_total", Double.valueOf(orderBean.priceChannel));//费用总计
                 if (TextUtils.isEmpty(orderBean.coupPriceInfo)) {
-                    properties.put("hbc_price_coupon", 0);//使用优惠券
+                    properties.put("hbc_price_coupon", "0");//使用优惠券
                 } else {
                     properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
                 }
                 if (TextUtils.isEmpty(orderBean.travelFund)) {
                     properties.put("hbc_price_tra_fund", 0);//使用旅游基金
                 } else {
-                    properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+                    properties.put("hbc_price_tra_fund", Double.valueOf(orderBean.travelFund));//使用旅游基金
                 }
                 if (TextUtils.isEmpty(orderBean.coupPriceInfo) && TextUtils.isEmpty(orderBean.travelFund)) {
-                    properties.put("hbc_price_actually", orderBean.priceChannel);//实际支付金额
+                    properties.put("hbc_price_actually", Double.valueOf(orderBean.priceChannel));//实际支付金额
                 } else {
-                    properties.put("hbc_price_actually", orderBean.priceActual);//实际支付金额
+                    properties.put("hbc_price_actually", Double.valueOf(orderBean.priceActual));//实际支付金额
                 }
             } else {
                 properties.put("hbc_price_total", carBean.vehiclePrice + carBean.servicePrice);//费用总计
-                properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
-                properties.put("hbc_price_tra_fund", CommonUtils.getCountInteger(orderBean.travelFund));//使用旅游基金
+                if (TextUtils.isEmpty(orderBean.coupPriceInfo)) {
+                    properties.put("hbc_price_coupon", "0");//使用优惠券
+                } else {
+                    properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
+                }
+                if (TextUtils.isEmpty(orderBean.travelFund)) {
+                    properties.put("hbc_price_tra_fund", 0);//使用旅游基金
+                } else {
+                    properties.put("hbc_price_tra_fund", Double.valueOf(orderBean.travelFund));//使用旅游基金
+                }
                 int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
                 if (priceActual < 0) {
                     priceActual = 0;
                 }
-                properties.put("hbc_price_actually", priceActual);//实际支付金额
+                properties.put("hbc_price_actually", sensorActualPrice);//实际支付金额
             }
             properties.put("hbc_is_appoint_guide", TextUtils.isEmpty(guideCollectId) ? false : true);//指定司导下单
             SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);

@@ -541,7 +541,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     properties.put("hbc_adultNum", orderBean.adult);
                     properties.put("hbc_childNum", orderBean.child);
                     properties.put("hbc_childseatNum", orderBean.childSeatNum);
-                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_car_type", orderBean.carType + "");
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     properties.put("hbc_sku_id", orderBean.goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
@@ -556,7 +556,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     properties.put("hbc_adultNum", orderBean.adult);
                     properties.put("hbc_childNum", orderBean.child);
                     properties.put("hbc_childseatNum", orderBean.childSeatNum);
-                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_car_type", orderBean.carType + "");
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     properties.put("hbc_sku_id", orderBean.goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
@@ -569,7 +569,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             }
             properties.put("hbc_sku_type", skuType);
             properties.put("hbc_price_total", orderBean.orderPriceInfo.shouldPay);//费用总计
-            properties.put("hbc_price_coupon", orderBean.orderPriceInfo.couponPrice);//使用优惠券
+            properties.put("hbc_price_coupon", String.valueOf(orderBean.orderPriceInfo.couponPrice));//使用优惠券
             properties.put("hbc_price_tra_fund", orderBean.orderPriceInfo.travelFundPrice);//使用旅游基金
 //            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
 //            if (priceActual < 0) {

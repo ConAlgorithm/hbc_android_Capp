@@ -43,6 +43,7 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -725,7 +726,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     properties.put("hbc_adultNum", orderBean.adult);
                     properties.put("hbc_childNum", orderBean.child);
                     properties.put("hbc_childseatNum", orderBean.childSeatNum);
-                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_car_type", orderBean.carType + "");
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     properties.put("hbc_sku_id", orderBean.goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
@@ -740,7 +741,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     properties.put("hbc_adultNum", orderBean.adult);
                     properties.put("hbc_childNum", orderBean.child);
                     properties.put("hbc_childseatNum", orderBean.childSeatNum);
-                    properties.put("hbc_car_type", orderBean.carType);
+                    properties.put("hbc_car_type", orderBean.carType + "");
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     properties.put("hbc_sku_id", orderBean.goodsNo);
                     properties.put("hbc_sku_name", orderBean.lineSubject);
@@ -752,9 +753,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     break;
             }
             properties.put("hbc_sku_type", skuType);
-            properties.put("hbc_price_total", orderBean.priceChannel);//费用总计
+            properties.put("hbc_price_total", Double.valueOf(orderBean.priceChannel));//费用总计
             if (TextUtils.isEmpty(orderBean.coupPriceInfo)) {
-                properties.put("hbc_price_coupon", 0);//使用优惠券
+                properties.put("hbc_price_coupon", "0");//使用优惠券
             } else {
                 properties.put("hbc_price_coupon", orderBean.coupPriceInfo);//使用优惠券
             }
