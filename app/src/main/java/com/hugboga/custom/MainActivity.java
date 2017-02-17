@@ -2,6 +2,7 @@ package com.hugboga.custom;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -107,6 +108,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
 
+    public static final int REQUEST_EXTERNAL_STORAGE_UPDATE = 1;
+    public static final int REQUEST_EXTERNAL_STORAGE_DB = 2;
+    public static final int REQUEST_EXTERNAL_STORAGE = 3;
+    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
 
@@ -119,6 +125,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private TextView tabMenu[] = new TextView[4];
     private ActionBean actionBean;
     private int currentPosition = 0;
+    private CheckVersionBean cvBean;
+    private DialogUtil dialogUtil;
 
     private FgHome fgHome;
     private FgNimChat fgChat;
@@ -143,6 +151,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         checkVersion();
         sharedPre = new SharedPre(this);
+        verifyStoragePermissions(this, REQUEST_EXTERNAL_STORAGE);
         initBottomView();
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -385,34 +394,65 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         } else if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
-            final CheckVersionBean cvBean = requestCheckVersion.getData();
+            cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
-            final DialogUtil dialogUtil = DialogUtil.getInstance(this);
+            dialogUtil = DialogUtil.getInstance(this);
             dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (cvBean.force && dialogUtil.getVersionDialog() != null) {
-                        try {
-                            Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
-                            field.setAccessible(true);
-                            field.set(dialogUtil.getVersionDialog(), false);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                    } else {
+                        downloadApk();
                     }
-                    PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //在版本检测后 检测DB
-                    UpdateResources.checkRemoteDB(MainActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
-                        @Override
-                        public void onFinished() {
-                        }
-                    });
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                    } else {
+                        updateDb();
+                    }
                 }
             });
+        }
+    }
+
+    public void downloadApk() {
+        if (cvBean == null || dialogUtil == null) {
+            return;
+        }
+        if (cvBean.force && dialogUtil.getVersionDialog() != null) {
+            try {
+                Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
+                field.setAccessible(true);
+                field.set(dialogUtil.getVersionDialog(), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
+    }
+
+    public void updateDb() {
+        if (cvBean == null) {
+            return;
+        }
+        //在版本检测后 检测DB
+        UpdateResources.checkRemoteDB(MainActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
+            @Override
+            public void onFinished() {
+            }
+        });
+    }
+
+    public static void verifyStoragePermissions(Activity activity, int requestCode) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, requestCode);
+            }
         }
     }
 
@@ -750,6 +790,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     // permission denied
                     MLog.e("==========denied=========");
                 }
+                break;
+            case REQUEST_EXTERNAL_STORAGE_UPDATE:
+                downloadApk();
+                break;
+            case REQUEST_EXTERNAL_STORAGE_DB:
+                updateDb();
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

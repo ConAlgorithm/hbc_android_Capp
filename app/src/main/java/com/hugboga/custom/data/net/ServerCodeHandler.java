@@ -89,6 +89,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_UPDATE);
                                 if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
                                     try {
                                         Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
@@ -103,6 +104,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         },  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_DB);
                                 //在版本检测后 检测DB
                                 UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
                                     @Override

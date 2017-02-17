@@ -502,7 +502,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 if(null == carListBean.carList || carListBean.carList.size() == 0){
                     canService = false;
                     carBean = CarUtils.getNewCarBean(collectGuideBean);
-                    CommonUtils.showToast(R.string.no_have_car);
+                    if (!TextUtils.isEmpty(carListBean.noneCarsReason)) {
+                        CommonUtils.showToast(carListBean.noneCarsReason);
+                    } else {
+                        CommonUtils.showToast(R.string.no_have_car);
+                    }
                 }else{
                     canService = true;
                 }
