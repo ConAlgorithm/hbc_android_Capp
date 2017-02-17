@@ -583,7 +583,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 //            if (count > 0) {
                 SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
                 if (adapter != null) {
-                    adapter.notifyDataSetChanged();
+                    computeTotalUnreadCount(adapter.getDatas());
                 }
 //            }
         }
