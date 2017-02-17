@@ -569,12 +569,12 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
         @Override
         public void onUnreadCountChange(int count) {
-            if (count > 0) {
+//            if (count > 0) {
                 SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
                 }
-            }
+//            }
         }
     };
 
