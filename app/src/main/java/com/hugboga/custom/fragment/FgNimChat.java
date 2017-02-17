@@ -415,7 +415,18 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()),
                         SharedPre.QY_SERVICE_UNREADCOUNT, 0));
                 MLog.e("totalCount = " + totalCount);
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
         }
     }
 
