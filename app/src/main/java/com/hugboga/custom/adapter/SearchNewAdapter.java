@@ -102,7 +102,8 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         TextView left_name = (TextView)view.findViewById(R.id.left_name);
         TextView right_name = (TextView)view.findViewById(R.id.right_name);
 
-        left_name.setText(CityUtils.getSpannableString(CityUtils.getShowName(searchGroupBean),key));
+//        left_name.setText(CityUtils.getSpannableString(CityUtils.getShowName(searchGroupBean),key));//所搜索的词高亮
+        left_name.setText(CityUtils.getShowName(searchGroupBean));
         right_name.setText(CityUtils.getParentName(searchGroupBean));
         return view;
     }

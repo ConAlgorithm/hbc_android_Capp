@@ -160,4 +160,7 @@
     
     <color name="bg_grey_transparent">#FFD0CDCD</color>
     <color name="text_clolor_2b2b2b">#2b2b2b</color>
+
+    <color name="text_color_grey">#a6a6a6</color>
+    <color name="text_hint_color">#cccccc</color>
 </resources>

@@ -131,7 +131,7 @@ public class SkuNewActivity extends BaseActivity {
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         headerRightImage.setLayoutParams(headerRightImageParams);
         headerRightImage.setPadding(0,0,0,0);
-        headerRightImage.setImageResource(R.mipmap.icon_service);
+        headerRightImage.setImageResource(R.mipmap.topbar_cs);
         headerRightImage.setVisibility(View.VISIBLE);
         headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override

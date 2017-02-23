@@ -117,7 +117,7 @@ public class ServicerCenterActivity extends BaseActivity {
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         headerRightBtn.setLayoutParams(headerRightImageParams);
         headerRightBtn.setPadding(0,0,0,0);
-        headerRightBtn.setImageResource(R.mipmap.icon_service);
+        headerRightBtn.setImageResource(R.mipmap.topbar_cs);
         headerRightBtn.setVisibility(View.VISIBLE);
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override

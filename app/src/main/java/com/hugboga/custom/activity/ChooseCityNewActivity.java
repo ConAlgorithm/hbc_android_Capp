@@ -45,8 +45,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.hugboga.custom.R.mipmap.closed_btn;
+import static com.hugboga.custom.R.mipmap.top_back_black;
 import static com.hugboga.custom.R.mipmap.top_back_white;
+import static com.hugboga.custom.R.mipmap.top_close;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
@@ -81,13 +84,14 @@ public class ChooseCityNewActivity extends BaseActivity {
     public void initHeader() {
         isHomeIn = this.getIntent().getBooleanExtra("isHomeIn",false);
         if(isHomeIn){
-            headerLeftBtn.setImageResource(top_back_white);
+            headerLeftBtn.setImageResource(top_back_black);
         }else {
-            headerLeftBtn.setImageResource(closed_btn);
+            headerLeftBtn.setImageResource(top_close);
         }
         headTextRight.setText("取消");
         headSearch.setHint("请输入目的地名称");
         headTextRight.setVisibility(GONE);
+        headerLeftBtn.setVisibility(VISIBLE);
         initPop();
         setSensorsDefaultEvent("搜索目的地页", SensorsConstant.SEARCH);
     }
@@ -153,19 +157,20 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
     private void showSearchPop(List<SearchGroupBean> list) {
-        headTextRight.setVisibility(View.VISIBLE);
+        headTextRight.setVisibility(VISIBLE);
+        headerLeftBtn.setVisibility(GONE);
         if (null != list && list.size() != 0) {
             searchNewAdapter.setKey(headSearch.getText().toString().trim());
             searchNewAdapter.setGroupArray(list);
             emptyLayout.setVisibility(GONE);
         } else {
             searchNewAdapter.clearList();
-            emptyLayout.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(VISIBLE);
         }
         for (int i = 0; i < list.size(); i++) {
             expandableListView.expandGroup(i);
         }
-        expandableListView.setVisibility(View.VISIBLE);
+        expandableListView.setVisibility(VISIBLE);
 
 //        popupWindow.showAsDropDown(activityHeadLayout);
     }
@@ -192,6 +197,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             case R.id.head_text_right:
                 expandableListView.setVisibility(GONE);
                 headTextRight.setVisibility(GONE);
+                headerLeftBtn.setVisibility(VISIBLE);
                 headSearch.setText("");
                 collapseSoftInputMethod(headSearch);
                 break;
@@ -229,6 +235,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                 } else {
                     expandableListView.setVisibility(GONE);
                     headTextRight.setVisibility(GONE);
+                    headerLeftBtn.setVisibility(VISIBLE);
                     emptyLayout.setVisibility(GONE);
                 }
             }
@@ -357,7 +364,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
             groupList3 = new ArrayList<>();
             groupList3.add(0, lineGroupBean);
-            rightList.setVisibility(View.VISIBLE);
+            rightList.setVisibility(VISIBLE);
             groupList3.addAll(list3);
             levelCityAdapterRight.setList(groupList3);
             rightList.setAdapter(levelCityAdapterRight);

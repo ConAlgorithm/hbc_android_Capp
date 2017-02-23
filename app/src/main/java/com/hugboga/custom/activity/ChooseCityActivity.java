@@ -195,7 +195,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             dailyLayout.setVisibility(View.VISIBLE);
             headerLeftBtn.setVisibility(View.INVISIBLE);
             headerTitleNew.setText("请选择包车开始城市");
-            headerLeftBtnNew.setImageResource(R.mipmap.closed_btn);
+            headerLeftBtnNew.setImageResource(R.mipmap.top_close);
             headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -207,6 +207,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         }else{
             dailyLayout.setVisibility(GONE);
             headerLeftBtn.setVisibility(View.VISIBLE);
+            if (this.getIntent().getBooleanExtra("fromInterCity",false)){
+                headerLeftBtn.setImageResource(R.mipmap.top_close);
+            }
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,6 +222,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         searchTV.setText(getString(R.string.dialog_btn_cancel));
         searchTV.setVisibility(GONE);
+        headerLeftBtn.setVisibility(View.VISIBLE);
 
         mDialogUtil = DialogUtil.getInstance(this);
         mDialogUtil.showLoadingDialog();
@@ -244,6 +248,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             chooseBtn.setVisibility(View.VISIBLE);
         } else {
             headerView = new ChooseCityHeaderView(ChooseCityActivity.this);
+            headerView.setBackgroundColor(getResources().getColor(R.color.allbg_white));
             headerRootView = new FrameLayout(this);
             headerRootView.addView(headerView);
             mListview.addHeaderView(headerRootView);
@@ -260,9 +265,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
-        editSearch.setHint("请输入城市名称");
+        editSearch.setHint("想去哪里?");
         if ("startAddress".equals(from)) {
-            editSearch.setHint("请输入城市名称");
+            editSearch.setHint("想去哪里?");
         } else if ("end".equals(from)) {
             editSearch.setHint("请输入城市名称");
             tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
@@ -271,7 +276,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         } else if (mBusinessType == Constants.BUSINESS_TYPE_RENT) {
             editSearch.setHint("搜索用车城市");
         } else if ("lastCity".equals(from) || "nearby".equals(from)) {
-            editSearch.setHint("请输入城市名称");
+            editSearch.setHint("想去哪里?");
         }
 
         sharedPer = new SharedPre(this);
@@ -323,6 +328,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             mListview.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
             searchTV.setVisibility(GONE);
+            headerLeftBtn.setVisibility(View.VISIBLE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
                 headerRootView.addView(headerView, UIUtils.getScreenWidth(), FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -341,6 +347,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             mListview.setLayoutParams(params);
 
             searchTV.setVisibility(View.VISIBLE);
+            headerLeftBtn.setVisibility(View.GONE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
                 if (showType == ShowType.PICK_UP) {
@@ -419,6 +426,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 }
                 editSearch.setText("");
                 searchTV.setVisibility(GONE);
+                headerLeftBtn.setVisibility(View.VISIBLE);
                 collapseSoftInputMethod(editSearch);
                 break;
         }
