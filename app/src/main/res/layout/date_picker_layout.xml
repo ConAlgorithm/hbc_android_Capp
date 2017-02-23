@@ -25,13 +25,6 @@
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/basic_red" />
-
-            <TextView
-                style="@style/CalendarCell.DayHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
@@ -62,8 +55,13 @@
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/basic_red" />
+                android:layout_weight="1" />
+
+            <TextView
+                style="@style/CalendarCell.DayHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView
