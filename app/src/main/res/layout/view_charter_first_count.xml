@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/charter_first_count_title_tv"
+        style="@style/SkuOrderSubtitleTextView"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/order_padding_left"
+        android:paddingRight="@dimen/order_padding_left"
+        android:layout_width="match_parent"
+        android:text="出行人数" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_min_item_hight"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/order_padding_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:text="成人"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <com.hugboga.custom.widget.SliderLayout
+            android:id="@+id/charter_first_count_adult_slider_layout"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/order_padding_left" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_min_item_hight"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/order_padding_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:text="儿童"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <com.hugboga.custom.widget.SliderLayout
+            android:id="@+id/charter_first_count_child_slider_layout"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/order_padding_left" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/charter_first_count_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#f47777"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:visibility="gone" />
+</LinearLayout>

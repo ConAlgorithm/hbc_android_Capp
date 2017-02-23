@@ -823,4 +823,7 @@
     <string name="city_home_find_guide">可以先按天包个车，\n找个中文司导带你玩</string>
     <string name="route_goods_detial_title">线路游详情</string>
     <string name="free_route_goods_detial_title">畅游详情</string>
+
+    <string name="charter_first_max_passengers_hint">当地可用车型的最大载客人数为%1$s人\n如需预订多车服务，请联系客服</string>
+    <string name="charter_first_max_passengers_service">联系客服</string>
 </resources>

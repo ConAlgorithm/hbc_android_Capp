@@ -4,26 +4,31 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.CarMaxCapaCityBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
-
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
-
 import java.util.HashMap;
 
 /**
- * 首页数据请求
- * Created by admin on 2016/3/2.
- */
-@HttpRequest(path = UrlLibs.API_HOME, builder = NewParamsBuilder.class)
-public class RequestHome extends BaseRequest<HomeBean> {
+ * http://wiki.hbc.tech/pages/viewpage.action?pageId=7933324
+ * cityId和carIds必选其一，两者都传时优先使用carId
+ * */
+@HttpRequest(path = UrlLibs.API_CAR_MAX_CAPACITY, builder = NewParamsBuilder.class)
+public class RequestCarMaxCapaCity extends BaseRequest<CarMaxCapaCityBean> {
 
-    public RequestHome(Context context) {
+    public RequestCarMaxCapaCity(Context context, int cityId) {
         super(context);
         map = new HashMap<String, Object>();
+        map.put("cityId", cityId);
+    }
+
+    public RequestCarMaxCapaCity(Context context, String carIds) {
+        super(context);
+        map = new HashMap<String, Object>();
+        map.put("carIds", carIds);
     }
 
     @Override
@@ -33,7 +38,7 @@ public class RequestHome extends BaseRequest<HomeBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_HOME, HomeBean.class);
+        return new HbcParser(UrlLibs.API_CAR_MAX_CAPACITY, CarMaxCapaCityBean.class);
     }
 
     @Override

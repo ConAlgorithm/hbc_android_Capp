@@ -160,4 +160,8 @@
     
     <color name="bg_grey_transparent">#FFD0CDCD</color>
     <color name="text_clolor_2b2b2b">#2b2b2b</color>
+
+    <color name="titlebar_bg">#FFFFFF</color>
+    <color name="titlebar_dvider">#D0D0D0</color>
+    <color name="titlebar_text">#000000</color>
 </resources>
