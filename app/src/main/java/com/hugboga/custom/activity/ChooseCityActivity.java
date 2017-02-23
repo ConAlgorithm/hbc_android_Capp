@@ -64,6 +64,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String KEY_CITY_LIST = "key_city_list";
     public static final String KEY_CITY_EXCEPT_ID_LIST = "key_city_except";//排除 城市id ，根据id
     public static final String KEY_SHOW_TYPE = "key_show_type";
+    public static String KEY_FROM = "key_from";
+
+    public static final String PARAM_TYPE_START = "startAddress";
 
     @Bind(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;

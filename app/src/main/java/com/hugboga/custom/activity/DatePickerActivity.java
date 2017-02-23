@@ -34,6 +34,13 @@ import static android.view.View.GONE;
 
 public class DatePickerActivity extends BaseActivity {
 
+    public static final int PARAM_TYPE_SINGLE = 1;
+    public static final int PARAM_TYPE_RANGE = 2;
+
+    public static final String PARAM_TYPE = "type";
+    public static final String PARAM_BEAN = "chooseDateBean";
+
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)

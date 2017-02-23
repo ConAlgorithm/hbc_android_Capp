@@ -777,39 +777,35 @@ public class OrderUtils {
 
     //确认订单协议
     public static void genAgreeMent(final Activity activity, TextView textView,String source) {
-        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f);
+        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f, null);
     }
 
     //注册协议
     public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef);
+        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef, null);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color) {
-        int start = agree_text.indexOf(agree_text_click);
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
+        int start = agree_text.lastIndexOf(agree_text_click);
         int end = agree_text.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity,url,color), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity,url,color,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
 
-    static class MyCLickSpan extends ClickableSpan{
+    public static class MyCLickSpan extends ClickableSpan{
         Activity activity;
         String url;
         int color = 0xff008cef;
+        OnSpanClickListener listener;
 
-        public MyCLickSpan(Activity activity,String url) {
-            super();
-            this.activity = activity;
-            this.url = url;
-        }
-
-        public MyCLickSpan(Activity activity,String url, int color) {
+        public MyCLickSpan(Activity activity,String url, int color, OnSpanClickListener listener) {
             super();
             this.activity = activity;
             this.url = url;
             this.color = color;
+            this.listener = listener;
         }
 
         @Override
@@ -821,9 +817,21 @@ public class OrderUtils {
 
         @Override
         public void onClick(View widget) {
-            Intent intent = new Intent(activity,WebInfoActivity.class);
-            intent.putExtra("web_url", url);
-            activity.startActivity(intent);
+            if (listener != null) {
+                listener.onSpanClick(widget);
+            } else {
+                Intent intent = new Intent(activity,WebInfoActivity.class);
+                intent.putExtra("web_url", url);
+                activity.startActivity(intent);
+            }
+        }
+
+        public interface OnSpanClickListener {
+            public void onSpanClick(View view);
+        }
+
+        public void setOnSpanClickListener(OnSpanClickListener listener) {
+            this.listener = listener;
         }
     }
 
