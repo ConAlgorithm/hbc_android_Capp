@@ -85,6 +85,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Intent intent = new Intent(activity, DatePickerActivity.class);
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
+        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车开始日期");
         startActivity(intent);
     }
 

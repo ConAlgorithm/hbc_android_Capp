@@ -42,7 +42,8 @@ public class MonthView extends LinearLayout {
     view.setDayViewAdapter(adapter);
     view.setDividerColor(dividerColor);
 //    view.setDayTextColor(dayTextColorResId);
-    view.setTitleTextColor(titleTextColor);
+//    view.setTitleTextColor(titleTextColor);
+    view.setTitleTextColor(0xFFF9B800);
     view.setDisplayHeader(displayHeader);
     view.setHeaderTextColor(headerTextColor);
 
@@ -106,7 +107,8 @@ public class MonthView extends LinearLayout {
       boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface, Calendar minCal, Calendar maxCal) {
     Logr.d("Initializing MonthView (%d) for %s", System.identityHashCode(this), month);
     long start = System.currentTimeMillis();
-    title.setText(month.getLabel());
+    title.setText(String.format("%1$s年%2$s月", month.getYear(), "" + (month.getMonth() + 1)));//month.getLabel()
+    title.setTextSize(13);
     NumberFormat numberFormatter = NumberFormat.getInstance(locale);
 
     final int numRows = cells.size();
@@ -124,11 +126,11 @@ public class MonthView extends LinearLayout {
           if (!cell.isCurrentMonth()) {
             dayOfMonthTextView.setTextColor(0x00000000);
           } else if (!CalendarPickerView.betweenDates(cell.getDate(), minCal, maxCal)) {
-            dayOfMonthTextView.setTextColor(0xFFC9CACB);
+            dayOfMonthTextView.setTextColor(0xFFD7D7D7);
           } else if((c ==0 || c == week.size() -1 )){
-            dayOfMonthTextView.setTextColor(0xFFFF0000);
+            dayOfMonthTextView.setTextColor(0xFFF66363);
           } else {
-            dayOfMonthTextView.setTextColor(0xFF000000);
+            dayOfMonthTextView.setTextColor(0xFF161616);
           }
 
           String cellDate = numberFormatter.format(cell.getValue());
@@ -137,7 +139,7 @@ public class MonthView extends LinearLayout {
               dayOfMonthTextView.setTextSize(12);
               dayOfMonthTextView.setText("今天");
             }else {
-              dayOfMonthTextView.setTextSize(15);
+              dayOfMonthTextView.setTextSize(13);
               dayOfMonthTextView.setText(cellDate);
             }
           }

@@ -17,29 +17,29 @@
             style="@style/CalendarCell.CalendarDate"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_width="18dp"
+            android:layout_width="22dp"
             android:visibility="invisible"
-            android:background="#fcf0ac"
-            android:layout_height="24dp" />
+            android:background="#ffecb7"
+            android:layout_height="28dp" />
 
 
         <TextView
             android:id="@+id/day_view_round_right"
             style="@style/CalendarCell.CalendarDate"
-            android:layout_width="18dp"
+            android:layout_width="22dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:visibility="invisible"
-            android:background="#fcf0ac"
-            android:layout_height="24dp" />
+            android:background="#ffecb7"
+            android:layout_height="28dp" />
 
 
         <TextView
             android:id="@+id/day_view_round"
             style="@style/CalendarCell.CalendarDate"
             android:layout_centerInParent="true"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
 
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:layout_height="24dp" />
+            android:layout_height="28dp" />
 
 
     </RelativeLayout>
