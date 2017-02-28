@@ -555,7 +555,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                     }
                                     NimRecentListSyncUtils.sortRecentContacts(adapter.getDatas());
                                     computeTotalUnreadCount(adapter.getDatas());
-                                    adapter.notifyDataSetChanged();
+                                    //adapter.notifyDataSetChanged();
                                 }
                             }
                             @Override
@@ -582,9 +582,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         public void onUnreadCountChange(int count) {
 //            if (count > 0) {
                 SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
+                computeTotalUnreadCount(adapter.getDatas());
+//                if (adapter != null) {
+//                    adapter.notifyDataSetChanged();
+//                }
 //            }
         }
     };
