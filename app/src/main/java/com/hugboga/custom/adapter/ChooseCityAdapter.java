@@ -124,7 +124,8 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
                 title = cityBean.name;
                 break;
             case ShowType.SEARCH_PROMPT:
-                title = getSearchPromptHighlightString(cityBean.name, cityBean.keyWord);
+//                title = getSearchPromptHighlightString(cityBean.name, cityBean.keyWord);//搜索词高亮
+                title = cityBean.name;
                 subTitle = cityBean.placeName;
                 break;
             case ShowType.SHOW_COUNTRY:
@@ -171,6 +172,7 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
             holder = new HeaderViewHolder();
             convertView = inflater.inflate(R.layout.item_choosecity_sections, parent, false);
             holder.sectionsTV = (TextView) convertView.findViewById(R.id.item_choosecity_sections_tv);
+            holder.sectionsTV.setTextColor(Color.parseColor("#FDCE02"));
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();

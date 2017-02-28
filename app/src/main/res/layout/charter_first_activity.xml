@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hugboga.custom.widget.title.TitleBar
+        android:id="@+id/charter_first_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        app:right_icon="@mipmap/topbar_cs"
+        app:title_str="@string/custom_chartered" />
+
+    <RelativeLayout
+        android:id="@+id/charter_first_bottom_next_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_bottom_height"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line" />
+
+        <TextView
+            android:id="@+id/charter_first_bottom_next_tv"
+            style="@style/OrderBottomConfirm"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/order_bottom_all_padding_left"
+            android:layout_marginRight="@dimen/order_bottom_all_padding_left"
+            android:background="@drawable/shape_rounded_gray_btn"
+            android:enabled="false"
+            android:text="下一步" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/charter_first_bottom_next_layout"
+        android:layout_below="@id/charter_first_titlebar"
+        android:background="@color/default_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/order_padding_left"
+                android:paddingRight="@dimen/order_padding_left"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+                <net.grobas.view.PolygonImageView
+                    android:id="@+id/ogi_avatar_iv"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:src="@mipmap/icon_avatar_guide"
+                    app:poly_vertices="0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="14dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/default_black"
+                    android:text="实打实大声道阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德"
+                    />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/charter_first_city_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/order_margin_vertical"
+                android:background="#ffffffff"
+                android:paddingLeft="@dimen/order_padding_left"
+                android:paddingRight="@dimen/order_padding_left">
+
+                <TextView
+                    android:id="@+id/charter_first_city_title_tv"
+                    style="@style/SkuOrderSubtitleTextView"
+                    android:text="开始城市" />
+
+                <ImageView
+                    android:id="@+id/charter_first_city_arrow_iv"
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/charter_first_city_title_tv"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17.5dp"
+                    android:background="@mipmap/ente_icon" />
+
+                <TextView
+                    android:id="@+id/charter_first_city_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_min_item_hight"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/charter_first_city_title_tv"
+                    android:layout_toLeftOf="@id/charter_first_city_arrow_iv"
+                    android:gravity="center_vertical"
+                    android:hint="想去哪里"
+                    android:textColor="@color/default_black"
+                    android:textColorHint="#cccccc"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/charter_first_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/order_margin_vertical"
+                android:background="#ffffffff"
+                android:paddingLeft="@dimen/order_padding_left"
+                android:paddingRight="@dimen/order_padding_left">
+
+                <TextView
+                    android:id="@+id/charter_first_date_title_tv"
+                    style="@style/SkuOrderSubtitleTextView"
+                    android:text="包车日期" />
+
+                <ImageView
+                    android:id="@+id/charter_first_date_arrow_iv"
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/charter_first_date_title_tv"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17.5dp"
+                    android:background="@mipmap/ente_icon" />
+
+                <TextView
+                    android:id="@+id/charter_first_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/order_min_item_hight"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/charter_first_date_title_tv"
+                    android:layout_toLeftOf="@id/charter_first_date_arrow_iv"
+                    android:gravity="center_vertical"
+                    android:hint="选择包车起止日期"
+                    android:textColor="@color/default_black"
+                    android:textColorHint="#cccccc"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <com.hugboga.custom.widget.CharterFirstCountView
+                android:id="@+id/charter_first_count_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/order_margin_vertical"
+                />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

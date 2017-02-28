@@ -176,7 +176,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         if (isHideMoreBtn == 1) {
             header_right_btn.setVisibility(GONE);
         } else {
-            header_right_btn.setImageResource(R.mipmap.top_more);
+            header_right_btn.setImageResource(R.mipmap.topbar_more);
             header_right_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

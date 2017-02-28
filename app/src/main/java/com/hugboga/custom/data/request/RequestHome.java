@@ -38,7 +38,7 @@ public class RequestHome extends BaseRequest<HomeBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40048";
+        return "40118";
     }
 
 }

@@ -230,7 +230,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
                 arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
                 arrivalTip.setText(R.string.arrival_tip_hotel);
-                arrivalTip.setVisibility(View.VISIBLE);
+                arrivalTip.setVisibility(View.GONE);
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
             isLoading = false;

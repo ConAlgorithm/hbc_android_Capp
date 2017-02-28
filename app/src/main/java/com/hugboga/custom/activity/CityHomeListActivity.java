@@ -87,6 +87,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     ImageView headerRightIV;
     @Bind(R.id.city_home_filter_layout)
     CityFilterLayout cityFilterLayout;
+    @Bind(R.id.view_bottom)
+    View view_bottom;
 
     private CityHomeHeader cityHomeHeader;
     private CityHomeFooter cityHomeFooter;
@@ -328,9 +330,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             titlebar.setVisibility(View.GONE);
             titlebar.setBackgroundColor(0x00000000);
             fgTitle.setTextColor(0x00000000);
+            view_bottom.setBackgroundColor(0x00000000);
         } else {
-            titlebar.setBackgroundColor(0xFF111111);
-            fgTitle.setTextColor(0xFFFFFFFF);
+            titlebar.setBackgroundColor(0xFFFFFFFF);
+            fgTitle.setTextColor(0xFF111111);
+            view_bottom.setBackgroundColor(0xFFbfc2c5);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             swipeRefreshLayout.setLayoutParams(params);
             params.addRule(RelativeLayout.BELOW, R.id.cityHome_list_titlebar);
@@ -438,11 +442,13 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                         } else {
                             alpha = Math.min(1, scrollY / showRegionHight);
                         }
-                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
-                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
+                        view_bottom.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFbfc2c5));
                     } else {
-                        titlebar.setBackgroundColor(0xFF111111);
-                        fgTitle.setTextColor(0xFFFFFFFF);
+                        titlebar.setBackgroundColor(0xFFFFFFFF);
+                        fgTitle.setTextColor(0xFF111111);
+                        view_bottom.setBackgroundColor(0xFFbfc2c5);
                     }
                 }
                 isShowCityFilter();
@@ -660,8 +666,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 if (isCity) {
                     if(cityHomeBean==null || cityHomeBean.cityService==null){
                         titlebar.setVisibility(View.VISIBLE);
-                        titlebar.setBackgroundColor(0xFF111111);
-                        fgTitle.setTextColor(0xFFFFFFFF);
+                        titlebar.setBackgroundColor(0xFFFFFFFF);
+                        fgTitle.setTextColor(0xFF111111);
+                        view_bottom.setBackgroundColor(0xFFbfc2c5);
                         headerRightIV.setVisibility(View.GONE);
                         emptyView.showEmptyView(true);
                         return;

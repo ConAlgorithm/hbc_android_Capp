@@ -3,7 +3,7 @@
     android:id="@+id/ll_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#2d2b24"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <TextView
@@ -18,12 +18,12 @@
         android:textSize="18sp"
         android:paddingTop="5dp"
         android:text="@string/popup_menu_cancel_order"
-        android:textColor="@color/basic_white" />
+        android:textColor="@color/basic_black" />
 
     <View
         android:layout_width="130dp"
         android:layout_height="1px"
-        android:background="@color/basic_white" />
+        android:background="@color/basic_black" />
 
     <TextView
         android:id="@+id/menu_phone"
@@ -37,7 +37,7 @@
         android:paddingTop="5dp"
         android:textSize="18sp"
         android:text="@string/popup_menu_phone"
-        android:textColor="@color/basic_white" />
+        android:textColor="@color/basic_black" />
 
 
 

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
@@ -65,7 +66,9 @@ public class HomeCustomLayout extends LinearLayout{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_custom_chartered_layout://包车
-                intentActivity(OrderSelectCityActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
+//                intentActivity(OrderSelectCityActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
+                Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
+                getContext().startActivity(intent);
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
                 intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);
