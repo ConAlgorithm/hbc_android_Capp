@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/charter_item_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/charter_item_selected_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/order_choice_sel" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/charter_item_padding_left"
+        android:paddingRight="@dimen/charter_item_padding_left">
+
+        <TextView
+            android:id="@+id/charter_item_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="东京市内一日游"
+            android:textColor="@color/default_black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/charter_item_scope_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-7dp"
+            android:gravity="center_vertical"
+            android:text="范围：仅限东京市内游玩"
+            android:textColor="#737373"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/charter_item_places_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:text="推荐景点：浅草寺、东京迪士尼乐园、东京塔、新宿、银座、台场、故宫博物院"
+            android:textColor="#737373"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/charter_item_tag_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/charter_item_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_charter_trip"
+                android:gravity="center_vertical"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="10小时"
+                android:textColor="#37cca2"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/charter_item_distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/shape_rounded_charter_trip"
+                android:gravity="center_vertical"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="150公里"
+                android:textColor="#37cca2"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/charter_item_edit_arrived_city_layout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+
+            <TextView
+                android:id="@+id/charter_item_edit_arrived_city_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:text="测试爱迪测试爱测试667爱测试试试"
+                android:textColor="@color/default_black"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@id/charter_item_edit_arrived_city_tv"
+                android:layout_marginBottom="2dp"
+                android:background="@mipmap/trip_icon_edit" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/charter_item_add_arrived_city_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:paddingTop="9dp">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@mipmap/order_choice_icon_place" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:text="选择送达城市"
+                android:textColor="#f4b900"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <View
+            android:id="@+id/charter_item_bottom_space_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/charter_item_padding_bottom"
+            />
+    </LinearLayout>
+</RelativeLayout>

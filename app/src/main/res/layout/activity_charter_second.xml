@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-aut"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <com.hugboga.custom.widget.title.TitleBar
+        android:id="@+id/charter_second_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        app:right_icon="@mipmap/topbar_cs"
+        app:title_str="@string/custom_chartered" />
+    <TextView
+        android:layout_below="@id/charter_second_titlebar"
+        android:id="@+id/charter_second_map_layout"
+        android:background="#a8a8a8"
+        android:text="地图"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    <com.hugboga.custom.widget.charter.CharterSecondBottomView
+        android:id="@+id/charter_second_bottom_view"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/charter_second_recycler_view"
+        android:layout_below="@id/charter_second_map_layout"
+        android:layout_above="@id/charter_second_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

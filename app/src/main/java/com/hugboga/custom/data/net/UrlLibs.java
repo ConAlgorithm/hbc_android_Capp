@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 118
+    //current urlErrorCode 120
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -188,6 +188,7 @@ public class UrlLibs {
     public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
+    public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
 
     public static final String API_CITY_HOME_LIST           = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
@@ -247,4 +248,6 @@ public class UrlLibs {
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
 
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
+
+    public static final String API_DIRECTION                =  "proxy/v1.0/c/direction";                                // 行程查询 120
 }

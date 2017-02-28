@@ -67,6 +67,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static String KEY_FROM = "key_from";
 
     public static final String PARAM_TYPE_START = "startAddress";
+    public static final String KEY_BUSINESS_TYPE = "key_business_Type";
 
     @Bind(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;

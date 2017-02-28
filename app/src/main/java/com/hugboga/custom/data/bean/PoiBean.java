@@ -14,6 +14,7 @@ public class PoiBean implements IBaseBean {
 
     public boolean isHistory = false; //本地字段
     public String type;//from,to 本地字段
+    public int mBusinessType;//本地字段
 
 
 

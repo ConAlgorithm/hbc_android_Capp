@@ -12,12 +12,14 @@ import android.widget.LinearLayout;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
+import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -72,6 +74,14 @@ public class HomeCustomLayout extends LinearLayout{
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
                 intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);
+//                CityBean startBean = new CityBean();
+//                startBean.cityId = 217;
+//                CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
+//                params.startBean = startBean;
+//
+//                Intent intent2 = new Intent(getContext(), CharterSecondStepActivity.class);
+//                intent2.putExtra(Constants.PARAMS_DATA, params);
+//                getContext().startActivity(intent2);
                 break;
             case R.id.home_custom_single_layout://单次接送
                 intentActivity(SingleNewActivity.class, StatisticConstant.LAUNCH_C);
