@@ -93,6 +93,7 @@ android {
         '10011'{}
         '10012'{}
         '10013'{}
+        '10092'{}
     }
     //==productFlavors_end==
     //==productFlavors==
@@ -134,6 +135,7 @@ android {
             case '10011':
             case '10012':
             case '10013':
+            case '10092':
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
