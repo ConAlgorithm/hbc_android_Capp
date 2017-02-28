@@ -84,7 +84,7 @@ public class CharterItemView extends LinearLayout{
             timeTV.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));
             distanceTV.setText(String.format("%1$s公里", "" + cityRouteScope.routeKms));
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
-//                scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
+                scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
 
                 CityBean cityBean = charterDataUtils.getNextDayCityBean();
                 if (cityBean != null) {
@@ -92,7 +92,7 @@ public class CharterItemView extends LinearLayout{
                 }
             } else {
                 scopeTV.setText("范围：" + cityRouteScope.routeScope);
-//                placesTV.setText("推荐景点：" + cityRouteScope.routePlaces);
+                placesTV.setText("推荐景点：" + cityRouteScope.routePlaces);
             }
         }
     }

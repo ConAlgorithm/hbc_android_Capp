@@ -120,7 +120,10 @@
     <dimen name="order_margin_vertical">10dp</dimen>
 
     <dimen name="charter_item_padding_left">15dp</dimen>
-    <dimen name="charter_item_padding_top">12dp</dimen>
     <dimen name="charter_item_padding_bottom">12dp</dimen>
     <dimen name="charter_item_margin_left">10dp</dimen>
+
+    <dimen name="travel_item_line_width">20dp</dimen>
+    <dimen name="travel_item_margin_left">28dp</dimen>
+
 </resources>

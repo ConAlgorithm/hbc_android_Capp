@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -15,15 +15,17 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * 首页数据请求
- * Created by admin on 2016/3/2.
+ * Created by qingcha on 17/2/28.
  */
-@HttpRequest(path = UrlLibs.API_HOME, builder = NewParamsBuilder.class)
-public class RequestHome extends BaseRequest<HomeBean> {
+@HttpRequest(path = UrlLibs.API_DIRECTION, builder = NewParamsBuilder.class)
+public class RequestDirection extends BaseRequest<DirectionBean> {
 
-    public RequestHome(Context context) {
+    public RequestDirection(Context context, String origin, String destination, String countryId) {
         super(context);
         map = new HashMap<String, Object>();
+        map.put("origin", origin); //出发地坐标 格式:纬度,经度
+        map.put("destination", destination);//终点地坐标 格式:纬度,经度
+        map.put("countryId", countryId);//坐标对应的国家ID
     }
 
     @Override
@@ -33,12 +35,12 @@ public class RequestHome extends BaseRequest<HomeBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_HOME, HomeBean.class);
+        return new HbcParser(UrlLibs.API_DIRECTION, DirectionBean.class);
     }
 
     @Override
     public String getUrlErrorCode() {
-        return "40048";
+        return "40120";
     }
 
 }
