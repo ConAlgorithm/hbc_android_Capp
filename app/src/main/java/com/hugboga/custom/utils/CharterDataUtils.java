@@ -6,6 +6,7 @@ import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
+import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 
@@ -23,12 +24,14 @@ public class CharterDataUtils {
 
     public FlightBean flightBean;                               // 接机：航班信息
     public PoiBean pickUpPoiBean;                               // 接机：送达地
-    public boolean isSelectedPickUp;                            // 接机：是否选中接机
+    public DirectionBean pickUpDirectionBean;                   // 接机：机场到送达地距离及地图坐标
+    public boolean isSelectedPickUp = true;                     // 接机：是否选中接机
 
     public AirPort airPortBean;                                 // 送机：机场信息
     public PoiBean sendPoiBean;                                 // 送机：出发地点
     public String sendServerTime;                               // 送机：出发时间
-    public boolean isSelectedSend;                              // 送机：是否选中送机
+    public DirectionBean sendDirectionBean;                     // 送机：出发地到机场距离及地图坐标
+    public boolean isSelectedSend = true;                       // 送机：是否选中送机
 
     public ArrayList<CityRouteBean.CityRouteScope> travelList;  // 存储每天的数据，点击"确认"后更新
     public ArrayMap<Integer, CityBean> cityBeanMap;             // 用来存储出发城市，以当前天数为KEY，实时更新

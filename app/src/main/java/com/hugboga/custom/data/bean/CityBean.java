@@ -27,6 +27,8 @@ public class CityBean implements IBaseBean ,Cloneable {
     public String location; //坐标
     @Column(name = "place_name")
     public String placeName;
+    @Column(name = "place_id")
+    public String placeId;
     @Column(name = "area_code")
     public String areaCode;
     @Column(name = "group_id")
@@ -125,6 +127,7 @@ public class CityBean implements IBaseBean ,Cloneable {
         this.isNationality = in.readByte() != 0;
         this.cityType = in.readInt();
         this.description = in.readString();
+        this.placeId = in.readString();
     }
 
 

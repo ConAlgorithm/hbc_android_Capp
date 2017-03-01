@@ -11,13 +11,14 @@ import com.hugboga.custom.models.CharterPickupModel;
 import com.hugboga.custom.models.CharterSendModel;
 import com.hugboga.custom.models.CharterSubtitleModel;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.widget.charter.CharterSubtitleView;
 
 import java.util.List;
 
 /**
  * Created by qingcha on 17/2/24.
  */
-public class CityRouteAdapter extends EpoxyAdapter {
+public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleView.OnPickUpOrSendSelectedListener {
 
     private static final int PICKUP_MODEL_TAG = -100;
     private static final int SEND_MODEL_TAG = -101;
@@ -30,7 +31,7 @@ public class CityRouteAdapter extends EpoxyAdapter {
     public EpoxyModel lastSelectedModel;
 
     public CityRouteAdapter() {
-//        enableDiffing();
+        charterSubtitleModel.setOnPickUpOrSendSelectedListener(this);
         addModel(charterSubtitleModel);
     }
 
@@ -98,6 +99,14 @@ public class CityRouteAdapter extends EpoxyAdapter {
 
     public void updateSelectedModel() {
         notifyModelChanged(lastSelectedModel);
+    }
+
+    @Override
+    protected void showModel(EpoxyModel<?> model, boolean show) {
+        if (model == null) {
+            return;
+        }
+        super.showModel(model, show);
     }
 
     private final View.OnClickListener itemListener = new View.OnClickListener() {
@@ -195,4 +204,21 @@ public class CityRouteAdapter extends EpoxyAdapter {
         }
     }
 
+    @Override
+    public void onPickUpOrSendSelected(boolean isPickUp, boolean isSelected) {
+        EpoxyModel<?> model = null;
+        if (isPickUp) {//接机
+            model = pickupModel;
+        } else {//送机
+            model = sendModel;
+        }
+        showModel(model, isSelected);
+        notifyModelChanged(model);
+        if (model instanceof CharterModelBehavior) { //更改选中状态
+            boolean isSelectedModel = ((CharterModelBehavior) model).isSelected();
+            if (isSelectedModel) {
+                setSelectedItem(null, getAllModelsAfter(model).get(0));
+            }
+        }
+    }
 }

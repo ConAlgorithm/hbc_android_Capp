@@ -42,6 +42,7 @@ public class CharterSubtitleView extends LinearLayout{
 
     private Context context;
     private CharterDataUtils charterDataUtils;
+    private OnPickUpOrSendSelectedListener listener;
 
 
     public CharterSubtitleView(Context context) {
@@ -63,7 +64,8 @@ public class CharterSubtitleView extends LinearLayout{
         if (charterDataUtils.isFirstDay()) {
             pickupLayout.setVisibility(View.VISIBLE);
             if (charterDataUtils.flightBean != null) {
-                iconIV.setBackgroundResource(R.mipmap.trip_icon_come_selected);//selector_charter_pickup
+                iconIV.setBackgroundResource(R.drawable.selector_charter_pickup);
+                iconIV.setSelected(charterDataUtils.isSelectedPickUp);
                 leftTV.setText("从机场出发 ");
                 rightTV.setText(charterDataUtils.flightBean.flightNo);
                 rightTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
@@ -78,7 +80,8 @@ public class CharterSubtitleView extends LinearLayout{
         } else if(charterDataUtils.isLastDay()) {
             pickupLayout.setVisibility(View.VISIBLE);
             if (charterDataUtils.airPortBean != null) {
-                iconIV.setBackgroundResource(R.mipmap.trip_icon_come_selected);
+                iconIV.setBackgroundResource(R.drawable.selector_charter_pickup);
+                iconIV.setSelected(charterDataUtils.isSelectedSend);
                 leftTV.setText("送机 ");
                 rightTV.setText(charterDataUtils.airPortBean.airportName);
                 rightTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
@@ -97,10 +100,29 @@ public class CharterSubtitleView extends LinearLayout{
 
     @OnClick({R.id.charter_subtitle_pickup_layout})
     public void onClick(View view) {
-        if (charterDataUtils.isFirstDay()) {//包车第一天，添写接机航班号
+        if (charterDataUtils.isFirstDay() && charterDataUtils.isSelectedPickUp) {//包车第一天，添写接机航班号
             intentActivity(ChooseAirActivity.class);
-        } else if(charterDataUtils.isLastDay()) {//包车最后一天，添写送达机场
+        } else if(charterDataUtils.isLastDay() && charterDataUtils.isSelectedSend) {//包车最后一天，添写送达机场
             intentActivity(ChooseAirPortActivity.class);
+        }
+    }
+
+    @OnClick({R.id.charter_subtitle_pickup_icon_iv})
+    public void onSelectedPickUpOrSend() {
+        boolean isSelected = true;
+        boolean isPickUp = true;
+        if (charterDataUtils.isFirstDay()) {
+            charterDataUtils.isSelectedPickUp = !charterDataUtils.isSelectedPickUp;
+            isSelected = charterDataUtils.isSelectedPickUp;
+            isPickUp = true;
+        } else if (charterDataUtils.isLastDay()) {
+            charterDataUtils.isSelectedSend = !charterDataUtils.isSelectedSend;
+            isSelected = charterDataUtils.isSelectedSend;
+            isPickUp = false;
+        }
+        iconIV.setSelected(isSelected);
+        if (listener != null) {
+            listener.onPickUpOrSendSelected(isPickUp, isSelected);
         }
     }
 
@@ -116,5 +138,16 @@ public class CharterSubtitleView extends LinearLayout{
         } else {
             return "";
         }
+    }
+
+    public interface OnPickUpOrSendSelectedListener {
+        /**
+         * @param isPickUp 接机true、送机false
+         */
+        public void onPickUpOrSendSelected(boolean isPickUp, boolean isSelected);
+    }
+
+    public void setOnPickUpOrSendSelectedListener(OnPickUpOrSendSelectedListener listener) {
+        this.listener = listener;
     }
 }

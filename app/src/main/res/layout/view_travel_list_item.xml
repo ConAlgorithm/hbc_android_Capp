@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="vertical"
-    android:paddingTop="10dp">
-
+    android:paddingTop="14dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,27 +12,322 @@
 
         <View
             android:layout_width="@dimen/travel_item_line_width"
-            android:layout_height="3dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="2dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
             android:background="@color/default_yellow" />
 
-        <TextView
-            android:layout_marginLeft="@dimen/travel_item_margin_left"
+
+        <LinearLayout
+            android:id="@+id/travel_item_edit_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="5dp">
+
+            <ImageView
+                android:id="@+id/travel_item_edit_iv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="4dp"
+                android:background="@mipmap/trip_icon_edit" />
+
+            <TextView
+                android:id="@+id/travel_item_edit_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingRight="10dp"
+                android:text="编辑"
+                android:textColor="#17b9db"
+                android:textSize="13sp" />
+            >
+
+            <View
+                android:id="@+id/travel_item_edit_line_view"
+                android:layout_width="1dp"
+                android:layout_height="11dp"
+                android:background="@color/default_dividing_line" />
+
+            <TextView
+                android:id="@+id/travel_item_del_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="删除"
+                android:textColor="#818181"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/travel_item_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/travel_item_margin_left"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/travel_item_edit_layout"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="Day1:东京"
             android:textColor="@color/default_black"
             android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingRight="20dp"
-            android:text="编辑"
-            android:textColor="#17b9db"
-            android:textSize="14sp"
-            />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/travel_item_data_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:text="2017年2月15日 星期二"
+        android:textColor="#808080"
+        android:textSize="11sp" />
+
+    <RelativeLayout
+        android:id="@+id/travel_item_pickup_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="9dp">
+
+        <ImageView
+            android:id="@+id/travel_item_pickup_no_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_come" />
+
+        <TextView
+            android:id="@+id/travel_item_pickup_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/travel_item_pickup_no_iv"
+            android:ellipsize="end"
+            android:paddingTop="2dp"
+            android:singleLine="true"
+            android:text="NH956 成田机场T2"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/travel_item_arrdate_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/travel_item_pickup_tv"
+            android:layout_below="@id/travel_item_pickup_no_iv"
+            android:text="2017年2月15日 星期二"
+            android:textColor="#808080"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/travel_item_charter_line_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="6dp">
+
+        <ImageView
+            android:id="@+id/travel_item_charter_line_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_line" />
+
+        <TextView
+            android:id="@+id/travel_item_line_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/travel_item_charter_line_iv"
+            android:ellipsize="end"
+            android:paddingTop="2.5dp"
+            android:singleLine="true"
+            android:text="大板至周边地区当日往返"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/travel_item_line_tag_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/travel_item_line_tv"
+            android:layout_below="@id/travel_item_line_tv"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/travel_item_line_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_charter_trip"
+                android:gravity="center_vertical"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="10小时"
+                android:textColor="#37cca2"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/travel_item_line_distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/shape_rounded_charter_trip"
+                android:gravity="center_vertical"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="150公里"
+                android:textColor="#37cca2"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/travel_item_time_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/travel_item_time_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_time" />
+
+        <TextView
+            android:id="@+id/travel_item_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/travel_item_time_iv"
+            android:ellipsize="end"
+            android:paddingTop="2.5dp"
+            android:singleLine="true"
+            android:text="NH956 成田机场T2"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/travel_item_start_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="9dp">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="20dp"
+            android:background="#c0c0c0" />
+
+        <ImageView
+            android:id="@+id/travel_item_start_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_place" />
+
+        <TextView
+            android:id="@+id/travel_item_start_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/travel_item_start_iv"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_marginTop="1.5dp"
+            android:text="NH956 成田机场T2"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/travel_item_start_des_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/travel_item_start_tv"
+            android:layout_below="@id/travel_item_start_tv"
+            android:paddingTop="2dp"
+            android:text="2017年2月15日 星期二"
+            android:textColor="#808080"
+            android:textSize="11sp"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/travel_item_end_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:layout_marginRight="15dp"
+        android:clipToPadding="false"
+        android:paddingTop="8dp">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="-9dp"
+            android:background="#c0c0c0" />
+
+        <ImageView
+            android:id="@+id/travel_item_end_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_place" />
+
+        <TextView
+            android:id="@+id/travel_item_end_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/travel_item_end_iv"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_marginTop="1.5dp"
+            android:text="NH956 成田机场T2"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/travel_item_end_des_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/travel_item_end_tv"
+            android:layout_below="@id/travel_item_end_tv"
+            android:layout_marginTop="2dp"
+            android:text="2017年2月15日 星期二"
+            android:textColor="#808080"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="@dimen/travel_item_margin_left"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_order_detail_amount_dash"
+        android:layerType="software" />
 </LinearLayout>

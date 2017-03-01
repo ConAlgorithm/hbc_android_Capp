@@ -32,6 +32,11 @@ public class CharterSendModel extends EpoxyModel<CharterSendAirportView> impleme
     }
 
     @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
     public void setTag(int tag) {
         this.tag = tag;
     }

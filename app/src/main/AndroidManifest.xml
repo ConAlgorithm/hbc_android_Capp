@@ -387,7 +387,10 @@
             android:name=".activity.CharterSecondStepActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
-
+        <activity
+            android:name=".activity.TravelListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
         <activity
             android:name=".activity.NIMChatActivity"
             android:screenOrientation="portrait"

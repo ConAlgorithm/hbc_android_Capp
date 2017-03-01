@@ -17,7 +17,7 @@ import java.util.HashMap;
 /**
  * Created by qingcha on 17/2/28.
  */
-@HttpRequest(path = UrlLibs.API_DIRECTION, builder = NewParamsBuilder.class)
+@HttpRequest(host = UrlLibs.SERVER_IP_HOST_FORMAL, path = UrlLibs.API_DIRECTION, builder = NewParamsBuilder.class)
 public class RequestDirection extends BaseRequest<DirectionBean> {
 
     public RequestDirection(Context context, String origin, String destination, String countryId) {

@@ -9,7 +9,6 @@ import com.hugboga.custom.widget.charter.CharterPickupView;
 /**
  * Created by qingcha on 17/2/24.
  */
-
 public class CharterPickupModel extends EpoxyModel<CharterPickupView> implements CharterModelBehavior{
 
     private boolean selected;
@@ -29,6 +28,11 @@ public class CharterPickupModel extends EpoxyModel<CharterPickupView> implements
     @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -14,16 +14,17 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
+import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.data.request.RequestCityRoute;
+import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterItemModel;
 import com.hugboga.custom.models.CharterPickupModel;
 import com.hugboga.custom.models.CharterSendModel;
 import com.hugboga.custom.utils.CharterDataUtils;
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.SpaceItemDecoration;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,6 +95,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         requestData(new RequestCityRoute(this, cityId));
     }
 
+    public void requestDirection(String origin, String destination, String countryId) {
+        requestData(new RequestDirection(this, origin, destination, countryId));
+    }
+
+    public void requestCarMaxCapaCity(String cityId) {
+        requestData(new RequestCarMaxCapaCity(this, cityId));
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
@@ -108,6 +117,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 adapter.setCityRouteBean(_cityRouteBean);
             }
             this.cityRouteBean = _cityRouteBean;
+        } else if (_request instanceof RequestDirection) {
+            DirectionBean directionBean = ((RequestDirection) _request).getData();
+            if (charterDataUtils.isFirstDay()) {//接机
+                charterDataUtils.pickUpDirectionBean = directionBean;
+                adapter.updatePickupModel();
+            } else {//送机
+                charterDataUtils.sendDirectionBean = directionBean;
+            }
         }
     }
 
@@ -128,6 +145,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         switch (action.getType()) {
             case AIR_NO:
                 FlightBean flightBean = (FlightBean) action.getData();
+//                if (!checkPickUpFlightBean(flightBean)) {
+//                    break;
+//                }
                 if (charterDataUtils.flightBean != null && charterDataUtils.flightBean != flightBean) {
                     charterDataUtils.pickUpPoiBean = null;
                 }
@@ -138,11 +158,20 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             case CHOOSE_POI_BACK:
                 PoiBean poiBean = (PoiBean) action.getData();
                 if (poiBean.mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                    if (charterDataUtils.pickUpPoiBean == poiBean) {
+                        break;
+                    }
                     charterDataUtils.pickUpPoiBean = poiBean;
-                    adapter.updatePickupModel();
+                    CityBean startCityBean = charterDataUtils.getCurrentDayCityBean();
+                    requestDirection(charterDataUtils.flightBean.arrLocation, charterDataUtils.pickUpPoiBean.location, startCityBean.placeId);
                 } else if(poiBean.mBusinessType == Constants.BUSINESS_TYPE_SEND) {
+                    if (charterDataUtils.sendPoiBean == poiBean) {
+                        break;
+                    }
                     charterDataUtils.sendPoiBean = poiBean;
                     adapter.updateSendModel();
+//                    CityBean startCityBean = charterDataUtils.getCurrentDayCityBean();
+//                    requestDirection(charterDataUtils.sendPoiBean.location, charterDataUtils.airPortBean.location, startCityBean.placeId);
                 }
                 break;
             case CHOOSE_END_CITY_BACK:
@@ -210,6 +239,22 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Override
     public void intentTravelList() {
+        Intent intent = new Intent(this, TravelListActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        startActivity(intent);
+    }
 
+    public boolean checkPickUpFlightBean(FlightBean flightBean) {
+        final boolean checkCity = charterDataUtils.params.startBean.cityId != flightBean.arrCityId;
+        final boolean checkDate = charterDataUtils.params.chooseDateBean.start_date != flightBean.arrDate;
+        if (checkCity && checkDate) {//选航班后降落日期，不等于开始日期；且降落城市，不等于开始城市
+            return false;
+        } else if (checkCity) {//选航班后降落城市，不等于开始城市
+            return false;
+        } else if (checkDate) {//选航班后降落日期，不等于开始日期
+            return false;
+        } else {
+            return true;
+        }
     }
 }

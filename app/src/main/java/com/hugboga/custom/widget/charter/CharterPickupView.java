@@ -15,6 +15,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -83,10 +84,17 @@ public class CharterPickupView extends LinearLayout {
                 addAddressLayout.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.VISIBLE);
                 addressDesTV.setVisibility(View.VISIBLE);
-                distanceTV.setVisibility(View.VISIBLE);
 
                 addressTV.setText(pickUpPoiBean.placeName);
                 addressDesTV.setText(pickUpPoiBean.placeDetail);
+
+                DirectionBean pickUpDirectionBean = charterDataUtils.pickUpDirectionBean;
+                if (charterDataUtils.pickUpDirectionBean == null) {
+                    distanceTV.setVisibility(View.GONE);
+                }else {
+                    distanceTV.setVisibility(View.VISIBLE);
+                    distanceTV.setText(String.format("距离：%1$s  时长：约%2$s", pickUpDirectionBean.distanceDesc, pickUpDirectionBean.durationDesc));
+                }
             } else {
                 addAddressLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.GONE);

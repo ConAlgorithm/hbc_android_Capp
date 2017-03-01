@@ -69,6 +69,7 @@ public class CharterItemView extends LinearLayout{
 
     public CharterItemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         View view = inflate(context, R.layout.view_charter_item, this);
         ButterKnife.bind(view);
         setPadding(UIUtils.dip2px(8), UIUtils.dip2px(5), UIUtils.dip2px(8), UIUtils.dip2px(5));
@@ -83,6 +84,7 @@ public class CharterItemView extends LinearLayout{
             titleTV.setText(cityRouteScope.routeTitle);
             timeTV.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));
             distanceTV.setText(String.format("%1$s公里", "" + cityRouteScope.routeKms));
+
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
                 scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
 

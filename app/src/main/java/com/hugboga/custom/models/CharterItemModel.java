@@ -49,6 +49,11 @@ public class CharterItemModel extends EpoxyModel<CharterItemView> implements Cha
     }
 
     @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
     public void setTag(int tag) {
         this.tag = tag;
     }

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
         app:right_icon="@mipmap/topbar_cs"
-        app:title_str="@string/custom_chartered" />
+        app:title_res="@string/custom_chartered" />
     <TextView
         android:layout_below="@id/charter_second_titlebar"
         android:id="@+id/charter_second_map_layout"

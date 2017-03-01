@@ -21,4 +21,10 @@ public class DirectionBean implements Serializable{
         public CoordinateBean endCoordinate;
         public CoordinateBean startCoordinate;
     }
+
+    public class CoordinateBean implements Serializable{
+        public String lng;//纬度
+        public String lat;//经度
+
+    }
 }

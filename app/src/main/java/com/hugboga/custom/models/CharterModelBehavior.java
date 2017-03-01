@@ -7,6 +7,8 @@ public interface CharterModelBehavior {
 
     public void setSelected(boolean selected);
 
+    public boolean isSelected();
+
     public void setTag(int tag);
 
     public int getTag();

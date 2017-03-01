@@ -10,6 +10,8 @@ import com.hugboga.custom.widget.charter.CharterSubtitleView;
 
 public class CharterSubtitleModel extends EpoxyModel<CharterSubtitleView> {
 
+    private CharterSubtitleView.OnPickUpOrSendSelectedListener listener;
+
     @Override
     protected int getDefaultLayout() {
         return R.layout.model_charter_subtitle;
@@ -20,9 +22,14 @@ public class CharterSubtitleModel extends EpoxyModel<CharterSubtitleView> {
         return true;
     }
 
+    public void setOnPickUpOrSendSelectedListener(CharterSubtitleView.OnPickUpOrSendSelectedListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void bind(CharterSubtitleView view) {
         super.bind(view);
         view.update();
+        view.setOnPickUpOrSendSelectedListener(listener);
     }
 }

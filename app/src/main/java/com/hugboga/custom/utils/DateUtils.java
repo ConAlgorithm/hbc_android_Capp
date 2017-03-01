@@ -715,6 +715,17 @@ public class DateUtils {
                 resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
             }
             return resultList;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getNextDay(String startDateStr) {
+        try {
+            final long day = 24 * 3600000;
+            Date date = dateDateFormat.parse(startDateStr);
+            return dateDateFormat.format(new Date(date.getTime() +  day));
         }catch (Exception e){
             e.printStackTrace();
             return null;

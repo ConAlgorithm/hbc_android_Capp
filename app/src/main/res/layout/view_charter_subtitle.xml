@@ -58,7 +58,7 @@
             android:id="@+id/charter_subtitle_pickup_icon_iv"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@mipmap/trip_icon_come_selected" />
+            android:background="@drawable/selector_charter_pickup" />
 
         <TextView
             android:id="@+id/charter_subtitle_pickup_left_tv"
