@@ -325,10 +325,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if(!IMUtil.getInstance().isLogined()){
                     return;
                 }
-                if(TextUtils.isEmpty(chatBean.neTargetId)){
+                if(TextUtils.isEmpty(chatBean.getNeTargetId())){
                     return;
                 }
-                NIMChatActivity.start(OrderDetailActivity.this,chatBean.neTargetId,null);
+                NIMChatActivity.start(OrderDetailActivity.this,chatBean.getNeTargetId());
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {

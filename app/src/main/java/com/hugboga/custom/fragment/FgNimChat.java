@@ -40,18 +40,14 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.NimRecentListSyncUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ImItemView;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
-import com.netease.nimlib.sdk.ResponseCode;
-import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.hugboga.im.ImDataSyncUtils;
+import com.hugboga.im.ImHelper;
+import com.hugboga.im.ImObserverHelper;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
@@ -76,7 +72,7 @@ import java.util.Map;
  * Created by SPW on 2017/1/5.
  */
 @ContentView(R.layout.fg_chat)
-public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener,HbcRecyclerSingleTypeAdpater.OnItemLongClickListener {
+public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener {
 
     @ViewInject(R.id.header_left_btn)
     private ImageView leftBtn;
@@ -100,7 +96,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     private int reRequestTimes = 0;
 
     private int limitSize = Constants.DEFAULT_PAGESIZE;
-    //private int limitSize = 10;
 
     ImListBean imListBean;
 
@@ -108,6 +103,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     boolean isLoading = false;
 
+    ImObserverHelper imObserverHelper;
 
     @Override
     protected void initHeader() {
@@ -123,7 +119,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
-        fgRightBtn.setPadding(0,0,0,0);
+        fgRightBtn.setPadding(0, 0, 0, 0);
         fgRightBtn.setImageResource(R.mipmap.icon_service);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
@@ -142,9 +138,21 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
 
-        registerObservers(true);
+        initRegisterMsgOberserve();
+
         Unicorn.addUnreadCountChangeListener(listener, true);
         loadImList();
+    }
+
+    private void initRegisterMsgOberserve() {
+        imObserverHelper = new ImObserverHelper();
+        imObserverHelper.setOnNewMsgListener(new ImObserverHelper.OnNewMsgListener() {
+            @Override
+            public void onPostNewMsgs(List<RecentContact> list) {
+                newHandlerNewMsg(list);
+            }
+        });
+        imObserverHelper.registerMessageObservers(true);
     }
 
 
@@ -164,31 +172,32 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     }
 
 
-    private void setReFreshEvent(){
+    private void setReFreshEvent() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                sendRequest(0,false);
+                sendRequest(0, false);
             }
         });
     }
 
 
-    private void addOnScrollEvent(){
+    private void addOnScrollEvent() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE ){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                    if(imListBean==null || imListBean.totalSize==0){
+                    if (imListBean == null || imListBean.totalSize == 0) {
                         return;
                     }
                     int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                    int totalItemCount = layoutManager.getItemCount()-1;
-                    if (lastVisibleItem >= totalItemCount -adapter.getHeadersCount()-adapter.getFootersCount()  && adapter.getListCount() < imListBean.totalSize) {
+                    int totalItemCount = layoutManager.getItemCount() - 1;
+                    if (lastVisibleItem >= totalItemCount - adapter.getHeadersCount() - adapter.getFootersCount() && adapter.getListCount() < imListBean.totalSize) {
                         sendRequest(adapter.getListCount(), false);//加载下一页
                     }
                 }
@@ -196,13 +205,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         });
     }
 
-    private void sendRequest(int pageIndex,boolean needShowLoading){
+    private void sendRequest(int pageIndex, boolean needShowLoading) {
         emptyTV.setVisibility(View.GONE);
-        if(isLoading){
-            return ;
+        if (isLoading) {
+            return;
         }
         isLoading = true;
-        RequestNIMChatList request = new RequestNIMChatList(getActivity(),pageIndex,limitSize);
+        RequestNIMChatList request = new RequestNIMChatList(getActivity(), pageIndex, limitSize);
         HttpRequestUtils.request(getActivity(), request, this, needShowLoading);
     }
 
@@ -216,7 +225,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         } else {
             emptyLayout.setVisibility(View.GONE);
             chatLayout.setVisibility(View.VISIBLE);
-            sendRequest(0,true);
+            sendRequest(0, true);
         }
     }
 
@@ -224,16 +233,16 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        if(request instanceof  RequestNIMChatList){
-             imListBean = ((RequestNIMChatList)request).getData();
-             reRequestTimes = 0;
-             syncChatData();
+        if (request instanceof RequestNIMChatList) {
+            imListBean = ((RequestNIMChatList) request).getData();
+            reRequestTimes = 0;
+            syncChatData();
         }
         swipeRefreshLayout.setRefreshing(false);
     }
 
 
-    private void updateUI(){
+    private void updateUI() {
         emptyTV.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.GONE);
         if (UserEntity.getUser().isLogin(MyApplication.getAppContext())) {
@@ -282,14 +291,16 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 startActivity(intent);
                 break;
             case R.id.chat_list_empty_tv:
-                sendRequest(0,true);
+                sendRequest(0, true);
                 break;
         }
     }
 
     @Override
     public void onDestroyView() {
-        registerObservers(false);
+        if (imObserverHelper != null) {
+            imObserverHelper.registerMessageObservers(false);
+        }
         Unicorn.addUnreadCountChangeListener(null, false);
         super.onDestroyView();
     }
@@ -309,7 +320,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 //清理列表数据
                 if (adapter.getDatas() != null)
                     adapter.clearData();
-                    adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
                 if (loginBtn != null)
                     loginBtn.setVisibility(View.VISIBLE);
@@ -328,15 +339,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
-        ChatBean chatBean = (ChatBean)itemData;
-        if (chatBean.targetType==3) {
+        ChatBean chatBean = (ChatBean) itemData;
+        if (chatBean.getTargetType() == 3) {
             UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
-        } else if (chatBean.targetType == 1) {
+        } else if (chatBean.getTargetType() == 1) {
             if (!IMUtil.getInstance().isLogined()) {
                 return;
             }
-            MyApplication.requestRemoteNimUserInfo(chatBean.neTargetId);
-            NIMChatActivity.start(getContext(), chatBean.neTargetId, null/*, titleJson, chatBean.isCancel*/);
+            NIMChatActivity.start(getContext(), chatBean.getNeTargetId());
         } else {
             MLog.e("目标用户不是客服，也不是司导");
         }
@@ -344,37 +354,39 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     @Override
     public void onItemLongClick(View view, final int position, Object itemData) {
-            final ChatBean chatBean = (ChatBean)itemData;
-            if(chatBean.targetType!=3){
-                AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(), chatBean.targetId);
-                        HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
-                            @Override
-                            public void onDataRequestSucceed(BaseRequest request) {
-                                deleteNimRecent(chatBean, position);
-                            }
-                            @Override
-                            public void onDataRequestCancel(BaseRequest request) {
-                            }
-                            @Override
-                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                            }
-                        });
-                        dialog.dismiss();
-                    }
-                }, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-            }
+        final ChatBean chatBean = (ChatBean) itemData;
+        if (chatBean.getTargetType() != 3) {
+            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(), chatBean.targetId);
+                    HttpRequestUtils.request(getContext(), requestRemoveChat, new HttpRequestListener() {
+                        @Override
+                        public void onDataRequestSucceed(BaseRequest request) {
+                            deleteNimRecent(chatBean, position);
+                        }
+
+                        @Override
+                        public void onDataRequestCancel(BaseRequest request) {
+                        }
+
+                        @Override
+                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                        }
+                    });
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 
 
-    private void requestError(){
+    private void requestError() {
         isLoading = false;
         swipeRefreshLayout.setRefreshing(false);
         if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
@@ -383,14 +395,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         }
         reRequestTimes++;
         if (reRequestTimes < 3) {
-            sendRequest(0,false);
+            sendRequest(0, false);
             return;
         }
 
         setLocalData();
     }
 
-    private void setLocalData(){
+    private void setLocalData() {
         if (UserEntity.getUser().isLogin(getActivity())) {
             List<ChatBean> list = getLocalLetters();
             if (list == null || list.size() == 0) {
@@ -409,7 +421,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (chatBeans != null && chatBeans.size() > 0) {
             int totalCount = 0;
             for (ChatBean bean : chatBeans) {
-                totalCount += bean.imCount;
+                totalCount += bean.getImCount();
             }
             if (getActivity() != null) {
                 ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()),
@@ -432,7 +444,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     private void syncChatData() {
         queryLocalRecentList();
-
     }
 
     Handler handler = new Handler();
@@ -441,32 +452,32 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                ImHelper.getRecentContacts(new ImHelper.RecentContactsCallback() {
                     @Override
-                    public void onResult(int code, final List<RecentContact> recents, Throwable exception) {
+                    public void onResult(List<RecentContact> list) {
                         isLoading = false;
-                        if (code != ResponseCode.RES_SUCCESS || recents == null) {
+                        if (list == null || list.size() == 0) {
                             updateUI();
                             if (imListBean != null && imListBean.resultBean != null && adapter != null) {
-                                if(imListBean.offset==0){
+                                if (imListBean.offset == 0) {
                                     adapter.clearData();
                                 }
                                 adapter.addData(imListBean.resultBean);
                                 computeTotalUnreadCount(adapter.getDatas());
                                 return;
                             }
-                        }else{
-                            if(adapter!=null){
+                        } else {
+                            if (adapter != null) {
                                 updateUI();
-                                if(imListBean!=null && imListBean.resultBean!=null){
-                                    if(imListBean.offset==0){
+                                if (imListBean != null && imListBean.resultBean != null) {
+                                    if (imListBean.offset == 0) {
                                         adapter.clearData();
                                     }
                                     ArrayList<ChatBean> chatBeen = new ArrayList<>();
                                     chatBeen.addAll(adapter.getDatas());
                                     chatBeen.addAll(imListBean.resultBean);
-                                    NimRecentListSyncUtils.removeRepeatData(chatBeen,limitSize);
-                                    NimRecentListSyncUtils.recentListSync(chatBeen,recents);
+                                    ImDataSyncUtils.removeRepeatData(chatBeen, limitSize);
+                                    ImDataSyncUtils.recentListSync(chatBeen, list);
                                     adapter.clearData();
                                     adapter.addData(chatBeen);
                                     computeTotalUnreadCount(adapter.getDatas());
@@ -474,11 +485,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 saveLettersToLocal();
                             }
                         }
-
                     }
                 });
             }
-        },20);
+        }, 20);
     }
 
 
@@ -488,125 +498,78 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             adapter.notifyDataSetChanged();
             computeTotalUnreadCount(adapter.getDatas());
         }
-        NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
-            @Override
-            public void onResult(int code, List<RecentContact> recents, Throwable exception) {
-                if (code != ResponseCode.RES_SUCCESS || recents == null) {
-                    return;
-                }
-                for (RecentContact recentContact : recents) {
-                    if (recentContact.getContactId().toLowerCase().equals(chatBean.neTargetId.toLowerCase())) {
-                        NIMClient.getService(MsgService.class).deleteRecentContact(recentContact);
-                    }
-                }
-            }
-        });
+        ImHelper.delRecentContactById(chatBean.getNeTargetId());
     }
 
 
     /**
      * ********************** 收消息，处理状态变化 ************************
      */
-    private void registerObservers(boolean register) {
-        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
-        service.observeRecentContact(messageObserver, register);
-    }
-
-
-    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
-        @Override
-        public void onEvent(final List<RecentContact> messages) {
-            if(imListBean==null){
-                return;
-            }
-            if (messages != null && adapter != null) {
-                List<String> newContacts = NimRecentListSyncUtils.updateRecentSync(adapter.getDatas(),messages);
-                if (recyclerView != null && adapter != null) {
-                    adapter.notifyDataSetChanged();
-                    computeTotalUnreadCount(adapter.getDatas());
-                }
-                if (newContacts!=null && newContacts.size()>0) {
-                    for(int i=0;i<newContacts.size();i++){
-                        RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(),newContacts.get(i));
-                        HttpRequestUtils.request(getContext(), requestChatOrderDetail, new HttpRequestListener() {
-                            @Override
-                            public void onDataRequestSucceed(BaseRequest request) {
-                                ChatBean chatBean = (ChatBean) request.getData();
-                                if(messages!=null && messages.size()>0){
-                                    for(RecentContact recentContact:messages){
-                                        if(recentContact.getContactId().toLowerCase().equals(chatBean.neTargetId.toLowerCase())){
-                                            chatBean.lastMsg = recentContact.getContent();
-                                            chatBean.imCount = recentContact.getUnreadCount();
-                                            chatBean.timeStamp = recentContact.getTime();
-                                            break;
-                                        }
-                                    }
-                                }
-                                if(adapter!=null && adapter.getDatas()!=null){
-                                    boolean hasExist = false;
-                                    for(ChatBean tmp:adapter.getDatas()){
-                                        if(tmp.neTargetId.toLowerCase().equals(chatBean.neTargetId.toLowerCase())){
-                                            hasExist = true;
-                                            break;
-                                        }
-                                    }
-                                    if(!hasExist){
-                                        adapter.getDatas().add(chatBean);
-                                    }
-                                    NimRecentListSyncUtils.sortRecentContacts(adapter.getDatas());
-                                    computeTotalUnreadCount(adapter.getDatas());
-                                    //adapter.notifyDataSetChanged();
-                                }
-                            }
-                            @Override
-                            public void onDataRequestCancel(BaseRequest request) {
-                            }
-
-                            @Override
-                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                            }
-                        });
-                    }
-                }
-            }
-
+    private void newHandlerNewMsg(final List<RecentContact> messages) {
+        if (imListBean == null) {
+            return;
         }
-    };
+        if (messages != null && adapter != null) {
+            List<String> newContacts = ImDataSyncUtils.updateRecentSync(adapter.getDatas(), messages);
+            if (recyclerView != null && adapter != null) {
+                adapter.notifyDataSetChanged();
+                computeTotalUnreadCount(adapter.getDatas());
+            }
+            if (newContacts != null && newContacts.size() > 0) {
+                for (int i = 0; i < newContacts.size(); i++) {
+                    RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(), newContacts.get(i));
+                    HttpRequestUtils.request(getContext(), requestChatOrderDetail, new HttpRequestListener() {
+                        @Override
+                        public void onDataRequestSucceed(BaseRequest request) {
+                            ChatBean chatBean = (ChatBean) request.getData();
+                            if (messages != null && messages.size() > 0) {
+                                for (RecentContact recentContact : messages) {
+                                    if (recentContact.getContactId().toLowerCase().equals(chatBean.getNeTargetId().toLowerCase())) {
+                                        chatBean.setLastMsg(recentContact.getContent());
+                                        chatBean.setImCount(recentContact.getUnreadCount());
+                                        chatBean.setTimeStamp(recentContact.getTime());
+                                        break;
+                                    }
+                                }
+                            }
+                            if (adapter != null && adapter.getDatas() != null) {
+                                boolean hasExist = false;
+                                for (ChatBean tmp : adapter.getDatas()) {
+                                    if (tmp.getNeTargetId().toLowerCase().equals(chatBean.getNeTargetId().toLowerCase())) {
+                                        hasExist = true;
+                                        break;
+                                    }
+                                }
+                                if (!hasExist) {
+                                    adapter.getDatas().add(chatBean);
+                                }
+                                ImDataSyncUtils.sortRecentContacts(adapter.getDatas());
+                                computeTotalUnreadCount(adapter.getDatas());
+                            }
+                        }
 
+                        @Override
+                        public void onDataRequestCancel(BaseRequest request) {
+                        }
 
+                        @Override
+                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                        }
+                    });
+                }
+            }
+        }
+    }
 
 
     // 添加未读数变化监听，add 为 true 是添加，为 false 是撤销监听。退出界面时，必须撤销，以免造成资源泄露
     private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
         @Override
         public void onUnreadCountChange(int count) {
-//            if (count > 0) {
-                SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
-                computeTotalUnreadCount(adapter.getDatas());
-//                if (adapter != null) {
-//                    adapter.notifyDataSetChanged();
-//                }
-//            }
+            SharedPre.setInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, count);
+            computeTotalUnreadCount(adapter.getDatas());
         }
     };
-
-//    private UserInfoObservable.UserInfoObserver userInfoObserver;
-//    private void registerUserInfoObserver() {
-//        if (userInfoObserver == null) {
-//            userInfoObserver = new UserInfoObservable.UserInfoObserver() {
-//                @Override
-//                public void onUserInfoChanged(List<String> accounts) {
-//                }
-//            };
-//        }
-//        UserInfoHelper.registerObserver(userInfoObserver);
-//    }
-
-//    private void unregisterUserInfoObserver() {
-//        if (userInfoObserver != null) {
-//            UserInfoHelper.unregisterObserver(userInfoObserver);
-//        }
-//    }
 
 
     private void saveLettersToLocal() {

@@ -1,20 +1,15 @@
 package com.hugboga.custom.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
@@ -22,16 +17,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestNIMResetIMToken;
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.cache.DataCacheManager;
-import com.netease.nim.uikit.session.audio.MessageAudioControl;
-import com.netease.nimlib.sdk.AbortableFuture;
+import com.hugboga.im.ImHelper;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthService;
-import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -61,12 +49,8 @@ public class IMUtil {
     }
 
 
-
     public void logoutNim(){
-        StatusCode status = NIMClient.getStatus();
-        if(status == StatusCode.LOGINED){
-            NIMClient.getService(AuthService.class).logout();
-        }
+        ImHelper.logoutNim();
     }
 
     private void connectNim(String account,String token){
@@ -78,35 +62,21 @@ public class IMUtil {
             requestNIMTokenUpdate();
             return;
         }
-        NimUIKit.setAccount(null);
         loginNim(account,token);
     }
 
     private void loginNim(final String account,final String  token){
         // 登录
-
-        AbortableFuture<LoginInfo> loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, token));
-        loginRequest.setCallback(new RequestCallback<LoginInfo>() {
+        ImHelper.loginNim(MyApplication.getAppContext(), account, token, new ImHelper.IMLoginCallback() {
             @Override
-            public void onSuccess(LoginInfo param) {
-                // 构建缓存
-                DataCacheManager.buildDataCacheAsync(MyApplication.getAppContext(), new Observer<Void>() {
-                    @Override
-                    public void onEvent(Void aVoid) {
-                        NimUIKit.setAccount(account);
-                        com.netease.nim.uikit.UserPreferences.setEarPhoneModeEnable(false);
-                        MessageAudioControl.getInstance(context).setEarPhoneModeEnable(false);
-                        EventBus.getDefault().post(new EventAction(EventType.NIM_LOGIN_SUCCESS));
-                        MyApplication.requestRemoteNimUserInfo(account);
-                    }
-                });
-
-
+            public void onSuccess() {
                 reconnectTimes = 0;
                 if(nimReconnectHandler!=null){
                     nimReconnectHandler.removeCallbacksAndMessages(null);
                 }
+                EventBus.getDefault().post(new EventAction(EventType.NIM_LOGIN_SUCCESS));
             }
+
             @Override
             public void onFailed(int code) {
                 if(code==302 || code==404 || code == 405){
@@ -116,6 +86,7 @@ public class IMUtil {
                 nimConnectError();
                 ApiFeedbackUtils.requestIMFeedback(1, String.valueOf(code));
             }
+
             @Override
             public void onException(Throwable exception) {
                 nimConnectError();
@@ -125,7 +96,6 @@ public class IMUtil {
             }
         });
     }
-
 
     /**
      * update token
