@@ -105,6 +105,19 @@ public final class CommonUtils {
         return count;
     }
 
+    public static Double getCountDouble(String _count) {
+        if (TextUtils.isEmpty(_count)) {
+            return 0d;
+        }
+        double count = 0d;
+        try {
+            count = Double.valueOf(_count);
+        } catch(Exception e) {
+            return 0d;
+        }
+        return count;
+    }
+
     public static void shareDialog(final Context context, final String picUrl
             , final String title, final String content, final String shareUrl) {
         shareDialog(context, picUrl, title, content, shareUrl, "", null);

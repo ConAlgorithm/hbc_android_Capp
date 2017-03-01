@@ -15,7 +15,7 @@ public class CharterItemModel extends EpoxyModel<CharterItemView> implements Cha
     private CityRouteBean.CityRouteScope cityRouteScope;
     private View.OnClickListener clickListener;
     private boolean selected;
-    private int tag;
+    private int position;
 
     @Override
     protected int getDefaultLayout() {
@@ -27,18 +27,22 @@ public class CharterItemModel extends EpoxyModel<CharterItemView> implements Cha
         return true;
     }
 
+    @Override
     public void setCityRouteScope(CityRouteBean.CityRouteScope cityRouteScope) {
         this.cityRouteScope = cityRouteScope;
     }
 
+    @Override
     public CityRouteBean.CityRouteScope getCityRouteScope() {
         return cityRouteScope;
     }
 
+    @Override
     public int getRouteType() {
         return cityRouteScope != null ? cityRouteScope.routeType : -1;
     }
 
+    @Override
     public void setOnClickListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
     }
@@ -53,14 +57,12 @@ public class CharterItemModel extends EpoxyModel<CharterItemView> implements Cha
         return selected;
     }
 
-    @Override
-    public void setTag(int tag) {
-        this.tag = tag;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
-    @Override
-    public int getTag() {
-        return tag;
+    public int getPosition() {
+        return position;
     }
 
     @Override
@@ -69,6 +71,6 @@ public class CharterItemModel extends EpoxyModel<CharterItemView> implements Cha
         view.setCityRouteScope(cityRouteScope);
         view.setOnClickListener(clickListener);
         view.setSelected(selected);
-        view.setTag(tag);
+        view.setTag(getRouteType());
     }
 }

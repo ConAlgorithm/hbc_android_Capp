@@ -15,6 +15,10 @@ public class DirectionBean implements Serializable{
     public ArrayList<Step> steps; // 途径点
     public int status;            // 起始坐标查不到距离返回0
 
+    public boolean isHaveLines() {
+        return status != 0;
+    }
+
     public static class Step implements Serializable{
         public String distance;
         public String duration;
@@ -25,6 +29,5 @@ public class DirectionBean implements Serializable{
     public class CoordinateBean implements Serializable{
         public String lng;//纬度
         public String lat;//经度
-
     }
 }

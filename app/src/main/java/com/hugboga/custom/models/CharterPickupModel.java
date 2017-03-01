@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.widget.charter.CharterPickupView;
 
 /**
@@ -11,9 +12,9 @@ import com.hugboga.custom.widget.charter.CharterPickupView;
  */
 public class CharterPickupModel extends EpoxyModel<CharterPickupView> implements CharterModelBehavior{
 
-    private boolean selected;
-    private int tag;
+    private CityRouteBean.CityRouteScope cityRouteScope;
     private View.OnClickListener clickListener;
+    private boolean selected;
 
     @Override
     protected int getDefaultLayout() {
@@ -26,6 +27,26 @@ public class CharterPickupModel extends EpoxyModel<CharterPickupView> implements
     }
 
     @Override
+    public void setCityRouteScope(CityRouteBean.CityRouteScope cityRouteScope) {
+        this.cityRouteScope = cityRouteScope;
+    }
+
+    @Override
+    public CityRouteBean.CityRouteScope getCityRouteScope() {
+        return cityRouteScope;
+    }
+
+    @Override
+    public int getRouteType() {
+        return cityRouteScope != null ? cityRouteScope.routeType : -1;
+    }
+
+    @Override
+    public void setOnClickListener(View.OnClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
@@ -34,27 +55,12 @@ public class CharterPickupModel extends EpoxyModel<CharterPickupView> implements
     public boolean isSelected() {
         return selected;
     }
-
-    @Override
-    public void setTag(int tag) {
-        this.tag = tag;
-    }
-
-    @Override
-    public int getTag() {
-        return tag;
-    }
-
-    public void setOnClickListener(View.OnClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
     @Override
     public void bind(CharterPickupView view) {
         super.bind(view);
         view.setOnClickListener(clickListener);
         view.setSelected(selected);
-        view.setTag(tag);
+        view.setTag(getRouteType());
         view.update();
     }
 }

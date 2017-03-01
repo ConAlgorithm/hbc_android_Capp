@@ -20,15 +20,13 @@ import java.util.List;
  */
 public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleView.OnPickUpOrSendSelectedListener {
 
-    private static final int PICKUP_MODEL_TAG = -100;
-    private static final int SEND_MODEL_TAG = -101;
-    private static final int NO_CHARTER_TAG = -102;
-
     private CharterSubtitleModel charterSubtitleModel = new CharterSubtitleModel();
     private CharterPickupModel pickupModel;
     private CharterSendModel sendModel;
     private CharterItemModel noCharterModel;
     public EpoxyModel lastSelectedModel;
+
+    private OnCharterItemClickListener listener;
 
     public CityRouteAdapter() {
         charterSubtitleModel.setOnPickUpOrSendSelectedListener(this);
@@ -43,14 +41,16 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         final int size = cityRouteList.size();
         for (int i = 0; i < size; i++) {
             CharterItemModel charterItemModel = new CharterItemModel();
-            charterItemModel.setCityRouteScope(cityRouteList.get(i));
+            CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
+            cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+            charterItemModel.setCityRouteScope(cityRouteScope);
+            charterItemModel.setPosition(i);
             if (i == 0) {
                 charterItemModel.setSelected(true);
             } else {
                 lastSelectedModel = charterItemModel;
             }
             charterItemModel.setOnClickListener(itemListener);
-            charterItemModel.setTag(i);
             addModel(charterItemModel);
         }
     }
@@ -59,7 +59,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (pickupModel == null) {
             pickupModel = new CharterPickupModel();
             pickupModel.setOnClickListener(itemListener);
-            pickupModel.setTag(PICKUP_MODEL_TAG);
+            pickupModel.setCityRouteScope(new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.PICKUP));
             insertModelAfter(pickupModel, charterSubtitleModel);
         }
     }
@@ -68,7 +68,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (sendModel == null) {
             sendModel = new CharterSendModel();
             sendModel.setOnClickListener(itemListener);
-            sendModel.setTag(SEND_MODEL_TAG);
+            sendModel.setCityRouteScope(new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.SEND));
             insertModelAfter(sendModel, charterSubtitleModel);
         }
     }
@@ -77,10 +77,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (noCharterModel == null) {
             noCharterModel = new CharterItemModel();
             noCharterModel.setOnClickListener(itemListener);
-            noCharterModel.setTag(NO_CHARTER_TAG);
-            CityRouteBean.CityRouteScope cityRouteScope = new CityRouteBean.CityRouteScope();
-            cityRouteScope.routeType = CityRouteBean.RouteType.AT_WILL;
-            noCharterModel.setCityRouteScope(cityRouteScope);
+            noCharterModel.setCityRouteScope(new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.AT_WILL));
             addModel(noCharterModel);
         }
     }
@@ -122,7 +119,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         for (int i = 0; i < modelList.size(); i++) {
             if (modelList.get(i) instanceof CharterModelBehavior) {
                 CharterModelBehavior charterModelBehavior = (CharterModelBehavior) modelList.get(i);
-                boolean isView = v != null && v.getTag() instanceof Integer && (int)v.getTag() == charterModelBehavior.getTag();
+                boolean isView = v != null && v.getTag() instanceof Integer && (int)v.getTag() == charterModelBehavior.getRouteType();
                 boolean isModel = modelList.get(i) == epoxyModel;
                 if (isModel || isView) {
                     lastSelectedModel = modelList.get(i);
@@ -133,6 +130,12 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 notifyModelChanged(modelList.get(i));
             } else {
                 continue;
+            }
+        }
+        if (lastSelectedModel instanceof CharterItemModel) {
+            CityRouteBean.CityRouteScope cityRouteScope = ((CharterItemModel) lastSelectedModel).getCityRouteScope();
+            if (listener != null) {
+                listener.onCharterItemClick(cityRouteScope);
             }
         }
     }
@@ -188,11 +191,11 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         for (int i = 0; i < modelList.size(); i++) {
             if (modelList.get(i) instanceof CharterItemModel) {
                 CharterItemModel charterItemModel = (CharterItemModel) modelList.get(i);
-                int modelTag = charterItemModel.getTag();
+                int modelTag = charterItemModel.getRouteType();
                 if (modelTag < 0) {
                     continue;
-                } else if (modelTag < cityRouteListSize) {
-                    charterItemModel.setCityRouteScope(cityRouteList.get(modelTag));
+                } else if (charterItemModel.getPosition() < cityRouteListSize) {
+                    charterItemModel.setCityRouteScope(cityRouteList.get(charterItemModel.getPosition()));
                     charterItemModel.setSelected(selectedRouteType == charterItemModel.getRouteType());
                     notifyModelChanged(modelList.get(i));
                 } else {
@@ -220,5 +223,13 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 setSelectedItem(null, getAllModelsAfter(model).get(0));
             }
         }
+    }
+
+    public interface OnCharterItemClickListener {
+        public void onCharterItemClick(CityRouteBean.CityRouteScope cityRouteScope);
+    }
+
+    public void setOnCharterItemClickListener(OnCharterItemClickListener listener) {
+        this.listener = listener;
     }
 }
