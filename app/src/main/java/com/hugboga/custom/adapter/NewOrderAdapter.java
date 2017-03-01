@@ -514,7 +514,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
                     if(mOrderBean.imInfo!=null){
-                        String imId = mOrderBean.imInfo.neTargetId;
+                        String imId = mOrderBean.imInfo.getNeTargetId();
                         if(!TextUtils.isEmpty(imId)){
                             gotoChatView(imId);
                         }else{
@@ -578,8 +578,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        //String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
-        NIMChatActivity.start(context,imChatId,null);
+        NIMChatActivity.start(context,imChatId);
     }
 
 }

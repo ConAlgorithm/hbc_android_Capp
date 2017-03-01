@@ -589,20 +589,6 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="6852d22dca51b4f64a52d050ca6ef663" />
-
-        <activity
-            android:name="com.hugboga.custom.map.LocationAmapActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/location_map"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.hugboga.custom.map.NavigationAmapActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/location_navigate"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <!--CityHomev1.4-->
         <activity android:name=".activity.CityHomeListActivity"
             android:launchMode="singleTask"
