@@ -50,7 +50,7 @@ android {
     buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.hugboga.custom"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 101400
         versionName "3.2.2"
@@ -201,5 +201,6 @@ dependencies {
     compile project(':countdown')
     compile 'jp.wasabeef:blurry:2.0.3'
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.6.28'
+    compile 'com.airbnb.android:epoxy:1.7.5'
     compile 'com.hugboga.im:nim_libary:1.1.3'
 }

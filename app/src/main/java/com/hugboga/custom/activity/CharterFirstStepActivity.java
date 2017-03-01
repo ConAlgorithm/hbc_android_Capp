@@ -45,9 +45,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private int maxPassengers;
 
     @Override
-    public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        setContentView(R.layout.charter_first_activity);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_charter_first);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
@@ -85,12 +85,21 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Intent intent = new Intent(activity, DatePickerActivity.class);
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
+        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车开始日期");
         startActivity(intent);
     }
 
     @OnClick({R.id.charter_first_bottom_next_tv})
-    public void next() {
+    public void nextStep() {
+        CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
+        params.startBean = startBean;
+        params.chooseDateBean = chooseDateBean;
+        params.adultCount = countLayout.getAdultValue();
+        params.childCount = countLayout.getChildValue();
 
+        Intent intent = new Intent(this, CharterSecondStepActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     @Subscribe
@@ -125,7 +134,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            countLayout.setMaxPassengers(10);//FIX ME
+            countLayout.setMaxPassengers(10);//FIXME v4.0
             countLayout.setSliderEnabled(true);
         }
     }

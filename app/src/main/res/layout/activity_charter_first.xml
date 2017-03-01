@@ -54,6 +54,7 @@
                 android:paddingRight="@dimen/order_padding_left"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
+                android:visibility="gone"
                 android:background="#ffffff"
                 android:orientation="horizontal">
                 <net.grobas.view.PolygonImageView

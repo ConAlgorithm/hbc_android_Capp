@@ -5,21 +5,38 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/dash_month"
+        android:layerType="software" />
+
     <TextView
         android:id="@+id/title"
         style="@style/CalendarTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/calendar_month_title_bottommargin"
-        android:layout_marginTop="@dimen/calendar_month_topmargin"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
         android:gravity="center_horizontal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/dash_month"
+        android:layerType="software" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
+
         <com.squareup.timessquare.CalendarGridView
             android:id="@+id/calendar_grid"
             android:layout_width="match_parent"
