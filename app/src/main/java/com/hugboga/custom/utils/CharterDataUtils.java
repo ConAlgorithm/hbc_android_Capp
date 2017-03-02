@@ -37,7 +37,7 @@ public class CharterDataUtils {
 
     public ArrayList<CityRouteBean.CityRouteScope> travelList;             // 存储每天的数据，点击"确认"后更新
     public ArrayMap<Integer, CityBean> cityBeanMap;                        // 用来存储出发城市，以当前天数为KEY，实时更新
-    public ArrayMap<Integer, ArrayList<CityRouteBean.Fence>> fencesMap;    // 用来存储出发城市，以当前天数为KEY，实时更新
+    public ArrayMap<Integer, ArrayList<CityRouteBean.Fence>> fencesMap;
 
     private CharterDataUtils() {
         travelList = new ArrayList<CityRouteBean.CityRouteScope>();
@@ -75,7 +75,6 @@ public class CharterDataUtils {
         } else {
             travelList.add(cityRouteScope);
         }
-        charterDataUtils.currentDay++;
     }
 
     public ArrayList<CityRouteBean.Fence> getCurrentDayFences() {
@@ -98,8 +97,12 @@ public class CharterDataUtils {
     }
 
     public CityBean getCurrentDayCityBean() {
+        return getCityBean(currentDay);
+    }
+
+    public CityBean getCityBean(int day) {
         int position = 1;
-        for (int i = currentDay; i >= 1; i--) {
+        for (int i = day; i >= 1; i--) {
             if (cityBeanMap.containsKey(i)) {
                 position = i;
                 break;
@@ -117,10 +120,20 @@ public class CharterDataUtils {
     }
 
     public void onDestroy() {
-        flightBean = null;
-        pickUpPoiBean = null;
         params = null;
         currentDay = 1;
+
+        flightBean = null;
+        pickUpPoiBean = null;
+        pickUpDirectionBean = null;
+
+        airPortBean = null;
+        sendPoiBean = null;
+        sendServerTime = null;
+
+        travelList.clear();
+        cityBeanMap.clear();
+        fencesMap.clear();
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(CityRouteBean.Fence _fence) {

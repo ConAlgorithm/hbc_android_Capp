@@ -554,8 +554,6 @@ public class DateUtils {
 
     /**
      * 两个时间之间相差距离多少天
-     * @param one 时间参数 1：
-     * @param two 时间参数 2：
      * @return 相差天数
      */
     public static long getDistanceDays(String str1, String str2){
@@ -702,17 +700,17 @@ public class DateUtils {
             final long day = 24 * 3600000;
             Date date = dateDateFormat.parse(chooseDateStr);
             if (chooseDateStr.equalsIgnoreCase(lastDateStr)) {
-                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day * 2)));
-                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day)));
+                resultList.add(dateDateFormat.format(date.getTime() -  day * 2));
+                resultList.add(dateDateFormat.format(date.getTime() -  day));
                 resultList.add(chooseDateStr);
             } else if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
                 resultList.add(chooseDateStr);
-                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
-                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day * 2)));
+                resultList.add(dateDateFormat.format(date.getTime() +  day));
+                resultList.add(dateDateFormat.format(date.getTime() +  day * 2));
             } else {
-                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day)));
+                resultList.add(dateDateFormat.format(date.getTime() -  day));
                 resultList.add(chooseDateStr);
-                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
+                resultList.add(dateDateFormat.format(date.getTime() +  day));
             }
             return resultList;
         } catch (Exception e){
@@ -721,11 +719,14 @@ public class DateUtils {
         }
     }
 
-    public static String getNextDay(String startDateStr) {
+    public static String getNextDay(String startDateStr, int count) {
         try {
             final long day = 24 * 3600000;
             Date date = dateDateFormat.parse(startDateStr);
-            return dateDateFormat.format(new Date(date.getTime() +  day));
+            DateFormatSymbols symbols=dateWeekFormat3.getDateFormatSymbols();
+            symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+            dateWeekFormat3.setDateFormatSymbols(symbols);
+            return dateWeekFormat3.format(date.getTime() +  day * count);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -743,14 +744,19 @@ public class DateUtils {
     }
 
     //格式化带周的时间
-    public static  String getStrWeekFormat3(String str) throws ParseException{
-        Date date=dateDateFormat.parse(str);
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date);
-        DateFormatSymbols symbols=dateWeekFormat3.getDateFormatSymbols();
-        symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
-        dateWeekFormat3.setDateFormatSymbols(symbols);
-        return dateWeekFormat3.format(calendar.getTime());
+    public static  String getStrWeekFormat3(String str){
+        try {
+            Date date = dateDateFormat.parse(str);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            DateFormatSymbols symbols = dateWeekFormat3.getDateFormatSymbols();
+            symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+            dateWeekFormat3.setDateFormatSymbols(symbols);
+            return dateWeekFormat3.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public static String getPointStrFromDate2(String dateStr){

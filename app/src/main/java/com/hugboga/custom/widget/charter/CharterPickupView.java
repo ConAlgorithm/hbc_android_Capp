@@ -89,7 +89,7 @@ public class CharterPickupView extends LinearLayout {
                 addressDesTV.setText(pickUpPoiBean.placeDetail);
 
                 DirectionBean pickUpDirectionBean = charterDataUtils.pickUpDirectionBean;
-                if (charterDataUtils.pickUpDirectionBean == null) {
+                if (charterDataUtils.pickUpDirectionBean == null || pickUpDirectionBean.distanceDesc == null || pickUpDirectionBean.durationDesc == null) {
                     distanceTV.setVisibility(View.GONE);
                 }else {
                     distanceTV.setVisibility(View.VISIBLE);

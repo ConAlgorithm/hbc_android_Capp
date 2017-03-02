@@ -79,7 +79,7 @@ public class CharterItemView extends LinearLayout{
     public void setCityRouteScope(CityRouteBean.CityRouteScope _cityRouteScope) {
         this.cityRouteScope = _cityRouteScope;
         if (_cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
-            titleTV.setText("自己转转，不包车");
+            titleTV.setText(cityRouteScope.routeTitle);
         } else {
             titleTV.setText(cityRouteScope.routeTitle);
             timeTV.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));

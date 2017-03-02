@@ -23,7 +23,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.data.request.RequestCityRoute;
 import com.hugboga.custom.data.request.RequestDirection;
-import com.hugboga.custom.models.CharterModelBehavior;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
 
@@ -113,9 +112,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 return;
             }
             if (this.cityRouteBean == null) {
+                charterDataUtils.fencesMap.put(charterDataUtils.currentDay, _cityRouteBean.fences);
                 adapter.setCityRouteBean(_cityRouteBean);
+            } else {
+                charterDataUtils.fencesMap.put(charterDataUtils.currentDay + 1, _cityRouteBean.fences);
             }
-            charterDataUtils.fencesMap.put(cityRouteBean != null ? charterDataUtils.currentDay + 1 : charterDataUtils.currentDay, _cityRouteBean.fences);
             this.cityRouteBean = _cityRouteBean;
         } else if (_request instanceof RequestDirection) {
             DirectionBean directionBean = ((RequestDirection) _request).getData();
@@ -212,24 +213,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (charterDataUtils.isLastDay()) {//最后一天"查看报价"
 
         } else {
-            CityBean currentDayCityBean = charterDataUtils.getCurrentDayCityBean();
-            CityBean nextStartCityBean = charterDataUtils.getNextDayCityBean();
-
-            EpoxyModel lastSelectedModel = adapter.lastSelectedModel;
-            CityRouteBean.CityRouteScope cityRouteScope = null;
-            if (lastSelectedModel instanceof CharterModelBehavior) {//包车、随便转转
-                cityRouteScope = ((CharterModelBehavior) lastSelectedModel).getCityRouteScope();
-            }
-            charterDataUtils.addCityRouteScope(cityRouteScope);//currentDay++
+            charterDataUtils.currentDay++;
             bottomView.updateConfirmView();
-
-//            if (nextStartCityBean != null) {
-//                adapter.notifyAllModelsChanged(cityRouteBean, CityRouteBean.RouteType.URBAN);
-//            } else if (currentDayCityBean != null && currentDayCityBean != params.startBean) {
-//                requestCityRoute("" + currentDayCityBean.cityId);
-//            } else {//开始城市未改变，不请求，直接刷新
-//                adapter.notifyAllModelsChanged(cityRouteBean, CityRouteBean.RouteType.URBAN);
-//            }
             adapter.notifyAllModelsChanged(cityRouteBean, CityRouteBean.RouteType.URBAN);
         }
     }
@@ -257,6 +242,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Override
     public void onCharterItemClick(CityRouteBean.CityRouteScope cityRouteScope) {
+        charterDataUtils.addCityRouteScope(cityRouteScope);
         drawFences(cityRouteScope.routeType, cityRouteScope.isOpeanFence());
     }
 
@@ -304,6 +290,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             return;
         }
         ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
+        if (fences == null) {
+            return;
+        }
         ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
         ArrayList<HbcLantLng> outsideList = charterDataUtils.getHbcLantLngList(fences.get(1));//周边围栏
         ArrayList<CityRouteBean.Fence> nextFences = charterDataUtils.getCurrentDayFences();

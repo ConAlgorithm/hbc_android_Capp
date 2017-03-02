@@ -11,13 +11,18 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChooseDateBean;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
+import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/2/28.
@@ -32,8 +37,6 @@ public class TravelItemView extends LinearLayout {
     View travelItemEditLineView;
     @Bind(R.id.travel_item_del_tv)
     TextView travelItemDelTv;
-    @Bind(R.id.travel_item_edit_layout)
-    LinearLayout travelItemEditLayout;
 
     @Bind(R.id.travel_item_title_tv)
     TextView travelItemTitleTv;
@@ -69,6 +72,8 @@ public class TravelItemView extends LinearLayout {
     @Bind(R.id.travel_item_time_layout)
     RelativeLayout travelItemTimeLayout;
 
+    @Bind(R.id.travel_item_start_line_view)
+    View travelItemStartLineIv;
     @Bind(R.id.travel_item_start_tv)
     TextView travelItemStartTv;
     @Bind(R.id.travel_item_start_des_tv)
@@ -84,6 +89,12 @@ public class TravelItemView extends LinearLayout {
     RelativeLayout travelItemEndLayout;
 
     private CharterDataUtils charterDataUtils;
+    private int position;
+    private OnEditClickListener listener;
+
+    public enum EditType {
+        EDIT, DEL, ALL, VAIN
+    }
 
     public TravelItemView(Context context) {
         this(context, null);
@@ -97,49 +108,219 @@ public class TravelItemView extends LinearLayout {
     }
 
     public void update(int _position) {
+        this.position = _position;
         ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
 
         ChooseDateBean chooseDateBean = charterDataUtils.params.chooseDateBean;//start
-//            travelItemDataTv.setText();  DataUtils.getNextDay
+        travelItemDataTv.setText(DateUtils.getNextDay(chooseDateBean.start_date, _position + 1));
 
         final int travelListSize = travelList.size();
         if (_position < travelListSize) {
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(_position);
-            travelItemTitleTv.setText(cityRouteScope.routeTitle);//标题
-
+            CityBean startCityBean = charterDataUtils.getCityBean(_position + 1);
+            travelItemTitleTv.setTextColor(getResources().getColor(R.color.default_black));
+            travelItemTitleTv.setText(String.format("Day%1$s：%2$s", _position + 1, startCityBean.name));//标题
             if (_position == 0) {//第一天（只有接机，只有"编辑"状态）
-                if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {//只接机
-                    travelItemPickupLayout.setVisibility(View.VISIBLE);
-                    travelItemPickupTv.setText(charterDataUtils.flightBean.flightNo);//航班号
-                    travelItemArrdateTv.setText(charterDataUtils.flightBean.arrDate);//计划到达时间（当地时间：2017-02-18 12:40降落）
-
-                    travelItemStartLayout.setVisibility(View.VISIBLE);
-                    travelItemStartDesTv.setVisibility(View.GONE);
-                    //先的高度改变
-                    travelItemStartTv.setText(charterDataUtils.flightBean.arrAirportName);//到达机场
-
-                    travelItemEndLayout.setVisibility(View.VISIBLE);
-                    travelItemEndDesTv.setVisibility(View.VISIBLE);
-                    travelItemEndTv.setText(charterDataUtils.pickUpPoiBean.placeName);//到达地
-                    travelItemEndDesTv.setText(charterDataUtils.pickUpPoiBean.placeName);//到达地描述
-                } else if (charterDataUtils.isSelectedPickUp) {//包车加接机
-
+                setEditLayout(EditType.EDIT);
+                if (cityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {//只接机
+                    travelItemLineTagLayout.setVisibility(View.GONE);
+                    travelItemCharterLineLayout.setVisibility(View.GONE);
+                    travelItemTimeLayout.setVisibility(View.GONE);
+                    updatePickupLayout();
+                    updateOnlyPickupLayout();
+                } else if (charterDataUtils.flightBean != null && charterDataUtils.isSelectedPickUp) {//包车加接机
+                    travelItemTimeLayout.setVisibility(View.GONE);
+                    travelItemStartLayout.setVisibility(View.GONE);
+                    travelItemEndLayout.setVisibility(View.GONE);
+                    updatePickupLayout();
+                    updateLineLayout(cityRouteScope, _position);
                 } else {//只包车
-
+                    travelItemPickupLayout.setVisibility(View.GONE);
+                    travelItemTimeLayout.setVisibility(View.GONE);
+                    travelItemStartLayout.setVisibility(View.GONE);
+                    travelItemEndLayout.setVisibility(View.GONE);
+                    updateLineLayout(cityRouteScope, _position);
                 }
-            } else if (_position == travelListSize - 1) {//最后一天（有送机，"编辑 | 删除"）
-                if (cityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {//只送机
-
-                } else if (charterDataUtils.isSelectedSend) {//包车加送机
-
+            } else if (_position == chooseDateBean.dayNums - 1) {//最后一天（有送机，"编辑 | 删除"）
+                setEditLayout(EditType.ALL);
+                if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {//只送机
+                    travelItemTimeLayout.setVisibility(View.VISIBLE);
+                    travelItemTimeIv.setBackgroundResource(R.mipmap.trip_icon_time);
+                    travelItemTimeTv.setText(charterDataUtils.params.chooseDateBean.endDate + charterDataUtils.sendServerTime);
+                    updateSendLayout();
+                } else if (charterDataUtils.airPortBean != null && charterDataUtils.isSelectedSend) {//包车加送机
+                    travelItemTimeLayout.setVisibility(View.VISIBLE);
+                    travelItemTimeIv.setBackgroundResource(R.mipmap.trip_icon_go);
+                    travelItemTimeTv.setText("游玩结束送机：" + charterDataUtils.airPortBean.airportName);
+                    updateLineLayout(cityRouteScope, _position);
                 } else {//只包车
-
+                    travelItemPickupLayout.setVisibility(View.GONE);
+                    travelItemTimeLayout.setVisibility(View.GONE);
+                    travelItemStartLayout.setVisibility(View.GONE);
+                    travelItemEndLayout.setVisibility(View.GONE);
+                    updateLineLayout(cityRouteScope, _position);
                 }
-            } else {//包车、或随便转转（只有"编辑"）
-
+            } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转（只有"编辑"）
+                setEditLayout(EditType.EDIT);
+                travelItemCharterLineLayout.setVisibility(View.GONE);
+                travelItemLineTagLayout.setVisibility(View.GONE);
+                travelItemPickupLayout.setVisibility(View.GONE);
+                travelItemTimeLayout.setVisibility(View.GONE);
+                travelItemStartLayout.setVisibility(View.GONE);
+                travelItemEndLayout.setVisibility(View.GONE);
+                travelItemTitleTv.setText(String.format("Day%1$s：%2$s", _position + 1, cityRouteScope.routeTitle));
+            } else {//包车（只有"编辑"）
+                setEditLayout(EditType.EDIT);
+                travelItemPickupLayout.setVisibility(View.GONE);
+                travelItemTimeLayout.setVisibility(View.GONE);
+                travelItemStartLayout.setVisibility(View.GONE);
+                travelItemEndLayout.setVisibility(View.GONE);
+                updateLineLayout(cityRouteScope, _position);
             }
         } else {
+            travelItemCharterLineLayout.setVisibility(View.GONE);
+            travelItemLineTagLayout.setVisibility(View.GONE);
+            travelItemPickupLayout.setVisibility(View.GONE);
+            travelItemTimeLayout.setVisibility(View.GONE);
+            travelItemStartLayout.setVisibility(View.GONE);
+            travelItemEndLayout.setVisibility(View.GONE);
+            travelItemTitleTv.setText(String.format("Day%1$s", _position + 1));//标题
+            travelItemTitleTv.setTextColor(0xFFA8A8A8);
 
+            if (chooseDateBean.dayNums > 1 && _position == chooseDateBean.dayNums - 1) {//最后一天（删除）
+                setEditLayout(EditType.DEL);
+            } else {//编辑
+                setEditLayout(EditType.EDIT);
+            }
         }
+    }
+
+    public void updateSendLayout() {
+        travelItemStartLayout.setVisibility(View.VISIBLE);
+        travelItemStartDesTv.setVisibility(View.VISIBLE);
+        //先的高度改变
+        travelItemStartTv.setText(charterDataUtils.sendPoiBean.placeName);//出发地点
+        travelItemStartDesTv.setText(charterDataUtils.sendPoiBean.placeDetail);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
+        params.topMargin = UIUtils.dip2px(20);
+        params.leftMargin = UIUtils.dip2px(7.5f);
+        travelItemStartLineIv.setLayoutParams(params);
+
+        travelItemEndLayout.setVisibility(View.VISIBLE);
+        travelItemEndDesTv.setVisibility(View.GONE);
+        travelItemEndTv.setText(charterDataUtils.airPortBean.airportName);//送达机场
+    }
+
+    public void updateOnlyPickupLayout() {
+        if (charterDataUtils.flightBean != null) {
+            travelItemStartLayout.setVisibility(View.VISIBLE);
+            travelItemStartDesTv.setVisibility(View.GONE);
+            travelItemStartTv.setText(charterDataUtils.flightBean.arrAirportName);//到达机场
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(6));
+            params.topMargin = UIUtils.dip2px(20);
+            params.leftMargin = UIUtils.dip2px(7.5f);
+            travelItemStartLineIv.setLayoutParams(params);
+        } else {
+            travelItemStartLayout.setVisibility(View.GONE);
+        }
+
+        travelItemEndLayout.setVisibility(View.VISIBLE);
+        if (charterDataUtils.pickUpPoiBean != null) {
+            travelItemEndTv.setTextColor(getResources().getColor(R.color.default_black));
+            travelItemEndTv.setText(charterDataUtils.pickUpPoiBean.placeName);//到达地
+            travelItemEndDesTv.setText(charterDataUtils.pickUpPoiBean.placeName);//到达地描述
+            travelItemEndDesTv.setVisibility(View.VISIBLE);
+        } else {
+            travelItemEndTv.setTextColor(0xFFCCCCCC);
+            travelItemEndTv.setText("未添加接机送达地");
+            travelItemEndDesTv.setVisibility(View.GONE);
+        }
+    }
+
+    public void updatePickupLayout() {
+        FlightBean flightBean = charterDataUtils.flightBean;
+        if (flightBean == null) {
+            travelItemPickupLayout.setVisibility(View.GONE);
+        } else {
+            travelItemPickupLayout.setVisibility(View.VISIBLE);
+            travelItemPickupTv.setText("只接机:" + flightBean.flightNo);//只接机：NH956
+            travelItemArrdateTv.setText(String.format("当地时间%1$s %2$s降落", DateUtils.getStrWeekFormat3(flightBean.arrDate), flightBean.arrivalTime));//计划到达时间（当地时间：2017年02月18日 周五 12:40降落）
+        }
+    }
+
+    public void updateLineLayout(CityRouteBean.CityRouteScope cityRouteScope, int _position) {
+        travelItemLineTagLayout.setVisibility(View.VISIBLE);
+        travelItemCharterLineLayout.setVisibility(View.VISIBLE);
+        travelItemLineTv.setTextColor(getResources().getColor(R.color.default_black));
+        if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+            CityBean startCityBean = charterDataUtils.getCityBean(_position + 1);
+            CityBean endCityBean = charterDataUtils.getCityBean(_position + 2);
+            if (startCityBean != null && endCityBean != null && startCityBean != endCityBean) {
+                travelItemTitleTv.setText(String.format("Day%1$s：%2$s-%3$s", _position + 1, startCityBean.name, endCityBean.name));
+                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startCityBean.name, endCityBean.name));
+            } else if(startCityBean != null && startCityBean == endCityBean) {
+                travelItemTitleTv.setText(String.format("Day%1$s：%2$s", _position + 1, "跨城市游玩"));
+                travelItemLineTv.setTextColor(0xFFCCCCCC);
+                travelItemLineTv.setText("未选择送达城市");
+            } else {
+                travelItemLineTv.setText(cityRouteScope.routeTitle);
+            }
+        } else {
+            travelItemLineTv.setText(cityRouteScope.routeTitle);
+        }
+        travelItemLineTimeTv.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));
+        travelItemLineDistanceTv.setText(String.format("%1$s公里", "" + cityRouteScope.routeKms));
+    }
+
+    public void setEditLayout(EditType editType) {
+        switch (editType) {
+            case EDIT:
+                travelItemEditIv.setVisibility(View.VISIBLE);
+                travelItemEditTv.setVisibility(View.VISIBLE);
+                travelItemEditLineView.setVisibility(View.GONE);
+                travelItemDelTv.setVisibility(View.GONE);
+                break;
+            case DEL:
+                travelItemEditIv.setVisibility(View.GONE);
+                travelItemEditTv.setVisibility(View.GONE);
+                travelItemEditLineView.setVisibility(View.GONE);
+                travelItemDelTv.setVisibility(View.VISIBLE);
+                break;
+            case ALL:
+                travelItemEditIv.setVisibility(View.VISIBLE);
+                travelItemEditTv.setVisibility(View.VISIBLE);
+                travelItemEditLineView.setVisibility(View.VISIBLE);
+                travelItemDelTv.setVisibility(View.VISIBLE);
+                break;
+            case VAIN:
+                travelItemEditIv.setVisibility(View.GONE);
+                travelItemEditTv.setVisibility(View.GONE);
+                travelItemEditLineView.setVisibility(View.GONE);
+                travelItemDelTv.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @OnClick({R.id.travel_item_edit_iv, R.id.travel_item_edit_tv})
+    public void onEditClick() {
+        if (listener != null) {
+            listener.onEditClick(position);
+        }
+    }
+
+    @OnClick({R.id.travel_item_del_tv})
+    public void onDelClick() {
+        if (listener != null) {
+            listener.onDelClick(position);
+        }
+    }
+
+    public interface OnEditClickListener {
+        public void onEditClick(int position);
+        public void onDelClick(int position);
+    }
+
+    public void setOnEditClickListener(OnEditClickListener listener) {
+        this.listener = listener;
     }
 }

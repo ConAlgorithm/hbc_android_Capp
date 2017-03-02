@@ -47,8 +47,10 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             charterItemModel.setPosition(i);
             if (i == 0) {
                 charterItemModel.setSelected(true);
-            } else {
                 lastSelectedModel = charterItemModel;
+                if (listener != null) {
+                    listener.onCharterItemClick(cityRouteScope);
+                }
             }
             charterItemModel.setOnClickListener(itemListener);
             addModel(charterItemModel);
@@ -77,7 +79,9 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (noCharterModel == null) {
             noCharterModel = new CharterItemModel();
             noCharterModel.setOnClickListener(itemListener);
-            noCharterModel.setCityRouteScope(new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.AT_WILL));
+            CityRouteBean.CityRouteScope cityRouteScope= new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.AT_WILL);
+            cityRouteScope.routeTitle = "自己转转，不包车";
+            noCharterModel.setCityRouteScope(cityRouteScope);
             addModel(noCharterModel);
         }
     }
@@ -132,8 +136,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 continue;
             }
         }
-        if (lastSelectedModel instanceof CharterItemModel) {
-            CityRouteBean.CityRouteScope cityRouteScope = ((CharterItemModel) lastSelectedModel).getCityRouteScope();
+        if (lastSelectedModel instanceof CharterModelBehavior) {
+            CityRouteBean.CityRouteScope cityRouteScope = ((CharterModelBehavior) lastSelectedModel).getCityRouteScope();
             if (listener != null) {
                 listener.onCharterItemClick(cityRouteScope);
             }

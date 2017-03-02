@@ -10,10 +10,11 @@ import com.hugboga.custom.widget.charter.TravelItemView;
 public class TravelItemModel extends EpoxyModel<TravelItemView> {
 
     private int position;
+    private TravelItemView.OnEditClickListener listener;
 
     @Override
     protected int getDefaultLayout() {
-        return R.layout.model_trave_item;
+        return R.layout.model_travel_item;
     }
 
     @Override
@@ -25,9 +26,14 @@ public class TravelItemModel extends EpoxyModel<TravelItemView> {
         this.position = _position;
     }
 
+    public void setOnEditClickListener(TravelItemView.OnEditClickListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void bind(TravelItemView view) {
         super.bind(view);
         view.update(position);
+        view.setOnEditClickListener(listener);
     }
 }
