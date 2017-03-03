@@ -59,7 +59,7 @@ public class CharterSubtitleView extends LinearLayout{
     }
 
     public void update() {
-        CityBean currentDayCityBean = charterDataUtils.getCurrentDayCityBean();
+        CityBean currentDayCityBean = charterDataUtils.getStartCityBean();
         dayTV.setText(String.format("Day%1$s: %2$s", charterDataUtils.currentDay, currentDayCityBean.name));
         if (charterDataUtils.isFirstDay()) {
             pickupLayout.setVisibility(View.VISIBLE);
@@ -100,9 +100,9 @@ public class CharterSubtitleView extends LinearLayout{
 
     @OnClick({R.id.charter_subtitle_pickup_layout})
     public void onClick(View view) {
-        if (charterDataUtils.isFirstDay() && charterDataUtils.isSelectedPickUp) {//包车第一天，添写接机航班号
+        if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号
             intentActivity(ChooseAirActivity.class);
-        } else if(charterDataUtils.isLastDay() && charterDataUtils.isSelectedSend) {//包车最后一天，添写送达机场
+        } else if(charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
             intentActivity(ChooseAirPortActivity.class);
         }
     }

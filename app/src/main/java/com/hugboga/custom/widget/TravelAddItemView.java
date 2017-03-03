@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,7 +24,7 @@ public class TravelAddItemView extends RelativeLayout {
 
     public TravelAddItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setPadding(0, UIUtils.dip2px(14), 0, UIUtils.dip2px(40));
+        setBackgroundColor(0x33FF0000);
         View view = inflate(context, R.layout.view_travel_add_item, this);
         ButterKnife.bind(view);
     }

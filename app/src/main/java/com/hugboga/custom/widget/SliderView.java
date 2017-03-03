@@ -218,7 +218,7 @@ public class SliderView extends RelativeLayout {
         if (rect == null) {
             rect = new RectF(getHeight() / 2, getHeight() / 2 - UIUtils.dip2px(5), getWidth() - getHeight() / 2, getHeight() / 2 + UIUtils.dip2px(5));
         }
-        canvas.drawRoundRect(rect, UIUtils.dip2px(10), UIUtils.dip2px(10), paint);
+        canvas.drawRoundRect(rect, UIUtils.dip2px(6), UIUtils.dip2px(6), paint);
 
         if (press && !showNumberIndicator) {
             paint.setAntiAlias(true);

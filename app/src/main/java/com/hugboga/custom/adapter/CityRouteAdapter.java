@@ -13,6 +13,7 @@ import com.hugboga.custom.models.CharterSubtitleModel;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.widget.charter.CharterSubtitleView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,36 +26,14 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
     private CharterSendModel sendModel;
     private CharterItemModel noCharterModel;
     public EpoxyModel lastSelectedModel;
+    private ArrayList<CharterItemModel> itemModelList;
 
     private OnCharterItemClickListener listener;
 
     public CityRouteAdapter() {
+        itemModelList = new ArrayList<CharterItemModel>();
         charterSubtitleModel.setOnPickUpOrSendSelectedListener(this);
         addModel(charterSubtitleModel);
-    }
-
-    public void setCityRouteBean(CityRouteBean cityRouteBean) {
-        if (cityRouteBean == null || cityRouteBean.cityRouteList == null) {
-            return;
-        }
-        List<CityRouteBean.CityRouteScope> cityRouteList = cityRouteBean.cityRouteList;
-        final int size = cityRouteList.size();
-        for (int i = 0; i < size; i++) {
-            CharterItemModel charterItemModel = new CharterItemModel();
-            CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
-            cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
-            charterItemModel.setCityRouteScope(cityRouteScope);
-            charterItemModel.setPosition(i);
-            if (i == 0) {
-                charterItemModel.setSelected(true);
-                lastSelectedModel = charterItemModel;
-                if (listener != null) {
-                    listener.onCharterItemClick(cityRouteScope);
-                }
-            }
-            charterItemModel.setOnClickListener(itemListener);
-            addModel(charterItemModel);
-        }
     }
 
     public void insertPickupModel() {
@@ -79,19 +58,23 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (noCharterModel == null) {
             noCharterModel = new CharterItemModel();
             noCharterModel.setOnClickListener(itemListener);
-            CityRouteBean.CityRouteScope cityRouteScope= new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.AT_WILL);
+            CityRouteBean.CityRouteScope cityRouteScope = new CityRouteBean.CityRouteScope(CityRouteBean.RouteType.AT_WILL);
             cityRouteScope.routeTitle = "自己转转，不包车";
             noCharterModel.setCityRouteScope(cityRouteScope);
-            addModel(noCharterModel);
+            insertModelAfter(noCharterModel, itemModelList.get(itemModelList.size() - 1));
         }
+    }
+
+    public void showPickupModel() {
+        showModel(pickupModel);
     }
 
     public void updatePickupModel() {
         notifyModelChanged(pickupModel);
     }
 
-    public void updateSendModel() {
-        notifyModelChanged(sendModel);
+    public void showSendModel() {
+        showModel(sendModel);
     }
 
     public void updateSubtitleModel() {
@@ -148,37 +131,89 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (cityRouteBean == null || cityRouteBean.cityRouteList == null) {
             return;
         }
+        CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
 
         updateSubtitleModel();
 
-        CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
+        CharterModelBehavior selectedModel = null;
 
+        insertPickupModel();
         if (pickupModel != null) {
             if (charterDataUtils.isFirstDay() && charterDataUtils.flightBean != null) {
                 pickupModel.show();
-                pickupModel.setSelected(selectedRouteType == CityRouteBean.RouteType.PICKUP);
+                if (selectedRouteType == CityRouteBean.RouteType.PICKUP) {
+                    pickupModel.setSelected(true);
+                    selectedModel = pickupModel;
+                } else {
+                    pickupModel.setSelected(false);
+                }
             } else {
                 pickupModel.hide();
             }
             notifyModelChanged(pickupModel);
         }
 
-
+        insertSendModel();
         if (sendModel != null) {
             if (charterDataUtils.isLastDay() && charterDataUtils.airPortBean != null) {
                 sendModel.show();
-                pickupModel.setSelected(selectedRouteType == CityRouteBean.RouteType.SEND);
+                if (selectedRouteType == CityRouteBean.RouteType.SEND) {
+                    sendModel.setSelected(true);
+                    selectedModel = sendModel;
+                } else {
+                    sendModel.setSelected(false);
+                }
             } else {
                 sendModel.hide();
             }
             notifyModelChanged(sendModel);
         }
 
+
+        List<CityRouteBean.CityRouteScope> cityRouteList = cityRouteBean.cityRouteList;
+        final int cityRouteListSize = cityRouteList.size();
+        final int itemModelSize = itemModelList.size();
+        if (itemModelSize == 0) {
+            for (int i = 0; i < cityRouteListSize; i++) {
+                CharterItemModel charterItemModel = new CharterItemModel();
+                CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
+                cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+                charterItemModel.setCityRouteScope(cityRouteScope);
+                charterItemModel.setPosition(i);
+                itemModelList.add(charterItemModel);
+                if (i == 0) {
+                    charterItemModel.setSelected(true);
+                    lastSelectedModel = charterItemModel;
+                    if (listener != null) {
+                        listener.onCharterItemClick(cityRouteScope);
+                    }
+                }
+                charterItemModel.setOnClickListener(itemListener);
+                addModel(charterItemModel);
+            }
+        } else {
+            for (int i = itemModelSize; i < cityRouteListSize; i++) {
+                CharterItemModel charterItemModel = new CharterItemModel();
+                CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
+                cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+                charterItemModel.setCityRouteScope(cityRouteScope);
+                charterItemModel.setPosition(i);
+                itemModelList.add(charterItemModel);
+                charterItemModel.setOnClickListener(itemListener);
+                insertModelAfter(charterItemModel, itemModelList.get(itemModelSize));
+            }
+        }
+
+        insertNoCharterModel();
         if (!charterDataUtils.isFirstDay() && !charterDataUtils.isLastDay()) {//随便转转，不包车
-            insertNoCharterModel();
             if (noCharterModel != null) {
                 noCharterModel.show();
-                noCharterModel.setSelected(selectedRouteType == CityRouteBean.RouteType.AT_WILL);
+                if (selectedRouteType == CityRouteBean.RouteType.AT_WILL) {
+                    noCharterModel.setSelected(true);
+                    selectedModel = noCharterModel;
+                } else {
+                    noCharterModel.setSelected(false);
+                }
                 notifyModelChanged(noCharterModel);
             }
         } else {
@@ -187,9 +222,6 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 notifyModelChanged(noCharterModel);
             }
         }
-
-        List<CityRouteBean.CityRouteScope> cityRouteList = cityRouteBean.cityRouteList;
-        final int cityRouteListSize = cityRouteList.size();
 
         List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
         for (int i = 0; i < modelList.size(); i++) {
@@ -200,7 +232,12 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                     continue;
                 } else if (charterItemModel.getPosition() < cityRouteListSize) {
                     charterItemModel.setCityRouteScope(cityRouteList.get(charterItemModel.getPosition()));
-                    charterItemModel.setSelected(selectedRouteType == charterItemModel.getRouteType());
+                    if (selectedRouteType == charterItemModel.getRouteType()) {
+                        charterItemModel.setSelected(true);
+                        selectedModel = charterItemModel;
+                    } else {
+                        charterItemModel.setSelected(false);
+                    }
                     notifyModelChanged(modelList.get(i));
                 } else {
                     hideModel(charterItemModel);
@@ -208,6 +245,9 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             } else {
                 continue;
             }
+        }
+        if (listener != null && selectedModel != null) {
+            listener.onCharterItemClick(selectedModel.getCityRouteScope());
         }
     }
 
@@ -220,7 +260,6 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             model = sendModel;
         }
         showModel(model, isSelected);
-        notifyModelChanged(model);
         if (model instanceof CharterModelBehavior) { //更改选中状态
             boolean isSelectedModel = ((CharterModelBehavior) model).isSelected();
             if (isSelectedModel) {

@@ -13,6 +13,7 @@ import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
+import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBar;
@@ -43,6 +44,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private CityBean startBean;
     private ChooseDateBean chooseDateBean;
     private int maxPassengers;
+    private CharterDataUtils charterDataUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (charterDataUtils != null) {
+            charterDataUtils.onDestroy();
+        }
     }
 
     private void initView() {
+        charterDataUtils = CharterDataUtils.getInstance();
+
         titlebar.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +123,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 break;
             case CHOOSE_DATE:
                 chooseDateBean = (ChooseDateBean) action.getData();
+                if (chooseDateBean.type != DatePickerActivity.PARAM_TYPE_RANGE) {
+                    break;
+                }
                 String dateStr = chooseDateBean.showStartDateStr;
                 if (chooseDateBean.dayNums > 1) {
                     dateStr += " - " + chooseDateBean.showEndDateStr;

@@ -21,10 +21,13 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_CITY_ROUTE, builder = NewParamsBuilder.class)
 public class RequestCityRoute extends BaseRequest<CityRouteBean> {
 
-    public RequestCityRoute(Context context, String cityId) {
+    public int type;
+
+    public RequestCityRoute(Context context, String cityId, int type) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("cityId", cityId);
+        this.type = type;
     }
 
     @Override
@@ -41,5 +44,10 @@ public class RequestCityRoute extends BaseRequest<CityRouteBean> {
     public String getUrlErrorCode() {
         return "40119";
     }
+
+    public int getType() {
+        return type;
+    }
+
 
 }
