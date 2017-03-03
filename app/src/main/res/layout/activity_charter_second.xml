@@ -12,13 +12,11 @@
         android:layout_height="@dimen/titlebar_height"
         app:right_icon="@mipmap/topbar_cs"
         app:title_res="@string/custom_chartered" />
-    <TextView
+    <com.hugboga.amap.view.HbcMapView
         android:layout_below="@id/charter_second_titlebar"
         android:id="@+id/charter_second_map_layout"
-        android:background="#a8a8a8"
-        android:text="地图"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="match_parent" />
     <com.hugboga.custom.widget.charter.CharterSecondBottomView
         android:id="@+id/charter_second_bottom_view"
         android:layout_alignParentBottom="true"
