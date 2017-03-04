@@ -2,6 +2,7 @@ package com.hugboga.custom.widget.charter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
+import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.utils.CharterDataUtils;
@@ -138,6 +141,21 @@ public class CharterSubtitleView extends LinearLayout{
         } else {
             return "";
         }
+    }
+
+    @OnClick({R.id.charter_subtitle_day_tv})
+    public void selectStartCity() {
+        if (charterDataUtils.isFirstDay()) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
+        bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+        bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterSecondStepActivity.TAG);
+        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
+        Intent intent = new Intent(context, ChooseCityActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     public interface OnPickUpOrSendSelectedListener {

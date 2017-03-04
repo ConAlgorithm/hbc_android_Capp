@@ -30,6 +30,8 @@ import butterknife.OnClick;
  */
 public class CharterFirstStepActivity extends BaseActivity implements CharterFirstCountView.OnOutRangeListener {
 
+    public static final String TAG = CharterFirstStepActivity.class.getSimpleName();
+
     @Bind(R.id.charter_first_titlebar)
     TitleBar titlebar;
     @Bind(R.id.charter_first_city_tv)
@@ -82,6 +84,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Bundle bundle = new Bundle();
         bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
         bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+        bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
+        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, ChooseCityActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -93,6 +97,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
         intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车开始日期");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
     }
 
@@ -114,7 +119,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (action.getType()) {
             case CHOOSE_START_CITY_BACK:
                 CityBean cityBean = (CityBean) action.getData();
-                if (cityBean == null || startBean == cityBean) {
+                if (cityBean == null || startBean == cityBean || cityBean.fromTag == CharterFirstStepActivity.TAG) {
                     return;
                 }
                 startBean = cityBean;

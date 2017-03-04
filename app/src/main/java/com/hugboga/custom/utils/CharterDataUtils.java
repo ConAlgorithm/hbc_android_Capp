@@ -190,6 +190,16 @@ public class CharterDataUtils {
         }
     }
 
+    public void clearSendInfo() {
+        if (isLastDay() && isSelectedSend && airPortBean != null) {
+            charterDataUtils.airPortBean = null;
+            charterDataUtils.sendPoiBean = null;
+            charterDataUtils.sendServerTime = null;
+            charterDataUtils.sendDirectionBean = null;
+            isSelectedSend = false;
+        }
+    }
+
     public void onDestroy() {
         currentDay = 1;
 

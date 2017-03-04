@@ -208,7 +208,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="-4dp"
-            android:background="@mipmap/trip_icon_time" />
+            android:background="@mipmap/trip_icon_go" />
 
         <TextView
             android:id="@+id/travel_item_time_tv"
@@ -221,6 +221,18 @@
             android:singleLine="true"
             android:text="NH956 成田机场T2"
             android:textColor="@color/default_black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/travel_item_time_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@id/travel_item_time_tv"
+            android:ellipsize="end"
+            android:paddingTop="2.5dp"
+            android:singleLine="true"
+            android:text="未选择出发时间"
+            android:textColor="#CCCCCC"
             android:textSize="14sp" />
     </RelativeLayout>
 

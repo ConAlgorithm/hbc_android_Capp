@@ -25,8 +25,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
     private CharterPickupModel pickupModel;
     private CharterSendModel sendModel;
     private CharterItemModel noCharterModel;
-    public EpoxyModel lastSelectedModel;
     private ArrayList<CharterItemModel> itemModelList;
+    public EpoxyModel lastSelectedModel;
 
     private OnCharterItemClickListener listener;
 
@@ -77,12 +77,24 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         showModel(sendModel);
     }
 
+    public void updateSendModel() {
+        notifyModelChanged(sendModel);
+    }
+
     public void updateSubtitleModel() {
         notifyModelChanged(charterSubtitleModel);
     }
 
     public void updateSelectedModel() {
         notifyModelChanged(lastSelectedModel);
+    }
+
+    public CharterModelBehavior getSelectedModel() {
+        if (lastSelectedModel instanceof CharterModelBehavior) {
+            return (CharterModelBehavior) lastSelectedModel;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -135,7 +147,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
         updateSubtitleModel();
 
-        CharterModelBehavior selectedModel = null;
+        EpoxyModel selectedModel = null;
 
         insertPickupModel();
         if (pickupModel != null) {
@@ -175,32 +187,11 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         final int itemModelSize = itemModelList.size();
         if (itemModelSize == 0) {
             for (int i = 0; i < cityRouteListSize; i++) {
-                CharterItemModel charterItemModel = new CharterItemModel();
-                CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
-                cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
-                charterItemModel.setCityRouteScope(cityRouteScope);
-                charterItemModel.setPosition(i);
-                itemModelList.add(charterItemModel);
-                if (i == 0) {
-                    charterItemModel.setSelected(true);
-                    lastSelectedModel = charterItemModel;
-                    if (listener != null) {
-                        listener.onCharterItemClick(cityRouteScope);
-                    }
-                }
-                charterItemModel.setOnClickListener(itemListener);
-                addModel(charterItemModel);
+                addModel(getNewCharterItemModel(cityRouteBean, cityRouteList, i));
             }
         } else {
             for (int i = itemModelSize; i < cityRouteListSize; i++) {
-                CharterItemModel charterItemModel = new CharterItemModel();
-                CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
-                cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
-                charterItemModel.setCityRouteScope(cityRouteScope);
-                charterItemModel.setPosition(i);
-                itemModelList.add(charterItemModel);
-                charterItemModel.setOnClickListener(itemListener);
-                insertModelAfter(charterItemModel, itemModelList.get(itemModelSize));
+                insertModelAfter(getNewCharterItemModel(cityRouteBean, cityRouteList, i), itemModelList.get(itemModelSize));
             }
         }
 
@@ -246,8 +237,9 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 continue;
             }
         }
+        lastSelectedModel = selectedModel;
         if (listener != null && selectedModel != null) {
-            listener.onCharterItemClick(selectedModel.getCityRouteScope());
+            listener.onCharterItemClick(((CharterModelBehavior)selectedModel).getCityRouteScope());
         }
     }
 
@@ -266,6 +258,17 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 setSelectedItem(null, getAllModelsAfter(model).get(0));
             }
         }
+    }
+
+    public CharterItemModel getNewCharterItemModel(CityRouteBean cityRouteBean, List<CityRouteBean.CityRouteScope> cityRouteList, int i) {
+        CharterItemModel charterItemModel = new CharterItemModel();
+        CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(i);
+        cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+        charterItemModel.setCityRouteScope(cityRouteScope);
+        charterItemModel.setPosition(i);
+        itemModelList.add(charterItemModel);
+        charterItemModel.setOnClickListener(itemListener);
+        return charterItemModel;
     }
 
     public interface OnCharterItemClickListener {

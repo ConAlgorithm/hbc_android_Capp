@@ -22,12 +22,14 @@ import java.util.HashMap;
 public class RequestCityRoute extends BaseRequest<CityRouteBean> {
 
     public int type;
+    public int selectedRouteType;
 
-    public RequestCityRoute(Context context, String cityId, int type) {
+    public RequestCityRoute(Context context, String cityId, int type, int selectedRouteType) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("cityId", cityId);
         this.type = type;
+        this.selectedRouteType = selectedRouteType;
     }
 
     @Override

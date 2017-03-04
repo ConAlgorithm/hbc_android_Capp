@@ -65,6 +65,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String KEY_CITY_EXCEPT_ID_LIST = "key_city_except";//排除 城市id ，根据id
     public static final String KEY_SHOW_TYPE = "key_show_type";
     public static String KEY_FROM = "key_from";
+    public static String KEY_FROM_TAG = "from_tag";
 
     public static final String PARAM_TYPE_START = "startAddress";
     public static final String KEY_BUSINESS_TYPE = "key_business_Type";
@@ -124,6 +125,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public int showType = ShowType.PICK_UP;
     private DialogUtil mDialogUtil;
     private int mBusinessType;
+    public String fromTag;
 
     private List<CityBean> hotCityList;
     private List<CityBean> historyList;
@@ -241,6 +243,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             exceptCityId = (ArrayList<Integer>) bundle.getSerializable(KEY_CITY_EXCEPT_ID_LIST);
             source = bundle.getString("source");
             mBusinessType = bundle.getInt(KEY_BUSINESS_TYPE, -1);
+            fromTag = bundle.getString(KEY_FROM_TAG);
         }
 
         sideBar.setTextView((TextView) findViewById(R.id.choose_city_sidebar_firstletter));
@@ -449,6 +452,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public void onItemClick(CityBean _cityBean) {
         Bundle bundle = new Bundle(getIntent().getExtras());
         CityBean cityBean = _cityBean;
+        cityBean.fromTag = fromTag;
         if (cityBean.isNationality) {
             return;
         }
@@ -475,9 +479,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         } else {//包车城市搜索
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
-
             hideSoftInput();
             finish();
+
             if (null != from && from.equalsIgnoreCase("lastCity")) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
             } else if (null != from && from.equalsIgnoreCase("end")) {

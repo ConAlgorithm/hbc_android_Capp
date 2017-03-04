@@ -109,6 +109,8 @@ public class CharterSendAirportView extends LinearLayout{
 
                 addressTV.setText(sendPoiBean.placeName);
                 addressDesTV.setText(sendPoiBean.placeDetail);
+
+
             } else {
                 addAddressLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.GONE);
