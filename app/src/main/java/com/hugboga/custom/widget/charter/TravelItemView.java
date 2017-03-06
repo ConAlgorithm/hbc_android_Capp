@@ -138,7 +138,7 @@ public class TravelItemView extends LinearLayout {
         }
 
         ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;//start
-        travelItemDataTv.setText(DateUtils.getNextDay(chooseDateBean.start_date, _position + 1));
+        travelItemDataTv.setText(DateUtils.getNextDay(chooseDateBean.start_date, _position));
 
         if (_position < travelListSize) {
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(_position);
@@ -180,20 +180,24 @@ public class TravelItemView extends LinearLayout {
                         travelItemTimeTv.setText(String.format("只送机，%1$s出发", charterDataUtils.sendServerTime));
                     }
                     updateSendLayout();
-                    setEditLayout(EditType.EDIT);//最后一天有送机，只有"编辑"
                 } else if (charterDataUtils.airPortBean != null && charterDataUtils.isSelectedSend) {//包车加送机
+                    travelItemStartLayout.setVisibility(View.GONE);
+                    travelItemEndLayout.setVisibility(View.GONE);
                     travelItemTimeLayout.setVisibility(View.VISIBLE);
                     travelItemTimeHintTv.setVisibility(View.GONE);
                     travelItemTimeTv.setText("游玩结束送机: " + charterDataUtils.airPortBean.airportName);
                     updateLineLayout(cityRouteScope, _position);
-                    setEditLayout(EditType.EDIT);//最后一天有送机，只有"编辑"
                 } else {//只包车
                     travelItemPickupLayout.setVisibility(View.GONE);
                     travelItemTimeLayout.setVisibility(View.GONE);
                     travelItemStartLayout.setVisibility(View.GONE);
                     travelItemEndLayout.setVisibility(View.GONE);
                     updateLineLayout(cityRouteScope, _position);
-                    setEditLayout(isAtWill ? EditType.EDIT : EditType.ALL);
+                }
+                if (isAtWill) {
+                    setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
+                } else {
+                    setEditLayout(isCanEdit ? EditType.ALL : EditType.DEL);
                 }
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转（只有"编辑"）
                 travelItemCharterLineLayout.setVisibility(View.GONE);
@@ -223,7 +227,7 @@ public class TravelItemView extends LinearLayout {
             travelItemTitleTv.setTextColor(0xFFA8A8A8);
 
             if (isAtWill) {//前一天是随便转转
-                setEditLayout(EditType.EDIT);
+                setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
             } else if (_position - 1 < travelListSize && _position == chooseDateBean.dayNums - 1) {
                 setEditLayout(isCanEdit ? EditType.ALL : EditType.DEL);
             } else if (_position - 1 >= travelListSize && _position != chooseDateBean.dayNums - 1) {

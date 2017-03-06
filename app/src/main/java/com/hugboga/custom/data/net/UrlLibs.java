@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 120
+    //current urlErrorCode 122
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -181,6 +181,7 @@ public class UrlLibs {
     public static final String ORDER_LIST_DOING             = "trade/v1.3/c/order/list/doing";                          // 订单列表 进行中 116
     public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.3/c/order/list/unevaludate";                    // 订单列表 待评价 117
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
+    public static final String API_ORDER_GROUP              = "trade/v2.1/c/order/group";                               // 组合单下单c  122
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机
@@ -190,6 +191,7 @@ public class UrlLibs {
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
+    public static final String API_BATCH_PRICE              = "price/v1.4/c/batchPrice";                                // 组合单报价  121
 
     public static final String API_CITY_HOME_LIST           = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表

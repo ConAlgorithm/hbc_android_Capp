@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -54,7 +56,7 @@ public class CarBean implements IBaseBean ,Cloneable{
     public String carName2;
 
     public int carId;
-    public int special;
+    public int special;//0.普通车型 1.特殊车型
     public String carIntroduction;
     public List<String> carPictures;
 

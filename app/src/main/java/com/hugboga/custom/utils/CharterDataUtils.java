@@ -101,18 +101,18 @@ public class CharterDataUtils {
         }
     }
 
-    public CityBean getStartCityBean() {
+    public CityBean getCurrentDayStartCityBean() {
         return getStartCityBean(currentDay);
     }
 
-    public void addEndCityBean(CityBean cityBean) {
-        if (itemInfoList.containsKey(currentDay)) {
-            CharterlItemBean itemBean = itemInfoList.get(currentDay);
+    public void addEndCityBean(int day, CityBean cityBean) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
             itemBean.endCityBean = cityBean;
         } else {
             CharterlItemBean itemBean = new CharterlItemBean();
             itemBean.endCityBean = cityBean;
-            itemInfoList.put(currentDay, itemBean);
+            itemInfoList.put(day, itemBean);
         }
     }
 

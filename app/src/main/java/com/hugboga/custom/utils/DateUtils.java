@@ -733,6 +733,17 @@ public class DateUtils {
         }
     }
 
+    public static String getDay(String startDateStr, int count) {
+        try {
+            final long day = 24 * 3600000;
+            Date date = dateDateFormat.parse(startDateStr);
+            return dateDateFormat.format(date.getTime() +  day * count);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String orderChooseDateTransform(String dateStr) {
         try {
             Date date = dateDateFormat.parse(dateStr);

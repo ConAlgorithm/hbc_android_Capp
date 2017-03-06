@@ -15,7 +15,6 @@
     <com.hugboga.amap.view.HbcMapView
         android:layout_below="@id/charter_second_titlebar"
         android:id="@+id/charter_second_map_layout"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <com.hugboga.custom.widget.charter.CharterSecondBottomView

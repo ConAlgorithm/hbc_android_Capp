@@ -62,7 +62,7 @@ public class CharterSubtitleView extends LinearLayout{
     }
 
     public void update() {
-        CityBean currentDayCityBean = charterDataUtils.getStartCityBean();
+        CityBean currentDayCityBean = charterDataUtils.getCurrentDayStartCityBean();
         dayTV.setText(String.format("Day%1$s: %2$s", charterDataUtils.currentDay, currentDayCityBean.name));
         if (charterDataUtils.isFirstDay()) {
             pickupLayout.setVisibility(View.VISIBLE);

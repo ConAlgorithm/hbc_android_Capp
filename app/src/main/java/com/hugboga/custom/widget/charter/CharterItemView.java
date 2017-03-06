@@ -3,7 +3,6 @@ package com.hugboga.custom.widget.charter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -145,7 +144,7 @@ public class CharterItemView extends LinearLayout{
         if (charterDataUtils == null) {
             return;
         }
-        CityBean cityBean = charterDataUtils.getStartCityBean();
+        CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
         Intent intent = new Intent(getContext(), ChooseCityActivity.class);
         if (context instanceof BaseActivity) {
             intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity) context).getEventSource());

@@ -119,7 +119,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (action.getType()) {
             case CHOOSE_START_CITY_BACK:
                 CityBean cityBean = (CityBean) action.getData();
-                if (cityBean == null || startBean == cityBean || cityBean.fromTag == CharterFirstStepActivity.TAG) {
+                if (cityBean == null || startBean == cityBean || !CharterFirstStepActivity.TAG.endsWith(cityBean.fromTag)) {
                     return;
                 }
                 startBean = cityBean;
@@ -127,10 +127,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
                 break;
             case CHOOSE_DATE:
-                chooseDateBean = (ChooseDateBean) action.getData();
-                if (chooseDateBean.type != DatePickerActivity.PARAM_TYPE_RANGE) {
+                ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();
+                if (_chooseDateBean.type != DatePickerActivity.PARAM_TYPE_RANGE) {
                     break;
                 }
+                this.chooseDateBean = _chooseDateBean;
                 String dateStr = chooseDateBean.showStartDateStr;
                 if (chooseDateBean.dayNums > 1) {
                     dateStr += " - " + chooseDateBean.showEndDateStr;

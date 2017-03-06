@@ -139,6 +139,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 editSearch.setHint(getResources().getString(R.string.search_hint_send));
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
+            case Constants.BUSINESS_TYPE_COMBINATION:
                 //日租
                 break;
             case Constants.BUSINESS_TYPE_RENT:

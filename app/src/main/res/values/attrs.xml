@@ -91,7 +91,6 @@
 
     <declare-styleable name="TitleBar">
         <attr name="title_res" format="reference"/>
-        <attr name="title_str" format="string"/>
         <attr name="right_icon" format="reference"/>
     </declare-styleable>
 
