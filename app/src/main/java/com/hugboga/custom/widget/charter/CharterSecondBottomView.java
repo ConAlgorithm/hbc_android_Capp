@@ -27,6 +27,9 @@ public class CharterSecondBottomView extends LinearLayout{
     @Bind(R.id.sku_order_bottom_day_layout)
     LinearLayout dayLayout;
 
+    @Bind(R.id.charter_bottom_travel_list_layout)
+    LinearLayout travelListLayout;
+
     private CharterDataUtils charterDataUtils;
     private OnBottomClickListener listener;
 
@@ -51,6 +54,12 @@ public class CharterSecondBottomView extends LinearLayout{
             dayLayout.setVisibility(View.VISIBLE);
             dayTV.setText(String.format("Day%1$s", "" + charterDataUtils.currentDay));
         }
+    }
+
+    public void queryPriceState() {
+        confirmTV.setText("查看报价");
+        dayLayout.setVisibility(View.GONE);
+        travelListLayout.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.charter_bottom_travel_list_layout})

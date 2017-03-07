@@ -5,6 +5,8 @@ import android.support.v4.util.ArrayMap;
 import com.hugboga.amap.entity.HbcLantLng;
 import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CharterlItemBean;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.DirectionBean;
@@ -22,27 +24,27 @@ public class CharterDataUtils {
     private static CharterDataUtils charterDataUtils;
 
     public int currentDay = 1;
-    public CharterSecondStepActivity.Params params;             // 下单第一步带过来的信息，包含第一天出发城市、日期、出行人数
+    public ChooseDateBean chooseDateBean;
+    public int adultCount;
+    public int childCount;
 
     public FlightBean flightBean;                               // 接机：航班信息
     public PoiBean pickUpPoiBean;                               // 接机：送达地
     public DirectionBean pickUpDirectionBean;                   // 接机：机场到送达地距离及地图坐标
-    public boolean isSelectedPickUp = true;                     // 接机：是否选中接机
+    public boolean isSelectedPickUp = false;                    // 接机：是否选中接机
 
     public AirPort airPortBean;                                 // 送机：机场信息
     public PoiBean sendPoiBean;                                 // 送机：出发地点
     public String sendServerTime;                               // 送机：出发时间
     public DirectionBean sendDirectionBean;                     // 送机：出发地到机场距离及地图坐标
-    public boolean isSelectedSend = true;                       // 送机：是否选中送机
+    public boolean isSelectedSend = false;                      // 送机：是否选中送机
 
     public ArrayList<CityRouteBean.CityRouteScope> travelList;             // 存储每天的数据，点击"确认"后更新
-    public ArrayMap<Integer, CityBean> cityBeanMap;                        // 用来存储出发城市，以当前天数为KEY，实时更新
-    public ArrayMap<Integer, ArrayList<CityRouteBean.Fence>> fencesMap;
+    public ArrayMap<Integer, CharterlItemBean> itemInfoList;
 
     private CharterDataUtils() {
         travelList = new ArrayList<CityRouteBean.CityRouteScope>();
-        cityBeanMap = new ArrayMap<>();
-        fencesMap = new ArrayMap<Integer, ArrayList<CityRouteBean.Fence>>();
+        itemInfoList = new ArrayMap<Integer, CharterlItemBean>();
     }
 
     public static CharterDataUtils getInstance() {
@@ -53,8 +55,10 @@ public class CharterDataUtils {
     }
 
     public void init(CharterSecondStepActivity.Params params) {
-        this.params = params;
-        cityBeanMap.put(1, charterDataUtils.params.startBean);
+        this.chooseDateBean = params.chooseDateBean;
+        this.adultCount = params.adultCount;
+        this.childCount = params.childCount;
+        addStartCityBean(1, params.startBean);
     }
 
     public boolean isFirstDay() {
@@ -62,10 +66,84 @@ public class CharterDataUtils {
     }
 
     public boolean isLastDay() {
-        if (params != null && params.chooseDateBean != null && currentDay == params.chooseDateBean.dayNums) {
+        if (chooseDateBean != null && currentDay == chooseDateBean.dayNums) {
             return true;
         }
         return false;
+    }
+
+    public int getRouteType(int position) {
+        ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
+        if (position < travelList.size()) {
+            return travelList.get(position).routeType;
+        } else {
+            return CityRouteBean.RouteType.URBAN;
+        }
+    }
+
+    public void addStartCityBean(int day, CityBean cityBean) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            itemBean.startCityBean = cityBean;
+        } else {
+            CharterlItemBean itemBean = new CharterlItemBean();
+            itemBean.startCityBean = cityBean;
+            itemInfoList.put(day, itemBean);
+        }
+    }
+
+    public CityBean getStartCityBean(int day) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            return itemBean.startCityBean;
+        } else {
+            return null;
+        }
+    }
+
+    public CityBean getCurrentDayStartCityBean() {
+        return getStartCityBean(currentDay);
+    }
+
+    public void addEndCityBean(int day, CityBean cityBean) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            itemBean.endCityBean = cityBean;
+        } else {
+            CharterlItemBean itemBean = new CharterlItemBean();
+            itemBean.endCityBean = cityBean;
+            itemInfoList.put(day, itemBean);
+        }
+    }
+
+    public CityBean getEndCityBean(int day) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            return itemBean.endCityBean;
+        } else {
+            return null;
+        }
+    }
+
+    public CityBean getEndCityBean() {
+        return getEndCityBean(currentDay);
+    }
+
+    public CityBean setDefaultCityBean() {
+        CityBean nextCityBean = getStartCityBean(currentDay);
+        if (nextCityBean == null) {
+            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(currentDay - 2);
+            CityBean startCityBean = null;
+            if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                startCityBean = getEndCityBean(currentDay - 1);
+            } else {
+                startCityBean = getStartCityBean(currentDay - 1);
+            }
+            addStartCityBean(currentDay, startCityBean);
+            return startCityBean;
+        } else {
+            return nextCityBean;
+        }
     }
 
     public void addCityRouteScope(CityRouteBean.CityRouteScope cityRouteScope) {
@@ -77,50 +155,52 @@ public class CharterDataUtils {
         }
     }
 
-    public ArrayList<CityRouteBean.Fence> getCurrentDayFences() {
-        int position = 1;
-        for (int i = currentDay; i >= 1; i--) {
-            if (fencesMap.containsKey(i)) {
-                position = i;
-                break;
+    public void addFences(int day, ArrayList<CityRouteBean.Fence> fences, boolean isStart) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            if (isStart) {
+                itemBean.startFence = fences;
+            } else {
+                itemBean.endFence = fences;
             }
+        } else {
+            CharterlItemBean itemBean = new CharterlItemBean();
+            if (isStart) {
+                itemBean.startFence = fences;
+            } else {
+                itemBean.endFence = fences;
+            }
+            itemInfoList.put(currentDay, itemBean);
         }
-        return fencesMap.get(position);
+    }
+
+    public ArrayList<CityRouteBean.Fence> getCurrentDayFences() {
+        if (itemInfoList.containsKey(currentDay)) {
+            return itemInfoList.get(currentDay).startFence;
+        } else {
+            return null;
+        }
     }
 
     public ArrayList<CityRouteBean.Fence> getNextDayFences() {
-        if (fencesMap.containsKey(currentDay + 1)) {
-            return fencesMap.get(currentDay + 1);
+        if (itemInfoList.containsKey(currentDay)) {
+            return itemInfoList.get(currentDay).endFence;
         } else {
             return null;
         }
     }
 
-    public CityBean getCurrentDayCityBean() {
-        return getCityBean(currentDay);
-    }
-
-    public CityBean getCityBean(int day) {
-        int position = 1;
-        for (int i = day; i >= 1; i--) {
-            if (cityBeanMap.containsKey(i)) {
-                position = i;
-                break;
-            }
-        }
-        return cityBeanMap.get(position);
-    }
-
-    public CityBean getNextDayCityBean() {
-        if (cityBeanMap.containsKey(currentDay + 1)) {
-            return cityBeanMap.get(currentDay + 1);
-        } else {
-            return null;
+    public void clearSendInfo() {
+        if (isLastDay() && isSelectedSend && airPortBean != null) {
+            charterDataUtils.airPortBean = null;
+            charterDataUtils.sendPoiBean = null;
+            charterDataUtils.sendServerTime = null;
+            charterDataUtils.sendDirectionBean = null;
+            isSelectedSend = false;
         }
     }
 
     public void onDestroy() {
-        params = null;
         currentDay = 1;
 
         flightBean = null;
@@ -132,8 +212,7 @@ public class CharterDataUtils {
         sendServerTime = null;
 
         travelList.clear();
-        cityBeanMap.clear();
-        fencesMap.clear();
+        itemInfoList.clear();
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(CityRouteBean.Fence _fence) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="50dp">
     <View
         android:layout_width="@dimen/travel_item_line_width"
         android:layout_height="2dp"
@@ -18,5 +18,5 @@
         android:layout_marginLeft="@dimen/travel_item_margin_left"
         android:text="+ 添加一天"
         android:textColor="@color/default_yellow"
-        android:textSize="16sp" />
-</merge>
+        android:textSize="14sp" />
+</RelativeLayout>

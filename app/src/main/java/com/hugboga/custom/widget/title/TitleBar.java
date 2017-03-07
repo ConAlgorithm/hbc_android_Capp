@@ -43,10 +43,6 @@ public class TitleBar extends TitleBarBase {
         if (defaultTitle != View.NO_ID) {
             middleTV.setText(context.getString(defaultTitle));
         }
-        String defaultTitleStr = typedArray.getString(R.styleable.TitleBar_title_str);
-        if (!TextUtils.isEmpty(defaultTitleStr)) {
-            middleTV.setText(defaultTitleStr);
-        }
         int rightIcon = typedArray.getResourceId(R.styleable.TitleBar_right_icon, View.NO_ID);
         if (rightIcon != View.NO_ID) {
             rightTV.setVisibility(View.VISIBLE);

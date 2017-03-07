@@ -13,6 +13,7 @@ import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
+import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBar;
@@ -29,6 +30,8 @@ import butterknife.OnClick;
  */
 public class CharterFirstStepActivity extends BaseActivity implements CharterFirstCountView.OnOutRangeListener {
 
+    public static final String TAG = CharterFirstStepActivity.class.getSimpleName();
+
     @Bind(R.id.charter_first_titlebar)
     TitleBar titlebar;
     @Bind(R.id.charter_first_city_tv)
@@ -43,6 +46,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private CityBean startBean;
     private ChooseDateBean chooseDateBean;
     private int maxPassengers;
+    private CharterDataUtils charterDataUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +61,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (charterDataUtils != null) {
+            charterDataUtils.onDestroy();
+        }
     }
 
     private void initView() {
+        charterDataUtils = CharterDataUtils.getInstance();
+
         titlebar.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +84,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Bundle bundle = new Bundle();
         bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
         bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+        bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
+        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, ChooseCityActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -86,6 +97,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
         intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车开始日期");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
     }
 
@@ -107,7 +119,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (action.getType()) {
             case CHOOSE_START_CITY_BACK:
                 CityBean cityBean = (CityBean) action.getData();
-                if (cityBean == null || startBean == cityBean) {
+                if (cityBean == null || startBean == cityBean || !CharterFirstStepActivity.TAG.endsWith(cityBean.fromTag)) {
                     return;
                 }
                 startBean = cityBean;
@@ -115,7 +127,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
                 break;
             case CHOOSE_DATE:
-                chooseDateBean = (ChooseDateBean) action.getData();
+                ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();
+                if (_chooseDateBean.type != DatePickerActivity.PARAM_TYPE_RANGE) {
+                    break;
+                }
+                this.chooseDateBean = _chooseDateBean;
                 String dateStr = chooseDateBean.showStartDateStr;
                 if (chooseDateBean.dayNums > 1) {
                     dateStr += " - " + chooseDateBean.showEndDateStr;

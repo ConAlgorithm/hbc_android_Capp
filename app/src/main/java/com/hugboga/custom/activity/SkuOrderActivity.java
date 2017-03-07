@@ -570,8 +570,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , params.cityBean.areaCode + ""
                 , params.skuItemBean.daysCount + ""
                 , carListBean.distance + ""
-                , "0"
-                , params.skuItemBean.daysCount + ""
                 , params.skuItemBean.daysCount + ""
                 , orderType + ""
                 , carBean.carId + "");

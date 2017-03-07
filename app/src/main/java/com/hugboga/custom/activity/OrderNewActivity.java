@@ -1012,7 +1012,7 @@ public class OrderNewActivity extends BaseActivity {
                 startCityId4MostFit,
                 areaCode4MostFit,
                 (null == dayNums ? "0" : dayNums) + "",
-                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
+                distance, (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
         HttpRequestUtils.request(activity, requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {

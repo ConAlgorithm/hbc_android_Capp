@@ -25,7 +25,7 @@ public class TravelAddItemView extends RelativeLayout {
 
     public TravelAddItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setPadding(0, UIUtils.dip2px(14), 0, UIUtils.dip2px(40));
+        setPadding(0, 0, 0, UIUtils.dip2px(20));
         View view = inflate(context, R.layout.view_travel_add_item, this);
         ButterKnife.bind(view);
     }

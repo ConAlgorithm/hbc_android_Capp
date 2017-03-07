@@ -2,7 +2,6 @@ package com.hugboga.custom.widget.charter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,12 +13,9 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChooseCityActivity;
-import com.hugboga.custom.activity.OrderSelectCityActivity;
-import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
-import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -88,7 +84,7 @@ public class CharterItemView extends LinearLayout{
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
                 scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
 
-                CityBean cityBean = charterDataUtils.getNextDayCityBean();
+                CityBean cityBean = charterDataUtils.getEndCityBean();
                 if (cityBean != null) {
                     editArrivedCityTV.setText("送达城市：" + cityBean.name);
                 }
@@ -108,7 +104,7 @@ public class CharterItemView extends LinearLayout{
             tagLayout.setVisibility(View.VISIBLE);
             placesTV.setVisibility(View.GONE);
             if (selected) {
-                CityBean cityBean = charterDataUtils.getNextDayCityBean();
+                CityBean cityBean = charterDataUtils.getEndCityBean();
                 if (cityBean == null) {
                     addArrivedCityLayout.setVisibility(View.VISIBLE);
                     editArrivedCityLayout.setVisibility(View.GONE);
@@ -148,7 +144,7 @@ public class CharterItemView extends LinearLayout{
         if (charterDataUtils == null) {
             return;
         }
-        CityBean cityBean = charterDataUtils.getCurrentDayCityBean();
+        CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
         Intent intent = new Intent(getContext(), ChooseCityActivity.class);
         if (context instanceof BaseActivity) {
             intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity) context).getEventSource());

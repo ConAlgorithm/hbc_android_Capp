@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
         app:right_icon="@mipmap/topbar_cs"
-        app:title_str="@string/custom_chartered" />
+        app:title_res="@string/custom_chartered" />
 
     <RelativeLayout
         android:id="@+id/charter_first_bottom_next_layout"

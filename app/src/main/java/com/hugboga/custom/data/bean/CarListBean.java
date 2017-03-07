@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -12,6 +14,7 @@ public class CarListBean implements IBaseBean {
     public double distance;//预估路程（单位：公里）
     public int hotelPrice;//酒店价格
     public int interval;//预估时间（单位：分钟）
+    @SerializedName("quoteInfos")
     public ArrayList<CarBean> carList;
 
     public int timeNotReachFlag;

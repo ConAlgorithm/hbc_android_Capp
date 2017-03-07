@@ -109,6 +109,8 @@ public class CharterSendAirportView extends LinearLayout{
 
                 addressTV.setText(sendPoiBean.placeName);
                 addressDesTV.setText(sendPoiBean.placeDetail);
+
+
             } else {
                 addAddressLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.GONE);
@@ -125,7 +127,7 @@ public class CharterSendAirportView extends LinearLayout{
                 addTimeLayout.setVisibility(View.GONE);
                 timeLayout.setVisibility(View.VISIBLE);
                 timeTV.setVisibility(View.VISIBLE);
-                timeTV.setText(String.format("出发日期：%1$s %2$s", charterDataUtils.params.chooseDateBean.showEndDateStr, sendServerTime));
+                timeTV.setText(String.format("出发日期：%1$s %2$s", charterDataUtils.chooseDateBean.showEndDateStr, sendServerTime));
             }
         } else {
             rootLayout.setBackgroundResource(R.drawable.shape_rounded_charter_unselected);

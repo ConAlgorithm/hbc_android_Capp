@@ -70,6 +70,8 @@ public class CityBean implements IBaseBean ,Cloneable {
 
     public int cityType = 1;// 1 市内 2 周边 3,市外
 
+    public String fromTag;//本地字段
+
 //    @Override
 //    public void parser(JSONObject jsonObj) throws JSONException {
 //        cityId = jsonObj.optInt("cityId");
