@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -79,6 +80,25 @@ public class OrderUtils {
         return seat1PriceTotal;
     }
 
+    public static int getSeat2PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+        int seat2Price = 0;
+
+        if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice2) {
+            seat2Price = Integer.valueOf(additionalServicePrice.childSeatPrice2);
+        }
+        int seat2PriceTotal = seat2Price * getSeat2Count(manLuggageBean);
+        return seat2PriceTotal;
+    }
+
+    public static int getSeat1PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+        int seat1Price = 0;
+        if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice1) {
+            seat1Price = Integer.valueOf(additionalServicePrice.childSeatPrice1);
+        }
+        int seat1PriceTotal = seat1Price * getSeat1Count(manLuggageBean);
+        return seat1PriceTotal;
+    }
+
     public static int getSeat2PriceTotal(CarListBean carListBean,ManLuggageBean manLuggageBean){
         int seat2Price = 0;
 
@@ -88,7 +108,6 @@ public class OrderUtils {
         int seat2PriceTotal = seat2Price * getSeat2Count(manLuggageBean);
         return seat2PriceTotal;
     }
-
 
     private String getChileSeatJson(CarListBean carListBean,ManLuggageBean manLuggageBean){
         int seat1Price = 0;

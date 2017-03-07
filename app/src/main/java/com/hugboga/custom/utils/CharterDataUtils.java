@@ -1,6 +1,7 @@
 package com.hugboga.custom.utils;
 
 import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
 
 import com.hugboga.amap.entity.HbcLantLng;
 import com.hugboga.custom.activity.CharterSecondStepActivity;
@@ -12,6 +13,7 @@ import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.models.CharterModelBehavior;
 import com.hugboga.im.entity.HbcLogicImBean;
 
 import java.util.ArrayList;
@@ -130,6 +132,9 @@ public class CharterDataUtils {
     }
 
     public CityBean setDefaultCityBean() {
+        if (currentDay <= 1) {
+            return null;
+        }
         CityBean nextCityBean = getStartCityBean(currentDay);
         if (nextCityBean == null) {
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(currentDay - 2);
@@ -188,6 +193,47 @@ public class CharterDataUtils {
         } else {
             return null;
         }
+    }
+
+    public boolean checkInfo(int routeType, int currentDay) {
+
+        // 判断接机"送达地"是否填写
+        boolean checkPickup = routeType == CityRouteBean.RouteType.PICKUP
+                && charterDataUtils.isFirstDay()
+                && charterDataUtils.isSelectedPickUp
+                && charterDataUtils.pickUpPoiBean == null;
+        if (checkPickup) {
+            CommonUtils.showToast("请添加接机的送达地");
+            return false;
+        }
+
+        // 是否是送机
+        boolean isSend = routeType == CityRouteBean.RouteType.SEND
+                && charterDataUtils.isLastDay()
+                && charterDataUtils.isSelectedSend;
+
+        // 判断送机"时间"是否填写
+        boolean checkSendTime = isSend && TextUtils.isEmpty(charterDataUtils.sendServerTime);
+        if (checkSendTime) {
+            CommonUtils.showToast("请添加送机的出发时间");
+            return false;
+        }
+
+        // 判断送机"出发地点"是否填写
+        boolean checkSendAddress = isSend && charterDataUtils.sendPoiBean == null;
+        if (checkSendAddress) {
+            CommonUtils.showToast("请添加送机的出发地点");
+            return false;
+        }
+
+        // 判断跨城市"结束城市"是否填写
+        boolean checkOuttown = routeType == CityRouteBean.RouteType.OUTTOWN
+                && charterDataUtils.getEndCityBean(currentDay) == null;
+        if (checkOuttown) {
+            CommonUtils.showToast("请添加结束城市");
+            return false;
+        }
+        return true;
     }
 
     public void clearSendInfo() {

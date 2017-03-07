@@ -54,6 +54,7 @@ public class ParserCarList extends ImplParser {
                 bean.capOfPerson = jsonObj.optInt("capOfPerson", 0);
                 bean.price = jsonObj.optInt("price", 0);
                 bean.localPrice = jsonObj.optInt("localPrice", 0);
+                bean.batchNo = jsonObj.optString("batchNo");
                 carListBean.carList.add(bean);
             }
         }

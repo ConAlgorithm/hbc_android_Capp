@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
@@ -27,13 +28,17 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.combination.GroupParamBuilder;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestBatchPrice;
 import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
+import com.hugboga.custom.data.request.RequestOrderGroup;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
+import com.hugboga.custom.data.request.RequestSubmitDaily;
+import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -252,6 +257,24 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 cancleTips += str + "\n";
             }
             explainView.setCancleTips(cancleTips);
+        } else if (_request instanceof RequestOrderGroup) {
+            orderInfoBean = ((RequestOrderGroup) _request).getData();
+            if (orderInfoBean.getPriceActual() == 0) {
+//                requestPayNo(orderInfoBean.getOrderno());
+            } else {
+                ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
+                requestParams.couponId = couponId;
+                requestParams.orderId = orderInfoBean.getOrderno();
+                requestParams.shouldPay = orderInfoBean.getPriceActual();
+                requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
+                requestParams.source = source;
+                requestParams.needShowAlert = true;
+//                requestParams.eventPayBean = getChoosePaymentStatisticParams();
+                Intent intent = new Intent(this, ChoosePaymentActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, requestParams);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                startActivity(intent);
+            }
         }
     }
 
@@ -420,7 +443,33 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     @Override
     public void onSubmitOrder() {
+        SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
+        ContactUsersBean contactUsersBean = new ContactUsersBean();
+        contactUsersBean.userName = travelerInfoBean.travelerName;
+        contactUsersBean.userPhone = travelerInfoBean.travelerPhone;
+        contactUsersBean.phoneCode = travelerInfoBean.getAreaCode();
 
+        GroupParamBuilder groupParamBuilder = new GroupParamBuilder();
+        String requestParams = groupParamBuilder.charterDataUtils(charterDataUtils)
+                .carListBean(carListBean)
+                .carBean(carBean)
+                .manLuggageBean(countView.getManLuggageBean())
+                .contactUsersBean(contactUsersBean)
+                .mark(travelerInfoBean.mark)
+                .isCheckedTravelFund(discountView.isCheckedTravelFund())
+                .travelFund(CommonUtils.getCountDouble(deductionBean.deduction))
+                .couponBean(couponBean)
+                .mostFitBean(mostFitBean)
+                .build();
+        requestSubmitOrder(requestParams);
+    }
+
+    /*
+     * 提交订单
+    * */
+    private void requestSubmitOrder(String requestBody) {
+        RequestOrderGroup requestOrderGroup = new RequestOrderGroup(this, requestBody);
+        requestData(requestOrderGroup);
     }
 
     /*
@@ -491,6 +540,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public String getEventSource() {
         return "组合单下单页";
     }
+
+
+
 
 
 }

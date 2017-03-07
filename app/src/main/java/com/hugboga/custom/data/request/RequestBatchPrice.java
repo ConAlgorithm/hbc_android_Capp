@@ -77,7 +77,6 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 batchPrice.index = index;
                 batchPriceList.add(batchPrice);
                 index++;
-                continue;
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {
                 AirportParam sendParam = new AirportParam();
                 sendParam.airportCode = charterDataUtils.airPortBean.airportCode;
@@ -91,7 +90,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 batchPriceList.add(batchPrice);
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
                 continue;
-            }  else {
+            } else {
                 if (dailyPriceParam == null) {
                     dailyPriceParam = new DailyPriceParam();
                 }
@@ -118,13 +117,27 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     dayArrangement.endCityId = startCityBean.cityId;
                 }
                 dailyPriceParam.arrangements.add(dayArrangement);
-
-                if ((i + 1 >= size || travelList.get(i + 1).routeType == CityRouteBean.RouteType.AT_WILL)) {
+                 /*
+                 * 拆单情况
+                 * 1 如果第一天仅接机，那么第一天需要与第二天拆开
+                 * 2 如果最后一天仅送机，最后一天需要与倒数第二天拆开
+                 * 3 如果当前一天的开始城市不等于前一天的结束城市，那么当前一天需要与前一天拆开
+                 * 4 如果当前一天或连续几天自己转转不包车，那么空白的行程前后都需要拆开
+                 */
+                boolean isBatch = charterDataUtils.getStartCityBean(i + 1) != charterDataUtils.getStartCityBean(i + 2);//判断当天出发城市和明天开始城市是否相同，不相同，拆单
+                if ((i + 1 >= size || travelList.get(i + 1).routeType == CityRouteBean.RouteType.AT_WILL)
+                        || travelList.get(i + 1).routeType == CityRouteBean.RouteType.SEND
+                        || cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN || isBatch) {
                     CityBean _startCityBean = charterDataUtils.getStartCityBean(dayArrangementIndex + 1);
                     dailyPriceParam.startCityId = _startCityBean.cityId;
                     dailyPriceParam.startLocation = _startCityBean.location;
                     dailyPriceParam.startDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, dayArrangementIndex) + " " + CombinationOrderActivity.SERVER_TIME;
-                    CityBean endCityBean = charterDataUtils.getStartCityBean(i + 1);
+                    CityBean endCityBean = null;
+                    if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                        endCityBean = charterDataUtils.getEndCityBean(i + 1);
+                    } else {
+                        endCityBean = charterDataUtils.getStartCityBean(i + 1);
+                    }
                     dailyPriceParam.endCityId = endCityBean.cityId;
                     dailyPriceParam.endLocation = endCityBean.location;
                     dailyPriceParam.endDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, i) + " " + CombinationOrderActivity.SERVER_TIME_END;
@@ -145,7 +158,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
     }
 
 
-    public int getTourType(int routeType) {
+    public static int getTourType(int routeType) {
         switch (routeType) {
             case CityRouteBean.RouteType.HALFDAY://半日
                 return 0;

@@ -37,7 +37,9 @@ import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterModelBehavior;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
+import com.hugboga.custom.widget.title.TitleBarCharterSecond;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +59,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public static final String TAG = CharterSecondStepActivity.class.getSimpleName();
 
+    @Bind(R.id.charter_second_titlebar)
+    TitleBarCharterSecond titleBar;
     @Bind(R.id.charter_second_recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.charter_second_bottom_view)
@@ -120,6 +124,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         super.onResume();
         mapView.onResume();
         bottomView.updateConfirmView();
+        updateSubtitle();
     }
 
     @Override
@@ -139,6 +144,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         charterDataUtils = CharterDataUtils.getInstance();
         charterDataUtils.init(params);
         currentDay = charterDataUtils.currentDay;
+
+        titleBar.getRightView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+            }
+        });
+        updateSubtitle();
 
         adapter = new CityRouteAdapter();
         adapter.setOnCharterItemClickListener(this);
@@ -350,44 +363,12 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (selectedCharterModel == null) {
             return false;
         }
+        return charterDataUtils.checkInfo(selectedCharterModel.getRouteType(), charterDataUtils.currentDay);
+    }
 
-        // 判断接机"送达地"是否填写
-        boolean checkPickup = selectedCharterModel.getRouteType() == CityRouteBean.RouteType.PICKUP
-                && charterDataUtils.isFirstDay()
-                && charterDataUtils.isSelectedPickUp
-                && charterDataUtils.pickUpPoiBean == null;
-        if (checkPickup) {
-            CommonUtils.showToast("请添加接机的送达地");
-            return false;
-        }
-
-        // 是否是送机
-        boolean isSend = selectedCharterModel.getRouteType() == CityRouteBean.RouteType.SEND
-                && charterDataUtils.isLastDay()
-                && charterDataUtils.isSelectedSend;
-
-        // 判断送机"时间"是否填写
-        boolean checkSendTime = isSend && TextUtils.isEmpty(charterDataUtils.sendServerTime);
-        if (checkSendTime) {
-            CommonUtils.showToast("请添加送机的出发时间");
-            return false;
-        }
-
-        // 判断送机"出发地点"是否填写
-        boolean checkSendAddress = isSend && charterDataUtils.sendPoiBean == null;
-        if (checkSendAddress) {
-            CommonUtils.showToast("请添加送机的出发地点");
-            return false;
-        }
-
-        // 判断跨城市"结束城市"是否填写
-        boolean checkOuttown = selectedCharterModel.getRouteType() == CityRouteBean.RouteType.OUTTOWN
-                && charterDataUtils.getEndCityBean() == null;
-        if (checkOuttown) {
-            CommonUtils.showToast("请添加结束城市");
-            return false;
-        }
-        return true;
+    public void updateSubtitle() {
+        ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
+        titleBar.updateSubtitle(String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, chooseDateBean.dayNums));
     }
 
     @Override
@@ -427,7 +408,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 //TODO 点到点 charterDataUtils.flightBean.arrLocation   charterDataUtils.pickUpPoiBean.location  酒店charterDataUtils.pickUpPoiBean.placeName
                 //mapView.getaMap().clear();
                 DirectionBean directionBean = charterDataUtils.pickUpDirectionBean;
-                if (directionBean.isHaveLines()) {//是否画点到点间的线
+                if (directionBean != null && directionBean.isHaveLines()) {//是否画点到点间的线
                     ArrayList<HbcLantLng> hbcLantLngList = charterDataUtils.getHbcLantLngList(directionBean.steps);
                     //TODO 线
                     if(hbcLantLngList!=null && hbcLantLngList.size()>0){
@@ -484,8 +465,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             String location = cityBean.location;
             if(!TextUtils.isEmpty(location)){
                 HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(location);
-                mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,cityBean.name),hbcLantLng);
-                mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,hbcLantLng.longitude),16));
+                if (startCoordinate != null && hbcLantLng != null) {
+                    mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,cityBean.name),hbcLantLng);
+                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,hbcLantLng.longitude),16));
+                }
             }
         }
 

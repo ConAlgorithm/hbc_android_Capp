@@ -73,6 +73,9 @@ public class TravelListActivity extends BaseActivity {
         bottomView.setOnBottomClickListener(new CharterSecondBottomView.OnBottomClickListener() {
             @Override
             public void confirm() {
+                if (!checkInfo()) {
+                    return;
+                }
                 Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
@@ -83,6 +86,19 @@ public class TravelListActivity extends BaseActivity {
 
             }
         });
+    }
+
+    public boolean checkInfo() {
+        CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
+        ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
+        final int travelListSize = travelList.size();
+        for (int i = 0; i < travelListSize; i++) {
+            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(i);
+            if (!charterDataUtils.checkInfo(cityRouteScope.routeType, i + 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

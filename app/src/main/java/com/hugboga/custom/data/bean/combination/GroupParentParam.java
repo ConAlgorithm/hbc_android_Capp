@@ -1,9 +1,11 @@
 package com.hugboga.custom.data.bean.combination;
 
+import com.hugboga.custom.data.bean.ContactUserBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderContactBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by qingcha on 17/3/6.
@@ -29,9 +31,9 @@ public class GroupParentParam implements Serializable {
     public OrderBean.ChildSeats childSeats;     // 儿童座椅
     public String userId;                       // 客户ID; 必填
     public Integer realSendSms;                 // 是否给乘车人发送短信 1 发送
-    public int isRealUser;                      // 1:自己下单 2:为他人下单 为其他人下单必填
-    public OrderContactBean userExInfo;         // 下单人信息 必填
-    public OrderContactBean realUserExInfo;     // 乘车人信息 为他人下单必填
+    public Integer isRealUser;                  // 1:自己下单 2:为他人下单 为其他人下单必填
+    public ArrayList<ContactUserBean> userExInfo;       // 下单人信息 必填
+    public ArrayList<ContactUserBean> realUserExInfo;   // 乘车人信息 为他人下单必填
     public String userRemark;                   // 用户备注
     public String userEmail;                    // 下单人email
     public Double priceChannel;                 // 订单价格
@@ -40,6 +42,7 @@ public class GroupParentParam implements Serializable {
     public String coupPriceInfo;                // 券价格
     public Double priceActual;                  // 暂时存券支付的时候的价格 使用券 必填
     public Integer totalDays;                   // 订单天数 必填
+
     public Integer serviceCityId;               // 服务城市Id 必填
     public String serviceCityName;              // 服务城市名 必填
     public String serviceTime;                  // 服务开始时间 yyyy-MM-dd HH:mm:ss 必填  如果第一个订单包含接机 填写接机时间

@@ -24,9 +24,10 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_ORDER_GROUP, builder = NewParamsBuilder.class)
 public class RequestOrderGroup extends BaseRequest<OrderInfoBean> {
 
-    public RequestOrderGroup(Context context) {
+    public RequestOrderGroup(Context context, String _bodyEntity) {
         super(context);
         map = new HashMap<String, Object>();
+        this.bodyEntity = _bodyEntity;
     }
 
     @Override
