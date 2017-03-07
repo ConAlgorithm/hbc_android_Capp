@@ -403,7 +403,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             }
             if(nextHbcLantLngList!=null && nextHbcLantLngList.size()>0){
                 mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
-                if(!TextUtils.isEmpty(nextCityBean.name)){
+                if(nextCityBean!=null && !TextUtils.isEmpty(nextCityBean.name)){
                     mapView.addText(nextCityBean.name,100,Color.argb(125,30,55,1),nextHbcLantLngList);
                 }
             }
@@ -412,7 +412,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             if (startCoordinate != null) {
                 // TODO 围栏 startCoordinate hbcLantLngList nextHbcLantLngList 判断坐标点在 市内（一个圈）、周边（俩圈）、超出周边（俩圈）
                 if(urbanList!=null && urbanList.size()>0){
-                    Polygon polygon = mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                    Polygon polygon = mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32
+                    ));
                     if(!polygon.contains(new LatLng(startCoordinate.latitude,startCoordinate.longitude))){
                         CityRouteBean.Fence nextFence = nextFences.get(0);
                         if(nextFence != null ){
