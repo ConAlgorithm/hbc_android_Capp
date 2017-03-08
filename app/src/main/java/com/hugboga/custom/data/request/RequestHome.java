@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -33,7 +34,7 @@ public class RequestHome extends BaseRequest<HomeBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_HOME, HomeBean.class);
+        return new HbcParser(UrlLibs.API_HOME, HomeBeanV2.class);
     }
 
     @Override

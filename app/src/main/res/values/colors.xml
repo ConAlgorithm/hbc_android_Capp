@@ -166,4 +166,9 @@
     <color name="titlebar_bg">#FFFFFF</color>
     <color name="titlebar_dvider">#D0D0D0</color>
     <color name="titlebar_text">#000000</color>
+
+    <!-- 通用色值 -->
+    <color name="common_font_color_black">#151515</color>
+    <color name="common_font_color_gray">#A8A8A8</color>
+
 </resources>

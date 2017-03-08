@@ -230,7 +230,7 @@ public class UrlLibs {
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
 
-    public static final String API_HOME                     = "basicdata/v1.0/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.1/c/home/aggregation";                      // 首页城市卡片列表
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息

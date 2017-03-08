@@ -102,6 +102,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (model == null) {
             return;
         }
+        
         super.showModel(model, show);
     }
 
