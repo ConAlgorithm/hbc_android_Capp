@@ -270,11 +270,15 @@ public class GroupParamBuilder {
         GroupPickupParam groupPickupParam = new GroupPickupParam();
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(0);
         CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-        if (additionalServicePrice != null && manLuggageBean.childSeats != 0) {
+        if (additionalServicePrice != null) {
             groupPickupParam.priceFlightBrandSign = CommonUtils.getCountDouble(additionalServicePrice.checkInPrice);
-            groupPickupParam.priceChannel = groupQuotesBean.price +
-                    OrderUtils.getSeat1PriceTotal(additionalServicePrice, manLuggageBean) +
-                    OrderUtils.getSeat2PriceTotal(additionalServicePrice, manLuggageBean);
+            if (manLuggageBean.childSeats != 0) {
+                groupPickupParam.priceChannel = groupQuotesBean.price +
+                        OrderUtils.getSeat1PriceTotal(additionalServicePrice, manLuggageBean) +
+                        OrderUtils.getSeat2PriceTotal(additionalServicePrice, manLuggageBean);
+            } else {
+                groupPickupParam.priceChannel = groupQuotesBean.price;
+            }
         } else {
             groupPickupParam.priceChannel = groupQuotesBean.price;
         }

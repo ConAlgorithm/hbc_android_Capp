@@ -103,11 +103,20 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_bottom_next_tv})
     public void nextStep() {
+
+        //开始城市变了清除数据、开始日期变了清除、结束日期变了不清除
+        boolean isClearTravelData = (charterDataUtils.chooseDateBean != null && !chooseDateBean.start_date.equals(charterDataUtils.chooseDateBean.start_date))
+                                    || startBean != charterDataUtils.getStartCityBean(1);
+        if (isClearTravelData) {
+            charterDataUtils.onDestroy();
+        }
+
         CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
         params.startBean = startBean;
         params.chooseDateBean = chooseDateBean;
         params.adultCount = countLayout.getAdultValue();
         params.childCount = countLayout.getChildValue();
+        params.maxPassengers = maxPassengers;
 
         Intent intent = new Intent(this, CharterSecondStepActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
@@ -132,14 +141,17 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                     break;
                 }
                 this.chooseDateBean = _chooseDateBean;
-                String dateStr = chooseDateBean.showStartDateStr;
-                if (chooseDateBean.dayNums > 1) {
-                    dateStr += " - " + chooseDateBean.showEndDateStr;
-                }
-                dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
-                dateTV.setText(dateStr);
-
-                setNextViewEnabled(true);
+                setDateViewText();
+                break;
+            case CHARTER_FIRST_REFRESH:
+                startBean = charterDataUtils.getStartCityBean(1);
+                chooseDateBean = charterDataUtils.chooseDateBean;
+                maxPassengers = charterDataUtils.maxPassengers;
+                cityTV.setText(startBean.name);
+                setDateViewText();
+                countLayout.setAdultValue(charterDataUtils.adultCount);
+                countLayout.setChildValue(charterDataUtils.childCount);
+                countLayout.setMaxPassengers(10);//TODO
                 break;
         }
     }
@@ -153,6 +165,17 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.setMaxPassengers(10);//FIXME v4.0
             countLayout.setSliderEnabled(true);
         }
+    }
+
+    private void setDateViewText() {
+        String dateStr = chooseDateBean.showStartDateStr;
+        if (chooseDateBean.dayNums > 1) {
+            dateStr += " - " + chooseDateBean.showEndDateStr;
+        }
+        dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
+        dateTV.setText(dateStr);
+
+        setNextViewEnabled(true);
     }
 
     public void setNextViewEnabled(boolean isEnabled) {

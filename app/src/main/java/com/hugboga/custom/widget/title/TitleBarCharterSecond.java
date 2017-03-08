@@ -19,6 +19,8 @@ import butterknife.OnClick;
 
 public class TitleBarCharterSecond extends TitleBarBase{
 
+    @Bind(R.id.titlebar_charter_second_left_tv)
+    TextView leftTV;
     @Bind(R.id.titlebar_charter_second_right_tv)
     TextView rightTV;
     @Bind(R.id.titlebar_charter_second_subtitle_tv)
@@ -34,15 +36,9 @@ public class TitleBarCharterSecond extends TitleBarBase{
         ButterKnife.bind(view);
     }
 
-    @OnClick({R.id.titlebar_charter_second_left_tv})
-    public void onBack(View view) {
-        Context context = getContext();
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            CommonUtils.hideSoftInput(activity);
-            activity.finish();
-        }
-    }
+    public TextView getLeftView() {
+    return leftTV;
+}
 
     public TextView getRightView() {
         return rightTV;

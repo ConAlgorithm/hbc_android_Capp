@@ -95,4 +95,5 @@ public enum EventType {
     SKU_ORDER_REFRESH,//线路下单 数据刷新
 
     CHARTER_LIST_REFRESH,//包车选行程刷新
+    CHARTER_FIRST_REFRESH,//刷新包车第一步页面
 }

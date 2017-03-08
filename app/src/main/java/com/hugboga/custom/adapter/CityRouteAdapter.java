@@ -27,10 +27,13 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
     private CharterItemModel noCharterModel;
     private ArrayList<CharterItemModel> itemModelList;
     public EpoxyModel lastSelectedModel;
+    private CharterDataUtils charterDataUtils;
 
-    private OnCharterItemClickListener listener;
+    private OnCharterItemClickListener onCharterItemClickListener;
+    private CharterSubtitleView.OnPickUpOrSendSelectedListener onPickUpOrSendSelectedListener;
 
     public CityRouteAdapter() {
+        charterDataUtils = CharterDataUtils.getInstance();
         itemModelList = new ArrayList<CharterItemModel>();
         charterSubtitleModel.setOnPickUpOrSendSelectedListener(this);
         addModel(charterSubtitleModel);
@@ -73,6 +76,38 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         notifyModelChanged(pickupModel);
     }
 
+    public void hidePickupModel() {
+        hideModel(pickupModel);
+    }
+
+    public void updatePickupModelVisibility() {
+        if (pickupModel == null) {
+            return;
+        }
+        if (charterDataUtils.currentDay == 1
+                && charterDataUtils.chooseDateBean.dayNums > 1
+                && charterDataUtils.isSelectedPickUp
+                && charterDataUtils.flightBean != null) {
+            pickupModel.show();
+            notifyModelChanged(pickupModel);
+        } else {
+            hidePickupModel();
+        }
+    }
+
+    public void updateNoCharterModelVisibility() {
+        if (noCharterModel == null) {
+            return;
+        }
+        charterDataUtils = CharterDataUtils.getInstance();
+        if (charterDataUtils.currentDay > 1 && charterDataUtils.currentDay < charterDataUtils.chooseDateBean.dayNums) {
+            noCharterModel.show();
+            notifyModelChanged(noCharterModel);
+        } else {
+            hideModel(noCharterModel);
+        }
+    }
+
     public void showSendModel() {
         showModel(sendModel);
     }
@@ -81,12 +116,39 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         notifyModelChanged(sendModel);
     }
 
+    public void hideSendModel() {
+        hideModel(sendModel);
+    }
+
     public void updateSubtitleModel() {
         notifyModelChanged(charterSubtitleModel);
     }
 
     public void updateSelectedModel() {
         notifyModelChanged(lastSelectedModel);
+    }
+
+    public void setOuttownModelVisibility() {
+        if (!charterDataUtils.isLastDay()) {
+            return;
+        }
+        boolean isHide = charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null;
+        List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
+        final int modelListSize = modelList.size();
+        for (int i = 0; i < modelListSize; i++) {
+            CharterItemModel charterItemModel = (CharterItemModel) modelList.get(i);
+            if (charterItemModel instanceof CharterModelBehavior) {
+                CharterModelBehavior charterModelBehavior = (CharterModelBehavior) modelList.get(i);
+                if (charterModelBehavior.getRouteType() == CityRouteBean.RouteType.OUTTOWN) {
+                    if (charterModelBehavior.isSelected()) {
+
+                    }
+                    hideModels(charterItemModel);
+                } else {
+
+                }
+            }
+        }
     }
 
     public CharterModelBehavior getSelectedModel() {
@@ -105,6 +167,10 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         super.showModel(model, show);
     }
 
+    public int getLastSelectedPosition() {
+        return getModelPosition(lastSelectedModel);
+    }
+
     private final View.OnClickListener itemListener = new View.OnClickListener() {
 
         @Override
@@ -115,7 +181,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
     public void setSelectedItem(View v, EpoxyModel epoxyModel) {
         List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
-        for (int i = 0; i < modelList.size(); i++) {
+        final int size = modelList.size();
+        for (int i = 0; i < size; i++) {
             if (modelList.get(i) instanceof CharterModelBehavior) {
                 CharterModelBehavior charterModelBehavior = (CharterModelBehavior) modelList.get(i);
                 boolean isView = v != null && v.getTag() instanceof Integer && (int)v.getTag() == charterModelBehavior.getRouteType();
@@ -133,8 +200,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         }
         if (lastSelectedModel instanceof CharterModelBehavior) {
             CityRouteBean.CityRouteScope cityRouteScope = ((CharterModelBehavior) lastSelectedModel).getCityRouteScope();
-            if (listener != null) {
-                listener.onCharterItemClick(cityRouteScope);
+            if (onCharterItemClickListener != null) {
+                onCharterItemClickListener.onCharterItemClick(cityRouteScope);
             }
         }
     }
@@ -151,7 +218,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
         insertPickupModel();
         if (pickupModel != null) {
-            if (charterDataUtils.isFirstDay() && charterDataUtils.flightBean != null) {
+            if (charterDataUtils.chooseDateBean.dayNums > 1 && charterDataUtils.isFirstDay() && charterDataUtils.flightBean != null && charterDataUtils.isSelectedPickUp) {
                 pickupModel.show();
                 if (selectedRouteType == CityRouteBean.RouteType.PICKUP) {
                     pickupModel.setSelected(true);
@@ -167,7 +234,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
         insertSendModel();
         if (sendModel != null) {
-            if (charterDataUtils.isLastDay() && charterDataUtils.airPortBean != null) {
+            if (charterDataUtils.isLastDay() && charterDataUtils.airPortBean != null && charterDataUtils.isSelectedSend) {
                 sendModel.show();
                 if (selectedRouteType == CityRouteBean.RouteType.SEND) {
                     sendModel.setSelected(true);
@@ -215,14 +282,22 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         }
 
         List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
-        for (int i = 0; i < modelList.size(); i++) {
+        final int modelListSize = modelList.size();
+        for (int i = 0; i < modelListSize; i++) {
             if (modelList.get(i) instanceof CharterItemModel) {
                 CharterItemModel charterItemModel = (CharterItemModel) modelList.get(i);
                 int modelTag = charterItemModel.getRouteType();
                 if (modelTag < 0) {
                     continue;
                 } else if (charterItemModel.getPosition() < cityRouteListSize) {
+//                    if (sendModel.isShown() && charterItemModel.getRouteType() == CityRouteBean.RouteType.OUTTOWN) {
+//                        charterItemModel.show(false);
+//                    } else {
+//
+//                    }
+                    charterItemModel.show(true);
                     charterItemModel.setCityRouteScope(cityRouteList.get(charterItemModel.getPosition()));
+
                     if (selectedRouteType == charterItemModel.getRouteType()) {
                         charterItemModel.setSelected(true);
                         selectedModel = charterItemModel;
@@ -238,8 +313,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             }
         }
         lastSelectedModel = selectedModel;
-        if (listener != null && selectedModel != null) {
-            listener.onCharterItemClick(((CharterModelBehavior)selectedModel).getCityRouteScope());
+        if (onCharterItemClickListener != null && selectedModel != null) {
+            onCharterItemClickListener.onCharterItemClick(((CharterModelBehavior)selectedModel).getCityRouteScope());
         }
     }
 
@@ -251,12 +326,25 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         } else {//送机
             model = sendModel;
         }
-        showModel(model, isSelected);
-        if (model instanceof CharterModelBehavior) { //更改选中状态
-            boolean isSelectedModel = ((CharterModelBehavior) model).isSelected();
-            if (isSelectedModel) {
-                setSelectedItem(null, getAllModelsAfter(model).get(0));
+        if (charterDataUtils.chooseDateBean.dayNums > 1) {
+            showModel(model, isSelected);
+            if (model instanceof CharterModelBehavior) { //更改选中状态
+                boolean isSelectedModel = ((CharterModelBehavior) model).isSelected();
+                if (isSelectedModel) {
+                    List<EpoxyModel<?>> modelList = getAllModelsAfter(model);
+                    final int size = modelList.size();
+                    for (int i = 0; i < size; i++) {
+                        EpoxyModel epoxyModel = modelList.get(i);
+                        if (epoxyModel instanceof CharterItemModel) {
+                            setSelectedItem(null, epoxyModel);
+                            break;
+                        }
+                    }
+                }
             }
+        }
+        if (onPickUpOrSendSelectedListener != null) {
+            onPickUpOrSendSelectedListener.onPickUpOrSendSelected(isPickUp, isSelected);
         }
     }
 
@@ -276,6 +364,10 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
     }
 
     public void setOnCharterItemClickListener(OnCharterItemClickListener listener) {
-        this.listener = listener;
+        this.onCharterItemClickListener = listener;
+    }
+
+    public void setOnPickUpOrSendSelectedListener(CharterSubtitleView.OnPickUpOrSendSelectedListener listener) {
+        this.onPickUpOrSendSelectedListener = listener;
     }
 }

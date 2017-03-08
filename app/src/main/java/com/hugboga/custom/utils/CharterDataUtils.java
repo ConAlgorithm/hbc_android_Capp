@@ -29,6 +29,7 @@ public class CharterDataUtils {
     public ChooseDateBean chooseDateBean;
     public int adultCount;
     public int childCount;
+    public int maxPassengers;
 
     public FlightBean flightBean;                               // 接机：航班信息
     public PoiBean pickUpPoiBean;                               // 接机：送达地
@@ -60,6 +61,7 @@ public class CharterDataUtils {
         this.chooseDateBean = params.chooseDateBean;
         this.adultCount = params.adultCount;
         this.childCount = params.childCount;
+        this.maxPassengers = params.maxPassengers;
         addStartCityBean(1, params.startBean);
     }
 
@@ -77,7 +79,14 @@ public class CharterDataUtils {
     public int getRouteType(int position) {
         ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
         if (position < travelList.size()) {
-            return travelList.get(position).routeType;
+            int routeType = travelList.get(position).routeType;
+            if (routeType == CityRouteBean.RouteType.PICKUP && !charterDataUtils.isSelectedPickUp) {
+                return CityRouteBean.RouteType.URBAN;
+            } else if (routeType == CityRouteBean.RouteType.SEND && !charterDataUtils.isSelectedSend) {
+                return CityRouteBean.RouteType.URBAN;
+            } else {
+                return travelList.get(position).routeType;
+            }
         } else {
             return CityRouteBean.RouteType.URBAN;
         }
@@ -195,7 +204,7 @@ public class CharterDataUtils {
         }
     }
 
-    public boolean checkInfo(int routeType, int currentDay) {
+    public boolean checkInfo(int routeType, int currentDay, boolean isShowToast) {
 
         // 判断接机"送达地"是否填写
         boolean checkPickup = routeType == CityRouteBean.RouteType.PICKUP
@@ -203,7 +212,9 @@ public class CharterDataUtils {
                 && charterDataUtils.isSelectedPickUp
                 && charterDataUtils.pickUpPoiBean == null;
         if (checkPickup) {
-            CommonUtils.showToast("请添加接机的送达地");
+            if (isShowToast) {
+                CommonUtils.showToast("请添加接机的送达地");
+            }
             return false;
         }
 
@@ -215,14 +226,18 @@ public class CharterDataUtils {
         // 判断送机"时间"是否填写
         boolean checkSendTime = isSend && TextUtils.isEmpty(charterDataUtils.sendServerTime);
         if (checkSendTime) {
-            CommonUtils.showToast("请添加送机的出发时间");
+            if (isShowToast) {
+                CommonUtils.showToast("请添加送机的出发时间");
+            }
             return false;
         }
 
         // 判断送机"出发地点"是否填写
         boolean checkSendAddress = isSend && charterDataUtils.sendPoiBean == null;
         if (checkSendAddress) {
-            CommonUtils.showToast("请添加送机的出发地点");
+            if (isShowToast) {
+                CommonUtils.showToast("请添加送机的出发地点");
+            }
             return false;
         }
 
@@ -230,7 +245,9 @@ public class CharterDataUtils {
         boolean checkOuttown = routeType == CityRouteBean.RouteType.OUTTOWN
                 && charterDataUtils.getEndCityBean(currentDay) == null;
         if (checkOuttown) {
-            CommonUtils.showToast("请添加结束城市");
+            if (isShowToast) {
+                CommonUtils.showToast("请添加结束城市");
+            }
             return false;
         }
         return true;
@@ -238,24 +255,38 @@ public class CharterDataUtils {
 
     public void clearSendInfo() {
         if (isLastDay() && isSelectedSend && airPortBean != null) {
-            charterDataUtils.airPortBean = null;
-            charterDataUtils.sendPoiBean = null;
-            charterDataUtils.sendServerTime = null;
-            charterDataUtils.sendDirectionBean = null;
-            isSelectedSend = false;
+            resetSendInfo();
         }
+    }
+
+    public void resetSendInfo() {
+        charterDataUtils.airPortBean = null;
+        charterDataUtils.sendPoiBean = null;
+        charterDataUtils.sendServerTime = null;
+        charterDataUtils.sendDirectionBean = null;
+        isSelectedSend = false;
+    }
+
+    public void clearStartDate() {
+        travelList.clear();
+        resetSendInfo();
+        itemInfoList.clear();
     }
 
     public void onDestroy() {
         currentDay = 1;
+        chooseDateBean = null;
 
         flightBean = null;
         pickUpPoiBean = null;
         pickUpDirectionBean = null;
+        isSelectedPickUp = false;
 
         airPortBean = null;
         sendPoiBean = null;
         sendServerTime = null;
+        sendDirectionBean = null;
+        isSelectedSend = false;
 
         travelList.clear();
         itemInfoList.clear();
