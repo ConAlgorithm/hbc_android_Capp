@@ -110,6 +110,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
     public void showSendModel() {
         showModel(sendModel);
+        setOuttownModelVisibility();
     }
 
     public void updateSendModel() {
@@ -118,6 +119,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
     public void hideSendModel() {
         hideModel(sendModel);
+        setOuttownModelVisibility();
     }
 
     public void updateSubtitleModel() {
@@ -132,20 +134,18 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         if (!charterDataUtils.isLastDay()) {
             return;
         }
-        boolean isHide = charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null;
-        List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
-        final int modelListSize = modelList.size();
-        for (int i = 0; i < modelListSize; i++) {
-            CharterItemModel charterItemModel = (CharterItemModel) modelList.get(i);
-            if (charterItemModel instanceof CharterModelBehavior) {
-                CharterModelBehavior charterModelBehavior = (CharterModelBehavior) modelList.get(i);
-                if (charterModelBehavior.getRouteType() == CityRouteBean.RouteType.OUTTOWN) {
-                    if (charterModelBehavior.isSelected()) {
-
+        boolean isHide = sendModel.isShown() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null;
+        int size = itemModelList.size();
+        for (int i = 0; i < size; i++) {
+            CharterItemModel charterItemModel = itemModelList.get(i);
+            if (charterItemModel.getRouteType() == CityRouteBean.RouteType.OUTTOWN) {
+                if (isHide) {
+                    hideModel(charterItemModel);
+                    if (charterItemModel.isSelected()) {
+                        setSelectedItem(null, itemModelList.get(0));
                     }
-                    hideModels(charterItemModel);
                 } else {
-
+                    showModel(charterItemModel);
                 }
             }
         }
@@ -290,14 +290,12 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 if (modelTag < 0) {
                     continue;
                 } else if (charterItemModel.getPosition() < cityRouteListSize) {
-//                    if (sendModel.isShown() && charterItemModel.getRouteType() == CityRouteBean.RouteType.OUTTOWN) {
-//                        charterItemModel.show(false);
-//                    } else {
-//
-//                    }
-                    charterItemModel.show(true);
+                    if (sendModel.isShown() && charterItemModel.getRouteType() == CityRouteBean.RouteType.OUTTOWN) {
+                        charterItemModel.show(false);
+                    } else {
+                        charterItemModel.show(true);
+                    }
                     charterItemModel.setCityRouteScope(cityRouteList.get(charterItemModel.getPosition()));
-
                     if (selectedRouteType == charterItemModel.getRouteType()) {
                         charterItemModel.setSelected(true);
                         selectedModel = charterItemModel;
@@ -331,18 +329,11 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             if (model instanceof CharterModelBehavior) { //更改选中状态
                 boolean isSelectedModel = ((CharterModelBehavior) model).isSelected();
                 if (isSelectedModel) {
-                    List<EpoxyModel<?>> modelList = getAllModelsAfter(model);
-                    final int size = modelList.size();
-                    for (int i = 0; i < size; i++) {
-                        EpoxyModel epoxyModel = modelList.get(i);
-                        if (epoxyModel instanceof CharterItemModel) {
-                            setSelectedItem(null, epoxyModel);
-                            break;
-                        }
-                    }
+                    setSelectedItem(null, itemModelList.get(0));
                 }
             }
         }
+        setOuttownModelVisibility();
         if (onPickUpOrSendSelectedListener != null) {
             onPickUpOrSendSelectedListener.onPickUpOrSendSelected(isPickUp, isSelected);
         }

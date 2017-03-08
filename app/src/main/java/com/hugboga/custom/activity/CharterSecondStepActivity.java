@@ -264,12 +264,17 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             }
             updateDrawFences();
         } else if (_request instanceof RequestCarMaxCapaCity) {
-            CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
-            if ((charterDataUtils.adultCount + charterDataUtils.childCount) > 5) {//TODO carMaxCapaCityBean.numOfPerson
+            final CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
+            carMaxCapaCityBean.numOfPerson = 5;//TODO carMaxCapaCityBean.numOfPerson
+            if ((charterDataUtils.adultCount + charterDataUtils.childCount) > carMaxCapaCityBean.numOfPerson) {
                 String title = String.format("您选择的乘客人数，超过了当地可用车型的最大载客人数（%1$s人）如需预订多车服务，请联系客服", carMaxCapaCityBean.numOfPerson);
                 AlertDialogUtils.showAlertDialog(CharterSecondStepActivity.this, title, "返回上一步", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        charterDataUtils.clearStartDate();
+                        CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
+                        charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
+                        charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
                         finishActivity();
                     }
                 });
@@ -278,6 +283,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.clearStartDate();
                 CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                 charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
+                charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
                 adapter.updateSelectedModel();
                 requestCityRoute("" + cityBean.cityId, REQUEST_CITYROUTE_TYPE_PICKUP, oldRouteType);
             }
