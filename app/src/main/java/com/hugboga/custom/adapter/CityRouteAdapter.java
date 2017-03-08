@@ -295,7 +295,9 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                     } else {
                         charterItemModel.show(true);
                     }
-                    charterItemModel.setCityRouteScope(cityRouteList.get(charterItemModel.getPosition()));
+                    CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(charterItemModel.getPosition());
+                    cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+                    charterItemModel.setCityRouteScope(cityRouteScope);
                     if (selectedRouteType == charterItemModel.getRouteType()) {
                         charterItemModel.setSelected(true);
                         selectedModel = charterItemModel;

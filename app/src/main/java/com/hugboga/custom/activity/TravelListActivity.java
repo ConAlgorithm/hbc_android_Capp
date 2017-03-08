@@ -19,6 +19,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.models.TravelAddItemModel;
 import com.hugboga.custom.models.TravelItemModel;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.TravelAddItemView;
@@ -73,9 +74,11 @@ public class TravelListActivity extends BaseActivity {
         bottomView.setOnBottomClickListener(new CharterSecondBottomView.OnBottomClickListener() {
             @Override
             public void confirm() {
-                Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                startActivity(intent);
+                if (CommonUtils.isLogin(TravelListActivity.this)) {
+                    Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    startActivity(intent);
+                }
             }
 
             @Override

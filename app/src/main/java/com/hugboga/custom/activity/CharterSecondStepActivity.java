@@ -175,7 +175,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         titleBar.getRightView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                showServiceDialog();
             }
         });
         updateTitleBar();
@@ -200,6 +200,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             finishActivity();
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    public void showServiceDialog() {
+        DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     public void finishActivity() {
@@ -268,7 +272,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             carMaxCapaCityBean.numOfPerson = 5;//TODO carMaxCapaCityBean.numOfPerson
             if ((charterDataUtils.adultCount + charterDataUtils.childCount) > carMaxCapaCityBean.numOfPerson) {
                 String title = String.format("您选择的乘客人数，超过了当地可用车型的最大载客人数（%1$s人）如需预订多车服务，请联系客服", carMaxCapaCityBean.numOfPerson);
-                AlertDialogUtils.showAlertDialog(CharterSecondStepActivity.this, title, "返回上一步", new DialogInterface.OnClickListener() {
+                AlertDialogUtils.showAlertDialogCancelable(this, title, "返回上一步", "联系客服", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         charterDataUtils.clearStartDate();
@@ -276,6 +280,12 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                         charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
                         finishActivity();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showServiceDialog();
+                        dialog.dismiss();
                     }
                 });
             } else {
@@ -395,7 +405,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (cityRouteBean == null || !checkInfo()) {
             return;
         }
-        if (charterDataUtils.isLastDay()) {//最后一天"查看报价"
+        if (charterDataUtils.isLastDay() && CommonUtils.isLogin(this)) {//最后一天"查看报价"
             Intent intent = new Intent(this, CombinationOrderActivity.class);
             startActivity(intent);
         } else {
@@ -604,7 +614,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             return;
         }
         ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
-        if (fences == null) {
+        if (fences == null || fences.size() < 2) {
             return;
         }
         ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
