@@ -32,9 +32,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.2'
+    compile 'com.android.support:appcompat-v7:25+'
     compile 'org.xutils:xutils:3.3.36'
-    compile 'com.android.support:recyclerview-v7:25.0.2'
+    compile 'com.android.support:recyclerview-v7:25+'
     compile 'jp.wasabeef:recyclerview-animators:1.2.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.mani:ThinDownloadManager:1.2.4'
