@@ -65,6 +65,11 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
         return R.layout.home_hot_search_item;
     }
 
+    @Override
+    public boolean shouldSaveViewState() {
+        return true;
+    }
+
 
     static class HotExplorationHolder extends EpoxyHolder {
         @Bind(R.id.home_hot_search_title)

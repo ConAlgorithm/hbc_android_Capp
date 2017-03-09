@@ -2,6 +2,7 @@ package com.hugboga.custom.adapter;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.airbnb.epoxy.EpoxyModel;
+import com.hugboga.amap.view.HbcMapViewTools;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.models.HomeHeaderModel;
 import com.hugboga.custom.models.HotExplorationModel;
