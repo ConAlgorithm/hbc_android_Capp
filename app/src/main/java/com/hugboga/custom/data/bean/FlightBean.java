@@ -40,4 +40,16 @@ public class FlightBean implements IBaseBean{
     public AirPort arrivalAirport;
 
 
+    public FlightBean transformData() {
+        if (arrivalAirport != null) {
+            arrAirportName = arrivalAirport.airportName;
+            arrLocation = arrivalAirport.location;
+        }
+        if (depAirport != null) {
+            depAirportName = depAirport.airportName;
+            depLocation = depAirport.location;
+        }
+        return this;
+    }
+
 }

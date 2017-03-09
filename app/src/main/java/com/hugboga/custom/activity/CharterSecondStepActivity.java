@@ -17,7 +17,7 @@ import com.amap.api.maps2d.MapsInitializer;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.Polygon;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.amap.entity.HbcLantLng;
 import com.hugboga.amap.view.HbcMapView;
@@ -48,6 +48,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.charter.CharterEmptyView;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
 import com.hugboga.custom.widget.charter.CharterSubtitleView;
 import com.hugboga.custom.widget.title.TitleBarCharterSecond;
@@ -67,7 +68,8 @@ import butterknife.ButterKnife;
  * Created by qingcha on 17/2/21.
  */
 public class CharterSecondStepActivity extends BaseActivity implements CharterSecondBottomView.OnBottomClickListener
-        , CityRouteAdapter.OnCharterItemClickListener, CharterSubtitleView.OnPickUpOrSendSelectedListener {
+        , CityRouteAdapter.OnCharterItemClickListener, CharterSubtitleView.OnPickUpOrSendSelectedListener
+        , CharterEmptyView.OnRefreshDataListener{
 
     public static final String TAG = CharterSecondStepActivity.class.getSimpleName();
 
@@ -175,7 +177,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         titleBar.getRightView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                showServiceDialog();
             }
         });
         updateTitleBar();
@@ -183,6 +185,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         adapter = new CityRouteAdapter();
         adapter.setOnCharterItemClickListener(this);
         adapter.setOnPickUpOrSendSelectedListener(this);
+        adapter.setOnRefreshDataListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -202,6 +205,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             finishActivity();
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    public void showServiceDialog() {
+        DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     public void finishActivity() {
@@ -231,8 +238,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (_request instanceof RequestCityRoute) {
             RequestCityRoute request= (RequestCityRoute) _request;
             CityRouteBean _cityRouteBean = request.getData();
-            if (_cityRouteBean == null) {
+            if (_cityRouteBean == null || _cityRouteBean.cityRouteList == null || _cityRouteBean.cityRouteList.size() < 0) {
+                adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, true);
                 return;
+            } else {
+                adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, false);
             }
             if (request.getType() == REQUEST_CITYROUTE_TYPE_OUTTOWN) {//跨城市
                 charterDataUtils.addFences(charterDataUtils.currentDay, _cityRouteBean.fences, false);
@@ -270,7 +280,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             carMaxCapaCityBean.numOfPerson = 5;//TODO carMaxCapaCityBean.numOfPerson
             if ((charterDataUtils.adultCount + charterDataUtils.childCount) > carMaxCapaCityBean.numOfPerson) {
                 String title = String.format("您选择的乘客人数，超过了当地可用车型的最大载客人数（%1$s人）如需预订多车服务，请联系客服", carMaxCapaCityBean.numOfPerson);
-                AlertDialogUtils.showAlertDialog(CharterSecondStepActivity.this, title, "返回上一步", new DialogInterface.OnClickListener() {
+                AlertDialogUtils.showAlertDialogCancelable(this, title, "返回上一步", "联系客服", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         charterDataUtils.clearStartDate();
@@ -278,6 +288,12 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                         charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
                         finishActivity();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showServiceDialog();
+                        dialog.dismiss();
                     }
                 });
             } else {
@@ -292,6 +308,18 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         }
     }
 
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        if (_request instanceof RequestCityRoute) {
+            adapter.showEmpty(CharterEmptyView.ERROR_TYPE, true);
+        }
+    }
+
+    @Override
+    public void onRefresh(int type) {
+
+    }
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -303,7 +331,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 if (charterDataUtils.flightBean != null && charterDataUtils.flightBean != flightBean) {
                     charterDataUtils.pickUpPoiBean = null;
                 }
-                charterDataUtils.flightBean = flightBean;
+                charterDataUtils.flightBean = flightBean.transformData();
                 charterDataUtils.isSelectedPickUp = true;
                 if (charterDataUtils.chooseDateBean.dayNums > 1) {
                     adapter.showPickupModel();
@@ -395,6 +423,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public void confirm() {
         if (cityRouteBean == null || !checkInfo()) {
+            return;
+        }
+        if (!CommonUtils.isLogin(this)) {
             return;
         }
         if (charterDataUtils.isLastDay()) {//最后一天"查看报价"
@@ -608,7 +639,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             return;
         }
         ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
-        if (fences == null) {
+        if (fences == null || fences.size() < 2) {
             return;
         }
         ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏

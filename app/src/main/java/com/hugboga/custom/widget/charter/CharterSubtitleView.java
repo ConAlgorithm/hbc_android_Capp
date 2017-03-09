@@ -157,6 +157,7 @@ public class CharterSubtitleView extends LinearLayout{
         bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
         bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
         bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterSecondStepActivity.TAG);
+        bundle.putInt(ChooseCityActivity.KEY_CITY_ID, charterDataUtils.getStartCityBean(1).cityId);
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(context, ChooseCityActivity.class);
         intent.putExtras(bundle);

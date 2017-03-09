@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean.combination;
 
+import com.hugboga.custom.data.bean.OrderBean;
+
 import java.io.Serializable;
 
 /**
@@ -36,4 +38,6 @@ public class GroupTransParam implements Serializable{
     public Double distance;                        // 服务距离
     public Integer isCheckin;
     public Double checkInPrice;
+
+    public OrderBean.ChildSeats childSeatInfo;
 }
