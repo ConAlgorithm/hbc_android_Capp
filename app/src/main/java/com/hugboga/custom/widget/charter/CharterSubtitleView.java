@@ -106,7 +106,12 @@ public class CharterSubtitleView extends LinearLayout{
         if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号
             intentActivity(ChooseAirActivity.class);
         } else if(charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
-            intentActivity(ChooseAirPortActivity.class);
+            Intent intent = new Intent(context, ChooseAirPortActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            if (charterDataUtils.getCurrentDayStartCityBean() != null) {
+                intent.putExtra(ChooseAirPortActivity.KEY_GROUPID, charterDataUtils.getCurrentDayStartCityBean().groupId);
+            }
+            context.startActivity(intent);
         }
     }
 
