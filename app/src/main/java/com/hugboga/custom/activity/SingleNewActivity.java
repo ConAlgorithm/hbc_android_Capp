@@ -188,7 +188,7 @@ public class SingleNewActivity extends BaseActivity {
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "单次接送");
+            properties.put("hbc_sku_type", "单次");
             properties.put("hbc_refer", source);
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (InvalidDataException e) {

@@ -32,6 +32,7 @@
             android:src="@drawable/error_show" />
 
         <TextView
+            android:id="@+id/car_empty_reason_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

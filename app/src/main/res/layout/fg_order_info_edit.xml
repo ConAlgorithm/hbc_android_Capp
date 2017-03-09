@@ -217,7 +217,7 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/basic_black"
             android:minEms="5"
-            android:text="@string/up_site"
+            android:text=" 上车地点"
             android:textSize="15sp" />
 
         <TextView

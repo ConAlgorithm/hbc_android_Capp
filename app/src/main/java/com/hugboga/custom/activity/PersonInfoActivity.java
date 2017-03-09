@@ -110,9 +110,9 @@ public class PersonInfoActivity extends BaseActivity{
             return;
         }
         if (!TextUtils.isEmpty(userBean.avatar)) {
-            Tools.showImage(headImageView, userBean.avatar, R.mipmap.chat_head);
+            Tools.showImage(headImageView, userBean.avatar, R.mipmap.icon_avatar_user);
         } else {
-            headImageView.setImageResource(R.mipmap.chat_head);
+            headImageView.setImageResource(R.mipmap.icon_avatar_user);
         }
         if (!TextUtils.isEmpty(userBean.nickname)) {
             nickNameTextView.setText(userBean.nickname);

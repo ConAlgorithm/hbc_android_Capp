@@ -12,13 +12,18 @@ import android.widget.FrameLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.huangbaoche.hbcframe.HbcConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.qiyukf.unicorn.activity.ServiceMessageFragment;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
@@ -43,10 +48,28 @@ public class UnicornUtils {
 
     private static final String APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
     private static final long GROUP_ID = 128411;
-    private static final String CUSTOMER_AVATAR = "http://fr.huangbaoche.com/im/avatar/default/k_head.jpg";
+    private static  String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
 
     public static void initUnicorn() {
         Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize());
+    }
+
+    public static void openServiceActivity(final Context context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
+        if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
+                || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
+            return;
+        }
+        if (!CommonUtils.isLogin(context)) {
+            return;
+        }
+        UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
+        params.sourceType = sourceType;
+        params.orderBean = orderBean;
+        params.skuItemBean = skuItemBean;
+        Intent intent = new Intent(context, ServiceQuestionActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
     public static void openServiceActivity(Context context, int sourceType) {
@@ -58,6 +81,7 @@ public class UnicornUtils {
         Intent intent = new Intent(context, ServiceQuestionActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
     }
 
     public static void addServiceFragment(BaseActivity activity, int containerId, ProductDetail productDetail, int staffId) {
@@ -70,6 +94,11 @@ public class UnicornUtils {
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
+        if(HbcConfig.IS_DEBUG){
+            CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head_test.jpg";
+        }else{
+            CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
+        }
         uiCustomization.leftAvatar = CUSTOMER_AVATAR;
         uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(activity);
         uiCustomization.titleBackgroundColor = 0xFF2D2B24;

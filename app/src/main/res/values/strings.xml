@@ -235,7 +235,7 @@
     <string name="run_flush">正在刷新&#8230;</string>
     <string name="near_update">最近更新</string>
 
-    <string name="loading_msg">ⓒ 皇包车 2016</string>
+    <string name="loading_msg">ⓒ 皇包车 2017</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
 
@@ -476,7 +476,7 @@
     <string name="sku_go_date_tips">请选择出发日期</string>
     <string name="sku_new_title">安排您的行程</string>当前城市机场
 
-    <string name="back_alert_msg">离开当前页面所选行程将会丢失，确定要离开吗？</string>
+    <string name="back_alert_msg">订单未填写完，要离开吗?</string>
     <string name="location_airport">当前城市机场</string>
     <string name="location_fail">定位失败，请开启GPS</string>
 
@@ -486,10 +486,9 @@
     <string name="my_coupon">优惠券</string>
     <string name="my_get_money">梦想基金</string>
     <string name="free_8_insure">赠价值8万元平安保险</string>
-    <string name="back_title">订单退改规则:</string>
     <string name="huangbaoche_buy">由皇包车支付</string>
 
-    <string name="about_copyright">Copyright@2014-2016皇包车</string>
+    <string name="about_copyright">Copyright@2014-2017皇包车</string>
     <string name="about_version">皇包车 Hi Guides %1$s_%2$s</string>
     <string name="about_check_update">检测新版本</string>
     <string name="about_grade">给我评分</string>
@@ -581,7 +580,6 @@
     <string name="insure_8wan">赠价值8万元平安保险</string>
 
     <string name="free_huangbaoche">由皇包车支付</string>
-    <string name="change_title_txt">订单退改规则</string>
     <string name="change_detail_txt">服务开始前24小时退订,全额退还费用;小于24小时不可退订,全部费用将扣除用于补偿当地司导</string>
 
     <string name="dairy_choose_guide"> 请填写完所有出行信息，再来选择司导哟！</string>
@@ -674,10 +672,12 @@
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips">订单款项由平台保管，服务完成才会支付给司导。24小时客服帮您解决服务过程中的纠纷。平台认定为司导问题，您可获得相应补偿。</string>
+    <string name="order_detail_tips"> 订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
-    <string name="order_detail_bargain_entr_price">共砍掉\n%1$s元</string>
+    <string name="order_detail_bargain_end">共砍掉</string>
+    <string name="order_detail_bargain">已砍掉</string>
+    <string name="order_detail_up">上车</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
@@ -726,8 +726,9 @@
     <string name="now_enter">立即体验</string>
 
     <string name="share_evaluate_title">评价成功</string>
-    <string name="share_evaluate_description_1">感谢您的评价!分享您的评价到微信</string>
-    <string name="share_evaluate_description_2">\n把靠谱司导推荐给好友</string>
+    <string name="share_evaluate_description_1">感谢您的评价!</string>
+    <string name="share_evaluate_description_2">\n立即分享，把靠谱司导推荐给好友</string>
+    <string name="share_evaluate_description_4">\n立即分享，送Ta大礼包赢基金</string>
     <string name="share_evaluate_description_3">好友可得%1$s皇包车体验大礼包\n当Ta完成首单,你也能赚旅游基金</string>
     <string name="share_evaluate_collected_tv">根据您的好评已为您收藏该司导</string>
 
@@ -751,6 +752,7 @@
 
     <string name="time_out_180">时间不能超过半年</string>
 
+    <string name="commit_agree_sku">点击“去支付”表示您已阅读并同意</string>
     <string name="commit_agree">点击“提交订单”表示您已阅读并同意皇包车协议和条款</string>
     <string name="commit_agree_click">皇包车协议和条款</string>
 
@@ -809,7 +811,7 @@
     <string name="choose_guide">选他服务</string>
     <string name="choose_guide_title">%1$d个已接单司导</string>
 
-    <string name="choose_guide_head">未来将开放选司导功能，敬请期待~\n本次由皇包车为您挑选</string>
+    <string name="choose_guide_footer">如果您未主动挑选司导，系统将在挑选时间结束后为您匹配一位最佳司导</string>
 
     <string name="order_detail_add_policy_holder">添加投保人</string>
     <string name="order_detail_timeright">内，添加投保人信息</string>

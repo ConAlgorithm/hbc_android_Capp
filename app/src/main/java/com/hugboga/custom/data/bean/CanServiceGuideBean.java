@@ -2,6 +2,7 @@ package com.hugboga.custom.data.bean;
 
 import com.huangbaoche.hbcframe.data.bean.IBaseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public class CanServiceGuideBean implements IBaseBean {
         this.guides = guides;
     }
 
-    public static class GuidesBean {
+    public static class GuidesBean implements Serializable{
         private int integralFrozen;
         private String carBrandName;
         private int cityId;
@@ -62,6 +63,11 @@ public class CanServiceGuideBean implements IBaseBean {
         private String avatarS;
         private int orderCounts;
         private double serviceStar;
+        private String allocatGno;//用于选择司导时传递给服务端
+
+        public String getAllocatGno() {
+            return allocatGno;
+        }
 
         public int getIntegralFrozen() {
             return integralFrozen;

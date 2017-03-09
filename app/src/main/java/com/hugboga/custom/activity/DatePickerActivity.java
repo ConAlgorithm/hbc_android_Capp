@@ -4,6 +4,7 @@ package com.hugboga.custom.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.squareup.timessquare.CalendarPickerView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +33,7 @@ import butterknife.ButterKnife;
 import static android.view.View.GONE;
 
 public class DatePickerActivity extends BaseActivity {
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
@@ -87,7 +90,9 @@ public class DatePickerActivity extends BaseActivity {
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDates(dates);
             }else if(calender_type == 3 && null != mChooseDateBean.halfDate){
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
-                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
+                Date minDate = mChooseDateBean.minDate != null ? mChooseDateBean.minDate : lastYear.getTime();
+                mChooseDateBean.maxDate = nextYear.getTime() != null ? new Date(nextYear.getTime().getTime() - 24 * 3600000) : null;
+                calendar.init(minDate, nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
                 showTips.setText(R.string.show_tips_half);
             } else {
                 if (calender_type == 1) {
@@ -103,14 +108,17 @@ public class DatePickerActivity extends BaseActivity {
             if (calender_type == 1) {
                 model = CalendarPickerView.SelectionMode.SINGLE;
                 showTips.setText(R.string.show_tips_half);
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             } else if(calender_type == 2){
                 model = CalendarPickerView.SelectionMode.RANGE;
                 showTips.setText(R.string.show_tips_start);
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             } else if(calender_type == 3){
+                Date minDate = lastYear.getTime();
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
                 showTips.setText(R.string.show_tips_half);
+                calendar.init(minDate, nextYear.getTime()).inMode(model);
             }
-            calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
         }
 
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
@@ -125,6 +133,7 @@ public class DatePickerActivity extends BaseActivity {
                     chooseDateBean.type = calender_type;
                     chooseDateBean.isToday = DateUtils.isToday(date);
                     if (null != mChooseDateBean) {
+                        chooseDateBean.maxDateStr = mChooseDateBean.maxDate == null ? "" : DateUtils.dateDateFormat.format(mChooseDateBean.maxDate);
                         chooseDateBean.startDate = mChooseDateBean.startDate;
                         chooseDateBean.endDate = mChooseDateBean.endDate;
                         chooseDateBean.start_date = mChooseDateBean.start_date;

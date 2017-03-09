@@ -28,7 +28,7 @@ public class ActionPageTravelList extends ActionPageBase {
         if (actionBean.data != null) {
             ActionTravelListBean bean = (ActionTravelListBean) JsonUtils.fromJson(actionBean.data, ActionTravelListBean.class);
             if (bean != null) {
-                EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, CommonUtils.getCountInteger(bean.type)));
+                EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, CommonUtils.getCountInteger(bean.type) - 1));
             }
         }
     }

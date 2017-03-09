@@ -39,6 +39,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.parser.ParserChatInfo;
@@ -71,6 +72,8 @@ public class WebAgent implements HttpRequestListener {
     private String agentType = "";
     private SkuItemBean skuItemBean;
 
+    private String title;
+
     public WebAgent(Activity activity, WebView webView, CityBean cityBean, View leftBtn, String agentType) {
         this.mActivity = activity;
         this.mWebView = webView;
@@ -86,6 +89,10 @@ public class WebAgent implements HttpRequestListener {
 
     public void setSkuItemBean(SkuItemBean skuItemBean) {
         this.skuItemBean = skuItemBean;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @JavascriptInterface
@@ -158,6 +165,19 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
+    @JavascriptInterface
+    public void webShareWithParams(final String param) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ShareBean shareBean = JsonUtils.getObject(param, ShareBean.class);
+                if (shareBean == null) {
+                    return;
+                }
+                WXShareUtils.getInstance(mActivity).share(shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
+            }
+        });
+    }
 
     @JavascriptInterface
     public void backUrl() {
@@ -181,6 +201,7 @@ public class WebAgent implements HttpRequestListener {
                 if (!TextUtils.isEmpty(action)) {
                     ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
                     if (actionBean != null) {
+                        actionBean.source = TextUtils.isEmpty(title) ? "web页面" : title;
                         ActionController actionFactory = ActionController.getInstance(mActivity);
                         actionFactory.doAction(actionBean);
                     }
@@ -557,6 +578,7 @@ public class WebAgent implements HttpRequestListener {
                     WebInfoActivity fgWebInfo = ((WebInfoActivity) mActivity);
                     fgWebInfo.setTitle(title);
                     fgWebInfo.setHeaderTitle(title);
+                    WebAgent.this.title = title;
                 }
             }
         });

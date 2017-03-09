@@ -45,6 +45,7 @@ import com.hugboga.custom.widget.CityHomeHeader;
 import com.hugboga.custom.widget.CityHomeListItemFree;
 import com.hugboga.custom.widget.CityHomeListItemWorry;
 import com.hugboga.custom.widget.CityPlaceHolderView;
+import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.SkuListEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -82,7 +83,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     @Bind(R.id.cityHome_list_empty_view)
     SkuListEmptyView emptyView;//和sku一样
 
-    @Bind(R.id.header_right_image)
+    @Bind(R.id.header_right_btn)
     ImageView headerRightIV;
     @Bind(R.id.city_home_filter_layout)
     CityFilterLayout cityFilterLayout;
@@ -146,6 +147,18 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         }
 
         setSensorsShowEvent();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GiftController.getInstance(this).showGiftDialog();
     }
 
     //神策统计_浏览页面

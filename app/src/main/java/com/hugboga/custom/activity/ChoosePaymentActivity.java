@@ -128,11 +128,10 @@ public class ChoosePaymentActivity extends BaseActivity {
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         fgTitle.setLayoutParams(params);
         fgLeftBtn.setVisibility(View.GONE);
-        fgRightBtn.setVisibility(View.GONE);
+        fgRightTV.setVisibility(View.GONE);
         TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
         rightTV.setText("查看行程");
         rightTV.setVisibility(View.VISIBLE);
-        rightTV.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         rightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -32,6 +32,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -510,8 +511,10 @@ public class DialogUtil implements DialogUtilInterface {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
                         } else {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
+                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
                         }
                     }
                 }).create();
@@ -532,17 +535,7 @@ public class DialogUtil implements DialogUtilInterface {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            if (!CommonUtils.isLogin(_context)) {
-                                return;
-                            }
-                            UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                            params.sourceType = sourceType;
-                            params.orderBean = orderBean;
-                            params.skuItemBean = skuItemBean;
-                            Intent intent = new Intent(_context, ServiceQuestionActivity.class);
-                            intent.putExtra(Constants.PARAMS_DATA, params);
-                            _context.startActivity(intent);
-                            StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
+                            UnicornUtils.openServiceActivity(_context, sourceType, orderBean, skuItemBean);
                         } else if (which == 1) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
@@ -558,4 +551,5 @@ public class DialogUtil implements DialogUtilInterface {
         dialog.show();
         return dialog;
     }
+
 }

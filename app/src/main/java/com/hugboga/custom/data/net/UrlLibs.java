@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 108
+    //current urlErrorCode 113
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -188,12 +188,15 @@ public class UrlLibs {
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
     public static final String API_CITY_HOME_ROUTE_LIST     = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
     public static final String API_GOODS_BY_ID              = "goods/v1.3/c/home/goodsByNo";                            // 按商品编号查商品详情
+    public static final String GOODS_BOOK_DATE              = "goods/v1.0/c/home/goodsbookdate";                        // 根据商品编号查询可预订日期
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
     public static final String GET_AD_PICTURE               = "marketing/v1.0/c/activity/effectivestart";               // 获取启动图
     public static final String MOSTFIT                      = "marketing/v1.1/c/coupons/mostFit";                       // 下单获取最适合的优惠券
     public static final String API_COUPONS_AVAILABLE        = "marketing/v1.1/c/coupons/available";                     // 获取可用优惠券
+    public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
+    public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
@@ -213,6 +216,7 @@ public class UrlLibs {
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
     public static final String CARS                         = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息
+    public static final String GUIDE_CROP_VALID             = "supplier/v1.0/c/guides/crop/valid";                      // 用户派单，验证接口
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
@@ -229,7 +233,7 @@ public class UrlLibs {
     public static final String SERVER_IP_PUSH_CLICK         = "communication/v2.0/c/push/click";                        // APP收到的push被点击时，调用该接口进行反馈（Android + IOS）
     public static final String SERVER_IP_PUSH_RECEIVE       = "communication/v2.0/c/push/receive";                      // Android APP 接到push未点击时，调用该接口进行反馈（Android）
 
-    public static final String SERVER_IP_NIMCHAT_LIST       = "communication/v3.0/c/im/list";                           // 云信最新聊天列表
+    public static final String SERVER_IP_NIMCHAT_LIST       = "communication/v3.1/c/im/list";                           // 云信最新聊天列表
     public static final String REMOVE_NIM_CHAT              = "communication/v3.0/c/im/chat/remove";                    // 云信私聊列表删除对话接口
     public static final String ADD_NIM_BLACK                = "communication/v3.0/c/im/black/add";                      // 云信私聊对象加入黑名单
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单
@@ -238,5 +242,7 @@ public class UrlLibs {
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
 
-    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                  // 聊天列表订单信息
+    public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                    // 聊天列表订单信息
+
+    public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口
 }

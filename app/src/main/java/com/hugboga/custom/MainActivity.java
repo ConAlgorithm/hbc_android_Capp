@@ -25,7 +25,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,8 +51,8 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgHome;
-import com.hugboga.custom.fragment.FgImChat;
 import com.hugboga.custom.fragment.FgMySpace;
+import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -69,8 +68,10 @@ import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -114,9 +115,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TextView tabMenu[] = new TextView[4];
     private ActionBean actionBean;
+    private int currentPosition = 0;
 
     private FgHome fgHome;
-    private FgImChat fgChat;
+    private FgNimChat fgChat;
     private FgTravel fgTravel;
     private FgMySpace fgMySpace;
     private SharedPre sharedPre;
@@ -171,6 +173,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onResume() {
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+        if (currentPosition == 0) {
+            GiftController.getInstance(this).showGiftDialog();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
     }
 
     private void checkVersion() {
@@ -278,6 +289,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         String imei = PhoneInfo.getIMEI(this);
         RequestPushToken request = new RequestPushToken(this, imei, imei, BuildConfig.VERSION_NAME, imei, PhoneInfo.getSoftwareVersion(this));
         HttpRequestUtils.request(this, request, this);
+        MiPushClient.setAlias(getApplicationContext(), imei, "");
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
@@ -313,7 +325,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void initAdapterContent() {
         fgHome = new FgHome();
         fgTravel = new FgTravel();
-        fgChat = new FgImChat();
+        fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
         addFragment(fgHome);
         addFragment(fgChat);
@@ -437,7 +449,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     if (mViewPager != null) {
                         mViewPager.setCurrentItem(2);
                     }
-                } else {
+                } else {//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
                 }
             }
@@ -503,6 +515,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
+        if (fgHome != null && fgHome.closeGuideView()) {//关掉引导遮罩
+            return;
+        }
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
         } else if (mViewPager.getCurrentItem() != 0) {
@@ -553,6 +568,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         MLog.e("onPageSelected = " + position);
         for (int i = 0; i < tabMenu.length; i++) {
             tabMenu[i].setSelected(position == i);
+        }
+        currentPosition = position;
+        if (position == 0) {
+            GiftController.getInstance(this).showGiftDialog();
+        } else {
+            GiftController.getInstance(this).abortion();
         }
     }
 

@@ -18,6 +18,7 @@ public class CarListBean implements IBaseBean {
     public boolean supportChildseat;
     public int guideFloatSwitch;
     public boolean supportBanner;
+    public String noneCarsReason;
 
     public String estTime;
     public String enableLocal;

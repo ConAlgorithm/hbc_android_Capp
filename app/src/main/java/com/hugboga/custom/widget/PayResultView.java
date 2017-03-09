@@ -3,7 +3,11 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,8 +49,8 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
 
     @Bind(R.id.view_pay_result_succeed_prompt_layout)
     LinearLayout succeedPromptLayout;
-    @Bind(R.id.view_pay_result_ad_iv)
-    ImageView succeedAdIV;
+    @Bind(R.id.view_pay_result_bargain_layout)
+    LinearLayout bargainLayout;
     @Bind(R.id.view_pay_result_line_tv)
     TextView lineTV;
 
@@ -63,18 +67,6 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         super(context, attrs);
         final View view = inflate(context, R.layout.view_pay_result, this);
         ButterKnife.bind(view);
-
-        setAdParams();
-    }
-
-    private void setAdParams() {
-        final int adWidth = UIUtils.getScreenWidth() - UIUtils.dip2px(12) * 2;
-        final int adHeight =  (int)((200 / 690f) * adWidth);
-        RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(adWidth, adHeight);
-        adParams.topMargin = UIUtils.dip2px(20);
-        adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        adParams.addRule(RelativeLayout.BELOW, R.id.view_pay_result_btn_layout);
-        succeedAdIV.setLayoutParams(adParams);
     }
 
     /**
@@ -86,7 +78,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             , R.id.view_pay_result_right_tv
             , R.id.view_pay_result_domestic_service_layout
             , R.id.view_pay_result_overseas_service_layout
-            , R.id.view_pay_result_ad_iv
+            , R.id.view_pay_result_bargain_layout
             , R.id.view_pay_result_line_tv})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -112,7 +104,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             case R.id.view_pay_result_overseas_service_layout:
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
                 break;
-            case R.id.view_pay_result_ad_iv: //砍价
+            case R.id.view_pay_result_bargain_layout: //砍价
                 Intent intentBargain = new Intent(getContext(), BargainActivity.class);
                 intentBargain.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                 intentBargain.putExtra("orderNo", orderId);
@@ -147,7 +139,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         updateServiceLayout();
 
         succeedPromptLayout.setVisibility(View.GONE);
-        succeedAdIV.setVisibility(View.GONE);
+        bargainLayout.setVisibility(View.GONE);
         lineTV.setText("");
         if (isPaySucceed) {
             RequestPaySucceed request = new RequestPaySucceed(getContext(), orderId);
@@ -178,6 +170,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         orderParams.orderId = orderId;
         Intent intent = new Intent(getContext(), OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, orderParams);
+        intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
         getContext().startActivity(intent);
     }
 
@@ -205,11 +198,19 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 succeedPromptLayout.setVisibility(View.GONE);
             } else {
                 succeedPromptLayout.setVisibility(View.VISIBLE);
-                ((TextView)findViewById(R.id.view_pay_result_succeed_prompt_tv)).setText(succeedPrompt);
+                TextView promptTV = (TextView) findViewById(R.id.view_pay_result_succeed_prompt_tv);
+                if (!TextUtils.isEmpty(paySucceedBean.getHighLightStr())) {
+                    int startIndex = succeedPrompt.indexOf(paySucceedBean.getHighLightStr());
+                    int endIndex = startIndex + paySucceedBean.getHighLightStr().length();
+                    SpannableStringBuilder ssb = new SpannableStringBuilder(succeedPrompt);
+                    ForegroundColorSpan yellowSpan = new ForegroundColorSpan(Color.parseColor("#ff6633"));
+                    ssb.setSpan(yellowSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    promptTV.setText(ssb);
+                } else {
+                    promptTV.setText(succeedPrompt);
+                }
             }
-
-            succeedAdIV.setVisibility(paySucceedBean.getBargainStatus() ? View.VISIBLE : View.GONE);
-
+            bargainLayout.setVisibility(paySucceedBean.getBargainStatus() ? View.VISIBLE : View.GONE);
             lineTV.setText(paySucceedBean.getGoodMsg());
         }
     }

@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -45,6 +47,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DialogUtil;
 
 import net.grobas.view.PolygonImageView;
 
@@ -68,8 +71,6 @@ import butterknife.ButterKnife;
 @ContentView(R.layout.fg_myspace)
 public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener{
 
-    @ViewInject(R.id.header_left_btn)
-    private ImageView leftBtn;
     @Bind(R.id.fg_space_listview)
     ListView listView;
 
@@ -133,12 +134,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     @Override
     protected void initHeader(Bundle savedInstanceState) {
-        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        fgTitle.setLayoutParams(titleParams);
-        fgTitle.setText("我");
-        leftBtn.setVisibility(View.GONE);
-
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View header = inflater.inflate(R.layout.nav_header_main, null);
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
@@ -191,7 +186,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
      */
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
-            my_icon_head.setImageResource(R.mipmap.chat_head);
+            my_icon_head.setImageResource(R.mipmap.icon_avatar_user_off);
             headerBgIV.setImageResource(R.mipmap.personal_bg);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
@@ -203,12 +198,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         } else {
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
-                Tools.showImage(my_icon_head, avatar, R.mipmap.chat_head);
+                Tools.showImage(my_icon_head, avatar, R.mipmap.icon_avatar_user);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
                 headerBgIV.setImageResource(R.mipmap.personal_bg);
             } else {
                 headerBgIV.setImageResource(R.mipmap.personal_bg);
-                my_icon_head.setImageResource(R.mipmap.chat_head);
+                my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             }
             tv_nickname.setTextColor(0xFF3c3731);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(getContext()))) {

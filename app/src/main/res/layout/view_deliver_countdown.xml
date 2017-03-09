@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="82dp"
-    android:layout_height="82dp"
-    android:background="@mipmap/deliver_countdown_bg"
-    android:gravity="center">
+    android:layout_width="78dp"
+    android:layout_height="78dp">
+
+    <com.hugboga.custom.widget.DeliverCircleProgressView
+        android:id="@+id/deliver_countdown_progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/deliver_countdown_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_centerInParent="true"
         app:isHideTimeBackground="true"
         app:isShowMinute="true"
         app:isShowSecond="true"
         app:isShowTimeBgDivisionLine="false"
         app:suffixGravity="bottom"
         app:suffixLRMargin="2dp"
-        app:suffixTextColor="#624b4d"
-        app:suffixTextSize="12sp"
-        app:timeTextColor="#624b4d"
-        app:timeTextSize="12sp" />
-
-    <com.hugboga.custom.widget.DeliverCircleProgressView
-        android:id="@+id/deliver_countdown_progress_view"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginLeft="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp" />
+        app:suffixTextColor="#191919"
+        app:suffixTextSize="14sp"
+        app:isSuffixTextBold="true"
+        app:timeTextColor="#191919"
+        app:timeTextSize="14sp"
+        app:isTimeTextBold="true"
+        />
 </RelativeLayout>

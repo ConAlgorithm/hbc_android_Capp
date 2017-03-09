@@ -1,11 +1,15 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
@@ -16,15 +20,25 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.guideview.Component;
+import com.hugboga.custom.widget.guideview.Guide;
+import com.hugboga.custom.widget.guideview.GuideBuilder;
+import com.hugboga.custom.widget.guideview.MutiComponent;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by on 16/6/19.
+ * Created by qingcha on 16/6/19.
  */
 public class HomeCustomLayout extends LinearLayout{
+
+    private static final String PARAMS_LAST_GUIDE_VERSION_NAME = "last_guide_version_name";
+    private boolean hasMeasured = false;
+    private boolean isShow = false;
+    private Guide guide;
 
     public HomeCustomLayout(Context context) {
         this(context, null);
@@ -38,6 +52,8 @@ public class HomeCustomLayout extends LinearLayout{
 
         View view = inflate(getContext(), R.layout.view_home_custom, this);
         ButterKnife.bind(this, view);
+
+        setPreDrawListener();
     }
 
     @OnClick({R.id.home_custom_chartered_layout, R.id.home_custom_pickup_layout,
@@ -45,52 +61,87 @@ public class HomeCustomLayout extends LinearLayout{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_custom_chartered_layout://包车
-                goDairy();
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_R, "首页");
+                intentActivity(OrderSelectCityActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
-                goPickSend();
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_J, "首页");
+                intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);
                 break;
             case R.id.home_custom_single_layout://单次接送
-                goSingle();
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_C, "首页");
+                intentActivity(SingleNewActivity.class, StatisticConstant.LAUNCH_C);
                 break;
             case R.id.home_custom_travelfund_layout:
-                Intent intent = null;
                 if (!UserEntity.getUser().isLogin(getContext())) {
                     CommonUtils.showToast(R.string.login_hint);
-                    intent = new Intent(getContext(), LoginActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "首页");
-                    getContext().startActivity(intent);
+                    intentActivity(LoginActivity.class, "");
                     break;
                 }
-                intent = new Intent(getContext(), TravelFundActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
-                getContext().startActivity(intent);
-                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_SY);
+                intentActivity(TravelFundActivity.class, StatisticConstant.CLICK_TRAVELFOUND_SY);
                 break;
         }
     }
 
-    /**
-     * 以下代码copy自旧版本首页
-     * */
-    private void goPickSend(){
-        Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+    private void intentActivity(Class<?> cls, String eventId) {
+        Intent intent = new Intent(getContext(), cls);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         getContext().startActivity(intent);
+        if (!TextUtils.isEmpty(eventId)) {
+            MobClickUtils.onEvent(eventId);
+        }
     }
 
-    private void goDairy(){
-        Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
-        getContext().startActivity(intent);
+    public String getEventSource() {
+        return "首页";
     }
 
-    private void goSingle(){
-        Intent intent = new Intent(getContext(),SingleNewActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
-        getContext().startActivity(intent);
+    private void setPreDrawListener() {
+        ViewTreeObserver vto = getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            public boolean onPreDraw() {
+                if (hasMeasured == false) {
+                    showGuideView();
+                    hasMeasured = true;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void showGuideView() {
+        final String versionName = SharedPre.getString(PARAMS_LAST_GUIDE_VERSION_NAME, "");
+        if (BuildConfig.VERSION_NAME.equals(versionName)) {
+            return;
+        }
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(findViewById(R.id.home_custom_chartered_layout))
+                .setAlpha(150)
+                .setHighTargetGraphStyle(Component.CIRCLE)
+                .setHighTargetPadding(-5)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+                SharedPre.setString(PARAMS_LAST_GUIDE_VERSION_NAME, BuildConfig.VERSION_NAME);
+                isShow = true;
+            }
+
+            @Override
+            public void onDismiss() {
+                isShow = false;
+            }
+        });
+        builder.addComponent(new MutiComponent());
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show((Activity) getContext());
+    }
+
+    public boolean closeGuideView() {
+        if (isShow && guide != null) {
+            guide.dismiss();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

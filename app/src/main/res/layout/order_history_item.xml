@@ -168,7 +168,7 @@
                         android:id="@+id/travel_item_head_img"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@mipmap/journey_head_portrait"
+                        android:src="@mipmap/icon_avatar_guide"
                         app:poly_shadow="false"
                         app:poly_shadow_color="@android:color/black"
                         app:poly_border="false"

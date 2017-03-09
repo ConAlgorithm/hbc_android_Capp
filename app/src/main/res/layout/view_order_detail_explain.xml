@@ -2,44 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="26dp"
-    android:paddingRight="26dp"
-    android:paddingTop="17dp"
-    android:paddingBottom="100dp"
-    android:orientation="vertical">
-    <TextView
+    android:orientation="vertical"
+    android:paddingBottom="40dp"
+    android:paddingLeft="@dimen/sku_order_padding_left"
+    android:paddingRight="@dimen/sku_order_padding_left"
+    android:paddingTop="17dp">
+
+    <LinearLayout
+        android:id="@+id/order_detail_terms_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textColor="#999999"
-        android:text="@string/order_detail_tips_title"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#989898"
-        android:textSize="14sp"
-        android:text="@string/order_detail_tips"
-        />
+        android:layout_marginBottom="16dp"
+        android:paddingTop="2dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/commit_agree_sku"
+            android:textColor="#7f7f7f"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/order_detail_terms_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/commit_agree_click"
+            android:layout_marginLeft="2dp"
+            android:textColor="#7f7f7f"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textColor="#999999"
+        android:text="@string/order_detail_tips_title"
+        android:textColor="#7f7f7f"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/order_detail_tips"
+        android:textColor="#7f7f7f"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/order_detail_unsubscribe"
-        />
+        android:textColor="#7f7f7f"
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/order_detail_explain_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#989898"
-        android:textSize="14sp"
-        android:text="@string/order_detail_tips"
-        />
+        android:layout_marginTop="6dp"
+        android:textColor="#7f7f7f"
+        android:textSize="12sp" />
 </LinearLayout>

@@ -70,9 +70,9 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         }
         final CollectGuideBean collectGuideBean = getItem(position);
         if (TextUtils.isEmpty(collectGuideBean.avatar)) {
-            holder.avatarIV.setImageResource(R.mipmap.journey_head_portrait);
+            holder.avatarIV.setImageResource(R.mipmap.icon_avatar_guide);
         } else {
-            Tools.showImage(holder.avatarIV, collectGuideBean.avatar, R.mipmap.journey_head_portrait);
+            Tools.showImage(holder.avatarIV, collectGuideBean.avatar, R.mipmap.icon_avatar_guide);
         }
         holder.nameTV.setText(collectGuideBean.name);
         holder.ratingView.setRating(collectGuideBean.stars);

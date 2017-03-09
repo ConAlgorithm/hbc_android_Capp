@@ -1,40 +1,49 @@
 package cn.qqtheme.framework.picker;
 
 import android.app.Activity;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
+import android.support.annotation.Size;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.qqtheme.framework.util.LogUtils;
 import cn.qqtheme.framework.widget.WheelView;
 
 /**
- * 两级、三级联动选择器
+ * 两级、三级联动选择器。默认只初始化第一级数据，第二三级数据由联动获得。
  * <p/>
  * Author:李玉江[QQ:1032694760]
  * DateTime:2016/5/6 20:34
  * Builder:Android Studio
+ *
+ * @see DataProvider
  */
 public class LinkagePicker extends WheelPicker {
-    protected ArrayList<String> firstList = new ArrayList<String>();
-    protected ArrayList<ArrayList<String>> secondList = new ArrayList<ArrayList<String>>();
-    protected ArrayList<ArrayList<ArrayList<String>>> thirdList = new ArrayList<ArrayList<ArrayList<String>>>();
-    protected OnLinkageListener onLinkageListener;
-    protected String selectedFirstText = "", selectedSecondText = "", selectedThirdText = "";
+    protected String selectedFirstItem = "", selectedSecondItem = "", selectedThirdItem = "";
     protected int selectedFirstIndex = 0, selectedSecondIndex = 0, selectedThirdIndex = 0;
-    protected boolean onlyTwo = false;
+    protected DataProvider provider;
+    private OnLinkageListener onLinkageListener;
+    private double firstColumnWeight = 0;//第一级显示的宽度比
+    private double secondColumnWeight = 0;//第二级显示的宽度比
+    private double thirdColumnWeight = 0;//第三级显示的宽度比
+    private OnWheelListener onWheelListener;
 
-    public LinkagePicker(Activity activity) {
+    public LinkagePicker(Activity activity, DataProvider provider) {
         super(activity);
+        this.provider = provider;
     }
 
     /**
      * 二级联动选择器构造函数
+     *
+     * @deprecated use {@link #LinkagePicker(Activity, DataProvider)} instead
      */
+    @Deprecated
     public LinkagePicker(Activity activity, ArrayList<String> firstList,
                          ArrayList<ArrayList<String>> secondList) {
         this(activity, firstList, secondList, null);
@@ -42,18 +51,15 @@ public class LinkagePicker extends WheelPicker {
 
     /**
      * 三级联动选择器构造函数
+     *
+     * @deprecated use {@link #LinkagePicker(Activity, DataProvider)} instead
      */
-    public LinkagePicker(Activity activity, ArrayList<String> firstList,
-                         ArrayList<ArrayList<String>> secondList,
-                         ArrayList<ArrayList<ArrayList<String>>> thirdList) {
+    @Deprecated
+    public LinkagePicker(Activity activity, final ArrayList<String> firstList,
+                         final ArrayList<ArrayList<String>> secondList,
+                         final ArrayList<ArrayList<ArrayList<String>>> thirdList) {
         super(activity);
-        this.firstList = firstList;
-        this.secondList = secondList;
-        if (thirdList == null || thirdList.size() == 0) {
-            this.onlyTwo = true;
-        } else {
-            this.thirdList = thirdList;
-        }
+        this.provider = new DefaultDataProvider(firstList, secondList, thirdList);
     }
 
     public void setSelectedItem(String firstText, String secondText) {
@@ -61,29 +67,33 @@ public class LinkagePicker extends WheelPicker {
     }
 
     public void setSelectedItem(String firstText, String secondText, String thirdText) {
-        for (int i = 0; i < firstList.size(); i++) {
-            String ft = firstList.get(i);
+        if (null == provider) {
+            throw new IllegalArgumentException("please set data provider at first");
+        }
+        List<String> firstData = provider.provideFirstData();
+        for (int i = 0; i < firstData.size(); i++) {
+            String ft = firstData.get(i);
             if (ft.contains(firstText)) {
                 selectedFirstIndex = i;
                 LogUtils.debug("init select first text: " + ft + ", index:" + selectedFirstIndex);
                 break;
             }
         }
-        ArrayList<String> secondTexts = secondList.get(selectedFirstIndex);
-        for (int j = 0; j < secondTexts.size(); j++) {
-            String st = secondTexts.get(j);
+        List<String> secondData = provider.provideSecondData(selectedFirstIndex);
+        for (int j = 0; j < secondData.size(); j++) {
+            String st = secondData.get(j);
             if (st.contains(secondText)) {
                 selectedSecondIndex = j;
                 LogUtils.debug("init select second text: " + st + ", index:" + selectedSecondIndex);
                 break;
             }
         }
-        if (TextUtils.isEmpty(thirdText) || thirdList.size() == 0) {
+        if (provider.isOnlyTwo()) {
             return;//仅仅二级联动
         }
-        ArrayList<String> thirdTexts = thirdList.get(selectedFirstIndex).get(selectedSecondIndex);
-        for (int k = 0; k < thirdTexts.size(); k++) {
-            String tt = thirdTexts.get(k);
+        List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+        for (int k = 0; k < thirdData.size(); k++) {
+            String tt = thirdData.get(k);
             if (tt.contains(thirdText)) {
                 selectedThirdIndex = k;
                 LogUtils.debug("init select third text: " + tt + ", index:" + selectedThirdIndex);
@@ -92,85 +102,183 @@ public class LinkagePicker extends WheelPicker {
         }
     }
 
+    public String getSelectedFirstItem() {
+        return selectedFirstItem;
+    }
+
+    public String getSelectedSecondItem() {
+        return selectedSecondItem;
+    }
+
+    public String getSelectedThirdItem() {
+        return selectedThirdItem;
+    }
+
+    public int getSelectedFirstIndex() {
+        return selectedFirstIndex;
+    }
+
+    public int getSelectedSecondIndex() {
+        return selectedSecondIndex;
+    }
+
+    public int getSelectedThirdIndex() {
+        return selectedThirdIndex;
+    }
+
+    /**
+     * 设置每列的宽度比例，将屏幕分为三列，每列范围为0.0～1.0，如0.3333表示约占屏幕的三分之一。
+     */
+    public void setColumnWeight(@FloatRange(from = 0, to = 1) double firstColumnWeight,
+                                @FloatRange(from = 0, to = 1) double secondColumnWeight,
+                                @FloatRange(from = 0, to = 1) double thirdColumnWeight) {
+        this.firstColumnWeight = firstColumnWeight;
+        this.secondColumnWeight = secondColumnWeight;
+        this.thirdColumnWeight = thirdColumnWeight;
+    }
+
+    /**
+     * 设置每列的宽度比例，将屏幕分为两列，每列范围为0.0～1.0，如0.5表示占屏幕的一半。
+     */
+    public void setColumnWeight(@FloatRange(from = 0, to = 1) double firstColumnWeight,
+                                @FloatRange(from = 0, to = 1) double secondColumnWeight) {
+        this.firstColumnWeight = firstColumnWeight;
+        this.secondColumnWeight = secondColumnWeight;
+        this.thirdColumnWeight = 0;
+    }
+
+    /**
+     * 设置滑动监听器
+     */
+    public void setOnWheelListener(OnWheelListener onWheelListener) {
+        this.onWheelListener = onWheelListener;
+    }
+
     public void setOnLinkageListener(OnLinkageListener onLinkageListener) {
         this.onLinkageListener = onLinkageListener;
+    }
+
+    /**
+     * 根据比例计算，获取每列的实际宽度。
+     * 三级联动默认每列宽度为屏幕宽度的三分之一，两级联动默认每列宽度为屏幕宽度的一半。
+     */
+    @Size(3)
+    protected int[] getColumnWidths(boolean onlyTwoColumn) {
+        LogUtils.verbose(this, String.format(java.util.Locale.CHINA, "column weight is: %f-%f-%f"
+                , firstColumnWeight, secondColumnWeight, thirdColumnWeight));
+        int[] widths = new int[3];
+        if (firstColumnWeight == 0 && secondColumnWeight == 0 && thirdColumnWeight == 0) {
+            if (onlyTwoColumn) {
+                widths[0] = screenWidthPixels / 2;
+                widths[1] = widths[0];
+                widths[2] = 0;
+            } else {
+                widths[0] = screenWidthPixels / 3;
+                widths[1] = widths[0];
+                widths[2] = widths[0];
+            }
+        } else {
+            widths[0] = (int) (screenWidthPixels * firstColumnWeight);
+            widths[1] = (int) (screenWidthPixels * secondColumnWeight);
+            widths[2] = (int) (screenWidthPixels * thirdColumnWeight);
+        }
+        return widths;
     }
 
     @NonNull
     @Override
     protected View makeCenterView() {
-        if (firstList.size() == 0 || secondList.size() == 0) {
-            throw new IllegalArgumentException("please initial data at first, can't be empty");
+        if (null == provider) {
+            throw new IllegalArgumentException("please set data provider before make view");
         }
+        int[] widths = getColumnWidths(provider.isOnlyTwo());
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
         final WheelView firstView = new WheelView(activity);
-        final int width = screenWidthPixels / 3;
-        firstView.setLayoutParams(new LinearLayout.LayoutParams(width, WRAP_CONTENT));
+        firstView.setLayoutParams(new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT));
         firstView.setTextSize(textSize);
         firstView.setTextColor(textColorNormal, textColorFocus);
-        firstView.setLineVisible(lineVisible);
-        firstView.setLineColor(lineColor);
+        firstView.setLineConfig(lineConfig);
         firstView.setOffset(offset);
+        firstView.setCycleDisable(cycleDisable);
         layout.addView(firstView);
         final WheelView secondView = new WheelView(activity);
-        secondView.setLayoutParams(new LinearLayout.LayoutParams(width, WRAP_CONTENT));
+        secondView.setLayoutParams(new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT));
         secondView.setTextSize(textSize);
         secondView.setTextColor(textColorNormal, textColorFocus);
-        secondView.setLineVisible(lineVisible);
-        secondView.setLineColor(lineColor);
+        secondView.setLineConfig(lineConfig);
         secondView.setOffset(offset);
+        secondView.setCycleDisable(cycleDisable);
         layout.addView(secondView);
         final WheelView thirdView = new WheelView(activity);
-        thirdView.setLayoutParams(new LinearLayout.LayoutParams(width, WRAP_CONTENT));
+        thirdView.setLayoutParams(new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT));
         thirdView.setTextSize(textSize);
         thirdView.setTextColor(textColorNormal, textColorFocus);
-        thirdView.setLineVisible(lineVisible);
-        thirdView.setLineColor(lineColor);
+        thirdView.setLineConfig(lineConfig);
         thirdView.setOffset(offset);
+        thirdView.setCycleDisable(cycleDisable);
         layout.addView(thirdView);
-        if (onlyTwo) {
+        if (provider.isOnlyTwo()) {
             thirdView.setVisibility(View.GONE);
         }
-        firstView.setItems(firstList, selectedFirstIndex);
-        firstView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+        firstView.setItems(provider.provideFirstData(), selectedFirstIndex);
+        firstView.setOnWheelListener(new WheelView.OnWheelListener() {
             @Override
-            public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedFirstText = item;
-                selectedFirstIndex = selectedIndex;
+            public void onSelected(boolean isUserScroll, int index, String item) {
+                selectedFirstItem = item;
+                selectedFirstIndex = index;
+                if (onWheelListener != null) {
+                    onWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
+                }
+                List<String> secondData = provider.provideSecondData(selectedFirstIndex);
+                if (secondData.size() < selectedSecondIndex) {
+                    //上一次的第二级选择的项的索引超出了第二级的数据数
+                    selectedSecondIndex = 0;
+                }
                 selectedThirdIndex = 0;
-                //根据第一级数据获取第二级数据
-                secondView.setItems(secondList.get(selectedFirstIndex), isUserScroll ? 0 : selectedSecondIndex);
-                if (thirdList.size() == 0) {
+                //根据第一级数据获取第二级数据。若不是用户手动滚动，说明联动需要指定默认项
+                secondView.setItems(secondData, selectedSecondIndex);
+                if (provider.isOnlyTwo()) {
                     return;//仅仅二级联动
                 }
                 //根据第二级数据获取第三级数据
-                thirdView.setItems(thirdList.get(selectedFirstIndex).get(0), isUserScroll ? 0 : selectedThirdIndex);
+                thirdView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
             }
         });
-        secondView.setItems(secondList.get(selectedFirstIndex), selectedSecondIndex);
-        secondView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+        secondView.setItems(provider.provideSecondData(selectedFirstIndex), selectedSecondIndex);
+        secondView.setOnWheelListener(new WheelView.OnWheelListener() {
             @Override
-            public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedSecondText = item;
-                selectedSecondIndex = selectedIndex;
-                if (thirdList.size() == 0) {
+            public void onSelected(boolean isUserScroll, int index, String item) {
+                selectedSecondItem = item;
+                selectedSecondIndex = index;
+                if (onWheelListener != null) {
+                    onWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
+                }
+                if (provider.isOnlyTwo()) {
                     return;//仅仅二级联动
                 }
+                List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                if (thirdData.size() < selectedThirdIndex) {
+                    //上一次的第三级选择的项的索引超出了第三级的数据数
+                    selectedThirdIndex = 0;
+                }
                 //根据第二级数据获取第三级数据
-                thirdView.setItems(thirdList.get(selectedFirstIndex).get(selectedSecondIndex), isUserScroll ? 0 : selectedThirdIndex);
+                thirdView.setItems(thirdData, selectedThirdIndex);
             }
         });
-        if (thirdList.size() == 0) {
+        if (provider.isOnlyTwo()) {
             return layout;//仅仅二级联动
         }
-        thirdView.setItems(thirdList.get(selectedFirstIndex).get(selectedSecondIndex), selectedThirdIndex);
-        thirdView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+        thirdView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
+        thirdView.setOnWheelListener(new WheelView.OnWheelListener() {
             @Override
-            public void onSelected(boolean isUserScroll, int selectedIndex, String item) {
-                selectedThirdText = item;
-                selectedThirdIndex = selectedIndex;
+            public void onSelected(boolean isUserScroll, int index, String item) {
+                selectedThirdItem = item;
+                selectedThirdIndex = index;
+                if (onWheelListener != null) {
+                    onWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
+                }
             }
         });
         return layout;
@@ -179,10 +287,10 @@ public class LinkagePicker extends WheelPicker {
     @Override
     public void onSubmit() {
         if (onLinkageListener != null) {
-            if (onlyTwo) {
-                onLinkageListener.onPicked(selectedFirstText, selectedSecondText, null);
+            if (provider.isOnlyTwo()) {
+                onLinkageListener.onPicked(selectedFirstItem, selectedSecondItem, null);
             } else {
-                onLinkageListener.onPicked(selectedFirstText, selectedSecondText, selectedThirdText);
+                onLinkageListener.onPicked(selectedFirstItem, selectedSecondItem, selectedThirdItem);
             }
         }
     }
@@ -190,6 +298,90 @@ public class LinkagePicker extends WheelPicker {
     public interface OnLinkageListener {
 
         void onPicked(String first, String second, String third);
+
+    }
+
+    public static abstract class OnWheelListener {
+
+        public abstract void onFirstWheeled(int index, String item);
+
+        public abstract void onSecondWheeled(int index, String item);
+
+        public void onThirdWheeled(int index, String item) {
+
+        }
+
+    }
+
+    /**
+     * 数据提供接口
+     */
+    public interface DataProvider {
+
+        /**
+         * 是否只是二级联动
+         */
+        boolean isOnlyTwo();
+
+        /**
+         * 提供第一级数据
+         */
+        List<String> provideFirstData();
+
+        /**
+         * 提供第二级数据
+         */
+        List<String> provideSecondData(int firstIndex);
+
+        /**
+         * 提供第三级数据
+         */
+        List<String> provideThirdData(int firstIndex, int secondIndex);
+
+    }
+
+    /**
+     * 默认的数据提供者
+     */
+    public static class DefaultDataProvider implements DataProvider {
+        private ArrayList<String> firstList = new ArrayList<String>();
+        private ArrayList<ArrayList<String>> secondList = new ArrayList<ArrayList<String>>();
+        private ArrayList<ArrayList<ArrayList<String>>> thirdList = new ArrayList<ArrayList<ArrayList<String>>>();
+        private boolean onlyTwo = false;
+
+        public DefaultDataProvider(ArrayList<String> firstList, ArrayList<ArrayList<String>> secondList,
+                                   ArrayList<ArrayList<ArrayList<String>>> thirdList) {
+            this.firstList = firstList;
+            this.secondList = secondList;
+            if (thirdList == null || thirdList.size() == 0) {
+                this.onlyTwo = true;
+            } else {
+                this.thirdList = thirdList;
+            }
+        }
+
+        public boolean isOnlyTwo() {
+            return onlyTwo;
+        }
+
+        @Override
+        public List<String> provideFirstData() {
+            return firstList;
+        }
+
+        @Override
+        public List<String> provideSecondData(int firstIndex) {
+            return secondList.get(firstIndex);
+        }
+
+        @Override
+        public List<String> provideThirdData(int firstIndex, int secondIndex) {
+            if (onlyTwo) {
+                return new ArrayList<String>();
+            } else {
+                return thirdList.get(firstIndex).get(secondIndex);
+            }
+        }
 
     }
 

@@ -21,11 +21,13 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -157,9 +159,9 @@ public class OrderEditActivity extends BaseActivity {
                 finish();
             }
         });
-        fgRightBtn.setText("保存");
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        fgRightTV.setText("保存");
+        fgRightTV.setVisibility(View.VISIBLE);
+        fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendRequest();
@@ -177,8 +179,7 @@ public class OrderEditActivity extends BaseActivity {
                 pickNameLayout.setVisibility(View.GONE);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                String serviceCode = orderBean.serviceAreaCode;
-                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -191,8 +192,7 @@ public class OrderEditActivity extends BaseActivity {
                 airportName.setText(orderBean.flightNo);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                String serviceCode = orderBean.serviceAreaCode;
-                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
@@ -207,22 +207,17 @@ public class OrderEditActivity extends BaseActivity {
             pickNameLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
-                upRight.setText(orderBean.serviceStartTime + "(当地时间)");
+                String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
+                upRight.setText(time + "(当地时间)");
             }
             if (!TextUtils.isEmpty(orderBean.startAddress)) {
                 upAddressRight.setText(orderBean.startAddress);
             }
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
-                String serviceCode = orderBean.serviceAreaCode;
-                hotelPhoneTextCodeClick.setText("+" + serviceCode.replace("+",""));
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
             if (!TextUtils.isEmpty(orderBean.serviceAddressTel)) {
                 hotelPhoneText.setText(orderBean.serviceAddressTel);
-            }
-            if (orderBean.orderType == 5 || orderBean.orderType == 6) {
-                upAddressLeft.setText(getString(R.string.up_site));
-            } else {
-                upAddressLeft.setText(" 上车地点");
             }
         }
         contactUsersBean = new ContactUsersBean();
@@ -231,11 +226,7 @@ public class OrderEditActivity extends BaseActivity {
             String userName = userList.get(0).name;
             String userPhone = userList.get(0).mobile;
             manName.setText(userName);
-            if (TextUtils.isEmpty(userList.get(0).areaCode)) {
-                manPhone.setText(userPhone);
-            } else {
-                manPhone.setText(userList.get(0).areaCode + " " + userPhone);
-            }
+            manPhone.setText(CommonUtils.addPhoneCodeSign(userList.get(0).areaCode) + " " + userPhone);
             mark.setText(orderBean.memo);
             for (int i = 0; i < userList.size(); i++) {
                 if (i == 0) {
@@ -269,8 +260,8 @@ public class OrderEditActivity extends BaseActivity {
 
         //1-5可以修改，后面的都不能改
         if (orderBean.orderStatus.code > 5) {
-            fgRightBtn.setVisibility(View.GONE);
-            fgRightBtn.setOnClickListener(null);
+            fgRightTV.setVisibility(View.GONE);
+            fgRightTV.setOnClickListener(null);
             otherTV.setVisibility(View.GONE);
             otherTV.setOnClickListener(null);
             manName.setEnabled(false);
@@ -314,7 +305,7 @@ public class OrderEditActivity extends BaseActivity {
                 }
                 if (!TextUtils.isEmpty(contactUsersBean.userName)) {
                     manName.setText(contactUsersBean.userName);
-                    manPhone.setText(contactUsersBean.phoneCode + " " + contactUsersBean.userPhone);
+                    manPhone.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.phoneCode) + " " + contactUsersBean.userPhone);
                 }
                 if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
                     otherLayout.setVisibility(View.VISIBLE);
@@ -332,7 +323,7 @@ public class OrderEditActivity extends BaseActivity {
                     break;
                 }
                 orderBean.serviceAreaCode = areaCodeBean.getCode();
-                hotelPhoneTextCodeClick.setText("+" + areaCodeBean.getCode());
+                hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(areaCodeBean.getCode()));
                 break;
             case CHOOSE_POI_BACK:
                 if (!(action.getData() instanceof PoiBean)) {
@@ -352,17 +343,21 @@ public class OrderEditActivity extends BaseActivity {
     TimePicker picker;
     public void showYearMonthDayTimePicker() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        calendar.set(Calendar.MINUTE,0);
-        picker = new TimePicker(activity, TimePicker.HOUR_OF_DAY);
-        picker.setTitle("请选择上车时间");
-        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+        try {
+            calendar.setTime(DateUtils.timeFormat.parse(orderBean.serviceStartTime));
+        } catch (ParseException e) {
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.MINUTE, 0);
+        }
+        picker = new TimePicker(activity, TimePicker.HOUR_24);
+        picker.setTitleText("请选择上车时间");
+        picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                serverTime = hour + ":" + minute + ":00";
+                serverTime = hour + ":" + minute;
                 upRight.setText(serverTime + "(当地时间)");
-                orderBean.serviceStartTime = serverTime;
+                orderBean.serviceStartTime = serverTime + ":00";
                 picker.dismiss();
             }
         });
@@ -422,18 +417,13 @@ public class OrderEditActivity extends BaseActivity {
                 CommonUtils.showToast("接机牌姓名不能为空");
                 return;
             }
-        } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路
-            if (TextUtils.isEmpty(upAddressRight.getText())) {
-                CommonUtils.showToast("上车地点不能为空");
-                return;
-            }
         }
 
         mDialogUtil.showLoadingDialog();
         requestParams.orderNo = orderBean.orderNo;
         requestParams.orderType = orderBean.orderType;//int 可选1-接机；2-送机；3-日租；4-次租
         requestParams.serviceAddressTel = TextUtils.isEmpty(hotelPhoneText.getText()) ? "" : hotelPhoneText.getText().toString();//目的地酒店或者区域电话号码
-        requestParams.serviceAreaCode = orderBean.serviceAreaCode;//目的地区域
+        requestParams.serviceAreaCode = CommonUtils.removePhoneCodeSign(orderBean.serviceAreaCode);//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
         if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
             requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
@@ -464,15 +454,15 @@ public class OrderEditActivity extends BaseActivity {
         userExJson.append("[");
 
         if (!TextUtils.isEmpty(contactUsersBean.userPhone)) {
-            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + (null == contactUsersBean.phoneCode ? "+86" : contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
+            userExJson.append("{name:\"" + contactUsersBean.userName + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phoneCode) + "\",mobile:\"" + contactUsersBean.userPhone + "\"}");
         }
 
         if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + (null == contactUsersBean.phone1Code ? "+86" : contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
         }
 
         if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + (null == contactUsersBean.phone2Code ? "+86" : contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
+            userExJson.append(",{name:\"" + contactUsersBean.user2Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone2Code) + "\",mobile:\"" + contactUsersBean.user2Phone + "\"}");
         }
         userExJson.append("]");
         return userExJson.toString();
@@ -482,7 +472,7 @@ public class OrderEditActivity extends BaseActivity {
         StringBuffer realUserExJson = new StringBuffer();
         if (contactUsersBean.isForOther && !TextUtils.isEmpty(contactUsersBean.otherName)) {
             realUserExJson.append("[");
-            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + contactUsersBean.otherphoneCode + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
+            realUserExJson.append("{name:\"" + contactUsersBean.otherName + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode) + "\",mobile:\"" + contactUsersBean.otherPhone + "\"}");
             realUserExJson.append("]");
         }
         return realUserExJson.toString();

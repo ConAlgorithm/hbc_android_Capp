@@ -52,8 +52,8 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 101060
-        versionName "3.1.0"
+        versionCode 101260
+        versionName "3.2.0"
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
@@ -86,20 +86,13 @@ android {
         '10001'{}
         '10002'{}
         '10003'{}
-        '10004'{}
-        '10005'{}
         '10006'{}
         '10007'{}
         '10008'{}
         '10009'{}
-        '10010'{}
         '10011'{}
         '10012'{}
         '10013'{}
-        '10020'{}
-        '10052'{}
-        '10090'{}
-        '10091'{}
     }
     //==productFlavors_end==
     //==productFlavors==
@@ -134,20 +127,13 @@ android {
             case '10001':
             case '10002':
             case '10003':
-            case '10004':
-            case '10005':
             case '10006':
             case '10007':
             case '10008':
             case '10009':
-            case '10010':
             case '10011':
             case '10012':
             case '10013':
-            case '10020':
-            case '10052':
-            case '10090':
-            case '10091':
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
@@ -192,7 +178,7 @@ dependencies {
     apt 'com.zhy:mpermission-compiler:1.0.0'
     compile 'com.zhy:mpermission-api:1.0.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.jakewharton:butterknife:7.0.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.anupcowkur:reservoir:2.1'

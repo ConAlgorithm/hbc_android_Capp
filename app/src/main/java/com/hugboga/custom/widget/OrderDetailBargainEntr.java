@@ -27,6 +27,8 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
 
     @Bind(R.id.detail_bargain_entr_layout)
     RelativeLayout parentLayout;
+    @Bind(R.id.detail_bargain_entr_title_tv)
+    TextView titleTV;
     @Bind(R.id.detail_bargain_entr_price_tv)
     TextView priceTV;
     @Bind(R.id.detail_bargain_entr_countdown_view)
@@ -43,7 +45,6 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
         final View view = inflate(context, R.layout.view_order_detail_bargain_entr, this);
         ButterKnife.bind(view);
         setOnClickListener(this);
-        priceTV.setText(getContext().getString(R.string.order_detail_bargain_entr_price, "0"));
     }
 
     @Override
@@ -60,6 +61,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
             switch (orderBean.bargainStatus) {
                 case 0://初始状态
                     parentLayout.setBackgroundResource(R.mipmap.bargain_challenge);
+                    titleTV.setVisibility(View.GONE);
                     priceTV.setVisibility(View.GONE);
                     countdownView.setVisibility(View.GONE);
                     countdownView.setOnCountdownEndListener(null);
@@ -67,22 +69,25 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
                     break;
                 case 1://激活
                     parentLayout.setBackgroundResource(R.mipmap.bargain_entr_bg);
+                    titleTV.setVisibility(View.VISIBLE);
                     priceTV.setVisibility(View.VISIBLE);
-                    priceTV.setText(getContext().getString(R.string.order_detail_bargain_entr_price, "" + orderBean.bargainAmount));
+                    titleTV.setText(getContext().getString(R.string.order_detail_bargain));
+                    priceTV.setText(orderBean.bargainAmount + getContext().getString(R.string.yuan));
                     countdownView.setVisibility(View.VISIBLE);
                     countdownView.start(orderBean.bargainSeconds * 1000);
                     countdownView.setOnCountdownEndListener(this);
                     break;
                 case 2://活动结束
                     parentLayout.setBackgroundResource(R.mipmap.bargain_succeed);
+                    titleTV.setVisibility(View.VISIBLE);
                     priceTV.setVisibility(View.VISIBLE);
-                    priceTV.setText(getContext().getString(R.string.order_detail_bargain_entr_price, "" + orderBean.bargainAmount));
+                    titleTV.setText(getContext().getString(R.string.order_detail_bargain_end));
+                    priceTV.setText(orderBean.bargainAmount + getContext().getString(R.string.yuan));
                     countdownView.setVisibility(View.GONE);
                     countdownView.setOnCountdownEndListener(null);
                     countdownView.stop();
                     break;
             }
-
         }
     }
 

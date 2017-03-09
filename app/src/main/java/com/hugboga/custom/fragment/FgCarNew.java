@@ -179,6 +179,8 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     ImageView maxLuggageImg;
     @Bind(R.id.luggage_tips_layout)
     LinearLayout luggageTipsLayout;
+    @Bind(R.id.car_empty_reason_tv)
+    TextView reasonTV;
 
     @Override
     protected void initHeader() {
@@ -369,6 +371,9 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             if (carList == null || carList.size() == 0) {
                 carEmptyLayout.setVisibility(View.VISIBLE);
                 have_data_layout.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(carListBean.noneCarsReason)) {
+                    reasonTV.setText(carListBean.noneCarsReason);
+                }
             } else {
                 carEmptyLayout.setVisibility(View.GONE);
                 have_data_layout.setVisibility(View.VISIBLE);

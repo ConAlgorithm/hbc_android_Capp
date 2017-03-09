@@ -61,7 +61,7 @@ public class CollectGuideListActivity extends BaseActivity{
 
         sendRequest();
 
-        setSensorsDefaultEvent("收藏司导列表", SensorsConstant.COLLCTGLIST);
+        setSensorsDefaultEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
     }
 
     @Override

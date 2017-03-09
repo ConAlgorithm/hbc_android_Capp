@@ -168,7 +168,7 @@
                         android:layout_width="@dimen/travel_item_head_width"
                         android:layout_height="@dimen/travel_item_head_width"
                         android:scaleType="centerCrop"
-                        android:background="@mipmap/journey_head_portrait" />
+                        android:src="@mipmap/icon_avatar_guide" />
                     <TextView
                         android:id="@+id/travel_item_head_title"
                         android:layout_width="wrap_content"

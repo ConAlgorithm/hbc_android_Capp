@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sku_order_car_type_title_tv"
+        style="@style/SkuOrderSubtitleTextView"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:layout_marginRight="@dimen/sku_order_padding_left"
+        android:text="选择车型" />
+
+    <LinearLayout
+        android:id="@+id/sku_order_car_type_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/sku_order_car_type_more_layout"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:textSize="14sp"
+            android:textColor="#1c1c1c"
+            />
+        <ImageView
+            android:id="@+id/sku_order_car_type_more_arrow_iv"
+            android:layout_width="9dp"
+            android:layout_height="5dp"
+            android:background="@mipmap/icon_black_arrow"
+            android:layout_marginLeft="5dp"
+            />
+    </LinearLayout>
+</LinearLayout>

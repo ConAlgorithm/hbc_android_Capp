@@ -11,6 +11,43 @@ import android.view.View;
  * Countdown View
  * Created by iWgang on 15/9/16.
  * https://github.com/iwgang/CountdownView
+ *
+ * isHideTimeBackground    boolean true 隐藏倒计时背景
+ * timeBgColor color   #444444 倒计时的背景色
+ * timeBgSize  dimension   timeSize + 2dp * 4 倒计时背景大小
+ * timeBgRadius    dimension   0 倒计时背景的圆角
+ * isShowTimeBgDivisionLine    boolean true 倒计时的横向的分割线
+ * timeBgDivisionLineColor color   #30FFFFFF 倒计时的横向的分割线颜色
+ * timeBgDivisionLineSize  dimension   0.5dp 倒计时的横向的分割线高度
+ * timeTextSize    dimension   12sp 倒计时的文字大小
+ * timeTextColor   color   #000000 倒计时的文字颜色
+ * isTimeTextBold  boolean false 倒计时文字所在的边框
+ * isShowDay   boolean 自动显示 (天 大于 1 显示, = 0 隐藏)
+ * isShowHour  boolean 自动显示 (小时 大于 1 显示， = 0 隐藏)
+ * isShowMinute    boolean true 是否显示分钟
+ * isShowSecond    boolean true 是否显示秒
+ * isShowMillisecond   boolean false 是否显示毫秒
+ * suffixTextSize  dimension   12sp 添加的分号：的大小
+ * suffixTextColor color   #000000 添加的分号：的颜色
+ * isSuffixTextBold    boolean false 添加的分号：的边框
+ * suffixGravity   'top' or 'center' or 'bottom'   'center' 添加的分号：对齐方式
+ * suffix  string  ':' 添加的分号：默认值
+ * suffixDay   string  null 天默认值
+ * suffixHour  string  null 时默认值
+ * suffixMinute    string  null 分默认值
+ * suffixSecond    string  null 秒默认值
+ * suffixMillisecond   string  null 毫秒默认值
+ * suffixLRMargin  dimension   left 3dp right 3dp 间距默认左右各3dp
+ * suffixDayLeftMargin dimension   0
+ * suffixDayRightMargin    dimension   0
+ * suffixHourLeftMargin    dimension   0
+ * suffixHourRightMargin   dimension   0
+ * suffixMinuteLeftMargin  dimension   0
+ * suffixMinuteRightMargin dimension   0
+ * suffixSecondLeftMargin  dimension   0
+ * suffixSecondRightMargin dimension   0
+ * suffixMillisecondLeftMargin dimension   0
+ *
  */
 public class CountdownView extends View {
     private BaseCountdown mCountdown;

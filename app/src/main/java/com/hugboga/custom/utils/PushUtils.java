@@ -115,7 +115,6 @@ public class PushUtils {
      */
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static void showNotification(PushMessage pushMessage) {
-        Log.i("qingcha_push", "showNotification");
         Context context = MyApplication.getAppContext();
         //设置通知消息属性
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -139,7 +138,6 @@ public class PushUtils {
         Notification notification = new Notification.BigTextStyle(mBuilder).bigText(content).build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify((int) System.currentTimeMillis(), notification);
-        Log.i("qingcha_push", "showNotification 2222");
     }
 
     /**
@@ -162,7 +160,6 @@ public class PushUtils {
         Bundle bundle = new Bundle();
         bundle.putSerializable(MainActivity.PUSH_BUNDLE_MSG, pushMessage);
         intent.putExtras(bundle);
-        Log.i("qingcha_push", "getIntent");
         return intent;
     }
 

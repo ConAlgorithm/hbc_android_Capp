@@ -6,7 +6,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -99,9 +98,9 @@ public class TravelFundActivity extends BaseActivity {
     private void initTitleBar() {
         initDefaultTitleBar();
         fgTitle.setText(getString(R.string.travel_fund_title));
-        fgRightBtn.setVisibility(View.VISIBLE);
-        fgRightBtn.setText(getString(R.string.travel_fund_rule));
-        fgRightBtn.setOnClickListener(new View.OnClickListener() {
+        fgRightTV.setVisibility(View.VISIBLE);
+        fgRightTV.setText(getString(R.string.travel_fund_rule));
+        fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_FOUNDREGUL);

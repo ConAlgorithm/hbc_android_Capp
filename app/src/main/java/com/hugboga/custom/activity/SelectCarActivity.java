@@ -43,6 +43,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.MoneyTextView;
@@ -74,8 +75,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightBtn;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
     @Bind(R.id.jazzy_pager)
@@ -198,14 +197,14 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     @Bind(R.id.average_money)
     MoneyTextView averageMoney;
     @Bind(R.id.all_money_left_text)
-    MoneyTextView allMoneyLeftText;
+    TextView allMoneyLeftText;
     @Bind(R.id.bottom)
     RelativeLayout bottom;
     @Bind(R.id.call_phone)
     LinearLayout callPhone;
     @Bind(R.id.fg_car_intro)
     TextView fgCarIntro;
-    @Bind(R.id.header_right_image)
+    @Bind(R.id.header_right_btn)
     ImageView headerRightImage;
 
 
@@ -232,16 +231,13 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
         headerTitle.setText(R.string.select_city_title);
         source = getIntent().getStringExtra("source");
         headerRightTxt.setVisibility(View.GONE);
-//        headerRightTxt.setText("常见问题");
-//        headerRightTxt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activity, WebInfoActivity.class);
-//                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-//                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-//                startActivity(intent);
-//            }
-//        });
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+        headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        headerRightImage.setLayoutParams(headerRightImageParams);
+        headerRightImage.setPadding(0,0,0,0);
+        headerRightImage.setImageResource(R.mipmap.icon_service);
         headerRightImage.setVisibility(View.VISIBLE);
         headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -454,13 +450,11 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
             }
 
             if (carBean.match == 0) {
-                nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
-//                nextBtnClick.setText("人数已超限，请更换车型");
+                nextBtnClick.setBackgroundResource(R.drawable.shape_rounded_gray_btn);
                 nextBtnClick.setClickable(false);
             } else {
                 nextBtnClick.setClickable(true);
-                nextBtnClick.setBackgroundColor(Color.parseColor("#fbd003"));
-                nextBtnClick.setText("下一步");
+                nextBtnClick.setBackgroundResource(R.drawable.shape_rounded_yellow_btn);
             }
             genServiceInfo(false);
             genCarsInfo(false);
@@ -746,11 +740,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_CANCEL);
                 startActivity(intent);
 
-                break;
-            case R.id.header_right_txt:
-                map.put("source", "选车页面");
-                MobclickAgent.onEvent(activity, "callcenter_oneday", map);
-                view.setTag("选车页面,calldomestic_oneday,calloverseas_oneday");
                 break;
             case R.id.header_left_btn:
                 finish();

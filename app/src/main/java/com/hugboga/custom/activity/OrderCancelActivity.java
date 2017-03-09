@@ -13,6 +13,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import org.greenrobot.eventbus.EventBus;
 
@@ -99,7 +100,18 @@ public class OrderCancelActivity extends BaseActivity{
                 break;
             case R.id.order_cancel_btn:
                 if(orderBean==null)return;
-                cancelOrder();
+                AlertDialogUtils.showAlertDialog(OrderCancelActivity.this, "确定要取消订单吗？", "我要取消", "暂不取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        cancelOrder();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 break;
             default:
                 break;

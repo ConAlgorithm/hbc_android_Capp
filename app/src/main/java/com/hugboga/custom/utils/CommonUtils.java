@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -274,9 +277,6 @@ public final class CommonUtils {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(context, LoginActivity.class);
-            if (context instanceof BaseActivity) {
-                intent.putExtra(Constants.PARAMS_SOURCE, ((BaseActivity)context).getEventSource());
-            }
             context.startActivity(intent);
             return false;
         } else {
@@ -292,5 +292,49 @@ public final class CommonUtils {
         Intent intent = new Intent(context, LargerImageActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
+    }
+
+    public static boolean checkTextIsNull(EditText editText) {
+        if (editText == null) {
+            return true;
+        }
+        Editable editable = editText.getText();
+        if (editable != null && editable.toString() != null && !TextUtils.isEmpty(editable.toString().trim())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static String removePhoneCodeSign(String phoneCode) {
+        String result = "";
+        if (TextUtils.isEmpty(phoneCode) || TextUtils.isEmpty(phoneCode.trim())) {
+            return result;
+        }
+        result = phoneCode.replaceAll(" ", "");
+        result = result.replace("+", "");
+        return result;
+    }
+
+    public static String addPhoneCodeSign(String phoneCode) {
+        String result = "+86";
+        if (!TextUtils.isEmpty(phoneCode)) {
+            if (phoneCode.contains("+")) {
+                result = phoneCode.replaceAll(" ","");
+            } else {
+                result = "+" + phoneCode.trim();
+            }
+        }
+        return result;
+    }
+
+    public static void hideSoftInputMethod(EditText inputText) {
+        if (inputText == null) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) inputText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && inputText != null) {
+            imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
+        }
     }
 }

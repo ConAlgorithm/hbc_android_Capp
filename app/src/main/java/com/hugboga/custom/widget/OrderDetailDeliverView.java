@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -22,8 +21,6 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDeliverInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.utils.ApiReportHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -84,6 +81,12 @@ import cn.iwgang.countdownview.CountdownView;
         }
     }
 
+    public void refreshData(boolean isShowLoadingView) {
+        if (orderBean != null && orderBean.orderStatus == OrderStatus.PAYSUCCESS) {
+            sendRequest(isShowLoadingView);
+        }
+    }
+
     private void sendRequest(boolean isShowLoadingView) {
         if (orderBean == null) {
             return;
@@ -124,7 +127,7 @@ import cn.iwgang.countdownview.CountdownView;
         } else {
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
             itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
-            setOnEvent(orderBean.orderType);
+            setEvent(orderBean.orderType);
             itemView.update(_deliverInfoBean);
             groupLayout.addView(itemView);
             itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {
@@ -142,7 +145,11 @@ import cn.iwgang.countdownview.CountdownView;
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
-            resetItemView(deliverInfoBean);
+            if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
+            } else {
+                resetItemView(deliverInfoBean);
+            }
         }
     }
 
@@ -159,22 +166,24 @@ import cn.iwgang.countdownview.CountdownView;
         errorHandler.onDataRequestError(errorInfo, request);
     }
 
-    public void setOnEvent(int orderType){
-        if (orderType==0){
+    public void setEvent(int orderType) {
+        if (orderType == 0) {
             return;
         }
-        Map<String,String>map=new HashMap<>();
-        switch(orderType){
+        Map<String,String> map = new HashMap<>();
+        String orderTypeStr = "";
+        switch(orderType) {
             case 3:
-                map.put("ordertype","自定义包车游");
+                orderTypeStr = "自定义包车游";
                 break;
             case 5:
-                map.put("ordertype","固定线路");
+                orderTypeStr = "固定线路";
                 break;
             case 6:
-                map.put("ordertype","推荐线路");
+                orderTypeStr = "推荐线路";
                 break;
         }
-        MobClickUtils.onEvent(StatisticConstant.CLICK_WAIT_G,map);
+        map.put("ordertype", orderTypeStr);
+        MobClickUtils.onEvent(StatisticConstant.CLICK_WAIT_G, map);
     }
 }
