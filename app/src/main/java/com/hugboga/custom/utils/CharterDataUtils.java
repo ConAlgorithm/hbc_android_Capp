@@ -380,4 +380,66 @@ public class CharterDataUtils {
         }
         return null;
     }
+
+
+    public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {
+        if (_fence == null || _fence.fencePoints == null) {
+            return null;
+        }
+        ArrayList<CityRouteBean.Fencepoint> fencePoints = _fence.fencePoints;
+        final int fencePointsSize = fencePoints.size();
+        ArrayList<HbcLantLng> resultList = new ArrayList<>(fencePointsSize);
+        try {
+            for (int i = 0; i < fencePointsSize; i++) {
+                CityRouteBean.Fencepoint fencePoint = fencePoints.get(i);
+                String[] points = fencePoint.startPoint.split(",");
+                HbcLantLng hbcLantLng = new HbcLantLng();
+                hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
+                hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
+                if(cityId==1269 || cityId==1270){
+                    HbcMapViewTools.convertToAmappCoordition(hbcLantLng);
+                }
+                resultList.add(hbcLantLng);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,ArrayList<DirectionBean.Step> _steps) {
+        if (_steps == null || _steps.size() <= 0) {
+            return null;
+        }
+        ArrayList<DirectionBean.Step> steps = _steps;
+        final int stepsSize = steps.size();
+        ArrayList<HbcLantLng> resultList = new ArrayList<>(stepsSize);
+        for (int i = 0; i < stepsSize; i++) {
+            DirectionBean.Step step = steps.get(i);
+            HbcLantLng hbcLantLng = new HbcLantLng();
+            hbcLantLng.latitude = CommonUtils.getCountDouble(step.startCoordinate.lat);
+            hbcLantLng.longitude = CommonUtils.getCountDouble(step.startCoordinate.lng);
+            if(cityId==1269 || cityId==1270){
+                HbcMapViewTools.convertToAmappCoordition(hbcLantLng);
+            }
+            resultList.add(hbcLantLng);
+        }
+        return resultList;
+    }
+
+    public static HbcLantLng getHbcLantLng(int cityId,String location) {
+        try {
+            String[] points = location.split(",");
+            HbcLantLng hbcLantLng = new HbcLantLng();
+            hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
+            hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
+            if(cityId==1269 || cityId==1270){
+                HbcMapViewTools.convertToAmappCoordition(hbcLantLng);
+            }
+            return hbcLantLng;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
