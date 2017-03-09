@@ -71,7 +71,6 @@ public final class DatabaseManager {
         whereBuilder.and("place_name", "<>", "中国大陆");
         selector.and(whereBuilder);
         selector.orderBy("initial");
-        Log.i("aa", "selector " + selector.toString());
         return selector;
     }
 

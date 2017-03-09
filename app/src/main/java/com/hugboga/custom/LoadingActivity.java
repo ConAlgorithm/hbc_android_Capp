@@ -106,9 +106,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             properties.put("hbc_channelId", BuildConfig.FLAVOR);
             properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -152,6 +150,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                     actionBean.source = "外部调起";
                 } catch (Exception e) {
                     //为空就直接进首页,没毛病
+                    MLog.i("hbcc 短信跳转 解析出错或数据为空");
                 }
             }
         }
@@ -256,11 +255,18 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         adClick = true;
         Intent intent = null;
         handler.removeMessages(200);
+         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
+            new SharedPre(this).setTravelFundHintIsShow(true);
+             UserEntity.getUser().setVersion(this, PhoneInfo.getSoftwareVersion(this));
+         } else {
+             new SharedPre(this).setTravelFundHintIsShow(false);
+         }
+
 //        if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
 //            new SharedPre(this).setTravelFundHintIsShow(true);
 //            intent = new Intent(LoadingActivity.this, SplashActivity.class);
 //        } else {
-            new SharedPre(this).setTravelFundHintIsShow(false);
+//            new SharedPre(this).setTravelFundHintIsShow(false);
             intent = new Intent(LoadingActivity.this, MainActivity.class);
 //        }
         if (actionBean != null) {

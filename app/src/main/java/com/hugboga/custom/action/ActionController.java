@@ -17,19 +17,17 @@ import java.lang.reflect.Constructor;
  */
 public class ActionController implements ActionControllerBehavior {
 
-    private Context context;
     private volatile static ActionController actionController;
     private ArrayMap<Integer, Class> pageMap;
 
-    private ActionController(Context context) {
-        this.context = context;
+    private ActionController() {
     }
 
-    public static ActionController getInstance(Context _context) {
+    public static ActionController getInstance() {
         if (actionController == null) {
             synchronized(ActionController.class) {
                 if (actionController == null) {
-                    actionController = new ActionController(_context);
+                    actionController = new ActionController();
                 }
             }
         }
@@ -37,7 +35,7 @@ public class ActionController implements ActionControllerBehavior {
     }
 
     @Override
-    public void doAction(final ActionBean _actionBean) {
+    public void doAction(Context context, final ActionBean _actionBean) {
         if (_actionBean == null) {
             return;
         }
@@ -83,7 +81,7 @@ public class ActionController implements ActionControllerBehavior {
     }
 
     @Override
-    public void handleAction(final ActionBean _actionBean) {
+    public void handleAction(Context context, final ActionBean _actionBean) {
 
     }
 
@@ -95,8 +93,8 @@ public class ActionController implements ActionControllerBehavior {
         ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
         if (actionBean != null) {
             actionBean.source = source;
-            ActionController actionFactory = ActionController.getInstance(context);
-            actionFactory.doAction(actionBean);
+            ActionController actionFactory = ActionController.getInstance();
+            actionFactory.doAction(context, actionBean);
         }
     }
 

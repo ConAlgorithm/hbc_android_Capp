@@ -191,16 +191,20 @@ public class BargainActivity extends BaseActivity {
         countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                countdown.changeTime((int) millisUntilFinished / 1000);
-                LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
+                if (countdown != null) {
+                    countdown.changeTime((int) millisUntilFinished / 1000);
+                    LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
+                }
             }
 
             @Override
             public void onFinish() {
-                LogUtil.e("===", "done");
-                countdown.changeTime(0);
-                cutMoney.setImageResource(R.mipmap.cut_end);
-                cutMoney.setOnClickListener(null);
+                if (countdown != null && cutMoney != null) {
+                    LogUtil.e("===", "done");
+                    countdown.changeTime(0);
+                    cutMoney.setImageResource(R.mipmap.cut_end);
+                    cutMoney.setOnClickListener(null);
+                }
             }
         };
     }

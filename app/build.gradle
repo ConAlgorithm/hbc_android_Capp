@@ -50,10 +50,10 @@ android {
     buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.hugboga.custom"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
-        versionCode 101260
-        versionName "3.2.0"
+        versionCode 101400
+        versionName "3.2.2"
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
@@ -162,6 +162,12 @@ android {
     //==applicationVariants==
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.0.2'
@@ -169,10 +175,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.0.2'
     compile project(':hbcframe')
     //compile project(':IMKit')
-    compile project(':nimlib')
+    //compile project(':nimlib')
     compile project(':polygonimageview')
     compile project(':timepicker')
-    compile 'com.nineoldandroids:library:2.4.0'
+
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.14'
     compile 'com.yalantis:ucrop:1.3.2'
     apt 'com.zhy:mpermission-compiler:1.0.0'
@@ -195,4 +201,6 @@ dependencies {
     compile project(':countdown')
     compile 'jp.wasabeef:blurry:2.0.3'
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.6.28'
+    compile 'com.airbnb.android:epoxy:1.7.5'
+    compile 'com.hugboga.im:nim_libary:1.1.6'
 }

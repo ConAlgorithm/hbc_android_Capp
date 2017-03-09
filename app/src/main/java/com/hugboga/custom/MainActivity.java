@@ -2,6 +2,7 @@ package com.hugboga.custom;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -69,6 +70,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
+import com.hugboga.custom.widget.HomeCustomLayout;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -89,6 +91,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -100,9 +103,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
     public static final String FILTER_PUSH_DO = "com.hugboga.custom.pushdo";
+    public static final String PARAMS_PAGE_INDEX = "page_index";
 
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 11;
     private static final int PERMISSION_ACCESS_FINE_LOCATION = 12;
+
+    public static final int REQUEST_EXTERNAL_STORAGE_UPDATE = 1;
+    public static final int REQUEST_EXTERNAL_STORAGE_DB = 2;
+    public static final int REQUEST_EXTERNAL_STORAGE = 3;
+    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @ViewInject(R.id.container)
     private ViewPager mViewPager;
@@ -116,6 +125,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private TextView tabMenu[] = new TextView[4];
     private ActionBean actionBean;
     private int currentPosition = 0;
+    private CheckVersionBean cvBean;
+    private DialogUtil dialogUtil;
 
     private FgHome fgHome;
     private FgNimChat fgChat;
@@ -126,17 +137,21 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int pagePosition = -1;
         if (savedInstanceState != null) {
             actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
+            pagePosition = savedInstanceState.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                currentPosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
            }
         }
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         checkVersion();
         sharedPre = new SharedPre(this);
+        verifyStoragePermissions(this, REQUEST_EXTERNAL_STORAGE);
         initBottomView();
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -164,8 +179,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         showAdWebView(getIntent().getStringExtra("url"));
 
         if (actionBean != null) {
-            ActionController actionFactory = ActionController.getInstance(this);
-            actionFactory.doAction(actionBean);
+            ActionController actionFactory = ActionController.getInstance();
+            actionFactory.doAction(this, actionBean);
+        }
+
+        if (pagePosition != -1) {
+            currentPosition = pagePosition;
+            mViewPager.setCurrentItem(currentPosition);
         }
     }
 
@@ -174,7 +194,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
         if (currentPosition == 0) {
-            GiftController.getInstance(this).showGiftDialog();
+            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
+            if (BuildConfig.VERSION_NAME.equals(versionName)) {
+                GiftController.getInstance(this).showGiftDialog();
+            }
         }
     }
 
@@ -233,6 +256,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void showAdWebView(String url){
         if(null != url) {
+            if (CommonUtils.isLogin(activity)) {
+                url = CommonUtils.getBaseUrl(url) + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
+            }
             Intent intent = new Intent(activity,WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
@@ -245,6 +271,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onSaveInstanceState(outState);
         if (actionBean != null) {
             outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
+            outState.putInt(MainActivity.PARAMS_PAGE_INDEX, currentPosition);
         }
     }
 
@@ -367,34 +394,65 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //            MLog.e("Location: cityId:"+cityId + ",  cityName:"+cityName);
         } else if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
-            final CheckVersionBean cvBean = requestCheckVersion.getData();
+            cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
-            final DialogUtil dialogUtil = DialogUtil.getInstance(this);
+            dialogUtil = DialogUtil.getInstance(this);
             dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (cvBean.force && dialogUtil.getVersionDialog() != null) {
-                        try {
-                            Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
-                            field.setAccessible(true);
-                            field.set(dialogUtil.getVersionDialog(), false);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                    } else {
+                        downloadApk();
                     }
-                    PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //在版本检测后 检测DB
-                    UpdateResources.checkRemoteDB(MainActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
-                        @Override
-                        public void onFinished() {
-                        }
-                    });
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                    } else {
+                        updateDb();
+                    }
                 }
             });
+        }
+    }
+
+    public void downloadApk() {
+        if (cvBean == null || dialogUtil == null) {
+            return;
+        }
+        if (cvBean.force && dialogUtil.getVersionDialog() != null) {
+            try {
+                Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
+                field.setAccessible(true);
+                field.set(dialogUtil.getVersionDialog(), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        PushUtils.startDownloadApk(MainActivity.this, cvBean.url);
+    }
+
+    public void updateDb() {
+        if (cvBean == null) {
+            return;
+        }
+        //在版本检测后 检测DB
+        UpdateResources.checkRemoteDB(MainActivity.this, cvBean.dbDownloadLink, cvBean.dbVersion, new CheckVersionCallBack() {
+            @Override
+            public void onFinished() {
+            }
+        });
+    }
+
+    public static void verifyStoragePermissions(Activity activity, int requestCode) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, requestCode);
+            }
         }
     }
 
@@ -407,7 +465,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         MLog.e(errorInfo == null ? "" : errorInfo.toString());
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -415,10 +472,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                int pagePosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
+                if (pagePosition != -1) {
+                    currentPosition = pagePosition;
+                    mViewPager.setCurrentItem(currentPosition);
+                }
             }
             if (actionBean != null) {
-                ActionController actionFactory = ActionController.getInstance(this);
-                actionFactory.doAction(actionBean);
+                ActionController actionFactory = ActionController.getInstance();
+                actionFactory.doAction(this, actionBean);
             }
         }
         receivePushMessage(intent);
@@ -434,8 +496,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             ActionBean actionBean = message.getActionBean();
             if (actionBean != null) {
                 actionBean.source = "push调起";
-                ActionController actionFactory = ActionController.getInstance(this);
-                actionFactory.doAction(actionBean);
+                ActionController actionFactory = ActionController.getInstance();
+                actionFactory.doAction(this, actionBean);
                 this.actionBean = actionBean;
             } else {
                 if ("IM".equals(message.type)) {
@@ -483,8 +545,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 if (actionBean != null) {
-                    ActionController actionFactory = ActionController.getInstance(this);
-                    actionFactory.doAction(actionBean);
+                    ActionController actionFactory = ActionController.getInstance();
+                    actionFactory.doAction(this, actionBean);
                     actionBean = null;
                 }
                 break;
@@ -492,6 +554,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 int index = Integer.valueOf(action.data.toString());
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
+                break;
+            case SHOW_GIFT_DIALOG:
+                if (currentPosition == 0) {
+                    GiftController.getInstance(this).showGiftDialog();
+                }
                 break;
             default:
                 break;
@@ -723,6 +790,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     // permission denied
                     MLog.e("==========denied=========");
                 }
+                break;
+            case REQUEST_EXTERNAL_STORAGE_UPDATE:
+                downloadApk();
+                break;
+            case REQUEST_EXTERNAL_STORAGE_DB:
+                updateDb();
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

@@ -82,11 +82,7 @@ public class ServicerCenterActivity extends BaseActivity {
                 break;
             case R.id.service_center_btn5:
                 //常见问题
-                Intent intent = new Intent(activity, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PROBLEM);
-                intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                startActivity(intent);
-
+                toWebInfo(UrlLibs.H5_PROBLEM);
                 break;
             default:
                 break;
@@ -101,6 +97,7 @@ public class ServicerCenterActivity extends BaseActivity {
     private void toWebInfo(String url) {
         Intent intent = new Intent(activity, WebInfoActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, url);
+        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
         startActivity(intent);
     }
 
@@ -120,7 +117,7 @@ public class ServicerCenterActivity extends BaseActivity {
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         headerRightBtn.setLayoutParams(headerRightImageParams);
         headerRightBtn.setPadding(0,0,0,0);
-        headerRightBtn.setImageResource(R.mipmap.icon_service);
+        headerRightBtn.setImageResource(R.mipmap.topbar_cs);
         headerRightBtn.setVisibility(View.VISIBLE);
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override

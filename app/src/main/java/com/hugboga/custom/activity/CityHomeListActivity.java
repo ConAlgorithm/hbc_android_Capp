@@ -87,6 +87,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     ImageView headerRightIV;
     @Bind(R.id.city_home_filter_layout)
     CityFilterLayout cityFilterLayout;
+    @Bind(R.id.view_bottom)
+    View view_bottom;
 
     private CityHomeHeader cityHomeHeader;
     private CityHomeFooter cityHomeFooter;
@@ -328,9 +330,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             titlebar.setVisibility(View.GONE);
             titlebar.setBackgroundColor(0x00000000);
             fgTitle.setTextColor(0x00000000);
+            view_bottom.setBackgroundColor(0x00000000);
         } else {
-            titlebar.setBackgroundColor(0xFF111111);
-            fgTitle.setTextColor(0xFFFFFFFF);
+            titlebar.setBackgroundColor(0xFFFFFFFF);
+            fgTitle.setTextColor(0xFF111111);
+            view_bottom.setBackgroundColor(0xFFbfc2c5);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             swipeRefreshLayout.setLayoutParams(params);
             params.addRule(RelativeLayout.BELOW, R.id.cityHome_list_titlebar);
@@ -438,11 +442,13 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                         } else {
                             alpha = Math.min(1, scrollY / showRegionHight);
                         }
-                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
-                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
+                        view_bottom.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFbfc2c5));
                     } else {
-                        titlebar.setBackgroundColor(0xFF111111);
-                        fgTitle.setTextColor(0xFFFFFFFF);
+                        titlebar.setBackgroundColor(0xFFFFFFFF);
+                        fgTitle.setTextColor(0xFF111111);
+                        view_bottom.setBackgroundColor(0xFFbfc2c5);
                     }
                 }
                 isShowCityFilter();
@@ -483,7 +489,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             Object obj = labelView.getTag();
             if(obj!=null){
                 if((Boolean)obj){
-                    if (topPadding <= animTopPadding || topPadding >= UIUtils.getScreenHeight()-animationIconLabelPaddingDistance){
+                    if (topPadding <= animTopPadding-labelView.getHeight() || topPadding >= UIUtils.getScreenHeight()+labelView.getHeight()){
                         labelView.setTag(false);
                         labelView.setVisibility(View.GONE);
                     }else{
@@ -660,8 +666,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 if (isCity) {
                     if(cityHomeBean==null || cityHomeBean.cityService==null){
                         titlebar.setVisibility(View.VISIBLE);
-                        titlebar.setBackgroundColor(0xFF111111);
-                        fgTitle.setTextColor(0xFFFFFFFF);
+                        titlebar.setBackgroundColor(0xFFFFFFFF);
+                        fgTitle.setTextColor(0xFF111111);
+                        view_bottom.setBackgroundColor(0xFFbfc2c5);
                         headerRightIV.setVisibility(View.GONE);
                         emptyView.showEmptyView(true);
                         return;
@@ -733,6 +740,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 cityHomeHeader.setFilterTypeTabValue(filterData.label);
                 hideFilterView();
                 setEvent(0,filterData.value);
+                setSensorsFilter(0,filterData.value);
                 break;
             case CITY_FILTER_DAY:
                 CityFilterData dayFilterData = (CityFilterData) action.getData();
@@ -741,6 +749,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 cityHomeHeader.setFilterDayTabValue(dayFilterData.label);
                 hideFilterView();
                 setEvent(1,dayFilterData.value);
+                setSensorsFilter(1,dayFilterData.value);
                 break;
             case CITY_FILTER_THEME:
                 CityHomeBean.GoodsThemes goodsThemes = (CityHomeBean.GoodsThemes) action.getData();
@@ -754,6 +763,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 }
                 hideFilterView();
                 setEvent(2,goodsThemes.themeName);
+                setSensorsFilter(2,goodsThemes.themeName);
                 break;
             case CITY_FILTER_CLOSE:
                 if(cityFilterLayout!=null){
@@ -871,5 +881,27 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 break;
         }
         StatisticClickEvent.showGscreenClick(StatisticConstant.GSCREEN_CLICK,StatisticConstant.GSCREEN_TRIGGER,themesValues,dayValue,themesValues);
+    }
+
+    //神策统计_筛选
+    public void setSensorsFilter(int type, String content) {
+        try {
+            JSONObject properties = new JSONObject();
+            switch (type) {
+                case 0:
+                    properties.put("hbc_filter_type", "商品类型");
+                    break;
+                case 1:
+                    properties.put("hbc_filter_type", "天数");
+                    break;
+                case 2:
+                    properties.put("hbc_filter_type", "主题");
+                    break;
+            }
+            properties.put("hbc_filter_content", content);
+            SensorsDataAPI.sharedInstance(this).track("filter", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -16,7 +16,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatInfo;
+import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
@@ -24,7 +24,6 @@ import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
@@ -38,6 +37,7 @@ import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
@@ -48,9 +48,11 @@ import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailGuideInfo;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -244,7 +246,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showPopupWindow();
                 break;
             case ORDER_DETAIL_CALL://联系客服
-                DialogUtil.showServiceDialog(this, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null);
+                DialogUtil.showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
                 break;
             case ORDER_DETAIL_PAY://立即支付
                 if (!eventVerification(action)) {
@@ -278,6 +280,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     intent.putExtra(Constants.PARAMS_DATA, requestParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                    setSensorsEvent();
                 }
                 break;
             case ORDER_DETAIL_INSURANCE_H5://皇包车免费赠送保险
@@ -314,31 +317,18 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (!eventVerification(action)) {
                     break;
                 }
-                final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
-                if (guideInfo == null) {
+                final ChatBean chatBean = orderBean.imInfo;
+                if (chatBean == null) {
                     return;
                 }
-                ChatInfo chatInfo = new ChatInfo();
-                chatInfo.isChat = true;
-                chatInfo.userId = guideInfo.guideID;
-                chatInfo.userAvatar = guideInfo.guideAvatar;
-                chatInfo.title = guideInfo.guideName;
-                chatInfo.targetType = "1";
-                chatInfo.inBlack = guideInfo.inBlack;
-                chatInfo.imUserId = guideInfo.guideImId;
-                chatInfo.flag = guideInfo.flag;
-                chatInfo.timediff = guideInfo.timediff;
-                chatInfo.timezone = guideInfo.timezone;
-                chatInfo.cityName = guideInfo.cityName;
-                chatInfo.countryName = guideInfo.countryName;
 
                 if(!IMUtil.getInstance().isLogined()){
                     return;
                 }
-                if(TextUtils.isEmpty(chatInfo.imUserId)){
+                if(TextUtils.isEmpty(chatBean.getNeTargetId())){
                     return;
                 }
-                NIMChatActivity.start(OrderDetailActivity.this,chatInfo.imUserId,null,new ParserChatInfo().toJsonString(chatInfo));
+                NIMChatActivity.start(OrderDetailActivity.this,chatBean.getNeTargetId());
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
                 if (!eventVerification(action)) {
@@ -489,7 +479,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     if (orderBean.orderStatus == OrderStatus.INITSTATE) {
                         tip = getString(R.string.order_cancel_tip);
                     } else if (orderBean.isChangeManual) {//需要人工取消订单
-                        DialogUtil.showCallDialogTitle(OrderDetailActivity.this, "如需要取消订单，请联系客服处理");
+                        DialogUtil.showDefaultServiceDialog(OrderDetailActivity.this, "如需要取消订单，请联系客服处理", getEventSource());
                         return;
                     } else {
                         tip = orderBean.cancelTip;
@@ -525,5 +515,70 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public String getEventSource() {
         return "订单详情";
+    }
+
+    //神策统计_确认行程
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            String skuType = "";
+            switch (orderBean.orderType) {
+                case 1:
+                    skuType = "接机";
+                    break;
+                case 2:
+                    skuType = "送机";
+                    break;
+                case 3:
+                    skuType = "定制包车游";
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    break;
+                case 4:
+                    skuType = "单次接送";
+                    break;
+                case 5:
+                    skuType = "固定线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType + "");
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    if (null != orderBean.orderPriceInfo) {
+                        properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    }
+                    break;
+                case 6:
+                    skuType = "推荐线路";
+                    properties.put("hbc_adultNum", orderBean.adult);
+                    properties.put("hbc_childNum", orderBean.child);
+                    properties.put("hbc_childseatNum", orderBean.childSeatNum);
+                    properties.put("hbc_car_type", orderBean.carType + "");
+                    properties.put("hbc_start_time", orderBean.serviceTime);
+                    properties.put("hbc_sku_id", orderBean.goodsNo);
+                    properties.put("hbc_sku_name", orderBean.lineSubject);
+                    if (null != orderBean.orderPriceInfo) {
+                        properties.put("hbc_room_average", orderBean.orderPriceInfo.priceHotel);
+                        properties.put("hbc_room_num", orderBean.hotelRoom);
+                        properties.put("hbc_room_totalprice", orderBean.hotelRoom * orderBean.orderPriceInfo.priceHotel);
+                    }
+                    break;
+            }
+            properties.put("hbc_sku_type", skuType);
+            properties.put("hbc_price_total", orderBean.orderPriceInfo.shouldPay);//费用总计
+            properties.put("hbc_price_coupon", String.valueOf(orderBean.orderPriceInfo.couponPrice));//使用优惠券
+            properties.put("hbc_price_tra_fund", orderBean.orderPriceInfo.travelFundPrice);//使用旅游基金
+//            int priceActual = (carBean.vehiclePrice + carBean.servicePrice) - CommonUtils.getCountInteger(orderBean.coupPriceInfo) - CommonUtils.getCountInteger(orderBean.travelFund);
+//            if (priceActual < 0) {
+//                priceActual = 0;
+//            }
+            properties.put("hbc_price_actually", orderBean.orderPriceInfo.actualPay);//实际支付金额
+            properties.put("hbc_is_appoint_guide", this.getIntent().getStringExtra("guideCollectId") == null ? false : true);//指定司导下单
+            SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
+        } catch (Exception e) {
+        }
     }
 }

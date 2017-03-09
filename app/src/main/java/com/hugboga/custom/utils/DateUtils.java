@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -37,6 +38,7 @@ public class DateUtils {
     public static SimpleDateFormat dateSimpleDateFormatMMdd = new SimpleDateFormat("MM月dd日");
     public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
+    public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E");
 
     public static String getNowDatetime() {
         return dateTimeFormat.format(Calendar.getInstance().getTime());
@@ -552,8 +554,6 @@ public class DateUtils {
 
     /**
      * 两个时间之间相差距离多少天
-     * @param one 时间参数 1：
-     * @param two 时间参数 2：
      * @return 相差天数
      */
     public static long getDistanceDays(String str1, String str2){
@@ -700,19 +700,44 @@ public class DateUtils {
             final long day = 24 * 3600000;
             Date date = dateDateFormat.parse(chooseDateStr);
             if (chooseDateStr.equalsIgnoreCase(lastDateStr)) {
-                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day * 2)));
-                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day)));
+                resultList.add(dateDateFormat.format(date.getTime() -  day * 2));
+                resultList.add(dateDateFormat.format(date.getTime() -  day));
                 resultList.add(chooseDateStr);
             } else if (startDateStr.equalsIgnoreCase(chooseDateStr)) {
                 resultList.add(chooseDateStr);
-                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
-                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day * 2)));
+                resultList.add(dateDateFormat.format(date.getTime() +  day));
+                resultList.add(dateDateFormat.format(date.getTime() +  day * 2));
             } else {
-                resultList.add(dateDateFormat.format(new Date(date.getTime() -  day)));
+                resultList.add(dateDateFormat.format(date.getTime() -  day));
                 resultList.add(chooseDateStr);
-                resultList.add(dateDateFormat.format(new Date(date.getTime() +  day)));
+                resultList.add(dateDateFormat.format(date.getTime() +  day));
             }
             return resultList;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getNextDay(String startDateStr, int count) {
+        try {
+            final long day = 24 * 3600000;
+            Date date = dateDateFormat.parse(startDateStr);
+            DateFormatSymbols symbols=dateWeekFormat3.getDateFormatSymbols();
+            symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+            dateWeekFormat3.setDateFormatSymbols(symbols);
+            return dateWeekFormat3.format(date.getTime() +  day * count);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getDay(String startDateStr, int count) {
+        try {
+            final long day = 24 * 3600000;
+            Date date = dateDateFormat.parse(startDateStr);
+            return dateDateFormat.format(date.getTime() +  day * count);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -726,6 +751,31 @@ public class DateUtils {
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    //格式化带周的时间
+    public static  String getStrWeekFormat3(String str){
+        try {
+            Date date = dateDateFormat.parse(str);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            DateFormatSymbols symbols = dateWeekFormat3.getDateFormatSymbols();
+            symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+            dateWeekFormat3.setDateFormatSymbols(symbols);
+            return dateWeekFormat3.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String getPointStrFromDate2(String dateStr){
+        try {
+            Date date = dateDateFormat.parse(dateStr);
+            return dateSimpleDateFormat.format(date.getTime());
+        } catch (Exception e) {
+            return "";
         }
     }
 }

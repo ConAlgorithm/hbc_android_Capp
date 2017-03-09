@@ -177,6 +177,7 @@ public class OrderBean implements IBaseBean{
     public OrderPriceInfo orderPriceInfo;   // priceInfo
     public OrderGuideInfo orderGuideInfo;   // guideInfo
     public CouponBean orderCoupon;          // coupon
+    public ChatBean imInfo;
 
     public int isShowBargain;       //  砍价复层是否显示
     public long bargainSeconds;     //  距离砍价结束时间 秒
@@ -306,4 +307,14 @@ public class OrderBean implements IBaseBean{
         }
     }
 
+    public String getGuideName() {
+        if (orderGuideInfo == null) {
+            return "";
+        }
+        if (guideAgencyType == 3) {
+            return orderGuideInfo.contact;
+        } else {
+            return orderGuideInfo.guideName;
+        }
+    }
 }

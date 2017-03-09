@@ -650,7 +650,7 @@
             android:id="@+id/next_btn_click"
             style="@style/OrderBottomConfirm"
             android:background="@drawable/shape_rounded_gray_btn"
-            android:text="@string/go_next"/>
+            android:text="确认行程"/>
 
         <View
             android:layout_width="match_parent"

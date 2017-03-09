@@ -27,6 +27,8 @@ public class CityBean implements IBaseBean ,Cloneable {
     public String location; //坐标
     @Column(name = "place_name")
     public String placeName;
+    @Column(name = "place_id")
+    public String placeId;
     @Column(name = "area_code")
     public String areaCode;
     @Column(name = "group_id")
@@ -67,6 +69,8 @@ public class CityBean implements IBaseBean ,Cloneable {
     public boolean isNationality = false;
 
     public int cityType = 1;// 1 市内 2 周边 3,市外
+
+    public String fromTag;//本地字段
 
 //    @Override
 //    public void parser(JSONObject jsonObj) throws JSONException {
@@ -125,6 +129,7 @@ public class CityBean implements IBaseBean ,Cloneable {
         this.isNationality = in.readByte() != 0;
         this.cityType = in.readInt();
         this.description = in.readString();
+        this.placeId = in.readString();
     }
 
 

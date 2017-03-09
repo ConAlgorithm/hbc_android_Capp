@@ -31,6 +31,8 @@ import com.hugboga.custom.utils.NetWorkUtils;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import java.io.File;
 
@@ -90,6 +92,7 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
                 File videoFile = new File(CommonUtils.getDiskFilesDir(Environment.DIRECTORY_MOVIES) + File.separator + VIDEO_PATH_NAME + videoVersion + ".mp4");
                 if (videoVersion > 0 && !videoFile.isDirectory() && videoFile.exists()) {
                     intentPlayer(Uri.fromFile(videoFile));
+                    setSensorPlayVideo();
                     return;
                 }
                 if (headVideo == null || TextUtils.isEmpty(headVideo.videoUrl)) {
@@ -108,10 +111,12 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
                         public void onClick(DialogInterface dialog, int which) {
                             intentPlayer(Uri.parse(headVideo.videoUrl));
                             StatisticClickEvent.click(StatisticConstant.PLAY_VIDEO,"首页视频播放");
+                            setSensorPlayVideo();
                         }
                     }, "取消观看", null);
                 } else {
                     intentPlayer(Uri.parse(headVideo.videoUrl));
+                    setSensorPlayVideo();
                 }
             }
         });
@@ -211,4 +216,12 @@ public class HomeBannerView extends RelativeLayout implements HbcViewBehavior, S
         }
     }
 
+    //神策统计_播放视频
+    public void setSensorPlayVideo(){
+        try {
+            SensorsDataAPI.sharedInstance(getContext()).track("play_video",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

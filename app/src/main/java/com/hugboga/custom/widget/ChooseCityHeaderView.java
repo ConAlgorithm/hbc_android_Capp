@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -192,19 +193,27 @@ public class ChooseCityHeaderView extends LinearLayout{
     private LinearLayout getSubTitleLayout(int iconRes, String title) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setGravity(Gravity.CENTER_VERTICAL);
+        linearLayout.setGravity(Gravity.TOP);
 
-        ImageView iconIV = new ImageView(getContext());
-        iconIV.setBackgroundResource(iconRes);
-        linearLayout.addView(iconIV, UIUtils.dip2px(14), UIUtils.dip2px(14));
+//        ImageView iconIV = new ImageView(getContext());
+//        iconIV.setBackgroundResource(iconRes);
+//        linearLayout.addView(iconIV, UIUtils.dip2px(14), UIUtils.dip2px(14));
 
         TextView titleTV = new TextView(getContext());
         titleTV.setTextColor(0xFF898989);
         titleTV.setTextSize(12);
-        titleTV.setText(title);
+        titleTV.setText(title.substring(0,2));
+        Drawable drawable = getResources().getDrawable(R.drawable.yellow_under_line);
+        drawable.setBounds(0,0,UIUtils.dip2px(25),UIUtils.dip2px(2));
+        titleTV.setCompoundDrawables(null,null,null,drawable);
+        TextView titleTV2 = new TextView(getContext());
+        titleTV2.setTextColor(0xFF898989);
+        titleTV2.setTextSize(12);
+        titleTV2.setText(title.substring(2,title.length()));
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        titleParams.leftMargin = UIUtils.dip2px(10);
+        titleParams.leftMargin = UIUtils.dip2px(2);
         linearLayout.addView(titleTV, titleParams);
+        linearLayout.addView(titleTV2);
 
         addView(linearLayout, LayoutParams.MATCH_PARENT, UIUtils.dip2px(40));
         return linearLayout;
@@ -233,6 +242,7 @@ public class ChooseCityHeaderView extends LinearLayout{
         TagGroup tagGroup = new TagGroup(getContext());
         tagGroup.setVerticalSpacing(UIUtils.dip2px(10));
         tagGroup.setHorizontalSpacing(UIUtils.dip2px(10));
+        tagGroup.setPadding(0,0,0,UIUtils.dip2px(10));
         addView(tagGroup);
         return tagGroup;
     }

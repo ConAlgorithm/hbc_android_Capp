@@ -89,4 +89,11 @@ public enum EventType {
     CITY_FILTER_DAY,//城市列表按天数过滤
     CITY_FILTER_THEME,//城市列表按主题过滤
     CITY_FILTER_CLOSE,//关闭城市过滤
+
+    SHOW_GIFT_DIALOG,//显示未登录领卷
+
+    SKU_ORDER_REFRESH,//线路下单 数据刷新
+
+    CHARTER_LIST_REFRESH,//包车选行程刷新
+    CHARTER_FIRST_REFRESH,//刷新包车第一步页面
 }

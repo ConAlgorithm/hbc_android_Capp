@@ -59,9 +59,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             properties.put("hbc_web_url", webUrl);
             properties.put("hbc_refer", "首页");
             SensorsDataAPI.sharedInstance(getContext()).track("page_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

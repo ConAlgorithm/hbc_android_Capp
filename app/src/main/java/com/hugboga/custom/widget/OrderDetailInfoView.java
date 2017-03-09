@@ -46,6 +46,9 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
 
         insuranceGetLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_get_layout);
+
+        findViewById(R.id.order_detail_insurance_iv).setOnClickListener(this);
+        findViewById(R.id.order_detail_insurance_iv).setSelected(true);
     }
 
     @Override
@@ -94,6 +97,9 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                 intent = new Intent(getContext(), InsureInfoActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
+                break;
+            case R.id.order_detail_insurance_iv://不做任何处理
+                v.setSelected(!v.isSelected());
                 break;
         }
     }

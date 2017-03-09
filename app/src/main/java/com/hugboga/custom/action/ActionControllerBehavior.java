@@ -1,5 +1,7 @@
 package com.hugboga.custom.action;
 
+import android.content.Context;
+
 import com.hugboga.custom.action.data.ActionBean;
 
 /**
@@ -7,8 +9,8 @@ import com.hugboga.custom.action.data.ActionBean;
  */
 public interface ActionControllerBehavior {
 
-    public void handleAction(ActionBean _actionBean);
+    public void handleAction(Context context, ActionBean _actionBean);
 
-    public void doAction(ActionBean _actionBean);
+    public void doAction(Context context, ActionBean _actionBean);
 
 }

@@ -338,6 +338,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
                     airPort.cityName = data.city.cityName;
                     airPort.airportName = data.airports.get(i).airportName;
                     airPort.airportCode = data.airports.get(i).airportCode;
+                    airPort.location = data.airports.get(i).airportLocation;
                     airPort.airportId = 0;
                     airPort.cityId = Integer.valueOf(data.city.cityId);
                     gpsDateList.add(airPort);
@@ -374,11 +375,13 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     @Override
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
-        AirPort airPort = sourceDateList.get(position);
+//        AirPort airPort = sourceDateList.get(position);
+        AirPort airPort = (AirPort) adapter.getItem(position);
         if (TextUtils.isEmpty(airPort.airportName)) {
             return;
         }
         saveHistoryDate(airPort);
+        hideInputMethod(headSearch);
         finish();
         EventBus.getDefault().post(new EventAction(EventType.AIR_PORT_BACK, sourceDateList.get(position)));
 

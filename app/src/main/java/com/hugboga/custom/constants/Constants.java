@@ -23,6 +23,7 @@ public final class Constants {
     public static final int BUSINESS_TYPE_RENT = 4;//次租
     public static final int BUSINESS_TYPE_COMMEND = 5;//固定路线
     public static final int BUSINESS_TYPE_RECOMMEND = 6;//推荐线路
+    public static final int BUSINESS_TYPE_COMBINATION = 888;//组合单订单类型
 
     public static final int BUSINESS_TYPE_HOME = 8;//首页SKU
 
@@ -43,6 +44,7 @@ public final class Constants {
     public static final String PARAMS_SOURCE_DETAIL = "source_detail";
     public static final String PARAMS_ORDER_NO = "orderNo";
     public static final String PARAMS_ORDER_TYPE = "orderType";
+    public static final String PARAMS_START_CITY_BEAN = "startCityBean";
 
     public static final String PARAMS_CITY_ID = "cityId";
 

@@ -259,20 +259,24 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 //        intent.putExtra("type",3);
 //        startActivity(intent);
         Calendar calendar = Calendar.getInstance();
+        picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
+        picker.setRangeStart(1900, 01, 01);
+        Calendar currentCalendar = Calendar.getInstance();
+        picker.setRangeEnd(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.DATE));
+        picker.setTitleText("请选择出生日期");
         try {
             if (!TextUtils.isEmpty(birthday.getText())) {
                 if (dateDateFormat == null) {
                     dateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 }
                 calendar.setTime(dateDateFormat.parse(birthday.getText().toString()));
+                picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
+            } else {
+                picker.setSelectedItem(1990, 1, 1);
             }
         } catch (ParseException e) {
-
+            picker.setSelectedItem(1990, 1, 1);
         }
-        picker = new DatePicker(activity, DatePicker.YEAR_MONTH_DAY);
-        picker.setRange(1900,2050);
-        picker.setTitleText("请选择出生日期");
-        picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {

@@ -62,9 +62,9 @@ public class ChangePswActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        hideInputMethod(oldPwdEditText);
+    protected void onPause() {
+        super.onPause();
+        hideSoftInput();
     }
 
     @Override

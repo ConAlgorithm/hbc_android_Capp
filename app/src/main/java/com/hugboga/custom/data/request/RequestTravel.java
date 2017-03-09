@@ -16,8 +16,7 @@ import java.util.HashMap;
  * 订单行程列表 解析器
  * Created by admin on 2016/3/23.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_LIST, builder = NewParamsBuilder.class)
-public class RequestTravel extends BaseRequest {
+public abstract class RequestTravel extends BaseRequest {
     public RequestTravel(Context context, int orderShowType) {
         super(context);
         map = new HashMap<String, Object>();
@@ -31,8 +30,4 @@ public class RequestTravel extends BaseRequest {
         return new ParserTravel();
     }
 
-    @Override
-    public String getUrlErrorCode() {
-        return "40089";
-    }
 }

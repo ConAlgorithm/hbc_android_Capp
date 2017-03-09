@@ -96,8 +96,12 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     }
 
     protected void hideInputMethod(View view) {
-        InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        m.hideSoftInputFromWindow(view.getWindowToken(),0);
+        try {
+            InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            m.hideSoftInputFromWindow(view.getWindowToken(),0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //获取上个界面的来源
@@ -141,6 +145,11 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    View focusView = BaseActivity.this.getCurrentFocus();
+                    if(focusView!=null){
+                        focusView.clearFocus();
+                        hideInputMethod(focusView);
+                    }
                     finish();
                 }
             });

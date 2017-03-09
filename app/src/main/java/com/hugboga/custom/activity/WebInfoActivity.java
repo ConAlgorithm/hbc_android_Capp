@@ -29,10 +29,12 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -66,6 +68,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private boolean isLogin = false;
     private String url;
     private WebAgent webAgent;
+    private String title;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             if (headerTitle != null && view != null && !TextUtils.isEmpty(view.getTitle())) {
+                WebInfoActivity.this.title = view.getTitle();
                 headerTitle.setText(view.getTitle());
                 if (webAgent != null) {
                     webAgent.setTitle(view.getTitle());
@@ -183,10 +187,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
 
         @Override
-        public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
+        public void onReceivedTitle(WebView view, String _title) {
+            super.onReceivedTitle(view, _title);
             if (headerTitle != null) {
                 if (!view.getTitle().startsWith("http:") && !TextUtils.isEmpty(view.getTitle())) {
+                    WebInfoActivity.this.title = view.getTitle();
                     headerTitle.setText(view.getTitle());
                     if (webAgent != null) {
                         webAgent.setTitle(view.getTitle());
@@ -275,7 +280,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
             headerRightBtn.setLayoutParams(headerRightImageParams);
             headerRightBtn.setPadding(0,0,0,0);
-            headerRightBtn.setImageResource(R.mipmap.icon_service);
+            headerRightBtn.setImageResource(R.mipmap.topbar_cs);
             headerRightBtn.setVisibility(View.VISIBLE);
             headerRightBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -309,10 +314,12 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);
+
+        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     @Override
     public String getEventSource() {
-        return "web页面";
+        return TextUtils.isEmpty(title) ? "web页面" : title;
     }
 }

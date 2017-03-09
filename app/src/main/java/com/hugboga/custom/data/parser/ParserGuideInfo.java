@@ -31,6 +31,7 @@ public class ParserGuideInfo extends ImplParser {
             orderGuideInfo.cityId = jsonObj.optInt("cityId", 0);
             orderGuideInfo.countryName = jsonObj.optString("countryName");
             orderGuideInfo.countryId = jsonObj.optInt("countryId", 0);
+            orderGuideInfo.contact = jsonObj.optString("contact");
         }
 
         return orderGuideInfo;

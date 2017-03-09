@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * Created on 16/8/4.
  */
 
-public class PoiSearchActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnKeyListener, ZListView.OnRefreshListener, ZListView.OnLoadListener {
+public class PoiSearchActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnKeyListener, ZListView.OnRefreshListener{
 
     public static final String KEY_ARRIVAL = "arrival";
 
@@ -59,13 +59,15 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
     public static final String KEY_CITY_ID = "key_city_id";
     public static final String KEY_LOCATION = "location";
+    public static final String PARAM_BUSINESS_TYPE = "mBusinessType";
+
 
     public PoiSearchAdapter adapter;
     private long t = 0;
     private List<PoiBean> sourceDateList;
     private int cityId;
     private String location;
-    private int PAGESIZE = 20;
+    private int PAGESIZE = 50;
     private String searchWord = "";
     private SharedPre sharedPre;
     private ArrayList<String> placeHistoryArray = new ArrayList<String>();
@@ -80,7 +82,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         location = getIntent().getStringExtra(KEY_LOCATION);
         source = getIntent().getStringExtra("source");
         sharedPre = new SharedPre(activity);
-        mBusinessType = getIntent().getIntExtra("mBusinessType", 1);
+        mBusinessType = getIntent().getIntExtra(PARAM_BUSINESS_TYPE, 1);
 //        fgTitle.setText("搜索目的地");
     }
 
@@ -112,7 +114,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         adapter = new PoiSearchAdapter(activity);
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(this);
-        sortListView.setonLoadListener(this);
+//        sortListView.setonLoadListener(this);
         sortListView.setonRefreshListener(this);
         sortListView.getHeadView().setVisibility(View.GONE);
         sortListView.onLoadCompleteNone();
@@ -137,6 +139,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 editSearch.setHint(getResources().getString(R.string.search_hint_send));
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
+            case Constants.BUSINESS_TYPE_COMBINATION:
                 //日租
                 break;
             case Constants.BUSINESS_TYPE_RENT:
@@ -175,15 +178,14 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             if (historyList.size() > 0)
                 arrivalTip.setTextColor(0xff242424);
             arrivalTip.setText("搜索历史");
+            arrivalTip.setVisibility(View.VISIBLE);
             return;
         }
-        arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
-        arrivalTip.setText(R.string.arrival_tip_hotel);
     }
 
-    String pageToken = null;
+    int listCount = 0;
     private void requestKeyword(int offset) {
-        if (sortListView.state == ZListView.LOADING_MORE && TextUtils.isEmpty(pageToken)) {
+        if (sortListView.state == ZListView.LOADING_MORE && adapter.getCount() >= listCount) {
             return;
         }
         if (isLoading) {
@@ -196,9 +198,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         map.put("searchinput",searchWord);
         MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
 
-        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity,
-                cityId, location, searchWord,
-                offset, PAGESIZE,mBusinessType,pageToken);
+        RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE);
         requestData(requestPoiSearch);
     }
 
@@ -208,7 +208,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         if (request instanceof RequestPoiSearch) {
             RequestPoiSearch requestPoiSearch = (RequestPoiSearch) request;
             NewPoiBean newPoiBean = (requestPoiSearch.getData());//listDate;
-            pageToken = newPoiBean.pageToken;
+            listCount = newPoiBean.count;
             ArrayList<PoiBean> dateList = newPoiBean.listDate;
             sortListView.setEmptyView(emptyView);
             if (TextUtils.isEmpty(editSearch.getText())) {
@@ -229,6 +229,11 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 adapter.setList(dateList);
 //                sortListView.setAdapter(adapter);
                 sortListView.onRefreshComplete();
+                sortListView.setSelection(0);
+
+                arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
+                arrivalTip.setText(R.string.arrival_tip_hotel);
+                arrivalTip.setVisibility(View.GONE);
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
             isLoading = false;
@@ -274,12 +279,14 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 bundle.putSerializable(KEY_ARRIVAL, bean);
 
 //                finishForResult(bundle);
+                hideSoftInput();
                 finish();
                 if(type != null){
                     if(null != bean){
                         bean.type = type;
                     }
                 }
+                bean.mBusinessType = mBusinessType;
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_POI_BACK, bean));
             }
         }
@@ -298,15 +305,13 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
      * 根据输入字符进行搜索
      */
     private void search() {
-        arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
         searchWord = editSearch.getText().toString();
         if (!TextUtils.isEmpty(searchWord) && !TextUtils.isEmpty(searchWord.trim())) {
             searchWord = searchWord.trim();
             saveHistoryDate(searchWord);
             onRefresh();
-            arrivalTip.setText(R.string.arrival_tip_same);
         } else {
-            arrivalTip.setText(R.string.arrival_tip_hotel);
+            arrivalTip.setVisibility(View.GONE);
             sourceDateList = null;
             editSearch.setText("");
             adapter.setList(sourceDateList);
@@ -332,14 +337,8 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onLoad() {
-        requestKeyword(adapter.getCount());
-    }
-
-    @Override
     public void onRefresh() {
         sortListView.state = ZListView.RELEASE_To_REFRESH;
-        pageToken = null;
         if(!TextUtils.isEmpty(searchWord)) {
             requestKeyword(0);
         }else{

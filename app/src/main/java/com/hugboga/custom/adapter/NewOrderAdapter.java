@@ -28,14 +28,12 @@ import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.ImChatInfo;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestImChatId;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.DateUtils;
@@ -253,7 +251,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.br_layout.setVisibility(View.GONE);//添加投保人
                 vh.mPrice.setVisibility(View.VISIBLE);//支付TV
                 if(orderBean.orderPriceInfo != null){
-                    vh.mPrice.setText("支付金额：" + orderBean.orderPriceInfo.actualPay + "元");
+                    vh.mPrice.setText("支付金额：" + Math.round(orderBean.orderPriceInfo.actualPay) + "元");
                 }
                 vh.mHeadLayout.setVisibility(View.GONE);//司导信息
                 vh.mBtnPay.setVisibility(View.VISIBLE);//立即支付btn
@@ -309,7 +307,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -369,7 +367,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
 
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -415,7 +413,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
 
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -443,7 +441,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
 
-                    vh.mHeadTitle.setText(orderBean.orderGuideInfo.guideName);
+                    vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
                     } else {
@@ -515,8 +513,19 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
-                    if(mOrderBean.orderGuideInfo!=null&&mOrderBean.orderGuideInfo.guideID!=null){
-                        requestImChatId(mOrderBean.orderGuideInfo);
+                    if(mOrderBean.imInfo!=null){
+                        String imId = mOrderBean.imInfo.getNeTargetId();
+                        if(!TextUtils.isEmpty(imId)){
+                            gotoChatView(imId);
+                        }else{
+                            if(mOrderBean.orderGuideInfo!=null){
+                                requestImChatId(mOrderBean.orderGuideInfo);
+                            }
+                        }
+                    }else{
+                        if(mOrderBean.orderGuideInfo!=null){
+                            requestImChatId(mOrderBean.orderGuideInfo);
+                        }
                     }
                     break;
                 case R.id.travel_item_head_img:
@@ -540,6 +549,9 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
     }
 
     private void requestImChatId(final OrderGuideInfo orderGuideInfo){
+        if(TextUtils.isEmpty(orderGuideInfo.guideID)){
+            return;
+        }
         RequestImChatId requestImChatId = new RequestImChatId(context, UserEntity.getUser().getUserId(context),"2",orderGuideInfo.guideID,"1");
         HttpRequestUtils.request(context,requestImChatId,new HttpRequestListener(){
             @Override
@@ -548,7 +560,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 Object object = request.getData();
                 if(object instanceof ImChatInfo){
                     ImChatInfo imChatInfo = (ImChatInfo)object;
-                    gotoChatView(orderGuideInfo, imChatInfo.neTargetId, imChatInfo.inBlack);
+                    gotoChatView(imChatInfo.neTargetId);
                 }
             }
 
@@ -562,28 +574,11 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         });
     }
 
-    private void gotoChatView(OrderGuideInfo orderGuideInfo, String imChatId,int inblack) {
+    private void gotoChatView(String imChatId) {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
-        NIMChatActivity.start(context,imChatId,null,titleJson);
-    }
-    private String getChatInfo(final OrderGuideInfo orderGuideInfo, String targetType,String imChatId,int inblack) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = orderGuideInfo.guideID;
-        chatInfo.imUserId =imChatId;
-        chatInfo.userAvatar = orderGuideInfo.guideAvatar;
-        chatInfo.title = orderGuideInfo.guideName;
-        chatInfo.targetType = targetType;
-        chatInfo.inBlack = inblack;
-        chatInfo.flag = orderGuideInfo.flag;
-        chatInfo.timediff = orderGuideInfo.timediff;
-        chatInfo.timezone = orderGuideInfo.timezone;
-        chatInfo.cityName = orderGuideInfo.cityName;
-        chatInfo.countryName = orderGuideInfo.countryName;
-        return new ParserChatInfo().toJsonString(chatInfo);
+        NIMChatActivity.start(context,imChatId);
     }
 
 }

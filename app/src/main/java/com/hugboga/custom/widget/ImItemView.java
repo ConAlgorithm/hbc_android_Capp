@@ -18,10 +18,10 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 
-import org.xutils.view.annotation.ViewInject;
-
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,21 +65,26 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
         final ChatBean chatBean = (ChatBean)_data;
         if (chatBean != null) {
             mUsername.setText(chatBean.targetName);
-            if (chatBean.targetType == 3) {
+            if (chatBean.getTargetType() == 3) {
                 mMessage.setText("您有任何问题，欢迎咨询客服小包子");
                 serviceIconTV.setVisibility(View.VISIBLE);
-            } else if (!TextUtils.isEmpty(chatBean.lastMsg)) {
-                mMessage.setText(chatBean.lastMsg.trim());
+            } else if (!TextUtils.isEmpty(chatBean.getLastMsg())) {
+                mMessage.setText(chatBean.getLastMsg().trim());
                 serviceIconTV.setVisibility(View.GONE);
             } else {
                 mMessage.setText("");
                 serviceIconTV.setVisibility(View.GONE);
             }
-            try {
-                mTime.setText(DateUtils.resetLetterTime(chatBean.lastTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(chatBean.getTimeStamp()!=0){
+                try {
+                    mTime.setText(getDate(chatBean.getTimeStamp()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                mTime.setText("");
             }
+
             if (!TextUtils.isEmpty(chatBean.targetAvatar)) {
                 Tools.showImage(mImage, chatBean.targetAvatar, R.mipmap.icon_avatar_guide);
             } else {
@@ -94,7 +99,7 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
      * 刷新未读消息数
      */
     private void flushPoint(ChatBean chatBean) {
-        if(chatBean.targetType==3){
+        if(chatBean.getTargetType()==3){
             mUnReadCount.setVisibility(View.GONE);
             int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
             if(unreadCount>0){
@@ -104,7 +109,7 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             }
         }else{
             serviceUnread.setVisibility(View.GONE);
-            Integer ints = chatBean.imCount;
+            Integer ints = chatBean.getImCount();
             if (ints > 0) {
                 mUnReadCount.setVisibility(View.VISIBLE);
                 if (ints > 99) {
@@ -130,6 +135,25 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             mListView.setAdapter(adapter);
         } else {
             mOrdersLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private String getDate(long time) {
+        Date date = new Date(time);
+        if (DateUtils.isToday(date)) {
+            try {
+                SimpleDateFormat dateformatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                return dateformatter.format(date);
+            }catch (Exception e){
+                return "";
+            }
+        } else {
+            try {
+                SimpleDateFormat dateformatter = new SimpleDateFormat("MM-dd", Locale.getDefault());
+                return dateformatter.format(date);
+            }catch (Exception e){
+                return "";
+            }
         }
     }
 }

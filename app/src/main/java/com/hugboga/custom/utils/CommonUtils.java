@@ -1,5 +1,6 @@
 package com.hugboga.custom.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -100,6 +101,19 @@ public final class CommonUtils {
             count = Long.valueOf(_count);
         } catch(Exception e) {
             return 0L;
+        }
+        return count;
+    }
+
+    public static Double getCountDouble(String _count) {
+        if (TextUtils.isEmpty(_count)) {
+            return 0d;
+        }
+        double count = 0d;
+        try {
+            count = Double.valueOf(_count);
+        } catch(Exception e) {
+            return 0d;
         }
         return count;
     }
@@ -336,5 +350,18 @@ public final class CommonUtils {
         if (imm != null && inputText != null) {
             imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0);
         }
+    }
+
+    public static void hideSoftInput(Activity activity) {
+        if (activity == null || activity.getCurrentFocus() == null || activity.getCurrentFocus().getWindowToken() == null) {
+            return;
+        }
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

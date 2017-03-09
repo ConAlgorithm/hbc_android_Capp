@@ -247,7 +247,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         }
 
         if(checkInChecked) {
-            if (!TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice) && null != carListBean.additionalServicePrice) {
+            if (carListBean != null && !TextUtils.isEmpty(carListBean.additionalServicePrice.pickupSignPrice) && null != carListBean.additionalServicePrice) {
                 total += Integer.valueOf(carListBean.additionalServicePrice.pickupSignPrice);
             }
         }
@@ -322,7 +322,9 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
                 case GUIDE_DEL:
                     collectGuideBean = null;
                     manLuggageBean = null;
-                    carListBean.carList = carListBak;
+                    if (null != carListBak) {
+                        carListBean.carList = carListBak;
+                    }
                     if (null == carListBean) {
                         show_cars_layout_pick.setVisibility(GONE);
                     } else {

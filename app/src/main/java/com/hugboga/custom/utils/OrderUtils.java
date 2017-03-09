@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -79,6 +80,25 @@ public class OrderUtils {
         return seat1PriceTotal;
     }
 
+    public static int getSeat2PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+        int seat2Price = 0;
+
+        if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice2) {
+            seat2Price = Integer.valueOf(additionalServicePrice.childSeatPrice2);
+        }
+        int seat2PriceTotal = seat2Price * getSeat2Count(manLuggageBean);
+        return seat2PriceTotal;
+    }
+
+    public static int getSeat1PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+        int seat1Price = 0;
+        if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice1) {
+            seat1Price = Integer.valueOf(additionalServicePrice.childSeatPrice1);
+        }
+        int seat1PriceTotal = seat1Price * getSeat1Count(manLuggageBean);
+        return seat1PriceTotal;
+    }
+
     public static int getSeat2PriceTotal(CarListBean carListBean,ManLuggageBean manLuggageBean){
         int seat2Price = 0;
 
@@ -88,7 +108,6 @@ public class OrderUtils {
         int seat2PriceTotal = seat2Price * getSeat2Count(manLuggageBean);
         return seat2PriceTotal;
     }
-
 
     private String getChileSeatJson(CarListBean carListBean,ManLuggageBean manLuggageBean){
         int seat1Price = 0;
@@ -776,45 +795,62 @@ public class OrderUtils {
     }
 
     //确认订单协议
-    public static void genAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT);
+    public static void genAgreeMent(final Activity activity, TextView textView,String source) {
+        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f, null);
     }
 
     //注册协议
     public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL);
+        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef, null);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url) {
-        int start = agree_text.indexOf(agree_text_click);
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
+        int start = agree_text.lastIndexOf(agree_text_click);
         int end = agree_text.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity,url), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity,url,color,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
 
-    static class MyCLickSpan extends ClickableSpan{
+    public static class MyCLickSpan extends ClickableSpan{
         Activity activity;
         String url;
-        public MyCLickSpan(Activity activity,String url) {
+        int color = 0xff008cef;
+        OnSpanClickListener listener;
+
+        public MyCLickSpan(Activity activity,String url, int color, OnSpanClickListener listener) {
             super();
             this.activity = activity;
             this.url = url;
+            this.color = color;
+            this.listener = listener;
         }
 
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
-            ds.setColor(0xff008cef);
-            ds.setUnderlineText(false);
+            ds.setColor(color);
+            ds.setUnderlineText(true);
         }
 
         @Override
         public void onClick(View widget) {
-            Intent intent = new Intent(activity,WebInfoActivity.class);
-            intent.putExtra("web_url", url);
-            activity.startActivity(intent);
+            if (listener != null) {
+                listener.onSpanClick(widget);
+            } else {
+                Intent intent = new Intent(activity,WebInfoActivity.class);
+                intent.putExtra("web_url", url);
+                activity.startActivity(intent);
+            }
+        }
+
+        public interface OnSpanClickListener {
+            public void onSpanClick(View view);
+        }
+
+        public void setOnSpanClickListener(OnSpanClickListener listener) {
+            this.listener = listener;
         }
     }
 

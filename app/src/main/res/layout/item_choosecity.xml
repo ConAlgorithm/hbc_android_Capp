@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="30dp">
+    android:layout_height="50dp">
 
     <ImageView
         android:id="@+id/item_choosecity_selected_iv"
@@ -12,6 +10,8 @@
         android:layout_centerVertical="true"
         android:src="@mipmap/list_checked"
         android:visibility="gone"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="30dp"
         />
 
     <TextView
@@ -19,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
         android:textColor="#333333"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:id="@+id/item_choosecity_subtitle_tv"

@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckVersion;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
@@ -88,6 +89,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_UPDATE);
                                 if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
                                     try {
                                         Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
@@ -102,6 +104,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         },  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_DB);
                                 //在版本检测后 检测DB
                                 UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
                                     @Override
@@ -122,6 +125,17 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                     }
                 }, false);
                 return true;
+            case 89932://固定线路下单 价格变更
+            case 89933://固定线路下单 商品数量变更
+                AlertDialogUtils.showAlertDialog(mContext, "提示", content, "我知道了", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EventBus.getDefault().post(new EventAction(EventType.SKU_ORDER_REFRESH));
+                    }
+                });
+                return true;
+
         }
         return false;
     }

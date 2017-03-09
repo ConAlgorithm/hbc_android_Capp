@@ -95,7 +95,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     public void update(CarBean _carBean, CarListBean _carListBean, String _serverDate, SkuItemBean skuItemBean) {
-        if (_carBean == null || _carListBean == null || skuItemBean == null) {
+        if (_carBean == null || _carListBean == null) {
             return;
         }
 
@@ -132,7 +132,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         setMaxLuggage();
 
         //酒店
-        if (skuItemBean.hotelStatus == 1) {
+        if (skuItemBean != null && skuItemBean.hotelStatus == 1) {
             roomLayout.setVisibility(View.VISIBLE);
             roomTitleTV.setText(String.format("%1$s晚", "" + skuItemBean.hotelCostAmount));
             setPriceText(roomPriceTV, getHotelTotalPrice(), roomCount);

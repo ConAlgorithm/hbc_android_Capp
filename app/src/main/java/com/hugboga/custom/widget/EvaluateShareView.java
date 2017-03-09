@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.data.bean.AppraisementBean;
@@ -24,6 +25,10 @@ import com.hugboga.custom.statistic.event.EventEvaluateShareFloat;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by qingcha on 16/7/15.
@@ -89,7 +94,8 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
                 , appraisement.wechatShareTitle
                 , appraisement.wechatShareContent
                 , shareUrl);
-        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "评价");
+//        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", "评价");
+        setSensorsShare(type);
     }
 
     public void toggle(boolean _isShow) {
@@ -136,5 +142,40 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
                 setVisibility(View.GONE);
             }
         }
+    }
+
+    public void setSensorsShare(Integer type) {
+        if (null == orderBean) {
+            return;
+        }
+        try {
+            JSONObject properties = new JSONObject();
+            String skuType = "";
+            switch (orderBean.orderType) {
+                case 1:
+                    skuType = "接机";
+                    break;
+                case 2:
+                    skuType = "送机";
+                    break;
+                case 3:
+                    skuType = "定制包车游";
+                    break;
+                case 4:
+                    skuType = "单次接送";
+                    break;
+                case 5:
+                    skuType = "固定线路";
+                    break;
+                case 6:
+                    skuType = "推荐线路";
+                    break;
+            }
+            properties.put("hbc_share_channelId", type == 1 ? "微信好友" : "朋友圈");
+            properties.put("hbc_share_content", skuType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

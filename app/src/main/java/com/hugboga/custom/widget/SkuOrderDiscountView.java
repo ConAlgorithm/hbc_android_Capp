@@ -137,12 +137,12 @@ public class SkuOrderDiscountView extends LinearLayout{
         resetCheckedView();
     }
 
-    public void resetCheckedView() {
+    public synchronized void resetCheckedView() {
         if (isInvalidCoupon && isInvalidTravelFund) {
             currentType = TYPE_INVALID;
-        } else if (currentType == TYPE_COUPON && isInvalidCoupon && !isInvalidTravelFund) {
+        } else if (currentType != TYPE_TRAVEL_FUND && isInvalidCoupon && !isInvalidTravelFund) {
             currentType = TYPE_TRAVEL_FUND;
-        } else if (currentType == TYPE_TRAVEL_FUND && isInvalidTravelFund && !isInvalidCoupon) {
+        } else if (currentType != TYPE_COUPON && isInvalidTravelFund && !isInvalidCoupon) {
             currentType = TYPE_COUPON;
         }
         boolean isTravelFund = currentType == TYPE_TRAVEL_FUND && !isInvalidTravelFund;

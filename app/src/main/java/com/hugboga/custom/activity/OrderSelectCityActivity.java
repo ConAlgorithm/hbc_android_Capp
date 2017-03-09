@@ -93,6 +93,9 @@ import static com.hugboga.custom.R.id.start_city_click;
 
 
 public class OrderSelectCityActivity extends BaseActivity {
+
+    private String fromSource="";
+
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_title)
@@ -864,6 +867,9 @@ public class OrderSelectCityActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_select_city);
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("fromSource"))) {
+            fromSource = getIntent().getStringExtra("fromSource");
+        }
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
@@ -950,6 +956,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     bundle.putString(KEY_FROM, "startAddress");
                     bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                     Intent intent = new Intent(activity, ChooseCityActivity.class);
+                    intent.putExtra("fromInterCity",true);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -1052,22 +1059,6 @@ public class OrderSelectCityActivity extends BaseActivity {
 
 
     private void goToSelectCar(){
-        if (chooseDateBean != null && chooseDateBean.isToday && !TextUtils.isEmpty(serverTime)) {
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-            long currentTimeMillis = 0;
-            long serverTimeMillis = 0;
-            try {
-                currentTimeMillis = formatter.parse(formatter.format(System.currentTimeMillis())).getTime();
-                serverTimeMillis = formatter.parse(serverTime).getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (currentTimeMillis != 0 && serverTimeMillis != 0 && Math.abs(serverTimeMillis) < (Math.abs(currentTimeMillis) + 2 * 60 * 60 * 1000)) {
-                CommonUtils.showToast("至少提前2小时预订");
-                return;
-            }
-        }
         Bundle bundleCar = new Bundle();
         bundleCar.putString("startCityId", startBean.cityId + "");
         bundleCar.putString("endCityId", isHalfTravel ? (startBean.cityId + "") : passBeanList.get(passBeanList.size() - 1).cityId + "");//endCityId);
@@ -1105,6 +1096,9 @@ public class OrderSelectCityActivity extends BaseActivity {
         startActivity(intent);
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
         setSensorsConfirmEvent();
+        if (null != collectGuideBean && !GuideDetailActivity.TAG.equals(fromSource)) {
+            setSensorsPointGuide(collectGuideBean, "定制");
+        }
     }
 
     TimePicker picker;
@@ -1307,6 +1301,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     driver_name.setText(collectGuideBean.name);
                     choose_driver.setVisibility(GONE);
                     guideCollectId = collectGuideBean.guideId;
+                    driver_tips.setVisibility(GONE);
                 }
                 break;
             case CHOOSE_DATE:
@@ -1346,6 +1341,19 @@ public class OrderSelectCityActivity extends BaseActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    //神策统计_指定司导下单
+    public void setSensorsPointGuide(CollectGuideBean collectGuideBean, String serviceType) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_appoint_entrance", "选择已收藏司导下单");
+            properties.put("hbc_appoint_type", serviceType);
+            properties.put("service_city", collectGuideBean.cityName);
+            SensorsDataAPI.sharedInstance(this).track("appoint_guide", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -45,6 +45,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -147,6 +148,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             url = CommonUtils.getBaseUrl(url) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
         }
+
+        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     public void setGoodsOut() {// 商品已下架
@@ -250,7 +253,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv,R.id.hint_iv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -274,18 +277,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 if (cityBean == null) {
                     cityBean = findCityById("" + skuItemBean.arrCityId);
                 }
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
-//                if (cityBean != null) {
-//                    bundle.putSerializable(SkuDetailActivity.WEB_CITY, cityBean);
-//                }
-//                bundle.putString("source", source);
-
                 SkuOrderActivity.Params params = new SkuOrderActivity.Params();
                 params.skuItemBean = skuItemBean;
                 params.cityBean = cityBean;
-//                Intent intent = new Intent(activity,SkuNewActivity.class);
-//                intent.putExtras(bundle);
                 Intent intent = new Intent(activity, SkuOrderActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
@@ -316,6 +310,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+                break;
+            case R.id.hint_iv:
+                findViewById(R.id.hint_layout).setVisibility(View.GONE);
                 break;
         }
     }

@@ -11,6 +11,7 @@ import com.hugboga.custom.action.vcid.ActionPageCollectGuide;
 import com.hugboga.custom.action.vcid.ActionPageCoupon;
 import com.hugboga.custom.action.vcid.ActionPageGuideDetail;
 import com.hugboga.custom.action.vcid.ActionPageHome;
+import com.hugboga.custom.action.vcid.ActionPageImChat;
 import com.hugboga.custom.action.vcid.ActionPageInsure;
 import com.hugboga.custom.action.vcid.ActionPageInviteBill;
 import com.hugboga.custom.action.vcid.ActionPageOrderDetail;
@@ -43,7 +44,7 @@ public class ActionMapping {
         arrayMap.put(ActionPageType.PICK_UP, ActionPagePick.class);                           // 7：中文接机
         arrayMap.put(ActionPageType.SEND, ActionPageSend.class);                              // 8：中文送机
         arrayMap.put(ActionPageType.SINGLE, ActionPageSingle.class);                          // 9：单次接送
-//        arrayMap.put(ActionPageType.IM_CHAT, ActionPageWeb.class);                          // 10：聊天页面（登录、id、name、avatar、type）
+        arrayMap.put(ActionPageType.IM_CHAT, ActionPageImChat.class);                         // 10：聊天页面（登录、id、name、avatar、type）
         arrayMap.put(ActionPageType.ORDER_LIST, ActionPageTravelList.class);                  // 11：订单列表（type:进行中、已完成、已取消）
         arrayMap.put(ActionPageType.ORDER_DETAIL, ActionPageOrderDetail.class);               // 12：订单详情（登录、orderNo，orderType）
         arrayMap.put(ActionPageType.USER_INFO, ActionPageUserInfo.class);                     // 14：个人资料（登录）

@@ -365,7 +365,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private void genData() {
         genCar();
-        if (canService) {
+        if (canService && carListBean != null) {
             this.distance = carListBean.distance;
             this.interval = carListBean.interval;
             if (carList == null || carList.size() == 0) {
@@ -391,7 +391,12 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     }
 
     private  void setCarInfo(){
-        String carDesc = carBean.models;
+        String carDesc = "";
+        if (collectGuideBean == null) {
+            carDesc = carBean.models;
+        } else {
+            carDesc = carBean.carBrandName + " " + carBean.carName;
+        }
         if(null != carBean.carLicenceNoCovered){
             fgCarIntro.setTextColor(ContextCompat.getColor(this.getActivity(),R.color.basic_red));
             carDesc += "     车牌:"+carBean.carLicenceNoCovered;
@@ -502,7 +507,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                 if(null == carListBean.carList || carListBean.carList.size() == 0){
                     canService = false;
                     carBean = CarUtils.getNewCarBean(collectGuideBean);
-                    CommonUtils.showToast(R.string.no_have_car);
+                    if (!TextUtils.isEmpty(carListBean.noneCarsReason)) {
+                        CommonUtils.showToast(carListBean.noneCarsReason);
+                    } else {
+                        CommonUtils.showToast(R.string.no_have_car);
+                    }
                 }else{
                     canService = true;
                 }
@@ -564,15 +573,17 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
                         params.startCityId = cityId;
                         params.startTime = startTime;
                         params.endTime = endTime;
-                        params.adultNum = guideCarList.get(currentIndex).capOfPerson;
                         params.childrenNum = 0;
-                        params.childSeatNum = guideCarList.get(currentIndex).carSeat;
-                        params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
                         params.orderType = orderType;
                         params.totalDays = 1;
                         params.passCityId = cityId + "";
                         bundle.putSerializable(Constants.PARAMS_DATA, params);
                         bundle.putString(Constants.PARAMS_SOURCE, source);
+                        if (guideCarList != null && guideCarList.size() > currentIndex && guideCarList.get(currentIndex) != null) {
+                            params.adultNum = guideCarList.get(currentIndex).capOfPerson;
+                            params.childSeatNum = guideCarList.get(currentIndex).carSeat;
+                            params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
+                        }
                         Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);

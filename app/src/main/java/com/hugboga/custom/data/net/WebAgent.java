@@ -6,9 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -25,7 +23,6 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
-import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
@@ -37,12 +34,10 @@ import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatInfo;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.parser.ParserChatInfo;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -201,9 +196,9 @@ public class WebAgent implements HttpRequestListener {
                 if (!TextUtils.isEmpty(action)) {
                     ActionBean actionBean = (ActionBean) JsonUtils.fromJson(action, ActionBean.class);
                     if (actionBean != null) {
-                        actionBean.source = TextUtils.isEmpty(title) ? "web页面" : title;
-                        ActionController actionFactory = ActionController.getInstance(mActivity);
-                        actionFactory.doAction(actionBean);
+                        actionBean.source = getEventSource();
+                        ActionController actionFactory = ActionController.getInstance();
+                        actionFactory.doAction(mActivity, actionBean);
                     }
                 }
 
@@ -257,6 +252,7 @@ public class WebAgent implements HttpRequestListener {
                         return;
                 }
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra("isHomeIn", false);
                 mActivity.startActivity(intent);
             }
@@ -298,7 +294,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity, LoginActivity.class);
-                intent.putExtra("source",((BaseActivity)mActivity).getIntentSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
             }
         });
@@ -331,9 +327,7 @@ public class WebAgent implements HttpRequestListener {
                     message = json.optString("message");
                     bundle.putString(LoginActivity.KEY_AREA_CODE, countryCode);
                     bundle.putString(LoginActivity.KEY_PHONE, phone);
-                    if (mActivity instanceof BaseActivity) {
-                        bundle.putString(Constants.PARAMS_SOURCE, ((BaseActivity)mActivity).getEventSource());
-                    }
+                    bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
                 } catch (Exception e) {
                     MLog.e("gotoLogin", e);
                 }
@@ -358,7 +352,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                     Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
                     if (cityBean != null) {
                         intent.putExtra("cityBean", cityBean);
@@ -380,6 +374,7 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 Intent intent = new Intent(mActivity, PickSendActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
             }
         });
@@ -394,6 +389,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity, SingleNewActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
             }
         });
@@ -411,6 +407,7 @@ public class WebAgent implements HttpRequestListener {
                 params.id = CommonUtils.getCountInteger(cityId);
                 params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
                 Intent intent = new Intent(mActivity, CityHomeListActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 mActivity.startActivity(intent);
             }
@@ -452,16 +449,7 @@ public class WebAgent implements HttpRequestListener {
         }
     }
 
-    private String getChatInfo(String userId, String userAvatar, String title, String targetType) {
-        ChatInfo chatInfo = new ChatInfo();
-        chatInfo.isChat = true;
-        chatInfo.userId = userId;
-        chatInfo.userAvatar = userAvatar;
-        chatInfo.title = title;
-        chatInfo.targetType = targetType;
-        chatInfo.isHideMoreBtn = 1;
-        return new ParserChatInfo().toJsonString(chatInfo);
-    }
+
 
     /**
      * 在线咨询客服
@@ -471,7 +459,7 @@ public class WebAgent implements HttpRequestListener {
         if (mActivity != null && !UserEntity.getUser().isLogin(mActivity)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(mActivity, LoginActivity.class);
-            intent.putExtra("source","商品详情咨询客服");
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             mActivity.startActivity(intent);
             return;
         }
@@ -489,6 +477,7 @@ public class WebAgent implements HttpRequestListener {
                     params.sourceType = UnicornServiceActivity.SourceType.TYPE_DEFAULT;
                 }
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
 
             }
@@ -520,7 +509,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 if (cityBean != null) {
                     intent.putExtra("cityBean", cityBean);
                 }
@@ -538,7 +527,7 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, "商品详情");
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 if (cityBean != null) {
                     intent.putExtra("cityBean", cityBean);
                 }
@@ -561,6 +550,7 @@ public class WebAgent implements HttpRequestListener {
 
                 Intent intent = new Intent(mActivity, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, url);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
             }
         });
@@ -668,4 +658,9 @@ public class WebAgent implements HttpRequestListener {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
+
+    public String getEventSource() {
+        return TextUtils.isEmpty(title) ? "web页面" : title;
+    }
+
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -117,14 +118,10 @@ public class WXShareUtils {
                         @Override
                         public void onDownloadComplete(int id) {
                             MLog.e("onSuccess=====1111==c");
-                            BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.inSampleSize = 2;
                             try {
-                                Bitmap bitmap = BitmapFactory.decodeFile(destinationUri.getPath(), options);
-                                while(bitmap.getByteCount() >= 32*1024){
-                                    options.inSampleSize += 2;
-                                    bitmap = BitmapFactory.decodeFile(destinationUri.getPath(), options);
-                                }
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inSampleSize = 2;
+                                Bitmap bitmap = createBitmapThumbnail(BitmapFactory.decodeFile(destinationUri.getPath(), options));
                                 share(type, bitmap, title, content, goUrl);
                             }catch (Exception e){
                                 e.printStackTrace();
@@ -186,6 +183,23 @@ public class WXShareUtils {
         }else{
             Toast.makeText(mContext,"未安装微信",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public Bitmap createBitmapThumbnail(Bitmap bitMap) {
+        int width = bitMap.getWidth();
+        int height = bitMap.getHeight();
+        // 设置想要的大小
+        int newWidth = 99;
+        int newHeight = 99;
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片
+        Bitmap newBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix, true);
+        return newBitMap;
     }
 
 

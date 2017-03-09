@@ -11,13 +11,18 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
+import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
@@ -27,6 +32,8 @@ import com.hugboga.custom.widget.guideview.Guide;
 import com.hugboga.custom.widget.guideview.GuideBuilder;
 import com.hugboga.custom.widget.guideview.MutiComponent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -35,7 +42,7 @@ import butterknife.OnClick;
  */
 public class HomeCustomLayout extends LinearLayout{
 
-    private static final String PARAMS_LAST_GUIDE_VERSION_NAME = "last_guide_version_name";
+    public static final String PARAMS_LAST_GUIDE_VERSION_NAME = "last_guide_version_name";
     private boolean hasMeasured = false;
     private boolean isShow = false;
     private Guide guide;
@@ -61,10 +68,20 @@ public class HomeCustomLayout extends LinearLayout{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_custom_chartered_layout://包车
-                intentActivity(OrderSelectCityActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
+//                intentActivity(OrderSelectCityActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
+                Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
+                getContext().startActivity(intent);
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
                 intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);
+//                CityBean startBean = new CityBean();
+//                startBean.cityId = 217;
+//                CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
+//                params.startBean = startBean;
+//
+//                Intent intent2 = new Intent(getContext(), CharterSecondStepActivity.class);
+//                intent2.putExtra(Constants.PARAMS_DATA, params);
+//                getContext().startActivity(intent2);
                 break;
             case R.id.home_custom_single_layout://单次接送
                 intentActivity(SingleNewActivity.class, StatisticConstant.LAUNCH_C);
@@ -121,13 +138,14 @@ public class HomeCustomLayout extends LinearLayout{
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
             @Override
             public void onShown() {
-                SharedPre.setString(PARAMS_LAST_GUIDE_VERSION_NAME, BuildConfig.VERSION_NAME);
                 isShow = true;
             }
 
             @Override
             public void onDismiss() {
+                SharedPre.setString(PARAMS_LAST_GUIDE_VERSION_NAME, BuildConfig.VERSION_NAME);
                 isShow = false;
+                EventBus.getDefault().post(new EventAction(EventType.SHOW_GIFT_DIALOG));
             }
         });
         builder.addComponent(new MutiComponent());

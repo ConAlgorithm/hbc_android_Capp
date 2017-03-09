@@ -43,9 +43,12 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     private static final int AVATAR_WIDTH = UIUtils.dip2px(30);
     private static final int AVATAR_MARGIN = UIUtils.dip2px(5);
 
-    @Bind(R.id.eliver_item_loading_view)
+    @Bind(R.id.deliver_item_layout)
+    LinearLayout parrentLayout;
+
+    @Bind(R.id.deliver_item_loading_view)
     ImageView loadingView;
-    @Bind(R.id.eliver_item_countdown_view)
+    @Bind(R.id.deliver_item_countdown_view)
     OrderDetailDeliverCountDownView countdownLayout;
 
     @Bind(R.id.deliver_item_title_tv)
@@ -114,6 +117,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         arrowIV.setVisibility(View.GONE);
         subtitleIV.setVisibility(View.VISIBLE);
         subtitleIV.setTextColor(0xFF929292);
+        parrentLayout.setClickable(false);
 
         titleTV.setText(deliverInfoBean.deliverMessage);
         subtitleIV.setText(deliverInfoBean.deliverDetail);
@@ -127,6 +131,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         arrowIV.setVisibility(View.GONE);
         subtitleIV.setVisibility(View.VISIBLE);
         subtitleIV.setTextColor(0xFF929292);
+        parrentLayout.setClickable(false);
 
         countdownLayout.update(deliverInfoBean);
         titleTV.setText(deliverInfoBean.deliverMessage);
@@ -194,8 +199,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         }
 
         if (!TextUtils.isEmpty(orderNo)) {
-            avatarLayout.setClickable(true);
-            arrowIV.setClickable(true);
+            parrentLayout.setClickable(true);
         }
     }
 
@@ -242,13 +246,16 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         return circleImageView;
     }
 
-    @OnClick({R.id.deliver_item_guide_avatar_layout, R.id.deliver_item_arrow_iv})
+    @OnClick({R.id.deliver_item_layout})
     public void intentServiceGuideList() {
+        if (orderNo == null || orderType == 0) {
+            return;
+        }
         Intent intent = new Intent(getContext(), CanServiceGuideListActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
         intent.putExtra(Constants.PARAMS_ORDER_NO, orderNo);
         intent.putExtra(Constants.PARAMS_ORDER_TYPE, orderType);
         getContext().startActivity(intent);
-        StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG,getContext().getString(R.string.order_detail_title_default),orderType);
+        StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG, getContext().getString(R.string.order_detail_title_default), orderType);
     }
 }

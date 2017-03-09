@@ -89,7 +89,7 @@
     <string name="reconnect">连接失败，系统正在重新加载...</string>
     <string name="login_progress_dialog">正在登录...</string>
     <string name="no_content_info">没有相关项目</string>
-    <string name="arrival_tip_hotel">如果您的目的地是酒店,请搜索酒店名称</string>
+    <string name="arrival_tip_hotel">如果您的出发地点是酒店，请搜索酒店名称</string>
     <string name="arrival_tip_same">留意相似名称的地点,确认地址是否正确</string>
     <string name="arrival_empty_text">没有找到与『%s』相关的结果 请重新输入</string>
     <string name="data_load_error_retry">加载失败，点击重试！</string>
@@ -253,7 +253,7 @@
     <string name="empty_text">没有找到相关结果</string>
     <string name="empty_city_text">抱歉，没有找到您要的地点</string>
     <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
-    <string name="out_of_range_city_text">该地区暂未开通服务</string>
+    <string name="out_of_range_city_text">没有找到你想去的城市\n或者该城市暂未开通该服务</string>
 
     <!-- sku-->
     <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
@@ -309,8 +309,10 @@
     <string name="start_date">请选择开始日期</string>
     <string name="end_date">请选择结束日期</string>
     <string name="select_date">选择日期</string>
+    <string name="select_car_date">包车日期</string>
+    <string name="select_start_end_date">选择包车起止日期</string>
 
-    <string name="select_city_tips">请选择开始包车的城市</string>
+    <string name="select_city_tips">想去哪里?</string>
     <string name="select_people_tips">请选择出发人数</string>
     <string name="select_baggage_tips">请选择行李数</string>
 
@@ -483,7 +485,7 @@
     <string name="choose_like_driver_order">选择已收藏司导下单</string>
 
     <string name="my_travel_title">我的行程单</string>
-    <string name="my_coupon">优惠券</string>
+    <string name="my_coupon">使用优惠券</string>
     <string name="my_get_money">梦想基金</string>
     <string name="free_8_insure">赠价值8万元平安保险</string>
     <string name="huangbaoche_buy">由皇包车支付</string>
@@ -576,10 +578,9 @@
     <string name="evaluate_list_title">%1$s条评价</string>
 
     <string name="coupon_num">%s张优惠券可用</string>
-    <string name="dream_money">旅游基金</string>
-    <string name="insure_8wan">赠价值8万元平安保险</string>
+    <string name="dream_money">使用旅游基金</string>
 
-    <string name="free_huangbaoche">由皇包车支付</string>
+    <string name="free_huangbaoche">免费赠送</string>
     <string name="change_detail_txt">服务开始前24小时退订,全额退还费用;小于24小时不可退订,全部费用将扣除用于补偿当地司导</string>
 
     <string name="dairy_choose_guide"> 请填写完所有出行信息，再来选择司导哟！</string>
@@ -672,7 +673,7 @@
     <string name="order_detail_refund_description">退款将退回到您支付订单的账户中，到账时间以该账户通知为准。\n</string>
     <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
     <string name="order_detail_tips_title">平台保障：</string>
-    <string name="order_detail_tips"> 订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
+    <string name="order_detail_tips">订单款项由皇包车平台先行保管，服务完成才会支付给司导。如在服务过程中发生任何问题请及时联系皇包车客服，您与司导在APP内的聊天内容可作为纠纷凭证；经查证如属司导违约，您可获得相应补偿。</string>
     <string name="order_detail_top2_tips">司导接单后，您可以在app内通过私聊与Ta联系；聊天信息可作为纠纷凭证，获得平台保障。</string>
     <string name="order_detail_top1_tips">下单后一般在24小时内有司导接单。如果下单时间距离实际出行时间较远，最晚在出行前为您安排司导接单。</string>
     <string name="order_detail_bargain_end">共砍掉</string>
@@ -717,10 +718,6 @@
     <string name="send_msg_fail">由于对方的权限设置，你的信息发送失败。</string>
     <string name="del_chat">删除该对话</string>
 
-    <string name="show_tips_start">请选择开始日期</string>
-    <string name="show_tips_end">请选择结束日期</string>
-    <string name="show_tips_half">请选择日期</string>
-
     <string name="no_have_car">该司导车辆信息有变化，暂时无法提供服务</string>
 
     <string name="now_enter">立即体验</string>
@@ -735,8 +732,8 @@
     <string name="choose_city_tab_inland">国内</string>
     <string name="choose_city_tab_abroad">国际港澳台</string>
     <string name="choose_city_subtitle_location">当前定位</string>
-    <string name="choose_city_subtitle_history">历史记录</string>
-    <string name="choose_city_subtitle_hot">热门城市</string>
+    <string name="choose_city_subtitle_history"><n>历史</n>记录</string>
+    <string name="choose_city_subtitle_hot"><n>热门</n>城市</string>
     <string name="choose_city_location_failure">定位失败</string>
 
     <string name="net_error_show">请检查您的网络连接是否正常</string>
@@ -752,8 +749,7 @@
 
     <string name="time_out_180">时间不能超过半年</string>
 
-    <string name="commit_agree_sku">点击“去支付”表示您已阅读并同意</string>
-    <string name="commit_agree">点击“提交订单”表示您已阅读并同意皇包车协议和条款</string>
+    <string name="commit_agree">点击“%1$s”表示您已阅读并同意皇包车协议和条款</string>
     <string name="commit_agree_click">皇包车协议和条款</string>
 
     <string name="choose_other_tips">温馨提示: 如果填写境内手机号,请记得在出发前开通运营商的国际漫游业务。避免到了境外司导打电话联系不上您。</string>
@@ -825,4 +821,7 @@
     <string name="city_home_find_guide">可以先按天包个车，\n找个中文司导带你玩</string>
     <string name="route_goods_detial_title">线路游详情</string>
     <string name="free_route_goods_detial_title">畅游详情</string>
+
+    <string name="charter_first_max_passengers_hint">当地可用车型的最大载客人数为%1$s人\n如需预订多车服务，请联系客服</string>
+    <string name="charter_first_max_passengers_service">联系客服</string>
 </resources>

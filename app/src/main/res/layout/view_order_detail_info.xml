@@ -111,9 +111,9 @@
         android:paddingRight="16dp">
         <ImageView
             android:id="@+id/order_detail_insurance_iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@mipmap/order_right"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/checkbox_sku_order_multi"
             android:layout_centerVertical="true"
             />
         <TextView
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:text="@string/order_detail_get_insurance"
             android:textColor="#333333"
             android:textSize="15sp" />

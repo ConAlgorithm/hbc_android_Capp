@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <com.hugboga.custom.widget.title.TitleBar
+        android:id="@+id/travel_list_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize" />
+
+    <com.hugboga.custom.widget.charter.CharterSecondBottomView
+        android:id="@+id/travel_list_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/travel_list_recycler_view"
+        android:layout_below="@id/travel_list_titlebar"
+        android:layout_above="@id/travel_list_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>
