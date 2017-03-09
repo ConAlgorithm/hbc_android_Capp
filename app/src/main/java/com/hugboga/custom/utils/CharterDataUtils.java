@@ -4,6 +4,7 @@ import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import com.hugboga.amap.entity.HbcLantLng;
+import com.hugboga.amap.view.HbcMapViewTools;
 import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CharterlItemBean;
@@ -188,6 +189,34 @@ public class CharterDataUtils {
         }
     }
 
+    public ArrayList<CityRouteBean.Fence> getFences(int day, boolean isStart) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            if (isStart) {
+                return itemBean.startFence;
+            } else {
+                return itemBean.endFence;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<CityRouteBean.Fence> setDefaultFences() {
+        if (currentDay <= 1) {
+            return null;
+        }
+        ArrayList<CityRouteBean.Fence> fenceList = getFences(currentDay, true);
+        if (fenceList == null) {
+            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(currentDay - 2);
+            ArrayList<CityRouteBean.Fence> startFences = getFences(currentDay - 1, cityRouteScope.routeType != CityRouteBean.RouteType.OUTTOWN);
+            addFences(currentDay, startFences, true);
+            return startFences;
+        } else {
+            return fenceList;
+        }
+    }
+
     public ArrayList<CityRouteBean.Fence> getCurrentDayFences() {
         if (itemInfoList.containsKey(currentDay)) {
             return itemInfoList.get(currentDay).startFence;
@@ -331,12 +360,15 @@ public class CharterDataUtils {
         return resultList;
     }
 
-    public static HbcLantLng getHbcLantLng(String location) {
+    public static HbcLantLng getHbcLantLng(int cityId,String location) {
         try {
             String[] points = location.split(",");
             HbcLantLng hbcLantLng = new HbcLantLng();
             hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
             hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
+//            if(cityId==1269){
+//                HbcMapViewTools.con
+//            }
             return hbcLantLng;
         } catch (Exception e) {
             e.printStackTrace();

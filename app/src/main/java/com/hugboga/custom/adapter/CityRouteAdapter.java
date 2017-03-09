@@ -135,6 +135,18 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
         }
     }
 
+    public void updateModelFenceSwitch(int fenceSwitch) {
+        if (pickupModel != null && pickupModel.getCityRouteScope() != null) {
+            pickupModel.getCityRouteScope().fenceSwitch = fenceSwitch;
+        }
+        if (sendModel != null && sendModel.getCityRouteScope() != null) {
+            sendModel.getCityRouteScope().fenceSwitch = fenceSwitch;
+        }
+        if (noCharterModel != null && noCharterModel.getCityRouteScope() != null) {
+            noCharterModel.getCityRouteScope().fenceSwitch = fenceSwitch;
+        }
+    }
+
     public void showSendModel() {
         showModel(sendModel);
         setOuttownModelVisibility();
@@ -307,6 +319,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 notifyModelChanged(noCharterModel);
             }
         }
+        int fenceSwitch = 0;
 
         List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
         final int modelListSize = modelList.size();
@@ -324,6 +337,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                     }
                     CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(charterItemModel.getPosition());
                     cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+                    fenceSwitch = cityRouteBean.fenceSwitch;
                     charterItemModel.setCityRouteScope(cityRouteScope);
                     if (selectedRouteType == charterItemModel.getRouteType()) {
                         charterItemModel.setSelected(true);
@@ -344,6 +358,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             onCharterItemClickListener.onCharterItemClick(((CharterModelBehavior)selectedModel).getCityRouteScope());
         }
         insertCharterFooterModel();
+
+        updateModelFenceSwitch(fenceSwitch);
     }
 
     @Override
