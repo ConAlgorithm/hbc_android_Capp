@@ -172,7 +172,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
         fgRightBtn.setPadding(0,0,0,0);
-        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setImageResource(R.mipmap.topbar_cs);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override

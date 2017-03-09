@@ -126,4 +126,5 @@
     <dimen name="travel_item_line_width">20dp</dimen>
     <dimen name="travel_item_margin_left">28dp</dimen>
 
+    <dimen name="purpose_form_width">85dip</dimen>
 </resources>

@@ -179,7 +179,9 @@ public class GuideDetailActivity extends BaseActivity{
 
         mDialogUtil = DialogUtil.getInstance(this);
         collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
-        shareIV.setImageResource(R.mipmap.guide_detail_share);
+        collectIV.setPadding(UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10));
+        shareIV.setImageResource(R.mipmap.topbar_collect_share);
+        shareIV.setPadding(UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10));
 
         int cityBgHeight = (int)(UIUtils.getScreenWidth() * (400 / 750.0f));
         cityBgLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, cityBgHeight + UIUtils.dip2px(40)));
