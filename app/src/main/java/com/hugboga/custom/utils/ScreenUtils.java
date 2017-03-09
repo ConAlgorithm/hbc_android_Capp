@@ -13,4 +13,10 @@ public class ScreenUtils {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, r.getDisplayMetrics());
     }
 
+
+    public static float sp2p(Context context, int px) {
+        Resources r = context.getResources();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, r.getDisplayMetrics());
+    }
+
 }

@@ -45,6 +45,7 @@ public class SkuItemBean implements Serializable {
     public String goodsLable;// 商品下标签（例如：城市x日玩法推荐、¥ 243 起/人 · 1日 · 含酒店）
     public ArrayList<String> goodsPics;
     public String keyWords;
+    public int saleAmount;
 
     public static class CharacteristicLables implements Serializable {
         public String lableName;

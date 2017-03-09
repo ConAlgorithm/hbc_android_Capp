@@ -13,6 +13,8 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.adapter.HomePageAdapter;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
@@ -20,7 +22,6 @@ import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -35,7 +36,8 @@ public class FgHomePage extends BaseFragment {
     @Bind(R.id.home_list_view)
     RecyclerView homeListView;
 
-    //MyAdapter adapter;
+    HomePageAdapter homePageAdapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,12 +59,11 @@ public class FgHomePage extends BaseFragment {
 
     @Override
     protected void initView() {
-//        adapter = new MyAdapter(new ModelH());
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
-//        homeListView.setLayoutManager(layoutManager);
-//        homeListView.setHasFixedSize(true);
-//        homeListView.setAdapter(adapter);
-//        adapter.addModelAs();
+        homePageAdapter = new HomePageAdapter();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        homeListView.setLayoutManager(layoutManager);
+        homeListView.setHasFixedSize(true);
+        homeListView.setAdapter(homePageAdapter);
     }
 
     @Override
@@ -73,7 +74,20 @@ public class FgHomePage extends BaseFragment {
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
+        if(_request instanceof RequestHome){
+            HomeBeanV2 homeBeanV2 = ((RequestHome)_request).getData();
+            addHeader(homeBeanV2.headAggVo);
+            addHotExplorations(homeBeanV2.hotExplorationAggVo.hotExplorations);
+        }
+    }
 
+
+    private void addHeader(HomeBeanV2.HomeHeaderInfo homeHeaderInfo){
+        homePageAdapter.showHeader(homeHeaderInfo);
+    }
+
+    private void addHotExplorations(List<HomeBeanV2.HotExploration> hotExplorations){
+        homePageAdapter.addHotExploations(hotExplorations);
     }
 
     @Override

@@ -11,13 +11,10 @@ import java.util.List;
 public class HomeBeanV2 implements Serializable {
 
 
-    public HomeHeaderInfo homeHeaderInfo; //首页头部信息
-    public HotExplorationAggregation hotExplorationAggregation; //热门探索
-    public DestinationAggregation destinationAggregation; //目的地
-    public ArrayList<TravelStory> travelStories;        // 旅行故事
-
-
-
+    public HomeHeaderInfo headAggVo; //首页头部信息
+    public HotExplorationAggregation hotExplorationAggVo; //热门探索
+    public DestinationAggregation destinationAggVo; //目的地
+    public TravelStoryAggregation storyAggVo; // 旅行故事
 
     /**
      * 首页头部信息
