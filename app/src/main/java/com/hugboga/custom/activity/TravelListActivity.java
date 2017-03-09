@@ -78,6 +78,7 @@ public class TravelListActivity extends BaseActivity {
                     Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+                    finish();
                 }
             }
 

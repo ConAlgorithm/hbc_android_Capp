@@ -38,13 +38,11 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
-import com.hugboga.custom.data.request.RequestChooseGuide;
 import com.hugboga.custom.data.request.RequestCityRoute;
 import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterModelBehavior;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
-import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
@@ -93,6 +91,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private CityRouteBean cityRouteBean;
     private int currentDay;
     private FlightBean flightBean;
+
+    private String lastCityId;
+    private int lastType;
+    private int lastSelectedRouteType;
 
     LayoutInflater mLayoutInflater;
 
@@ -222,6 +224,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void requestCityRoute(String cityId, int type, int selectedRouteType) {
+        this.lastCityId = cityId;
+        this.lastType = type;
+        this.lastSelectedRouteType = selectedRouteType;
+
         requestData(new RequestCityRoute(this, cityId, type, selectedRouteType));
     }
 
@@ -239,8 +245,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (_request instanceof RequestCityRoute) {
             RequestCityRoute request= (RequestCityRoute) _request;
             CityRouteBean _cityRouteBean = request.getData();
+            bottomView.setVisibility(View.VISIBLE);
             if (_cityRouteBean == null || _cityRouteBean.cityRouteList == null || _cityRouteBean.cityRouteList.size() < 0) {
-                adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, true);
+//                adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, true);
                 return;
             } else {
                 adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, false);
@@ -259,6 +266,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 currentDay = charterDataUtils.currentDay;
                 adapter.notifyAllModelsChanged(_cityRouteBean, routeType);
                 bottomView.updateConfirmView();
+                charterDataUtils.setDefaultFences();
 
                 if (request.getType() == REQUEST_CITYROUTE_TYPE_PICKUP) {//接机，修改了开始城市
                     changeTravelDate(false);
@@ -278,7 +286,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             updateDrawFences();
         } else if (_request instanceof RequestCarMaxCapaCity) {
             final CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
-            carMaxCapaCityBean.numOfPerson = 5;//TODO carMaxCapaCityBean.numOfPerson
             if ((charterDataUtils.adultCount + charterDataUtils.childCount) > carMaxCapaCityBean.numOfPerson) {
                 String title = String.format("您选择的乘客人数，超过了当地可用车型的最大载客人数（%1$s人）如需预订多车服务，请联系客服", carMaxCapaCityBean.numOfPerson);
                 AlertDialogUtils.showAlertDialogCancelable(this, title, "返回上一步", "联系客服", new DialogInterface.OnClickListener() {
@@ -313,12 +320,13 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         if (_request instanceof RequestCityRoute) {
             adapter.showEmpty(CharterEmptyView.ERROR_TYPE, true);
+            bottomView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onRefresh(int type) {
-
+        requestCityRoute(lastCityId, lastType, lastSelectedRouteType);
     }
 
     @Subscribe
@@ -432,16 +440,18 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (charterDataUtils.isLastDay()) {//最后一天"查看报价"
             Intent intent = new Intent(this, CombinationOrderActivity.class);
             startActivity(intent);
+            finish();
         } else {
             CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
             charterDataUtils.currentDay++;
             CityBean nextCityBean = charterDataUtils.setDefaultCityBean();
             bottomView.updateConfirmView();
-            if (currentCityBean == nextCityBean) {
+            if (currentCityBean == nextCityBean && cityRouteBean.cityId == nextCityBean.cityId) {
                 adapter.notifyAllModelsChanged(cityRouteBean, charterDataUtils.getRouteType(charterDataUtils.currentDay - 1));
                 charterDataUtils.setDefaultFences();
                 updateDrawFences();
             } else {
+                adapter.updateSubtitleModel();
                 requestCityRoute("" + nextCityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY);
             }
             currentDay = charterDataUtils.currentDay;
@@ -564,14 +574,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         HbcLantLng startCoordinate = null;
         Marker startMarker = null;
         if (charterDataUtils.isFirstDay() && charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {//接机点
-            if (charterDataUtils.pickUpPoiBean == null || charterDataUtils.isSelectedPickUp) {//点
+            if (charterDataUtils.pickUpPoiBean == null && charterDataUtils.isSelectedPickUp) {//点
                 startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrLocation);
                 //TODO  点 startCoordinate;
                 if(startCoordinate!=null){
                     startMarker = mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
                     mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,startCoordinate.longitude),16));
                 }
-            } else if (routeType == CityRouteBean.RouteType.PICKUP) {//点到点
+            } else if (charterDataUtils.isSelectedPickUp) {//点到点
                 isDrawFences = false;
                 //TODO 点到点 charterDataUtils.flightBean.arrLocation   charterDataUtils.pickUpPoiBean.location  酒店charterDataUtils.pickUpPoiBean.placeName
                 //mapView.getaMap().clear();
@@ -596,14 +606,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
             }
         } else if ((charterDataUtils.isLastDay() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null)) {//送机点
-            if (charterDataUtils.sendPoiBean == null || charterDataUtils.isSelectedSend) {//点加围栏
+            if (charterDataUtils.sendPoiBean == null && charterDataUtils.isSelectedSend) {//点加围栏
                 startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.location);
                 //TODO  点
                 if(startCoordinate!=null){
                     mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
                     mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,startCoordinate.longitude),16));
                 }
-            } else if(routeType == CityRouteBean.RouteType.SEND) {//点到点
+            } else if(charterDataUtils.isSelectedSend) {//点到点
                 isDrawFences = false;
                 //TODO  点到点 charterDataUtils.airPortBean.location    charterDataUtils.sendPoiBean.location  charterDataUtils.sendPoiBean.placeName
                 DirectionBean directionBean = charterDataUtils.sendDirectionBean;

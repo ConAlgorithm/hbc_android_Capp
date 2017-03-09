@@ -82,9 +82,17 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             charterEmptyModel.setEmptyType(type);
             showModel(charterEmptyModel);
             hideModels(getAllModelsAfter(charterEmptyModel));
+            if (noCharterModel != null) {
+                hideModel(noCharterModel);
+            }
+            charterSubtitleModel.setPickupLayoutVisibility(View.GONE);
         } else {
             hideModel(charterEmptyModel);
             showModels(getAllModelsAfter(charterEmptyModel));
+            if (noCharterModel != null) {
+                showModel(noCharterModel);
+            }
+            charterSubtitleModel.setPickupLayoutVisibility(View.VISIBLE);
         }
     }
 
@@ -127,7 +135,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             return;
         }
         charterDataUtils = CharterDataUtils.getInstance();
-        if (charterDataUtils.currentDay > 1 && charterDataUtils.currentDay < charterDataUtils.chooseDateBean.dayNums) {
+        if (!charterEmptyModel.isShown() && charterDataUtils.currentDay > 1 && charterDataUtils.currentDay < charterDataUtils.chooseDateBean.dayNums) {
             noCharterModel.show();
             notifyModelChanged(noCharterModel);
         } else {
@@ -303,7 +311,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
         insertNoCharterModel();
         if (!charterDataUtils.isFirstDay() && !charterDataUtils.isLastDay()) {//随便转转，不包车
-            if (noCharterModel != null) {
+            if (!charterEmptyModel.isShown() && noCharterModel != null) {
                 noCharterModel.show();
                 if (selectedRouteType == CityRouteBean.RouteType.AT_WILL) {
                     noCharterModel.setSelected(true);

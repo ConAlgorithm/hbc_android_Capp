@@ -65,7 +65,8 @@ import butterknife.ButterKnife;
  * Created by qingcha on 17/3/4.
  */
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
-        , CombinationOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener{
+        , CombinationOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
+        , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
 
     public static final String SERVER_TIME = "09:00:00";
     public static final String SERVER_TIME_END = "23:59:59";
@@ -136,6 +137,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
         emptyLayout.setOnRefreshDataListener(this);
+        emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
         requestBatchPrice();
@@ -265,7 +267,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
-                CommonUtils.showToast("成功");
+                charterDataUtils.onDestroy();
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                 requestParams.couponId = couponId;
                 requestParams.orderId = orderInfoBean.getOrderno();
@@ -312,7 +314,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         } else {
             isEmpty = false;
         }
-        emptyLayout.setEmptyVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        emptyLayout.setNoCarVisibility(isEmpty ? View.VISIBLE : View.GONE);
 
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
@@ -327,6 +329,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
         explainView.setVisibility(visibility);
+    }
+
+    @Override
+    public void onClickServices() {
+        DialogUtil.showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     /* 滚动到顶部 */
@@ -369,6 +376,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             return;
         }
         discountView.setInsuranceCount(bean.mans + bean.childs);
+        charterDataUtils.adultCount = bean.mans;
+        charterDataUtils.childCount = bean.childs;
     }
 
     /* 儿童座椅+酒店价格发生改变 */
@@ -550,7 +559,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , "0"
                 , ""
                 , ""
-                , orderType + "");
+                , 3 + "");//orderType + ""
         requestData(requestCancleTips);
     }
 
@@ -558,5 +567,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public String getEventSource() {
         return "组合单下单页";
     }
+
 
 }

@@ -93,6 +93,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Intent intent = new Intent(this, ChooseCityActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
+        overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
     @OnClick({R.id.charter_first_date_layout})
@@ -169,7 +170,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            countLayout.setMaxPassengers(10);//FIXME v4.0
+            countLayout.setMaxPassengers(maxPassengers);
             countLayout.setSliderEnabled(true);
         }
     }

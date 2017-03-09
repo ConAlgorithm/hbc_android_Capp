@@ -147,7 +147,12 @@ public class CharterDataUtils {
         }
         CityBean nextCityBean = getStartCityBean(currentDay);
         if (nextCityBean == null) {
-            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(currentDay - 2);
+            int index = currentDay - 2;
+            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(index);
+            while (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL && index - 1 > 0 && index - 1 < travelList.size()) {
+                index--;
+                cityRouteScope = travelList.get(index);
+            }
             CityBean startCityBean = null;
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
                 startCityBean = getEndCityBean(currentDay - 1);
@@ -360,7 +365,7 @@ public class CharterDataUtils {
         return resultList;
     }
 
-    public static HbcLantLng getHbcLantLng(int cityId,String location) {
+    public static HbcLantLng getHbcLantLng(String location) {
         try {
             String[] points = location.split(",");
             HbcLantLng hbcLantLng = new HbcLantLng();
