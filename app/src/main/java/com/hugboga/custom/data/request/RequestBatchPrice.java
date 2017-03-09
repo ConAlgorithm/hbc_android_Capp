@@ -68,7 +68,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
             if (cityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {//只接机
                 AirportParam airportParam = new AirportParam();
                 airportParam.airportCode = charterDataUtils.flightBean.arrAirportCode;
-                airportParam.serviceDate = charterDataUtils.chooseDateBean.start_date + " "+ CombinationOrderActivity.SERVER_TIME;
+                airportParam.serviceDate = charterDataUtils.chooseDateBean.start_date + " "+ charterDataUtils.flightBean.arrivalTime + ":00";
                 airportParam.startLocation = charterDataUtils.flightBean.arrLocation;
                 airportParam.endLocation = charterDataUtils.pickUpPoiBean.location;
                 BatchPrice batchPrice = new BatchPrice();
@@ -154,6 +154,8 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         }
         BatchPriceListBean batchPriceListBean = new BatchPriceListBean();
         batchPriceListBean.batchPrice = batchPriceList;
+        batchPriceListBean.adultNum = charterDataUtils.adultCount;
+        batchPriceListBean.childNum = charterDataUtils.childCount;
         return JsonUtils.toJson(batchPriceListBean);
     }
 
@@ -180,6 +182,8 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
 
     public static class BatchPriceListBean implements Serializable {
         ArrayList<BatchPrice> batchPrice;
+        public int adultNum;
+        public int childNum;
     }
 
     public static class BatchPrice implements Serializable {

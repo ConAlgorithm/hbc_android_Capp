@@ -28,7 +28,7 @@ public class GroupParentParam implements Serializable {
     public int childNum;                        // 儿童数 大于0
     public int capOfPerson;                     // 可乘坐人数 必填 大于0
     public int luggageNumber;                   // 行李数
-    public OrderBean.ChildSeats childSeats;     // 儿童座椅
+    public OrderBean.ChildSeats childSeatInfo;  // 儿童座椅
     public String userId;                       // 客户ID; 必填
     public Integer realSendSms;                 // 是否给乘车人发送短信 1 发送
     public Integer isRealUser;                  // 1:自己下单 2:为他人下单 为其他人下单必填

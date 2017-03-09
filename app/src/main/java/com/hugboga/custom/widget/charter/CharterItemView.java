@@ -3,6 +3,7 @@ package com.hugboga.custom.widget.charter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -80,17 +81,26 @@ public class CharterItemView extends LinearLayout{
             titleTV.setText(cityRouteScope.routeTitle);
             timeTV.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));
             distanceTV.setText(String.format("%1$s公里", "" + cityRouteScope.routeKms));
+            if (cityRouteScope.isOpeanFence()) {
+                if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
+                    scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
 
-            if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
-                scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
-
-                CityBean cityBean = charterDataUtils.getEndCityBean();
-                if (cityBean != null) {
-                    editArrivedCityTV.setText("送达城市：" + cityBean.name);
+                    CityBean cityBean = charterDataUtils.getEndCityBean();
+                    if (cityBean != null) {
+                        editArrivedCityTV.setText("送达城市：" + cityBean.name);
+                    }
+                } else {
+                    scopeTV.setText("范围：" + cityRouteScope.routeScope);
+                    placesTV.setText("推荐景点：" + cityRouteScope.routePlaces);
                 }
             } else {
-                scopeTV.setText("范围：" + cityRouteScope.routeScope);
-                placesTV.setText("推荐景点：" + cityRouteScope.routePlaces);
+                if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
+                    CityBean cityBean = charterDataUtils.getEndCityBean();
+                    if (cityBean != null) {
+                        editArrivedCityTV.setText("送达城市：" + cityBean.name);
+                    }
+                }
+                scopeTV.setText(cityRouteScope.routeScope);
             }
         }
     }
@@ -98,41 +108,92 @@ public class CharterItemView extends LinearLayout{
     @Override
     public void setSelected(boolean selected) {
         super.setSelected(selected);
-        if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
-            bottomSpaceView.setVisibility(View.VISIBLE);
-            scopeTV.setVisibility(View.VISIBLE);
-            tagLayout.setVisibility(View.VISIBLE);
-            placesTV.setVisibility(View.GONE);
-            if (selected) {
-                CityBean cityBean = charterDataUtils.getEndCityBean();
-                if (cityBean == null) {
-                    addArrivedCityLayout.setVisibility(View.VISIBLE);
-                    editArrivedCityLayout.setVisibility(View.GONE);
+        if (cityRouteScope.isOpeanFence()) {
+            tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
+            if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
+                bottomSpaceView.setVisibility(View.VISIBLE);
+                scopeTV.setVisibility(View.VISIBLE);
+                tagLayout.setVisibility(View.VISIBLE);
+                placesTV.setVisibility(View.GONE);
+                if (selected) {
+                    CityBean cityBean = charterDataUtils.getEndCityBean();
+                    if (cityBean == null) {
+                        addArrivedCityLayout.setVisibility(View.VISIBLE);
+                        editArrivedCityLayout.setVisibility(View.GONE);
+                    } else {
+                        addArrivedCityLayout.setVisibility(View.GONE);
+                        editArrivedCityLayout.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     addArrivedCityLayout.setVisibility(View.GONE);
-                    editArrivedCityLayout.setVisibility(View.VISIBLE);
+                    editArrivedCityLayout.setVisibility(View.GONE);
                 }
-            } else {
+            } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转，不包车
+                scopeTV.setVisibility(View.GONE);
+                placesTV.setVisibility(View.GONE);
+                tagLayout.setVisibility(View.GONE);
                 addArrivedCityLayout.setVisibility(View.GONE);
                 editArrivedCityLayout.setVisibility(View.GONE);
-            }
-        } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转，不包车
-            scopeTV.setVisibility(View.GONE);
-            placesTV.setVisibility(View.GONE);
-            tagLayout.setVisibility(View.GONE);
-            addArrivedCityLayout.setVisibility(View.GONE);
-            editArrivedCityLayout.setVisibility(View.GONE);
-            bottomSpaceView.setVisibility(View.GONE);
-        } else {
-            bottomSpaceView.setVisibility(View.VISIBLE);
-            scopeTV.setVisibility(View.VISIBLE);
-            tagLayout.setVisibility(View.VISIBLE);
-            addArrivedCityLayout.setVisibility(View.GONE);
-            editArrivedCityLayout.setVisibility(View.GONE);
-            if (selected) {
-                placesTV.setVisibility(View.VISIBLE);
+                bottomSpaceView.setVisibility(View.GONE);
             } else {
+                bottomSpaceView.setVisibility(View.VISIBLE);
+                scopeTV.setVisibility(View.VISIBLE);
+                tagLayout.setVisibility(View.VISIBLE);
+                addArrivedCityLayout.setVisibility(View.GONE);
+                editArrivedCityLayout.setVisibility(View.GONE);
+                if (selected) {
+                    placesTV.setVisibility(View.VISIBLE);
+                } else {
+                    placesTV.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
+                bottomSpaceView.setVisibility(View.VISIBLE);
+                tagLayout.setVisibility(View.VISIBLE);
                 placesTV.setVisibility(View.GONE);
+                if (selected) {
+                    CityBean cityBean = charterDataUtils.getEndCityBean();
+                    if (cityBean == null) {
+                        addArrivedCityLayout.setVisibility(View.VISIBLE);
+                        editArrivedCityLayout.setVisibility(View.GONE);
+                    } else {
+                        addArrivedCityLayout.setVisibility(View.GONE);
+                        editArrivedCityLayout.setVisibility(View.VISIBLE);
+                    }
+                    if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                        scopeTV.setVisibility(View.VISIBLE);
+                        tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
+                    } else {
+                        scopeTV.setVisibility(View.GONE);
+                        tagLayout.setPadding(0, 0, 0, 0);
+                    }
+                } else {
+                    addArrivedCityLayout.setVisibility(View.GONE);
+                    editArrivedCityLayout.setVisibility(View.GONE);
+                    scopeTV.setVisibility(View.GONE);
+                    tagLayout.setPadding(0, 0, 0, 0);
+                }
+            } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转，不包车
+                scopeTV.setVisibility(View.GONE);
+                placesTV.setVisibility(View.GONE);
+                tagLayout.setVisibility(View.GONE);
+                addArrivedCityLayout.setVisibility(View.GONE);
+                editArrivedCityLayout.setVisibility(View.GONE);
+                bottomSpaceView.setVisibility(View.GONE);
+            } else {
+                bottomSpaceView.setVisibility(View.VISIBLE);
+                tagLayout.setVisibility(View.VISIBLE);
+                addArrivedCityLayout.setVisibility(View.GONE);
+                editArrivedCityLayout.setVisibility(View.GONE);
+                placesTV.setVisibility(View.GONE);
+                if (selected && !TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                    scopeTV.setVisibility(View.VISIBLE);
+                    tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
+                } else {
+                    scopeTV.setVisibility(View.GONE);
+                    tagLayout.setPadding(0, 0, 0, 0);
+                }
             }
         }
         setBackgroundChange();
