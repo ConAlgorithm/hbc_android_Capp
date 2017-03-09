@@ -149,15 +149,15 @@ public class CharterDataUtils {
         if (nextCityBean == null) {
             int index = currentDay - 2;
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(index);
-            while (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL && index - 1 > 0 && index - 1 < travelList.size()) {
+            while (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL && index - 1 >= 0 && index - 1 < travelList.size()) {
                 index--;
                 cityRouteScope = travelList.get(index);
             }
             CityBean startCityBean = null;
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
-                startCityBean = getEndCityBean(currentDay - 1);
+                startCityBean = getEndCityBean(index + 1);
             } else {
-                startCityBean = getStartCityBean(currentDay - 1);
+                startCityBean = getStartCityBean(index + 1);
             }
             addStartCityBean(currentDay, startCityBean);
             return startCityBean;
