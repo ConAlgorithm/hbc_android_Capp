@@ -644,7 +644,8 @@
 
         <activity
             android:name=".activity.MediaPlayerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen" />
     </application>
 
 </manifest>

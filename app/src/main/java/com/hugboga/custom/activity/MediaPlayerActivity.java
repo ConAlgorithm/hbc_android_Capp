@@ -1,12 +1,10 @@
 package com.hugboga.custom.activity;
 
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CommonUtils;

@@ -80,19 +80,18 @@ android {
     //==productFlavors_start==
     productFlavors {
         developer {}
-//        stage {}
         examination {}
-        '10000' {}
-        '10001' {}
-        '10002' {}
-        '10003' {}
-        '10006' {}
-        '10007' {}
-        '10008' {}
-        '10009' {}
-        '10011' {}
-        '10012' {}
-        '10013' {}
+//        '10000' {}
+//        '10001' {}
+//        '10002' {}
+//        '10003' {}
+//        '10006' {}
+//        '10007' {}
+//        '10008' {}
+//        '10009' {}
+//        '10011' {}
+//        '10012' {}
+//        '10013' {}
     }
     //==productFlavors_end==
     //==productFlavors==
@@ -109,10 +108,6 @@ android {
                 flavor.buildConfigField('String', 'SHARE_APPID', '"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "developer", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 break;
-//            case 'stage':
-//                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
-//                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
-//                break;
             case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-test.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST', '"https://info-test.huangbaoche.com"')
@@ -171,11 +166,8 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':hbcframe')
-    //compile project(':IMKit')
-    //compile project(':nimlib')
     compile project(':polygonimageview')
     compile project(':timepicker')
-
     compile project(':viewpagerindicator')
     compile project(path: ':datepicker')
     compile project(':unicorn')
