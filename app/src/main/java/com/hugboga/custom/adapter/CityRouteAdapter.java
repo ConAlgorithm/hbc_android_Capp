@@ -82,9 +82,17 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             charterEmptyModel.setEmptyType(type);
             showModel(charterEmptyModel);
             hideModels(getAllModelsAfter(charterEmptyModel));
+            if (noCharterModel != null) {
+                hideModel(noCharterModel);
+            }
+            charterSubtitleModel.setPickupLayoutVisibility(View.GONE);
         } else {
             hideModel(charterEmptyModel);
             showModels(getAllModelsAfter(charterEmptyModel));
+            if (noCharterModel != null) {
+                showModel(noCharterModel);
+            }
+            charterSubtitleModel.setPickupLayoutVisibility(View.VISIBLE);
         }
     }
 
@@ -127,11 +135,23 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             return;
         }
         charterDataUtils = CharterDataUtils.getInstance();
-        if (charterDataUtils.currentDay > 1 && charterDataUtils.currentDay < charterDataUtils.chooseDateBean.dayNums) {
+        if (!charterEmptyModel.isShown() && charterDataUtils.currentDay > 1 && charterDataUtils.currentDay < charterDataUtils.chooseDateBean.dayNums) {
             noCharterModel.show();
             notifyModelChanged(noCharterModel);
         } else {
             hideModel(noCharterModel);
+        }
+    }
+
+    public void updateModelFenceSwitch(int fenceSwitch) {
+        if (pickupModel != null && pickupModel.getCityRouteScope() != null) {
+            pickupModel.getCityRouteScope().fenceSwitch = fenceSwitch;
+        }
+        if (sendModel != null && sendModel.getCityRouteScope() != null) {
+            sendModel.getCityRouteScope().fenceSwitch = fenceSwitch;
+        }
+        if (noCharterModel != null && noCharterModel.getCityRouteScope() != null) {
+            noCharterModel.getCityRouteScope().fenceSwitch = fenceSwitch;
         }
     }
 
@@ -291,7 +311,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
 
         insertNoCharterModel();
         if (!charterDataUtils.isFirstDay() && !charterDataUtils.isLastDay()) {//随便转转，不包车
-            if (noCharterModel != null) {
+            if (!charterEmptyModel.isShown() && noCharterModel != null) {
                 noCharterModel.show();
                 if (selectedRouteType == CityRouteBean.RouteType.AT_WILL) {
                     noCharterModel.setSelected(true);
@@ -307,6 +327,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 notifyModelChanged(noCharterModel);
             }
         }
+        int fenceSwitch = 0;
 
         List<EpoxyModel<?>> modelList = getAllModelsAfter(charterSubtitleModel);
         final int modelListSize = modelList.size();
@@ -324,6 +345,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                     }
                     CityRouteBean.CityRouteScope cityRouteScope = cityRouteList.get(charterItemModel.getPosition());
                     cityRouteScope.fenceSwitch = cityRouteBean.fenceSwitch;
+                    fenceSwitch = cityRouteBean.fenceSwitch;
                     charterItemModel.setCityRouteScope(cityRouteScope);
                     if (selectedRouteType == charterItemModel.getRouteType()) {
                         charterItemModel.setSelected(true);
@@ -344,6 +366,8 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             onCharterItemClickListener.onCharterItemClick(((CharterModelBehavior)selectedModel).getCityRouteScope());
         }
         insertCharterFooterModel();
+
+        updateModelFenceSwitch(fenceSwitch);
     }
 
     @Override

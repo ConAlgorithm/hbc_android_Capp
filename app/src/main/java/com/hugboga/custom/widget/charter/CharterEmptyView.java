@@ -60,7 +60,7 @@ public class CharterEmptyView extends LinearLayout {
         }
     }
 
-    @OnClick({R.id.sku_order_empty_refresh_tv})
+    @OnClick({R.id.charter_list_empty_refresh_tv})
     public void refreshData() {
         if (listener != null) {
             this.listener.onRefresh(type);

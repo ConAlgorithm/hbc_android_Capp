@@ -11,6 +11,7 @@ import com.hugboga.custom.widget.charter.CharterSubtitleView;
 public class CharterSubtitleModel extends EpoxyModel<CharterSubtitleView> {
 
     private CharterSubtitleView.OnPickUpOrSendSelectedListener listener;
+    private int visibility;
 
     @Override
     protected int getDefaultLayout() {
@@ -26,10 +27,15 @@ public class CharterSubtitleModel extends EpoxyModel<CharterSubtitleView> {
         this.listener = listener;
     }
 
+    public void setPickupLayoutVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
     @Override
     public void bind(CharterSubtitleView view) {
         super.bind(view);
         view.update();
         view.setOnPickUpOrSendSelectedListener(listener);
+        view.setPickupLayoutVisibility(visibility);
     }
 }

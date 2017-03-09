@@ -101,6 +101,14 @@ public class CharterSubtitleView extends LinearLayout{
         }
     }
 
+    public void setPickupLayoutVisibility(int visibility) {
+        if (visibility == View.VISIBLE && (charterDataUtils.isFirstDay() || charterDataUtils.isLastDay())) {
+            pickupLayout.setVisibility(View.VISIBLE);
+        } else {
+            pickupLayout.setVisibility(View.GONE);
+        }
+    }
+
     @OnClick({R.id.charter_subtitle_pickup_layout})
     public void onClick(View view) {
         if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号

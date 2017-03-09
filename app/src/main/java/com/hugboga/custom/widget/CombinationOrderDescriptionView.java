@@ -42,7 +42,7 @@ public class CombinationOrderDescriptionView extends LinearLayout{
     public void update(CharterDataUtils charterDataUtils) {
         ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
         try {
-            dateTV.setText(String.format("%1$s-%2$s (%3$s天)", DateUtils.getDateFromSimpleStr(chooseDateBean.start_date),
+            dateTV.setText(String.format("%1$s - %2$s (%3$s天)", DateUtils.getDateFromSimpleStr(chooseDateBean.start_date),
                     chooseDateBean.showEndDateStr, chooseDateBean.dayNums));
         } catch (ParseException e) {
             e.printStackTrace();

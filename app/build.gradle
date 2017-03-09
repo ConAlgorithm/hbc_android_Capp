@@ -202,5 +202,5 @@ dependencies {
     compile 'jp.wasabeef:blurry:2.0.3'
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.6.28'
     compile 'com.airbnb.android:epoxy:1.7.5'
-    compile 'com.hugboga.im:nim_libary:1.1.6'
+    compile 'com.hugboga.im:nim_libary:1.1.8'
 }

@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:visibility="gone"
+                android:layout_marginTop="@dimen/sku_order_margin_vertical"
                 android:gravity="center"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp"
