@@ -642,7 +642,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.MediaPlayerActivity"></activity>
+        <activity
+            android:name=".activity.MediaPlayerActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

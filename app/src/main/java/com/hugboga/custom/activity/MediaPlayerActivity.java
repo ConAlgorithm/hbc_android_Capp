@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,7 +31,6 @@ public class MediaPlayerActivity extends BaseActivity {
         screenFull();
 
         //视频设置
-        mediaPlayerView.changeAngle(90); //改成横屏显示
         mediaPlayerView.setPlayListener(new PlayListener() {
             @Override
             public void onCompleted() {
@@ -38,6 +38,25 @@ public class MediaPlayerActivity extends BaseActivity {
             }
         });
         play(); //进行播放
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeAngle();
+    }
+
+    /**
+     * 根据屏幕横屏还是竖屏进行适配
+     */
+    private void changeAngle() {
+        if (mediaPlayerView == null) {
+            return;
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //竖屏进行旋转
+            mediaPlayerView.changeAngle(90); //改成横屏显示
+        }
     }
 
     private void screenFull() {

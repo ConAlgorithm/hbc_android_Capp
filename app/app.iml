@@ -130,6 +130,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
@@ -137,47 +138,57 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="design-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.6.2" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-animators-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="libammsdk" level="project" />
-    <orderEntry type="library" exported="" name="crashreport-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="android-gif-drawable-1.1.14" level="project" />
-    <orderEntry type="library" exported="" name="ThinDownloadManager-1.2.4" level="project" />
-    <orderEntry type="library" exported="" name="PhotoView-1.3.0" level="project" />
-    <orderEntry type="library" exported="" name="transition-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="support-fragment-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="mpermission-annotation-1.0.0" level="project" />
-    <orderEntry type="library" exported="" name="disklrucache-2.0.2" level="project" />
+    <orderEntry type="library" exported="" name="design-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="snackbar-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="reservoir-2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-core-ui-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="jpush-android-2.1.9" level="project" />
-    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
-    <orderEntry type="library" exported="" name="support-core-utils-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-25.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="epoxy-1.7.5" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="analytics-6.0.4" level="project" />
+    <orderEntry type="library" exported="" name="MiPush_SDK_Client_3_1_2" level="project" />
     <orderEntry type="library" exported="" name="blurry-2.0.3" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-0.24.0" level="project" />
-    <orderEntry type="library" exported="" name="ucrop-1.3.2" level="project" />
     <orderEntry type="library" exported="" name="stickylistheaders-2.7.0" level="project" />
-    <orderEntry type="library" exported="" name="mpermission-api-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.0.4" level="project" />
+    <orderEntry type="library" exported="" name="SensorsAnalyticsSDK-1.6.28" level="project" />
+    <orderEntry type="library" exported="" name="epoxy-annotations-1.7.5" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.6.2" level="project" />
+    <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="crashreport-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="ThinDownloadManager-1.2.4" level="project" />
+    <orderEntry type="library" exported="" name="PhotoView-1.3.0" level="project" />
+    <orderEntry type="library" exported="" name="transition-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="mpermission-annotation-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="disklrucache-2.0.2" level="project" />
+    <orderEntry type="library" exported="" name="nim_libary-1.1.6" level="project" />
+    <orderEntry type="library" exported="" name="reservoir-2.1" level="project" />
+    <orderEntry type="library" exported="" name="jpush-android-2.1.9" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="ucrop-1.3.2" level="project" />
+    <orderEntry type="library" exported="" name="mpermission-api-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="xutils-3.3.36" level="project" />
+    <orderEntry type="library" exported="" name="analytics-6.0.9" level="project" />
     <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-compat-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="app-mediaplayer-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="alipaySdk-20160223" level="project" />
-    <orderEntry type="library" exported="" name="support-media-compat-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-25.0.1" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-25.0.1" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="map_libary-0.0.7" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-25.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="logger-1.12" level="project" />
-    <orderEntry type="module" module-name="nimlib" exported="" />
     <orderEntry type="module" module-name="timepicker" exported="" />
     <orderEntry type="module" module-name="unicorn" exported="" />
     <orderEntry type="module" module-name="datepicker" exported="" />
@@ -185,28 +196,9 @@
     <orderEntry type="module" module-name="countdown" exported="" />
     <orderEntry type="module" module-name="hbcframe" exported="" />
     <orderEntry type="module" module-name="viewpagerindicator" exported="" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="nim-chatroom-3.1.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="nim-lucene-3.1.0" level="project" />
-    <orderEntry type="library" exported="" name="universal-image-loader-1.9.4" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="AMap_Services_V2.3.1" level="project" />
-    <orderEntry type="library" exported="" name="cosinesdk" level="project" />
-    <orderEntry type="library" exported="" name="design-24.0.0" level="project" />
-    <orderEntry type="library" exported="" name="fastjson-1.1.34.android" level="project" />
-    <orderEntry type="library" exported="" name="nim-avchat-3.1.0" level="project" />
-    <orderEntry type="library" exported="" name="Android_2DMap_V2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="Android_Location_V1.3.1" level="project" />
-    <orderEntry type="library" exported="" name="nim-basesdk-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="qiyu-sdk-2.9.0" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-animators-1.2.2" level="project" />
-    <orderEntry type="library" exported="" name="xutils-3.3.36" level="project" />
-    <orderEntry type="library" exported="" name="multidex-1.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="multidex-1.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
   </component>
 </module>
