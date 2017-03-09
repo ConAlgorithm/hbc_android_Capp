@@ -1,7 +1,9 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
@@ -28,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 17/2/21.
  */
-public class CharterFirstStepActivity extends BaseActivity implements CharterFirstCountView.OnOutRangeListener {
+public class CharterFirstStepActivity extends BaseActivity implements CharterFirstCountView.OnOutRangeListener, TitleBar.OnTitleBarBackListener{
 
     public static final String TAG = CharterFirstStepActivity.class.getSimpleName();
 
@@ -69,6 +72,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private void initView() {
         charterDataUtils = CharterDataUtils.getInstance();
 
+        titlebar.setTitleBarBackListener(this);
         titlebar.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,11 +107,20 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_bottom_next_tv})
     public void nextStep() {
+
+        //开始城市变了清除数据、开始日期变了清除、结束日期变了不清除
+        boolean isClearTravelData = (charterDataUtils.chooseDateBean != null && !chooseDateBean.start_date.equals(charterDataUtils.chooseDateBean.start_date))
+                                    || startBean != charterDataUtils.getStartCityBean(1);
+        if (isClearTravelData) {
+            charterDataUtils.onDestroy();
+        }
+
         CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
         params.startBean = startBean;
         params.chooseDateBean = chooseDateBean;
         params.adultCount = countLayout.getAdultValue();
         params.childCount = countLayout.getChildValue();
+        params.maxPassengers = maxPassengers;
 
         Intent intent = new Intent(this, CharterSecondStepActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
@@ -132,14 +145,17 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                     break;
                 }
                 this.chooseDateBean = _chooseDateBean;
-                String dateStr = chooseDateBean.showStartDateStr;
-                if (chooseDateBean.dayNums > 1) {
-                    dateStr += " - " + chooseDateBean.showEndDateStr;
-                }
-                dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
-                dateTV.setText(dateStr);
-
-                setNextViewEnabled(true);
+                setDateViewText();
+                break;
+            case CHARTER_FIRST_REFRESH:
+                startBean = charterDataUtils.getStartCityBean(1);
+                chooseDateBean = charterDataUtils.chooseDateBean;
+                maxPassengers = charterDataUtils.maxPassengers;
+                cityTV.setText(startBean.name);
+                setDateViewText();
+                countLayout.setAdultValue(charterDataUtils.adultCount);
+                countLayout.setChildValue(charterDataUtils.childCount);
+                countLayout.setMaxPassengers(maxPassengers);
                 break;
         }
     }
@@ -153,6 +169,17 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.setMaxPassengers(10);//FIXME v4.0
             countLayout.setSliderEnabled(true);
         }
+    }
+
+    private void setDateViewText() {
+        String dateStr = chooseDateBean.showStartDateStr;
+        if (chooseDateBean.dayNums > 1) {
+            dateStr += " - " + chooseDateBean.showEndDateStr;
+        }
+        dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
+        dateTV.setText(dateStr);
+
+        setNextViewEnabled(true);
     }
 
     public void setNextViewEnabled(boolean isEnabled) {
@@ -171,5 +198,40 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @Override
     public void onOutRangeChange(boolean isOut) {
         setNextViewEnabled(!isOut);
+    }
+
+    private boolean isShowSaveDialog() {
+        if (startBean != null || chooseDateBean != null) {
+            AlertDialogUtils.showAlertDialogCancelable(this, "订单未填写完，要离开吗？", "取消", "离开", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    CharterFirstStepActivity.this.finish();
+                    dialog.dismiss();
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onTitleBarBack() {
+        return isShowSaveDialog();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isShowSaveDialog()) {
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

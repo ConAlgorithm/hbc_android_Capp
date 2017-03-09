@@ -120,6 +120,14 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         return childSlider.getValue();
     }
 
+    public void setAdultValue(int value) {
+        adultSlider.setValue(value);
+    }
+
+    public void setChildValue(int value) {
+        childSlider.setValue(value);
+    }
+
     public int getPassengers() {
         return getAdultValue() + getChildValue();
     }

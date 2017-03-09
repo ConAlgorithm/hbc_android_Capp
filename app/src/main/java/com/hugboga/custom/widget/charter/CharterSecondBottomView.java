@@ -52,7 +52,7 @@ public class CharterSecondBottomView extends LinearLayout{
         } else {
             confirmTV.setText("确定  ");
             dayLayout.setVisibility(View.VISIBLE);
-            dayTV.setText(String.format("Day%1$s", "" + charterDataUtils.currentDay));
+            dayTV.setText(String.format("Day%1$s", "" + (charterDataUtils.currentDay + 1)));
         }
     }
 

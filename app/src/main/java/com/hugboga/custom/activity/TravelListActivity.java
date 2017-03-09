@@ -90,7 +90,6 @@ public class TravelListActivity extends BaseActivity {
         return "行程单";
     }
 
-
     public static class TravelListAdapter extends EpoxyAdapter implements TravelItemView.OnEditClickListener, TravelAddItemView.OnAddTravelListener{
 
         private TravelListActivity activity;
@@ -137,7 +136,7 @@ public class TravelListActivity extends BaseActivity {
             }
 
             //编辑到最后1天，行程单页面底部出现“查看报价”
-            activity.bottomView.setVisibility(dayNums == travelList.size() ? View.VISIBLE : View.GONE);
+            activity.bottomView.setVisibility(checkInfo() && dayNums == travelList.size() ? View.VISIBLE : View.GONE);
         }
 
         public void updateAddModel(boolean isShow) {
@@ -162,6 +161,7 @@ public class TravelListActivity extends BaseActivity {
             chooseDateBean.dayNums--;
             chooseDateBean.end_date = DateUtils.getDay(chooseDateBean.end_date, -1);
             chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
+            chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
             setData();
             if (charterDataUtils.currentDay == chooseDateBean.dayNums + 1) {
                 charterDataUtils.currentDay--;
@@ -175,7 +175,20 @@ public class TravelListActivity extends BaseActivity {
             chooseDateBean.dayNums++;
             chooseDateBean.end_date = DateUtils.getDay(chooseDateBean.end_date, 1);
             chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
+            chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
             setData();
+        }
+
+        public boolean checkInfo() {
+            ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
+            final int travelListSize = travelList.size();
+            for (int i = 0; i < travelListSize; i++) {
+                CityRouteBean.CityRouteScope cityRouteScope = travelList.get(i);
+                if (!charterDataUtils.checkInfo(cityRouteScope.routeType, i + 1, false)) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

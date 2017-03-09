@@ -16,7 +16,6 @@
             android:layout_marginRight="5dp"
             android:background="@color/default_yellow" />
 
-
         <LinearLayout
             android:id="@+id/travel_item_edit_layout"
             android:layout_width="wrap_content"
@@ -61,7 +60,6 @@
                 android:textColor="#818181"
                 android:textSize="13sp" />
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/travel_item_title_tv"
@@ -222,6 +220,7 @@
             android:text="NH956 成田机场T2"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/travel_item_time_hint_tv"
             android:layout_width="wrap_content"
@@ -244,14 +243,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="9dp">
 
-        <View
-            android:id="@+id/travel_item_start_line_view"
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="7.5dp"
-            android:layout_marginTop="20dp"
-            android:background="#c0c0c0" />
-
         <ImageView
             android:id="@+id/travel_item_start_iv"
             android:layout_width="24dp"
@@ -264,10 +255,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
+            android:layout_marginTop="1.5dp"
             android:layout_toRightOf="@id/travel_item_start_iv"
             android:ellipsize="end"
             android:singleLine="true"
-            android:layout_marginTop="1.5dp"
             android:text="NH956 成田机场T2"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
@@ -284,6 +275,15 @@
             android:textSize="11sp"
             android:visibility="visible" />
 
+        <View
+            android:id="@+id/travel_item_start_line_view"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/travel_item_start_des_tv"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="20dp"
+            android:background="#c0c0c0" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -292,7 +292,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/travel_item_margin_left"
         android:layout_marginRight="15dp"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:paddingTop="2dp">
 
         <View
             android:layout_width="1dp"
@@ -313,10 +314,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
+            android:layout_marginTop="1.5dp"
             android:layout_toRightOf="@id/travel_item_end_iv"
             android:ellipsize="end"
             android:singleLine="true"
-            android:layout_marginTop="1.5dp"
             android:text="NH956 成田机场T2"
             android:textColor="@color/default_black"
             android:textSize="14sp" />

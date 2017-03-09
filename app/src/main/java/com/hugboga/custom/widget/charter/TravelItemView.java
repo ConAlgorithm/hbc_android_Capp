@@ -119,21 +119,21 @@ public class TravelItemView extends LinearLayout {
         // 第一天接机未填写送达地，之后的编辑都隐藏
         boolean isCanEdit = !(travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP && charterDataUtils.isSelectedPickUp && charterDataUtils.pickUpPoiBean == null);
 
-        // 前一天是随便转转，当前天不能删除
-        boolean isAtWill = false;
-        if (position > 1 && position - 1 < travelListSize) {
-            CityRouteBean.CityRouteScope preCityRouteScope = travelList.get(position - 1);
-            if (preCityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
-                isAtWill = true;
-            }
-        }
-
         // 第一个跨城市未填结束城市，之后的编辑都隐藏
         for (int i = 0; i < travelListSize; i++) {
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(i);
             if (position > i && cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN && charterDataUtils.getEndCityBean(i + 1) == null) {
                 isCanEdit = false;
                 break;
+            }
+        }
+
+        // 前一天是随便转转或只接机，当前天不能删除
+        boolean isCanDel = true;
+        if (position > 0 && position - 1 < travelListSize) {
+            CityRouteBean.CityRouteScope preCityRouteScope = travelList.get(position - 1);
+            if (preCityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL || preCityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {
+                isCanDel = false;
             }
         }
 
@@ -194,10 +194,10 @@ public class TravelItemView extends LinearLayout {
                     travelItemEndLayout.setVisibility(View.GONE);
                     updateLineLayout(cityRouteScope, _position);
                 }
-                if (isAtWill) {
-                    setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
-                } else {
+                if (isCanDel) {
                     setEditLayout(isCanEdit ? EditType.ALL : EditType.DEL);
+                } else {
+                    setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
                 }
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转（只有"编辑"）
                 travelItemCharterLineLayout.setVisibility(View.GONE);
@@ -226,7 +226,7 @@ public class TravelItemView extends LinearLayout {
             travelItemTitleTv.setText(String.format("Day%1$s", _position + 1));//标题
             travelItemTitleTv.setTextColor(0xFFA8A8A8);
 
-            if (isAtWill) {//前一天是随便转转
+            if (!isCanDel) {//前一天是随便转转
                 setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
             } else if (_position - 1 < travelListSize && _position == chooseDateBean.dayNums - 1) {
                 setEditLayout(isCanEdit ? EditType.ALL : EditType.DEL);
@@ -247,8 +247,13 @@ public class TravelItemView extends LinearLayout {
             travelItemStartTv.setText(charterDataUtils.sendPoiBean.placeName);//出发地点
             travelItemStartDesTv.setVisibility(View.VISIBLE);
             travelItemStartDesTv.setText(charterDataUtils.sendPoiBean.placeDetail);
+//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
+//            params.topMargin = UIUtils.dip2px(20);
+//            params.leftMargin = UIUtils.dip2px(7.5f);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
             params.topMargin = UIUtils.dip2px(20);
+            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.travel_item_start_des_tv);
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             params.leftMargin = UIUtils.dip2px(7.5f);
             travelItemStartLineIv.setLayoutParams(params);
         } else {
@@ -330,7 +335,7 @@ public class TravelItemView extends LinearLayout {
             }
         } else {
             if (_position == 0 && charterDataUtils.isSelectedPickUp &&  charterDataUtils.flightBean != null) {
-                travelItemStartTv.setText(String.format("%1$s出发，%2$s", charterDataUtils.flightBean.arrAirportName, cityRouteScope.routeTitle));
+                travelItemLineTv.setText(String.format("%1$s出发，%2$s", charterDataUtils.flightBean.arrAirportName, cityRouteScope.routeTitle));
             } else {
                 travelItemLineTv.setText(cityRouteScope.routeTitle);
             }
