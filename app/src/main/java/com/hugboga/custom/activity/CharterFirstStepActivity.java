@@ -91,6 +91,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, ChooseCityActivity.class);
+        intent.putExtra("fromInterCity", true);
         intent.putExtras(bundle);
         startActivity(intent);
     }

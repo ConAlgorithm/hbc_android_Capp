@@ -461,11 +461,18 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
             return;
         }
-        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
         popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
+
+        menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
 
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override

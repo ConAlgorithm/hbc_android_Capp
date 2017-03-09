@@ -253,4 +253,5 @@ public class UrlLibs {
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
 
     public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
+    public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       //创建旅行意向单121
 }

@@ -96,4 +96,6 @@ public enum EventType {
 
     CHARTER_LIST_REFRESH,//包车选行程刷新
     CHARTER_FIRST_REFRESH,//刷新包车第一步页面
+
+    PURPOSER_CITY,//填写意向单
 }

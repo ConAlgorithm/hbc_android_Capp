@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    android:background="#2d2b24">
+    android:background="#e0e1e2">
 
     <ImageView
         android:id="@+id/header_left_btn"
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/default_margin_xlarge"
         android:visibility="gone"
-        android:src="@mipmap/top_back_white" />
+        android:src="@mipmap/top_back_black" />
 
     <LinearLayout
         android:id="@+id/header_center"
@@ -32,16 +32,16 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/title_pick"
-                android:textColor="@color/basic_white"
+                android:textColor="@color/basic_daily_toolbar_color"
                 android:textSize="15sp" />
 
             <View
                 android:id="@+id/daily_tap_line1"
-                android:layout_width="60dip"
+                android:layout_width="80dip"
                 android:layout_height="2dip"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/basic_white" />
+                android:background="@color/basic_daily_toolbar_color" />
         </RelativeLayout>
 
         <View
@@ -60,16 +60,16 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/title_send"
-                android:textColor="#878787"
+                android:textColor="@color/basic_daily_toolbar_color"
                 android:textSize="15sp" />
 
             <View
                 android:id="@+id/daily_tap_line2"
-                android:layout_width="50dip"
+                android:layout_width="80dip"
                 android:layout_height="2dip"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/basic_white"
+                android:background="@color/basic_daily_toolbar_color"
                 android:visibility="gone" />
         </RelativeLayout>
 

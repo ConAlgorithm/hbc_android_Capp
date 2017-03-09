@@ -537,14 +537,21 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         commonProblemTV.setText("历史订单");
 
         if (popup != null) {
-            popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(5f));
+            popup.showAsDropDown(header_right_btn,0, 0);
             return;
         }
-        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(header_right_btn,0,UIUtils.dip2px(5f));
+        popup.showAsDropDown(header_right_btn,0,0);
+
+        menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
 
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override

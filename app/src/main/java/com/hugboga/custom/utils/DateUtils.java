@@ -39,6 +39,7 @@ public class DateUtils {
     public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
     public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E");
+    public static SimpleDateFormat dateYearMonth = new SimpleDateFormat("yyyy年MM月");
 
     public static String getNowDatetime() {
         return dateTimeFormat.format(Calendar.getInstance().getTime());
@@ -502,6 +503,21 @@ public class DateUtils {
         }
     }
 
+
+    /**
+     * 根据字符串转换成日期
+     * @param date
+     * @return
+     */
+    public static Date getDateByStr2(String date) {
+        try {
+            Date date1 = getDateByStr(date, dateYearMonth);
+            return date1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Date();
+        }
+    }
 
     public static String getEndDateByStr(String dateStr,int days) {
         try {
