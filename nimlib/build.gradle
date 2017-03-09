@@ -3,8 +3,8 @@ apply plugin: 'com.android.library'
 android {
     useLibrary 'org.apache.http.legacy'
 
-    compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     lintOptions {
         abortOnError false
@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.2'
+    compile 'com.android.support:design:25.0.2'
     compile fileTree(include: '*.jar', dir: 'libs')
 }
