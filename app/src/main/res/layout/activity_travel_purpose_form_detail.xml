@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/travel_purpose_btn">
+
+    <include layout="@layout/include_header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/allbg_white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="旅行心愿"
+            android:textSize="14sp"
+            android:padding="@dimen/basic_margin_large"
+            android:textColor="#979797"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/basic_margin_large"
+                android:text="目的地"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/purpose_place"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/letter_item_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/basic_margin_large"
+                android:text="旅行日期"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/purpose_place"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/letter_item_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/basic_margin_large"
+                android:text="备注信息"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/purpose_place"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/letter_item_line" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="12dp"
+        android:background="@color/allbg_white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系方式"
+            android:textSize="14sp"
+            android:padding="@dimen/basic_margin_large"
+            android:textColor="#979797"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/basic_margin_large"
+                android:text="姓名"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/purpose_place"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/letter_item_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/basic_margin_large"
+                android:text="手机号"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/mobile_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/purpose_place"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/letter_item_line" />
+    </LinearLayout>
+</LinearLayout>
