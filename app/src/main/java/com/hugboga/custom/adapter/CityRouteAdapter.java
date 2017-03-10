@@ -78,22 +78,17 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
     }
 
     public void showEmpty(int type, boolean isShow) {
+        charterDataUtils.isShowEmpty = isShow;
+        notifyModelChanged(charterSubtitleModel);
         if (isShow) {
             charterEmptyModel.setEmptyType(type);
             showModel(charterEmptyModel);
             hideModels(getAllModelsAfter(charterEmptyModel));
-            if (noCharterModel != null) {
-                hideModel(noCharterModel);
-            }
-            charterSubtitleModel.setPickupLayoutVisibility(View.GONE);
         } else {
             hideModel(charterEmptyModel);
             showModels(getAllModelsAfter(charterEmptyModel));
-            if (noCharterModel != null) {
-                showModel(noCharterModel);
-            }
-            charterSubtitleModel.setPickupLayoutVisibility(View.VISIBLE);
         }
+        updateNoCharterModelVisibility();
     }
 
     public void insertCharterFooterModel() {

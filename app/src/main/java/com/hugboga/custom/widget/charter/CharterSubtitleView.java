@@ -31,6 +31,8 @@ public class CharterSubtitleView extends LinearLayout{
 
     @Bind(R.id.charter_subtitle_day_tv)
     TextView dayTV;
+    @Bind(R.id.charter_subtitle_arrow_iv)
+    ImageView arrowIV;
 
     @Bind(R.id.charter_subtitle_pickup_layout)
     LinearLayout pickupLayout;
@@ -41,12 +43,11 @@ public class CharterSubtitleView extends LinearLayout{
     @Bind(R.id.charter_subtitle_pickup_right_tv)
     TextView rightTV;
     @Bind(R.id.charter_subtitle_pickup_arrow_iv)
-    ImageView arrowIV;
+    ImageView pickupArrowIV;
 
     private Context context;
     private CharterDataUtils charterDataUtils;
     private OnPickUpOrSendSelectedListener listener;
-
 
     public CharterSubtitleView(Context context) {
         this(context, null);
@@ -63,24 +64,37 @@ public class CharterSubtitleView extends LinearLayout{
 
     public void update() {
         CityBean currentDayCityBean = charterDataUtils.getCurrentDayStartCityBean();
-        dayTV.setText(String.format("Day%1$s: %2$s", charterDataUtils.currentDay, currentDayCityBean.name));
+        if (charterDataUtils.chooseDateBean.dayNums == 1) {
+            dayTV.setText(currentDayCityBean.name);
+        } else {
+            dayTV.setText(String.format("Day%1$s: %2$s", charterDataUtils.currentDay, currentDayCityBean.name));
+        }
+
+        if (charterDataUtils.isShowEmpty) {
+            pickupLayout.setVisibility(View.GONE);
+            arrowIV.setVisibility(View.GONE);
+            return;
+        }
+
         if (charterDataUtils.isFirstDay()) {
             pickupLayout.setVisibility(View.VISIBLE);
+            arrowIV.setVisibility(View.GONE);
             if (charterDataUtils.flightBean != null) {
                 iconIV.setBackgroundResource(R.drawable.selector_charter_pickup);
                 iconIV.setSelected(charterDataUtils.isSelectedPickUp);
                 leftTV.setText("从机场出发 ");
                 rightTV.setText(charterDataUtils.flightBean.flightNo);
                 rightTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-                arrowIV.setVisibility(View.VISIBLE);
+                pickupArrowIV.setVisibility(View.VISIBLE);
             } else {
                 iconIV.setBackgroundResource(R.mipmap.trip_icon_come);
                 leftTV.setText("从机场出发");
                 rightTV.setText("请添加航班号");
                 rightTV.setTextColor(0xFF19B9DA);
-                arrowIV.setVisibility(View.GONE);
+                pickupArrowIV.setVisibility(View.GONE);
             }
-        } else if(charterDataUtils.isLastDay()) {
+        } else if( charterDataUtils.isLastDay()) {
+            arrowIV.setVisibility(View.VISIBLE);
             pickupLayout.setVisibility(View.VISIBLE);
             if (charterDataUtils.airPortBean != null) {
                 iconIV.setBackgroundResource(R.drawable.selector_charter_pickup);
@@ -88,23 +102,16 @@ public class CharterSubtitleView extends LinearLayout{
                 leftTV.setText("送机 ");
                 rightTV.setText(charterDataUtils.airPortBean.airportName);
                 rightTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
-                arrowIV.setVisibility(View.VISIBLE);
+                pickupArrowIV.setVisibility(View.VISIBLE);
             } else {
                 iconIV.setBackgroundResource(R.mipmap.trip_icon_go);
                 leftTV.setText("如需送机");
                 rightTV.setText("请选择送机机场");
                 rightTV.setTextColor(0xFF19B9DA);
-                arrowIV.setVisibility(View.GONE);
+                pickupArrowIV.setVisibility(View.GONE);
             }
         } else {
-            pickupLayout.setVisibility(View.GONE);
-        }
-    }
-
-    public void setPickupLayoutVisibility(int visibility) {
-        if (visibility == View.VISIBLE && (charterDataUtils.isFirstDay() || charterDataUtils.isLastDay())) {
-            pickupLayout.setVisibility(View.VISIBLE);
-        } else {
+            arrowIV.setVisibility(View.VISIBLE);
             pickupLayout.setVisibility(View.GONE);
         }
     }

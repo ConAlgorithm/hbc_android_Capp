@@ -46,6 +46,8 @@ public class CharterDataUtils {
     public ArrayList<CityRouteBean.CityRouteScope> travelList;             // 存储每天的数据，点击"确认"后更新
     public ArrayMap<Integer, CharterlItemBean> itemInfoList;
 
+    public boolean isShowEmpty = false;
+
     private CharterDataUtils() {
         travelList = new ArrayList<CityRouteBean.CityRouteScope>();
         itemInfoList = new ArrayMap<Integer, CharterlItemBean>();

@@ -292,7 +292,7 @@ public class TravelItemView extends LinearLayout {
         if (charterDataUtils.pickUpPoiBean != null) {
             travelItemEndTv.setTextColor(getResources().getColor(R.color.default_black));
             travelItemEndTv.setText(charterDataUtils.pickUpPoiBean.placeName);//到达地
-            travelItemEndDesTv.setText(charterDataUtils.pickUpPoiBean.placeName);//到达地描述
+            travelItemEndDesTv.setText(charterDataUtils.pickUpPoiBean.placeDetail);//到达地描述
             travelItemEndDesTv.setVisibility(View.VISIBLE);
         } else {
             travelItemEndTv.setTextColor(0xFFCCCCCC);
