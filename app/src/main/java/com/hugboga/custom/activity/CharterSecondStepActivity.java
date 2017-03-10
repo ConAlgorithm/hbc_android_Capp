@@ -537,7 +537,13 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public void updateTitleBar() {
         ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
-        titleBar.updateSubtitle(String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, chooseDateBean.dayNums));
+        String title = "";
+//        if (chooseDateBean.dayNums == 1 && charterDataUtils.travelList != null && charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.HALFDAY) {
+//            title = String.format("%1$s(0.5天)", chooseDateBean.showStartDateStr);
+//        } else {
+            title = String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, chooseDateBean.dayNums);
+//        }
+        titleBar.updateSubtitle(title);
     }
 
     @Override
@@ -548,6 +554,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public void onCharterItemClick(CityRouteBean.CityRouteScope cityRouteScope) {
         charterDataUtils.addCityRouteScope(cityRouteScope);
+        updateTitleBar();
         drawFences(cityRouteScope);
     }
 
@@ -654,11 +661,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             return;
         }
         ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
-        if (fences == null || fences.size() < 2) {
+        if (fences == null && fences.size() < 1) {
             return;
         }
         ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
-        ArrayList<HbcLantLng> outsideList = charterDataUtils.getHbcLantLngList(fences.get(1));//周边围栏
+        ArrayList<HbcLantLng> outsideList = fences.size() > 1 ? charterDataUtils.getHbcLantLngList(fences.get(1)) : null;//周边围栏
         ArrayList<CityRouteBean.Fence> nextFences = charterDataUtils.getNextDayFences();
         if (routeType == CityRouteBean.RouteType.OUTTOWN && nextFences != null && nextFences.get(0) != null) {//跨城市 画两个围栏
             CityRouteBean.Fence nextFence = nextFences.get(0);
@@ -701,7 +708,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 //urbanList  outsideList startCoordinate
                 if(urbanList!=null && urbanList.size()>0){
                     Polygon polygon = mapView.addPolygon(urbanList, Color.argb(150,125,211,32), 8, Color.argb(90,125,211,32));
-                    if (routeType == CityRouteBean.RouteType.SUBURBAN && !polygon.contains(new LatLng(startCoordinate.latitude, startCoordinate.longitude))) {
+                    if (routeType == CityRouteBean.RouteType.SUBURBAN
+                            && !polygon.contains(new LatLng(startCoordinate.latitude, startCoordinate.longitude))
+                            && outsideList != null && outsideList.size() > 0) {
                         mapView.addPolygon(outsideList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                         hasOut = true;
                     }
@@ -715,26 +724,13 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
 
             } else if (routeType == CityRouteBean.RouteType.SUBURBAN) {
-                // TODO outsideList 周边围栏
-                boolean hasOut = false;
-                boolean hasIn = false;
-                if(outsideList!=null && outsideList.size()>0){
-                    hasOut = true;
-                    mapView.addPolygon(outsideList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                if (outsideList == null || outsideList.size() <= 0 || urbanList == null || urbanList.size() <= 0) {
+                    return;
                 }
-                if(urbanList!=null && urbanList.size()>0){
-                    hasIn = true;
-                    mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
-                }
-                if(hasIn && hasOut){
-                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(outsideList,urbanList),0));
-                }else if(hasIn){
-                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList),0));
-                }else if(hasOut){
-                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(outsideList),0));
-                }
-
-
+                // 周边围栏
+                mapView.addPolygon(outsideList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(outsideList,urbanList),0));
             } else {
                 // TODO urbanList 市内围栏
                 if(urbanList!=null && urbanList.size()>0){
