@@ -159,13 +159,13 @@ public class PickSendActivity extends BaseActivity {
         if (index == 1) {
             dailyTapLine1.setVisibility(View.GONE);
             dailyTapLine2.setVisibility(View.VISIBLE);
-            dailyTap1.setTextColor(Color.parseColor("#878787"));
-            dailyTap2.setTextColor(getResources().getColor(R.color.basic_white));
+            dailyTap1.setTextColor(getResources().getColor(R.color.basic_black));
+            dailyTap2.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
         } else {
             dailyTapLine1.setVisibility(View.VISIBLE);
             dailyTapLine2.setVisibility(View.GONE);
-            dailyTap1.setTextColor(getResources().getColor(R.color.basic_white));
-            dailyTap2.setTextColor(Color.parseColor("#878787"));
+            dailyTap1.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
+            dailyTap2.setTextColor(getResources().getColor(R.color.basic_black));
         }
     }
 

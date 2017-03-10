@@ -43,7 +43,7 @@
         android:id="@+id/choose_city_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/basic_white"
+        android:background="#F7F7F7"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">
@@ -53,14 +53,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dip"
-            android:src="@mipmap/search__city_no_result" />
+            android:src="@mipmap/empty_car" />
 
         <TextView
             android:id="@+id/choose_city_empty_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
-            android:text="@string/empty_city_text" />
+            android:gravity="center"
+            android:text="@string/out_of_range_city_text"
+            android:textSize="14sp"
+            android:textColor="#ACACAC"/>
     </LinearLayout>
 
     <com.hugboga.custom.widget.ChooseCityTabLayout

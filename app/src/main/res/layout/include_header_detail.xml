@@ -24,8 +24,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="-10dp"
         android:layout_toLeftOf="@id/header_detail_right_1_btn"
-        android:padding="@dimen/default_margin_mlarges"
-        android:src="@mipmap/guide_detail_share" />
+        android:padding="10dp"
+        android:src="@mipmap/topbar_collect_share" />
     <TextView
         android:id="@+id/header_detail_title_tv"
         android:layout_width="wrap_content"

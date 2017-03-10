@@ -824,4 +824,10 @@
 
     <string name="charter_first_max_passengers_hint">当地可用车型的最大载客人数为%1$s人\n如需预订多车服务，请联系客服</string>
     <string name="charter_first_max_passengers_service">联系客服</string>
+
+    <string name="travel_purpose_tip">* 提交心愿单后，司导助手会主动与您联系</string>
+    <string name="travel_purpose_title">旅行心愿单</string>
+    <string name="phone_format_incorrect">手机格式不正确，请重新输入</string>
+    <string name="alert_submit_success">司导小助手将主动联系您</string>
+    <string name="travel_purpose_form_list">我的旅行心愿</string>
 </resources>

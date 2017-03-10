@@ -101,12 +101,25 @@ public class CharterSubtitleView extends LinearLayout{
         }
     }
 
+    public void setPickupLayoutVisibility(int visibility) {
+        if (visibility == View.VISIBLE && (charterDataUtils.isFirstDay() || charterDataUtils.isLastDay())) {
+            pickupLayout.setVisibility(View.VISIBLE);
+        } else {
+            pickupLayout.setVisibility(View.GONE);
+        }
+    }
+
     @OnClick({R.id.charter_subtitle_pickup_layout})
     public void onClick(View view) {
         if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号
             intentActivity(ChooseAirActivity.class);
         } else if(charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
-            intentActivity(ChooseAirPortActivity.class);
+            Intent intent = new Intent(context, ChooseAirPortActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            if (charterDataUtils.getCurrentDayStartCityBean() != null) {
+                intent.putExtra(ChooseAirPortActivity.KEY_GROUPID, charterDataUtils.getCurrentDayStartCityBean().groupId);
+            }
+            context.startActivity(intent);
         }
     }
 
@@ -152,6 +165,7 @@ public class CharterSubtitleView extends LinearLayout{
         bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
         bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
         bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterSecondStepActivity.TAG);
+        bundle.putInt(ChooseCityActivity.KEY_CITY_ID, charterDataUtils.getStartCityBean(1).cityId);
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(context, ChooseCityActivity.class);
         intent.putExtras(bundle);

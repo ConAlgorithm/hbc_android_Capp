@@ -6,7 +6,6 @@
     <include
         android:id="@+id/combination_order_titlebar_layout"
         layout="@layout/include_header" />
-
     <com.hugboga.custom.widget.SkuOrderBottomView
         android:id="@+id/combination_order_bottom_view"
         android:layout_width="match_parent"
@@ -24,12 +23,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.hugboga.custom.widget.CombinationOrderDescriptionView
+                android:id="@+id/combination_order_description_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
             <com.hugboga.custom.widget.SkuOrderEmptyView
                 android:id="@+id/combination_order_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:visibility="gone"
+                android:layout_marginTop="@dimen/sku_order_margin_vertical"
                 android:gravity="center"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp"
@@ -39,10 +44,11 @@
                 android:id="@+id/combination_order_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sku_order_margin_vertical"
                 android:visibility="gone"
                 android:background="#ffffff" />
 
-            <com.hugboga.custom.widget.SkuOrderCountView
+            <com.hugboga.custom.widget.CombinationOrderCountView
                 android:id="@+id/combination_order_count_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

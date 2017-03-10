@@ -91,8 +91,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, ChooseCityActivity.class);
+        intent.putExtra("fromInterCity", true);
         intent.putExtras(bundle);
         startActivity(intent);
+        overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
     @OnClick({R.id.charter_first_date_layout})
@@ -108,10 +110,13 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @OnClick({R.id.charter_first_bottom_next_tv})
     public void nextStep() {
 
-        //开始城市变了清除数据、开始日期变了清除、结束日期变了不清除
-        boolean isClearTravelData = (charterDataUtils.chooseDateBean != null && !chooseDateBean.start_date.equals(charterDataUtils.chooseDateBean.start_date))
-                                    || startBean != charterDataUtils.getStartCityBean(1);
-        if (isClearTravelData) {
+        //开始城市变了清除数据、开始日期变了清除、结束日期变了且最后一天没选机场不清除
+        boolean isChangeDate = (charterDataUtils.chooseDateBean != null && !chooseDateBean.start_date.equals(charterDataUtils.chooseDateBean.start_date));
+        if (charterDataUtils.chooseDateBean != null && !chooseDateBean.end_date.equals(charterDataUtils.chooseDateBean.end_date) && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
+            isChangeDate = true;
+        }
+        boolean isChangeCity  = startBean != charterDataUtils.getStartCityBean(1);
+        if (isChangeDate || isChangeCity) {
             charterDataUtils.onDestroy();
         }
 
@@ -166,7 +171,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            countLayout.setMaxPassengers(10);//FIXME v4.0
+            countLayout.setMaxPassengers(maxPassengers);
             countLayout.setSliderEnabled(true);
         }
     }

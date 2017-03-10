@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean.combination;
 
+import com.hugboga.custom.data.bean.OrderBean;
+
 import java.io.Serializable;
 
 /**
@@ -29,4 +31,5 @@ public class GroupPickupParam implements Serializable {
     public String flightDestBuilding;          // 降落机场航站楼
     public Double distance;                    // 服务距离 必填
     public Integer expectedCompTime;           // 预计服务完成时间 接送次 必填
+    public OrderBean.ChildSeats childSeatInfo;
 }

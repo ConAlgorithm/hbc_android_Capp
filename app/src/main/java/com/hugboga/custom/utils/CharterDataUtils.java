@@ -4,6 +4,7 @@ import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import com.hugboga.amap.entity.HbcLantLng;
+import com.hugboga.amap.view.HbcMapViewTools;
 import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CharterlItemBean;
@@ -146,12 +147,17 @@ public class CharterDataUtils {
         }
         CityBean nextCityBean = getStartCityBean(currentDay);
         if (nextCityBean == null) {
-            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(currentDay - 2);
+            int index = currentDay - 2;
+            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(index);
+            while (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL && index - 1 >= 0 && index - 1 < travelList.size()) {
+                index--;
+                cityRouteScope = travelList.get(index);
+            }
             CityBean startCityBean = null;
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
-                startCityBean = getEndCityBean(currentDay - 1);
+                startCityBean = getEndCityBean(index + 1);
             } else {
-                startCityBean = getStartCityBean(currentDay - 1);
+                startCityBean = getStartCityBean(index + 1);
             }
             addStartCityBean(currentDay, startCityBean);
             return startCityBean;
@@ -185,6 +191,34 @@ public class CharterDataUtils {
                 itemBean.endFence = fences;
             }
             itemInfoList.put(currentDay, itemBean);
+        }
+    }
+
+    public ArrayList<CityRouteBean.Fence> getFences(int day, boolean isStart) {
+        if (itemInfoList.containsKey(day)) {
+            CharterlItemBean itemBean = itemInfoList.get(day);
+            if (isStart) {
+                return itemBean.startFence;
+            } else {
+                return itemBean.endFence;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<CityRouteBean.Fence> setDefaultFences() {
+        if (currentDay <= 1) {
+            return null;
+        }
+        ArrayList<CityRouteBean.Fence> fenceList = getFences(currentDay, true);
+        if (fenceList == null) {
+            CityRouteBean.CityRouteScope cityRouteScope = travelList.get(currentDay - 2);
+            ArrayList<CityRouteBean.Fence> startFences = getFences(currentDay - 1, cityRouteScope.routeType != CityRouteBean.RouteType.OUTTOWN);
+            addFences(currentDay, startFences, true);
+            return startFences;
+        } else {
+            return fenceList;
         }
     }
 
@@ -337,6 +371,71 @@ public class CharterDataUtils {
             HbcLantLng hbcLantLng = new HbcLantLng();
             hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
             hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
+//            if(cityId==1269){
+//                HbcMapViewTools.con
+//            }
+            return hbcLantLng;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {
+        if (_fence == null || _fence.fencePoints == null) {
+            return null;
+        }
+        ArrayList<CityRouteBean.Fencepoint> fencePoints = _fence.fencePoints;
+        final int fencePointsSize = fencePoints.size();
+        ArrayList<HbcLantLng> resultList = new ArrayList<>(fencePointsSize);
+        try {
+            for (int i = 0; i < fencePointsSize; i++) {
+                CityRouteBean.Fencepoint fencePoint = fencePoints.get(i);
+                String[] points = fencePoint.startPoint.split(",");
+                HbcLantLng hbcLantLng = new HbcLantLng();
+                hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
+                hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
+                if(cityId==1269 || cityId==1270){
+                    HbcMapViewTools.convertToAmappCoordition(hbcLantLng);
+                }
+                resultList.add(hbcLantLng);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,ArrayList<DirectionBean.Step> _steps) {
+        if (_steps == null || _steps.size() <= 0) {
+            return null;
+        }
+        ArrayList<DirectionBean.Step> steps = _steps;
+        final int stepsSize = steps.size();
+        ArrayList<HbcLantLng> resultList = new ArrayList<>(stepsSize);
+        for (int i = 0; i < stepsSize; i++) {
+            DirectionBean.Step step = steps.get(i);
+            HbcLantLng hbcLantLng = new HbcLantLng();
+            hbcLantLng.latitude = CommonUtils.getCountDouble(step.startCoordinate.lat);
+            hbcLantLng.longitude = CommonUtils.getCountDouble(step.startCoordinate.lng);
+            if(cityId==1269 || cityId==1270){
+                HbcMapViewTools.convertToAmappCoordition(hbcLantLng);
+            }
+            resultList.add(hbcLantLng);
+        }
+        return resultList;
+    }
+
+    public static HbcLantLng getHbcLantLng(int cityId,String location) {
+        try {
+            String[] points = location.split(",");
+            HbcLantLng hbcLantLng = new HbcLantLng();
+            hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
+            hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
+            if(cityId==1269 || cityId==1270){
+                HbcMapViewTools.convertToAmappCoordition(hbcLantLng);
+            }
             return hbcLantLng;
         } catch (Exception e) {
             e.printStackTrace();

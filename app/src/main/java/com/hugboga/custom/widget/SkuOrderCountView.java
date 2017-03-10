@@ -25,6 +25,7 @@ import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/12/16.
+ * 注意和CombinationOrderCountView 使用同一个R.layout.view_sku_order_count
  */
 public class SkuOrderCountView extends LinearLayout implements ChooseCountView.OnCountChangeListener {
 
