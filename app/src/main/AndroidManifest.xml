@@ -439,6 +439,21 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
 
+        <!--外部目录权限-->
+        <!--
+            exported:要求必须为false，为true则会报安全异常
+            grantUriPermissions:true，表示授予 URI 临时访问权限。
+        -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.hugboga.custom.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
