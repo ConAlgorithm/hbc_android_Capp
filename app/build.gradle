@@ -46,8 +46,8 @@ android {
             storePassword localStorePassword()
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
@@ -174,8 +174,6 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:support-v4:23.2.0'
     compile project(':hbcframe')
-    //compile project(':IMKit')
-    //compile project(':nimlib')
     compile project(':polygonimageview')
     compile project(':timepicker')
 
@@ -203,4 +201,6 @@ dependencies {
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.6.28'
     compile 'com.airbnb.android:epoxy:1.7.5'
     compile 'com.hugboga.im:nim_libary:1.1.8'
+    compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1+'
 }

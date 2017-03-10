@@ -653,6 +653,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.MediaPlayerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullscreen" />
     </application>
 
 </manifest>
