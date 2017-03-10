@@ -9,14 +9,14 @@ def getGitVersion() {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         versionCode 21
         versionName '2.9.0'
-        minSdkVersion 8
+        minSdkVersion 15
         targetSdkVersion 23
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
     }
@@ -41,6 +41,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:support-v4:25+'
     compile fileTree(include: ['*.jar'], exclude: ['android-support-v4.jar'], dir: 'libs')
 }
