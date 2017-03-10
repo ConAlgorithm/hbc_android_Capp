@@ -202,5 +202,5 @@ dependencies {
     compile 'com.airbnb.android:epoxy:1.7.5'
     compile 'com.hugboga.im:nim_libary:1.1.8'
     compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1+'
 }

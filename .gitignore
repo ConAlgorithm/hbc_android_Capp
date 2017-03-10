@@ -1,1 +1,47 @@
 # Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+/app/build
+/hbcframe/build
+/IMKit/build
+local.properties
+build
+gradle
+.gradle
+.idea
+*.iml
+out
+gen
+*.DS_Store
+.DS_Store
+app/app.iml
+hbcframe/hbcframe.iml
+polygonimageview/polygonimageview.iml
+.gradle/
+.idea/copyright/
+.idea/dictionaries/
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/libraries/
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations.xml
+.idea/vcs.xml
+.idea/workspace.xml
+app/build/
+build/
+countdown/countdown.iml
+datepicker/build/
+datepicker/datepicker.iml
+hbc_android_Capp.iml
+hbcframe/build/
+nimlib/
+polygonimageview/build/
+timepicker/build/
+timepicker/timepicker.iml
+unicorn/build/
+unicorn/unicorn.iml
+viewpagerindicator/build/
+viewpagerindicator/viewpagerindicator.iml
