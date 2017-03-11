@@ -15,18 +15,29 @@ import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.TravelPurposeFormActivity;
+import com.hugboga.custom.activity.TravelPurposeFormListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestHasCreatedTravelForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+
+import org.xutils.http.annotation.HttpRequest;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -111,13 +122,41 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 break;
             case R.id.home_help:
                 //// TODO: 2017/3/11  打开意向单页面
-                Toast.makeText(MyApplication.getAppContext(),"意向单页面",Toast.LENGTH_SHORT).show();
+                if (CommonUtils.isLogin(v.getContext())){
+                    gotoTravelPurposeForm(v);
+                }
+//                Toast.makeText(MyApplication.getAppContext(),"意向单页面",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.home_video_page:
                 //// TODO: 2017/3/11  打开视频页面    homeHeaderInfo.headVideo.videoUrl
                 Toast.makeText(MyApplication.getAppContext(),"视频页面",Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void gotoTravelPurposeForm(final View view){
+        RequestHasCreatedTravelForm requestHasCreate = new RequestHasCreatedTravelForm(view.getContext(), UserEntity.getUser().getUserId(view.getContext()));
+        HttpRequestUtils.request(view.getContext(), requestHasCreate, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                Intent intent = null;
+                RequestHasCreatedTravelForm.HasWork hasWork = ((RequestHasCreatedTravelForm) request).getData();
+                if (hasWork.getHasWorkorder()){
+                    intent = new Intent(view.getContext(), TravelPurposeFormListActivity.class);
+                }else {
+                    intent = new Intent(view.getContext(),TravelPurposeFormActivity.class);
+                }
+                view.getContext().startActivity(intent);
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            }
+        }, false);
     }
 
     static class HomeHeaderHolder extends EpoxyHolder {

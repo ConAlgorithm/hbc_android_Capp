@@ -262,8 +262,6 @@ public class UrlLibs {
     public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          //易联支付查询已绑定的卡128
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          //易联查询银行卡所属银行129
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                //易联支付接口130
-    public static final String API_DIRECTION                =  "proxy/v1.0/c/direction";                                // 行程查询 120
-
 
     public static final String API_HOTEXPLORATIONS           = "basicdata/v1.0/c/home/hotexplorations";                 //首页热门探索列表 request code 123
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     //首页目的地列表    request code 124
