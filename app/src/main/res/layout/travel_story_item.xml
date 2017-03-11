@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/story_guide_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/story_guide_avtar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/story_guide_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/common_font_color_black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/story_guide_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textColor="#7F7F7F"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/story_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/story_guide_info_layout"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/home_default_route_item" />
+
+    <TextView
+        android:id="@+id/story_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/story_image"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/common_font_color_black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/story_line"
+        android:layout_width="36dp"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@id/story_desc"
+        android:layout_below="@id/story_desc"
+        android:layout_marginBottom="15dp"
+        android:background="#FFC110" />
+
+    <ImageView
+        android:id="@+id/story_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/story_line"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="12dp"
+        android:src="@mipmap/home_guide_story_0" />
+
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
+        android:background="#FFC110"></View>
+</RelativeLayout>

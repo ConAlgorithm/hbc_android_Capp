@@ -45,6 +45,10 @@ public class HomeBeanV2 implements Serializable {
     public static class HotExplorationAggregation implements Serializable{
         public int listCount; //当季热门探索总数量
         public List<HotExploration> hotExplorations; //当季热门探索列表
+
+        public int getHotExplorationSize(){
+            return hotExplorations==null?0:hotExplorations.size();
+        }
     }
 
     /**
@@ -70,8 +74,12 @@ public class HomeBeanV2 implements Serializable {
      */
     public static class DestinationAggregation{
         public List<HotCity> hotCities; //热门目的地
-        public List<LineGroupAgg> lineGroupAggs;//线路圈聚合信息
+        public List<LineGroupAgg> lineGroupAggVos;//线路圈聚合信息
         public int listCount;//线路圈聚合信息总数量
+
+        public int getLineGroupAggSize(){
+            return lineGroupAggVos==null?0:lineGroupAggVos.size();
+        }
     }
 
 
@@ -101,6 +109,8 @@ public class HomeBeanV2 implements Serializable {
         public List<HotCity> lineGroupCities; //线路圈城市列表
         public List<HotCountry> lineGroupCountries; //线路圈国家列表
 
+        public boolean hasOpenCountryExtentdView; //本地判断状态所用数据，判断国家列表页是否扩展打开
+
     }
 
     /**
@@ -119,6 +129,10 @@ public class HomeBeanV2 implements Serializable {
     public static class TravelStoryAggregation implements Serializable{
         public List<TravelStory> travelStories; //司导故事列表
         public int listCount; //司导故事数量
+
+        public int getTravelStoreySize(){
+            return travelStories==null?0:travelStories.size();
+        }
     }
 
     /*

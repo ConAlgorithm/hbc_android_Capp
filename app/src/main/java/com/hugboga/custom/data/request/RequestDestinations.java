@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -16,21 +15,18 @@ import org.xutils.http.annotation.HttpRequest;
 import java.util.HashMap;
 
 /**
- * 首页数据请求
- * Created by admin on 2016/3/2.
+ * Created by SPW on 2017/3/11.
  */
-@HttpRequest(path = UrlLibs.API_HOME, builder = NewParamsBuilder.class)
-public class RequestHome extends BaseRequest<HomeBeanV2> {
+@HttpRequest(path = UrlLibs.API_DESTINATIONS, builder = NewParamsBuilder.class)
+public class RequestDestinations extends BaseRequest<HomeBeanV2.DestinationAggregation> {
 
-    public static final int HOME_DEFALT_LIMIT = 2;
-
-    public RequestHome(Context context ) {
+    public RequestDestinations(Context context, int offset) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put("explorationLimit",HOME_DEFALT_LIMIT);
-        map.put("destinationLimit",HOME_DEFALT_LIMIT);
-        map.put("storyLimit",HOME_DEFALT_LIMIT);
+        map.put("destinationOffset",offset);
+        map.put("destinationLimit",RequestHome.HOME_DEFALT_LIMIT);
     }
+
 
     @Override
     public HttpMethod getHttpMethod() {
@@ -39,12 +35,11 @@ public class RequestHome extends BaseRequest<HomeBeanV2> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_HOME, HomeBeanV2.class);
+        return  new HbcParser(UrlLibs.API_DESTINATIONS, HomeBeanV2.DestinationAggregation.class);
     }
 
     @Override
     public String getUrlErrorCode() {
-        return "40048";
+        return "40124";
     }
-
 }

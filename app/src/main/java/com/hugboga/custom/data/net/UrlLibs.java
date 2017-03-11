@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 122
+    //current urlErrorCode 125
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -253,4 +253,10 @@ public class UrlLibs {
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
 
     public static final String API_DIRECTION                =  "proxy/v1.0/c/direction";                                // 行程查询 120
+
+
+    public static final String API_HOTEXPLORATIONS           = "basicdata/v1.0/c/home/hotexplorations";                 //首页热门探索列表 request code 123
+    public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     //首页目的地列表    request code 124
+    public static final String API_TRAVEL_STORYS             = "basicdata/v1.0/c/home/storys";                          //司导故事列表     request code 125
+
 }

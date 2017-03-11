@@ -72,6 +72,20 @@ public class Tools {
                 .into(imageView);
     }
 
+
+    public static void showImageHasPlaceHolder(final ImageView imageView, String url, final int placeHolderResId) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .centerCrop()
+                .placeholder(placeHolderResId)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+
     public static void showGif(ImageView imageView, int resId) {
         Glide.with(MyApplication.getAppContext())
                 .load(resId)

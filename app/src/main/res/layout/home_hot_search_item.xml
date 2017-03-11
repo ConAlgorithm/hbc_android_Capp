@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:clipChildren="false"
     android:clipToPadding="false"
@@ -59,6 +60,9 @@
             android:id="@+id/home_hot_search_guide_avtar"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            app:poly_vertices="0"
+            app:poly_border_width="2dp"
+            app:poly_border_color="@color/white"
             android:src="@mipmap/home_guide_head" />
 
         <RelativeLayout

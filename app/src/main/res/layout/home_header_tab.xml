@@ -5,11 +5,13 @@
     android:background="#E7EAEF">
 
     <FrameLayout
+        android:id="@+id/home_header_hot_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.3">
 
         <TextView
+            android:id="@+id/home_header_hot_tab_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -18,6 +20,7 @@
             android:textColor="@color/common_font_color_black" />
 
         <ImageView
+            android:id="@+id/home_header_hot_tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
@@ -31,11 +34,13 @@
         android:background="@mipmap/home_tab_line"></TextView>
 
     <FrameLayout
+        android:id="@+id/home_header_dest_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.0">
 
         <TextView
+            android:id="@+id/home_header_dest_tab_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -44,6 +49,7 @@
             android:textColor="@color/common_font_color_black" />
 
         <ImageView
+            android:id="@+id/home_header_dest_tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
@@ -58,11 +64,13 @@
         android:background="@mipmap/home_tab_line"></TextView>
 
     <FrameLayout
+        android:id="@+id/home_header_story_tab"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.2">
 
         <TextView
+            android:id="@+id/home_header_story_tab_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -72,6 +80,7 @@
             android:textColor="@color/common_font_color_black" />
 
         <ImageView
+            android:id="@+id/home_header_story_tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
@@ -81,9 +90,10 @@
 
 
     <FrameLayout
+        android:id="@+id/home_activies_view"
         android:layout_width="0dp"
         android:layout_weight="1.2"
-        android:background="@mipmap/home_tab_activity_bg"
+        android:background="@drawable/home_tab_activity_bg"
         android:layout_height="match_parent">
 
         <TextView
@@ -91,8 +101,9 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/home_icon_exercise"
             android:drawablePadding="3dp"
+            android:singleLine="true"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:text="精彩活动"
             android:textColor="#6D3402"
             android:textSize="12sp" />
