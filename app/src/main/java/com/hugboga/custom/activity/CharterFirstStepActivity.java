@@ -115,7 +115,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (charterDataUtils.chooseDateBean != null && !chooseDateBean.end_date.equals(charterDataUtils.chooseDateBean.end_date) && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
             isChangeDate = true;
         }
-        boolean isChangeCity  = startBean != charterDataUtils.getStartCityBean(1);
+        boolean isChangeCity  = charterDataUtils.getStartCityBean(1) != null && startBean.cityId != charterDataUtils.getStartCityBean(1).cityId;
         if (isChangeDate || isChangeCity) {
             charterDataUtils.onDestroy();
         }
