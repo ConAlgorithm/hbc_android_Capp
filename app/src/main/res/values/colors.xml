@@ -167,6 +167,9 @@
     <color name="titlebar_dvider">#D0D0D0</color>
     <color name="titlebar_text">#000000</color>
 
+    <color name="travel_purpose_btn">#E0EEEEEE</color>
+    <color name="date_title_bg">#F7F7F7</color>
+
     <!-- 通用色值 -->
     <color name="common_font_color_black">#151515</color>
     <color name="common_font_color_gray">#A8A8A8</color>

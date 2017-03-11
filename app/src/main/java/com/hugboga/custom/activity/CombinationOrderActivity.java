@@ -16,7 +16,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
-import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
@@ -24,7 +23,6 @@ import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
-import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -37,18 +35,17 @@ import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestOrderGroup;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
-import com.hugboga.custom.data.request.RequestSubmitDaily;
-import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CombinationOrderCountView;
+import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
-import com.hugboga.custom.widget.SkuOrderCountView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
@@ -65,18 +62,21 @@ import butterknife.ButterKnife;
  * Created by qingcha on 17/3/4.
  */
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
-        , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener{
+        , CombinationOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
+        , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
 
-    public static final String SERVER_TIME = "00:00:00";
+    public static final String SERVER_TIME = "09:00:00";
     public static final String SERVER_TIME_END = "23:59:59";
     public static final int REQUEST_CODE_PICK_CONTACTS = 101;
 
     @Bind(R.id.combination_order_scrollview)
     ScrollView scrollView;
+    @Bind(R.id.combination_order_description_layout)
+    CombinationOrderDescriptionView descriptionLayout;
     @Bind(R.id.combination_order_car_type_view)
     SkuOrderCarTypeView carTypeView;
     @Bind(R.id.combination_order_count_view)
-    SkuOrderCountView countView;
+    CombinationOrderCountView countView;
     @Bind(R.id.combination_order_traveler_info_view)
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.combination_order_discount_view)
@@ -128,11 +128,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         charterDataUtils = CharterDataUtils.getInstance();
         startCityBean = charterDataUtils.getStartCityBean(1);
 
+        descriptionLayout.update(charterDataUtils);
         carTypeView.setOnSelectedCarListener(this);
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
         emptyLayout.setOnRefreshDataListener(this);
+        emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
         requestBatchPrice();
@@ -145,18 +147,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             @Override
             public void onClick(View v) {
                 hideSoftInput();
-                AlertDialogUtils.showAlertDialog(CombinationOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
-                }, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                finish();
             }
         });
         fgRightTV.setVisibility(View.GONE);
@@ -167,7 +158,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
         fgRightBtn.setPadding(0,0,0,0);
-        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setImageResource(R.mipmap.topbar_cs);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,8 +250,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             explainView.setCancleTips(cancleTips);
         } else if (_request instanceof RequestOrderGroup) {
             orderInfoBean = ((RequestOrderGroup) _request).getData();
+            charterDataUtils.onDestroy();
             if (orderInfoBean.getPriceActual() == 0) {
-//                requestPayNo(orderInfoBean.getOrderno());
+                requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
                 requestParams.couponId = couponId;
@@ -275,13 +267,26 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
+        } else if (_request instanceof RequestPayNo) {
+            RequestPayNo mParser = (RequestPayNo) _request;
+            if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
+                if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
+                    PayResultActivity.Params params = new PayResultActivity.Params();
+                    params.payResult = true;
+                    params.orderId =  orderInfoBean.getOrderno();
+                    Intent intent = new Intent(this, PayResultActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    startActivity(intent);
+//                    SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
+                }
+            }
         }
     }
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestSubmitBase || request instanceof RequestPayNo) {
+        if (request instanceof RequestOrderGroup || request instanceof RequestPayNo) {
             return;
         }
         emptyLayout.setErrorVisibility(View.VISIBLE);
@@ -295,7 +300,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         } else {
             isEmpty = false;
         }
-        emptyLayout.setEmptyVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        emptyLayout.setNoCarVisibility(isEmpty ? View.VISIBLE : View.GONE);
 
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
@@ -310,6 +315,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
         explainView.setVisibility(visibility);
+    }
+
+    @Override
+    public void onClickServices() {
+        DialogUtil.showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     /* 滚动到顶部 */
@@ -330,7 +340,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
-        countView.update(carBean, carListBean, charterDataUtils.chooseDateBean.start_date, null);
+        countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date, null);
         int additionalPrice = countView.getAdditionalPrice();
         requestMostFit(additionalPrice);
         requestTravelFund(additionalPrice);
@@ -352,6 +362,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             return;
         }
         discountView.setInsuranceCount(bean.mans + bean.childs);
+        charterDataUtils.adultCount = bean.mans;
+        charterDataUtils.childCount = bean.childs;
     }
 
     /* 儿童座椅+酒店价格发生改变 */
@@ -460,6 +472,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .travelFund(CommonUtils.getCountDouble(deductionBean.deduction))
                 .couponBean(couponBean)
                 .mostFitBean(mostFitBean)
+                .startPoiBean(travelerInfoBean.poiBean)
                 .build();
         requestSubmitOrder(requestParams);
     }
@@ -532,7 +545,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , "0"
                 , ""
                 , ""
-                , orderType + "");
+                , 3 + "");//orderType + ""
         requestData(requestCancleTips);
     }
 
@@ -540,9 +553,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public String getEventSource() {
         return "组合单下单页";
     }
-
-
-
 
 
 }

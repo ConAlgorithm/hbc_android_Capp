@@ -1,7 +1,11 @@
 package com.hugboga.custom.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,10 +27,13 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.BankLogoBean;
+import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.data.request.RequestQueryCreditCard;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.event.EventPay;
@@ -36,6 +43,7 @@ import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -43,8 +51,17 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +71,8 @@ import butterknife.OnClick;
  * Created by on 16/8/4.
  */
 public class ChoosePaymentActivity extends BaseActivity {
+
+    public static final String PAY_PARAMS = "pay_params";
 
     @Bind(R.id.choose_payment_price_tv)
     TextView priceTV;
@@ -68,9 +87,25 @@ public class ChoosePaymentActivity extends BaseActivity {
     @Bind(R.id.choose_payment_wechat_layout)
     RelativeLayout choosePaymentWechatLayout;
 
+
+    @Bind(R.id.choose_payment_add_credit_card_layout)
+    RelativeLayout choosePayAddCreditCardLayout;
+
+    @Bind(R.id.choose_payment_credit_card_layout)
+    RelativeLayout choosePaymentCreditCardLayout;//显示已添加银行卡的layout
+    @Bind(R.id.choose_payment_credit_card_logo)
+    ImageView choosePayCreditCardLogo;//已添加银行卡的logo
+    @Bind(R.id.choose_payment_credit_card_name)
+    TextView choosePaymentCreditCardName;//已添加银行卡名称
+    @Bind(R.id.choose_payment_credit_card_number)
+    TextView choosePaymentCreditCardNumber;//已添加银行卡卡号
+    @Bind(R.id.choose_payment_credit_card_line)
+    View chooseCreditUnderLine;//下划线是否显示
+
     private DialogUtil mDialogUtil;
     private int payType;
     public RequestParams requestParams;
+    public String creditType;
 
     public static class RequestParams implements Serializable {
         public String orderId;
@@ -144,6 +179,8 @@ public class ChoosePaymentActivity extends BaseActivity {
         IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         msgApi.registerApp(Constants.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(this);
+
+        setCreditCardStatusRequest();//信用卡初始化
     }
 
     @Override
@@ -181,8 +218,110 @@ public class ChoosePaymentActivity extends BaseActivity {
         requestData(request);
     }
 
-    @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout,})
-    public void onClick(View view) {
+    public void setCreditCardStatusRequest(){
+        RequestQueryCreditCard requestQueryCreditCard = new RequestQueryCreditCard(this);
+        requestData(requestQueryCreditCard);
+    }
+
+    /**
+     * 显示已绑定的银行卡
+     * @param beanList
+     */
+    public void setCreditCardStatus(ArrayList<CreditCardInfoBean> beanList){
+        if (null == beanList || beanList.size() <=0){
+            return;
+        }
+        choosePaymentCreditCardLayout.setVisibility(View.VISIBLE);
+        CreditCardInfoBean cardInfoBean = beanList.get(beanList.size()-1);//目前只最后一个
+        //查询已绑定卡所属银行
+        setBankLogo(cardInfoBean.bandId);
+        choosePaymentCreditCardLayout.setVisibility(View.VISIBLE);
+        chooseCreditUnderLine.setVisibility(View.VISIBLE);
+        creditType = "01".equals(cardInfoBean.accType) ? "借记卡" : "信用卡";
+        choosePaymentCreditCardName.setText(cardInfoBean.bankName+" "+creditType);
+
+        StringBuffer bufferNum = new StringBuffer();
+        for (int i=0; i < cardInfoBean.creditCardNo.length() ;i++){
+            bufferNum.append(cardInfoBean.creditCardNo.charAt(i));
+            if ( i+1 % 4 == 0 ){
+                bufferNum.append(" ");
+            }
+        }
+        choosePaymentCreditCardNumber.setText(bufferNum.toString());
+        bufferNum.setLength(0);
+    }
+
+    /**
+     * 设置银行logo
+     */
+    public void setBankLogo(String bankId){
+        String path;
+        List<BankLogoBean> logoBeanList = setListData();//获得银行卡logo列表
+        for (BankLogoBean logoBean: logoBeanList){
+            if (bankId.equals(logoBean.cardType)){
+                path = logoBean.url;
+                AssetManager manager = getBaseContext().getAssets();
+                try {
+                    InputStream is = manager.open(path);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    choosePayCreditCardLogo.setImageBitmap(bitmap);
+                    choosePayCreditCardLogo.setMinimumWidth(UIUtils.dip2px(52));
+                    choosePayCreditCardLogo.setMinimumHeight(UIUtils.dip2px(52));
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 读取银行图标字符串
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static String getJson(Context context, String fileName) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            AssetManager assetManager = context.getAssets();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName)));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 获得json数据
+     */
+    public List<BankLogoBean> setListData() {
+        String bankStr = getJson(getBaseContext(),"bank.json");//根据读取的字符串进行解析
+
+        List<BankLogoBean> data = new ArrayList<>();
+        try {
+            JSONArray array = new JSONArray(bankStr);
+            int len = array.length();
+            BankLogoBean bankLogoBean = null;
+            for (int i = 0; i < len; i++) {
+                JSONObject object = array.getJSONObject(i);
+                bankLogoBean = new BankLogoBean();
+                bankLogoBean.url = object.getString("url");
+                bankLogoBean.cardType = object.getString("cardType");
+                data.add(bankLogoBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout, R.id.choose_payment_add_credit_card_layout, R.id.choose_payment_credit_card_layout})    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.choose_payment_alipay_layout://支付宝支付
                 DefaultSSLSocketFactory.resetSSLSocketFactory(this);
@@ -194,6 +333,17 @@ public class ChoosePaymentActivity extends BaseActivity {
                 }
                 DefaultSSLSocketFactory.resetSSLSocketFactory(this);
                 sendRequest(Constants.PAY_STATE_WECHAT);
+                break;
+            case R.id.choose_payment_add_credit_card_layout:
+                //添加银行卡
+                Intent intent = new Intent(this, AddCreditCardFirstStepActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(PAY_PARAMS, requestParams);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            case R.id.choose_payment_credit_card_layout:
+                //直接点击上一次支付的界面进行支付
                 break;
         }
     }
@@ -225,6 +375,14 @@ public class ChoosePaymentActivity extends BaseActivity {
                         WXPay.pay(this, bean);
                     }
                 }
+            }else if (request instanceof RequestQueryCreditCard){
+                RequestQueryCreditCard requestQueryCreditCard = (RequestQueryCreditCard)request;
+                if (null == requestQueryCreditCard.getData()){
+                    choosePaymentCreditCardLayout.setVisibility(View.GONE);
+                    return;
+                }
+                ArrayList<CreditCardInfoBean> cardInfoBean =(ArrayList<CreditCardInfoBean>) requestQueryCreditCard.getData();
+                setCreditCardStatus(cardInfoBean);      //设置显示已绑定银行卡
             }
         }
     }

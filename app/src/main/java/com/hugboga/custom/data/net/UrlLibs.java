@@ -252,6 +252,16 @@ public class UrlLibs {
 
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
 
+    public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
+    public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       //创建旅行意向单125
+    public static final String API_QUERY_TRAVEL_FORM_LIST   = "crm/v1.0/c/workorderthird/list";                         //创建旅行意向单126
+    public static final String API_QUERY_TRAVEL_FORM_DETAIL = "crm/v1.0/c/workorderthird/detail";                       //意向单详情123
+    public static final String API_QUERY_HAS_CREATE_FORM    = "crm/v1.0/c/workorderthird/hasWorkorder";                  //是否创建过意向单124
+
+    public static final String API_BIND_CREDIT_CARD         = "trade/v1.0/c/yilian/bindcard";                           //易联支付绑定卡127
+    public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          //易联支付查询已绑定的卡128
+    public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          //易联查询银行卡所属银行129
+    public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                //易联支付接口130
     public static final String API_DIRECTION                =  "proxy/v1.0/c/direction";                                // 行程查询 120
 
 

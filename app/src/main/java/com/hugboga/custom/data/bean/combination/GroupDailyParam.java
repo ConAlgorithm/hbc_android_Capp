@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean.combination;
 
+import com.hugboga.custom.data.bean.OrderBean;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,12 @@ public class GroupDailyParam implements Serializable{
     public List<ServicePassDetail> servicePassDetailList;  // 行程信息
     public Integer totalDays;                              // 订单天数
     public String userRemark;                              // 客人备注
+    public int halfDaily;                                  // 是否半日包车 0:不是半日包车 1:是半日包车
 //    public Double priceHotel;                              // 酒店总费用
 //    public Integer hotelRoom;                              // 房间数
 //    public Integer hotelDays;                              // 几晚
     public TravelRaiders travelRaidersInfo;
+    public OrderBean.ChildSeats childSeatInfo;
 
     public GroupDailyParam() {
         this.servicePassDetailList = new ArrayList<ServicePassDetail>();

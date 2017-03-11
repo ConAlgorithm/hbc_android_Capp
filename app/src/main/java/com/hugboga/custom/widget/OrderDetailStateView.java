@@ -2,17 +2,11 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -22,10 +16,11 @@ import com.hugboga.custom.utils.UIUtils;
 /**
  * Created by qingcha on 16/6/1.
  */
-public class OrderDetailStateView extends LinearLayout implements HbcViewBehavior {
+public class OrderDetailStateView extends RelativeLayout implements HbcViewBehavior {
 
     private ImageView stateIV;
     private TextView topTV, bottomTV;
+    private LinearLayout titleLayout;
 
     public OrderDetailStateView(Context context) {
         this(context, null);
@@ -33,12 +28,12 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
 
     public OrderDetailStateView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER);
+
         inflate(context, R.layout.view_order_detail_state, this);
         stateIV = (ImageView) findViewById(R.id.order_detail_state_iv);
         topTV = (TextView) findViewById(R.id.order_detail_state_top_tv);
         bottomTV = (TextView) findViewById(R.id.order_detail_state_bottom_tv);
+        titleLayout = (LinearLayout) findViewById(R.id.order_detail_state_title_layout);
     }
 
     @Override
@@ -54,89 +49,75 @@ public class OrderDetailStateView extends LinearLayout implements HbcViewBehavio
         OrderBean orderBean = (OrderBean) _data;
         switch (orderBean.orderStatus) {
             case INITSTATE://1:未付款
-                setTypePayment(orderBean.getPayDeadTime());
+                setTypePayment(0xFFF66363, "等待支付", R.mipmap.order_state_unpaid, orderBean.getPayDeadTime());
                 break;
             case PAYSUCCESS://2:已付款
-                setStyleSingle(0xFFF1FFE8, 0xFF7ABE57, R.string.order_detail_predetermined, R.mipmap.order_booking);
+                setStyleSingle(0xFF83E06B, "预订成功", R.mipmap.order_state_success);
                 break;
-            case AGREE:
-            case ARRIVED://已接单(3:已接单,4:已到达)
-                setStyleOther(0xFFF1FFE8, 0xFF7CBD55, R.string.order_detail_receiving, R.string.order_detail_prompt_new_travel, R.mipmap.order_order);
+            case AGREE://3:已接单
+                setStyleSingle(0xFF83E06B, "司导已接单", R.mipmap.order_state_success);
+                break;
+            case ARRIVED://4:已到达
+                setStyleSingle(0xFFFFC110, "司导已到达", R.mipmap.order_state_arrive);
                 break;
             case SERVICING://5:服务中
-                setStyleOther(0xFFE1FDFF, 0xFF32C0CA, R.string.order_detail_receiving, R.string.order_detail_inservice, R.mipmap.order_service);
+                setStyleSingle(0xFFFFC110, "服务中", R.mipmap.order_state_service);
                 break;
-            case NOT_EVALUATED://6:
+            case NOT_EVALUATED://6:服务完成未评价
             case COMPLETE://7:服务完成
                 if (!orderBean.isEvaluated()) {//服务完成未评价
-                    setStyleOther(0xFFDEDCDD, 0xFF333333, R.string.order_detail_finish, R.string.order_detail_prompt_evaluation_2, R.mipmap.order_serviceover);
+                    setStyleSingle(0xFFFFC110, "服务完成，请评价", R.mipmap.order_state_finish);
                 } else {//服务完成已评价
-                    setStyleOther(0xFFDEDCDD, 0xFF333333, R.string.order_detail_finish, R.string.order_detail_prompt_travel_end, R.mipmap.order_end);
+                    setStyleSingle(0xFFFFC110, "服务完成", R.mipmap.order_state_finish);
                 }
                 break;
-            case CANCELLED:
-            case REFUNDED://已取消(8:已取消,9:已退款)
-                setStyleSingle(0xFFDEDCDD, 0xFF333333, R.string.order_detail_cancel, R.mipmap.order_cancel);
+            case CANCELLED://8:已取消
+                setStyleSingle(0xFFDBDBDB, "已取消", R.mipmap.order_state_cancel);
+                break;
+            case REFUNDED://9:已退款
+                setStyleSingle(0xFFDBDBDB, "已退款", R.mipmap.order_state_refund);
                 break;
             case COMPLAINT://订单已冻结(10:客诉处理中)
-                setStyleOther(0xFFE1E9FE, 0xFF3172CE, R.string.order_detail_thaw, R.string.order_detail_disputes, R.mipmap.order_frozen);
+                setStyleSingle(0xFFF66363, "纠纷处理中", R.mipmap.order_state_complaint);
                 break;
         }
     }
 
-    private void setStyleOther(int bgColor, int topTextColor, int topStrId, int bottomStrId, int stateImgId) {
+    private void setStyleSingle(int bgColor, String str, int stateImgId) {
         setBackgroundColor(bgColor);
 
-        bottomTV.setVisibility(View.VISIBLE);
-        bottomTV.setText(getContext().getString(bottomStrId));
-        bottomTV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-        topTV.setTypeface(Typeface.DEFAULT_BOLD);
-        topTV.setTextColor(topTextColor);
-        topTV.setText(getContext().getString(topStrId));
-        topTV.setTextSize(15);
-
+        topTV.setText(str);
         stateIV.setBackgroundResource(stateImgId);
-    }
-
-    private void setStyleSingle(int bgColor, int textColor, int strId, int stateImgId) {
-        setBackgroundColor(bgColor);
 
         bottomTV.setText("");
         bottomTV.setVisibility(View.GONE);
-        bottomTV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-        topTV.setTypeface(Typeface.DEFAULT_BOLD);
-        topTV.setTextColor(textColor);
-        topTV.setText(getContext().getString(strId));
-        topTV.setTextSize(15);
+        RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(87), UIUtils.dip2px(26));
+        imgParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        stateIV.setLayoutParams(imgParams);
 
-        stateIV.setBackgroundResource(stateImgId);
+        RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(26));
+        titleLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        titleLayout.setLayoutParams(titleLayoutParams);
     }
 
-    private void setTypePayment(String payDeadTime) {
-        setBackgroundColor(0xFFFFFCD9);
+    private void setTypePayment(int bgColor, String str, int stateImgId, String payDeadTime) {
+        setBackgroundColor(bgColor);
+
+        topTV.setText(str);
+        stateIV.setBackgroundResource(stateImgId);
 
         bottomTV.setVisibility(View.VISIBLE);
-        bottomTV.setText(getContext().getString(R.string.order_detail_pay_prompt_2));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.topMargin = UIUtils.dip2px(-5);
-        params.bottomMargin = UIUtils.dip2px(6);
-        bottomTV.setLayoutParams(params);
+        bottomTV.setText(String.format("请在%1$s内付款，逾期订单将被取消", payDeadTime));
 
-        topTV.setTypeface(Typeface.DEFAULT);
-        topTV.setTextColor(0xFF333333);
-        topTV.setTextSize(13);
+        RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(84), UIUtils.dip2px(44));
+        imgParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        stateIV.setLayoutParams(imgParams);
 
-        stateIV.setBackgroundResource(R.mipmap.payment_wait);
-
-        String promptText = getContext().getString(R.string.order_detail_pay_prompt_1, payDeadTime);
-        int start = 2;
-        int end = start + payDeadTime.length();
-        SpannableString sp = new SpannableString(promptText);
-        sp.setSpan(new RelativeSizeSpan(1.6f), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new ForegroundColorSpan(0xFFFF6634), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        topTV.setText(sp);
+        RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(44));
+        titleLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        titleLayout.setLayoutParams(titleLayoutParams);
     }
 }

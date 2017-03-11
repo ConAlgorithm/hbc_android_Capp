@@ -591,6 +591,12 @@
     <string name="choose_payment">选择支付方式</string>
     <string name="choose_payment_wechat">微信支付</string>
     <string name="choose_payment_alipay">支付宝</string>
+    <string name="choose_payment_credit_card">信用卡支付（推荐）</string>
+    <string name="choose_payment_add_credit_card_tip">*目前仅支持国内信用卡</string>
+    <string name="add_credit_activity_title">添加信用卡</string>
+    <string name="add_credit_reserved_phone_tip">请输入办卡预留手机号</string>
+    <string name="usually_credit_tip">添加至常用卡并同意</string>
+    <string name="common_card_payment_protocol"><u>《常用卡支付协议》</u></string>
 
     <string name="par_result_title">支付结果</string>
     <string name="par_result_succeed">支付成功</string>
@@ -824,4 +830,11 @@
 
     <string name="charter_first_max_passengers_hint">当地可用车型的最大载客人数为%1$s人\n如需预订多车服务，请联系客服</string>
     <string name="charter_first_max_passengers_service">联系客服</string>
+
+    <string name="travel_purpose_tip">* 提交心愿单后，司导助手会主动与您联系</string>
+    <string name="travel_purpose_title">旅行心愿单</string>
+    <string name="phone_format_incorrect">手机格式不正确，请重新输入</string>
+    <string name="alert_submit_success">司导小助手将主动联系您</string>
+    <string name="travel_purpose_form_list">我的旅行心愿</string>
+    <string name="travel_purpose_form_detail">旅行心愿详情</string>
 </resources>

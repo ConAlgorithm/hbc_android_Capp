@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:padding="@dimen/default_margin_xlarge"
+        android:padding="@dimen/default_margin_mlarges"
         android:src="@mipmap/top_back_black" />
 
     <TextView
@@ -47,7 +47,7 @@
     <ImageView
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:background="@mipmap/search_box_icon"
+        android:background="@mipmap/home_search_icon"
         android:layout_toRightOf="@id/header_left_btn"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"

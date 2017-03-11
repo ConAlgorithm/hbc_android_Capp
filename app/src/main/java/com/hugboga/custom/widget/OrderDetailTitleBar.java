@@ -50,6 +50,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         serviceIV.setLayoutParams(serviceIVParams);
 
         otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
+        otherIV.setPadding(UIUtils.dip2px(10), UIUtils.dip2px(10), UIUtils.dip2px(10), UIUtils.dip2px(10));
         otherIV.setImageResource(R.mipmap.topbar_more);
         otherIV.setOnClickListener(this);
 

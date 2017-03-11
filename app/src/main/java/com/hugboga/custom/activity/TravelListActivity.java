@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,9 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.models.TravelAddItemModel;
 import com.hugboga.custom.models.TravelItemModel;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.TravelAddItemView;
@@ -73,9 +76,11 @@ public class TravelListActivity extends BaseActivity {
         bottomView.setOnBottomClickListener(new CharterSecondBottomView.OnBottomClickListener() {
             @Override
             public void confirm() {
-                Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                startActivity(intent);
+                if (CommonUtils.isLogin(TravelListActivity.this)) {
+                    Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -152,21 +157,32 @@ public class TravelListActivity extends BaseActivity {
 
         @Override
         public void onDelClick(int position) {
-            ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
-            charterDataUtils.clearSendInfo();
-            charterDataUtils.itemInfoList.remove(chooseDateBean.dayNums);
-            if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
-                charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);
-            }
-            chooseDateBean.dayNums--;
-            chooseDateBean.end_date = DateUtils.getDay(chooseDateBean.end_date, -1);
-            chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
-            chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
-            setData();
-            if (charterDataUtils.currentDay == chooseDateBean.dayNums + 1) {
-                charterDataUtils.currentDay--;
-                EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, charterDataUtils.currentDay));
-            }
+            AlertDialogUtils.showAlertDialog(activity, "确定删除这一天吗？", "取消", "是的", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
+                    charterDataUtils.clearSendInfo();
+                    charterDataUtils.itemInfoList.remove(chooseDateBean.dayNums);
+                    if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
+                        charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);
+                    }
+                    chooseDateBean.dayNums--;
+                    chooseDateBean.end_date = DateUtils.getDay(chooseDateBean.end_date, -1);
+                    chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
+                    chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
+                    setData();
+                    if (charterDataUtils.currentDay == chooseDateBean.dayNums + 1) {
+                        charterDataUtils.currentDay--;
+                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, charterDataUtils.currentDay));
+                    }
+                    dialog.dismiss();
+                }
+            });
         }
 
         @Override
