@@ -30,8 +30,10 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.WXpayBean;
+import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestCreditCardPay;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestQueryCreditCard;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -46,6 +48,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.wxapi.WXPay;
+import com.hugboga.custom.yilianapi.YiLianPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
@@ -73,6 +76,7 @@ import butterknife.OnClick;
 public class ChoosePaymentActivity extends BaseActivity {
 
     public static final String PAY_PARAMS = "pay_params";
+    public static final String TAG = "ChoosePaymentActivity";
 
     @Bind(R.id.choose_payment_price_tv)
     TextView priceTV;
@@ -106,6 +110,7 @@ public class ChoosePaymentActivity extends BaseActivity {
     private int payType;
     public RequestParams requestParams;
     public String creditType;
+    CreditCardInfoBean cardInfoBean;
 
     public static class RequestParams implements Serializable {
         public String orderId;
@@ -232,7 +237,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             return;
         }
         choosePaymentCreditCardLayout.setVisibility(View.VISIBLE);
-        CreditCardInfoBean cardInfoBean = beanList.get(beanList.size()-1);//目前只最后一个
+        cardInfoBean = beanList.get(beanList.size()-1);//目前只最后一个
         //查询已绑定卡所属银行
         setBankLogo(cardInfoBean.bandId);
         choosePaymentCreditCardLayout.setVisibility(View.VISIBLE);
@@ -244,7 +249,12 @@ public class ChoosePaymentActivity extends BaseActivity {
         for (int i=0; i < cardInfoBean.creditCardNo.length() ;i++){
             bufferNum.append(cardInfoBean.creditCardNo.charAt(i));
             if ( i+1 % 4 == 0 ){
-                bufferNum.append(" ");
+                bufferNum.append("\t");
+            }
+            if (i<cardInfoBean.creditCardNo.length()-4){
+                if (!"\t".equals(bufferNum.charAt(i))){
+                    bufferNum.replace(i, i+1,"*");
+                }
             }
         }
         choosePaymentCreditCardNumber.setText(bufferNum.toString());
@@ -344,6 +354,16 @@ public class ChoosePaymentActivity extends BaseActivity {
                 break;
             case R.id.choose_payment_credit_card_layout:
                 //直接点击上一次支付的界面进行支付
+                Intent intent1 = new Intent(this, AddCreditCardSecondStepActivity.class);
+                intent1.putExtra(AddCreditCardSecondStepActivity.CRAD_INFO, cardInfoBean);
+                intent1.putExtra(AddCreditCardSecondStepActivity.CRAD_NUMBER, cardInfoBean.creditCardNo);
+                if (null != requestParams) {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putSerializable(ChoosePaymentActivity.PAY_PARAMS, requestParams);
+                    intent1.putExtras(bundle1);
+                }
+                intent1.putExtra(Constants.PARAMS_SOURCE, TAG);
+                startActivity(intent1);
                 break;
         }
     }
@@ -375,15 +395,15 @@ public class ChoosePaymentActivity extends BaseActivity {
                         WXPay.pay(this, bean);
                     }
                 }
-            }else if (request instanceof RequestQueryCreditCard){
-                RequestQueryCreditCard requestQueryCreditCard = (RequestQueryCreditCard)request;
-                if (null == requestQueryCreditCard.getData()){
-                    choosePaymentCreditCardLayout.setVisibility(View.GONE);
-                    return;
-                }
-                ArrayList<CreditCardInfoBean> cardInfoBean =(ArrayList<CreditCardInfoBean>) requestQueryCreditCard.getData();
-                setCreditCardStatus(cardInfoBean);      //设置显示已绑定银行卡
             }
+        }else if (request instanceof RequestQueryCreditCard){
+            RequestQueryCreditCard requestQueryCreditCard = (RequestQueryCreditCard)request;
+            if (null == requestQueryCreditCard.getData()){
+                choosePaymentCreditCardLayout.setVisibility(View.GONE);
+                return;
+            }
+            ArrayList<CreditCardInfoBean> cardInfoBean =(ArrayList<CreditCardInfoBean>) requestQueryCreditCard.getData();
+            setCreditCardStatus(cardInfoBean);      //设置显示已绑定银行卡
         }
     }
 
@@ -439,6 +459,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             ChoosePaymentActivity.this.startActivity(intent);
         }
     };
+
 
     //支付宝回调
     private Handler mAlipayHandler = new Handler() {

@@ -203,4 +203,6 @@ dependencies {
     compile 'com.hugboga.im:nim_libary:1.1.8'
     compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
     compile 'com.android.support.constraint:constraint-layout:1+'
+    compile files('libs/org.apache.http.legacy.jar')
+    compile files('libs/payecoplugin.jar')
 }

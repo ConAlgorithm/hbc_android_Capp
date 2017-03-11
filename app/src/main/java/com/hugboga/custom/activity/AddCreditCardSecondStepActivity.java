@@ -1,37 +1,65 @@
 package com.hugboga.custom.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.PhoneInfo;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.YiLianPayBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddCreditCard;
 import com.hugboga.custom.data.request.RequestCreditCardPay;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.yilianapi.YiLianPay;
+import com.payeco.android.plugin.PayecoPluginPayCallBack;
+import com.payeco.android.plugin.PayecoPluginPayIn;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,12 +68,69 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import com.huangbaoche.hbcframe.HbcApplication;
+import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.PhoneInfo;
+import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.ChoosePaymentActivity;
+import com.hugboga.custom.activity.PayResultActivity;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.YiLianPayBean;
+import com.hugboga.custom.data.net.UrlLibs;
+import com.payeco.android.plugin.PayecoPluginPayCallBack;
+import com.payeco.android.plugin.PayecoPluginPayIn;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 /**
  * Created by Administrator on 2017/3/7.
@@ -88,6 +173,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     CreditCardInfoBean creditCardInfoBean;//用来接收上一界面返回的数据
     CreditCardInfoBean creditAddInfo;//信用卡绑定完返回的数据
     ChoosePaymentActivity.RequestParams params;
+    String sourse;
 
     TextWatcher watcher = new TextWatcher() {
         @Override
@@ -107,16 +193,23 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     };
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_add_credit_sec_step);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         Intent intent = getIntent();
         if (null == intent.getSerializableExtra(CRAD_INFO)) {
             return;
         }
         creditCardInfoBean = (CreditCardInfoBean) intent.getSerializableExtra(CRAD_INFO);
-
+        sourse = intent.getStringExtra(Constants.PARAMS_SOURCE);
         creditNum = intent.getStringExtra(CRAD_NUMBER);
 
         if (null != intent.getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS)) {
@@ -140,7 +233,12 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         commomCreditCardPaymentProtocol.getPaint().setAntiAlias(true);
 
         addCreditSecStepReserverdPhone.addTextChangedListener(watcher);
-        commonCheckBox.addTextChangedListener(watcher);
+        commonCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setNextStepStatus(checkEmpty());
+            }
+        });
 
         setNextStepStatus(checkEmpty());
     }
@@ -161,11 +259,15 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
      * 提交
      */
     public void gotoSubmit(){
-        if (null != creditCardInfoBean) {
+        if (null != creditCardInfoBean && AddCreditCardFirstStepActivity.TAG.equals(sourse)) {
             RequestAddCreditCard requestAddCreditCard = new RequestAddCreditCard(getBaseContext(), creditNum,
                     creditCardInfoBean.idCardNo, phoneStr, creditCardInfoBean.userName,
                     creditCardInfoBean.accType, creditCardInfoBean.bankId, creditCardInfoBean.bankName);
             requestData(requestAddCreditCard);
+        }else if(ChoosePaymentActivity.TAG.equals(sourse)){
+            cardId = creditCardInfoBean.id;
+            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId,addCreditSecStepReserverdPhone.getText().toString());
+            requestData(creditCardPay);
         }
     }
 
@@ -182,6 +284,21 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         return true;
     }
 
+    @Subscribe()
+    public void onEventMainThread(EventAction action){
+        switch (action.getType()){
+            case YILIAN_PAY:
+                Intent resultIntent = new Intent(this, PayResultActivity.class);
+                Bundle bundle = new Bundle();
+                PayResultActivity.Params params1 = new PayResultActivity.Params();
+                params1.orderId = params.orderId;
+                params1.payResult = true;
+//                bundle.putSerializable("result", (Serializable) action.getData());
+                startActivity(resultIntent);
+                break;
+        }
+    }
+
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
@@ -194,7 +311,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
             cardId = creditAddInfo.id;
 
             //绑定成功进行支付请求
-            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId);
+            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId, addCreditSecStepReserverdPhone.getText().toString());
             requestData(creditCardPay);
         }else if (request instanceof  RequestCreditCardPay){
             if (null != ((RequestCreditCardPay) request).getData()){
@@ -221,13 +338,17 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         for (int i=0; i < creditNum.length() ;i++){
             bufferNum.append(creditNum.charAt(i));
             if ( i+1 % 4 == 0 ){
-                bufferNum.append(" ");
+                bufferNum.append("\t");
             }
         }
         addCreditSecStepNumber.setText(bufferNum.toString());
         bufferNum.setLength(0);
 
-        setBankLogo(bean.bankId);//设置银行卡logo
+        //设置银行卡logo
+        if ("ChoosePaymentActivity".equals(sourse)){
+            bean.bankId = bean.bandId;
+        }
+        setBankLogo(bean.bankId);
     }
 
     /**
@@ -317,7 +438,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     }
 
     public void gotoPayYiLian(YiLianPayBean yiLianPayBean){
-        YiLianPay yiLianPay = new YiLianPay(this,this,yiLianPayBean);
+        YiLianPay yiLianPay = new YiLianPay(this,this,yiLianPayBean,params.orderId);
         yiLianPay.pay();
     }
 }

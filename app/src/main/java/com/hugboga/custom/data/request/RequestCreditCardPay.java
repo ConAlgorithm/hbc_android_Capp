@@ -2,6 +2,7 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.CityRouteBean;
@@ -9,7 +10,9 @@ import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
+import com.hugboga.custom.yilianapi.YiLianPay;
 
+import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
@@ -20,13 +23,14 @@ import java.util.HashMap;
  */
 @HttpRequest(path = UrlLibs.API_CREDIT_PAY, builder = NewParamsBuilder.class)
 public class RequestCreditCardPay extends BaseRequest<YiLianPayBean> {
-    public RequestCreditCardPay(Context context, String orderNo, String actualPrice, String coupId, Integer cardId) {
+    public RequestCreditCardPay(Context context, String orderNo, String actualPrice, String coupId, Integer cardId,String telNo) {
         super(context);
         map = new HashMap();
         map.put("orderNo",orderNo);         //订单号
         map.put("actualPrice", actualPrice);//实际支付金额
         map.put("coupId", coupId);          //劵id
         map.put("cardId", cardId);          //
+        map.put("telNo", telNo);
     }
 
     @Override
@@ -36,11 +40,22 @@ public class RequestCreditCardPay extends BaseRequest<YiLianPayBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_CREDIT_PAY, YiLianPayBean.class);
+//        return new HbcParser(UrlLibs.API_CREDIT_PAY, YiLianPayBean.class);
+        return new ParserData();
     }
 
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.POST;
+    }
+
+    private class ParserData extends ImplParser {
+
+        @Override
+        public Object parseObject(JSONObject obj) throws Throwable {
+            Gson gson = new Gson();
+            YiLianPayBean lianPayBean = gson.fromJson(obj.toString(), YiLianPayBean.class);
+            return lianPayBean;
+        }
     }
 }

@@ -205,6 +205,8 @@
                 android:gravity="center"
                 android:hint="选择区号"
                 android:text="+86"
+                android:drawableRight="@mipmap/home_major_arrow"
+                android:paddingRight="12dp"
                 android:textColor="@color/basic_black"
                 android:textColorHint="@color/change_mobile_hint"
                 android:textSize="@dimen/text_size_large" />

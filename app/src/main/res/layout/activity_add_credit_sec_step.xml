@@ -137,7 +137,7 @@
                 />
             <EditText
                 android:id="@+id/add_credit_sec_step_reserved_phone"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="请填写手机号"
                 android:textSize="15sp"

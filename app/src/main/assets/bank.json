@@ -124,7 +124,483 @@
     "cardType": "CQCBANK1"
   },
   {
+    "url": "CQRCB.png",
+    "cardType": "CQRCB"
+  },
+  {
+    "url": "CRBANK.png",
+    "cardType": "CRBANK"
+  },
+  {
+    "url": "CRBANK1.png",
+    "cardType": "CRBANK1"
+  },
+  {
+    "url": "CSCB.png",
+    "cardType": "CSCB"
+  },
+  {
+    "url": "CSRCBANK.png",
+    "cardType": "CSRCBANK"
+  },
+  {
     "url": "DC.png",
     "cardType": "DC"
+  },
+  {
+    "url": "DEFAULT.png",
+    "cardType": "DEFAULT"
+  },
+  {
+    "url": "DYCCB.png",
+    "cardType": "DYCCB"
+  },
+  {
+    "url": "DYCCBANK.png",
+    "cardType": "DYCCBANK"
+  },
+  {
+    "url": "DZBCHINA.png",
+    "cardType": "DZBCHINA"
+  },
+  {
+    "url": "DZCCB.png",
+    "cardType": "DZCCB"
+  },
+  {
+    "url": "EDRBANK.png",
+    "cardType": "EDRBANK"
+  },
+  {
+    "url": "FJHXBANK.png",
+    "cardType": "FJHXBANK"
+  },
+  {
+    "url": "FUDIAN.png",
+    "cardType": "FUDIAN"
+  },
+  {
+    "url": "GDB.png",
+    "cardType": "GDB"
+  },
+  {
+    "url": "GDRC.png",
+    "cardType": "GDRC"
+  },
+  {
+    "url": "GRCBANK.png",
+    "cardType": "GRCBANK"
+  },
+  {
+    "url": "GSRCU.png",
+    "cardType": "GSRCU"
+  },
+  {
+    "url": "GUILINBANK.png",
+    "cardType": "GUILINBANK"
+  },
+  {
+    "url": "GXNXS.png",
+    "cardType": "GXNXS"
+  },
+  {
+    "url": "GYCCB.png",
+    "cardType": "GYCCB"
+  },
+  {
+    "url": "GYGSCB.png",
+    "cardType": "GYGSCB"
+  },
+  {
+    "url": "GZCB.png",
+    "cardType": "GZCB"
+  },
+  {
+    "url": "GZRCB.png",
+    "cardType": "GZRCB"
+  },
+  {
+    "url": "HAINANBANK.png",
+    "cardType": "HAINANBANK"
+  },
+  {
+    "url": "HDSZCB.png",
+    "cardType": "HDSZCB"
+  },
+  {
+    "url": "HEBBANK.png",
+    "cardType": "HEBBANK"
+  },
+  {
+    "url": "HENGSHUIBANK.png",
+    "cardType": "HENGSHUIBANK"
+  },
+  {
+    "url": "HKBANK.png",
+    "cardType": "HKBANK"
+  },
+  {
+    "url": "HNNXS.png",
+    "cardType": "HNNXS"
+  },
+  {
+    "url": "HRBCB.png",
+    "cardType": "HRBCB"
+  },
+  {
+    "url": "HRXJBANK.png",
+    "cardType": "HRXJBANK"
+  },
+  {
+    "url": "HSBC.png",
+    "cardType": "HSBC"
+  },
+  {
+    "url": "HSZJBANK.png",
+    "cardType": "HSZJBANK"
+  },
+  {
+    "url": "HUBEIBANK.png",
+    "cardType": "HUBEIBANK"
+  },
+  {
+    "url": "HXB.png",
+    "cardType": "HXB"
+  },
+  {
+    "url": "ICBC.png",
+    "cardType": "ICBC"
+  },
+  {
+    "url": "JCB.png",
+    "cardType": "JCB"
+  },
+  {
+    "url": "JCBBANK.png",
+    "cardType": "JCBBANK"
+  },
+  {
+    "url": "JHCCB.png",
+    "cardType": "JHCCB"
+  },
+  {
+    "url": "JLBANK.png",
+    "cardType": "JLBANK"
+  },
+  {
+    "url": "JLNLS.png",
+    "cardType": "JLNLS"
+  },
+  {
+    "url": "JNBANK.png",
+    "cardType": "JNBANK"
+  },
+  {
+    "url": "JSBK.png",
+    "cardType": "JSBK"
+  },
+  {
+    "url": "JSHBANK.png",
+    "cardType": "JSHBANK"
+  },
+  {
+    "url": "JSNX.png",
+    "cardType": "JSNX"
+  },
+  {
+    "url": "JXCCB.png",
+    "cardType": "JXCCB"
+  },
+  {
+    "url": "JXNXS.png",
+    "cardType": "JXNXS"
+  },
+  {
+    "url": "JYBANK.png",
+    "cardType": "JYBANK"
+  },
+  {
+    "url": "JYRB.png",
+    "cardType": "JYRB"
+  },
+  {
+    "url": "KLB.png",
+    "cardType": "KLB"
+  },
+  {
+    "url": "LSBANK.png",
+    "cardType": "LSBANK"
+  },
+  {
+    "url": "LSBCHINA.png",
+    "cardType": "LSBCHINA"
+  },
+  {
+    "url": "LSZSH.png",
+    "cardType": "LSZSH"
+  },
+  {
+    "url": "LUOHEBANK.png",
+    "cardType": "LUOHEBANK"
+  },
+  {
+    "url": "LUZHOUCCB.png",
+    "cardType": "LUZHOUCCB"
+  },
+  {
+    "url": "LZBANK.png",
+    "cardType": "LZBANK"
+  },
+  {
+    "url": "LZCCB.png",
+    "cardType": "LZCCB"
+  },
+  {
+    "url": "MC.png",
+    "cardType": "MC"
+  },
+  {
+    "url": "MC.png",
+    "cardType": "MC"
+  },
+  {
+    "url": "MYSYSH.png",
+    "cardType": "MYSYSH"
+  },
+  {
+    "url": "NJCB.png",
+    "cardType": "NJCB"
+  },
+  {
+    "url": "NYCBANK.png",
+    "cardType": "NYCBANK"
+  },
+  {
+    "url": "PAB.png",
+    "cardType": "PAB"
+  },
+  {
+    "url": "PANJINCCB.png",
+    "cardType": "PANJINCCB"
+  },
+  {
+    "url": "PDSB.png",
+    "cardType": "PDSB"
+  },
+  {
+    "url": "PSBC.png",
+    "cardType": "PSBC"
+  },
+  {
+    "url": "PYYH.png",
+    "cardType": "PYYH"
+  },
+  {
+    "url": "QDCCB.png",
+    "cardType": "QDCCB"
+  },
+  {
+    "url": "QHDBANK.png",
+    "cardType": "QHDBANK"
+  },
+  {
+    "url": "QHNXS.png",
+    "cardType": "QHNXS"
+  },
+  {
+    "url": "QILUBANK.png",
+    "cardType": "QILUBANK"
+  },
+  {
+    "url": "QJCCB.png",
+    "cardType": "QJCCB"
+  },
+  {
+    "url": "SDB.png",
+    "cardType": "SDB"
+  },
+  {
+    "url": "SDEBANK.png",
+    "cardType": "SDEBANK"
+  },
+  {
+    "url": "SNCCB.png",
+    "cardType": "SNCCB"
+  },
+  {
+    "url": "SPDB.png",
+    "cardType": "SPDB"
+  },
+  {
+    "url": "SXCCB.png",
+    "cardType": "SXCCB"
+  },
+  {
+    "url": "SXNXS.png",
+    "cardType": "SXNXS"
+  },
+  {
+    "url": "SZRCB.png",
+    "cardType": "SZRCB"
+  },
+  {
+    "url": "SZSCCB.png",
+    "cardType": "SZSCCB"
+  },
+  {
+    "url": "SZSCCB1.png",
+    "cardType": "SZSCCB1"
+  },
+  {
+    "url": "SZSCCB2.png",
+    "cardType": "SZSCCB2"
+  },
+  {
+    "url": "TACCB.png",
+    "cardType": "TACCB"
+  },
+  {
+    "url": "TCCB.png",
+    "cardType": "TCCB"
+  },
+  {
+    "url": "TJBHB.png",
+    "cardType": "TJBHB"
+  },
+  {
+    "url": "TRCBANK.png",
+    "cardType": "TRCBANK"
+  },
+  {
+    "url": "TSBANK.png",
+    "cardType": "TSBANK"
+  },
+  {
+    "url": "UCCB.png",
+    "cardType": "UCCB"
+  },
+  {
+    "url": "VISA.png",
+    "cardType": "VISA"
+  },
+  {
+    "url": "WHBCN.png",
+    "cardType": "WHBCN"
+  },
+  {
+    "url": "WJRCB.png",
+    "cardType": "WJRCB"
+  },
+  {
+    "url": "XACBANK.png",
+    "cardType": "XACBANK"
+  },
+  {
+    "url": "XCCBANK.png",
+    "cardType": "XCCBANK"
+  },
+  {
+    "url": "XHBANKDT.png",
+    "cardType": "XHBANKDT"
+  },
+  {
+    "url": "XHBANKHX.png",
+    "cardType": "XHBANKHX"
+  },
+  {
+    "url": "XHBANKJH.png",
+    "cardType": "XHBANKJH"
+  },
+  {
+    "url": "XHBANKPY.png",
+    "cardType": "XHBANKPY"
+  },
+  {
+    "url": "XINYANGCB.png",
+    "cardType": "XINYANGCB"
+  },
+  {
+    "url": "XJKCCB.png",
+    "cardType": "XJKCCB"
+  },
+  {
+    "url": "XJRCCB.png",
+    "cardType": "XJRCCB"
+  },
+  {
+    "url": "XMCCB.png",
+    "cardType": "XMCCB"
+  },
+  {
+    "url": "XNRCB.png",
+    "cardType": "XNRCB"
+  },
+  {
+    "url": "XTBANK.png",
+    "cardType": "XTBANK"
+  },
+  {
+    "url": "YACCB.png",
+    "cardType": "YACCB"
+  },
+  {
+    "url": "YANTAIBANK.png",
+    "cardType": "YANTAIBANK"
+  },
+  {
+    "url": "YBCCB.png",
+    "cardType": "YBCCB"
+  },
+  {
+    "url": "YCCCB.png",
+    "cardType": "YCCCB"
+  },
+  {
+    "url": "YELLOWRCB.png",
+    "cardType": "YELLOWRCB"
+  },
+  {
+    "url": "YNRCC.png",
+    "cardType": "YNRCC"
+  },
+  {
+    "url": "YQCCB.png",
+    "cardType": "YQCCB"
+  },
+  {
+    "url": "YURB.png",
+    "cardType": "YURB"
+  },
+  {
+    "url": "YXCCB.png",
+    "cardType": "YXCCB"
+  },
+  {
+    "url": "ZGBANK.png",
+    "cardType": "ZGBANK"
+  },
+  {
+    "url": "ZHOUKOUBANK.png",
+    "cardType": "ZHOUKOUBANK"
+  },
+  {
+    "url": "ZJCBANK.png",
+    "cardType": "ZJCBANK"
+  },
+  {
+    "url": "ZJCURB.png",
+    "cardType": "ZJCURB"
+  },
+  {
+    "url": "ZJKCCB.png",
+    "cardType": "ZJKCCB"
+  },
+  {
+    "url": "ZMDBANK.png",
+    "cardType": "ZMDBANK"
+  },
+  {
+    "url": "ZZBANK.png",
+    "cardType": "ZZBANK"
   }
 ]

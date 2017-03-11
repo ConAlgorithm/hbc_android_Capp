@@ -10,16 +10,22 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.PhoneInfo;
+import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChoosePaymentActivity;
 import com.hugboga.custom.activity.PayResultActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.YiLianPayBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.payeco.android.plugin.PayecoPluginPayCallBack;
 import com.payeco.android.plugin.PayecoPluginPayIn;
@@ -34,6 +40,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,10 +82,11 @@ public class YiLianPay {
     private String cardId;//卡id
     YiLianPayBean yiLianPayBean;
 
-    public YiLianPay(Context context, Activity activity, YiLianPayBean yiLianPayBean){
+    public YiLianPay(Context context, Activity activity, YiLianPayBean yiLianPayBean,String orderNo){
         this.payContext = context;
         this.payActivtiy = activity;
         this.yiLianPayBean = yiLianPayBean;
+        this.orderNo = orderNo;
     }
 
     public void pay(){
@@ -98,26 +106,22 @@ public class YiLianPay {
 
             @Override
             protected String doInBackground(Void... params) {
-                //组织参数，用于向商户服务器下单的参数
-//                ArrayList<NameValuePair> reqParams = new ArrayList<NameValuePair>();
-//                reqParams.add(new BasicNameValuePair("orderNo", orderNo));//订单号
-//                reqParams.add(new BasicNameValuePair("actualPrice", actualPrice+""));
-//                reqParams.add(new BasicNameValuePair("coupId", coupId));
-//                reqParams.add(new BasicNameValuePair("cardId", cardId));
-                //以上参数根据实际需要来组织
-
-                //用于接收通讯响应的内容
                 String respString = null;
 
-                //请求商户服务器下单地址
-//                try {
-//                    MLog.i("test", "正在请求："+URL_PAY_ORDER);
-//                    respString = httpComm(URL_PAY_ORDER, reqParams);
-//
-//                } catch (Exception e) {
-//                    MLog.e("下单失败，通讯发生异常", e);
-//                    e.printStackTrace();
-//                }
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("Version",yiLianPayBean.version);
+                    json.put("MerchOrderId",yiLianPayBean.merchOrderId);
+                    json.put("MerchantId", yiLianPayBean.merchantId);
+                    json.put("Amount", yiLianPayBean.amount);
+                    json.put("TradeTime", yiLianPayBean.tradeTime);
+                    json.put("OrderId", yiLianPayBean.orderId);
+                    json.put("Sign", yiLianPayBean.sign);
+                    respString = json.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 return respString;
             }
 
@@ -127,51 +131,13 @@ public class YiLianPay {
                 super.onPostExecute(s);
                 dia.dismiss();
 
-//                if (s == null){
-//                    MLog.d("从数据获取数据失败");
-//                    return;
-//                }
-
-//                其中RetCode、RetMsg用于告诉客户端请求是否成功，其它参数可直接传递给易联支付插件
-//                解析数据
-                if (null == yiLianPayBean){
-                    MLog.d("传入数据获取数据为空");
+                if (s == null){
+                    MLog.d("从数据获取数据失败");
                     return;
                 }
+
                 try {
-//                    JSONObject json = new JSONObject(s);
-//                    YiLianPayBean payBean = new YiLianPayBean();
-//                    payBean.MerchOrderId = json.getString("MerchOrderId");
-//                    payBean.MerchantId = json.getString("MerchantId");
-//                    payBean.Amount = json.getString("Amount");
-//                    payBean.TradeTime = json.getString("TradeTime");
-//                    payBean.OrderId = json.getString("OrderId");
-//                    payBean.Sign = json.getString("Sign");
-
-//                    //校验返回结果
-//                    if (!json.has("RetCode") || !"0000".equals(json.getString("RetCode"))) {
-//                        if (json.has("RetMsg")) {
-//                            Toast.makeText(payContext, json.getString("RetMsg"), Toast.LENGTH_LONG).show();
-//                            MLog.e(json.getString("RetMsg"));
-//                        }else{
-//                            Toast.makeText(payContext, "返回数据有误:"+s, Toast.LENGTH_LONG).show();
-//                            MLog.e("返回数据有误:"+s);
-//                        }
-//                        return;
-//                    }
-
-//                    json.remove("RetCode");//RetCode参数不需要传递给易联支付插件
-//                    json.remove("RetMsg");//RetMsg参数不需要传递给易联支付插件
-//                    String upPayReqString = json.toString();
-//                    MLog.i("YiLianPay", "请求易联支付插件，参数："+upPayReqString);
-                    JSONObject json = new JSONObject();
-                    json.put("Version",yiLianPayBean.version);
-                    json.put("MerchOrderId",yiLianPayBean.merchOrderId);
-                    json.put("MerchantId", yiLianPayBean.merchantId);
-                    json.put("Amount", yiLianPayBean.amount);
-                    json.put("TradeTime", yiLianPayBean.tradeTime);
-                    json.put("OrderId", yiLianPayBean.orderId);
-                    json.put("Sign", yiLianPayBean.sign);
+                    JSONObject json = new JSONObject(s);
 
                     //组织请求参数
                     Map<String, Object> params = new HashMap<String, Object>();
@@ -187,22 +153,22 @@ public class YiLianPay {
 
                                 Log.e("test", "errCode:" + errCode);
                                 Log.e("test", "errMsg:" + errMsg);
+                                MLog.e("支付结果+++++++："+result);
 
                                 //支付操作发错错误
                                 Toast.makeText(payContext,
                                         String.format("发生异常，错误码：%s，错误描述：%s", errCode, errMsg),
                                         Toast.LENGTH_LONG).show();
-//								new AlertDialog.Builder(MainActivity.this).setTitle("提示")
-//								.setMessage(String.format("发生异常，错误码：%s，错误描述：%s", errCode, errMsg))
-//								.setPositiveButton("确定", null).show();
                                 return;
                             }
-
-                            final String notifyParams = result;
 
                             //判断是否是用户主动退出
                             //返回报文为：{"respDesc":"用户主动退出插件","respCode":"W101"}
                             try {
+                                Intent intent = new Intent(payContext, PayResultActivity.class);
+                                PayResultActivity.Params params1 = new PayResultActivity.Params();
+                                params1.orderId = orderNo;
+
                                 JSONObject obj = new JSONObject(result);
                                 String code = obj.getString("respCode");
                                 String msg = obj.getString("respDesc");
@@ -210,75 +176,74 @@ public class YiLianPay {
                                     Toast.makeText(payContext, msg, Toast.LENGTH_SHORT).show();
                                     return;
                                 }
+                                if (!"0000".equals(code)) { //非0000，订单支付响应异常
+                                    Toast.makeText(payContext, code, Toast.LENGTH_SHORT).show();
+                                    params1.payResult = false;
+                                    intent.putExtra(Constants.PARAMS_DATA, params1);
+                                    payContext.startActivity(intent);
+                                    return;
+                                }
+
+                                if(obj.has("Status")){
+                                    String status = "";
+                                    if ("01".equals(obj.getString("Status"))) {
+                                        status = "未支付";
+                                        params1.payResult = false;
+                                    }
+                                    if ("02".equals(obj.getString("Status"))) {
+                                        status = "已支付";
+                                        params1.payResult = true;
+                                    }
+                                    if ("03".equals(obj.getString("Status"))) {
+                                        status = "已退款(全额撤销/冲正)";
+                                        params1.payResult = false;
+                                    }
+                                    if ("04".equals(obj.getString("Status"))) {
+                                        status = "已过期";
+                                        params1.payResult = false;
+                                    }
+                                    if ("05".equals(obj.getString("Status"))) {
+                                        status = "已作废";
+                                        params1.payResult = false;
+                                    }
+                                    if ("06".equals(obj.getString("Status"))) {
+                                        status = "支付中";
+                                        params1.payResult = false;
+                                    }
+                                    if ("07".equals(obj.getString("Status"))) {
+                                        status = "退款中";
+                                        params1.payResult = false;
+                                    }
+                                    if ("08".equals(obj.getString("Status"))) {
+                                        status = "已被商户撤销";
+                                        params1.payResult = false;
+                                    }
+                                    if ("09".equals(obj.getString("Status"))) {
+                                        status = "已被持卡人撤销";
+                                        params1.payResult = false;
+                                    }
+                                    if ("10".equals(obj.getString("Status"))) {
+                                        status = "调账-支付成功";
+                                        params1.payResult = true;
+                                    }
+                                    if ("11".equals(obj.getString("Status"))) {
+                                        status = "调账-退款成功";
+                                        params1.payResult = false;
+                                    }
+                                    if ("12".equals(obj.getString("Status"))) {
+                                        status = "已退货";
+                                        params1.payResult = false;
+                                    }
+                                    intent.putExtra(Constants.PARAMS_DATA, params1);
+                                    payContext.startActivity(intent);
+                                    return;
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
-                            // 使用异步通讯
-                            new AsyncTask<Void, Void, String>(){
-                                @Override
-                                protected String doInBackground(Void... params) {
-                                    //用于接收通讯响应的内容
-                                    String respString = null;
 
-                                    //通知商户服务器
-                                    try {
-                                        JSONObject reqJsonParams = new JSONObject(notifyParams);
-
-                                        ArrayList<NameValuePair> reqParams = new ArrayList<NameValuePair>();
-                                        @SuppressWarnings("unchecked")
-                                        Iterator<String> keys = reqJsonParams.keys();
-                                        while (keys.hasNext()) {
-                                            String key = keys.next();
-                                            String value = reqJsonParams.getString(key);
-                                            reqParams.add(new BasicNameValuePair(key, value));
-                                        }
-
-                                        Log.i("test", "正在请求："+URL_PAY_NOTIFY);
-                                        respString = httpComm(URL_PAY_NOTIFY, reqParams);
-                                    } catch (JSONException e) {
-                                        Log.e("test", "解析处理失败！", e);
-                                        e.printStackTrace();
-                                    } catch (Exception e) {
-                                        Log.e("test", "通知失败，通讯发生异常", e);
-                                        e.printStackTrace();
-                                    }
-                                    return respString;
-                                }
-
-                                @Override
-                                protected void onPostExecute(String result) {
-                                    super.onPostExecute(result);
-
-                                    if (result == null) {
-                                        Log.e("test", "通知失败！");
-                                        return ;
-                                    }
-
-                                    Log.i("test", "响应数据："+result);
-
-                                    try {
-                                        //解析响应数据
-                                        JSONObject json = new JSONObject(result);
-
-                                        //校验返回结果
-                                        if (!json.has("RetMsg")) {
-                                            Toast.makeText(payContext, "返回数据有误:"+result, Toast.LENGTH_LONG).show();
-                                            Log.e("test", "返回数据有误:"+result);
-                                            return ;
-                                        }
-                                        Toast.makeText(payContext, json.getString("RetMsg"), Toast.LENGTH_LONG).show();
-                                    } catch (JSONException e) {
-                                        Log.e("test", "解析处理失败！", e);
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }.execute();
-
-                            //跳转至支付结果页面
-                            Intent resultIntent = new Intent(payContext, PayResultActivity.class);
-                            resultIntent.putExtra("result", result);
-                            payContext.startActivity(resultIntent);
+//                            EventBus.getDefault().post(new EventAction(EventType.YILIAN_PAY,result));
                         }
                     });
 

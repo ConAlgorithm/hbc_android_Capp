@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestAddCreditCard;
@@ -29,6 +30,8 @@ import butterknife.OnClick;
  */
 
 public class AddCreditCardFirstStepActivity extends BaseActivity {
+
+    public static final String TAG = "AddCreditCardFirstStepActivity";
 
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -118,6 +121,7 @@ public class AddCreditCardFirstStepActivity extends BaseActivity {
                 bundle.putSerializable(ChoosePaymentActivity.PAY_PARAMS, params);
                 intent.putExtras(bundle);
             }
+            intent.putExtra(Constants.PARAMS_SOURCE, TAG);
             startActivity(intent);
         }
     }

@@ -10,6 +10,7 @@ import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,7 +50,7 @@ public class RequestQueryCreditCard extends BaseRequest<ArrayList<CreditCardInfo
 
        @Override
        public Object parseArray(JSONArray array) throws Throwable {
-           super.parseArray(array);
+//           super.parseArray(array);
            Gson gson = new Gson();
            ArrayList<CreditCardInfoBean> beanArrayList = gson.fromJson(array.toString(),new TypeToken<ArrayList<CreditCardInfoBean>>(){}.getType());
            return beanArrayList;
