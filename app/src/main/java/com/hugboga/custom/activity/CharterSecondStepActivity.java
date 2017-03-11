@@ -434,10 +434,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (cityRouteBean == null || !checkInfo()) {
             return;
         }
-        if (!CommonUtils.isLogin(this)) {
-            return;
-        }
         if (charterDataUtils.isLastDay()) {//最后一天"查看报价"
+            if (!CommonUtils.isLogin(this)) {
+                return;
+            }
             Intent intent = new Intent(this, CombinationOrderActivity.class);
             startActivity(intent);
         } else {
@@ -575,20 +575,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             return;
         }
 
-
-        boolean isDrawFences = isOpeanFence;;
         HbcLantLng startCoordinate = null;
-        Marker startMarker = null;
         if (charterDataUtils.isFirstDay() && charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {//接机点
-            if (charterDataUtils.pickUpPoiBean == null && charterDataUtils.isSelectedPickUp) {//点
-                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrLocation);
-                //TODO  点 startCoordinate;
-                if(startCoordinate!=null){
-                    startMarker = mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
-                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,startCoordinate.longitude),16));
-                }
-            } else if (charterDataUtils.isSelectedPickUp) {//点到点
-                isDrawFences = false;
+            if (routeType == CityRouteBean.RouteType.PICKUP && charterDataUtils.pickUpPoiBean != null) {//点到点
                 //TODO 点到点 charterDataUtils.flightBean.arrLocation   charterDataUtils.pickUpPoiBean.location  酒店charterDataUtils.pickUpPoiBean.placeName
                 //mapView.getaMap().clear();
                 DirectionBean directionBean = charterDataUtils.pickUpDirectionBean;
@@ -610,17 +599,17 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),shbcLantLng);
                     mapView.addMarker(getIconView(R.drawable.map_popbg,R.drawable.map_read_point,charterDataUtils.pickUpPoiBean.placeName),ehbcLantLng);
                 }
-            }
-        } else if ((charterDataUtils.isLastDay() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null)) {//送机点
-            if (charterDataUtils.sendPoiBean == null && charterDataUtils.isSelectedSend) {//点加围栏
-                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.location);
-                //TODO  点
+                return;
+            } else {//点
+                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrLocation);
+                //TODO  点 startCoordinate;
                 if(startCoordinate!=null){
-                    mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
+                    Marker startMarker = mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
                     mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,startCoordinate.longitude),16));
                 }
-            } else if(charterDataUtils.isSelectedSend) {//点到点
-                isDrawFences = false;
+            }
+        } else if ((charterDataUtils.isLastDay() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null)) {//送机点
+            if(routeType == CityRouteBean.RouteType.SEND && charterDataUtils.sendPoiBean != null) {//点到点
                 //TODO  点到点 charterDataUtils.airPortBean.location    charterDataUtils.sendPoiBean.location  charterDataUtils.sendPoiBean.placeName
                 DirectionBean directionBean = charterDataUtils.sendDirectionBean;
                 if (directionBean.isHaveLines()) {
@@ -641,52 +630,74 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     mapView.addMarker(getIconView(R.drawable.map_popbg,R.drawable.map_read_point,charterDataUtils.sendPoiBean.placeName),ehbcLantLng);
                     mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,0));
                 }
+                return;
+            }else {//点加围栏
+                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.location);
+                //TODO  点
+                if(startCoordinate!=null){
+                    mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
+                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(startCoordinate.latitude,startCoordinate.longitude),16));
+                }
             }
-        } else if (!isOpeanFence) {//未开启围栏
+        }
+
+        if (!isOpeanFence) {//未开启围栏
             CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
             //TODO cityBean.name 点加城市名 需要加经纬度
-            isDrawFences = false;
             String location = cityBean.location;
             if(!TextUtils.isEmpty(location)){
                 HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(location);
                 if (hbcLantLng != null) {
                     mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,cityBean.name),hbcLantLng);
                     mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),12));
+
+                    if (startCoordinate != null) {
+                        List<HbcLantLng> hbcLantLngs = new ArrayList<>();
+                        hbcLantLngs.add(startCoordinate);
+                        hbcLantLngs.add(hbcLantLng);
+                        mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(hbcLantLngs),0));
+                    }
                 }
             }
         }
 
-        if (!isDrawFences) {
-            return;
-        }
-        ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
-        if (fences == null || fences.size() < 1) {
-            return;
-        }
-        ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
-        ArrayList<HbcLantLng> outsideList = fences.size() > 1 ? charterDataUtils.getHbcLantLngList(fences.get(1)) : null;//周边围栏
-        ArrayList<CityRouteBean.Fence> nextFences = charterDataUtils.getNextDayFences();
         if (routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市 画两个围栏
-            CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
-            CityBean nextCityBean = charterDataUtils.getEndCityBean();
-            // TODO 跨城市 画两个围栏 hbcLantLngList nextHbcLantLngList currentCityBean.name  nextCityBean.name
-            if(urbanList!=null && urbanList.size()>0){
-                mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
-                if(!TextUtils.isEmpty(currentCityBean.name)){
-                    mapView.addText(currentCityBean.name,100,Color.argb(125,30,55,1),urbanList);
-                }
-            }
-            if(nextFences != null && nextFences.get(0) != null){
-                CityRouteBean.Fence nextFence = nextFences.get(0);
-                ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextFence);
-                if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
-                    mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
-                    if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
-                        mapView.addText(nextCityBean.name,100,Color.argb(125,30,55,1),nextHbcLantLngList);
+            ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
+            ArrayList<CityRouteBean.Fence> nextFences = charterDataUtils.getNextDayFences();
+
+            if (fences != null && fences.size() >= 1 && nextFences != null && nextFences.size() >= 1) {
+                ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
+                CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
+                CityBean nextCityBean = charterDataUtils.getEndCityBean();
+                if(urbanList!=null && urbanList.size()>0){
+                    mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                    if(!TextUtils.isEmpty(currentCityBean.name)){
+                        mapView.addText(currentCityBean.name,100,Color.argb(125,30,55,1),urbanList);
+                        mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList),0));
                     }
-                    mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList,nextHbcLantLngList),0));
                 }
-            } else {
+                if(nextFences != null && nextFences.get(0) != null){
+                    CityRouteBean.Fence nextFence = nextFences.get(0);
+                    ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextFence);
+                    if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
+                        mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                        if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
+                            mapView.addText(nextCityBean.name,100,Color.argb(125,30,55,1),nextHbcLantLngList);
+                        }
+                        mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList,nextHbcLantLngList),0));
+                    }
+                }
+
+            } else if (fences != null && fences.size() >= 1) {
+                ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
+                CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
+                if(urbanList!=null && urbanList.size()>0){
+                    mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                    if(!TextUtils.isEmpty(currentCityBean.name)){
+                        mapView.addText(currentCityBean.name,100,Color.argb(125,30,55,1),urbanList);
+                        mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList),0));
+                    }
+                }
                 CityBean cityBean = charterDataUtils.getEndCityBean(charterDataUtils.currentDay);
                 if (cityBean == null) {
                     return;
@@ -703,9 +714,61 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList, hbcLantLngList),0));
                     }
                 }
+
+            } else if (nextFences != null && nextFences.size() >= 1) {
+                CityBean nextCityBean = charterDataUtils.getEndCityBean();
+                if(nextFences != null && nextFences.get(0) != null){
+                    CityRouteBean.Fence nextFence = nextFences.get(0);
+                    ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextFence);
+                    if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
+                        mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
+                        if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
+                            mapView.addText(nextCityBean.name,100,Color.argb(125,30,55,1),nextHbcLantLngList);
+                            mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(nextHbcLantLngList),0));
+                        }
+                        CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
+                        String location = cityBean.location;
+                        if(!TextUtils.isEmpty(location)){
+                            HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(location);
+                            if (hbcLantLng != null) {
+                                ArrayList<HbcLantLng> hbcLantLngList = new ArrayList<>();
+                                hbcLantLngList.add(hbcLantLng);
+                                mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(hbcLantLngList,nextHbcLantLngList),0));
+                            }
+                        }
+                    }
+                }
+            } else {
+                CityBean endCityBean = charterDataUtils.getEndCityBean(charterDataUtils.currentDay);
+                if (endCityBean == null) {
+                    return;
+                }
+                if(!TextUtils.isEmpty(endCityBean.location)){
+                    HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(endCityBean.location);
+                    if (hbcLantLng != null) {
+                        mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,endCityBean.name),hbcLantLng);
+                        mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),12));
+                        ArrayList<HbcLantLng> hbcLantLngList = new ArrayList<>();
+                        hbcLantLngList.add(hbcLantLng);
+
+                        CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
+                        String location = cityBean.location;
+                        if(!TextUtils.isEmpty(location)){
+                            HbcLantLng startHbcLantLng = CharterDataUtils.getHbcLantLng(location);
+                            hbcLantLngList.add(startHbcLantLng);
+                        }
+                        mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(hbcLantLngList),0));
+                    }
+                }
             }
 
-        } else {
+        } else if (isOpeanFence) {
+            ArrayList<CityRouteBean.Fence> fences = charterDataUtils.getCurrentDayFences();
+            if (fences == null || fences.size() < 1) {
+                return;
+            }
+            ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
+            ArrayList<HbcLantLng> outsideList = fences.size() > 1 ? charterDataUtils.getHbcLantLngList(fences.get(1)) : null;//周边围栏
             if (startCoordinate != null) {
                 // TODO 围栏 startCoordinate hbcLantLngList nextHbcLantLngList 判断坐标点在 市内（一个圈）、周边（俩圈）、超出周边（俩圈）
                 boolean hasOut = false;

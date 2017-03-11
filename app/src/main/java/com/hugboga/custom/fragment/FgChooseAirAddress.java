@@ -131,67 +131,78 @@ public class FgChooseAirAddress extends BaseFragment {
     }
 
     private void genHistoryList() {
-        View view = null;
-        TextView historyText;
-        ImageView historyDel;
         historyLayout.removeAllViews();
-        if (null != cityList && cityList.size() > 0) {
+        if(null != cityList && cityList.size() > 0){
             showHistory.setVisibility(View.VISIBLE);
-            for (int i = 0; i < cityList.size(); i++) {
-                view = LayoutInflater.from(this.getContext()).inflate(R.layout.air_history_item, null);
-                historyText = (TextView) view.findViewById(R.id.history_text);
-                historyDel = (ImageView) view.findViewById(R.id.history_del);
-                historyText.setText(cityList.get(i).startCityName + " - " + cityList.get(i).endCityName);
-                historyText.setTag(cityList.get(i).id);
-                historyDel.setTag(cityList.get(i).id);
-                view.setTag(cityList.get(i).id);
-                historyText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int vId = Integer.valueOf(v.getTag().toString()).intValue();
-                        for (int i = 0; i < cityList.size(); i++) {
-                            if (cityList.get(i).id == vId) {
-                                cityFromId = cityList.get(i).startCityId;
-                                cityToId = cityList.get(i).endCityId;
-                                fromCityName = cityList.get(i).startCityName;
-                                endCityName = cityList.get(i).endCityName;
-                                fromCity.setText(fromCityName);
-                                endCity.setText(endCityName);
-                            }
-                        }
-                        checkNextBtnStatus();
-                    }
-                });
-                historyDel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int vId = Integer.valueOf(v.getTag().toString()).intValue();
-                        for (int i = 0; i < historyLayout.getChildCount(); i++) {
-                            if (vId == Integer.valueOf(historyLayout.getChildAt(i).getTag().toString())) {
-                                historyLayout.removeViewAt(i);
-                            }
-                        }
-
-                        for (int i = 0; i < cityList.size(); i++) {
-                            if (cityList.get(i).id == vId) {
-                                cityList.remove(i);
-                            }
-                        }
-
-                        try {
-                            Reservoir.put("savedHistoryCityBean", cityList);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (historyLayout.getChildCount() == 0) {
-                            showHistory.setVisibility(View.GONE);
-                        }
-                    }
-                });
-                historyLayout.addView(view);
+            for(int i = 0;i < cityList.size();i++) {
+                addHistoryItemView(cityList.get(i));
             }
         }
+    }
 
+    public void addHistoryItemView(SaveStartEndCity saveStartEndCity) {
+        View view = LayoutInflater.from(this.getContext()).inflate(R.layout.air_history_item, null);
+        TextView historyText = (TextView) view.findViewById(R.id.history_text);
+        ImageView historyDel = (ImageView) view.findViewById(R.id.history_del);
+        historyText.setText(saveStartEndCity.startCityName + " - " + saveStartEndCity.endCityName);
+        historyText.setTag(saveStartEndCity.id);
+        historyDel.setTag(saveStartEndCity.id);
+        view.setTag(saveStartEndCity.id);
+        historyText.setOnClickListener(new HistoryTextClick());
+        historyDel.setOnClickListener(new HistoryTextDelClick());
+        historyLayout.addView(view);
+    }
+
+    private class HistoryTextClick implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            int vId = Integer.valueOf(v.getTag().toString()).intValue();
+            for (int i = 0; i < cityList.size(); i++) {
+                if (cityList.get(i).id == vId) {
+                    cityFromId = cityList.get(i).startCityId;
+                    cityToId = cityList.get(i).endCityId;
+                    fromCityName = cityList.get(i).startCityName;
+                    endCityName = cityList.get(i).endCityName;
+                    fromCity.setText(fromCityName);
+                    endCity.setText(endCityName);
+                    break;
+                }
+            }
+            checkNextBtnStatus();
+            if (historyLayout.indexOfChild(v) != 0) {
+                addHistoryData();
+                genHistoryList();
+            }
+        }
+    }
+
+    private class HistoryTextDelClick implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            int vId = Integer.valueOf(v.getTag().toString()).intValue();
+            for (int i = 0; i < historyLayout.getChildCount(); i++) {
+                if (vId == Integer.valueOf(historyLayout.getChildAt(i).getTag().toString())) {
+                    historyLayout.removeViewAt(i);
+                }
+            }
+
+            for (int i = 0; i < cityList.size(); i++) {
+                if (cityList.get(i).id == vId) {
+                    cityList.remove(i);
+                }
+            }
+
+            try {
+                Reservoir.put("savedHistoryCityBean", cityList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (historyLayout.getChildCount() == 0) {
+                showHistory.setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -209,7 +220,7 @@ public class FgChooseAirAddress extends BaseFragment {
                     && cityToId == cityList.get(i).endCityId
                     ) {
                 cityList.remove(i);
-                return;
+                break;
             }
 
         }

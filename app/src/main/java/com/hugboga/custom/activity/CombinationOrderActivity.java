@@ -286,7 +286,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestSubmitBase || request instanceof RequestPayNo) {
+        if (request instanceof RequestOrderGroup || request instanceof RequestPayNo) {
             return;
         }
         emptyLayout.setErrorVisibility(View.VISIBLE);
