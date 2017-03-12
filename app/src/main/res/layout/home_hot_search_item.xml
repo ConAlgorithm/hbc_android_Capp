@@ -6,9 +6,7 @@
     android:orientation="vertical"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingBottom="18dp"
-    android:paddingTop="18dp">
-
+    android:paddingTop="16dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/home_hot_search_title"
+            android:layout_marginBottom="3dp"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@id/home_hot_search_title"
             android:src="@mipmap/home_icon_column" />
@@ -41,6 +40,7 @@
             android:layout_toRightOf="@id/home_hot_search_title"
             android:gravity="right"
             android:text="More"
+            android:includeFontPadding="false"
             android:textColor="#F9B900" />
     </RelativeLayout>
 
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:background="#eeeeee"
         android:paddingBottom="15dp"
         android:paddingLeft="3dp"
@@ -109,4 +109,10 @@
         android:layout_marginTop="10dp">
 
     </android.support.v4.view.ViewPager>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#F8F8F8"
+        android:layout_marginTop="16dp"
+        android:layout_height="15dp"></View>
 </LinearLayout>

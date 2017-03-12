@@ -42,9 +42,6 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(final ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.home_hot_search_city_item, null);
-//        ViewPager.LayoutParams vlp = new ViewPager.LayoutParams();
-//        vlp.width = ScreenUtil.screenWidth - ScreenUtil.dip2px(40);
-//        vlp.height = ViewPager.LayoutParams.WRAP_CONTENT;
         handlerViewShow(view, position);
         container.addView(view);
         return view;
