@@ -97,9 +97,15 @@ public class TravelPurposeFormDetail extends BaseActivity {
             }
             cityName.setText(listData.toCity);
             startDate.setText(listData.tripTimeStr);
-            remark.setText(listData.userRemark);
+            if (TextUtils.isEmpty(listData.userRemark)){
+                remark.setText("无");
+                remark.setTextColor(0xFFCCCCCC);
+            }else {
+                remark.setText(listData.userRemark);
+                remark.setTextColor(getResources().getColor(R.color.basic_black));
+            }
             userName.setText(listData.userName);
-            mobliePhone.setText(listData.userAreaCode+" "+listData.userMobile);
+            mobliePhone.setText("+"+listData.userAreaCode+" "+listData.userMobile);
         }
     }
 }

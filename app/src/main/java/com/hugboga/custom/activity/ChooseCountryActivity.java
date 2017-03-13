@@ -152,7 +152,7 @@ public class ChooseCountryActivity extends BaseActivity {
                 if (position != -1) {
                     sortListView.setSelection(position);
                 }
-
+                hideInputMethod(searchEditText);
             }
         });
 
@@ -170,6 +170,7 @@ public class ChooseCountryActivity extends BaseActivity {
                 areaCodeBean.viewId = viewId;
                 finish();
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_COUNTRY_BACK,areaCodeBean));
+                hideInputMethod(searchEditText);
             }
         });
 
@@ -261,6 +262,7 @@ public class ChooseCountryActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.head_btn_left:
                 finish();
+                hideInputMethod(searchEditText);
                 break;
         }
     }

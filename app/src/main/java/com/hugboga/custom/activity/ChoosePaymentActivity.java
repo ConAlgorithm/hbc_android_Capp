@@ -245,17 +245,20 @@ public class ChoosePaymentActivity extends BaseActivity {
         creditType = "01".equals(cardInfoBean.accType) ? "借记卡" : "信用卡";
         choosePaymentCreditCardName.setText(cardInfoBean.bankName+" "+creditType);
 
-        StringBuffer bufferNum = new StringBuffer();
+        StringBuffer bufferNum = new StringBuffer(cardInfoBean.creditCardNo);
         for (int i=0; i < cardInfoBean.creditCardNo.length() ;i++){
-            bufferNum.append(cardInfoBean.creditCardNo.charAt(i));
-            if ( i+1 % 4 == 0 ){
-                bufferNum.append("\t");
-            }
             if (i<cardInfoBean.creditCardNo.length()-4){
-                if (!"\t".equals(bufferNum.charAt(i))){
-                    bufferNum.replace(i, i+1,"*");
-                }
+                bufferNum.replace(i, i+1,"*");
             }
+        }
+        String tempStr = bufferNum.toString();
+        for (int i=0; i < tempStr.length() ;i++){
+            if ((i == 4 || i == 9 || i == 14 )) {
+                bufferNum.insert(i, ' ');
+            }
+        }
+        if (bufferNum.length() >=19){
+            bufferNum.insert(19, ' ');
         }
         choosePaymentCreditCardNumber.setText(bufferNum.toString());
         bufferNum.setLength(0);

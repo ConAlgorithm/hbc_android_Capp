@@ -29,9 +29,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.PhoneInfo;
+import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BankLogoBean;
@@ -131,6 +134,7 @@ import java.util.Map;
 import static android.support.v4.app.ActivityCompat.requestPermissions;
 import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
+import static com.huangbaoche.hbcframe.data.net.HttpRequestUtils.getDialogUtil;
 
 /**
  * Created by Administrator on 2017/3/7.
@@ -174,6 +178,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     CreditCardInfoBean creditAddInfo;//信用卡绑定完返回的数据
     ChoosePaymentActivity.RequestParams params;
     String sourse;
+    DialogUtilInterface dialogUtil = getDialogUtil(this);
 
     TextWatcher watcher = new TextWatcher() {
         @Override
@@ -189,6 +194,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         @Override
         public void afterTextChanged(Editable s) {
             setNextStepStatus(checkEmpty());
+            phoneStr = s.toString();
         }
     };
 
@@ -225,8 +231,11 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         headerTitle.setVisibility(View.VISIBLE);
         headerLeftBtn.setVisibility(View.VISIBLE);
 
-        phoneStr = SharedPre.getString(SharedPre.PHONE,null);
-        addCreditSecStepReserverdPhone.setText(phoneStr);
+        if (!TextUtils.isEmpty(creditCardInfoBean.telNo)){
+            phoneStr = creditCardInfoBean.telNo;
+            addCreditSecStepReserverdPhone.setText(phoneStr);
+        }
+
         choosePaymentPriceTV.setText(priceStr);
         //协议设置下划线
         commomCreditCardPaymentProtocol.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -263,7 +272,13 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
             RequestAddCreditCard requestAddCreditCard = new RequestAddCreditCard(getBaseContext(), creditNum,
                     creditCardInfoBean.idCardNo, phoneStr, creditCardInfoBean.userName,
                     creditCardInfoBean.accType, creditCardInfoBean.bankId, creditCardInfoBean.bankName);
-            requestData(requestAddCreditCard);
+            HttpRequestUtils.request(this,requestAddCreditCard,this,false);
+            new Runnable(){
+                @Override
+                public void run() {
+                    dialogUtil.showLoadingDialog();
+                }
+            }.run();
         }else if(ChoosePaymentActivity.TAG.equals(sourse)){
             cardId = creditCardInfoBean.id;
             RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId,addCreditSecStepReserverdPhone.getText().toString());
@@ -294,17 +309,23 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
                 params1.orderId = params.orderId;
                 params1.payResult = true;
 //                bundle.putSerializable("result", (Serializable) action.getData());
-                startActivity(resultIntent);
+//                startActivity(resultIntent);
                 break;
         }
     }
 
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        dialogUtil.dismissLoadingDialog();
+    }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if (request instanceof  RequestAddCreditCard){
             if (null == request.getData()){
+                dialogUtil.dismissLoadingDialog();
                 return;
             }
             creditAddInfo = (CreditCardInfoBean)request.getData();
@@ -312,8 +333,9 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
 
             //绑定成功进行支付请求
             RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId, addCreditSecStepReserverdPhone.getText().toString());
-            requestData(creditCardPay);
+            HttpRequestUtils.request(this,creditCardPay,this,false);
         }else if (request instanceof  RequestCreditCardPay){
+            dialogUtil.dismissLoadingDialog();
             if (null != ((RequestCreditCardPay) request).getData()){
                 YiLianPayBean yiLianPayBean = ((RequestCreditCardPay) request).getData();
                 gotoPayYiLian(yiLianPayBean);
@@ -334,12 +356,14 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         creditType = "01".equals(bean.accType) ? "借记卡" : "信用卡";
         addCreditSecStepBankType.setText(creditType);
 
-        StringBuffer bufferNum = new StringBuffer();
+        StringBuffer bufferNum = new StringBuffer(creditNum);
         for (int i=0; i < creditNum.length() ;i++){
-            bufferNum.append(creditNum.charAt(i));
-            if ( i+1 % 4 == 0 ){
-                bufferNum.append("\t");
+            if ((i == 4 || i == 9 || i == 14 )) {
+                bufferNum.insert(i, ' ');
             }
+        }
+        if (bufferNum.length() >=19){
+            bufferNum.insert(19, ' ');
         }
         addCreditSecStepNumber.setText(bufferNum.toString());
         bufferNum.setLength(0);
