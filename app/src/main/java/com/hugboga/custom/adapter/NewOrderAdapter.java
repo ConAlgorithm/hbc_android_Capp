@@ -228,6 +228,29 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.endAddressTV.setText(orderBean.destAddress + " " + orderBean.destAddressDetail);
                     }
                     break;
+                case Constants.BUSINESS_TYPE_COMBINATION://组合单
+                    vh.mTypeStr.setText("定制包车游");
+                    if (orderBean.isHalfDaily == 1) {//半日包
+                        vh.timeTV.setText(orderBean.serviceTime + " 半天");
+                    } else {
+                        vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
+                    }
+                    vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
+
+                    if (TextUtils.isEmpty(orderBean.serviceCityName)) {
+                        vh.startAddressLayout.setVisibility(View.GONE);
+                    } else {
+                        vh.startAddressLayout.setVisibility(View.VISIBLE);
+                        vh.startAddressIV.setBackgroundResource(R.mipmap.trip);
+                        String dailyPlace = orderBean.serviceCityName;
+                        if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
+                            dailyPlace += " - " + orderBean.serviceEndCityName;
+                        }
+                        vh.startAddressTV.setText(dailyPlace);
+                    }
+
+                    vh.endAddressLayout.setVisibility(View.GONE);
+                    break;
             }
         }
         vh.mBtnChat.setVisibility(View.GONE);
