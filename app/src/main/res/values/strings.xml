@@ -629,7 +629,6 @@
     <string name="order_detail_unsubscribe">订单退改规则：</string>
     <string name="order_detail_unsubscribe_explain">服务开始前24小时退订，全额退还费用；小于24小时不可退订，全部费用将扣除用于补偿当地司导</string>
     <string name="order_detail_pay">去支付</string>
-    <string name="order_detail_need_pay">还需支付：</string>
     <string name="order_detail_insurance_info">投保信息</string>
     <string name="order_detail_info">已为%1$s人购买保险</string>
     <string name="order_detail">详情</string>
@@ -646,7 +645,6 @@
     <string name="order_detail_timeleft">请在有效期</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
     <string name="order_detail_carpooling">拼车</string>
-    <string name="order_detail_hbc_pay">由皇包车支付</string>
     <string name="order_detail_local_time">当地时间&#160;%1$s</string>
     <string name="order_detail_airport_card">接机举牌等待</string>
     <string name="order_detail_checkin">协助办理登机check in</string>
@@ -655,7 +653,6 @@
     <string name="order_detail_child_seat_info">、儿童座椅%1$s个</string>
     <string name="order_detail_flight">航班%1$s&#160;</string>
     <string name="order_detail_insurance_describe">不要错过皇包车送您的境外旅游保险哦</string>
-    <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
     <string name="order_detail_opean">展开详情</string>
     <string name="order_detail_close">关闭详情</string>
     <string name="order_detail_cost_chartered">包车费用</string>

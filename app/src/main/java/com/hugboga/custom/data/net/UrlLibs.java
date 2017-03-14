@@ -225,7 +225,7 @@ public class UrlLibs {
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
     public static final String CARS                         = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息
     public static final String GUIDE_CROP_VALID             = "supplier/v1.0/c/guides/crop/valid";                      // 用户派单，验证接口
-    public static final String API_GUIDECROP                = "supplier/v2.0/c/guides/guideCrop";                       // 查询司导可服务城市 134
+    public static final String API_GUIDECROP                = "supplier/v2.0/c/guides/guideCrop";                       // 查询司导可服务城市
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
