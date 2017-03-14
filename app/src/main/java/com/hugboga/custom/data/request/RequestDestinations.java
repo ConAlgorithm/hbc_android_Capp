@@ -40,6 +40,6 @@ public class RequestDestinations extends BaseRequest<HomeBeanV2.DestinationAggre
 
     @Override
     public String getUrlErrorCode() {
-        return "40124";
+        return "40132";
     }
 }

@@ -13,6 +13,7 @@ public class MLog {
 
 
 	public static final String TAG = "HBC.LOG";
+	public static final int LOG_LENGTH = 2000;
 
 	public static  void i(String msg) {
 			if(HbcConfig.IS_DEBUG)
@@ -68,5 +69,38 @@ public class MLog {
 	public static String getCurrentTime(){
 		 SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSSZ");
 		return  timeFormat.format(new Date());
+	}
+
+	public static void log(LogLevel level, String msg) {
+		if (!HbcConfig.IS_DEBUG) {
+			return;
+		}
+		String loggingMsg = null;
+		boolean hasMore = false;
+		if (msg.length() > LOG_LENGTH) {
+			loggingMsg = msg.substring(0, LOG_LENGTH);
+			hasMore = true;
+		} else {
+			loggingMsg = msg;
+		}
+		switch(level) {
+			case DEBUG:
+				d(loggingMsg);
+				break;
+			case ERROR:
+				e(loggingMsg);
+				break;
+			case INFO:
+				i(loggingMsg);
+				break;
+			case WARN:
+				w(loggingMsg);
+				break;
+		}
+		if (hasMore) log(level, msg.substring(LOG_LENGTH, msg.length()));
+	}
+
+	public enum LogLevel {
+		DEBUG, VERBOSE, INFO, WARN, ERROR
 	}
 }

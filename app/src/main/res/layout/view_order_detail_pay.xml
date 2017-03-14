@@ -1,52 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.6"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:background="#3c382f">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:paddingTop="3dp"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:text="@string/order_detail_need_pay"
-            />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:paddingTop="4dp"
-            android:layout_marginLeft="2dp"
-            android:textColor="#fdd631"
-            android:textSize="12sp"
-            android:text="@string/sign_rmb"
-            />
-        <TextView
-            android:id="@+id/order_detail_pay_price_tv"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="#fdd631"
-            android:textSize="19sp"
-            android:text="0"
-            />
-    </LinearLayout>
+    android:layout_height="@dimen/order_bottom_height"
+    android:background="#ffffff"
+    >
+    <TextView
+        android:id="@+id/order_detail_pay_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:text="¥0"
+        android:textColor="#f63408"/>
     <TextView
         android:id="@+id/order_detail_pay_tv"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:textColor="#3c382f"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:gravity="center"
         android:text="@string/order_detail_pay"
-        android:background="@drawable/selector_order_detail_pay"
+        style="@style/OrderBottomConfirm"
         />
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/default_dividing_line"
+        />
+</RelativeLayout>

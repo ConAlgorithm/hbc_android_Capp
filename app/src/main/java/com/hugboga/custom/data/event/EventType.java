@@ -43,8 +43,6 @@ public enum EventType {
     FGTRAVEL_UPDATE,//登录
 
     ORDER_DETAIL_PAY,//去支付
-    ORDER_DETAIL_INSURANCE_H5,//皇包车免费赠送保险说
-    ORDER_DETAIL_ADD_INSURER,//添加投保人
     ORDER_DETAIL_BACK,//返回
     ORDER_DETAIL_CALL,//电话
     ORDER_DETAIL_MORE,//更多

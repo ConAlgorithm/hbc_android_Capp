@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -13,13 +14,17 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarMaxCapaCityBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBar;
+
+import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,14 +51,30 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @Bind(R.id.charter_first_bottom_next_tv)
     TextView nextTV;
 
+    @Bind(R.id.charter_first_guide_layout)
+    LinearLayout guideLayout;
+    @Bind(R.id.charter_first_guide_avatar_iv)
+    PolygonImageView avatarIV;
+    @Bind(R.id.charter_first_guide_tv)
+    TextView guideTV;
+
     private CityBean startBean;
     private ChooseDateBean chooseDateBean;
     private int maxPassengers;
     private CharterDataUtils charterDataUtils;
+    private GuidesDetailData guidesDetailData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+            }
+        }
         setContentView(R.layout.activity_charter_first);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -69,6 +90,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (guidesDetailData != null) {
+            outState.putSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+        }
+    }
+
     private void initView() {
         charterDataUtils = CharterDataUtils.getInstance();
 
@@ -81,19 +110,33 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         });
 
         countLayout.setOnOutRangeListener(this);
+
+        if (guidesDetailData == null) {
+            guideLayout.setVisibility(View.GONE);
+        } else {
+            guideLayout.setVisibility(View.VISIBLE);
+            Tools.showImage(avatarIV, guidesDetailData.avatar);
+            guideTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guidesDetailData.guideName, guidesDetailData.countryName));
+        }
     }
 
     @OnClick({R.id.charter_first_city_layout})
     public void selectStartCity() {
-        Bundle bundle = new Bundle();
-        bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
-        bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-        bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
-        bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
-        Intent intent = new Intent(this, ChooseCityActivity.class);
-        intent.putExtra("fromInterCity", true);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        if (guidesDetailData != null) {
+            Intent intent = new Intent(this, ChooseGuideCityActivity.class);
+            intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
+            startActivity(intent);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
+            bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+            bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
+            bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
+            Intent intent = new Intent(this, ChooseCityActivity.class);
+            intent.putExtra("fromInterCity", true);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
         overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
@@ -142,7 +185,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 }
                 startBean = cityBean;
                 cityTV.setText(cityBean.name);
-                requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+                if (guidesDetailData != null) {
+                    requestData(new RequestCarMaxCapaCity(this, startBean.cityId));//TODO
+                } else {
+                    requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+                }
+
                 break;
             case CHOOSE_DATE:
                 ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();
