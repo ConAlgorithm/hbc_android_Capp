@@ -56,28 +56,6 @@ public enum OrderStatus {
      */
     COMPLAINT(10, "客诉处理中"),;
 
-//    /** 11: 等待支付 */
-//    Z_INIT(11, "等待支付"),
-//
-//    /** 12: 预订成功 */
-//    Z_PAYSUCCESS(12, "预订成功"),
-//
-//    /** 13: 司导接单 */
-//    Z_AGREE(13, "司导接单"),
-//
-//    /** 14: 服务中 */
-//    Z_SERVICING(14, "服务中"),
-//
-//    /** 15: 服务完成 */
-//    Z_COMPLETE(15, "服务完成"),
-//
-//    /** 16: 已取消 */
-//    Z_CANCEL(16, "已取消"),
-//
-//    /** 17: 已退款 */
-//    Z_REFUND(17, "已退款");
-
-
     public int code;
     public String name;
 
@@ -87,21 +65,6 @@ public enum OrderStatus {
     }
 
     public static OrderStatus getStateByCode(int code) {
-        switch (code) {
-            case 11:
-                return INITSTATE;
-            case 12:
-                return PAYSUCCESS;
-            case 13:
-                return AGREE;
-            case 14:
-                return SERVICING;
-            case 15:
-                return COMPLETE;
-            case 16:
-                return REFUNDED;
-        }
-
         for (OrderStatus state : OrderStatus.values()) {
             if (state.code == code) return state;
         }
