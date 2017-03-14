@@ -194,6 +194,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
+                android:drawableRight="@mipmap/home_wish_arrow"
+                android:drawablePadding="4dp"
                 android:text="找司导助手规划行程"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
