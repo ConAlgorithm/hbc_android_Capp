@@ -350,3 +350,7 @@
 -keep class **.R$* {
  *;
 }
+
+-libraryjars   libs/payecoplugin.jar
+-keep class  com.payeco.android.plugin.**{*;}
+-dontwarn   com.payeco.android.plugin.**
