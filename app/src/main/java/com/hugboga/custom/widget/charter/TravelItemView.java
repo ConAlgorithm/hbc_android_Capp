@@ -247,9 +247,6 @@ public class TravelItemView extends LinearLayout {
             travelItemStartTv.setText(charterDataUtils.sendPoiBean.placeName);//出发地点
             travelItemStartDesTv.setVisibility(View.VISIBLE);
             travelItemStartDesTv.setText(charterDataUtils.sendPoiBean.placeDetail);
-//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
-//            params.topMargin = UIUtils.dip2px(20);
-//            params.leftMargin = UIUtils.dip2px(7.5f);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
             params.topMargin = UIUtils.dip2px(20);
             params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.travel_item_start_des_tv);

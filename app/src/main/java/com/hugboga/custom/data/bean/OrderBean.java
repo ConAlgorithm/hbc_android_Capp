@@ -43,29 +43,13 @@ public class OrderBean implements IBaseBean{
     public String coupPriceInfo;
     public String childSeatStr;// 儿童座椅价格及个数
     public String cancelReason;// 取消订单原因
-
-    /**
-     * 问题字段
-     * */
-    public String userName;    // null
-    public String contactName; // userName 联系人姓名
-
-    public String userRemark; // null
-    public String memo;       // userRemark 用户备注信息
-
-    public String startAddressPoi; // null
-    public String startLocation;   // startAddressPoi 起始位置
-
-
     public int carId;
     public int special;
-    public String carIntroduction;
-    public List<String> carPictures;
     public int capOfPerson;
 
-
-
-
+    public String userName;                           // 联系人姓名
+    public String userRemark;                         // 用户备注信息
+    public String startAddressPoi;                    // 起始位置
     public String realUserName;                       // 乘车人姓名
     public String realAreaCode;                       // 乘车人区号
     public String realMobile;                         // 乘车人电话
@@ -185,6 +169,10 @@ public class OrderBean implements IBaseBean{
     public double bargainAmount;    //  砍价金额
 
     public List<OrderContact> contact;
+
+    public SubOrderDetail subOrderDetail;       // 子单信息
+    public Integer orderJourneyCount;           // 子单个数
+    public List<String> subOrderGuideAvartar;   // 子单司导头像
 
     @Deprecated
     public String getOrderTypeStr(Context context) {
@@ -316,5 +304,10 @@ public class OrderBean implements IBaseBean{
         } else {
             return orderGuideInfo.guideName;
         }
+    }
+
+    public static class SubOrderDetail implements Serializable{
+        public Integer totalCount;              // 子单总数
+        public List<OrderBean> subOrderList;    // 子单详情
     }
 }

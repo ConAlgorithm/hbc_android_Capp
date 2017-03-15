@@ -282,7 +282,7 @@ public class CharterDataUtils {
                 && charterDataUtils.getEndCityBean(currentDay) == null;
         if (checkOuttown) {
             if (isShowToast) {
-                CommonUtils.showToast("请添加结束城市");
+                CommonUtils.showToast("请添加送达城市");
             }
             return false;
         }

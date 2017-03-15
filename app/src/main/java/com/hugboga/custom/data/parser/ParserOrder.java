@@ -35,9 +35,9 @@ public class ParserOrder extends ImplParser {
 
         orderbean.distance = jsonObj.optString("distance");
 
-        orderbean.memo = jsonObj.optString("userRemark");
-        orderbean.contactName = jsonObj.optString("userName");
-        orderbean.startLocation = jsonObj.optString("startAddressPoi");
+        orderbean.userRemark = jsonObj.optString("userRemark");
+        orderbean.userName = jsonObj.optString("userName");
+        orderbean.startAddressPoi = jsonObj.optString("startAddressPoi");
 
         orderbean.realAreaCode = jsonObj.optString("realAreaCode");
         orderbean.realMobile = jsonObj.optString("realMobile");
@@ -214,6 +214,20 @@ public class ParserOrder extends ImplParser {
             oc.tel = jsonObj.optString("userMobile3");
             if (!TextUtils.isEmpty(oc.tel))
                 orderbean.contact.add(oc);
+        }
+        if (jsonObj.has("subOrderDetail")) {
+            orderbean.subOrderDetail = new ParserSubOrderDetail().parseObject(jsonObj.optJSONObject("subOrderDetail"));
+        }
+        orderbean.orderJourneyCount = jsonObj.optInt("orderJourneyCount");
+
+        if (jsonObj.has("subOrderGuideAvartar")) {
+            JSONArray guideAvartarList = jsonObj.optJSONArray("subOrderGuideAvartar");
+            if (guideAvartarList != null && guideAvartarList.length() > 0) {
+                orderbean.subOrderGuideAvartar = new ArrayList<String>(guideAvartarList.length());
+                for (int i = 0; i < guideAvartarList.length(); i++) {
+                    orderbean.subOrderGuideAvartar.add(guideAvartarList.optString(i));
+                }
+            }
         }
         return orderbean;
     }

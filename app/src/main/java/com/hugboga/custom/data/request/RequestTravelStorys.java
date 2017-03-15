@@ -39,6 +39,6 @@ public class RequestTravelStorys extends BaseRequest<HomeBeanV2.TravelStoryAggre
 
     @Override
     public String getUrlErrorCode() {
-        return "40125";
+        return "40133";
     }
 }

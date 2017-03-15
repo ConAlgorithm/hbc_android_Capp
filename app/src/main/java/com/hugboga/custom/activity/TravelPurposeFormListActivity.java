@@ -74,6 +74,8 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
     public void initView(){
         headerTitle.setText(R.string.travel_purpose_form_list);
         headerRightBtn.setImageResource(R.mipmap.topbar_cs);
+        headerRightBtn.setVisibility(View.VISIBLE);
+        headerLeftBtn.setVisibility(View.VISIBLE);
 
         headerAddView = new HeaderAddView(this);
         setRequest(0,true);
@@ -84,6 +86,7 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(manager);
+        recyclerView.setBackgroundResource(R.color.default_bg);
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -108,6 +111,7 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
             listData = travelPurposeFormBean.listDatas;
             adapter.addData(listData);
         }
+        swipe.setRefreshing(false);
     }
 
     @OnClick({R.id.header_left_btn,R.id.header_right_btn})

@@ -42,7 +42,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 
         map.put("childSeat",orderBean.childSeatStr);
 
-        map.put("userName", orderBean.contactName);
+        map.put("userName", orderBean.userName);
         map.put("serviceCityId", orderBean.serviceCityId);
         map.put("serviceEndCityid", orderBean.serviceEndCityid);
 
@@ -55,7 +55,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
 
         map.put("startAddress", orderBean.startAddress);
         map.put("startAddressDetail", orderBean.startAddressDetail);
-        map.put("startAddressPoi", orderBean.startLocation);
+        map.put("startAddressPoi", orderBean.startAddressPoi);
         map.put("destAddress", orderBean.destAddress);
         map.put("destAddressDetail", orderBean.destAddressDetail);
         map.put("destAddressPoi", orderBean.terminalLocation);

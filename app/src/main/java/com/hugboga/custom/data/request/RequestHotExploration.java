@@ -40,6 +40,6 @@ public class RequestHotExploration extends BaseRequest<HomeBeanV2.HotExploration
 
     @Override
     public String getUrlErrorCode() {
-        return "40123";
+        return "40131";
     }
 }

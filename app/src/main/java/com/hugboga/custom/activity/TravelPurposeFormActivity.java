@@ -152,8 +152,10 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 Intent intent = new Intent(this,ChooseCityActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "purpose");
-                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_OTHER);
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+                bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
                 intent.putExtras(bundle);
+                intent.putExtra("fromInterCity",true);
                 startActivity(intent);
                 break;
             case R.id.start_date:
@@ -186,7 +188,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 if (action.getData() instanceof AreaCodeBean){
                     areaCodeBean = (AreaCodeBean)action.getData();
                     areaCode.setText("+"+areaCodeBean.getCode());
-                    areaCodeStr = SharedPre.getString(SharedPre.CODE,null).trim();
+                    areaCodeStr = areaCodeBean.getCode();
                 }
                 setButtonStatus(submitBtn,checkContent());
                 break;

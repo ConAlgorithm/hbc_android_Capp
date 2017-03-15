@@ -16,7 +16,7 @@ import org.xutils.http.annotation.HttpRequest;
 public class RequestSubmitSend extends RequestSubmitBase{
     public RequestSubmitSend(Context context, OrderBean orderBean) {
         super(context, orderBean);
-        map.put("memo", orderBean.memo);
+        map.put("memo", orderBean.userRemark);
 
         map.put("flightAirportCode", orderBean.flightAirportCode);
         map.put("flightAirportName", orderBean.destAddress);

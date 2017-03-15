@@ -15,7 +15,7 @@ import org.xutils.http.annotation.HttpRequest;
 public class RequestSubmitPick extends RequestSubmitBase {
     public RequestSubmitPick(Context context, OrderBean orderBean) {
         super(context, orderBean);
-        map.put("memo", orderBean.memo);
+        map.put("memo", orderBean.userRemark);
 
         map.put("flightBrandSign", orderBean.brandSign);
         map.put("isArrivalVisa", orderBean.visa);

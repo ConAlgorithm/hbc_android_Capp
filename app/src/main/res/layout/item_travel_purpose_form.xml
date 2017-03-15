@@ -19,6 +19,7 @@
             android:textSize="@dimen/text_size_largex" />
         <TextView
             android:id="@+id/travel_purpose_form_date"
+            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#B6B6B6"
