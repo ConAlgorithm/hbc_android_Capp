@@ -92,12 +92,12 @@ public class OrderDetailStateView extends RelativeLayout implements HbcViewBehav
         bottomTV.setText("");
         bottomTV.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(87), UIUtils.dip2px(26));
+        RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(30));
         imgParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
         stateIV.setLayoutParams(imgParams);
 
-        RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(26));
+        RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(30));
         titleLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         titleLayout.setLayoutParams(titleLayoutParams);
     }
@@ -111,12 +111,12 @@ public class OrderDetailStateView extends RelativeLayout implements HbcViewBehav
         bottomTV.setVisibility(View.VISIBLE);
         bottomTV.setText(String.format("请在%1$s内付款，逾期订单将被取消", payDeadTime));
 
-        RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(84), UIUtils.dip2px(44));
+        RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(50));
         imgParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         imgParams.addRule(RelativeLayout.CENTER_VERTICAL);
         stateIV.setLayoutParams(imgParams);
 
-        RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(44));
+        RelativeLayout.LayoutParams titleLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(50));
         titleLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         titleLayout.setLayoutParams(titleLayoutParams);
     }

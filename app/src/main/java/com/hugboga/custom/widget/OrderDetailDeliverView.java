@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
@@ -69,7 +70,7 @@ import cn.iwgang.countdownview.CountdownView;
         orderBean = (OrderBean) _data;
         if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
             sendRequest(true);
-        } else if (orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
+        } else if (orderBean.orderType != Constants.BUSINESS_TYPE_COMBINATION && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
             removeAllViews();
             if (guideInfoView == null) {
                 guideInfoView = new OrderDetailGuideInfo(getContext());

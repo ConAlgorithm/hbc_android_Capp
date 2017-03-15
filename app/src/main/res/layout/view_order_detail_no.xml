@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="46dp"
+    android:layout_height="44dp"
     android:background="#ffffff"
     android:paddingLeft="@dimen/order_padding_left"
     android:paddingRight="@dimen/order_padding_left">
@@ -9,6 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layerType="software"
         android:background="@drawable/shape_order_no_dash" />
 
     <TextView
@@ -41,11 +42,11 @@
         android:layout_centerVertical="true"
         android:background="@drawable/shape_order_no_copy"
         android:gravity="center"
-        android:paddingBottom="3dp"
+        android:paddingBottom="2dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="3dp"
+        android:paddingTop="2dp"
         android:text="复制"
         android:textColor="@color/default_black"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 </RelativeLayout>

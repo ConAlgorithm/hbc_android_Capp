@@ -622,7 +622,6 @@
     <string name="order_detail_disputes">正在处理纠纷</string>
     <string name="order_detail_pay_prompt_1">请在%1$s内付款</string>
     <string name="order_detail_pay_prompt_2">以免订单取消</string>
-    <string name="order_detail_itinerary">我的行程单</string>
     <string name="order_detail_order_number">订单号：%1$s</string>
     <string name="order_detail_price">订单金额</string>
     <string name="order_detail_travel_info">出行人信息</string>

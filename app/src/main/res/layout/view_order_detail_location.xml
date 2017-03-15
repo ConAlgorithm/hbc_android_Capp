@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="3dp"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp">
+
+        <ImageView
+            android:id="@+id/order_travel_item_start_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_place" />
+
+        <TextView
+            android:id="@+id/order_travel_item_start_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="1.5dp"
+            android:layout_toRightOf="@id/order_travel_item_start_iv"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="NH956 成田机场T2"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/order_travel_item_start_des_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/order_travel_item_start_tv"
+            android:layout_below="@id/order_travel_item_start_tv"
+            android:paddingTop="2dp"
+            android:text="2017年2月15日 星期二"
+            android:textColor="#808080"
+            android:textSize="11sp"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/order_travel_item_start_line_view"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/order_travel_item_start_des_tv"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="20dp"
+            android:background="#c0c0c0" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingTop="2dp">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="-9dp"
+            android:background="#c0c0c0" />
+
+        <ImageView
+            android:id="@+id/order_travel_item_end_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:background="@mipmap/trip_icon_place" />
+
+        <TextView
+            android:id="@+id/order_travel_item_end_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="1.5dp"
+            android:layout_toRightOf="@id/order_travel_item_end_iv"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="NH956 成田机场T2"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/order_travel_item_end_des_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/order_travel_item_end_tv"
+            android:layout_below="@id/order_travel_item_end_tv"
+            android:layout_marginTop="2dp"
+            android:text="2017年2月15日 星期二"
+            android:textColor="#808080"
+            android:textSize="11sp" />
+    </RelativeLayout>
+</LinearLayout>
+
+
