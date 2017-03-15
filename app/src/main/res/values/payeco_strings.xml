@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="MissingTranslation">
    	<string name="payeco_error_get_order_error">"获取订单失败"</string>
 	<string name="payeco_prompt">"提示"</string>
 	<string name="payeco_confirm">"确\u0020\u0020\u0020\u0020认"</string>

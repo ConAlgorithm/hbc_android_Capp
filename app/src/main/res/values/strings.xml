@@ -1,4 +1,6 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name">皇包车</string>
     <string name="hbc_scheme">hbcc</string>
 
@@ -587,7 +589,7 @@
     <string name="dairy_modify_alert"> 请在删除指定司导后，再修改出行信息。</string>
 
     <string name="choose_payment_title">支付收银台</string>
-    <string name="choose_payment_repay">还需支付</string>
+    <string name="choose_payment_repay">还需支付:</string>
     <string name="choose_payment">选择支付方式</string>
     <string name="choose_payment_wechat">微信支付</string>
     <string name="choose_payment_alipay">支付宝</string>
@@ -735,7 +737,7 @@
     <string name="choose_city_tab_inland">国内</string>
     <string name="choose_city_tab_abroad">国际港澳台</string>
     <string name="choose_city_subtitle_location">当前定位</string>
-    <string name="choose_city_subtitle_history"><n>历史</n>记录</string>
+    <string name="choose_city_subtitle_history"><n>历史</n>足迹</string>
     <string name="choose_city_subtitle_hot"><n>热门</n>城市</string>
     <string name="choose_city_location_failure">定位失败</string>
 
