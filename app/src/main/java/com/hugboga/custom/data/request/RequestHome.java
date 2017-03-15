@@ -22,7 +22,7 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_HOME, builder = NewParamsBuilder.class)
 public class RequestHome extends BaseRequest<HomeBeanV2> {
 
-    public static final int HOME_DEFALT_LIMIT = 2;
+    public static final int HOME_DEFALT_LIMIT = 10;
 
     public RequestHome(Context context ) {
         super(context);

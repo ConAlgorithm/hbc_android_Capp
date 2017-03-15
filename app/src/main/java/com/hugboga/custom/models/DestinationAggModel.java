@@ -1,6 +1,9 @@
 package com.hugboga.custom.models;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +11,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -79,6 +88,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
 
     private void renderHotCity(DestinationViewHolder destinationViewHolder) {
         destinationViewHolder.titleName.setText("热门城市");
+        destinationViewHolder.cityGridView.setVisibility(View.VISIBLE);
         setCityGridParams(destinationViewHolder.cityGridView, hotCitys);
         destinationViewHolder.speLine.setVisibility(View.GONE);
         destinationViewHolder.countryGridView.setVisibility(View.GONE);
@@ -139,20 +149,57 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     }
 
 
-    private void setCityGridParams(GridView gridView, List<HomeBeanV2.HotCity> cities) {
-        CityAdapter cityAdapter = new CityAdapter(cities);
-        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
-        gridView.setColumnWidth(gridWidth);
-        gridView.setNumColumns(3);
-        gridView.setAdapter(cityAdapter);
+    private void setCityGridParams(LinearLayout gridView, List<HomeBeanV2.HotCity> cities) {
+//        CityAdapter cityAdapter = new CityAdapter(cities);
+//        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
+//        gridView.setColumnWidth(gridWidth);
+//        gridView.setNumColumns(3);
+//        gridView.setAdapter(cityAdapter);
+        gridView.removeAllViews();
+        Context context = gridView.getContext();
+        for(int i=0;i<cities.size();i++){
+            LinearLayout linearLayout;
+            if(i%3==0){
+                 linearLayout = new LinearLayout(context);
+            }else{
+                linearLayout = (LinearLayout) gridView.getChildAt(gridView.getChildCount()-1);
+            }
+            View view = getView(context,cities.get(i));
+            if((i+1)%3!=0){
+                LinearLayout.LayoutParams clayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                ,ViewGroup.LayoutParams.WRAP_CONTENT);
+                clayoutParams.rightMargin = UIUtils.dip2px(10);
+                linearLayout.addView(view,clayoutParams);
+            }else{
+                linearLayout.addView(view);
+            }
+            if(i%3==0){
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.topMargin = UIUtils.dip2px(10);
+                gridView.addView(linearLayout,lp);
+            }
+        }
     }
 
 
     private void setCountryGridParams(GridView gridView, List<HomeBeanV2.HotCountry> countries) {
-        CountryAdapter countryAdapter = new CountryAdapter(countries);
+        CountryAdapter countryAdapter = new CountryAdapter(countries,gridView.getContext());
         int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
         gridView.setColumnWidth(gridWidth);
         gridView.setNumColumns(3);
+        if(countries!=null){
+            if(countries.size()%3==0){
+               // cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
+                int height = countries.size()/3* UIUtils.dip2px(30)*16/24 + (countries.size()/3-1)*UIUtils.dip2px(10);
+                gridView.getLayoutParams().height = height;
+                //gridViewContainer.getLayoutParams().height = height;
+            }else{
+                int height = (countries.size()/3 +1)* UIUtils.dip2px(30)*16/24 + countries.size()/3*UIUtils.dip2px(10);
+                gridView.getLayoutParams().height = height;
+                //gridViewContainer.getLayoutParams().height = height;
+            }
+        }
         gridView.setAdapter(countryAdapter);
     }
 
@@ -162,7 +209,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         @Bind(R.id.home_dest_title_name)
         TextView titleName;
         @Bind(R.id.home_dest_city_gridview)
-        GridView cityGridView;
+        LinearLayout cityGridView;
         @Bind(R.id.home_dest_spe_line)
         View speLine;
         @Bind(R.id.home_dest_country_text_label)
@@ -172,11 +219,43 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         @Bind(R.id.home_dest_country_open_switcher)
         TextView countrySwitcher;
 
+
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    private View getView(Context context,final HomeBeanV2.HotCity hotCity){
+       View view  = LayoutInflater.from(context).
+                inflate(R.layout.home_dest_gridcity_item, null);
+        ImageView cityPicture = (ImageView)view.findViewById(R.id.home_dest_gridcity_img);
+        TextView cityGuideCount= (TextView) view.findViewById(R.id.home_dest_gridcity_guide_count);;
+        TextView cityName = (TextView) view.findViewById(R.id.home_dest_gridcity_name);
+        cityGuideCount.setText(hotCity.cityGuideAmount + "位司导");
+        cityName.setText(hotCity.cityName);
+        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
+        cityPicture.getLayoutParams().width = gridWidth;
+        cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
+        Tools.showImageHasPlaceHolder(cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(v.getContext(),"city",Toast.LENGTH_LONG).show();
+                Bundle bundle=new Bundle();
+                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                bundle.putSerializable(Constants.PARAMS_SOURCE,"首页热门目的地");
+                params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
+                params.titleName=hotCity.cityName;
+                params.id=hotCity.cityId;
+                intent.putExtra(Constants.PARAMS_DATA,params);
+                v.getContext().startActivity(intent);
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页热门目的地");
+            }
+        });
+        return view;
     }
 
     class CityAdapter extends BaseAdapter {
@@ -229,9 +308,11 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     class CountryAdapter extends BaseAdapter {
 
         private List<HomeBeanV2.HotCountry> hotCountrys;
+        private Context mContext;
 
-        public CountryAdapter(List<HomeBeanV2.HotCountry> hotCountrys) {
+        public CountryAdapter(List<HomeBeanV2.HotCountry> hotCountrys,Context context) {
             this.hotCountrys = hotCountrys;
+            this.mContext = context;
         }
 
         @Override
@@ -254,14 +335,14 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             CountryViewHolder countryViewHolder;
             if (convertView == null) {
                 countryViewHolder = new CountryViewHolder();
-                convertView = LayoutInflater.from(MyApplication.getAppContext()).
+                convertView = LayoutInflater.from(mContext).
                         inflate(R.layout.home_dest_gridcountry_item, null);
                 ButterKnife.bind(countryViewHolder, convertView);
                 convertView.setTag(countryViewHolder);
             } else {
                 countryViewHolder = (CountryViewHolder) convertView.getTag();
             }
-            HomeBeanV2.HotCountry hotCountry = hotCountrys.get(position);
+            final HomeBeanV2.HotCountry hotCountry = hotCountrys.get(position);
             countryViewHolder.countryName.setText(hotCountry.countryName);
 
             int countryFlagWidth = UIUtils.dip2px(30);
@@ -270,6 +351,20 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             countryViewHolder.countryFlag.getLayoutParams().width = countryFlagWidth;
             countryViewHolder.countryFlag.getLayoutParams().height = countryFlagHeight;
             Tools.showImageHasPlaceHolder(countryViewHolder.countryFlag, hotCountry.countryPicture, R.mipmap.home_country_dafault);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                    params.id = hotCountry.countryId;
+                    params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                    params.titleName = hotCountry.countryName;
+                    Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra("source","搜索");
+                    v.getContext().startActivity(intent);
+                }
+            });
             return convertView;
         }
     }

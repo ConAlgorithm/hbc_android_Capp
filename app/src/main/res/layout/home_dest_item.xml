@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
+    android:descendantFocusability="blocksDescendants"
     android:paddingTop="10dp">
 
     <TextView
@@ -16,22 +16,37 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <com.hugboga.custom.widget.ChildGridView
+    <!--<com.hugboga.custom.widget.ChildGridView
         android:id="@+id/home_dest_city_gridview"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
         android:horizontalSpacing="10dp"
         android:numColumns="3"
-        android:verticalSpacing="10dp"></com.hugboga.custom.widget.ChildGridView>
+        android:verticalSpacing="10dp"></com.hugboga.custom.widget.ChildGridView>-->
+
+    <LinearLayout
+    android:id="@+id/home_dest_city_gridview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="5dp"
+        android:orientation="vertical">
+    </LinearLayout>
+
 
     <View
         android:id="@+id/home_dest_spe_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:visibility="gone"
-        android:background="@drawable/dash_line_h"></View>
+        android:background="@drawable/dash_line_h"
+        android:visibility="gone"></View>
 
     <TextView
         android:id="@+id/home_dest_country_text_label"
@@ -39,20 +54,21 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:textColor="#7f7f7f"
-        android:visibility="gone"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-
-    <com.hugboga.custom.widget.ChildGridView
+    <GridView
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/home_dest_country_gridview"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="15dp"
+        android:layout_height="wrap_content"
         android:horizontalSpacing="10dp"
         android:numColumns="3"
-        android:verticalSpacing="10dp"></com.hugboga.custom.widget.ChildGridView>
-
+        android:verticalSpacing="10dp"
+        android:visibility="gone"></GridView>
     <TextView
         android:id="@+id/home_dest_country_open_switcher"
         android:layout_width="wrap_content"
@@ -65,5 +81,10 @@
         android:textColor="#A8A8A8"
         android:textSize="12sp"
         android:visibility="gone" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="#F8F8F8"
+        android:layout_height="15dp"></View>
 
 </LinearLayout>
