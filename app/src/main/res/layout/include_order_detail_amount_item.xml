@@ -23,6 +23,7 @@
         android:textSize="15sp"
         />
     <View
+        android:id="@+id/order_detail_amount_line_view"
         android:layout_toRightOf="@id/order_detail_amount_title_tv"
         android:layout_toLeftOf="@id/order_detail_amount_price_tv"
         android:layout_width="match_parent"

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/default_yellow" />
+
+    <com.hugboga.custom.widget.OrderDetailGuideInfo
+        android:id="@+id/order_detail_child_guideinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/order_detail_child_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:text="此段行程已取消"
+        android:textSize="14sp"
+        android:textColor="#a8a8a8"
+        />
+
+    <com.hugboga.custom.widget.OrderDetailTravelView
+        android:id="@+id/order_detail_child_travelView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

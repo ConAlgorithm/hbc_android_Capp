@@ -126,7 +126,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE,source);
         MobClickUtils.onEvent(getEventId(),map);
-
     }
 
     @Override
@@ -284,18 +283,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case ORDER_DETAIL_GUIDE_CALL://联系司导
-                if (!eventVerification(action)) {
-                    break;
-                }
                 if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
                 PhoneInfo.CallDial(OrderDetailActivity.this, orderBean.orderGuideInfo.guideTel);
                 break;
             case ORDER_DETAIL_GUIDE_CHAT://和司导聊天
-                if (!eventVerification(action)) {
-                    break;
-                }
                 final ChatBean chatBean = orderBean.imInfo;
                 if (chatBean == null) {
                     return;
@@ -310,9 +303,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 NIMChatActivity.start(OrderDetailActivity.this,chatBean.getNeTargetId());
                 break;
             case ORDER_DETAIL_GUIDE_INFO://司导详情
-                if (!eventVerification(action)) {
-                    break;
-                }
                 if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
@@ -331,9 +321,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 updateCollectViewText();
                 break;
             case ORDER_DETAIL_GUIDE_COLLECT://收藏 只可收藏不可取消
-                if (!eventVerification(action)) {
-                    break;
-                }
                 if (orderBean == null || orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
                     return;
                 }
@@ -342,9 +329,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 requestData(new RequestCollectGuidesId(OrderDetailActivity.this, orderBean.orderGuideInfo.guideID));
                 break;
             case ORDER_DETAIL_GUIDE_EVALUATION://评价司导
-                if (!eventVerification(action)) {
-                    break;
-                }
                 if (orderBean == null) {
                     return;
                 }

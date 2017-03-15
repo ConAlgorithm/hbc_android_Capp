@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 /**
  * http://wiki.hbc.tech/pages/viewpage.action?pageId=7933324
- * cityId和carIds必选其一，两者都传时优先使用carId
  * */
 @HttpRequest(path = UrlLibs.API_CAR_MAX_CAPACITY, builder = NewParamsBuilder.class)
 public class RequestCarMaxCapaCity extends BaseRequest<CarMaxCapaCityBean> {
@@ -25,9 +24,10 @@ public class RequestCarMaxCapaCity extends BaseRequest<CarMaxCapaCityBean> {
         map.put("cityId", cityId);
     }
 
-    public RequestCarMaxCapaCity(Context context, String carIds) {
+    public RequestCarMaxCapaCity(Context context, int cityId, String carIds) {
         super(context);
         map = new HashMap<String, Object>();
+        map.put("cityId", cityId);
         map.put("carIds", carIds);
     }
 

@@ -68,11 +68,7 @@ public class OrderCancelActivity extends BaseActivity{
         initDefaultTitleBar();
         fgTitle.setText("申请取消行程");
         mDialogUtil = DialogUtil.getInstance(this);
-        if (orderBean.orderType == 3) {
-            orderType.setText(getString(Constants.TitleMap.get(orderBean.orderGoodsType)));
-        }else{
-            orderType.setText(getString(Constants.TitleMap.get(orderBean.orderType)));
-        }
+        orderType.setText(orderBean.getOrderTypeStr());
         orderNoValue.setText(orderBean.orderNo);
         orderApplyValue.setText(orderBean.orderPriceInfo.actualPay+"元");
         orderBack.setText(orderBean.orderPriceInfo.cancelFee + "元");

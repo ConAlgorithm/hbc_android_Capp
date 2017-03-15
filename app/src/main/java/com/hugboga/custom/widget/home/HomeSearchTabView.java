@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.fragment.FgHomePage;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,21 +56,56 @@ public class HomeSearchTabView extends FrameLayout {
     @OnClick({R.id.home_header_hot_tab, R.id.home_header_dest_tab, R.id.home_header_story_tab,
             R.id.home_activies_view})
     public void onClick(View view) {
-        if(homeTabClickListener!=null){
+        if (homeTabClickListener != null) {
             homeTabClickListener.onTabClick(view.getId());
         }
         switch (view.getId()) {
             case R.id.home_header_hot_tab:
+                hotTabIcon.setVisibility(View.VISIBLE);
+                destTabIcon.setVisibility(View.GONE);
+                storyTabIcon.setVisibility(View.GONE);
                 break;
             case R.id.home_header_dest_tab:
+                hotTabIcon.setVisibility(View.GONE);
+                destTabIcon.setVisibility(View.VISIBLE);
+                storyTabIcon.setVisibility(View.GONE);
                 break;
             case R.id.home_header_story_tab:
+                hotTabIcon.setVisibility(View.GONE);
+                destTabIcon.setVisibility(View.GONE);
+                storyTabIcon.setVisibility(View.VISIBLE);
                 break;
-
         }
     }
 
-    public interface HomeTabClickListener{
-         void onTabClick(int resId);
+
+    public void tabIndex(int index){
+        switch (index){
+            case FgHomePage.TAB_HOTEXPLORE:
+                hotTabIcon.setVisibility(View.VISIBLE);
+                destTabIcon.setVisibility(View.GONE);
+                storyTabIcon.setVisibility(View.GONE);
+                break;
+            case FgHomePage.TAB_DESTION:
+                hotTabIcon.setVisibility(View.GONE);
+                destTabIcon.setVisibility(View.VISIBLE);
+                storyTabIcon.setVisibility(View.GONE);
+                break;
+            case FgHomePage.TAB_TRAVEL_STORY:
+                hotTabIcon.setVisibility(View.GONE);
+                destTabIcon.setVisibility(View.GONE);
+                storyTabIcon.setVisibility(View.VISIBLE);
+                break;
+        }
     }
+
+    public interface HomeTabClickListener {
+        void onTabClick(int resId);
+    }
+
+   /* public static int getFilterTabTop(View view) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        return location[1];
+    }*/
 }

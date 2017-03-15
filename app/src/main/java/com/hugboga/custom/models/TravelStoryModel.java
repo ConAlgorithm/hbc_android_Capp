@@ -60,7 +60,7 @@ public class TravelStoryModel extends EpoxyModelWithHolder{
         }
         storyHolder.storyGuideCity.setText("@" + travelStory.cityName);
         storyHolder.storyGuideName.setText(travelStory.guideName);
-        storyHolder.storyImage.getLayoutParams().height = ScreenUtil.screenWidth * 180 / 375;
+        storyHolder.storyImage.getLayoutParams().height = ScreenUtil.screenWidth * 400 / 750;
         Tools.showImage(storyHolder.storyImage, travelStory.storyPicture, R.mipmap.home_default_route_item);
         Tools.showImage(storyHolder.storyGuideAvtar, travelStory.guidePic);
         storyHolder.storyDesc.setText(travelStory.storyName);

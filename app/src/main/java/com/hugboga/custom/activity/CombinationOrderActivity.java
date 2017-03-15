@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -20,6 +21,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
@@ -30,14 +32,17 @@ import com.hugboga.custom.data.bean.combination.GroupParamBuilder;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestBatchPrice;
 import com.hugboga.custom.data.request.RequestCancleTips;
+import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.data.request.RequestDeduction;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestOrderGroup;
 import com.hugboga.custom.data.request.RequestPayNo;
-import com.hugboga.custom.data.request.RequestSubmitBase;
-import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CombinationOrderCountView;
@@ -53,6 +58,7 @@ import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -234,6 +240,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (_request instanceof RequestBatchPrice) {
             carListBean = ((RequestBatchPrice) _request).getData();
             if (!checkDataIsEmpty(carListBean)) {
+                if (charterDataUtils.guidesDetailData != null) {
+                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, charterDataUtils.guidesDetailData.guideCars);
+                    carListBean.carList = carList;
+                }
                 carTypeView.update(carListBean);
             }
             scrollToTop();
@@ -302,7 +312,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         } else {
             isEmpty = false;
         }
-        emptyLayout.setNoCarVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        emptyLayout.setNoCarVisibility(isEmpty ? View.VISIBLE : View.GONE, charterDataUtils.guidesDetailData != null);
 
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
@@ -457,6 +467,14 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     @Override
     public void onSubmitOrder() {
+        if (charterDataUtils.guidesDetailData != null) {
+            checkGuideCoflict();
+        } else {
+            onSubmit();
+        }
+    }
+
+    public void onSubmit() {
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
         ContactUsersBean contactUsersBean = new ContactUsersBean();
         contactUsersBean.userName = travelerInfoBean.travelerName;
@@ -554,6 +572,35 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public String getEventSource() {
         return "组合单下单页";
+    }
+
+    private void checkGuideCoflict() {
+        OrderUtils.checkGuideCoflict(this, 3, charterDataUtils.getStartCityBean(1).cityId,
+                charterDataUtils.guidesDetailData.guideId, charterDataUtils.getStartServiceTime(),
+                charterDataUtils.getEndServiceTime(), charterDataUtils.getPassCitiesId(),
+                charterDataUtils.chooseDateBean.dayNums, carBean.carType, carBean.carSeat,
+                new HttpRequestListener() {
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest request) {
+                        RequestGuideConflict mRequest = (RequestGuideConflict) request;
+                        List<String> guideList = mRequest.getData();
+                        if (guideList.size() == 0) {
+                            checkDataIsEmpty(null);
+                        } else {
+                            onSubmit();
+                        }
+                    }
+
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+                        System.out.print(request);
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                        System.out.print(request);
+                    }
+                });
     }
 
 

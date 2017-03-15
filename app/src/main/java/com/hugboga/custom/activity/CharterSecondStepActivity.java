@@ -291,7 +291,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 AlertDialogUtils.showAlertDialogCancelable(this, title, "返回上一步", "联系客服", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        charterDataUtils.clearStartDate();
+                        charterDataUtils.cleanStartDate();
                         CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                         charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
@@ -306,7 +306,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 });
             } else {
                 int oldRouteType = charterDataUtils.getRouteType(charterDataUtils.currentDay - 1);
-                charterDataUtils.clearStartDate();
+                charterDataUtils.cleanStartDate();
                 CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                 charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                 charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
@@ -416,7 +416,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         || startCityBean == charterDataUtils.getCurrentDayStartCityBean()) {
                     return;
                 }
-                charterDataUtils.clearSendInfo();
+                charterDataUtils.cleanSendInfo();
                 charterDataUtils.itemInfoList.remove(charterDataUtils.currentDay);
                 charterDataUtils.addStartCityBean(charterDataUtils.currentDay, startCityBean);
                 requestCityRoute("" + startCityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY, CityRouteBean.RouteType.URBAN);

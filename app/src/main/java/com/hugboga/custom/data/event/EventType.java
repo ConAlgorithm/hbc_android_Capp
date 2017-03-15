@@ -77,6 +77,7 @@ public enum EventType {
     COUPON_BACK,//选country返回
     PICK_FLIGHT_BACK,//选航班号返回
     AIR_PORT_BACK,//选airport返回
+    CHOOSE_GUIDE_CITY_BACK,//选司导所能服务的城市
 
     NIM_LOGIN_SUCCESS,//云信登录成功回调
     CARIDS,//司导车辆id

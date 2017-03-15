@@ -176,10 +176,10 @@ public class UrlLibs {
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
     public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
     public static final String CANCEL_REASON                = "trade/v1.0/c/order/cancelReason";                        // 取消订单原因接口
-    public static final String ORDER_LIST_ALL               = "trade/v1.3/c/order/list/all";                            // 订单列表 全部 114
-    public static final String ORDER_LIST_UNPAY             = "trade/v1.3/c/order/list/unpay";                          // 订单列表 待支付 115
-    public static final String ORDER_LIST_DOING             = "trade/v1.3/c/order/list/doing";                          // 订单列表 进行中 116
-    public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.3/c/order/list/unevaludate";                    // 订单列表 待评价 117
+    public static final String ORDER_LIST_ALL               = "trade/v1.4/c/order/list/all";                            // 订单列表 全部 114
+    public static final String ORDER_LIST_UNPAY             = "trade/v1.4/c/order/list/unpay";                          // 订单列表 待支付 115
+    public static final String ORDER_LIST_DOING             = "trade/v1.4/c/order/list/doing";                          // 订单列表 进行中 116
+    public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.4/c/order/list/unevaludate";                    // 订单列表 待评价 117
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
     public static final String API_ORDER_GROUP              = "trade/v2.1/c/order/group";                               // 组合单下单c  122
 
