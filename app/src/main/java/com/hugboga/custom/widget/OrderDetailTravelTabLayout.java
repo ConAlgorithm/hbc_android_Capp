@@ -110,7 +110,17 @@ public class OrderDetailTravelTabLayout extends HorizontalScrollView {
                 }
                 dateTV.setText(dateStr);
                 ImageView tabIV = (ImageView) tabView.findViewById(R.id.order_travel_tab_iv);
-                tabIV.setBackgroundResource(_currentIndex == i ? R.mipmap.order_timeline_focus : R.mipmap.order_timeline_normal);
+                if (_currentIndex == i) {
+                    tabIV.setBackgroundResource(R.mipmap.order_timeline_focus);
+                    titleTV.setTextSize(14);
+                    titleTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
+                    dateTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
+                } else {
+                    titleTV.setTextSize(12);
+                    tabIV.setBackgroundResource(R.mipmap.order_timeline_normal);
+                    titleTV.setTextColor(0xFF666666);
+                    dateTV.setTextColor(0xFF666666);
+                }
                 tabView.setOnClickListener(tabClickListener);
                 mTabStrip.addView(tabView, LinearLayout.LayoutParams.WRAP_CONTENT, UIUtils.dip2px(60));
             }
@@ -189,13 +199,23 @@ public class OrderDetailTravelTabLayout extends HorizontalScrollView {
             View oldChild = mTabStrip.getChildAt(currentIndex);
             if (oldChild != null) {
                 ImageView tabIV = (ImageView) oldChild.findViewById(R.id.order_travel_tab_iv);
+                TextView titleTV = (TextView) oldChild.findViewById(R.id.order_travel_tab_title_tv);
+                TextView dateTV = (TextView) oldChild.findViewById(R.id.order_travel_tab_date_tv);
                 tabIV.setBackgroundResource(R.mipmap.order_timeline_normal);
+                titleTV.setTextSize(12);
+                titleTV.setTextColor(0xFF666666);
+                dateTV.setTextColor(0xFF666666);
             }
 
             View selectedChild = mTabStrip.getChildAt(position);
             if (selectedChild != null) {
                 ImageView tabIV = (ImageView) selectedChild.findViewById(R.id.order_travel_tab_iv);
+                TextView titleTV = (TextView) selectedChild.findViewById(R.id.order_travel_tab_title_tv);
+                TextView dateTV = (TextView) selectedChild.findViewById(R.id.order_travel_tab_date_tv);
                 tabIV.setBackgroundResource(R.mipmap.order_timeline_focus);
+                titleTV.setTextSize(14);
+                titleTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
+                dateTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
             }
             currentIndex = position;
         }

@@ -113,29 +113,32 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (orderBean.orderSource != 1) {//非app下单不显示退款
             return;
         }
-//        if (priceInfo.isRefund == 1) {//已经退款
-//            refundLayout.setVisibility(View.VISIBLE);
-//
-//            refundItemLayout.removeAllViews();
-//            addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice);//退款金额
-//
-//            String description = null;
-//            if (priceInfo.refundPrice <= 0) {//退款金额为0
-//                description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
-//            } else {
-//                View withholdView = getGroupView(R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee);//订单退改扣款
-//                ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
-//                ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
-//                LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-//                withholdViewParams.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
-//                refundItemLayout.addView(withholdView, withholdViewParams);
-//
-//                description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
-//            }
-//            refundDescriptionTV.setText(description);
-//        } else {
-//            refundLayout.setVisibility(View.GONE);
-//        }
+        if (priceInfo.isRefund == 1) {//已经退款
+            refundLayout.setVisibility(View.VISIBLE);
+            refundItemLayout.removeAllViews();
+            if (orderBean.orderType == 888) {
+                addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
+                List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
+                int size = subOrderList.size();
+                for (int i = 0; i < size; i++) {
+                    OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
+                    addBillView(refundItemLayout, "行程 " + (i + 1), "" + (int)childPriceInfo.refundPrice);
+                }
+            } else {
+                addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice, false);//退款金额
+            }
+
+            String description = null;
+            if (priceInfo.refundPrice <= 0) {//退款金额为0
+                description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
+            } else {
+                addGroupView(refundItemLayout, R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee, false);//订单退改扣款
+                description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
+            }
+            refundDescriptionTV.setText(description);
+        } else {
+            refundLayout.setVisibility(View.GONE);
+        }
     }
 
 
@@ -160,7 +163,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
     private void addBillView(LinearLayout parentLayout, String title, String price) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(20));
-        params.setMargins(UIUtils.dip2px(10), 0, 0, 0);
+        params.setMargins(UIUtils.dip2px(5), 0, 0, 0);
         parentLayout.addView(getBillView(title, price), params);
     }
 
