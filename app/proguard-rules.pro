@@ -351,7 +351,8 @@
  *;
 }
 
--libraryjars   libs/payecoplugin.jar
+-ignorewarnings
+#-libraryjars   libs/payecoplugin.jar
 -keep class  com.payeco.android.plugin.**{*;}
 -dontwarn   com.payeco.android.plugin.**
 #不混淆org.apache.http.legacy.jar
@@ -359,7 +360,6 @@
  -dontwarn android.net.http.**
  -dontwarn com.android.internal.http.multipart.**
  -dontwarn org.apache.commons.**
- -dontwarn org.apache.http.**
  -keep class android.net.compatibility.**{*;}
  -keep class android.net.http.**{*;}
  -keep class com.android.internal.http.multipart.**{*;}

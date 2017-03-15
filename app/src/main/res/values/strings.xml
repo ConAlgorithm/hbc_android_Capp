@@ -255,7 +255,7 @@
     <string name="empty_text">没有找到相关结果</string>
     <string name="empty_city_text">抱歉，没有找到您要的地点</string>
     <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
-    <string name="out_of_range_city_text">没有找到你想去的城市\n或者该城市暂未开通该服务</string>
+    <string name="out_of_range_city_text">没有找到您想去的城市\n或者该城市暂未开通该服务</string>
 
     <!-- sku-->
     <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
