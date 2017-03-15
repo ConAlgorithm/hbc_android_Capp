@@ -68,7 +68,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/home_box_s"
+                android:background="@mipmap/home_box_l"
                 android:paddingBottom="12dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"

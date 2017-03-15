@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -191,11 +192,11 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         if(countries!=null){
             if(countries.size()%3==0){
                // cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
-                int height = countries.size()/3* UIUtils.dip2px(30)*16/24 + (countries.size()/3-1)*UIUtils.dip2px(10);
+                int height = countries.size()/3* UIUtils.dip2px(30)*16/24 + (countries.size()/3-1)*UIUtils.dip2px(15);
                 gridView.getLayoutParams().height = height;
                 //gridViewContainer.getLayoutParams().height = height;
             }else{
-                int height = (countries.size()/3 +1)* UIUtils.dip2px(30)*16/24 + countries.size()/3*UIUtils.dip2px(10);
+                int height = (countries.size()/3 +1)* UIUtils.dip2px(30)*16/24 + countries.size()/3*UIUtils.dip2px(15);
                 gridView.getLayoutParams().height = height;
                 //gridViewContainer.getLayoutParams().height = height;
             }
@@ -238,6 +239,9 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
         cityPicture.getLayoutParams().width = gridWidth;
         cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
+        view.findViewById(R.id.home_dest_gridcity_img_filter).getLayoutParams().width = gridWidth;
+        view.findViewById(R.id.home_dest_gridcity_img_filter).getLayoutParams().height = gridWidth * 80 / 110;
+
         Tools.showImageHasPlaceHolder(cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

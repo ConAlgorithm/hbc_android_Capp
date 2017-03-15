@@ -18,16 +18,19 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomePageAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestDestinations;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHotExploration;
 import com.hugboga.custom.data.request.RequestTravelStorys;
 import com.hugboga.custom.models.HomeHeaderModel;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
@@ -41,6 +44,7 @@ import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -220,8 +224,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             if(toTop>maxHeight/2){
                 homeListView.smoothScrollToPosition(0);
             }else{
-                int offset = UIUtils.dip2px(88);
-                ((LinearLayoutManager)(homeListView.getLayoutManager())).scrollToPositionWithOffset(1,offset);
+                tabScrollToTop();
                if(homeSearchTabView!=null){
                    homeSearchTabView.setAlpha(1.0f);
                }
@@ -360,6 +363,10 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
     @Override
     public void onTabClick(int resId) {
+        if(resId==R.id.home_activies_view){
+            openActivitesPage();
+            return;
+        }
         if (homeBean == null) {
             return;
         }
@@ -372,9 +379,6 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 break;
             case R.id.home_header_story_tab:
                 selectTravelStoryTab();
-                break;
-            case R.id.home_activies_view:
-                openActivitesPage();
                 break;
             default:
                 break;
@@ -408,45 +412,27 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
     private void selectHotExploerTab() {
         if (tabIndex == TAB_HOTEXPLORE) {
+            tabScrollToTop();
             return;
         }
         tabIndex = TAB_HOTEXPLORE;
         if (homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
             homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations, true
             ,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
-            if(tabParentContainer.isShown()){
-                homeListView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        homeTitleLayout.setAlpha(1);
-                        int offset = UIUtils.dip2px(88);
-                        ((LinearLayoutManager)(homeListView.getLayoutManager())).scrollToPositionWithOffset(1,offset);
-                    }
-                },100);
-
-            }
+            tabScrollToTop();
         }
     }
 
     private void selectDestionTab() {
         if (tabIndex == TAB_DESTION) {
+            tabScrollToTop();
             return;
         }
         tabIndex = TAB_DESTION;
         if (homeBean.destinationAggVo != null) {
             if (homeBean.destinationAggVo.hotCities != null) {
                 homePageAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
-                if(tabParentContainer.isShown()){
-                    homeListView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            homeTitleLayout.setAlpha(1);
-                            int offset = UIUtils.dip2px(88);
-                            ((LinearLayoutManager)(homeListView.getLayoutManager())).scrollToPositionWithOffset(1,offset);
-                        }
-                    },100);
-
-                }
+               tabScrollToTop();
             }
             if(homeBean.destinationAggVo.lineGroupAggVos!=null){
                 homePageAdapter.addDestionLineGroups(homeBean.destinationAggVo.lineGroupAggVos
@@ -457,6 +443,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
     private void selectTravelStoryTab() {
         if (tabIndex == TAB_TRAVEL_STORY) {
+            tabScrollToTop();
             return;
         }
         tabIndex = TAB_TRAVEL_STORY;
@@ -464,17 +451,16 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             homePageAdapter.addStoryModels(homeBean.storyAggVo.travelStories, true
                     ,homeBean.storyAggVo.listCount
                     ,homeBean.storyAggVo.getTravelStoreySize());
-            if(tabParentContainer.isShown()){
-                homeListView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        int offset = UIUtils.dip2px(88);
-                        homeTitleLayout.setAlpha(1);
-                        ((LinearLayoutManager)(homeListView.getLayoutManager())).scrollToPositionWithOffset(1,offset);
-                    }
-                },100);
+            tabScrollToTop();
+        }
+    }
 
-            }
+
+    private void tabScrollToTop(){
+        int toTopDis = Math.abs(homePageAdapter.homeHeaderModel.getTabViewTop());
+        int distance = toTopDis - UIUtils.statusBarHeight - UIUtils.dip2px(48);
+        if(distance>0){
+            homeListView.smoothScrollBy(0, distance);
         }
     }
 
@@ -482,13 +468,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
      * 打开活动页面
      */
     private void openActivitesPage() {
-        if (!UserEntity.getUser().isLogin(getActivity())) {
-            CommonUtils.showToast(R.string.login_hint);
-            return;
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
+        Intent intent = new Intent(getContext(), WebInfoActivity.class);
+        if(UserEntity.getUser().isLogin(getActivity())){
+            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));
+        }else{
+            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY );
         }
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, "首页-活动");
         startActivity(intent);
+        setSensorsDefaultEvent("活动列表", SensorsConstant.ACTLIST);
     }
 
     @Override

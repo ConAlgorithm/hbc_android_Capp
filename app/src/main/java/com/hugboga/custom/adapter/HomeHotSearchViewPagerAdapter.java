@@ -100,32 +100,29 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
             spannableString.setSpan(new AbsoluteSizeSpan(14, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new AbsoluteSizeSpan(12, true), price.length(), count.length() + price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             perPrice.setText(spannableString);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(position==getCount() - 1){
-                            Intent intent = new Intent(v.getContext(), ChooseCityNewActivity.class);
-                            v.getContext().startActivity(intent);
-                    }else{
-                        SkuItemBean skuItemBean1 = hotExplorations.get(position);
-                        Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean1.skuDetailUrl);
-                        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean1);
-                        intent.putExtra("goodtype",skuItemBean1.goodsType);
-                        intent.putExtra("type",type);
-                        intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
-                        v.getContext().startActivity(intent);
-                        StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-                        StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
-                    }
-
-                }
-            });
         }
 
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position==getCount() - 1){
+                    Intent intent = new Intent(v.getContext(), ChooseCityNewActivity.class);
+                    v.getContext().startActivity(intent);
+                }else{
+                    SkuItemBean skuItemBean1 = hotExplorations.get(position);
+                    Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean1.skuDetailUrl);
+                    intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                    intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean1);
+                    intent.putExtra("goodtype",skuItemBean1.goodsType);
+                    intent.putExtra("type",type);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
+                    v.getContext().startActivity(intent);
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
+                }
+            }
+        });
 
     }
 }

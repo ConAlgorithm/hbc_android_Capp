@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
+    android:background="@android:color/white"
     android:orientation="horizontal">
 
     <ImageView
@@ -11,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
+        android:background="#E1E5EB"
+        android:padding="1dp"
         android:src="@mipmap/home_country_dafault" />
 
     <TextView

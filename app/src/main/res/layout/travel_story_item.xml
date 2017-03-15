@@ -91,5 +91,5 @@
         android:layout_width="match_parent"
         android:background="#F8F8F8"
         android:layout_below="@id/story_icon"
-        android:layout_height="15dp"></View>
+        android:layout_height="10dp"></View>
 </RelativeLayout>
