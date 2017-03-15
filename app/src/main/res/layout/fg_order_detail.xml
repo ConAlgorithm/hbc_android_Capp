@@ -57,13 +57,13 @@
                 android:id="@+id/order_detail_amount_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="@dimen/order_margin_vertical" />
 
             <com.hugboga.custom.widget.OrderDetailInfoView
                 android:id="@+id/order_detail_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="@dimen/order_margin_vertical" />
 
             <include layout="@layout/view_order_detail_explain" />
         </LinearLayout>

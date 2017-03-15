@@ -122,7 +122,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
         }
 
-
         if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路 开始城市 - 结束城市
             addItemView(R.mipmap.trip_icon_line, orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
         } else if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {//开始地点 - 结束地点 接机、送机、单次
