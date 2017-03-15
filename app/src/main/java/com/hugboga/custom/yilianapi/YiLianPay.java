@@ -273,7 +273,7 @@ public class YiLianPay {
             if (!addPermission(payContext, permissionsList,Manifest.permission.ACCESS_COARSE_LOCATION))
                 permissionsNeeded.add("定位");
             if (permissionsList.size() > 0) {
-                requestPermissions(null,permissionsList.toArray(new String[permissionsList.size()]), 111);
+                requestPermissions(payActivtiy,permissionsList.toArray(new String[permissionsList.size()]), 111);
                 return;
             }
         }
@@ -282,10 +282,10 @@ public class YiLianPay {
     @TargetApi(23)
     private boolean addPermission(Context Ctx, List<String> permissionsList,
                                   String permission) {
-        if (checkSelfPermission(null,permission) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(Ctx,permission) != PackageManager.PERMISSION_GRANTED) {
             permissionsList.add(permission);
             // Check for Rationale Option
-            if (shouldShowRequestPermissionRationale(null,permission))
+            if (shouldShowRequestPermissionRationale(payActivtiy,permission))
                 return false;
         }
         return true;

@@ -138,6 +138,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
         requestBatchPrice();
+
+        travelerInfoView.setActivity(this);
     }
 
     public void initTitleBar() {
