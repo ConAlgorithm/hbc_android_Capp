@@ -118,7 +118,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             guideLayout.setVisibility(View.GONE);
         } else {
             guideLayout.setVisibility(View.VISIBLE);
-            Tools.showImage(avatarIV, guidesDetailData.avatar);
+            Tools.showImage(avatarIV, guidesDetailData.avatar, R.mipmap.icon_avatar_guide);
             guideTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guidesDetailData.guideName, guidesDetailData.countryName));
         }
     }

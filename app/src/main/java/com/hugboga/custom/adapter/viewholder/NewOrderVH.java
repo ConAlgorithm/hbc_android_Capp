@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter.viewholder;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -72,6 +73,20 @@ public class NewOrderVH extends ZBaseViewHolder {
     public TextView travel_item_btn_br;;
     @ViewInject(R.id.travel_item_btn_br_tips)
     public ImageView travel_item_btn_br_tips;
+
+    @ViewInject(R.id.travel_item_head_layout_all)
+    public LinearLayout travel_item_head_layout_all;
+    @ViewInject(R.id.travel_item_head_img1)
+    public CircleImageView travel_item_head_img1;;
+    @ViewInject(R.id.travel_item_head_img2)
+    public CircleImageView travel_item_head_img2;
+    @ViewInject(R.id.travel_item_head_layout_1)
+    public FrameLayout travel_item_head_layout_1;
+    @ViewInject(R.id.travel_item_head_img3)
+    public CircleImageView travel_item_head_img3;
+    @ViewInject(R.id.travel_item_head_more_tv)
+    public TextView travel_item_head_more_tv;
+
 
     public NewOrderVH(View itemView) {
         super(itemView);

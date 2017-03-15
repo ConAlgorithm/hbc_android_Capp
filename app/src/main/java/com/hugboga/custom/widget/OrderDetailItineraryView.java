@@ -16,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DetailTravelListActivity;
 import com.hugboga.custom.activity.LuggageInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -54,6 +56,10 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     RelativeLayout charterLayout;
     @Bind(R.id.order_itinerary_charter_city_tv)
     TextView cityTV;
+
+    @Bind(R.id.order_itinerary_item_travel_view)
+    OrderDetailTravelView travelView;
+
 
     private OrderBean orderBean;
 
@@ -158,6 +164,14 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
         // 订单号
         orderNumberView.update(orderBean.orderNo);
+
+        if (orderBean.totalDays == 1) {
+            travelView.setVisibility(View.VISIBLE);
+            travelView.singleTravel();
+            travelView.update(orderBean);
+        }else {
+            travelView.setVisibility(View.GONE);
+        }
     }
 
 
@@ -283,6 +297,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     @OnClick({R.id.order_itinerary_charter_travel_tv, R.id.order_itinerary_charter_arrow_iv})
     public void intentTravelList() {
-
+        Intent intent = new Intent(getContext(), DetailTravelListActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, orderBean);
+        getContext().startActivity(intent);
     }
 }
