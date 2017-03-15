@@ -27,6 +27,7 @@ public class OrderGuideInfo implements IBaseBean ,Parcelable {
     public String countryName;
     public int countryId;
     public String contact;//地接社队长名称（名称-队长）
+    public int orderCount;//司导服务单数
 
     @Override
     public int describeContents() {

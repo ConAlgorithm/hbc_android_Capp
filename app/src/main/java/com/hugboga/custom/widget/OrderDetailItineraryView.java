@@ -103,18 +103,30 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             startDate += String.format("(%1$s天)", totalDays);
             addItemView(R.mipmap.trip_icon_date, startDate);
         } else {
+            //副标题："航班HKJHKJ 东京-北京"
+            String flight = "";
+            if (!TextUtils.isEmpty(orderBean.flightNo)) {
+                flight = getContext().getString(R.string.order_detail_flight, orderBean.flightNo);
+            }
+            if (!TextUtils.isEmpty(orderBean.flightDeptCityName) && !TextUtils.isEmpty(orderBean.flightDestCityName)) {
+                flight += getContext().getString(R.string.separator, orderBean.flightDeptCityName, orderBean.flightDestCityName);
+            }
             String startDate = DateUtils.getStrWeekFormat3(orderBean.serviceTime);
             if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
                 startDate += " " + orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
             }
-            addItemView(R.mipmap.trip_icon_time, startDate);
+            if (TextUtils.isEmpty(flight)) {
+                addItemView(R.mipmap.trip_icon_time, startDate);
+            } else {
+                addSubItemView(R.mipmap.trip_icon_time, startDate, flight);
+            }
         }
 
 
         if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路 开始城市 - 结束城市
             addItemView(R.mipmap.trip_icon_line, orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
         } else if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {//开始地点 - 结束地点 接机、送机、单次
-            addLocationItem();//TODO 细节
+            addLocationItem();
         }
 
         // 车型描述
@@ -140,86 +152,13 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             addItemView(R.mipmap.trip_icon_addition, "Check in 服务");
         }
 
-//        //酒店预订 TODO 少图片和文字
-//        if (orderBean.hotelStatus == 1) {
-//            addItemView(R.mipmap.order_jd, getContext().getString(R.string.order_detail_hotle_subscribe, "" + orderBean.hotelDays, "" + orderBean.hotelRoom));
-//        }
+        //酒店预订
+        if (orderBean.hotelStatus == 1) {
+            addItemView(R.mipmap.trip_icon_hotel, getContext().getString(R.string.order_detail_hotle_subscribe, "" + orderBean.hotelDays, "" + orderBean.hotelRoom));
+        }
 
         // 订单号
         orderNumberView.update(orderBean.orderNo);
-
-
-//        //"当地时间 04月21日（周五）10:05" orderBean.serviceTime
-//        String localTime = getContext().getString(R.string.order_detail_local_time, orderBean.serviceTimeStr);
-//        if (orderBean.orderType == 3) {
-//            //主标题：东京-6天包车  副标题：当地时间
-//            String totalDays = "" + orderBean.totalDays;
-//            if (orderBean.isHalfDaily == 1) {//半日包
-//                totalDays = getContext().getString(R.string.order_detail_half_day);
-//            } else if (orderBean.totalDays > 1 && !TextUtils.isEmpty(orderBean.serviceEndTimeStr)) {
-//                localTime = localTime + " - " + orderBean.serviceEndTimeStr;
-//            }
-//            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, totalDays), null, localTime);
-//        } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {
-//            String serviceTimeFormatStr = DateUtils.getOrderDateFormat(orderBean.serviceTime);
-//            String serviceTime = "";
-//            if (!TextUtils.isEmpty(serviceTimeFormatStr)) {
-//                serviceTime = getContext().getString(R.string.order_detail_local_time, serviceTimeFormatStr);
-//            } else {
-//                serviceTime = localTime;
-//            }
-//            addItemView(R.mipmap.order_time, getContext().getString(R.string.order_detail_local_chartered, orderBean.serviceCityName, "" + orderBean.totalDays), null, serviceTime);
-//        } else {
-//            //主标题：当地时间   副标题："航班HKJHKJ 东京-北京"
-//            String flight = "";
-//            if (!TextUtils.isEmpty(orderBean.flightNo)) {
-//                flight = getContext().getString(R.string.order_detail_flight, orderBean.flightNo);
-//            }
-//            if (!TextUtils.isEmpty(orderBean.flightDeptCityName) && !TextUtils.isEmpty(orderBean.flightDestCityName)) {
-//                flight += getContext().getString(R.string.separator, orderBean.flightDeptCityName, orderBean.flightDestCityName);
-//            }
-//            addItemView(R.mipmap.order_time, localTime, null, flight);
-//        }
-//
-//        //包车线路列表
-//        if (orderBean.orderType == 3 && orderBean.isHalfDaily == 0 && orderBean.passByCity != null && orderBean.passByCity.size() > 0) {
-//            OrderDetailRouteView routeView = new OrderDetailRouteView(getContext());
-//            itineraryLayout.addView(routeView);
-//            routeView.update(orderBean.passByCity);
-//        }
-//
-//        //出发地
-//        if (!TextUtils.isEmpty(orderBean.startAddress)) {
-//            addItemView(R.mipmap.order_place, orderBean.startAddress, null, orderBean.startAddressDetail);
-//        }
-//
-//        //目的地
-//        if (!TextUtils.isEmpty(orderBean.destAddress) && orderBean.orderType != 3) {
-//            addItemView(R.mipmap.order_flag, orderBean.destAddress, null, orderBean.destAddressDetail);
-//        }
-//
-//        //车型描述
-//        String passengerInfos = getContext().getString(R.string.order_detail_adult_seat_info, "" + (orderBean.adult + orderBean.child));//座位总数
-//        if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
-//            passengerInfos += getContext().getString(R.string.order_detail_child_seat_info, "" + orderBean.childSeats.getChildSeatCount());
-//        }
-//        if (orderBean.carPool) {//拼车
-//            addCarDescView(R.mipmap.order_passanger, passengerInfos, null);
-//        } else if (!TextUtils.isEmpty(orderBean.carDesc)) {
-//            passengerInfos = getContext().getString(R.string.order_detail_seat_info, passengerInfos);
-//            addCarDescView(R.mipmap.order_car, orderBean.carDesc, passengerInfos);
-//        }
-//
-//        if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
-//            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_airport_card));
-//        } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
-//            addItemView(R.mipmap.order_jp, getContext().getString(R.string.order_detail_checkin));
-//        }
-//
-//        //酒店预订
-//        if (orderBean.hotelStatus == 1) {
-//            addItemView(R.mipmap.order_jd, getContext().getString(R.string.order_detail_hotle_subscribe, "" + orderBean.hotelDays, "" + orderBean.hotelRoom));
-//        }
     }
 
 
@@ -235,6 +174,25 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         return itemView;
     }
 
+    private LinearLayout addSubItemView(int iconId, String title, String subTitle) {//带副标题
+        LinearLayout itemView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary_sub, null, false);
+
+        ImageView iconIV = (ImageView) itemView.findViewById(R.id.item_itinerary_iv);
+        iconIV.setBackgroundResource(iconId);
+        TextView titleTV = (TextView) itemView.findViewById(R.id.item_itinerary_title_tv);
+        titleTV.setText(title);
+
+        TextView describeTV = (TextView) itemView.findViewById(R.id.item_itinerary_describe_tv);
+        if (TextUtils.isEmpty(subTitle)) {
+            describeTV.setVisibility(View.GONE);
+        } else {
+            describeTV.setVisibility(View.VISIBLE);
+            describeTV.setText(subTitle);
+        }
+        itineraryLayout.addView(itemView);
+        return itemView;
+    }
+
     public void setRouteLayoutVisible() {
         routeLayout.setVisibility(View.VISIBLE);
         Tools.showImage(routeIV, orderBean.picUrl);
@@ -243,15 +201,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         if (orderBean.orderSource == 1 && !TextUtils.isEmpty(orderBean.skuDetailUrl)) {
             routeLayout.setOnClickListener(this);
         }
-    }
-
-    private SpannableString getRouteSpannableString(String lineSubject, int resId) {
-        Drawable drawable = getContext().getResources().getDrawable(resId);
-        drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
-        SpannableString spannable = new SpannableString("[icon]" + lineSubject);
-        VerticalImageSpan span = new VerticalImageSpan(drawable);
-        spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        return spannable;
     }
 
     private void addCarDescView(int iconId, String title) {
@@ -308,7 +257,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         } else {
             startDesTV.setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(6));
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(5));
             params.topMargin = UIUtils.dip2px(20);
             params.leftMargin = UIUtils.dip2px(7.5f);
             startLineView.setLayoutParams(params);

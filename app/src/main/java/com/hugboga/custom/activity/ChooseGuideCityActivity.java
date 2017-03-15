@@ -17,6 +17,7 @@ import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestGuideCrop;
+import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.ChooseGuideCityView;
@@ -25,6 +26,7 @@ import com.hugboga.custom.widget.title.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -43,6 +45,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
 
     public String guideId;
     private HbcRecyclerSingleTypeAdpater<GuideCropBean> mAdapter;
+    private ArrayList<GuideCropBean> guideCropList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,8 +87,9 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
     @Override
     public void onItemClick(View view, int position, Object itemData) {
         if (itemData instanceof GuideCropBean) {
-            CityBean cityBean = DatabaseManager.getCityBean(((GuideCropBean) itemData).cityId);
-            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE, cityBean));
+            GuideServiceCitys guideServiceCitys = new GuideServiceCitys(guideCropList, position);
+            EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE_CITY_BACK, guideServiceCitys));
+            finish();
         }
     }
 
@@ -93,8 +97,38 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideCrop) {
-            ArrayList<GuideCropBean> guideCropList = ((RequestGuideCrop) _request).getData();
+            this.guideCropList = ((RequestGuideCrop) _request).getData();
             mAdapter.addData(guideCropList);
         }
+    }
+
+    public static class GuideServiceCitys implements Serializable {
+        public ArrayList<GuideCropBean> guideCropList;
+        public int selectedIndex;
+
+        public GuideServiceCitys(ArrayList<GuideCropBean> guideCropList, int selectedIndex) {
+            this.guideCropList = guideCropList;
+            this.selectedIndex = selectedIndex;
+        }
+
+        public CityBean getSelectedCityBean() {
+            return DatabaseManager.getCityBean(guideCropList.get(selectedIndex).cityId);
+        }
+
+        public String getGuideServiceCitysId() {
+            if (guideCropList == null || guideCropList.size() <= 0) {
+                return "";
+            }
+            String cityId = "";
+            int size = guideCropList.size();
+            for (int i = 0; i < size; i++) {
+                cityId += guideCropList.get(i).cityId;
+                if (i < size - 1) {
+                    cityId += ",";
+                }
+            }
+            return cityId;
+        }
+
     }
 }

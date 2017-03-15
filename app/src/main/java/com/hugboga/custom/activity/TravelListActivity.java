@@ -13,7 +13,6 @@ import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChooseDateBean;
-import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -166,7 +165,7 @@ public class TravelListActivity extends BaseActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
-                    charterDataUtils.clearSendInfo();
+                    charterDataUtils.cleanSendInfo();
                     charterDataUtils.itemInfoList.remove(chooseDateBean.dayNums);
                     if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
                         charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);

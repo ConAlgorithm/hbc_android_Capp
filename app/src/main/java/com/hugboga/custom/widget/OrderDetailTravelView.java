@@ -9,7 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.UIUtils;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,5 +65,19 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
             moreIV.setVisibility(View.GONE);
         }
         orderNoView.update(orderBean.orderNo);
+
+        ArrayList<CityBean> passCityList = orderBean.passByCity;
+        if (passCityList.size() > 0) {
+            firstDateTV.setText(DateUtils.orderChooseDateTransform(orderBean.serviceTime));
+            firstTitleTV.setText(passCityList.get(0).description);
+        }
+
+        if (passCityList.size() > 1) {
+            secondDateTV.setText(DateUtils.orderChooseDateTransform(DateUtils.getDay(orderBean.serviceTime, 1)));
+            secondTitleTV.setText(passCityList.get(1).description);
+        } else {
+            secondDateTV.setText("");
+            secondTitleTV.setText("");
+        }
     }
 }

@@ -13,6 +13,8 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.util.List;
+
 /**
  * Created by qingcha on 16/6/2.
  *
@@ -61,18 +63,30 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
         OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
         if (orderBean.orderSource == 1) {
-            lineView.setVisibility(View.VISIBLE);
-            addBillView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
+            if (orderBean.orderType == 888) {
+                lineView.setVisibility(View.VISIBLE);
+                addGroupView(billLayout, R.string.order_detail_cost_chartered, "", true);//包车费用
+                List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
+                int size = subOrderList.size();
+                for (int i = 0; i < size; i++) {
+                    OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
+                    addBillView("行程 " + (i + 1), "" + (int)childPriceInfo.shouldPay);
+                }
+            } else {
+                lineView.setVisibility(View.GONE);
+                addGroupView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
+            }
+
             if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
-                addBillView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
+                addGroupView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
             } else if(orderBean.orderGoodsType == 2 && !Double.isNaN(priceInfo.checkInPrice) && priceInfo.checkInPrice > 0) {//送机 checkin费用
-                addBillView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
+                addGroupView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
             }
             if (priceInfo.childSeatPrice > 0) {
-                addBillView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
+                addGroupView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
             }
             if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
-                addBillView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
+                addGroupView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
             }
 
             addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
@@ -99,37 +113,37 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (orderBean.orderSource != 1) {//非app下单不显示退款
             return;
         }
-        if (priceInfo.isRefund == 1) {//已经退款
-            refundLayout.setVisibility(View.VISIBLE);
-
-            refundItemLayout.removeAllViews();
-            addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice);//退款金额
-
-            String description = null;
-            if (priceInfo.refundPrice <= 0) {//退款金额为0
-                description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
-            } else {
-                View withholdView = getGroupView(R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee);//订单退改扣款
-                ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
-                ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
-                LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-                withholdViewParams.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
-                refundItemLayout.addView(withholdView, withholdViewParams);
-
-                description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
-            }
-            refundDescriptionTV.setText(description);
-        } else {
-            refundLayout.setVisibility(View.GONE);
-        }
+//        if (priceInfo.isRefund == 1) {//已经退款
+//            refundLayout.setVisibility(View.VISIBLE);
+//
+//            refundItemLayout.removeAllViews();
+//            addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice);//退款金额
+//
+//            String description = null;
+//            if (priceInfo.refundPrice <= 0) {//退款金额为0
+//                description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
+//            } else {
+//                View withholdView = getGroupView(R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee);//订单退改扣款
+//                ((TextView) withholdView.findViewById(R.id.order_detail_amount_title_tv)).setTextSize(13);
+//                ((TextView) withholdView.findViewById(R.id.order_detail_amount_price_tv)).setTextSize(14);
+//                LinearLayout.LayoutParams withholdViewParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
+//                withholdViewParams.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
+//                refundItemLayout.addView(withholdView, withholdViewParams);
+//
+//                description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
+//            }
+//            refundDescriptionTV.setText(description);
+//        } else {
+//            refundLayout.setVisibility(View.GONE);
+//        }
     }
 
 
-    private View getBillView(int titleID, String price) {
+    private View getBillView(String title, String price) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.include_order_detail_amount_item, null, false);
         TextView titleTV = (TextView) itemView.findViewById(R.id.order_detail_amount_title_tv);
-        titleTV.setText(getContext().getString(titleID));
-        titleTV.setMinWidth(UIUtils.dip2px(80));
+        titleTV.setText(title);
+        titleTV.setMinWidth(UIUtils.dip2px(60));
         titleTV.setTextSize(13);
         TextView priceTV = (TextView) itemView.findViewById(R.id.order_detail_amount_price_tv);
         priceTV.setTextSize(14);
@@ -140,41 +154,54 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         return itemView;
     }
 
-    private void addBillView(int titleID, String price) {
-        addBillView(billLayout, titleID, price);
+    private void addBillView(String title, String price) {
+        addBillView(billLayout, title, price);
     }
 
-    private void addBillView(LinearLayout parentLayout, int titleID, String price) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-        params.setMargins(UIUtils.dip2px(20), 0,UIUtils.dip2px(20), 0);
-        parentLayout.addView(getBillView(titleID, price), params);
+    private void addBillView(LinearLayout parentLayout, String title, String price) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(20));
+        params.setMargins(UIUtils.dip2px(10), 0, 0, 0);
+        parentLayout.addView(getBillView(title, price), params);
     }
 
     private View getGroupView(int titleID, String price) {
+        return getGroupView(titleID, price, false);
+    }
+
+    private View getGroupView(int titleID, String price, boolean isHideSubTitle) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.include_order_detail_amount_item, null, false);
+        itemView.findViewById(R.id.order_detail_amount_line_view).setVisibility(View.GONE);
         TextView titleTV = (TextView) itemView.findViewById(R.id.order_detail_amount_title_tv);
         titleTV.setText(getContext().getString(titleID));
         TextView priceTV = (TextView) itemView.findViewById(R.id.order_detail_amount_price_tv);
-        if (TextUtils.isEmpty(price)) {
-            price = "0";
+        if (isHideSubTitle) {
+            priceTV.setVisibility(View.GONE);
+        } else {
+            priceTV.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(price)) {
+                price = "0";
+            }
+            String priceText = getContext().getString(R.string.sign_rmb) + price;
+            if (titleID == R.string.order_detail_cost_coupon || titleID == R.string.order_detail_cost_travelfund) {//旅游基金和优惠券需要加减号
+                priceText =  "- " + getContext().getString(R.string.sign_rmb) + price;
+            } else if (titleID == R.string.order_detail_cost_realpay) {
+                priceTV.setTextColor(0xFFFF6633);
+            }
+            priceTV.setText(priceText);
         }
-        String priceText = getContext().getString(R.string.sign_rmb) + price;
-        if (titleID == R.string.order_detail_cost_coupon || titleID == R.string.order_detail_cost_travelfund) {//旅游基金和优惠券需要加减号
-            priceText =  "- " + getContext().getString(R.string.sign_rmb) + price;
-        } else if (titleID == R.string.order_detail_cost_realpay) {
-            priceTV.setTextColor(0xFFFF6633);
-        }
-        priceTV.setText(priceText);
         return itemView;
     }
 
     private void addGroupView(int titleID, String price) {
-        addGroupView(groupLayout, titleID, price);
+        addGroupView(groupLayout, titleID, price, false);
     }
 
-    private void addGroupView(LinearLayout parentLayout, int titleID, String price) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(35));
-        params.setMargins(UIUtils.dip2px(10), 0, UIUtils.dip2px(10), 0);
-        parentLayout.addView(getGroupView(titleID, price), params);
+    private void addGroupView(int titleID, String price, boolean isHideSubTitle) {
+        addGroupView(groupLayout, titleID, price, isHideSubTitle);
+    }
+
+    private void addGroupView(LinearLayout parentLayout, int titleID, String price, boolean isHideSubTitle) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(26));
+        parentLayout.addView(getGroupView(titleID, price, isHideSubTitle), params);
     }
 }

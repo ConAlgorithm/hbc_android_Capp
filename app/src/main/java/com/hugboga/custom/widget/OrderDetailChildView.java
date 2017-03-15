@@ -42,34 +42,25 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
     public void update(Object _data) {
         OrderBean orderBean = (OrderBean) _data;
         if (orderBean.orderStatus.code >= 3) {
-            switch (orderBean.orderStatus) {
-                case AGREE:
-                case ARRIVED:
-                case SERVICING:
-                case NOT_EVALUATED:
-                case COMPLETE:
-                    childCancelTV.setVisibility(View.GONE);
-                    //显示司导
-                    orderDetailGuideInfo.setVisibility(View.VISIBLE);
-                    orderDetailGuideInfo.update(orderBean);
-                    break;
-                case CANCELLED://已取消
-                    childCancelTV.setVisibility(View.VISIBLE);
-                    orderDetailGuideInfo.setVisibility(View.GONE);
-                    childCancelTV.setText("此段行程：已取消");
-                    break;
-                case REFUNDED://已退款
-                    childCancelTV.setVisibility(View.VISIBLE);
-                    orderDetailGuideInfo.setVisibility(View.GONE);
-                    childCancelTV.setText("此段行程：已退款");
-                    break;
-                case COMPLAINT://客诉处理中
-                    childCancelTV.setVisibility(View.VISIBLE);
-                    orderDetailGuideInfo.setVisibility(View.GONE);
-                    childCancelTV.setText("此段行程：客诉处理中");
-                    break;
+            if (orderBean.orderGuideInfo == null) {
+                childCancelTV.setVisibility(View.VISIBLE);
+                orderDetailGuideInfo.setVisibility(View.GONE);
+                switch (orderBean.orderStatus) {
+                    case CANCELLED://已取消
+                        childCancelTV.setText("此段行程：已取消");
+                        break;
+                    case REFUNDED://已退款
+                        childCancelTV.setText("此段行程：已退款");
+                        break;
+                    case COMPLAINT://客诉处理中
+                        childCancelTV.setText("此段行程：客诉处理中");
+                        break;
+                }
+            } else {//显示司导信息
+                childCancelTV.setVisibility(View.GONE);
+                orderDetailGuideInfo.setVisibility(View.VISIBLE);
+                orderDetailGuideInfo.update(orderBean);
             }
-
         } else {
             orderDetailGuideInfo.setVisibility(View.GONE);
             childCancelTV.setVisibility(View.GONE);

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:paddingTop="7dp"
+    android:paddingTop="8dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:paddingTop="8dp"
+        android:paddingBottom="3dp"
         android:paddingRight="@dimen/order_padding_left">
 
         <ImageView
@@ -51,6 +52,7 @@
             android:layout_below="@id/order_itinerary_route_iv"
             android:background="@drawable/shape_order_no_dash" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/order_itinerary_charter_layout"
         android:layout_width="match_parent"

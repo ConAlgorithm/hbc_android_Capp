@@ -64,8 +64,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
     LinearLayout collectLayout;
     @Bind(R.id.ogi_collect_tv)
     TextView collectTV;
-
-    private String orderNo;
+    @Bind(R.id.ogi_collect_iv)
+    ImageView collectIV;
 
     public OrderDetailGuideInfo(Context context) {
         this(context, null);
@@ -87,7 +87,6 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             return;
         }
         OrderBean orderBean = (OrderBean) _data;
-        this.orderNo = orderBean.orderNo;
         final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
         if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.orderStatus == OrderStatus.PAYSUCCESS || guideInfo == null) {//1:未付款 || 2:已付款
             setVisibility(View.GONE);
@@ -114,18 +113,25 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                     if (orderBean.isEvaluated()) {
                         evaluateIV.setVisibility(View.VISIBLE);
-                        evaluateTV.setText("5星好评");//TODO
+                        if (orderBean.appraisement != null) {
+                            evaluateTV.setText(orderBean.appraisement.totalScore + "星好评");
+                        } else {
+                            evaluateTV.setText("已评价");
+                        }
                     } else {
                         evaluateIV.setVisibility(View.GONE);
                         evaluateTV.setText("评价司导");
                     }
-                    evaluateTV.setText(getContext().getString(orderBean.isEvaluated() ? R.string.order_detail_evaluated : R.string.order_detail_evaluate));
 
-                    if (orderBean.guideAgencyType == 3) {//地接社不显示收藏按钮
+                    if (orderBean.guideAgencyType == 3) { //地接社不显示收藏按钮
+                        evaluateLayout.setVisibility(View.GONE);
+                        collectIV.setVisibility(View.GONE);
+                    } else if (guideInfo.isCollected()) { //不可取消收藏
+                        collectIV.setVisibility(View.VISIBLE);
                         evaluateLayout.setVisibility(View.GONE);
                     } else {
+                        collectIV.setVisibility(View.GONE);
                         evaluateLayout.setVisibility(View.VISIBLE);
-                        collectTV.setText(getContext().getString(guideInfo.isCollected() ? R.string.uncollect : R.string.collect));//TODO
                     }
                     break;
             }
@@ -137,7 +143,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             } else {
                 starIV.setBackgroundResource(R.mipmap.star_level_half);
             }
-            starTV.setText((float)guideInfo.guideStarLevel + "星");//TODO XXX单
+            starTV.setText(String.format("%1$s星 / %2$s单", "" + guideInfo.guideStarLevel, "" + guideInfo.orderCount));
 
             describeTV.setText("车型：" + guideInfo.guideCar);
             if (!TextUtils.isEmpty(guideInfo.carNumber)) {

@@ -100,6 +100,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private void initView() {
         charterDataUtils = CharterDataUtils.getInstance();
+        if (guidesDetailData != null) {
+            charterDataUtils.guidesDetailData = guidesDetailData;
+        }
 
         titlebar.setTitleBarBackListener(this);
         titlebar.setRightListener(new View.OnClickListener() {
@@ -185,12 +188,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 }
                 startBean = cityBean;
                 cityTV.setText(cityBean.name);
-                if (guidesDetailData != null) {
-                    requestData(new RequestCarMaxCapaCity(this, startBean.cityId));//TODO
-                } else {
-                    requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
-                }
-
+                requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+                break;
+            case CHOOSE_GUIDE_CITY_BACK:
+                ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
+                charterDataUtils.guideCropList = guideServiceCitys.guideCropList;
+                startBean = guideServiceCitys.getSelectedCityBean();
+                cityTV.setText(startBean.name);
+                requestData(new RequestCarMaxCapaCity(this, startBean.cityId, guidesDetailData.getCarIds()));
                 break;
             case CHOOSE_DATE:
                 ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.hugboga.amap.entity.HbcLantLng;
 import com.hugboga.amap.view.HbcMapViewTools;
 import com.hugboga.custom.activity.CharterSecondStepActivity;
+import com.hugboga.custom.activity.CombinationOrderActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CharterlItemBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
@@ -13,10 +14,9 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuideCropBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
-import com.hugboga.custom.models.CharterModelBehavior;
-import com.hugboga.im.entity.HbcLogicImBean;
-
 import java.util.ArrayList;
 
 /**
@@ -32,6 +32,9 @@ public class CharterDataUtils {
     public int childCount;
     public int maxPassengers;
 
+    public GuidesDetailData guidesDetailData;                   // 指定司导的信息
+    public ArrayList<GuideCropBean> guideCropList;              // 司导可服务城市
+
     public FlightBean flightBean;                               // 接机：航班信息
     public PoiBean pickUpPoiBean;                               // 接机：送达地
     public DirectionBean pickUpDirectionBean;                   // 接机：机场到送达地距离及地图坐标
@@ -43,7 +46,7 @@ public class CharterDataUtils {
     public DirectionBean sendDirectionBean;                     // 送机：出发地到机场距离及地图坐标
     public boolean isSelectedSend = false;                      // 送机：是否选中送机
 
-    public ArrayList<CityRouteBean.CityRouteScope> travelList;             // 存储每天的数据，点击"确认"后更新
+    public ArrayList<CityRouteBean.CityRouteScope> travelList;  // 存储每天的数据，点击"确认"后更新
     public ArrayMap<Integer, CharterlItemBean> itemInfoList;
 
     public boolean isShowEmpty = false;
@@ -289,7 +292,40 @@ public class CharterDataUtils {
         return true;
     }
 
-    public void clearSendInfo() {
+    public String getStartServiceTime() {
+        String result = "";
+        if (isSelectedPickUp && flightBean != null) {
+            result = chooseDateBean.start_date + " " + flightBean.arrivalTime + ":00";
+        } else {
+            result = chooseDateBean.start_date + " " + CombinationOrderActivity.SERVER_TIME;
+        }
+        return result;
+    }
+
+    public String getEndServiceTime() {
+        return chooseDateBean.end_date + " " + CombinationOrderActivity.SERVER_TIME_END;
+    }
+
+    public String getPassCitiesId() {
+        String citiesId = "";
+        for (int i = 0; i < chooseDateBean.dayNums; i++) {
+            if (itemInfoList.get(i) == null) {
+                continue;
+            }
+            CityBean cityBean = itemInfoList.get(i).startCityBean;
+            if (cityBean != null && cityBean.cityId != 0) {
+                citiesId += cityBean.cityId;
+                if (i < chooseDateBean.dayNums -1) {
+                    citiesId += ",";
+                }
+            } else {
+              continue;
+            }
+        }
+        return citiesId;
+    }
+
+    public void cleanSendInfo() {
         if (isLastDay() && isSelectedSend && airPortBean != null) {
             resetSendInfo();
         }
@@ -303,10 +339,15 @@ public class CharterDataUtils {
         isSelectedSend = false;
     }
 
-    public void clearStartDate() {
+    public void cleanStartDate() {
         travelList.clear();
         resetSendInfo();
         itemInfoList.clear();
+    }
+
+    public void cleanGuidesDeta() {
+        guidesDetailData = null;
+        guideCropList = null;
     }
 
     public void onDestroy() {

@@ -126,7 +126,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE,source);
         MobClickUtils.onEvent(getEventId(),map);
-
     }
 
     @Override

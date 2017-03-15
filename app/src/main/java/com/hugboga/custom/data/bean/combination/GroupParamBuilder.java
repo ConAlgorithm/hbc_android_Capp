@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GroupQuotesBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -178,7 +179,6 @@ public class GroupParamBuilder {
 
     public GroupParentParam getGroupParentParam() {
         GroupParentParam groupParentParam = new GroupParentParam();
-//        groupParentParam.carId = "" + carBean.carId;
         groupParentParam.carTypeId = carBean.carType;
         groupParentParam.carName = carBean.carName;
         groupParentParam.carSeatNum = carBean.seatCategory;
@@ -192,8 +192,15 @@ public class GroupParamBuilder {
         groupParentParam.urgentFlag = carBean.urgentFlag;
         groupParentParam.orderChannel = "" + Config.channelId;
         groupParentParam.orderChannelName = "C端渠道";
-//        groupParentParam.guideCollectId = 客人收藏司导ID 指定司导下单时 必填
-//        guideLabel = 司导标签
+
+        if (charterDataUtils.guidesDetailData != null) {//客人收藏司导ID 指定司导下单时 必填
+            groupParentParam.guideCollectId = charterDataUtils.guidesDetailData.guideId;
+            groupParentParam.carId = "" + carBean.id;
+            String commentLabels = charterDataUtils.guidesDetailData.getLabels();
+            if (!TextUtils.isEmpty(commentLabels)) {
+                groupParentParam.guideLabel = commentLabels;
+            }
+        }
         groupParentParam.adultNum = manLuggageBean.mans;
         groupParentParam.childNum = manLuggageBean.childs;
         groupParentParam.luggageNumber = manLuggageBean.luggages;
@@ -474,6 +481,8 @@ public class GroupParamBuilder {
         } else if (index == travelListSize - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
             servicePassDetail.airportCode = charterDataUtils.airPortBean.airportCode;
             servicePassDetail.complexType = 2;
+            servicePassDetail.cityId = charterDataUtils.airPortBean.cityId;
+            servicePassDetail.endCityName = charterDataUtils.airPortBean.cityName;
         }
         servicePassDetail.description = startCityBean.description;
         return servicePassDetail;

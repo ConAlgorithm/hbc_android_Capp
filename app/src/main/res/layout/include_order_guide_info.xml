@@ -17,6 +17,16 @@
         android:layout_marginTop="13dp"
         android:src="@mipmap/icon_avatar_guide"
         app:poly_vertices="0" />
+    <ImageView
+        android:id="@+id/ogi_collect_iv"
+        android:layout_alignBottom="@id/ogi_avatar_iv"
+        android:layout_alignRight="@id/ogi_avatar_iv"
+        android:layout_marginRight="1dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:background="@mipmap/head_collect"
+        android:visibility="gone"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,7 +121,7 @@
                 android:id="@+id/ogi_call_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="12dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
                 android:paddingLeft="9dp"
@@ -136,7 +146,7 @@
                 android:layout_height="26dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="12dp"
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp"
                 android:orientation="horizontal">
@@ -160,7 +170,7 @@
                 android:layout_height="26dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="12dp"
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp"
                 android:orientation="horizontal">
@@ -184,9 +194,9 @@
                 android:id="@+id/ogi_collect_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
-                android:background="@drawable/shape_rounded_yellow"
+                android:background="@drawable/shape_rounded_red"
                 android:gravity="center"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="12dp"
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp"
                 android:orientation="horizontal">
@@ -201,7 +211,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
                     android:text="收藏"
-                    android:textColor="@color/default_yellow"
+                    android:textColor="#f66363"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>

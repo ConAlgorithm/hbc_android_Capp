@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="3dp"
+    android:paddingBottom="3dp"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp">
+        android:layout_marginTop="2dp">
 
         <ImageView
             android:id="@+id/order_travel_item_start_iv"
@@ -20,7 +20,7 @@
             android:id="@+id/order_travel_item_start_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="1.5dp"
             android:layout_toRightOf="@id/order_travel_item_start_iv"
             android:ellipsize="end"
@@ -76,7 +76,7 @@
             android:id="@+id/order_travel_item_end_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="1.5dp"
             android:layout_toRightOf="@id/order_travel_item_end_iv"
             android:ellipsize="end"

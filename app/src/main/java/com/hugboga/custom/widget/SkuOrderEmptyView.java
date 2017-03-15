@@ -69,11 +69,15 @@ public class SkuOrderEmptyView extends LinearLayout{
         }
     }
 
-    public void setNoCarVisibility(int visibility) {
+    public void setNoCarVisibility(int visibility, boolean isAssignGuide) {
         if (visibility == View.VISIBLE) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.icon_sku_order_empty_car);
-            hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
+            if (isAssignGuide) {
+                hintTV.setText("很抱歉，该司导暂无可服务的车辆\n请联系客服，我们会协助您完成预订");
+            } else {
+                hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
+            }
             refreshTV.setVisibility(View.VISIBLE);
             refreshTV.setText("联系客服");
             type = 2;
