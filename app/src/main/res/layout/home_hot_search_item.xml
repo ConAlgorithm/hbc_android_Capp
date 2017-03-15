@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:orientation="vertical"
     android:paddingTop="16dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,9 +40,12 @@
             android:layout_alignBottom="@id/home_hot_search_title"
             android:layout_toRightOf="@id/home_hot_search_title"
             android:gravity="right"
-            android:text="More"
             android:includeFontPadding="false"
-            android:textColor="#F9B900" />
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:text="More"
+            android:textColor="#F9B900"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -50,7 +54,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
-        android:background="#eeeeee"
+        android:background="@drawable/home_hot_explore_title_bg"
         android:paddingBottom="15dp"
         android:paddingLeft="3dp"
         android:paddingRight="20dp"
@@ -60,10 +64,10 @@
             android:id="@+id/home_hot_search_guide_avtar"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            app:poly_vertices="0"
+            android:src="@mipmap/home_guide_head"
+            app:poly_border_color="@android:color/white"
             app:poly_border_width="2dp"
-            app:poly_border_color="@color/white"
-            android:src="@mipmap/home_guide_head" />
+            app:poly_vertices="0" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -102,17 +106,17 @@
         android:id="@+id/home_hot_search_city_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_marginTop="10dp">
+        android:paddingRight="15dp">
 
     </android.support.v4.view.ViewPager>
 
     <View
         android:layout_width="match_parent"
-        android:background="#F8F8F8"
+        android:layout_height="15dp"
         android:layout_marginTop="16dp"
-        android:layout_height="15dp"></View>
+        android:background="#F8F8F8"></View>
 </LinearLayout>

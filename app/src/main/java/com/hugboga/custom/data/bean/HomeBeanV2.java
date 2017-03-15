@@ -117,7 +117,7 @@ public class HomeBeanV2 implements Serializable {
      * 国家详情
      */
     public static class HotCountry implements Serializable{
-        public static int countryId; //国家id
+        public  int countryId; //国家id
         public String countryName; //国家名称 汉语
         public String countryNameEn; //国家名称 英语
         public String countryPicture; //国旗
