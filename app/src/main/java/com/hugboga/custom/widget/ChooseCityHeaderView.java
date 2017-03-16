@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,7 +70,7 @@ public class ChooseCityHeaderView extends LinearLayout{
 
         final int paddingLeft = UIUtils.dip2px(15);
         final int paddingRight = UIUtils.dip2px(30);
-        setPadding(paddingLeft, 0, paddingRight, 0);
+        setPadding(paddingLeft, 0, paddingRight, UIUtils.dip2px(13));
         tagWidth = (UIUtils.getScreenWidth() - paddingLeft - paddingRight - UIUtils.dip2px(10) * 2) / 3;
         tagHight = UIUtils.dip2px(40);
 
@@ -215,8 +216,12 @@ public class ChooseCityHeaderView extends LinearLayout{
         linearLayout.addView(titleTV, titleParams);
         linearLayout.addView(titleTV2);
 
-        addView(linearLayout, LayoutParams.MATCH_PARENT, UIUtils.dip2px(40));
-        return linearLayout;
+        LinearLayout layParent = new LinearLayout(getContext());
+        layParent.setOrientation(LinearLayout.HORIZONTAL);
+        layParent.setGravity(Gravity.CENTER_VERTICAL);
+        layParent.addView(linearLayout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        addView(layParent, LayoutParams.MATCH_PARENT, UIUtils.dip2px(40));
+        return layParent;
     }
 
     private TextView getTagView() {

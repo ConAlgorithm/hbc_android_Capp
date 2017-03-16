@@ -467,6 +467,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     @Override
     public void onSubmitOrder() {
+        hideSoftInput();
+        if (!travelerInfoView.checkTravelerInfo()) {
+            return;
+        }
+        if (!CommonUtils.isLogin(this)) {
+            return;
+        }
         if (charterDataUtils.guidesDetailData != null) {
             checkGuideCoflict();
         } else {
@@ -602,6 +609,4 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                     }
                 });
     }
-
-
 }
