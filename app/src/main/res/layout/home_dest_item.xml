@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/home_dest_title_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="15dp"
+        android:textColor="@color/common_font_color_black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!--<com.hugboga.custom.widget.ChildGridView
+        android:id="@+id/home_dest_city_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"></com.hugboga.custom.widget.ChildGridView>-->
+
+    <LinearLayout
+    android:id="@+id/home_dest_city_gridview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="5dp"
+        android:orientation="vertical">
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/home_dest_spe_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/dash_line_h"
+        android:visibility="gone"></View>
+
+    <TextView
+        android:id="@+id/home_dest_country_text_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textColor="#7f7f7f"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <com.hugboga.custom.widget.ChildGridView
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/home_dest_country_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:verticalSpacing="15dp"
+        android:visibility="gone"></com.hugboga.custom.widget.ChildGridView>
+    <TextView
+        android:id="@+id/home_dest_country_open_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@mipmap/more_arrow_down"
+        android:drawablePadding="5dp"
+        android:padding="15dp"
+        android:text="展开全部"
+        android:textColor="#A8A8A8"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="#F8F8F8"
+        android:layout_height="15dp"></View>
+
+</LinearLayout>

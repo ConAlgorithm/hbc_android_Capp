@@ -293,7 +293,7 @@ public class OrderUtils {
         orderBean.flightBean = flightBean;
         orderBean.startAddress = flightBean.arrivalAirport.airportName;
         //出发地，到达地经纬度
-        orderBean.startLocation = flightBean.arrivalAirport.location;
+        orderBean.startAddressPoi = flightBean.arrivalAirport.location;
         orderBean.terminalLocation = poiBean.location;
         orderBean.carDesc = carBean.carDesc;
         orderBean.destAddress = poiBean.placeName;
@@ -444,7 +444,7 @@ public class OrderUtils {
 
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;
-        orderBean.startLocation = startPoi.location;
+        orderBean.startAddressPoi = startPoi.location;
 
         orderBean.destAddress = endPoi.placeName;
         orderBean.destAddressDetail = endPoi.placeDetail;
@@ -548,8 +548,8 @@ public class OrderUtils {
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carDesc = carBean.carDesc;
-        orderBean.contactName = contactName;//manName.getText().toString();
-        orderBean.memo = userRemark;//mark.getText().toString().trim();
+        orderBean.userName = contactName;//manName.getText().toString();
+        orderBean.userRemark = userRemark;//mark.getText().toString().trim();
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
         orderBean.flightNo = flightNo;//airportName.getText().toString();
@@ -559,7 +559,7 @@ public class OrderUtils {
         orderBean.startAddress = poiBean.placeName;
         orderBean.startAddressDetail = poiBean.placeDetail;
         //出发地，到达地经纬度
-        orderBean.startLocation = poiBean.location;
+        orderBean.startAddressPoi = poiBean.location;
         orderBean.terminalLocation = poiBean.location;
         orderBean.priceMark = carBean.pricemark;
         orderBean.destAddress = airPort.airportName;
@@ -570,7 +570,6 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.userRemark = userRemark;//mark.getText().toString();
         orderBean.distance = carListBean.distance+"";
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
@@ -684,18 +683,16 @@ public class OrderUtils {
         orderBean.urgentFlag = carBean.urgentFlag;
         orderBean.adult = Integer.valueOf(adultNum);//成人数
         orderBean.child = Integer.valueOf(childrenNum);//儿童数
-        orderBean.contactName = "";
         orderBean.luggageNum = luggageNum;
         orderBean.contact = new ArrayList<OrderContact>();
         OrderContact orderContact = new OrderContact();
         orderContact.areaCode = "86";
         orderContact.tel = "";
         orderBean.contact.add(orderContact);
-        orderBean.memo = userRemark;//mark.getText().toString().trim();
         if (poiBean != null) {
             orderBean.startAddress = poiBean.placeName;//startBean.placeName;
             orderBean.startAddressDetail = poiBean.placeDetail;
-            orderBean.startLocation = poiBean.location;
+            orderBean.startAddressPoi = poiBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
 

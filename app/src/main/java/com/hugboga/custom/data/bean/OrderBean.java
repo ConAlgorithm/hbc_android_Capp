@@ -43,29 +43,13 @@ public class OrderBean implements IBaseBean{
     public String coupPriceInfo;
     public String childSeatStr;// 儿童座椅价格及个数
     public String cancelReason;// 取消订单原因
-
-    /**
-     * 问题字段
-     * */
-    public String userName;    // null
-    public String contactName; // userName 联系人姓名
-
-    public String userRemark; // null
-    public String memo;       // userRemark 用户备注信息
-
-    public String startAddressPoi; // null
-    public String startLocation;   // startAddressPoi 起始位置
-
-
     public int carId;
     public int special;
-    public String carIntroduction;
-    public List<String> carPictures;
     public int capOfPerson;
 
-
-
-
+    public String userName;                           // 联系人姓名
+    public String userRemark;                         // 用户备注信息
+    public String startAddressPoi;                    // 起始位置
     public String realUserName;                       // 乘车人姓名
     public String realAreaCode;                       // 乘车人区号
     public String realMobile;                         // 乘车人电话
@@ -185,6 +169,11 @@ public class OrderBean implements IBaseBean{
     public double bargainAmount;    //  砍价金额
 
     public List<OrderContact> contact;
+
+    public SubOrderDetail subOrderDetail;       // 子单信息
+    public Integer orderJourneyCount;           // 子单个数
+    public List<String> subOrderGuideAvartar;   // 子单司导头像
+    public List<JourneyItem> journeyList;       // 行程信息
 
     @Deprecated
     public String getOrderTypeStr(Context context) {
@@ -316,5 +305,72 @@ public class OrderBean implements IBaseBean{
         } else {
             return orderGuideInfo.guideName;
         }
+    }
+
+    public static class SubOrderDetail implements Serializable{
+        public Integer totalCount;              // 子单总数
+        public List<OrderBean> subOrderList;    // 子单详情
+    }
+
+    public class JourneyItem implements Serializable{
+        public String dateStr;                 // 日期
+        public CTravelDayPickup pickup;        // 接
+        public CTravelDayTransfer transfer;    // 送
+        public CJourneyInfo journey;           // 行
+        public int day;                        // 本地添加，当前天数
+    }
+
+    public class CTravelDayPickup implements Serializable{
+        public String serviceTimeStr;       // 07:00 服务时间
+        public String startAddress;         // 出发地址
+        public String startAddressDetail;   // 出发地址详情
+        public String startAddressPoi;      // 出发的poi
+        public String destAddress;          // 目的地
+        public String destAddressDetail;    // 目的地详情
+        public String destAddressPoi;       // 目的地poi
+        public String flightBrandSign;      // 举牌接机姓名
+        public String flightNo;             // 航班编号
+        public String flightDestName;
+    }
+
+    public class CTravelDayTransfer {
+        public String serviceTimeStr;       // 07:00 服务时间
+        public String startAddress;         // 出发地址
+        public String startAddressDetail;   // 出发地址详情
+        public String startAddressPoi;      // 出发的poi
+
+        public String destAddress;          // 目的地
+        public String destAddressDetail;    // 目的地详情
+        public String destAddressPoi;       // 目的地poi
+
+        public String flightNo;             // 航班编号
+        public Integer isCheckin;           // 是否协助登机 1 协助登机 其它不协助登机
+    }
+
+    public class CJourneyInfo {
+        public boolean hasDetailUrl;       // 是否包含行程url
+        public Integer startCityId;        // 开始城市ID
+        public String startCityName;       // 开始城市ID
+        public Integer cityId;             // cityId:201,城市ID
+        public String cityName;            // cityName:"首尔",城市名
+        public Integer type;               // type:1,类型
+        public String typeName;            // typeName:"市内"
+        public String description;         // description:"",
+        public String stayCityInfo;        // 住宿信息
+        public String remark;              // 人工填写的备注
+
+        public String serviceTimeStr;      // 服务时间 07：00
+        public String startAddress;        // 出发地址
+        public String startAddressDetail;  // 出发地址详情
+        public String startAddressPoi;     // 出发的poi
+
+        public String destAddress;         // 目的地
+        public String destAddressDetail;   // 目的地详情
+        public String destAddressPoi;      // 目的地poi
+
+        public String dateStr;             // 2016-11-11
+        public Integer complexType;        // 1 接机 2 送机
+        public Integer isHalfDaily;        // 是否半日包
+        public Double totalHours;          // 当天总时长
     }
 }

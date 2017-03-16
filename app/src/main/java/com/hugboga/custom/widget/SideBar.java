@@ -44,7 +44,7 @@ public class SideBar extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(Common.dpToPx(getResources(), 12));
-        paint.setColor(0xFFb5b4b2);
+        paint.setColor(getResources().getColor(R.color.basic_pick_toolbar_color));
     }
 
     /**
@@ -90,7 +90,7 @@ public class SideBar extends View {
             case MotionEvent.ACTION_UP:
 //                setBackgroundColor(0x00000000);
                 choose = -1;//
-                paint.setColor(0xFFb5b4b2);
+                paint.setColor(getResources().getColor(R.color.basic_pick_toolbar_color));
                 invalidate();
                 if (mTextDialog != null) {
                     mTextDialog.setVisibility(View.INVISIBLE);
@@ -108,7 +108,7 @@ public class SideBar extends View {
                             mTextDialog.setVisibility(View.VISIBLE);
                         }
                         choose = c;
-                        paint.setColor(0xFF3c3830);
+                        paint.setColor(getResources().getColor(R.color.basic_pick_toolbar_color));
                         invalidate();
                     }
                 }

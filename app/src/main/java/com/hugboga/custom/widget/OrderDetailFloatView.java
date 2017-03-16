@@ -18,6 +18,8 @@ import org.greenrobot.eventbus.EventBus;
  */
 public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavior {
 
+    public TextView needPayTV;
+
     public OrderDetailFloatView(Context context) {
         this(context, null);
     }
@@ -26,6 +28,9 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
         setVisibility(View.GONE);
+
+        inflate(getContext(), R.layout.view_order_detail_pay, this);
+        needPayTV = (TextView) findViewById(R.id.order_detail_pay_price_tv);
     }
 
     @Override
@@ -36,35 +41,12 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
         final OrderBean orderBean = (OrderBean) _data;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {//待支付
             setVisibility(View.VISIBLE);
-            removeAllViews();
-            inflate(getContext(), R.layout.view_order_detail_pay, this);
-            TextView needPayTV = (TextView) findViewById(R.id.order_detail_pay_price_tv);
             needPayTV.setText(String.valueOf(Math.round(orderBean.orderPriceInfo.actualPay)));
             //立即支付
             findViewById(R.id.order_detail_pay_tv).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_PAY, orderBean.orderNo));
-                }
-            });
-        } else if (orderBean.insuranceEnable) { //是否添加保险
-            setVisibility(View.VISIBLE);
-            removeAllViews();
-            inflate(getContext(), R.layout.view_order_detail_insurance, this);
-            TextView timeTV = (TextView) findViewById(R.id.order_detail_insurance_time_tv);
-            timeTV.setText(orderBean.insuranceTips);
-            //皇包车免费赠送保险H5
-            findViewById(R.id.order_detail_insurance_explain_iv).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_INSURANCE_H5, orderBean.orderNo));
-                }
-            });
-            //添加投保人
-            findViewById(R.id.order_detail_insurance_add_tv).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_ADD_INSURER, orderBean.orderNo));
                 }
             });
         } else {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/home_dest_gridcounty_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:background="#E1E5EB"
+        android:padding="1dp"
+        android:src="@mipmap/home_country_dafault" />
+
+    <TextView
+        android:id="@+id/home_dest_gridcountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="#7f7f7f"
+        android:textSize="15sp" />
+</LinearLayout>

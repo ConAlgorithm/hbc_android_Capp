@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:gravity="center">
+    <LinearLayout
+        android:id="@+id/travel_form_item_bg_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rounded_white"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/travel_purpose_form_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/basic_black"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_largex" />
+        <TextView
+            android:id="@+id/travel_purpose_form_date"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#B6B6B6"
+            android:textSize="@dimen/text_size_mediumx" />
+
+        <ImageView
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

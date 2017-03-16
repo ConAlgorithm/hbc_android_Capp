@@ -21,13 +21,14 @@ import java.util.HashMap;
 public class RequestTravelPurposeForm extends BaseRequest{
 
     public RequestTravelPurposeForm(Context context,String opUserId,String opUserName,String workChannel,String workChannelName,
-                                    String toCityId,String toCity,String tripTimeStr,String userRemark,String userAreaCode,String userMobile) {
+                                    String toCityId,String toCity,String tripTimeStr,String userRemark,String userAreaCode,
+                                    String userMobile,String userName) {
         super(context);
         map = new HashMap<>();
         map.put("opUserId", opUserId);
         map.put("opUserName", opUserName);
-        map.put("workChannel", workChannel);
-        map.put("workChannelName", workChannelName);
+        map.put("workChannel", "5");
+        map.put("workChannelName", "CAPP");
         map.put("toCityId", toCityId);
         map.put("toCity", toCity);
         map.put("tripTimeStr", tripTimeStr);
@@ -38,6 +39,7 @@ public class RequestTravelPurposeForm extends BaseRequest{
         map.put("userRemark", userRemark);
         map.put("userAreaCode", userAreaCode);
         map.put("userMobile", userMobile);
+        map.put("userName",userName);
     }
 
     @Override
@@ -52,6 +54,6 @@ public class RequestTravelPurposeForm extends BaseRequest{
 
     @Override
     public String getUrlErrorCode() {
-        return "40121";
+        return "40125";
     }
 }

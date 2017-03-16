@@ -75,7 +75,7 @@ public class HomeBean implements Serializable {
     }
 
     /*
-    * 旅行故事
+    * 司导故事
     * */
     public static class TravelStory implements Serializable {
         public int storyLableType;              // 标签类型（1，司导故事；2，旅客故事）
@@ -83,6 +83,10 @@ public class HomeBean implements Serializable {
         public String storyPicture;             // 封面图
         public String storyName;                // 标题
         public String storyUrl;                 // 页面链接
+        public int cityId;                      //城市id
+        public String cityName;                 //城市名称
+        public String guideName;                //司导昵称
+        public String guidePic;                 //司导头像
     }
 
     /*

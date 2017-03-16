@@ -74,14 +74,6 @@ public class HomeCustomLayout extends LinearLayout{
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
                 intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);
-//                CityBean startBean = new CityBean();
-//                startBean.cityId = 217;
-//                CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
-//                params.startBean = startBean;
-//
-//                Intent intent2 = new Intent(getContext(), CharterSecondStepActivity.class);
-//                intent2.putExtra(Constants.PARAMS_DATA, params);
-//                getContext().startActivity(intent2);
                 break;
             case R.id.home_custom_single_layout://单次接送
                 intentActivity(SingleNewActivity.class, StatisticConstant.LAUNCH_C);

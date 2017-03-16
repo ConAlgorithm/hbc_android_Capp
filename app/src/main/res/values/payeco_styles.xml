@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="payeco_datepPickDialog" parent="android:Theme.Holo.Light.Dialog">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Payeco_MyDialog" parent="@android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/payeco_dia_bg</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="payeco_qunar_creditKeyboardDigitButton">
+        <item name="android:textSize">@dimen/payeco_pwkeyboard_button_textsize</item>
+        <item name="android:textColor">#0B0000</item>
+        <item name="android:background">@drawable/payeco_qunar_digtselector</item>
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="payeco_keyboardButton">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_width">70.0dip</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/payeco_pwkeyboard_button_textsize</item>
+    </style>
+
+    <style name="payeco_fullHeightDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="payeco_pluginNormalText">
+        <item name="android:textSize">@dimen/payeco_normal_textsize</item>
+        <item name="android:textColor">@color/payeco_textColorBlack</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="payeco_ckb_hintMsg1">
+        <item name="android:textColor">#f74a50</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="payeco_ckb_hintMsg2">
+        <item name="android:textColor">#3f48cc</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>

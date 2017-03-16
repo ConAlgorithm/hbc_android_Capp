@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 122
+    //current urlErrorCode 134
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -176,10 +176,10 @@ public class UrlLibs {
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
     public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
     public static final String CANCEL_REASON                = "trade/v1.0/c/order/cancelReason";                        // 取消订单原因接口
-    public static final String ORDER_LIST_ALL               = "trade/v1.3/c/order/list/all";                            // 订单列表 全部 114
-    public static final String ORDER_LIST_UNPAY             = "trade/v1.3/c/order/list/unpay";                          // 订单列表 待支付 115
-    public static final String ORDER_LIST_DOING             = "trade/v1.3/c/order/list/doing";                          // 订单列表 进行中 116
-    public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.3/c/order/list/unevaludate";                    // 订单列表 待评价 117
+    public static final String ORDER_LIST_ALL               = "trade/v1.4/c/order/list/all";                            // 订单列表 全部 114
+    public static final String ORDER_LIST_UNPAY             = "trade/v1.4/c/order/list/unpay";                          // 订单列表 待支付 115
+    public static final String ORDER_LIST_DOING             = "trade/v1.4/c/order/list/doing";                          // 订单列表 进行中 116
+    public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.4/c/order/list/unevaludate";                    // 订单列表 待评价 117
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
     public static final String API_ORDER_GROUP              = "trade/v2.1/c/order/group";                               // 组合单下单c  122
 
@@ -225,12 +225,13 @@ public class UrlLibs {
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
     public static final String CARS                         = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息
     public static final String GUIDE_CROP_VALID             = "supplier/v1.0/c/guides/crop/valid";                      // 用户派单，验证接口
+    public static final String API_GUIDECROP                = "supplier/v2.0/c/guides/guideCrop";                       // 查询司导可服务城市
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
 
-    public static final String API_HOME                     = "basicdata/v1.0/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.1/c/home/aggregation";                      // 首页城市卡片列表
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息
@@ -253,5 +254,18 @@ public class UrlLibs {
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
 
     public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
-    public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       //创建旅行意向单121
+    public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       //创建旅行意向单125
+    public static final String API_QUERY_TRAVEL_FORM_LIST   = "crm/v1.0/c/workorderthird/list";                         //创建旅行意向单126
+    public static final String API_QUERY_TRAVEL_FORM_DETAIL = "crm/v1.0/c/workorderthird/detail";                       //意向单详情123
+    public static final String API_QUERY_HAS_CREATE_FORM    = "crm/v1.0/c/workorderthird/hasWorkorder";                  //是否创建过意向单124
+
+    public static final String API_BIND_CREDIT_CARD         = "trade/v1.0/c/yilian/bindcard";                           //易联支付绑定卡127
+    public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          //易联支付查询已绑定的卡128
+    public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          //易联查询银行卡所属银行129
+    public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                //易联支付接口130
+
+    public static final String API_HOTEXPLORATIONS           = "basicdata/v1.0/c/home/hotexplorations";                 //首页热门探索列表 request code 131
+    public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     //首页目的地列表    request code 132
+    public static final String API_TRAVEL_STORYS             = "basicdata/v1.0/c/home/storys";                          //司导故事列表     request code 133
+
 }

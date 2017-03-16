@@ -111,7 +111,7 @@ public class FgHome extends BaseFragment {
             activitiesView.setVisibility(View.VISIBLE);
 
             RequestHome request = (RequestHome) _request;
-            HomeBean data = request.getData();
+            HomeBean data = new HomeBean();
             bannerView.update(data);
             routeView.update(data.fixGoods);
             routeFreeView.update(data.recommendGoods);

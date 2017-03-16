@@ -1,4 +1,6 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name">皇包车</string>
     <string name="hbc_scheme">hbcc</string>
 
@@ -253,7 +255,7 @@
     <string name="empty_text">没有找到相关结果</string>
     <string name="empty_city_text">抱歉，没有找到您要的地点</string>
     <string name="can_not_choose_start_city_text">跨城市包车不能选择出发城市哦</string>
-    <string name="out_of_range_city_text">没有找到你想去的城市\n或者该城市暂未开通该服务</string>
+    <string name="out_of_range_city_text">没有找到您想去的城市\n或者该城市暂未开通该服务</string>
 
     <!-- sku-->
     <string name="sku_car_tip">注意:不同车型会影响总价上下浮动</string>
@@ -587,10 +589,16 @@
     <string name="dairy_modify_alert"> 请在删除指定司导后，再修改出行信息。</string>
 
     <string name="choose_payment_title">支付收银台</string>
-    <string name="choose_payment_repay">还需支付</string>
+    <string name="choose_payment_repay">还需支付:</string>
     <string name="choose_payment">选择支付方式</string>
     <string name="choose_payment_wechat">微信支付</string>
     <string name="choose_payment_alipay">支付宝</string>
+    <string name="choose_payment_credit_card">信用卡支付（推荐）</string>
+    <string name="choose_payment_add_credit_card_tip">*目前仅支持国内信用卡</string>
+    <string name="add_credit_activity_title">添加信用卡</string>
+    <string name="add_credit_reserved_phone_tip">请输入办卡预留手机号</string>
+    <string name="usually_credit_tip">添加至常用卡并同意</string>
+    <string name="common_card_payment_protocol"><u>《常用卡支付协议》</u></string>
 
     <string name="par_result_title">支付结果</string>
     <string name="par_result_succeed">支付成功</string>
@@ -616,14 +624,12 @@
     <string name="order_detail_disputes">正在处理纠纷</string>
     <string name="order_detail_pay_prompt_1">请在%1$s内付款</string>
     <string name="order_detail_pay_prompt_2">以免订单取消</string>
-    <string name="order_detail_itinerary">我的行程单</string>
     <string name="order_detail_order_number">订单号：%1$s</string>
     <string name="order_detail_price">订单金额</string>
     <string name="order_detail_travel_info">出行人信息</string>
     <string name="order_detail_unsubscribe">订单退改规则：</string>
     <string name="order_detail_unsubscribe_explain">服务开始前24小时退订，全额退还费用；小于24小时不可退订，全部费用将扣除用于补偿当地司导</string>
     <string name="order_detail_pay">去支付</string>
-    <string name="order_detail_need_pay">还需支付：</string>
     <string name="order_detail_insurance_info">投保信息</string>
     <string name="order_detail_info">已为%1$s人购买保险</string>
     <string name="order_detail">详情</string>
@@ -640,23 +646,21 @@
     <string name="order_detail_timeleft">请在有效期</string>
     <string name="order_detail_add_insurance">免费添加投保人</string>
     <string name="order_detail_carpooling">拼车</string>
-    <string name="order_detail_hbc_pay">由皇包车支付</string>
     <string name="order_detail_local_time">当地时间&#160;%1$s</string>
     <string name="order_detail_airport_card">接机举牌等待</string>
     <string name="order_detail_checkin">协助办理登机check in</string>
     <string name="order_detail_seat_info">(%1$s)</string>
     <string name="order_detail_adult_seat_info">乘坐%1$s人</string>
     <string name="order_detail_child_seat_info">、儿童座椅%1$s个</string>
-    <string name="order_detail_flight">航班%1$s&#160;</string>
+    <string name="order_detail_flight">航班：%1$s&#160;</string>
     <string name="order_detail_insurance_describe">不要错过皇包车送您的境外旅游保险哦</string>
-    <string name="order_detail_get_insurance">赠价值8万的平安保险</string>
     <string name="order_detail_opean">展开详情</string>
     <string name="order_detail_close">关闭详情</string>
     <string name="order_detail_cost_chartered">包车费用</string>
     <string name="order_detail_cost_child_seats">儿童座椅</string>
     <string name="order_detail_cost_hotel">住宿费用</string>
-    <string name="order_detail_cost_placards">举牌费用</string>
-    <string name="order_detail_cost_checkin">checkin费用</string>
+    <string name="order_detail_cost_placards">举牌接机费用</string>
+    <string name="order_detail_cost_checkin">Check in 服务费用</string>
     <string name="order_detail_cost_total">费用总计</string>
     <string name="order_detail_cost_coupon">优惠金额</string>
     <string name="order_detail_cost_travelfund">旅游基金</string>
@@ -732,7 +736,7 @@
     <string name="choose_city_tab_inland">国内</string>
     <string name="choose_city_tab_abroad">国际港澳台</string>
     <string name="choose_city_subtitle_location">当前定位</string>
-    <string name="choose_city_subtitle_history"><n>历史</n>记录</string>
+    <string name="choose_city_subtitle_history"><n>历史</n>足迹</string>
     <string name="choose_city_subtitle_hot"><n>热门</n>城市</string>
     <string name="choose_city_location_failure">定位失败</string>
 
@@ -830,4 +834,5 @@
     <string name="phone_format_incorrect">手机格式不正确，请重新输入</string>
     <string name="alert_submit_success">司导小助手将主动联系您</string>
     <string name="travel_purpose_form_list">我的旅行心愿</string>
+    <string name="travel_purpose_form_detail">旅行心愿详情</string>
 </resources>

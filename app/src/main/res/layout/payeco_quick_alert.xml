@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/payeco_inputMsg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/payeco_qunar_bg"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/payeco_ckb_firstLine"
+            android:layout_width="fill_parent"
+            android:layout_height="110dip"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:visibility="invisible"
+                android:id="@+id/payeco_quick_alert_closeBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:src="@drawable/payeco_qunar_ckb_close" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/payeco_quick_alert_closeBtn"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_marginTop="5dip"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="25dip"
+                    android:layout_marginRight="25dip"
+                    android:text="您正在取消免输密码支付，如需继续请点击“确认”按钮，然后输入密码完成支付，点击“放弃”返回上一步"
+                    android:textColor="#101010"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dip"
+                    android:background="#dedede" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/payeco_ckb_fourLine"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/payeco_alert_ok"
+                android:layout_width="120dp"
+                android:layout_height="32dp"
+                android:background="@drawable/payeco_quick_alert_ok"
+                android:padding="5dip"
+                android:text="确 认"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/payeco_alert_reset"
+                android:layout_width="120dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/payeco_quick_alert_cancel"
+                android:padding="5dip"
+                android:text="放 弃"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

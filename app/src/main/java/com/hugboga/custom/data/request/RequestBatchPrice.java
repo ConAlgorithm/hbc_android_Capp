@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -75,6 +76,9 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 batchPrice.param = airportParam;
                 batchPrice.serviceType = SERVICE_TYPE_PICKUP;
                 batchPrice.index = index;
+                if (charterDataUtils.guidesDetailData != null) {
+                    airportParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                }
                 batchPriceList.add(batchPrice);
                 index++;
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {
@@ -83,6 +87,12 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 sendParam.serviceDate = charterDataUtils.chooseDateBean.end_date + " " + charterDataUtils.sendServerTime + ":00";
                 sendParam.startLocation = charterDataUtils.sendPoiBean.location;
                 sendParam.endLocation = charterDataUtils.airPortBean.location;
+                if (charterDataUtils.guidesDetailData != null) {
+                    sendParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                }
+                if (charterDataUtils.guidesDetailData != null) {
+                    sendParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                }
                 BatchPrice batchPrice = new BatchPrice();
                 batchPrice.param = sendParam;
                 batchPrice.serviceType = SERVICE_TYPE_SEND;
@@ -138,9 +148,17 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     } else {
                         endCityBean = charterDataUtils.getStartCityBean(i + 1);
                     }
-                    dailyPriceParam.endCityId = endCityBean.cityId;
-                    dailyPriceParam.endLocation = endCityBean.location;
+                    if (i == size - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {//选了送机，结束城市为机场所在城市
+                        dailyPriceParam.endCityId = charterDataUtils.airPortBean.cityId;
+                        dailyPriceParam.endLocation = charterDataUtils.airPortBean.location;
+                    } else {
+                        dailyPriceParam.endCityId = endCityBean.cityId;
+                        dailyPriceParam.endLocation = endCityBean.location;
+                    }
                     dailyPriceParam.endDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, i) + " " + CombinationOrderActivity.SERVER_TIME_END;
+                    if (charterDataUtils.guidesDetailData != null) {
+                        dailyPriceParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                    }
 
                     BatchPrice batchPrice = new BatchPrice();
                     batchPrice.param = dailyPriceParam;
@@ -200,13 +218,13 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         public Long channelId = 18l;        // 渠道ID
         public String carIds;               // 否 车型列表 格式 车型ID,车型ID  e.g: 100005,200005
         public int source = 1;              // 来源
-        public int specialCarsIncluded = 1; // 是否包含特殊车型,默认不包含1.包含 0.不包含
+        public int specialCarsIncluded = 1; // 是否包含特殊车型,默认不包含1.包含 0.不包含 写死为1
     }
 
     public static class DailyPriceParam implements Serializable {
         public Long channelId = 18l;                 // 渠道ID
         public String carIds;                        // 否 指定报价车型 格式：车型ID,车型ID
-        public int specialCarsIncluded = 1;          // 是否包含特殊车型 0.不包含 1.包含 默认不包含
+        public int specialCarsIncluded = 1;          // 是否包含特殊车型 0.不包含 1.包含 默认不包含 写死为1
         public int startCityId;                      // 出发城市ID
         public int endCityId;                        // 结束城市ID
         public String startLocation;                 // 否 起点坐标(纬度,经度) 默认开始城市坐标

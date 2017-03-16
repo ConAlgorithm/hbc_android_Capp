@@ -99,8 +99,10 @@ public class CharterItemView extends LinearLayout{
                     if (cityBean != null) {
                         editArrivedCityTV.setText("送达城市：" + cityBean.name);
                     }
+                    scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
+                } else {
+                    scopeTV.setText(cityRouteScope.routeScope);
                 }
-                scopeTV.setText(cityRouteScope.routeScope);
             }
         }
     }
@@ -161,7 +163,7 @@ public class CharterItemView extends LinearLayout{
                         addArrivedCityLayout.setVisibility(View.GONE);
                         editArrivedCityLayout.setVisibility(View.VISIBLE);
                     }
-                    if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                    if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
                         scopeTV.setVisibility(View.VISIBLE);
                         tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
                     } else {

@@ -6,10 +6,12 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.widget.home.HomeSearchTabView;
 
 /**
  * Created by qingcha on 16/5/27.
@@ -119,5 +121,15 @@ public final class UIUtils {
         int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
         int rgb = 0x00ffffff & baseColor;
         return a + rgb;
+    }
+
+
+    public static int getViewTop(View view){
+        if(view!=null){
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            return location[1];
+        }
+        return 0;
     }
 }

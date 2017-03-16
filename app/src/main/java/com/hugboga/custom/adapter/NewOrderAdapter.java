@@ -44,6 +44,8 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
 
+import java.util.List;
+
 /**
  * 聊天历史订单
  * Created by ZHZEPHI on 2015/11/7 11:47.
@@ -228,6 +230,24 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.endAddressTV.setText(orderBean.destAddress + " " + orderBean.destAddressDetail);
                     }
                     break;
+                case Constants.BUSINESS_TYPE_COMBINATION://组合单
+                    vh.mTypeStr.setText("定制包车游");
+                    vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
+                    vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
+
+                    if (TextUtils.isEmpty(orderBean.serviceCityName)) {
+                        vh.startAddressLayout.setVisibility(View.GONE);
+                    } else {
+                        vh.startAddressLayout.setVisibility(View.VISIBLE);
+                        vh.startAddressIV.setBackgroundResource(R.mipmap.trip);
+                        String dailyPlace = orderBean.serviceCityName;
+                        if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
+                            dailyPlace += " - " + orderBean.serviceEndCityName;
+                        }
+                        vh.startAddressTV.setText(dailyPlace);
+                    }
+                    vh.endAddressLayout.setVisibility(View.GONE);
+                    break;
             }
         }
         vh.mBtnChat.setVisibility(View.GONE);
@@ -262,6 +282,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 break;
             case PAYSUCCESS://预订成功
                 vh.mStatus.setText("预订成功");
+                vh.travel_item_head_layout_all.setVisibility(View.GONE);
                 if (orderBean.insuranceEnable) {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
@@ -458,6 +479,44 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 break;
             default:
                 break;
+        }
+
+        if (orderBean.orderType == 888) {
+            List<String> subOrderGuideAvartar = orderBean.subOrderGuideAvartar;
+            if (subOrderGuideAvartar == null || subOrderGuideAvartar.size() <= 0 || orderBean.orderStatus.code <= 2) {
+                vh.travel_item_head_layout_all.setVisibility(View.GONE);
+                vh.mStatusLayout.setVisibility(View.GONE);
+                vh.lineView.setVisibility(View.INVISIBLE);
+            } else {
+                vh.mStatusLayout.setVisibility(View.VISIBLE);
+                vh.lineView.setVisibility(View.VISIBLE);
+                vh.travel_item_head_layout_all.setVisibility(View.VISIBLE);
+
+                int size = subOrderGuideAvartar.size();
+                if (0 < size) {
+                    vh.travel_item_head_img1.setVisibility(View.VISIBLE);
+                    Tools.showImage(vh.travel_item_head_img1, subOrderGuideAvartar.get(0), R.mipmap.icon_avatar_guide);
+                } else {
+                    vh.travel_item_head_img1.setVisibility(View.GONE);
+                }
+                if (1 < size) {
+                    vh.travel_item_head_img2.setVisibility(View.VISIBLE);
+                    Tools.showImage(vh.travel_item_head_img2, subOrderGuideAvartar.get(1), R.mipmap.icon_avatar_guide);
+                } else {
+                    vh.travel_item_head_img2.setVisibility(View.GONE);
+                }
+                if (2 < size) {
+                    vh.travel_item_head_img3.setVisibility(View.VISIBLE);
+                    Tools.showImage(vh.travel_item_head_img3, subOrderGuideAvartar.get(2), R.mipmap.icon_avatar_guide);
+                } else {
+                    vh.travel_item_head_img3.setVisibility(View.GONE);
+                }
+                vh.travel_item_head_more_tv.setVisibility(3 < size ? View.GONE : View.VISIBLE);
+            }
+        } else {
+            vh.mStatusLayout.setVisibility(View.GONE);
+            vh.lineView.setVisibility(View.INVISIBLE);
+            vh.travel_item_head_layout_all.setVisibility(View.GONE);
         }
     }
 

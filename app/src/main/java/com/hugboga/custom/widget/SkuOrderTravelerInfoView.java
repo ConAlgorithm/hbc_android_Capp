@@ -1,8 +1,12 @@
 package com.hugboga.custom.widget;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -25,10 +29,15 @@ import com.hugboga.custom.utils.CommonUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 /**
  * Created by qingcha on 16/12/17.
@@ -52,6 +61,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
     EditText markET;
 
     private TravelerInfoBean travelerInfoBean;
+    private Activity activity;
 
     public SkuOrderTravelerInfoView(Context context) {
         this(context, null);
@@ -74,6 +84,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         Intent intent = null;
         switch (view.getId()) {
             case R.id.sku_order_traveler_info_address_book_tv://通讯录
+                requestPermisson();
                 intent = new Intent();
                 intent.setAction(Intent.ACTION_PICK);
                 intent.setData(ContactsContract.Contacts.CONTENT_URI);
@@ -88,6 +99,32 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_POI));
                 break;
         }
+    }
+
+    public void setActivity(Activity a){
+        this.activity = a;
+    }
+
+    @TargetApi(23)
+    public void requestPermisson(){
+        if (Build.VERSION.SDK_INT >= 23) {
+            final List<String> permissionsList = new ArrayList<String>();
+            addPermission(getContext(), permissionsList, Manifest.permission.READ_CONTACTS);
+            addPermission(getContext(), permissionsList, Manifest.permission.WRITE_CONTACTS);
+            if (permissionsList.size() > 0 && null != activity) {
+                requestPermissions(activity, permissionsList.toArray(new String[permissionsList.size()]), SkuOrderActivity.REQUEST_CODE_PICK_CONTACTS);
+                return;
+            }
+        }
+    }
+
+    @TargetApi(23)
+    private boolean addPermission(Context Ctx, List<String> permissionsList,
+                                  String permission) {
+        if (checkSelfPermission(Ctx,permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+        }
+        return true;
     }
 
     public void setAreaCode(String code) {

@@ -36,7 +36,11 @@ public class HbcParser extends ImplParser {
                 return null;
             }
         } else {
-            return JsonUtils.fromJson(data.toString(), type);
+            try {
+                return JsonUtils.fromJson(data.toString(), type);
+            } catch (Exception e) {
+                return null;
+            }
         }
     }
 

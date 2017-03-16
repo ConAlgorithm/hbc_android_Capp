@@ -9,8 +9,8 @@
         android:id="@+id/home_choiceness_route_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="@dimen/home_view_padding_left"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="包车线路游"
@@ -24,15 +24,15 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_choiceness_route_recyclerview"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
 
     <ImageView
         android:id="@+id/home_choiceness_route_bottom_iv"
-        android:layout_marginLeft="@dimen/home_view_padding_left"
-        android:layout_marginRight="@dimen/home_view_padding_left"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="14dp"/>
+        android:layout_height="14dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="@dimen/home_view_padding_left"
+        android:layout_marginRight="@dimen/home_view_padding_left" />
 </LinearLayout>

@@ -26,8 +26,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
 
@@ -77,6 +77,8 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     CityBean cityBean;
     AreaCodeBean areaCodeBean;
     DateTimePicker picker;
+    String tripTimeStr ;
+    String areaCodeStr;
 
     //EditText变化监听
     TextWatcher watcher = new TextWatcher() {
@@ -122,6 +124,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         //手机号初始化
         if (!TextUtils.isEmpty(SharedPre.getString(SharedPre.CODE,null)) && !TextUtils.isEmpty(SharedPre.getString(SharedPre.PHONE,null))){
             areaCode.setText("+"+SharedPre.getString(SharedPre.CODE,null).trim());
+            areaCodeStr = SharedPre.getString(SharedPre.CODE,null).trim();
             phone.setText(SharedPre.getString(SharedPre.PHONE,null).trim());
         }
         //时间不确定
@@ -149,8 +152,10 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 Intent intent = new Intent(this,ChooseCityActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "purpose");
-                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_OTHER);
+                bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+                bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
                 intent.putExtras(bundle);
+                intent.putExtra("fromInterCity",true);
                 startActivity(intent);
                 break;
             case R.id.start_date:
@@ -183,6 +188,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 if (action.getData() instanceof AreaCodeBean){
                     areaCodeBean = (AreaCodeBean)action.getData();
                     areaCode.setText("+"+areaCodeBean.getCode());
+                    areaCodeStr = areaCodeBean.getCode();
                 }
                 setButtonStatus(submitBtn,checkContent());
                 break;
@@ -241,7 +247,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         picker.setTitleTextColor(getResources().getColor(R.color.basic_black));
         picker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
         picker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
-        picker.setTopBackgroundColor(getResources().getColor(R.color.text_hint_color));
+        picker.setTopBackgroundColor(getResources().getColor(R.color.text_color_grey));
         picker.setLineColor(getResources().getColor(R.color.text_hint_color));
         picker.useMaxRatioLine();
 
@@ -252,14 +258,14 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
                 String tempDate = year + "年" + month + "月";
-                String currentDate = calendar.get(Calendar.YEAR)+"年"+calendar.get(Calendar.MONTH)+"月";
+                String currentDate = calendar.get(Calendar.YEAR)+"年"+(calendar.get(Calendar.MONTH)+1)+"月";
                 if(DateUtils.getDateByStr2(tempDate).before(DateUtils.getDateByStr2(currentDate))){
                     CommonUtils.showToast("不能选择今天之前的时间");
                     return;
                 }
                 startDate.setText(tempDate);
                 picker.dismiss();
-                setButtonStatus(submitBtn,TextUtils.isEmpty(startDate.getText().toString()));
+                setButtonStatus(submitBtn, checkContent());
             }
         });
         picker.show();
@@ -269,7 +275,6 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
      * 点击提交
      */
     public void gotoNext(){
-        Toast.makeText(this,"提交成功",Toast.LENGTH_SHORT).show();
         if ("+86".equals(areaCode.getText().toString().trim())){
             if (!phone.getText().toString().startsWith("1") || !(11 == phone.getText().toString().length())){
                 Toast.makeText(this,R.string.phone_format_incorrect,Toast.LENGTH_SHORT).show();
@@ -278,10 +283,17 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             }
         }
 
+        //判断不确定按钮是否已经选中
+        if (unCertainCheck.isChecked()){
+            tripTimeStr = "待定";
+        } else {
+            tripTimeStr = startDate.getText().toString();
+        }
         RequestTravelPurposeForm requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
                 UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
-                String.valueOf(cityBean.cityId),cityBean.name,startDate.getText().toString(),
-                remark.getText().toString(),areaCode.getText().toString(),phone.getText().toString());
+                String.valueOf(cityBean.cityId),cityBean.name,tripTimeStr,
+                remark.getText().toString(),areaCodeStr,phone.getText().toString(),
+                userName.getText().toString().toString());
         requestData(requestTravelPurposeForm);
     }
 
@@ -295,7 +307,6 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             }
         });
     }
-
 
     @Override
     public void onDestroy() {
