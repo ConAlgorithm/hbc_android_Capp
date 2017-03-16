@@ -255,9 +255,10 @@
 
         <LinearLayout
             android:id="@+id/travel_item_head_layout_all"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:background="#ffffff"
             android:layout_centerVertical="true"
             android:orientation="horizontal">
@@ -289,8 +290,9 @@
 
                 <TextView
                     android:id="@+id/travel_item_head_more_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:gravity="center"
                     android:background="@drawable/bg_oval_shade_black"
                     android:text="more"
                     android:textColor="#ffffff"

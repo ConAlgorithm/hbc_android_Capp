@@ -61,7 +61,7 @@ import java.util.List;
 import java.util.Map;
 
 @ContentView(R.layout.fg_travel)
-public class FgTravel extends BaseFragment implements OnItemClickListener, ZListPageView.NoticeViewTask {
+public class  FgTravel extends BaseFragment implements OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";

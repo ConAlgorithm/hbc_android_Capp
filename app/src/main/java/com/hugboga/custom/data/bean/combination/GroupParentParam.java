@@ -51,4 +51,6 @@ public class GroupParentParam implements Serializable {
     public String serviceAddressTel;            // 目的地酒店或者区域电话号码
     public String serviceAreaCode;              // 目的地区号
     public int commission;
+    public Integer serviceEndCityid;            // 结束城市Id 必填
+    public String serviceEndCityname;           // 结束城市
 }

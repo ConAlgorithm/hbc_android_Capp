@@ -93,6 +93,7 @@
             android:fadingEdge="none"
             android:overScrollMode="never"
             android:scrollbarStyle="outsideOverlay"
+            android:background="#ffffff"
             app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
             app:tsquare_dividerColor="@color/transparent" />
     </LinearLayout>

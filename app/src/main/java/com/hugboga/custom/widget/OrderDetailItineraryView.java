@@ -170,7 +170,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             travelView.singleTravel();
             orderBean.orderIndex = 1;
             travelView.update(orderBean);
-        }else {
+        } else {
             travelView.setVisibility(View.GONE);
         }
     }

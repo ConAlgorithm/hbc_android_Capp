@@ -794,4 +794,16 @@ public class DateUtils {
             return "";
         }
     }
+
+    public static String getWeekOfDate2(String dateStr){
+        try {
+            Date date = dateSimpleDateFormat.parse(dateStr);
+            DateFormatSymbols symbols=dateWeekFormat3.getDateFormatSymbols();
+            symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+            dateWeekFormat3.setDateFormatSymbols(symbols);
+            return dateWeekFormat3.format(date.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

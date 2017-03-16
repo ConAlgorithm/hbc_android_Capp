@@ -331,7 +331,6 @@ public class OrderBean implements IBaseBean{
         public String destAddressPoi;       // 目的地poi
         public String flightBrandSign;      // 举牌接机姓名
         public String flightNo;             // 航班编号
-        public String flightDestName;
     }
 
     public class CTravelDayTransfer implements Serializable{
@@ -373,5 +372,13 @@ public class OrderBean implements IBaseBean{
         public Integer complexType;        // 1 接机 2 送机
         public Integer isHalfDaily;        // 是否半日包
         public Double totalHours;          // 当天总时长
+
+//        public ArrayList<Labels> labels;
+    }
+
+    public class Labels implements Serializable{
+        public String name;
+        public String time;
+        public String kilometre;
     }
 }

@@ -245,6 +245,21 @@ public class GroupParamBuilder {
         groupParentParam.serviceCityName = startCityBean.name;
         groupParentParam.serviceCityId = startCityBean.cityId;
 
+        if (charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
+            groupParentParam.serviceEndCityname = charterDataUtils.airPortBean.cityName;
+            groupParentParam.serviceEndCityid = charterDataUtils.airPortBean.cityId;
+        } else {
+            CityRouteBean.CityRouteScope cityRouteScope = charterDataUtils.travelList.get(charterDataUtils.travelList.size() - 1);
+            CityBean endCityBean = null;
+            if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                endCityBean = charterDataUtils.getEndCityBean(charterDataUtils.chooseDateBean.dayNums);
+            } else {
+                endCityBean = charterDataUtils.getStartCityBean(charterDataUtils.chooseDateBean.dayNums);
+            }
+            groupParentParam.serviceEndCityname = endCityBean.name;
+            groupParentParam.serviceEndCityid = endCityBean.cityId;
+        }
+
         if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
             groupParentParam.serviceTime = charterDataUtils.chooseDateBean.start_date + " " + charterDataUtils.flightBean.arrivalTime + ":00";
         } else {
@@ -399,6 +414,7 @@ public class GroupParamBuilder {
         }
         CityBean startCityBean = charterDataUtils.getStartCityBean(groupDailyParamIndex + 1);
         croupDailyParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + CombinationOrderActivity.SERVER_TIME;
+
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(orderIndex);
         //0 默认只 1 包含接机 2 包含送机 3 接机和送机 必填
         croupDailyParam.complexType = 0;
@@ -430,6 +446,7 @@ public class GroupParamBuilder {
             croupDailyParam.startAddressDetail = startPoiBean.placeDetail;
             croupDailyParam.startAddressPoi = startPoiBean.location;
         }
+        boolean isSend = false;
         if (index == travelListSize - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
             croupDailyParam.complexType = croupDailyParam.complexType == 1 ? 3 : 2;
             AirPort airPortBean = charterDataUtils.airPortBean;
@@ -438,21 +455,30 @@ public class GroupParamBuilder {
             travelFlightParam.flightAriportPoi = airPortBean.location;
             travelFlightParam.flightAirportName =  airPortBean.airportName;
             croupDailyParam.setTravelFlightParam(travelFlightParam, false);
+
+            croupDailyParam.serviceEndCityname = airPortBean.cityName;
+            croupDailyParam.serviceEndCityid = airPortBean.cityId;
+            isSend = true;
         }
+
+        if (!isSend) {
+            CityBean endCityBean = null;
+            if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                endCityBean = charterDataUtils.getEndCityBean(index + 1);
+            } else {
+                endCityBean = startCityBean;
+            }
+            croupDailyParam.serviceEndCityname = endCityBean.name;
+            croupDailyParam.serviceEndCityid = endCityBean.cityId;
+        }
+
         croupDailyParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, manLuggageBean.childSeats);
         croupDailyParam.priceMark = groupQuotesBean.pricemark;
         croupDailyParam.totalDays = index - groupDailyParamIndex + 1;
         croupDailyParam.serviceCityId = startCityBean.cityId;
         croupDailyParam.serviceCityName = startCityBean.name;
         croupDailyParam.userRemark = mark;
-        CityBean endCityBean = null;
-        if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
-            endCityBean = charterDataUtils.getEndCityBean(index + 1);
-        } else {
-            endCityBean = startCityBean;
-        }
-        croupDailyParam.serviceEndCityname = endCityBean.name;
-        croupDailyParam.serviceEndCityid = endCityBean.cityId;
+
         croupDailyParam.serviceEndTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, index) + " " + CombinationOrderActivity.SERVER_TIME_END;
         if (croupDailyParam.servicePassDetailList != null && croupDailyParam.servicePassDetailList.size() == 1 && cityRouteScope.routeType == CityRouteBean.RouteType.HALFDAY) {
             croupDailyParam.halfDaily = 1;
