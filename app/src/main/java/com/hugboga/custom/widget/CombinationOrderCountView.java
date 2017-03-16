@@ -121,6 +121,12 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
                 if (childSeatPrice1 == -1 || childSeatPrice2 == -1) {
                     continue;
                 }
+                if (allChildSeatPrice1 == -1 && childSeatPrice1 == 0) {
+                    allChildSeatPrice1 = 0;
+                }
+                if (allChildSeatPrice2 == -1 && childSeatPrice2 == 0) {
+                    allChildSeatPrice2 = 0;
+                }
                 allChildSeatPrice1 += childSeatPrice1;
                 allChildSeatPrice2 += childSeatPrice2;
             }
@@ -143,7 +149,7 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
             if (isInit) {
                 adultCount = charterDataUtils.adultCount;
                 childCount = charterDataUtils.childCount;
-                childSeatLayout.setVisibility(childCount > 0 ? View.VISIBLE : View.GONE);
+                childSeatLayout.setVisibility(supportChildseat && childCount > 0 ? View.VISIBLE : View.GONE);
             } else {
                 adultCount = carBean.capOfPerson >= 2 ? 2 : 1;
                 childCount = 0;
