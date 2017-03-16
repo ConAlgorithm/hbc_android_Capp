@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
-import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -30,12 +30,13 @@ import java.util.List;
  */
 public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
 
+    private HomeBeanV2.HotExploration hotExploration;
     private List<SkuItemBean> hotExplorations;
     private int type = 1;
 
-    public HomeHotSearchViewPagerAdapter(List<SkuItemBean> hotExplorations,int type) {
+    public HomeHotSearchViewPagerAdapter(List<SkuItemBean> hotExplorations, HomeBeanV2.HotExploration hotExploration) {
         this.hotExplorations = hotExplorations;
-        this.type = type;
+        this.hotExploration = hotExploration;
     }
 
     @Override
@@ -100,32 +101,46 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
             spannableString.setSpan(new AbsoluteSizeSpan(14, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new AbsoluteSizeSpan(12, true), price.length(), count.length() + price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             perPrice.setText(spannableString);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(position==getCount() - 1){
-                            Intent intent = new Intent(v.getContext(), ChooseCityNewActivity.class);
-                            v.getContext().startActivity(intent);
-                    }else{
-                        SkuItemBean skuItemBean1 = hotExplorations.get(position);
-                        Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean1.skuDetailUrl);
-                        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-                        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean1);
-                        intent.putExtra("goodtype",skuItemBean1.goodsType);
-                        intent.putExtra("type",type);
-                        intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
-                        v.getContext().startActivity(intent);
-                        StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-                        StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
-                    }
-
-                }
-            });
         }
 
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position==getCount() - 1){
+                    CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                    params.id = hotExploration.explorationId;
+                    switch (hotExploration.explorationType) {
+                        case 1:
+                            params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                            break;
+                        case 2:
+                            params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                            break;
+                        case 3:
+                            params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                            break;
+                        default:
+                            return;
+                    }
+                    params.titleName = hotExploration.explorationName;
+                    Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA,params);
+                    v.getContext().startActivity(intent);
+                }else{
+                    SkuItemBean skuItemBean1 = hotExplorations.get(position);
+                    Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean1.skuDetailUrl);
+                    intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+                    intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean1);
+                    intent.putExtra("goodtype",skuItemBean1.goodsType);
+                    intent.putExtra("type",type);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
+                    v.getContext().startActivity(intent);
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
+                }
+            }
+        });
 
     }
 }

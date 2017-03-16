@@ -292,6 +292,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         initView();
         if(cityFilterLayout!=null){
             cityFilterLayout.resetDatas();
+
         }
     }
 
@@ -367,8 +368,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             layoutParam.setMargins(UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2));
         }
         headerRightIV.setVisibility(View.VISIBLE);
-        headerRightIV.setBackgroundResource(R.drawable.black_circle);
-        headerRightIV.setImageResource(R.mipmap.search_box_white);
+        //headerRightIV.setBackgroundResource(R.drawable.black_circle);
+        headerRightIV.setImageResource(R.mipmap.topbar_search_black);
         headerRightIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

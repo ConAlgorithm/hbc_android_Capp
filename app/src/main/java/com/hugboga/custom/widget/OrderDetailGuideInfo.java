@@ -124,14 +124,14 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     }
 
                     if (orderBean.guideAgencyType == 3) { //地接社不显示收藏按钮
-                        evaluateLayout.setVisibility(View.GONE);
+                        collectLayout.setVisibility(View.GONE);
                         collectIV.setVisibility(View.GONE);
                     } else if (guideInfo.isCollected()) { //不可取消收藏
                         collectIV.setVisibility(View.VISIBLE);
-                        evaluateLayout.setVisibility(View.GONE);
+                        collectLayout.setVisibility(View.GONE);
                     } else {
                         collectIV.setVisibility(View.GONE);
-                        evaluateLayout.setVisibility(View.VISIBLE);
+                        collectLayout.setVisibility(View.VISIBLE);
                     }
                     break;
             }

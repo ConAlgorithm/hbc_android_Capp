@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderStatus;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -26,7 +24,6 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
     OrderDetailTravelView orderDetailTravelView;
     @Bind(R.id.order_detail_child_cancel)
     TextView childCancelTV;
-
 
     public OrderDetailChildView(Context context) {
         this(context, null);

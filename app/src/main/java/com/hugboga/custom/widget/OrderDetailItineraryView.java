@@ -16,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DetailTravelListActivity;
 import com.hugboga.custom.activity.LuggageInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -54,6 +56,10 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     RelativeLayout charterLayout;
     @Bind(R.id.order_itinerary_charter_city_tv)
     TextView cityTV;
+
+    @Bind(R.id.order_itinerary_item_travel_view)
+    OrderDetailTravelView travelView;
+
 
     private OrderBean orderBean;
 
@@ -122,7 +128,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
         }
 
-
         if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路 开始城市 - 结束城市
             addItemView(R.mipmap.trip_icon_line, orderBean.serviceCityName + " - " + orderBean.serviceEndCityName);
         } else if (orderBean.orderType == 1 || orderBean.orderType == 2 || orderBean.orderType == 4) {//开始地点 - 结束地点 接机、送机、单次
@@ -159,6 +164,15 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
         // 订单号
         orderNumberView.update(orderBean.orderNo);
+
+        if (orderBean.totalDays == 1) {
+            travelView.setVisibility(View.VISIBLE);
+            travelView.singleTravel();
+            orderBean.orderIndex = 1;
+            travelView.update(orderBean);
+        } else {
+            travelView.setVisibility(View.GONE);
+        }
     }
 
 
@@ -284,6 +298,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
     @OnClick({R.id.order_itinerary_charter_travel_tv, R.id.order_itinerary_charter_arrow_iv})
     public void intentTravelList() {
-
+        Intent intent = new Intent(getContext(), DetailTravelListActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, orderBean);
+        getContext().startActivity(intent);
     }
 }

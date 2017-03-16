@@ -120,7 +120,7 @@ public class CharterSubtitleView extends LinearLayout{
     public void onClick(View view) {
         if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号
             intentActivity(ChooseAirActivity.class);
-        } else if (charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
+        } else if (charterDataUtils.currentDay > 1 && charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
             Intent intent = new Intent(context, ChooseAirPortActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
             if (charterDataUtils.getCurrentDayStartCityBean() != null) {
