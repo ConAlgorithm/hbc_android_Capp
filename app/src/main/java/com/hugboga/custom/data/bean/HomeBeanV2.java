@@ -56,7 +56,7 @@ public class HomeBeanV2 implements Serializable {
      */
     public static class HotExploration implements Serializable{
         public int explorationType;//        热门探索类型（1，目的地城市；2，主题）
-        public String explorationId;//城市或主题主键
+        public int explorationId;//城市或主题主键
         public String explorationName ;// 城市或主题名称
         public String explorationPic;//城市或主题图片
         public String  subtitle;//  副标题

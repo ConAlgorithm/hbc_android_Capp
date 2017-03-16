@@ -61,7 +61,7 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
         int height = viewWidth * 200 / 325 + ScreenUtil.dip2px(95);
         hotExplorationHolder.cityViewPager.getLayoutParams().height = height;
         hotExplorationHolder.cityViewPager.setLayerType(View.LAYER_TYPE_HARDWARE,null);
-        hotExplorationHolder.cityViewPager.setAdapter(new HomeHotSearchViewPagerAdapter(hotExploration.explorationGoods,hotExploration.explorationType));
+        hotExplorationHolder.cityViewPager.setAdapter(new HomeHotSearchViewPagerAdapter(hotExploration.explorationGoods,hotExploration));
     }
 
 
