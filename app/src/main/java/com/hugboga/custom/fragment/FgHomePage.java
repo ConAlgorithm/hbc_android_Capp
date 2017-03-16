@@ -85,6 +85,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
     HomeSearchTabView homeSearchTabView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
@@ -127,34 +128,25 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState==RecyclerView.SCROLL_STATE_IDLE){
-                   handleScrollerIdleEvent();
+                    handleScrollerIdleEvent(); //滑动停止后判断头部显示状态
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (homeBean == null) {
+                if (homeBean == null || dy==0) {
                     return;
                 }
-                if(tabParentContainer!=null && tabParentContainer.isShown() && dy==0){
-                    tabParentContainer.setVisibility(View.VISIBLE);
-                    return;
-                }
+                handleScrollerLoadEvent(); //判断是否滚动到底部 如果是底部请求一下页
 
-                handleScrollerLoadEvent(); //判断是否滚动到底部是否加载更多
-
-                handleScrollerTabEvent();//判断是否需要浮层显示tab
+                handleScrollerTabEvent();//是否需要浮层显示tab
 
                 handleScrollerServiceViewEvent();//头部动画处理
-
 
             }
         });
     }
-
-
-
 
 
     private void handleScrollerTabEvent(){
@@ -177,7 +169,6 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                         alpha = 1.0f;
                     }
                     homeTitleLayout.setAlpha(alpha);
-                    Log.i("dis","titleBarLayoutDis:" + titleBarLayoutDis + " alpha:" + alpha);
                 }else{
                     homeTitleLayout.setAlpha(0);
                 }
@@ -409,17 +400,18 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
     }
 
-
     private void selectHotExploerTab() {
         if (tabIndex == TAB_HOTEXPLORE) {
             tabScrollToTop();
             return;
         }
         tabIndex = TAB_HOTEXPLORE;
+        swtichTabScrollToTop();
+
         if (homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
+            swtichTabScrollToTop();
             homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations, true
             ,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
-            tabScrollToTop();
         }
     }
 
@@ -431,8 +423,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         tabIndex = TAB_DESTION;
         if (homeBean.destinationAggVo != null) {
             if (homeBean.destinationAggVo.hotCities != null) {
+                swtichTabScrollToTop();
                 homePageAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
-               tabScrollToTop();
             }
             if(homeBean.destinationAggVo.lineGroupAggVos!=null){
                 homePageAdapter.addDestionLineGroups(homeBean.destinationAggVo.lineGroupAggVos
@@ -447,11 +439,12 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             return;
         }
         tabIndex = TAB_TRAVEL_STORY;
+
         if (homeBean.storyAggVo != null && homeBean.storyAggVo.travelStories != null) {
+            swtichTabScrollToTop();
             homePageAdapter.addStoryModels(homeBean.storyAggVo.travelStories, true
                     ,homeBean.storyAggVo.listCount
                     ,homeBean.storyAggVo.getTravelStoreySize());
-            tabScrollToTop();
         }
     }
 
@@ -461,6 +454,13 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         int distance = toTopDis - UIUtils.statusBarHeight - UIUtils.dip2px(48);
         if(distance>0){
             homeListView.smoothScrollBy(0, distance);
+        }
+    }
+
+    private void swtichTabScrollToTop(){
+        ((LinearLayoutManager)homeListView.getLayoutManager()).scrollToPositionWithOffset(1,UIUtils.dip2px(88));
+        if(homeTitleLayout!=null){
+            homeTitleLayout.setAlpha(1.0f);
         }
     }
 

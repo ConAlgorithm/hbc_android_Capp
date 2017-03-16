@@ -36,9 +36,7 @@ public class HomePageAdapter extends EpoxyAdapter {
         if(listCount==dataSize){
             addFooterModel();
         }
-      
     }
-
 
     public void addHotCitys(List<HomeBeanV2.HotCity> cities) {
         removeAllAfterModel(homeHeaderModel);
