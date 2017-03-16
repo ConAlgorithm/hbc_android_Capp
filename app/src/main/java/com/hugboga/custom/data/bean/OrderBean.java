@@ -46,6 +46,7 @@ public class OrderBean implements IBaseBean{
     public int carId;
     public int special;
     public int capOfPerson;
+    public int orderIndex;//标识是第几段行程 1开始
 
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息
@@ -333,7 +334,7 @@ public class OrderBean implements IBaseBean{
         public String flightDestName;
     }
 
-    public class CTravelDayTransfer {
+    public class CTravelDayTransfer implements Serializable{
         public String serviceTimeStr;       // 07:00 服务时间
         public String startAddress;         // 出发地址
         public String startAddressDetail;   // 出发地址详情
@@ -347,7 +348,7 @@ public class OrderBean implements IBaseBean{
         public Integer isCheckin;           // 是否协助登机 1 协助登机 其它不协助登机
     }
 
-    public class CJourneyInfo {
+    public class CJourneyInfo implements Serializable{
         public boolean hasDetailUrl;       // 是否包含行程url
         public Integer startCityId;        // 开始城市ID
         public String startCityName;       // 开始城市ID
