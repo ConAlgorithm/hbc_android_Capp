@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DetailPassCityListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/3/14.
@@ -44,6 +48,12 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
     @Bind(R.id.order_detail_travel_no_view)
     OrderDetailNoView orderNoView;
 
+    @Bind(R.id.order_detail_travel_parrent_layout)
+    LinearLayout parrentLayout;
+
+    private boolean isSingleTravel = false;
+    private OrderBean orderBean;
+
     public OrderDetailTravelView(Context context) {
         this(context, null);
     }
@@ -54,9 +64,17 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         ButterKnife.bind(view);
     }
 
+    public void singleTravel() {
+        isSingleTravel = true;
+        orderNoView.setVisibility(View.GONE);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        params.bottomMargin = UIUtils.dip2px(4);
+        parrentLayout.setLayoutParams(params);
+    }
+
     @Override
     public void update(Object _data) {
-        OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         if (orderBean.totalDays > 1) {
             moreTV.setVisibility(View.VISIBLE);
             moreIV.setVisibility(View.VISIBLE);
@@ -67,6 +85,16 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         orderNoView.update(orderBean.orderNo);
 
         ArrayList<CityBean> passCityList = orderBean.passByCity;
+        if (passCityList == null) {
+            if (orderBean.orderType == 1) {//只接机
+                firstDateTV.setText(DateUtils.orderChooseDateTransform(orderBean.serviceTime));
+                firstTitleTV.setText("只接机，航班：" + orderBean.flightNo);
+            } else if (orderBean.orderType == 2) {//只送机
+                firstDateTV.setText(DateUtils.orderChooseDateTransform(orderBean.serviceTime));
+                firstTitleTV.setText("只送机，机场：" + orderBean.flightAirportName);
+            }
+            return;
+        }
         if (passCityList.size() > 0) {
             firstDateTV.setText(DateUtils.orderChooseDateTransform(orderBean.serviceTime));
             firstTitleTV.setText(passCityList.get(0).description);
@@ -78,6 +106,16 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         } else {
             secondDateTV.setText("");
             secondTitleTV.setText("");
+            if (isSingleTravel) {
+                secondLayout.setVisibility(View.GONE);
+            }
         }
+    }
+
+    @OnClick({R.id.order_detail_travel_more_tv, R.id.order_detail_travel_more_iv})
+    public void showAllTravel() {
+        Intent intent = new Intent(getContext(), DetailPassCityListActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, orderBean);
+        getContext().startActivity(intent);
     }
 }

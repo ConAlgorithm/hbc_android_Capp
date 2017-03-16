@@ -29,7 +29,6 @@ public class MediaPlayerActivity extends BaseActivity {
         screenFull();
 
         //视频设置
-        mediaPlayerView.changeAngle(90); //改成横屏显示
         mediaPlayerView.setPlayListener(new PlayListener() {
             @Override
             public void onCompleted() {

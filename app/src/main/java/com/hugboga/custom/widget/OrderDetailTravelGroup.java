@@ -43,6 +43,11 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
     @Override
     public void update(Object _data) {
         OrderBean orderBean = (OrderBean) _data;
+        if (orderBean.orderType != 888 || orderBean.subOrderDetail.totalCount <= 1) {
+            setVisibility(View.GONE);
+            return;
+        }
+        setVisibility(View.VISIBLE);
         final OrderDetailTravelAdapter listAdapter = new OrderDetailTravelAdapter(getContext(), orderBean);
         travelPager.setAdapter(listAdapter);
         tabLayout.setViewPager(travelPager, orderBean, 0);

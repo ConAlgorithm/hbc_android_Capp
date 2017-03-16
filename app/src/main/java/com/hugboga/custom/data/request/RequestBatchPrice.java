@@ -111,20 +111,25 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 DayArrangement dayArrangement = new DayArrangement();
                 dayArrangement.tourType = getTourType(cityRouteScope.routeType);
                 dayArrangement.startCityId = startCityBean.cityId;
+                boolean isSend = false;
                 if (i == 0 && charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
                     dayArrangement.airportCode = charterDataUtils.flightBean.arrAirportCode;
                     dayArrangement.airportLocation = charterDataUtils.flightBean.arrLocation;
                     dayArrangement.serviceDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, dayArrangementIndex) + " " + charterDataUtils.flightBean.arrivalTime + ":00";
                     dayArrangement.airportServiceType = 1;
-                } else if(i == size - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
+                } else if (i == size - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
                     dayArrangement.airportCode = charterDataUtils.airPortBean.airportCode;
                     dayArrangement.airportLocation = charterDataUtils.airPortBean.location;
                     dayArrangement.airportServiceType = 2;
+                    dayArrangement.endCityId = charterDataUtils.airPortBean.cityId;
+                    isSend = true;
                 }
-                if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
-                    dayArrangement.endCityId = charterDataUtils.getEndCityBean(i + 1).cityId;
-                } else {
-                    dayArrangement.endCityId = startCityBean.cityId;
+                if (!isSend) {
+                    if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                        dayArrangement.endCityId = charterDataUtils.getEndCityBean(i + 1).cityId;
+                    } else {
+                        dayArrangement.endCityId = startCityBean.cityId;
+                    }
                 }
                 dailyPriceParam.arrangements.add(dayArrangement);
                  /*
@@ -142,19 +147,20 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     dailyPriceParam.startCityId = _startCityBean.cityId;
                     dailyPriceParam.startLocation = _startCityBean.location;
                     dailyPriceParam.startDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, dayArrangementIndex) + " " + CombinationOrderActivity.SERVER_TIME;
-                    CityBean endCityBean = null;
-                    if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
-                        endCityBean = charterDataUtils.getEndCityBean(i + 1);
-                    } else {
-                        endCityBean = charterDataUtils.getStartCityBean(i + 1);
-                    }
+
                     if (i == size - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {//选了送机，结束城市为机场所在城市
                         dailyPriceParam.endCityId = charterDataUtils.airPortBean.cityId;
                         dailyPriceParam.endLocation = charterDataUtils.airPortBean.location;
+                    } else if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                        CityBean endCityBean = charterDataUtils.getEndCityBean(i + 1);
+                        dailyPriceParam.endCityId = endCityBean.cityId;
+                        dailyPriceParam.endLocation = endCityBean.location;
                     } else {
+                        CityBean endCityBean = charterDataUtils.getStartCityBean(i + 1);
                         dailyPriceParam.endCityId = endCityBean.cityId;
                         dailyPriceParam.endLocation = endCityBean.location;
                     }
+
                     dailyPriceParam.endDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, i) + " " + CombinationOrderActivity.SERVER_TIME_END;
                     if (charterDataUtils.guidesDetailData != null) {
                         dailyPriceParam.carIds = charterDataUtils.guidesDetailData.getCarIds();

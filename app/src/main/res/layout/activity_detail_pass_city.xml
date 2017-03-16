@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:background="#cc000000">
+
+    <TextView
+        android:id="@+id/detail_pass_city_title_tv"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:textSize="17sp" />
+    <TextView
+        android:id="@+id/detail_pass_city_subtitle_tv"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@id/detail_pass_city_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_height="50dp"
+        android:paddingTop="4dp"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/detail_pass_city_close_iv"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@mipmap/order_trip_close" />
+
+    <ListView
+        android:id="@+id/detail_pass_city_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:layout_below="@id/detail_pass_city_title_tv"
+        android:layout_above="@id/detail_pass_city_close_iv" />
+</RelativeLayout>

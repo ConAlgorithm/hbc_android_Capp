@@ -31,7 +31,9 @@ public class OrderDetailTravelAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         OrderDetailChildView itemView = new OrderDetailChildView(mContext);
-        itemView.update(items.get(position));
+        OrderBean orderBean = items.get(position);
+        orderBean.orderIndex = position + 1;
+        itemView.update(orderBean);
         container.addView(itemView, 0);
         return itemView;
     }
