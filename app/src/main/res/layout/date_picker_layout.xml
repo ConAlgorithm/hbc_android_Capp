@@ -92,10 +92,11 @@
             android:paddingBottom="16dp"
             android:fadingEdge="none"
             android:overScrollMode="never"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:scrollbarStyle="outsideOverlay"
-            android:background="#ffffff"
             app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
-            app:tsquare_dividerColor="@color/transparent" />
+            app:tsquare_dividerColor="#ffffff" />
     </LinearLayout>
 
     <View

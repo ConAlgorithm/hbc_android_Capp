@@ -280,8 +280,17 @@ public class GroupParamBuilder {
             GroupQuotesBean groupQuotesBean = quotes.get(i);
             if (groupQuotesBean.additionalServicePrice != null) {
                 CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-                allChildSeatPrice1 += CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-                allChildSeatPrice2 += CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
+                if (additionalServicePrice == null) {
+                    continue;
+                }
+                int childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
+                int childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
+                if (childSeatPrice1 > 0) {
+                    allChildSeatPrice1 += childSeatPrice1;
+                }
+                if (childSeatPrice2 > 0) {
+                    allChildSeatPrice2 += childSeatPrice2;
+                }
             }
         }
         childSeats.childSeatPrice1 = allChildSeatPrice1;
