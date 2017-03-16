@@ -5,6 +5,8 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

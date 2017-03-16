@@ -5,19 +5,19 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.NetWork;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomePageAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -28,16 +28,13 @@ import com.hugboga.custom.data.request.RequestDestinations;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHotExploration;
 import com.hugboga.custom.data.request.RequestTravelStorys;
-import com.hugboga.custom.models.HomeHeaderModel;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
-import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import org.xutils.common.Callback;
@@ -303,6 +300,9 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
+            Toast.makeText(MyApplication.getAppContext(),R.string.net_broken,Toast.LENGTH_LONG).show();
+        }
         if(request instanceof RequestHome){
             homePageAdapter.addNetworkErrorModel(this);
         }

@@ -11,14 +11,10 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.adapter.HomeHotSearchViewPagerAdapter;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +50,7 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
             hotExplorationHolder.guideCity.setVisibility(View.GONE);
             hotExplorationHolder.cityNameIcon.setVisibility(View.GONE);
         }
-        Tools.showImageHasPlaceHolder(hotExplorationHolder.guideAvtar,hotExploration.guidePic,R.mipmap.icon_avatar_guide);
+        Tools.showImage(hotExplorationHolder.guideAvtar,hotExploration.guidePic,R.mipmap.icon_avatar_guide);
         hotExplorationHolder.guideName.setText(hotExploration.guideName);
         hotExplorationHolder.cityDesc.setText(hotExploration.guideRecommendedReason);
         int viewWidth = ScreenUtil.screenWidth - ScreenUtil.dip2px(40);
