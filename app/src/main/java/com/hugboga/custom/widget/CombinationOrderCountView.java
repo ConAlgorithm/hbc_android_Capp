@@ -103,20 +103,30 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
 
         this.carBean = _carBean;
 
-        int allChildSeatPrice1 = 0;
-        int allChildSeatPrice2 = 0;
+        int allChildSeatPrice1 = -1;
+        int allChildSeatPrice2 = -1;
         ArrayList<GroupQuotesBean> quotes = carBean.quotes;
         int size = quotes.size();
         for (int i = 0; i < size; i++) {
             GroupQuotesBean groupQuotesBean = quotes.get(i);
             if (groupQuotesBean.additionalServicePrice != null) {
                 CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-                allChildSeatPrice1 += CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-                allChildSeatPrice2 += CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
+                if (additionalServicePrice == null ||
+                        TextUtils.isEmpty(additionalServicePrice.childSeatPrice1)
+                        || TextUtils.isEmpty(additionalServicePrice.childSeatPrice2)) {
+                    continue;
+                }
+                int childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
+                int childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
+                if (childSeatPrice1 == -1 || childSeatPrice2 == -1) {
+                    continue;
+                }
+                allChildSeatPrice1 += childSeatPrice1;
+                allChildSeatPrice2 += childSeatPrice2;
             }
         }
 
-        if (allChildSeatPrice1 == 0 && allChildSeatPrice2 == 0) {//TODO 如何判断是否有儿童座椅
+        if (allChildSeatPrice1 == -1 || allChildSeatPrice2 == -1) {
             supportChildseat = false;
         } else {
             this.childSeatPrice1 = "" + allChildSeatPrice1;

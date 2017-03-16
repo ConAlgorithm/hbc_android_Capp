@@ -51,9 +51,8 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         View view = inflate(context, R.layout.view_charter_first_count, this);
         ButterKnife.bind(view);
 
-        adultSlider.setMin(1);
         adultSlider.setMax(11);
-        adultSlider.setValue(2);
+        adultSlider.setValue(0);
         adultSlider.setType(SLIDER_TYPE_ADULT);
         adultSlider.setOnValueChangedListener(this);
 
@@ -71,6 +70,10 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
     }
 
     public void setMaxPassengers(int maxPassengers) {
+        if (adultSlider.getValue() == 0) {
+            adultSlider.setMin(1);
+            adultSlider.setValue(2);
+        }
         this.maxPassengers = maxPassengers;
         setHintViewVisibility();
         if (context instanceof BaseActivity) {
