@@ -1,17 +1,21 @@
 package com.hugboga.custom.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.widget.DetailTravelItemView;
-import java.util.List;
+import com.hugboga.custom.utils.DateUtils;
+import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,13 +24,14 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 17/3/16.
  */
-
-public class DetailPassCityListActivity extends BaseActivity{
+public class DetailPassCityListActivity extends Activity {
 
     @Bind(R.id.detail_pass_city_title_tv)
     TextView titleTV;
-    @Bind(R.id.detail_pass_city_recyclerview)
-    RecyclerView recyclerView;
+    @Bind(R.id.detail_pass_city_subtitle_tv)
+    TextView subtitleTV;
+    @Bind(R.id.detail_pass_city_listview)
+    ListView listView;
 
     private OrderBean orderBean;
 
@@ -47,7 +52,16 @@ public class DetailPassCityListActivity extends BaseActivity{
         if (orderBean == null || orderBean.passByCity == null) {
             finish();
         }
-        initView();
+
+        titleTV.setText(String.format("行程%1$s", "" + orderBean.orderIndex));
+
+        subtitleTV.setText(String.format("(%1$s-%2$s)",
+                DateUtils.orderChooseDateTransform(orderBean.serviceTime),
+                DateUtils.orderChooseDateTransform(orderBean.serviceEndTime)));
+
+        PassCityListAdapter adapter = new PassCityListAdapter(this);
+        listView.setAdapter(adapter);
+        adapter.setList(orderBean.passByCity);
     }
 
     @Override
@@ -56,21 +70,39 @@ public class DetailPassCityListActivity extends BaseActivity{
         outState.putSerializable(Constants.PARAMS_DATA, orderBean);
     }
 
-    public void initView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        HbcRecyclerSingleTypeAdpater mAdapter = new HbcRecyclerSingleTypeAdpater(this, DetailTravelItemView.class);
-        recyclerView.setAdapter(mAdapter);
-        List<CityBean> passByCityList = orderBean.passByCity;
-        int size = passByCityList.size();
-        for (int i = 0; i < size; i++) {
-            passByCityList.get(i).index = i;
-        }
-        mAdapter.addData(passByCityList);
-    }
-
     @OnClick({R.id.detail_pass_city_close_iv})
     public void closeActivity() {
         finish();
+    }
+
+    public class PassCityListAdapter extends BaseAdapter<CityBean> {
+
+        public PassCityListAdapter(Context context) {
+            super(context);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.view_detail_pass_city_item, null);
+                holder = new ViewHolder();
+                x.view().inject(holder, convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            CityBean bean = getItem(position);
+            holder.dateTV.setText(DateUtils.orderChooseDateTransform(DateUtils.getDay(orderBean.serviceTime, position)));
+            holder.titleTV.setText(bean.description);
+            return convertView;
+        }
+    }
+
+    class ViewHolder {
+        @ViewInject(R.id.detail_pass_city_item_date_tv)
+        TextView dateTV;
+        @ViewInject(R.id.detail_pass_city_item_title_tv)
+        TextView titleTV;
     }
 }
