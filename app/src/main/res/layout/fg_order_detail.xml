@@ -53,14 +53,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.hugboga.custom.widget.OrderDetailAmountView
-                android:id="@+id/order_detail_amount_view"
+            <com.hugboga.custom.widget.OrderDetailInfoView
+                android:id="@+id/order_detail_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical" />
 
-            <com.hugboga.custom.widget.OrderDetailInfoView
-                android:id="@+id/order_detail_info_view"
+            <com.hugboga.custom.widget.OrderDetailAmountView
+                android:id="@+id/order_detail_amount_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical" />
