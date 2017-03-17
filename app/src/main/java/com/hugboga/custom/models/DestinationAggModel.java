@@ -242,7 +242,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         view.findViewById(R.id.home_dest_gridcity_img_filter).getLayoutParams().width = gridWidth;
         view.findViewById(R.id.home_dest_gridcity_img_filter).getLayoutParams().height = gridWidth * 80 / 110;
 
-        Tools.showImageHasPlaceHolder(cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
+        Tools.showImage(cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,7 +303,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
             cityViewHolder.cityPicture.getLayoutParams().width = gridWidth;
             cityViewHolder.cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
-            Tools.showImageHasPlaceHolder(cityViewHolder.cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
+            Tools.showImage(cityViewHolder.cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
             return convertView;
         }
     }
@@ -354,7 +354,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
 
             countryViewHolder.countryFlag.getLayoutParams().width = countryFlagWidth;
             countryViewHolder.countryFlag.getLayoutParams().height = countryFlagHeight;
-            Tools.showImageHasPlaceHolder(countryViewHolder.countryFlag, hotCountry.countryPicture, R.mipmap.home_country_dafault);
+            Tools.showImage(countryViewHolder.countryFlag, hotCountry.countryPicture, R.mipmap.home_country_dafault);
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
