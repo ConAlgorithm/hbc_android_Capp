@@ -165,7 +165,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         // 订单号
         orderNumberView.update(orderBean.orderNo);
 
-        if (orderBean.totalDays == 1) {
+        if (orderBean.orderType == 3) {
             travelView.setVisibility(View.VISIBLE);
             travelView.singleTravel();
             orderBean.orderIndex = 1;

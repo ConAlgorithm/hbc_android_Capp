@@ -96,7 +96,7 @@
             android:dividerHeight="0dp"
             android:scrollbarStyle="outsideOverlay"
             app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
-            app:tsquare_dividerColor="#ffffff" />
+            app:tsquare_dividerColor="@color/transparent" />
     </LinearLayout>
 
     <View

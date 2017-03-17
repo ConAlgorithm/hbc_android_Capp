@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_width="22dp"
             android:visibility="invisible"
-            android:background="#ffecb7"
+            android:background="#fcf0ac"
             android:layout_height="28dp" />
 
 
@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:visibility="invisible"
-            android:background="#ffecb7"
+            android:background="#fcf0ac"
             android:layout_height="28dp" />
 
 

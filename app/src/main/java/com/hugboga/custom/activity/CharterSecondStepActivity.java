@@ -199,7 +199,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         requestCityRoute("" + cityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY);
         bottomView.updateConfirmView();
 
-        locationMapToCity();//默认定位当前城市
+        locationMapToCity(charterDataUtils.getStartCityBean(1));//默认定位当前城市
     }
 
     @Override
@@ -566,7 +566,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public void drawFences(CityRouteBean.CityRouteScope cityRouteScope) {
         mapView.getaMap().clear();
-        locationMapToCity();
+        locationMapToCity(charterDataUtils.getCurrentDayStartCityBean());
         final int routeType = cityRouteScope.routeType;
         final boolean isOpeanFence = cityRouteScope.isOpeanFence();
         if (routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转
@@ -828,8 +828,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         return view;
     }
 
-    private void locationMapToCity(){
-        CityBean cityBean = charterDataUtils.getStartCityBean(1);
+    private void locationMapToCity(CityBean cityBean){
         if(cityBean==null){
             return;
         }

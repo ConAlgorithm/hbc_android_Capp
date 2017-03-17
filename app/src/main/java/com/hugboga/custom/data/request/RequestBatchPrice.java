@@ -1,8 +1,6 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.text.TextUtils;
-
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.activity.CombinationOrderActivity;
@@ -87,9 +85,6 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 sendParam.serviceDate = charterDataUtils.chooseDateBean.end_date + " " + charterDataUtils.sendServerTime + ":00";
                 sendParam.startLocation = charterDataUtils.sendPoiBean.location;
                 sendParam.endLocation = charterDataUtils.airPortBean.location;
-                if (charterDataUtils.guidesDetailData != null) {
-                    sendParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
-                }
                 if (charterDataUtils.guidesDetailData != null) {
                     sendParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
                 }

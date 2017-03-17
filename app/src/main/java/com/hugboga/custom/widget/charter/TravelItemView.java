@@ -317,12 +317,17 @@ public class TravelItemView extends LinearLayout {
         travelItemLineTagLayout.setVisibility(View.VISIBLE);
         travelItemCharterLineLayout.setVisibility(View.VISIBLE);
         travelItemLineTv.setTextColor(getResources().getColor(R.color.default_black));
+        boolean isPickup = _position == 0 && charterDataUtils.isSelectedPickUp &&  charterDataUtils.flightBean != null;
         if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
             CityBean startCityBean = charterDataUtils.getStartCityBean(_position + 1);
             CityBean endCityBean = charterDataUtils.getEndCityBean(_position + 1);
             if (startCityBean != null && endCityBean != null && startCityBean != endCityBean) {
                 travelItemTitleTv.setText(String.format("Day%1$s: %2$s-%3$s", _position + 1, startCityBean.name, endCityBean.name));
-                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startCityBean.name, endCityBean.name));
+                String startAddress = startCityBean.name;
+                if (isPickup) {
+                    startAddress = charterDataUtils.flightBean.arrAirportName;
+                }
+                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startAddress, endCityBean.name));
             } else if(startCityBean != null && endCityBean == null) {
                 travelItemTitleTv.setText(String.format("Day%1$s: %2$s", _position + 1, "跨城市游玩"));
                 travelItemLineTv.setTextColor(0xFFCCCCCC);
@@ -331,7 +336,7 @@ public class TravelItemView extends LinearLayout {
                 travelItemLineTv.setText(cityRouteScope.routeTitle);
             }
         } else {
-            if (_position == 0 && charterDataUtils.isSelectedPickUp &&  charterDataUtils.flightBean != null) {
+            if (isPickup) {
                 travelItemLineTv.setText(String.format("%1$s出发，%2$s", charterDataUtils.flightBean.arrAirportName, cityRouteScope.routeTitle));
             } else {
                 travelItemLineTv.setText(cityRouteScope.routeTitle);

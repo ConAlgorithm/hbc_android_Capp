@@ -353,9 +353,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
         countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date, null);
-        int additionalPrice = countView.getAdditionalPrice();
-        requestMostFit(additionalPrice);
-        requestTravelFund(additionalPrice);
+        requestMostFit(0);
+        requestTravelFund(0);
         requestCancleTips();
     }
 
@@ -378,21 +377,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         charterDataUtils.childCount = bean.childs;
     }
 
-    /* 儿童座椅+酒店价格发生改变 */
-    @Override
-    public void onAdditionalPriceChange(int price) {
-        requestMostFit(price);
-        requestTravelFund(price);
-    }
-
     /* 选择优惠方式 */
     @Override
     public void chooseDiscount(int type) {
         if (carBean == null) {
             return;
         }
-        final int additionalPrice = countView.getAdditionalPrice();
-        int totalPrice = carBean.price + additionalPrice;
+        int totalPrice = carBean.price;
         int actualPrice = totalPrice;
         int deductionPrice = 0;
 
@@ -410,7 +401,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             case SkuOrderDiscountView.TYPE_TRAVEL_FUND:
                 if (deductionBean != null && deductionBean.priceToPay != null) {
                     deductionPrice = CommonUtils.getCountInteger(deductionBean.deduction);
-                    actualPrice = carBean.price - deductionPrice + additionalPrice;
+                    actualPrice = carBean.price - deductionPrice;
                 }
                 break;
             case SkuOrderDiscountView.TYPE_INVALID:
@@ -430,9 +421,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
         mostFitAvailableBean.limit = 20 + "";
         mostFitAvailableBean.offset = 0 + "";
-        String channelPrice = "" + (carBean.price + countView.getAdditionalPrice());
-        mostFitAvailableBean.priceChannel = channelPrice;
-        mostFitAvailableBean.useOrderPrice = channelPrice;
+        mostFitAvailableBean.priceChannel = "" + carBean.price;
+        mostFitAvailableBean.useOrderPrice = "" + carBean.price;
         mostFitAvailableBean.serviceCityId = startCityBean.cityId + "";
         mostFitAvailableBean.serviceCountryId = startCityBean.areaCode + "";
         mostFitAvailableBean.serviceLocalDays = "0";
@@ -490,7 +480,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
         GroupParamBuilder groupParamBuilder = new GroupParamBuilder();
         String requestParams = groupParamBuilder.charterDataUtils(charterDataUtils)
-                .carListBean(carListBean)
                 .carBean(carBean)
                 .manLuggageBean(countView.getManLuggageBean())
                 .contactUsersBean(contactUsersBean)

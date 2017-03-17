@@ -114,7 +114,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     if (orderBean.isEvaluated()) {
                         evaluateIV.setVisibility(View.VISIBLE);
                         if (orderBean.appraisement != null) {
-                            evaluateTV.setText(orderBean.appraisement.totalScore + "星好评");
+                            evaluateTV.setText((int)orderBean.appraisement.totalScore + "星评价");
                         } else {
                             evaluateTV.setText("已评价");
                         }
