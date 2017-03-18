@@ -29,6 +29,8 @@ import butterknife.OnClick;
  */
 public class CharterItemView extends LinearLayout{
 
+    public static final String TAG = CharterItemView.class.getSimpleName();
+
     @Bind(R.id.charter_item_root_layout)
     RelativeLayout rootLayout;
     @Bind(R.id.charter_item_selected_iv)
@@ -214,7 +216,8 @@ public class CharterItemView extends LinearLayout{
         }
         intent.putExtra(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
         intent.putExtra(ChooseCityActivity.KEY_CITY_ID, cityBean.cityId);
-        intent.putExtra(ChooseCityActivity.KEY_FROM, "lastCity");
+        intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, CharterItemView.TAG);
+        intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.FROM_OUTTOWN);
         getContext().startActivity(intent);
     }
 

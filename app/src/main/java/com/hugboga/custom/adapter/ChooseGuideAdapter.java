@@ -19,6 +19,8 @@ import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.SimpleRatingBar;
 
+import net.grobas.view.PolygonImageView;
+
 /**
  * Created on 16/9/9.
  */
@@ -40,7 +42,7 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
             viewHolder.name = (TextView) view.findViewById(R.id.name);
             viewHolder.gender =  (ImageView) view.findViewById(R.id.gender);
             viewHolder.city = (TextView) view.findViewById(R.id.city);
-            viewHolder.head = (ImageView) view.findViewById(R.id.head);
+            viewHolder.head = (PolygonImageView) view.findViewById(R.id.head);
             viewHolder.score = (TextView) view.findViewById(R.id.score);
             viewHolder.auth = (ImageView) view.findViewById(R.id.auth);
             viewHolder.ratingBar = (SimpleRatingBar)view.findViewById(R.id.ratingview);
@@ -76,7 +78,7 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
             viewHolder.choose.setText("选她服务");
         }
 
-        Tools.showCircleImage(context,viewHolder.head,model.getAvatarS());
+        Tools.showImage(viewHolder.head, model.getAvatarS(), R.mipmap.icon_avatar_guide);
 
         viewHolder.head.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +108,7 @@ public class ChooseGuideAdapter extends BaseAdapter<CanServiceGuideBean.GuidesBe
         TextView score;
         ImageView auth;
         TextView choose;
-        ImageView head;
+        PolygonImageView head;
         SimpleRatingBar ratingBar;
     }
 

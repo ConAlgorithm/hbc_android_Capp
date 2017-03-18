@@ -76,12 +76,17 @@ public class CharterSecondBottomView extends LinearLayout{
         }
     }
 
-    public interface OnBottomClickListener{
+    public interface OnBottomClickListener {
         public void confirm();
         public void intentTravelList();
     }
 
     public void setOnBottomClickListener(OnBottomClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setConfirmViewEnabled(boolean isEnabled) {
+        confirmTV.setEnabled(isEnabled);
+        confirmTV.setBackgroundResource(isEnabled ? R.drawable.shape_rounded_yellow_btn : R.drawable.shape_rounded_gray_btn);
     }
 }

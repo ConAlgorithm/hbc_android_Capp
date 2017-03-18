@@ -247,9 +247,9 @@ public class CharterDataUtils {
 
         // 判断接机"送达地"是否填写
         boolean checkPickup = routeType == CityRouteBean.RouteType.PICKUP
-                && charterDataUtils.isFirstDay()
-                && charterDataUtils.isSelectedPickUp
-                && charterDataUtils.pickUpPoiBean == null;
+                && isFirstDay()
+                && isSelectedPickUp
+                && pickUpPoiBean == null;
         if (checkPickup) {
             if (isShowToast) {
                 CommonUtils.showToast("请添加接机的送达地");
@@ -259,8 +259,8 @@ public class CharterDataUtils {
 
         // 是否是送机
         boolean isSend = routeType == CityRouteBean.RouteType.SEND
-                && charterDataUtils.isLastDay()
-                && charterDataUtils.isSelectedSend;
+                && airPortBean != null
+                && isSelectedSend;
 
         // 判断送机"时间"是否填写
         boolean checkSendTime = isSend && TextUtils.isEmpty(charterDataUtils.sendServerTime);
@@ -404,6 +404,12 @@ public class CharterDataUtils {
             hbcLantLng.latitude = CommonUtils.getCountDouble(step.startCoordinate.lat);
             hbcLantLng.longitude = CommonUtils.getCountDouble(step.startCoordinate.lng);
             resultList.add(hbcLantLng);
+            if (i == stepsSize - 1) {
+                HbcLantLng lastHbcLantLng = new HbcLantLng();
+                lastHbcLantLng.latitude = CommonUtils.getCountDouble(step.endCoordinate.lat);
+                lastHbcLantLng.longitude = CommonUtils.getCountDouble(step.endCoordinate.lng);
+                resultList.add(lastHbcLantLng);
+            }
         }
         return resultList;
     }

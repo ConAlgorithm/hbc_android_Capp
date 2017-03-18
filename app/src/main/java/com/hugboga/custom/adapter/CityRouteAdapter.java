@@ -84,9 +84,17 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             charterEmptyModel.setEmptyType(type);
             showModel(charterEmptyModel);
             hideModels(getAllModelsAfter(charterEmptyModel));
+            if (pickupModel != null) {
+                hideModel(pickupModel);
+            }
+            if (sendModel != null) {
+                hideModel(sendModel);
+            }
         } else {
             hideModel(charterEmptyModel);
-            showModels(getAllModelsAfter(charterEmptyModel));
+            if (charterFooterModel != null) {
+                showModel(charterFooterModel);
+            }
         }
         updateNoCharterModelVisibility();
     }

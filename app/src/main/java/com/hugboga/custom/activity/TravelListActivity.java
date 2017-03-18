@@ -165,7 +165,7 @@ public class TravelListActivity extends BaseActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
-                    charterDataUtils.cleanSendInfo();
+                    charterDataUtils.resetSendInfo();
                     charterDataUtils.itemInfoList.remove(chooseDateBean.dayNums);
                     if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
                         charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);

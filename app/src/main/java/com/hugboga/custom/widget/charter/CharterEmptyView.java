@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget.charter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
@@ -10,6 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterSecondStepActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.DialogUtil;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,9 +60,21 @@ public class CharterEmptyView extends LinearLayout {
             refreshTV.setVisibility(View.VISIBLE);
         } else {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.icon_sku_order_empty_car);
-            hintTV.setText("很抱歉，没有找到可服务的司导，换个日期试试");
+            emptyIV.setBackgroundResource(R.drawable.empty_trip);
             refreshTV.setVisibility(View.GONE);
+            if (getContext() instanceof CharterSecondStepActivity) {
+                final CharterSecondStepActivity charterSecondStepActivity = (CharterSecondStepActivity) getContext();
+                OrderUtils.genCLickSpan(charterSecondStepActivity, hintTV, "很抱歉，还不能线上预订这个城市的包车服务\n请联系客服，帮您定制行程",
+                        "联系客服",
+                        null,
+                        0xFFA8A8A8,
+                        new OrderUtils.MyCLickSpan.OnSpanClickListener() {
+                            @Override
+                            public void onSpanClick(View view) {
+                                DialogUtil.showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, charterSecondStepActivity.getEventSource());
+                            }
+                        });
+            }
         }
     }
 

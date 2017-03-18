@@ -70,6 +70,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String PARAM_TYPE_START = "startAddress";
     public static final String KEY_BUSINESS_TYPE = "key_business_Type";
 
+    public static final String FROM_OUTTOWN = "outtown";     // 跨城
+
     @Bind(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;
     @Bind(R.id.choose_city_empty_tv)
@@ -482,7 +484,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             hideSoftInput();
             finish();
 
-            if (null != from && from.equalsIgnoreCase("lastCity")) {
+            if ("lastCity".equalsIgnoreCase(from) || FROM_OUTTOWN.equalsIgnoreCase(from)) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
             } else if (null != from && from.equalsIgnoreCase("end")) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
@@ -688,8 +690,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
                     } else {
-                        if(!TextUtils.isEmpty(from) && from.equals("lastCity")){
-                            message.obj =  CityUtils.requestHotDate(activity, groupId, cityId, "lastCity");
+                        if("lastCity".equals(from) || FROM_OUTTOWN.equals(from)){
+                            message.obj =  CityUtils.requestHotDate(activity, groupId, cityId, from);
                             onPostExecuteHandler.sendMessage(message);
                             break;
                         }else{
@@ -821,13 +823,21 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             selector.and(whereBuilder);
         }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
-            if (groupId == -1) {
+            if (FROM_OUTTOWN.equals(from)) {
                 selector.and("is_daily", "=", 1);
-            } else {
                 selector.and("group_id", "=", groupId);
-            }
-            if ("lastCity".equals(from) && cityId != -1) {
-                selector.and("city_id", "<>", cityId);
+                if (cityId != -1) {
+                    selector.and("city_id", "<>", cityId);
+                }
+            } else {
+                if (groupId == -1) {
+                    selector.and("is_daily", "=", 1);
+                } else {
+                    selector.and("group_id", "=", groupId);
+                }
+                if ("lastCity".equals(from) && cityId != -1) {
+                    selector.and("city_id", "<>", cityId);
+                }
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);

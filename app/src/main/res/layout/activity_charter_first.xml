@@ -71,7 +71,6 @@
                     android:layout_marginLeft="14dp"
                     android:lineSpacingExtra="2dp"
                     android:textColor="@color/default_black"
-                    android:text="实打实大声道阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德"
                     />
             </LinearLayout>
 
