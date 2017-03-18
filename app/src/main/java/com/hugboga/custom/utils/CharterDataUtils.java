@@ -46,7 +46,7 @@ public class CharterDataUtils {
     public DirectionBean sendDirectionBean;                     // 送机：出发地到机场距离及地图坐标
     public boolean isSelectedSend = false;                      // 送机：是否选中送机
 
-    public ArrayList<CityRouteBean.CityRouteScope> travelList;  // 存储每天的数据，点击"确认"后更新
+    public ArrayList<CityRouteBean.CityRouteScope> travelList;  // 存储每天的数据
     public ArrayMap<Integer, CharterlItemBean> itemInfoList;
 
     public boolean isShowEmpty = false;
