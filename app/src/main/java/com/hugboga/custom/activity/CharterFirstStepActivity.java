@@ -14,6 +14,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarMaxCapaCityBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
@@ -156,14 +157,33 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @OnClick({R.id.charter_first_bottom_next_tv})
     public void nextStep() {
 
-        //开始城市变了清除数据、开始日期变了清除、结束日期变了且最后一天没选机场不清除
+        //开始城市、开始日期改变了清除全部数据
         boolean isChangeDate = (charterDataUtils.chooseDateBean != null && !chooseDateBean.start_date.equals(charterDataUtils.chooseDateBean.start_date));
-        if (charterDataUtils.chooseDateBean != null && !chooseDateBean.end_date.equals(charterDataUtils.chooseDateBean.end_date) && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
-            isChangeDate = true;
-        }
         boolean isChangeCity  = charterDataUtils.getStartCityBean(1) != null && startBean.cityId != charterDataUtils.getStartCityBean(1).cityId;
         if (isChangeDate || isChangeCity) {
             charterDataUtils.onDestroy();
+        }
+        if (charterDataUtils.chooseDateBean != null) {
+            if (chooseDateBean.dayNums > charterDataUtils.chooseDateBean.dayNums) {//增加了天数
+                if (charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {//最有一天选了送机，清空当天数据
+                    charterDataUtils.resetSendInfo();
+                    charterDataUtils.cleanDayDate(chooseDateBean.dayNums);
+                }
+            } else if (chooseDateBean.dayNums < charterDataUtils.chooseDateBean.dayNums) {//减少了天数
+                for (int i = charterDataUtils.travelList.size(); i >= chooseDateBean.dayNums; i--) {
+                    if (i == chooseDateBean.dayNums) {
+                        if (charterDataUtils.travelList.get(i - 1).routeType == CityRouteBean.RouteType.AT_WILL) {
+                            charterDataUtils.cleanDayDate(i);
+                            charterDataUtils.addStartCityBean(i, charterDataUtils.setDefaultCityBean(i));
+                        }
+                        continue;
+                    }
+                    charterDataUtils.cleanDayDate(i);
+                    if (charterDataUtils.currentDay > chooseDateBean.dayNums) {
+                        charterDataUtils.currentDay = chooseDateBean.dayNums;
+                    }
+                }
+            }
         }
 
         CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();

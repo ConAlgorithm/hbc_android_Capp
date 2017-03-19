@@ -146,13 +146,13 @@ public class CharterDataUtils {
         return getEndCityBean(currentDay);
     }
 
-    public CityBean setDefaultCityBean() {
-        if (currentDay <= 1) {
+    public CityBean setDefaultCityBean(int day) {
+        if (day <= 1) {
             return null;
         }
-        CityBean nextCityBean = getStartCityBean(currentDay);
+        CityBean nextCityBean = getStartCityBean(day);
         if (nextCityBean == null) {
-            int index = currentDay - 2;
+            int index = day - 2;
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(index);
             while (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL && index - 1 >= 0 && index - 1 < travelList.size()) {
                 index--;
@@ -164,7 +164,7 @@ public class CharterDataUtils {
             } else {
                 startCityBean = getStartCityBean(index + 1);
             }
-            addStartCityBean(currentDay, startCityBean);
+            addStartCityBean(day, startCityBean);
             return startCityBean;
         } else {
             return nextCityBean;
@@ -345,9 +345,19 @@ public class CharterDataUtils {
         itemInfoList.clear();
     }
 
-    public void cleanGuidesDeta() {
+    public void cleanGuidesDate() {
         guidesDetailData = null;
         guideCropList = null;
+    }
+
+    public void cleanDayDate(int day) {
+        if (day > 1 && day - 1 < travelList.size()) {
+            travelList.remove(day - 1);
+            itemInfoList.remove(day);
+        }
+        if (day == chooseDateBean.dayNums) {
+            resetSendInfo();
+        }
     }
 
     public void onDestroy() {
@@ -367,6 +377,8 @@ public class CharterDataUtils {
 
         travelList.clear();
         itemInfoList.clear();
+
+        cleanGuidesDate();
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(CityRouteBean.Fence _fence) {

@@ -166,14 +166,20 @@ public class TravelListActivity extends BaseActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
                     charterDataUtils.resetSendInfo();
-                    charterDataUtils.itemInfoList.remove(chooseDateBean.dayNums);
                     if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
-                        charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);
+                        charterDataUtils.cleanDayDate(chooseDateBean.dayNums);
                     }
                     chooseDateBean.dayNums--;
                     chooseDateBean.end_date = DateUtils.getDay(chooseDateBean.end_date, -1);
                     chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
                     chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
+
+//                    if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {//当前天是随便转转，删除数据，改为默认市内一日游
+//                        if (charterDataUtils.travelList.get(chooseDateBean.dayNums - 1).routeType == CityRouteBean.RouteType.AT_WILL) {
+//                            charterDataUtils.cleanDayDate(chooseDateBean.dayNums);
+//                            charterDataUtils.addStartCityBean(chooseDateBean.dayNums, charterDataUtils.setDefaultCityBean(chooseDateBean.dayNums));
+//                        }
+//                    }
                     setData();
                     if (charterDataUtils.currentDay == chooseDateBean.dayNums + 1) {
                         charterDataUtils.currentDay--;

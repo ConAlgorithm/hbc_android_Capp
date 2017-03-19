@@ -253,7 +253,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     if (charterDataUtils.currentDay > 1) {
                         charterDataUtils.cleanSendInfo();
                         charterDataUtils.itemInfoList.remove(charterDataUtils.currentDay);
-                        charterDataUtils.addStartCityBean(charterDataUtils.currentDay, charterDataUtils.setDefaultCityBean());
+                        charterDataUtils.addStartCityBean(charterDataUtils.currentDay, charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay));
                         charterDataUtils.travelList.remove(charterDataUtils.currentDay - 1);
                     }
                     adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, true);
@@ -307,6 +307,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                         charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
+                        charterDataUtils.flightBean = flightBean.transformData();
                         finishActivity();
                     }
                 }, new DialogInterface.OnClickListener() {
@@ -423,7 +424,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.currentDay = selectedDay;
                 CityBean nextCityBean = charterDataUtils.getStartCityBean(selectedDay);
                 if (nextCityBean == null) {
-                    nextCityBean = charterDataUtils.setDefaultCityBean();
+                    nextCityBean = charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay);
                 }
                 requestCityRoute("" + nextCityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY);
                 adapter.updateSubtitleModel();
@@ -454,7 +455,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         } else {
             CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
             charterDataUtils.currentDay++;
-            CityBean nextCityBean = charterDataUtils.setDefaultCityBean();
+            CityBean nextCityBean = charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay);
             bottomView.updateConfirmView();
             if (currentCityBean == nextCityBean && cityRouteBean.cityId == nextCityBean.cityId) {
                 adapter.notifyAllModelsChanged(cityRouteBean, charterDataUtils.getRouteType(charterDataUtils.currentDay - 1));
