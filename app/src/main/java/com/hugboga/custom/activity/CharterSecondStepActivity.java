@@ -416,8 +416,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 updateDrawFences();
                 break;
             case CHARTER_LIST_REFRESH:
-                int selectedDay = (int) action.getData();
-                if (selectedDay == currentDay) {
+                RefreshBean refreshBean = (RefreshBean) action.getData();
+                int selectedDay = refreshBean.day;
+                if (selectedDay == currentDay && !refreshBean.isRefresh) {
                     recyclerView.smoothScrollToPosition(0);
                     return;
                 }
@@ -550,6 +551,21 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
         String title = String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, chooseDateBean.dayNums);
         titleBar.updateSubtitle(title);
+    }
+
+    public static class RefreshBean implements Serializable {
+        public int day;
+        public boolean isRefresh;//是否强制刷新
+
+        public RefreshBean(int day) {
+            this.day = day;
+            this.isRefresh = false;
+        }
+
+        public RefreshBean(int day, boolean isRefresh) {
+            this.day = day;
+            this.isRefresh = isRefresh;
+        }
     }
 
     @Override

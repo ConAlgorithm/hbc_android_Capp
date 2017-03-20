@@ -278,6 +278,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                     pickupModel.setSelected(false);
                 }
             } else {
+                pickupModel.setSelected(false);
                 pickupModel.hide();
             }
             notifyModelChanged(pickupModel);
@@ -294,6 +295,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                     sendModel.setSelected(false);
                 }
             } else {
+                sendModel.setSelected(false);
                 sendModel.hide();
             }
             notifyModelChanged(sendModel);
