@@ -175,6 +175,7 @@ public class OrderBean implements IBaseBean{
     public Integer orderJourneyCount;           // 子单个数
     public List<String> subOrderGuideAvartar;   // 子单司导头像
     public List<JourneyItem> journeyList;       // 行程信息
+    public int deliverCategory;                 // 0普通发单，1组合单主单发单，2组合单拆单发单，3人工拆单，
 
     @Deprecated
     public String getOrderTypeStr(Context context) {

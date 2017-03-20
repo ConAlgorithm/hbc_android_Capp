@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -8,18 +9,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.EvaluateActivity;
+import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.NIMChatActivity;
+import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestCollectGuidesId;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
 
 import net.grobas.view.PolygonImageView;
-
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +39,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/6/3.
  */
-public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener {
+public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavior, View.OnClickListener, HttpRequestListener {
 
     @Bind(R.id.ogi_avatar_iv)
     PolygonImageView avatarIV;
@@ -44,7 +56,6 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
     TextView describeTV;
     @Bind(R.id.ogi_plate_number_tv)
     TextView numberTV;
-
 
     @Bind(R.id.ogi_nav_layout)
     LinearLayout navLayout;
@@ -67,6 +78,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
     @Bind(R.id.ogi_collect_iv)
     ImageView collectIV;
 
+    private OrderBean orderBean;
+
     public OrderDetailGuideInfo(Context context) {
         this(context, null);
     }
@@ -86,7 +99,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
         if (_data == null) {
             return;
         }
-        OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
         if (orderBean.orderStatus == OrderStatus.INITSTATE || orderBean.orderStatus == OrderStatus.PAYSUCCESS || guideInfo == null) {//1:未付款 || 2:已付款
             setVisibility(View.GONE);
@@ -155,22 +168,78 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
 
     @OnClick({R.id.ogi_collect_layout, R.id.ogi_evaluate_layout, R.id.ogi_chat_layout, R.id.ogi_call_layout, R.id.ogi_avatar_iv})
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.ogi_collect_layout:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_COLLECT));
+                if (orderBean == null || orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
+                    return;
+                }
+                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, ((OrderDetailActivity) getContext()).getEventSource());
+                RequestCollectGuidesId requestCollectGuidesId = new RequestCollectGuidesId(getContext(), orderBean.orderGuideInfo.guideID);
+                HttpRequestUtils.request(getContext(), requestCollectGuidesId, this);
                 break;
             case R.id.ogi_evaluate_layout:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_EVALUATION));
+                if (orderBean == null) {
+                    return;
+                }
+                intent = new Intent(getContext(), EvaluateActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                intent.putExtra(Constants.PARAMS_SOURCE, ((OrderDetailActivity) getContext()).getEventSource());
+                getContext().startActivity(intent);
                 break;
             case R.id.ogi_chat_layout:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CHAT));
+                if (orderBean == null || orderBean.imInfo == null) {
+                    return;
+                }
+                final ChatBean chatBean = orderBean.imInfo;
+                if (!IMUtil.getInstance().isLogined() || TextUtils.isEmpty(chatBean.getNeTargetId())) {
+                    return;
+                }
+                NIMChatActivity.start(getContext(), chatBean.getNeTargetId());
                 break;
             case R.id.ogi_call_layout:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_CALL));
+                if (orderBean == null || orderBean.orderGuideInfo == null) {
+                    return;
+                }
+                PhoneInfo.CallDial(getContext(), orderBean.orderGuideInfo.guideTel);
                 break;
             case R.id.ogi_avatar_iv:
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_INFO));
+                if (orderBean == null || orderBean.orderGuideInfo == null) {
+                    return;
+                }
+                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                params.guideId = orderBean.orderGuideInfo.guideID;
+                params.guideCarId = orderBean.orderGuideInfo.guideCarId;
+                params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
+                params.isSelectedService = orderBean.guideAgencyType == 3;
+                intent = new Intent(getContext(), GuideDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, ((OrderDetailActivity) getContext()).getEventSource());
+                getContext().startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        ApiReportHelper.getInstance().addReport(request);
+        if (request instanceof RequestCollectGuidesId) {//收藏
+            orderBean.orderGuideInfo.storeStatus = 1;
+            if (orderBean.orderGuideInfo.isCollected()) {
+                collectLayout.setVisibility(View.GONE);
+                collectIV.setVisibility(View.VISIBLE);
+                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, ((OrderDetailActivity) getContext()).getEventSource());
+            }
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
     }
 }
