@@ -181,7 +181,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     }
 
     private void handleScrollerServiceViewEvent(){
-        if (homeBean != null && homeBean.headAggVo!=null){
+        if (homePageAdapter.homeHeaderModel!=null){
             homePageAdapter.homeHeaderModel.animateServiceView(homeTitleLayout.findViewById(R.id.home_header_search_title).getMeasuredWidth());
         }
     }
