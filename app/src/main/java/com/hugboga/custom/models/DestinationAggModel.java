@@ -150,37 +150,37 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     }
 
 
-    private void setCityGridParams(LinearLayout gridView, List<HomeBeanV2.HotCity> cities) {
-//        CityAdapter cityAdapter = new CityAdapter(cities);
-//        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
-//        gridView.setColumnWidth(gridWidth);
-//        gridView.setNumColumns(3);
-//        gridView.setAdapter(cityAdapter);
-        gridView.removeAllViews();
-        Context context = gridView.getContext();
-        for(int i=0;i<cities.size();i++){
-            LinearLayout linearLayout;
-            if(i%3==0){
-                 linearLayout = new LinearLayout(context);
-            }else{
-                linearLayout = (LinearLayout) gridView.getChildAt(gridView.getChildCount()-1);
-            }
-            View view = getView(context,cities.get(i));
-            if((i+1)%3!=0){
-                LinearLayout.LayoutParams clayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                ,ViewGroup.LayoutParams.WRAP_CONTENT);
-                clayoutParams.rightMargin = UIUtils.dip2px(10);
-                linearLayout.addView(view,clayoutParams);
-            }else{
-                linearLayout.addView(view);
-            }
-            if(i%3==0){
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.topMargin = UIUtils.dip2px(10);
-                gridView.addView(linearLayout,lp);
-            }
-        }
+    private void setCityGridParams(GridView gridView, List<HomeBeanV2.HotCity> cities) {
+        CityAdapter cityAdapter = new CityAdapter(cities);
+        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
+        gridView.setColumnWidth(gridWidth);
+        gridView.setNumColumns(3);
+        gridView.setAdapter(cityAdapter);
+//        gridView.removeAllViews();
+//        Context context = gridView.getContext();
+//        for(int i=0;i<cities.size();i++){
+//            LinearLayout linearLayout;
+//            if(i%3==0){
+//                 linearLayout = new LinearLayout(context);
+//            }else{
+//                linearLayout = (LinearLayout) gridView.getChildAt(gridView.getChildCount()-1);
+//            }
+//            View view = getView(context,cities.get(i));
+//            if((i+1)%3!=0){
+//                LinearLayout.LayoutParams clayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+//                ,ViewGroup.LayoutParams.WRAP_CONTENT);
+//                clayoutParams.rightMargin = UIUtils.dip2px(10);
+//                linearLayout.addView(view,clayoutParams);
+//            }else{
+//                linearLayout.addView(view);
+//            }
+//            if(i%3==0){
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.WRAP_CONTENT);
+//                lp.topMargin = UIUtils.dip2px(10);
+//                gridView.addView(linearLayout,lp);
+//            }
+//        }
     }
 
 
@@ -210,7 +210,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         @Bind(R.id.home_dest_title_name)
         TextView titleName;
         @Bind(R.id.home_dest_city_gridview)
-        LinearLayout cityGridView;
+        GridView cityGridView;
         @Bind(R.id.home_dest_spe_line)
         View speLine;
         @Bind(R.id.home_dest_country_text_label)
@@ -303,6 +303,8 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
             cityViewHolder.cityPicture.getLayoutParams().width = gridWidth;
             cityViewHolder.cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
+            cityViewHolder.filterPictureView.getLayoutParams().width = gridWidth;
+            cityViewHolder.filterPictureView.getLayoutParams().height =  gridWidth * 80 / 110;
             Tools.showImage(cityViewHolder.cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
             return convertView;
         }
@@ -376,6 +378,8 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     static class CityViewHolder {
         @Bind(R.id.home_dest_gridcity_img)
         ImageView cityPicture;
+        @Bind(R.id.home_dest_gridcity_img_filter)
+        View filterPictureView;
         @Bind(R.id.home_dest_gridcity_guide_count)
         TextView cityGuideCount;
         @Bind(R.id.home_dest_gridcity_name)

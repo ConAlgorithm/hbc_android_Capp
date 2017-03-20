@@ -132,7 +132,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (homeBean == null || dy==0) {
+                if (/*homeBean == null ||*/ dy==0) {
                     return;
                 }
                 handleScrollerLoadEvent(); //判断是否滚动到底部 如果是底部请求一下页
@@ -147,7 +147,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
 
     private void handleScrollerTabEvent(){
-        if (homeBean != null && homeBean.headAggVo!=null && homeSearchTabView!=null) {
+        if (/*homeBean != null && homeBean.headAggVo!=null &&*/ homeSearchTabView!=null) {
             if(homePageAdapter.homeHeaderModel!=null){
                 int scrollY = Math.abs(homePageAdapter.homeHeaderModel.getTabViewTop());
                 int statusBarHeight = UIUtils.getStatusBarHeight();
@@ -187,6 +187,9 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     }
 
     private void handleScrollerLoadEvent() {
+        if(homeBean==null){
+            return;
+        }
         if (!ViewCompat.canScrollVertically(homeListView, 1)) {
             switch (tabIndex) {
                 case TAB_HOTEXPLORE:
@@ -358,9 +361,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             openActivitesPage();
             return;
         }
-        if (homeBean == null) {
-            return;
-        }
+      
         switch (resId) {
             case R.id.home_header_hot_tab:
                 selectHotExploerTab();
@@ -407,9 +408,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
         tabIndex = TAB_HOTEXPLORE;
         swtichTabScrollToTop();
-
-        if (homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
-            swtichTabScrollToTop();
+        if (homeBean!=null && homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
             homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations, true
             ,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
         }
@@ -421,9 +420,10 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             return;
         }
         tabIndex = TAB_DESTION;
-        if (homeBean.destinationAggVo != null) {
+
+        swtichTabScrollToTop();
+        if (homeBean!=null && homeBean.destinationAggVo != null) {
             if (homeBean.destinationAggVo.hotCities != null) {
-                swtichTabScrollToTop();
                 homePageAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
             }
             if(homeBean.destinationAggVo.lineGroupAggVos!=null){
@@ -440,8 +440,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
         tabIndex = TAB_TRAVEL_STORY;
 
-        if (homeBean.storyAggVo != null && homeBean.storyAggVo.travelStories != null) {
-            swtichTabScrollToTop();
+        swtichTabScrollToTop();
+        if (homeBean!=null && homeBean.storyAggVo != null && homeBean.storyAggVo.travelStories != null) {
             homePageAdapter.addStoryModels(homeBean.storyAggVo.travelStories, true
                     ,homeBean.storyAggVo.listCount
                     ,homeBean.storyAggVo.getTravelStoreySize());
