@@ -43,6 +43,12 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
         params.bottomMargin = UIUtils.dip2px(20);
         params.gravity = Gravity.CENTER_HORIZONTAL;
         customIV.setLayoutParams(params);
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void showEmptyView(boolean isCity) {

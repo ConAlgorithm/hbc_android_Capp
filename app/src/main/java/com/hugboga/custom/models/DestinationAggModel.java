@@ -151,7 +151,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
 
 
     private void setCityGridParams(GridView gridView, List<HomeBeanV2.HotCity> cities) {
-        CityAdapter cityAdapter = new CityAdapter(cities);
+        CityAdapter cityAdapter = new CityAdapter(cities,gridView.getContext());
         int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
         gridView.setColumnWidth(gridWidth);
         gridView.setNumColumns(3);
@@ -265,9 +265,11 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     class CityAdapter extends BaseAdapter {
 
         private List<HomeBeanV2.HotCity> hotCityList;
+        private Context mContext;
 
-        public CityAdapter(List<HomeBeanV2.HotCity> hotCityList) {
+        public CityAdapter(List<HomeBeanV2.HotCity> hotCityList,Context context) {
             this.hotCityList = hotCityList;
+            this.mContext = context;
         }
 
         @Override
@@ -290,14 +292,14 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             CityViewHolder cityViewHolder;
             if (convertView == null) {
                 cityViewHolder = new CityViewHolder();
-                convertView = LayoutInflater.from(MyApplication.getAppContext()).
+                convertView = LayoutInflater.from(mContext).
                         inflate(R.layout.home_dest_gridcity_item, null);
                 ButterKnife.bind(cityViewHolder, convertView);
                 convertView.setTag(cityViewHolder);
             } else {
                 cityViewHolder = (CityViewHolder) convertView.getTag();
             }
-            HomeBeanV2.HotCity hotCity = hotCityList.get(position);
+            final HomeBeanV2.HotCity hotCity = hotCityList.get(position);
             cityViewHolder.cityGuideCount.setText(hotCity.cityGuideAmount + "位司导");
             cityViewHolder.cityName.setText(hotCity.cityName);
             int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
@@ -306,6 +308,21 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             cityViewHolder.filterPictureView.getLayoutParams().width = gridWidth;
             cityViewHolder.filterPictureView.getLayoutParams().height =  gridWidth * 80 / 110;
             Tools.showImage(cityViewHolder.cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle=new Bundle();
+                    CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                    Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                    bundle.putSerializable(Constants.PARAMS_SOURCE,"首页热门目的地");
+                    params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
+                    params.titleName=hotCity.cityName;
+                    params.id=hotCity.cityId;
+                    intent.putExtra(Constants.PARAMS_DATA,params);
+                    mContext.startActivity(intent);
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页热门目的地");
+                }
+            });
             return convertView;
         }
     }
