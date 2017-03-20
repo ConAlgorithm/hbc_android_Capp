@@ -53,4 +53,7 @@ public class GroupParentParam implements Serializable {
     public int commission;
     public Integer serviceEndCityid;            // 结束城市Id 必填
     public String serviceEndCityname;           // 结束城市
+    public String startAddress;                 // 出发地地址 //GDS-M C-APP-O
+    public String startAddressPoi;              // 出发地点POI //M
+    public String startAddressDetail;           // 出发地详情(上车地点) //O-for-CAPP | M-for-GDS
 }
