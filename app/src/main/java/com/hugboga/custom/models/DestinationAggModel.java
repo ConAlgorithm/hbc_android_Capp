@@ -150,37 +150,37 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     }
 
 
-    private void setCityGridParams(LinearLayout gridView, List<HomeBeanV2.HotCity> cities) {
-//        CityAdapter cityAdapter = new CityAdapter(cities);
-//        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
-//        gridView.setColumnWidth(gridWidth);
-//        gridView.setNumColumns(3);
-//        gridView.setAdapter(cityAdapter);
-        gridView.removeAllViews();
-        Context context = gridView.getContext();
-        for(int i=0;i<cities.size();i++){
-            LinearLayout linearLayout;
-            if(i%3==0){
-                 linearLayout = new LinearLayout(context);
-            }else{
-                linearLayout = (LinearLayout) gridView.getChildAt(gridView.getChildCount()-1);
-            }
-            View view = getView(context,cities.get(i));
-            if((i+1)%3!=0){
-                LinearLayout.LayoutParams clayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                ,ViewGroup.LayoutParams.WRAP_CONTENT);
-                clayoutParams.rightMargin = UIUtils.dip2px(10);
-                linearLayout.addView(view,clayoutParams);
-            }else{
-                linearLayout.addView(view);
-            }
-            if(i%3==0){
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.topMargin = UIUtils.dip2px(10);
-                gridView.addView(linearLayout,lp);
-            }
-        }
+    private void setCityGridParams(GridView gridView, List<HomeBeanV2.HotCity> cities) {
+        CityAdapter cityAdapter = new CityAdapter(cities,gridView.getContext());
+        int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
+        gridView.setColumnWidth(gridWidth);
+        gridView.setNumColumns(3);
+        gridView.setAdapter(cityAdapter);
+//        gridView.removeAllViews();
+//        Context context = gridView.getContext();
+//        for(int i=0;i<cities.size();i++){
+//            LinearLayout linearLayout;
+//            if(i%3==0){
+//                 linearLayout = new LinearLayout(context);
+//            }else{
+//                linearLayout = (LinearLayout) gridView.getChildAt(gridView.getChildCount()-1);
+//            }
+//            View view = getView(context,cities.get(i));
+//            if((i+1)%3!=0){
+//                LinearLayout.LayoutParams clayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+//                ,ViewGroup.LayoutParams.WRAP_CONTENT);
+//                clayoutParams.rightMargin = UIUtils.dip2px(10);
+//                linearLayout.addView(view,clayoutParams);
+//            }else{
+//                linearLayout.addView(view);
+//            }
+//            if(i%3==0){
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.WRAP_CONTENT);
+//                lp.topMargin = UIUtils.dip2px(10);
+//                gridView.addView(linearLayout,lp);
+//            }
+//        }
     }
 
 
@@ -210,7 +210,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         @Bind(R.id.home_dest_title_name)
         TextView titleName;
         @Bind(R.id.home_dest_city_gridview)
-        LinearLayout cityGridView;
+        GridView cityGridView;
         @Bind(R.id.home_dest_spe_line)
         View speLine;
         @Bind(R.id.home_dest_country_text_label)
@@ -265,9 +265,11 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     class CityAdapter extends BaseAdapter {
 
         private List<HomeBeanV2.HotCity> hotCityList;
+        private Context mContext;
 
-        public CityAdapter(List<HomeBeanV2.HotCity> hotCityList) {
+        public CityAdapter(List<HomeBeanV2.HotCity> hotCityList,Context context) {
             this.hotCityList = hotCityList;
+            this.mContext = context;
         }
 
         @Override
@@ -290,20 +292,37 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             CityViewHolder cityViewHolder;
             if (convertView == null) {
                 cityViewHolder = new CityViewHolder();
-                convertView = LayoutInflater.from(MyApplication.getAppContext()).
+                convertView = LayoutInflater.from(mContext).
                         inflate(R.layout.home_dest_gridcity_item, null);
                 ButterKnife.bind(cityViewHolder, convertView);
                 convertView.setTag(cityViewHolder);
             } else {
                 cityViewHolder = (CityViewHolder) convertView.getTag();
             }
-            HomeBeanV2.HotCity hotCity = hotCityList.get(position);
+            final HomeBeanV2.HotCity hotCity = hotCityList.get(position);
             cityViewHolder.cityGuideCount.setText(hotCity.cityGuideAmount + "位司导");
             cityViewHolder.cityName.setText(hotCity.cityName);
             int gridWidth = (UIUtils.screenWidth - UIUtils.dip2px(50)) / 3;
             cityViewHolder.cityPicture.getLayoutParams().width = gridWidth;
             cityViewHolder.cityPicture.getLayoutParams().height = gridWidth * 80 / 110;
+            cityViewHolder.filterPictureView.getLayoutParams().width = gridWidth;
+            cityViewHolder.filterPictureView.getLayoutParams().height =  gridWidth * 80 / 110;
             Tools.showImage(cityViewHolder.cityPicture, hotCity.cityPicture, R.mipmap.home_default_route_item);
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle=new Bundle();
+                    CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                    Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                    bundle.putSerializable(Constants.PARAMS_SOURCE,"首页热门目的地");
+                    params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
+                    params.titleName=hotCity.cityName;
+                    params.id=hotCity.cityId;
+                    intent.putExtra(Constants.PARAMS_DATA,params);
+                    mContext.startActivity(intent);
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页热门目的地");
+                }
+            });
             return convertView;
         }
     }
@@ -376,6 +395,8 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     static class CityViewHolder {
         @Bind(R.id.home_dest_gridcity_img)
         ImageView cityPicture;
+        @Bind(R.id.home_dest_gridcity_img_filter)
+        View filterPictureView;
         @Bind(R.id.home_dest_gridcity_guide_count)
         TextView cityGuideCount;
         @Bind(R.id.home_dest_gridcity_name)
