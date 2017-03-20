@@ -160,6 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_style"
+            android:clickable="false"
             android:text="@string/usually_credit_tip"
             android:textColor="#393838"
             android:checked="true"

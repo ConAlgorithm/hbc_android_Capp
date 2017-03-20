@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,7 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
     TravelPurposeFormBean travelPurposeFormBean = null;
     TravelPurposeFormBean.ListData data;
     List<TravelPurposeFormBean.ListData> listData;
+    Boolean isFirst = true;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -68,7 +71,6 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
     @Override
     protected void onResume() {
         super.onResume();
-        setRequest(0,false);
     }
 
     public void initView(){
@@ -92,9 +94,10 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
             @Override
             public void onRefresh() {
                 setRequest(0,false);
+                isFirst = true;
             }
         });
-
+        addOnScrollEvent();
     }
 
     public Callback.Cancelable setRequest(int pageIndex, boolean needShowLoading){
@@ -109,7 +112,7 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
         if (request instanceof RequestTravelPurposeFormList){
             travelPurposeFormBean = ((RequestTravelPurposeFormList) request).getData();
             listData = travelPurposeFormBean.listDatas;
-            adapter.addData(listData);
+            adapter.addData(listData, !isFirst);
         }
         swipe.setRefreshing(false);
     }
@@ -140,6 +143,31 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
             intent.putExtras(bundle);
             startActivity(intent);
         }
+    }
+
+    public void addOnScrollEvent(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    if (null == travelPurposeFormBean && listData.size() == 0){
+                        return;
+                    }
+                    int lastVisibleItem = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    int totalCount = listData.size() - 1;
+                    if (lastVisibleItem >= totalCount - adapter.getHeadersCount() && adapter.getListCount() < travelPurposeFormBean.listCount ){
+                        isFirst = false;
+                        setRequest(adapter.getListCount(), false);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
 

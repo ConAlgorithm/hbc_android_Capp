@@ -94,6 +94,7 @@ public class UrlLibs {
     public static String H5_TAI_AGREEMENT = H5_HOST + "/cinfos/agreement.html";//用户协议和条款
 
     public static String H5_SHAREGUI = H5_HOST + "/cactivity/shareGui/index.html?";//分享砍价
+    public static String H5_CREDIT_CARD_ARGEEMENT =H5_HOST + "/cinfos/pay_agreement.html ";//常用信用卡协议
 
 
 

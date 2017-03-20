@@ -28,39 +28,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
+import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.util.PhoneInfo;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddCreditCard;
 import com.hugboga.custom.data.request.RequestCreditCardPay;
+import com.hugboga.custom.utils.JsonUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.yilianapi.YiLianPay;
-import com.payeco.android.plugin.PayecoPluginPayCallBack;
-import com.payeco.android.plugin.PayecoPluginPayIn;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
@@ -71,69 +58,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.huangbaoche.hbcframe.HbcApplication;
-import com.huangbaoche.hbcframe.util.MLog;
-import com.huangbaoche.hbcframe.util.PhoneInfo;
-import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.ChoosePaymentActivity;
-import com.hugboga.custom.activity.PayResultActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.YiLianPayBean;
-import com.hugboga.custom.data.net.UrlLibs;
-import com.payeco.android.plugin.PayecoPluginPayCallBack;
-import com.payeco.android.plugin.PayecoPluginPayIn;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static android.support.v4.app.ActivityCompat.requestPermissions;
-import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale;
-import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static com.huangbaoche.hbcframe.data.net.HttpRequestUtils.getDialogUtil;
 
 /**
@@ -240,15 +172,9 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         //协议设置下划线
         commomCreditCardPaymentProtocol.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         commomCreditCardPaymentProtocol.getPaint().setAntiAlias(true);
+        OrderUtils.genCreditAgreeMent(this,commomCreditCardPaymentProtocol);
 
         addCreditSecStepReserverdPhone.addTextChangedListener(watcher);
-        commonCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setNextStepStatus(checkEmpty());
-            }
-        });
-
         setNextStepStatus(checkEmpty());
     }
 
@@ -316,8 +242,34 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestCreditCardPay){
+            ServerException serverException = (ServerException) errorInfo.exception;
+            String errResult = serverException.getMessage();
+
+            String[] str1= errResult.split("<RETMSG>");
+            String[] str11 = str1[1].split("</RETMSG>");
+            String mesg = str11[0];                     //截取错误信息
+
+            String[] strCode1 = errResult.split("<RETCODE>");
+            String[] strCode11 = strCode1[1].split("</RETCODE>");
+            String code = strCode11[0];                 //截取错误code
+
+            if (ExceptionErrorCode.ERROR_CODE_SERVER == errorInfo.state) {
+                try {
+                    if (!TextUtils.isEmpty(JsonUtils.getJsonStr(this, "yilianErrorCode.json"))) {
+                        JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(this, "yilianErrorCode.json"));
+                        jsonObject.has(code);
+                        Toast.makeText(this, mesg, Toast.LENGTH_LONG).show();
+                        dialogUtil.dismissLoadingDialog();
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         dialogUtil.dismissLoadingDialog();
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
