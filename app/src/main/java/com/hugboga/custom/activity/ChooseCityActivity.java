@@ -171,6 +171,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
          */
         public static final int PICK_UP = 0x0003;
 
+        public static final int OUTTOWN = 0x0004;
+
     }
 
     @Override
@@ -677,8 +679,10 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     }
                     if (showType != ShowType.SELECT_CITY) {
                         onPreExecuteHandler.sendEmptyMessage(MessageType.HOT_CITY);
-                        onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
-                        onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
+                        if (showType != ShowType.OUTTOWN) {
+                            onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
+                            onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
+                        }
                     }
                     mAsyncHandler.sendMessage(message);
                     break;

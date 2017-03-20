@@ -231,6 +231,7 @@ public class CharterItemView extends LinearLayout{
         intent.putExtra(ChooseCityActivity.KEY_CITY_ID, cityBean.cityId);
         intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, CharterItemView.TAG);
         intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.FROM_OUTTOWN);
+        intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.OUTTOWN);
         getContext().startActivity(intent);
     }
 

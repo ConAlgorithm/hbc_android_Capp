@@ -835,4 +835,6 @@
     <string name="alert_submit_success">司导小助手将主动联系您</string>
     <string name="travel_purpose_form_list">我的旅行心愿</string>
     <string name="travel_purpose_form_detail">旅行心愿详情</string>
+
+    <string name="bargain_hint">支付后参与砍价活动，还可再减100元哦！</string>
 </resources>

@@ -18,15 +18,18 @@
     * [3.10 选择优惠方式](#index3.10)
     * [3.11 确认订单](#index3.11)  
 * [4. 主要类描述](#index4) 
-    * [4.1 类图](#index4.1)  
-        * [4.1.1 下单step1类图](#index4.1.1)  
-        * [4.1.2 下单step2类图](#index4.1.2) 
-        * [4.1.3 下单step3类图](#index4.1.3) 
-    * [4.2 主要类解释](#index4.2) 
-        * [4.2.1 CharterFirstStepActivity.class ](#index4.1.1)  
-        * [4.2.2 CharterSecondStepActivity.class](#index4.2.2) 
-        * [4.2.3 CombinationOrderActivity.class ](#index4.2.3) 
-        * [4.2.4 CharterDataUtils.class](#index4.2.4) 
+    * [4.1 页面框架](#index4.1)
+        * [4.1.1 EventBus](#index4.1.1)
+        * [4.1.2 Epoxy](#index4.1.2)
+    * [4.2 类图](#index4.2)  
+        * [4.2.1 下单step1类图](#index4.2.1)  
+        * [4.2.2 下单step2类图](#index4.2.2) 
+        * [4.2.3 下单step3类图](#index4.2.3) 
+    * [4.3 主要类解释](#index4.3) 
+        * [4.3.1 CharterFirstStepActivity.class ](#index4.3.1)  
+        * [4.3.2 CharterSecondStepActivity.class](#index4.3.2) 
+        * [4.3.3 CombinationOrderActivity.class ](#index4.3.3) 
+        * [4.3.4 CharterDataUtils.class](#index4.3.4) 
       
 ### <a name="index1"/>简述
 组合单指用户的一段行程可以自由安排接机、包车、送机的组合方式出行
@@ -99,20 +102,33 @@
 
 ### <a name="index4"/>主要类描述
 
-##### <a name="index4.1"/>类图
+##### <a name="index4.1"/>页面框架
+所有activity被拆分成多个模块，每个模块由一个view控制，处理各自的UI逻辑，不相互引用，只对外提供接口，或由EventBus传递消息，activity中实现接口、
+并负责一些事件的分发。
 
-###### <a name="index4.1.1"/>下单step1类图
+###### <a name="index4.1.1"/>[EventBus](https://github.com/greenrobot/EventBus)
+部分数据传递使用EventBus,EventBus是一款针对Android优化的发布/订阅事件总线，主要实现线程之间传递消息。
+![](img/doc_img_group_order_6.png) 
+
+###### <a name="index4.1.2"/>[Epoxy](https://github.com/airbnb/epoxy)
+step2页选行程列表逻辑较为复杂，使用Epoxy以组合的方式来创建列表，列表中的每个item由一个model代表，model定义了item的布局，id以及span。
+model还负责处理数据到视图的绑定，在视图被回收的时候释放资源。如果要显示这些model则把它们添加到Epoxy的adapter中，由adapter来处理复杂的显示问题。
+* minSdkVersion 16
+
+##### <a name="index4.2"/>类图
+
+###### <a name="index4.2.1"/>下单step1类图
 ![](img/doc_img_group_order_2.png) 
 
-###### <a name="index4.1.2"/>下单step2类图
+###### <a name="index4.2.2"/>下单step2类图
 ![](img/doc_img_group_order_3.png) 
 
-###### <a name="index4.1.2"/>下单step3类图
+###### <a name="index4.2.3"/>下单step3类图
 ![](img/doc_img_group_order_4.png) 
 
-##### <a name="index4.2"/>主要类解释
+##### <a name="index4.3"/>主要类解释
 
-###### <a name="index4.2.1"/>CharterFirstStepActivity.class 
+###### <a name="index4.3.1"/>CharterFirstStepActivity.class 
 下单step1：填写开始城市、包车日期、出行人数
 
 | 方法 | 注释 | 
@@ -125,7 +141,7 @@
 | public void onEventMainThread(EventAction action) | EventBus回调 |
 | public void requestCarMaxCapaCity(int cityId) | 获取当前城市的最大出行人数 |
 
-###### <a name="index4.2.2"/>CharterSecondStepActivity.class
+###### <a name="index4.3.2"/>CharterSecondStepActivity.class
 下单step2：选择行程
 
 | 方法 | 注释 | 
@@ -143,11 +159,11 @@
 | public void onCharterItemClick(CityRouteScope cityRouteScope) | 选择行程|
 | public void updateDrawFences() | 更新围栏 |
 
-###### <a name="index4.2.3"/>CombinationOrderActivity.class 
+###### <a name="index4.3.3"/>CombinationOrderActivity.class 
 下单step3：报价选车、出行人信息、优惠方式、出行人数、确认订单；
 同"线路确认订单页"
 
-###### <a name="index4.2.4"/>CharterDataUtils.class
+###### <a name="index4.3.4"/>CharterDataUtils.class
 用来存储组合单下单数据，单例模式，在step1退出时、step3确定订单时清空数据
 
 | 变量 | 注释 | 

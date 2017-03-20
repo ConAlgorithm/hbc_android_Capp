@@ -128,11 +128,11 @@ public class TravelItemView extends LinearLayout {
             }
         }
 
-        // 前一天是随便转转或只接机，当前天不能删除
+        // 前一天是只接机，当前天不能删除
         boolean isCanDel = true;
         if (position > 0 && position - 1 < travelListSize) {
             CityRouteBean.CityRouteScope preCityRouteScope = travelList.get(position - 1);
-            if (preCityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL || preCityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {
+            if (preCityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {
                 isCanDel = false;
             }
         }
@@ -226,7 +226,7 @@ public class TravelItemView extends LinearLayout {
             travelItemTitleTv.setText(String.format("Day%1$s", _position + 1));//标题
             travelItemTitleTv.setTextColor(0xFFA8A8A8);
 
-            if (!isCanDel) {//前一天是随便转转
+            if (!isCanDel) {
                 setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
             } else if (_position - 1 < travelListSize && _position == chooseDateBean.dayNums - 1) {
                 setEditLayout(isCanEdit ? EditType.ALL : EditType.DEL);

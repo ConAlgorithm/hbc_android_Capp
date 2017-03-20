@@ -150,7 +150,7 @@ public class TravelListActivity extends BaseActivity {
 
         @Override
         public void onEditClick(int position) {
-            EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, position + 1));
+            EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(position + 1)));
             activity.finish();
         }
 
@@ -174,16 +174,21 @@ public class TravelListActivity extends BaseActivity {
                     chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
                     chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
 
-//                    if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {//当前天是随便转转，删除数据，改为默认市内一日游
-//                        if (charterDataUtils.travelList.get(chooseDateBean.dayNums - 1).routeType == CityRouteBean.RouteType.AT_WILL) {
-//                            charterDataUtils.cleanDayDate(chooseDateBean.dayNums);
-//                            charterDataUtils.addStartCityBean(chooseDateBean.dayNums, charterDataUtils.setDefaultCityBean(chooseDateBean.dayNums));
-//                        }
-//                    }
+                    boolean isAtwill = false;
+                    if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {//当前天是随便转转，删除数据，改为默认市内一日游
+                        if (charterDataUtils.travelList.get(chooseDateBean.dayNums - 1).routeType == CityRouteBean.RouteType.AT_WILL) {
+                            if (chooseDateBean.dayNums > 1 && chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
+                                charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);
+                                isAtwill = true;
+                            }
+                        }
+                    }
                     setData();
                     if (charterDataUtils.currentDay == chooseDateBean.dayNums + 1) {
                         charterDataUtils.currentDay--;
-                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, charterDataUtils.currentDay));
+                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(charterDataUtils.currentDay)));
+                    } else if (isAtwill) {
+                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(charterDataUtils.currentDay, true)));
                     }
                     dialog.dismiss();
                 }

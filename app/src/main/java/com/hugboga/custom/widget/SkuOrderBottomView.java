@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/12/17.
  */
-public class SkuOrderBottomView extends RelativeLayout {
+public class SkuOrderBottomView extends LinearLayout {
 
     @Bind(R.id.sku_order_bottom_price_tv)
     TextView priceTV;
@@ -33,6 +34,7 @@ public class SkuOrderBottomView extends RelativeLayout {
 
     public SkuOrderBottomView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setOrientation(LinearLayout.VERTICAL);
         View view = inflate(context, R.layout.view_sku_order_bottom, this);
         ButterKnife.bind(view);
     }

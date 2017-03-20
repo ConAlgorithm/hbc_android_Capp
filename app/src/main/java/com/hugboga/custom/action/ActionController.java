@@ -44,6 +44,8 @@ public class ActionController implements ActionControllerBehavior {
                 _actionBean.type = "" + ActionType.NATIVE_PAGE;
                 _actionBean.vcid = "" + ActionPageType.WEBVIEW;
                 _actionBean.data = "{\"u\":\"" + _actionBean.url + "\"}";
+                doAction(context, _actionBean);
+                break;
             case ActionType.NATIVE_PAGE:
                 if (TextUtils.isEmpty(_actionBean.vcid)) {
                     nonsupportToast();
