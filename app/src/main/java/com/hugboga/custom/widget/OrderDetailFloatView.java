@@ -41,7 +41,7 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
         final OrderBean orderBean = (OrderBean) _data;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {//待支付
             setVisibility(View.VISIBLE);
-            needPayTV.setText(String.valueOf(Math.round(orderBean.orderPriceInfo.actualPay)));
+            needPayTV.setText(getContext().getResources().getString(R.string.sign_rmb) + String.valueOf(Math.round(orderBean.orderPriceInfo.actualPay)));
             //立即支付
             findViewById(R.id.order_detail_pay_tv).setOnClickListener(new OnClickListener() {
                 @Override

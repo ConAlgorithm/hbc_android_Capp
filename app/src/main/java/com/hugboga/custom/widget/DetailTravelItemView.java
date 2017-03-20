@@ -11,9 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CityRouteBean;
-import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -26,6 +23,9 @@ import butterknife.ButterKnife;
  */
 
 public class DetailTravelItemView extends LinearLayout implements HbcViewBehavior{
+
+    @Bind(R.id.travel_item_parent_layout)
+    LinearLayout parentLayout;
 
     @Bind(R.id.travel_item_edit_iv)
     ImageView travelItemEditIv;
@@ -101,6 +101,8 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         travelItemEditTv.setVisibility(View.GONE);
         travelItemEditLineView.setVisibility(View.GONE);
         travelItemDelTv.setVisibility(View.GONE);
+
+        parentLayout.setLayoutParams(new LinearLayout.LayoutParams(UIUtils.getScreenWidth(), LayoutParams.WRAP_CONTENT));
     }
 
     @Override
@@ -132,7 +134,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             updatePickupLayout(data.pickup, true , startDate);
             updateOnlyPickupLayout(data.pickup);
         } else if (data.transfer != null && data.journey != null) {//送机+包车
-            title = data.transfer.startAddress;
+            title = data.journey.startCityName;
             travelItemCharterLineLayout.setVisibility(View.GONE);
             travelItemLineTagLayout.setVisibility(View.GONE);
             travelItemPickupLayout.setVisibility(View.GONE);
@@ -144,7 +146,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemTimeTv.setText("游玩结束送机: " + data.transfer.startAddress);
             updateLineLayout(data.journey, data.pickup);
         } else if (data.transfer != null && data.journey == null) {//只送机
-            title = data.journey.startCityName;
+            title = data.transfer.startAddress;;
             travelItemCharterLineLayout.setVisibility(View.GONE);
             travelItemLineTagLayout.setVisibility(View.GONE);
             travelItemPickupLayout.setVisibility(View.GONE);
@@ -162,7 +164,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemTimeLayout.setVisibility(View.GONE);
             travelItemStartLayout.setVisibility(View.GONE);
             travelItemEndLayout.setVisibility(View.GONE);
-            if (data.journey.startCityId != data.journey.cityId && data.journey.cityId > 0) {//跨城市
+            if (data.journey.startCityId != null && data.journey.startCityId.equals(data.journey.cityId)) {//跨城市
                 title = data.journey.startCityName + "-" + data.journey.cityName;
             } else {//包车
                 title = data.journey.startCityName;
@@ -234,11 +236,11 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
 
         travelItemEndLayout.setVisibility(View.VISIBLE);
         travelItemEndDesTv.setVisibility(View.GONE);
-        travelItemEndTv.setText(transfer.startAddress);//送达机场
+        travelItemEndTv.setText(transfer.destAddress);//送达机场
     }
 
     public boolean isOuttown(OrderBean.CJourneyInfo journey) {
-        if (journey.startCityId != journey.cityId && journey.cityId > 0) {
+        if (journey.startCityId != null && journey.startCityId.equals(journey.cityId)) {
             return true;
         } else {
             return false;
