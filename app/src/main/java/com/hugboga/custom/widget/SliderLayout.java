@@ -61,6 +61,8 @@ public class SliderLayout extends LinearLayout {
     }
 
     public void setSliderEnabled(boolean isEnabled) {
+        minTV.setVisibility(isEnabled ? VISIBLE : INVISIBLE);
+        maxTV.setVisibility(isEnabled ? VISIBLE : INVISIBLE);
         slider.setEnabled(isEnabled);
     }
 
