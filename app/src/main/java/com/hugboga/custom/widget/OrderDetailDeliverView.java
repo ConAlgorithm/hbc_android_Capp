@@ -68,9 +68,13 @@ import cn.iwgang.countdownview.CountdownView;
             return;
         }
         orderBean = (OrderBean) _data;
+        if (orderBean.isSeparateOrder()) {
+            setVisibility(View.GONE);
+            return;
+        }
         if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
             sendRequest(true);
-        } else if (orderBean.orderType != Constants.BUSINESS_TYPE_COMBINATION && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
+        } else if (orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
             removeAllViews();
             if (guideInfoView == null) {
                 guideInfoView = new OrderDetailGuideInfo(getContext());

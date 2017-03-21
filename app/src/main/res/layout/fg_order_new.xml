@@ -732,7 +732,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
-                        android:text="@string/my_coupon"
+                        android:text="使用旅游基金"
                         android:textColor="@color/basic_black"
                         android:textSize="14sp"
                         />

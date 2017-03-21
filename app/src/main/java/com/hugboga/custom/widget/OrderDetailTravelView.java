@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -91,7 +92,8 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
                 firstTitleTV.setText("只接机，航班：" + orderBean.flightNo);
             } else if (orderBean.orderType == 2) {//只送机
                 firstDateTV.setText(DateUtils.orderChooseDateTransform(orderBean.serviceTime));
-                firstTitleTV.setText("只送机，机场：" + orderBean.flightAirportName);
+                String airportName = TextUtils.isEmpty(orderBean.flightAirportName) ? orderBean.destAddress : orderBean.flightAirportName;
+                firstTitleTV.setText("只送机，机场：" + airportName);
             }
             return;
         }

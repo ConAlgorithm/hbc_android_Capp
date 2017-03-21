@@ -2,12 +2,10 @@ package com.hugboga.custom.action.vcid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.data.ActionBean;
-import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.constants.Constants;
 
 /**
@@ -18,7 +16,7 @@ public class ActionPageCharteredCar extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
+        Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
         getContext().startActivity(intent);
     }

@@ -12,6 +12,7 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.PhoneInfo;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChoosePaymentActivity;
@@ -28,6 +30,7 @@ import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.JsonUtils;
 import com.payeco.android.plugin.PayecoPluginPayCallBack;
 import com.payeco.android.plugin.PayecoPluginPayIn;
 
@@ -144,7 +147,7 @@ public class YiLianPay {
 
                     //组织请求参数
                     Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("Environment", ENVIRONMENT); // 00: 测试环境 01: 生产环境
+                    params.put("Environment", BuildConfig.CREDIT_CARD_PAY_ENVIRONMENT); // 00: 测试环境 01: 生产环境
                     params.put("upPay.Req", json.toString());
                     params.put("thePackageName", PhoneInfo.getPackageName()); //提交包名
 
@@ -180,11 +183,16 @@ public class YiLianPay {
                                     return;
                                 }
                                 if (!"0000".equals(code)) { //非0000，订单支付响应异常
-                                    Toast.makeText(payContext, code, Toast.LENGTH_SHORT).show();
-                                    params1.payResult = false;
-                                    intent.putExtra(Constants.PARAMS_DATA, params1);
-                                    payContext.startActivity(intent);
-                                    return;
+                                    if (!TextUtils.isEmpty(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"))) {
+                                        JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"));
+                                        if (jsonObject.has(code)) {
+                                            Toast.makeText(payContext, msg, Toast.LENGTH_LONG).show();
+                                            params1.payResult = false;
+                                            intent.putExtra(Constants.PARAMS_DATA, params1);
+                                            payContext.startActivity(intent);
+                                            return;
+                                        }
+                                    }
                                 }
 
                                 if(obj.has("Status")){

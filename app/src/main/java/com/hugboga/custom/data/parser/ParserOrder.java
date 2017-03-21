@@ -92,6 +92,7 @@ public class ParserOrder extends ImplParser {
         orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
         orderbean.serviceEndTimeStr = jsonObj.optString("serviceEndTimeStr");
 
+        orderbean.carId = jsonObj.optInt("carId");
         orderbean.carType = jsonObj.optInt("carTypeId");
         orderbean.carDesc = jsonObj.optString("carDesc");
         orderbean.seatCategory = jsonObj.optInt("carSeatNum");
@@ -230,6 +231,8 @@ public class ParserOrder extends ImplParser {
             }
         }
         orderbean.journeyList = gson.fromJson(jsonObj.optString("journeyList"), new TypeToken<List<OrderBean.JourneyItem>>(){}.getType());
+
+        orderbean.deliverCategory = jsonObj.optInt("deliverCategory");
         return orderbean;
     }
 }

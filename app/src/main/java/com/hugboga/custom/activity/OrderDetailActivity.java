@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,18 +15,15 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.ChatBean;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestPayNo;
-import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
@@ -35,17 +31,12 @@ import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
-import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailBargainEntr;
 import com.hugboga.custom.widget.OrderDetailDeliverView;
 import com.hugboga.custom.widget.OrderDetailFloatView;
-import com.hugboga.custom.widget.OrderDetailGuideInfo;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -95,6 +86,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private Params params;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
+    private DeliverInfoBean deliverInfoBean;
 
     public static class Params implements Serializable {
         public String orderId;
@@ -200,12 +192,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 explainTV.setText(explainStr);
             }
-        } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
-            orderBean.orderGuideInfo.storeStatus = 0;
-            updateCollectViewText();
-        } else if (_request instanceof RequestCollectGuidesId) {//收藏
-            orderBean.orderGuideInfo.storeStatus = 1;
-            updateCollectViewText();
         } else if (_request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) _request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
@@ -282,60 +268,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     setSensorsEvent();
                 }
                 break;
-            case ORDER_DETAIL_GUIDE_CALL://联系司导
-                if (orderBean == null || orderBean.orderGuideInfo == null) {
-                    return;
-                }
-                PhoneInfo.CallDial(OrderDetailActivity.this, orderBean.orderGuideInfo.guideTel);
-                break;
-            case ORDER_DETAIL_GUIDE_CHAT://和司导聊天
-                final ChatBean chatBean = orderBean.imInfo;
-                if (chatBean == null) {
-                    return;
-                }
-
-                if(!IMUtil.getInstance().isLogined()){
-                    return;
-                }
-                if(TextUtils.isEmpty(chatBean.getNeTargetId())){
-                    return;
-                }
-                NIMChatActivity.start(OrderDetailActivity.this,chatBean.getNeTargetId());
-                break;
-            case ORDER_DETAIL_GUIDE_INFO://司导详情
-                if (orderBean == null || orderBean.orderGuideInfo == null) {
-                    return;
-                }
-                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
-                params.guideId = orderBean.orderGuideInfo.guideID;
-                params.guideCarId = orderBean.orderGuideInfo.guideCarId;
-                params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
-                params.isSelectedService = orderBean.guideAgencyType == 3;
-                intent = new Intent(this, GuideDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                startActivity(intent);
-                break;
-            case ORDER_DETAIL_UPDATE_COLLECT://更新收藏UI
-                orderBean.orderGuideInfo.storeStatus = (int) action.getData();
-                updateCollectViewText();
-                break;
-            case ORDER_DETAIL_GUIDE_COLLECT://收藏 只可收藏不可取消
-                if (orderBean == null || orderBean.orderGuideInfo == null || orderBean.orderGuideInfo.isCollected()) {
-                    return;
-                }
-                EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
-                mDialogUtil.showLoadingDialog();
-                requestData(new RequestCollectGuidesId(OrderDetailActivity.this, orderBean.orderGuideInfo.guideID));
-                break;
-            case ORDER_DETAIL_GUIDE_EVALUATION://评价司导
-                if (orderBean == null) {
-                    return;
-                }
-                intent = new Intent(this, EvaluateActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, orderBean);
-                startActivity(intent);
-                break;
             case ORDER_DETAIL_ROUTE://路线详情
                 if (!eventVerification(action)) {
                     break;
@@ -356,7 +288,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     StatisticClickEvent.click(StatisticConstant.CLICK_RT, "订单详情页");
                 }
                 break;
-
+            case ORDER_DETAIL_UPDATE_COLLECT://更新收藏UI
+                requestData();
+                break;
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
                 if (!eventVerification(action)) {
                     break;
@@ -388,17 +322,19 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    //TODO 收藏应该挪到OrderDetailGuideInfo内处理
-    private void updateCollectViewText() {
-        OrderDetailGuideInfo guideInfoView = deliverView.getGuideInfoView();
-        if (guideInfoView != null) {
-            TextView collectTV = (TextView) guideInfoView.findViewById(R.id.ogi_collect_tv);
-            collectTV.setText(getString(orderBean.orderGuideInfo.isCollected() ? R.string.uncollect : R.string.collect));
-        }
-    }
-
     private boolean eventVerification(EventAction action) {
         return orderBean != null && orderBean.orderNo.equals(action.getData());
+    }
+
+    /*
+    * 记录子单发单信息
+    * */
+    public DeliverInfoBean getDeliverInfoBean() {
+        return deliverInfoBean;
+    }
+
+    public void setDeliverInfoBean(DeliverInfoBean deliverInfoBean) {
+        this.deliverInfoBean = deliverInfoBean;
     }
 
     /**
@@ -409,7 +345,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         if (menuLayout == null) {
-            menuLayout  = LayoutInflater.from(this).inflate(R.layout.popup_top_right_menu, null);
+            menuLayout = LayoutInflater.from(this).inflate(R.layout.popup_top_right_menu, null);
         }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
@@ -485,6 +421,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public String getEventSource() {
         return "订单详情";
+    }
+
+    public OrderBean getOrderBean() {
+        return orderBean;
     }
 
     //神策统计_确认行程

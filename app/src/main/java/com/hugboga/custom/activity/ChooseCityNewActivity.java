@@ -288,7 +288,7 @@ public class ChooseCityNewActivity extends BaseActivity {
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -3) {
-                    Intent intent = new Intent(activity, OrderSelectCityActivity.class);
+                    Intent intent = new Intent(activity, CharterFirstStepActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 } else {

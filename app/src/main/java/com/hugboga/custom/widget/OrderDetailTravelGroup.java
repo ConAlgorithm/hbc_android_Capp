@@ -19,12 +19,13 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 17/3/14.
  */
-public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehavior{
+public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehavior, ViewPager.OnPageChangeListener{
 
     @Bind(R.id.order_detail_travel_tablayout)
     OrderDetailTravelTabLayout tabLayout;
     @Bind(R.id.order_detail_travel_pager)
     ViewPager travelPager;
+    private int lastPosition = 0;
 
     public OrderDetailTravelGroup(Context context) {
         this(context, null);
@@ -38,6 +39,7 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
         final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.order_bottom_padding_left);
         travelPager.setPageMargin(paddingLeft / 2);
         travelPager.setOffscreenPageLimit(3);
+        travelPager.addOnPageChangeListener(this);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
         travelPager.setAdapter(listAdapter);
         tabLayout.setViewPager(travelPager, orderBean, 0);
         int pagerHeight = 0;
-        if (orderBean.orderStatus.code >= 3) {//显示司导 125 130
+        if (orderBean.orderStatus.code >= 2 && orderBean.isSeparateOrder()) {//125 130
             pagerHeight = UIUtils.dip2px(255);
         } else {
             pagerHeight = UIUtils.dip2px(130);
@@ -64,5 +66,23 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
         params.addRule(RelativeLayout.BELOW, R.id.order_detail_travel_tablayout);
         travelPager.setLayoutParams(params);
         travelPager.setClipChildren(false);
+        if (lastPosition < travelPager.getChildCount()) {
+            travelPager.setCurrentItem(lastPosition, false);
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        this.lastPosition =  position;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

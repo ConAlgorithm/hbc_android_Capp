@@ -17,7 +17,6 @@ public class OrderDetailTravelAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<OrderBean> items;
-
     public OrderDetailTravelAdapter(Context context, OrderBean orderBean) {
         this.mContext = context;
         this.items = orderBean.subOrderDetail.subOrderList;

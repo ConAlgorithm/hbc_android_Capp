@@ -257,6 +257,12 @@ public class GroupParamBuilder {
         }
         groupParentParam.serviceEndTime = charterDataUtils.chooseDateBean.end_date + " " + CombinationOrderActivity.SERVER_TIME_END;
         groupParentParam.priceMark = carBean.batchNo;
+
+        if (startPoiBean != null) {
+            groupParentParam.startAddress = startPoiBean.placeName;
+            groupParentParam.startAddressPoi = startPoiBean.placeDetail;
+            groupParentParam.startAddressDetail = startPoiBean.location;
+        }
         return groupParentParam;
     }
 

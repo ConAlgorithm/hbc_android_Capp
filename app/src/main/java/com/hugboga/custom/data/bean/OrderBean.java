@@ -43,7 +43,6 @@ public class OrderBean implements IBaseBean{
     public String coupPriceInfo;
     public String childSeatStr;// 儿童座椅价格及个数
     public String cancelReason;// 取消订单原因
-    public int carId;
     public int special;
     public int capOfPerson;
     public int orderIndex;//标识是第几段行程 1开始
@@ -97,6 +96,7 @@ public class OrderBean implements IBaseBean{
     public String serviceTimeStr;     // 格式化后的当地时间串 开始时间例如： 04月21日（周五）10:05
     public String serviceEndTimeStr;  // 格式化后的服务结束时间，当地时间串 结束时间
 
+    public int carId;
     public Integer carType;              // carTypeId 车辆类型：1-经济型、2-舒适型、3-豪华型、4-奢华型；
     public String carDesc;               // 车辆描述（现代圣达菲,起亚K5,雪佛兰迈锐宝）
     public Integer seatCategory;         // carSeatNum 车座数
@@ -175,6 +175,11 @@ public class OrderBean implements IBaseBean{
     public Integer orderJourneyCount;           // 子单个数
     public List<String> subOrderGuideAvartar;   // 子单司导头像
     public List<JourneyItem> journeyList;       // 行程信息
+    public int deliverCategory;                 // 0普通发单，1组合单主单发单，2组合单拆单发单，3人工拆单，
+
+    public boolean isSeparateOrder() {
+        return deliverCategory == 2 || deliverCategory == 3;
+    }
 
     @Deprecated
     public String getOrderTypeStr(Context context) {

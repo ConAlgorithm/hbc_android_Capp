@@ -382,7 +382,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 }
                 bundle.putString("source",source);
                 EventUtil.getInstance().sourceDetail = getIntentSource();
-                Intent intent = new Intent(activity, OrderSelectCityActivity.class);
+                Intent intent = new Intent(activity, CharterFirstStepActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 intent.putExtras(bundle);
                 startActivity(intent);
