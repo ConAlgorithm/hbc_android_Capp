@@ -183,11 +183,16 @@ public class YiLianPay {
                                     return;
                                 }
                                 if (!"0000".equals(code)) { //非0000，订单支付响应异常
-                                    Toast.makeText(payContext, code, Toast.LENGTH_SHORT).show();
-                                    params1.payResult = false;
-                                    intent.putExtra(Constants.PARAMS_DATA, params1);
-                                    payContext.startActivity(intent);
-                                    return;
+                                    if (!TextUtils.isEmpty(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"))) {
+                                        JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"));
+                                        if (jsonObject.has(code)) {
+                                            Toast.makeText(payContext, msg, Toast.LENGTH_LONG).show();
+                                            params1.payResult = false;
+                                            intent.putExtra(Constants.PARAMS_DATA, params1);
+                                            payContext.startActivity(intent);
+                                            return;
+                                        }
+                                    }
                                 }
 
                                 if(obj.has("Status")){
@@ -244,14 +249,6 @@ public class YiLianPay {
                                     payContext.startActivity(intent);
                                     return;
                                 }
-//
-//                                if (!TextUtils.isEmpty(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"))){
-//                                    JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"));
-//                                    if (jsonObject.has(code)) {
-//                                        Toast.makeText(payContext, jsonObject.getString(code), Toast.LENGTH_LONG).show();
-//                                        return;
-//                                    }
-//                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
