@@ -70,10 +70,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+            startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+                startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
         setContentView(R.layout.activity_charter_first);
@@ -96,6 +98,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         super.onSaveInstanceState(outState);
         if (guidesDetailData != null) {
             outState.putSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+        }
+        if (startBean != null) {
+            outState.putSerializable(Constants.PARAMS_START_CITY_BEAN, startBean);
         }
     }
 
@@ -121,6 +126,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             guideLayout.setVisibility(View.VISIBLE);
             Tools.showImage(avatarIV, guidesDetailData.avatar, R.mipmap.icon_avatar_guide);
             guideTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guidesDetailData.guideName, guidesDetailData.countryName));
+        }
+
+        if (startBean != null) {
+            cityTV.setText(startBean.name);
+            requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
         }
     }
 

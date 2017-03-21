@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.OrderSelectCityActivity;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.constants.Constants;
@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.CityHomeBean;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -250,10 +251,10 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
     }
 
     private void goDairy(){
-        Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
+        Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, "城市页");
         if (cityHomeBean != null && cityHomeBean.cityContent != null) {
-            intent.putExtra(Constants.PARAMS_CITY_ID, "" + cityHomeBean.cityContent.cityId);
+            intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityHomeBean.cityContent.cityId));
         }
         getContext().startActivity(intent);
     }
