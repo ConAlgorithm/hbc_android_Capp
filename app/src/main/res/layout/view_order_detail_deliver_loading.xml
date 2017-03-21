@@ -3,8 +3,8 @@
 
     <ImageView
         android:id="@+id/oeder_detail_deliver_loading_view"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
         android:background="@mipmap/icon_head_noguide"/>
 
     <TextView

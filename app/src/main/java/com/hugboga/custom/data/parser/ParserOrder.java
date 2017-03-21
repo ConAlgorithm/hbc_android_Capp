@@ -92,6 +92,7 @@ public class ParserOrder extends ImplParser {
         orderbean.serviceTimeStr = jsonObj.optString("serviceTimeStr");
         orderbean.serviceEndTimeStr = jsonObj.optString("serviceEndTimeStr");
 
+        orderbean.carId = jsonObj.optInt("carId");
         orderbean.carType = jsonObj.optInt("carTypeId");
         orderbean.carDesc = jsonObj.optString("carDesc");
         orderbean.seatCategory = jsonObj.optInt("carSeatNum");

@@ -209,7 +209,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 }
                 GuideDetailActivity.Params params = new GuideDetailActivity.Params();
                 params.guideId = orderBean.orderGuideInfo.guideID;
-                params.guideCarId = orderBean.orderGuideInfo.guideCarId;
+                params.guideCarId = "" + orderBean.carId;
                 params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
                 params.isSelectedService = orderBean.guideAgencyType == 3;
                 intent = new Intent(getContext(), GuideDetailActivity.class);
