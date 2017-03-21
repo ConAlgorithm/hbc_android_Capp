@@ -244,7 +244,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                             dailyPlace += " - " + orderBean.serviceEndCityName;
                         }
-                        dailyPlace += String.format("含%1$s段行程", orderBean.orderJourneyCount);
+                        dailyPlace += String.format("（含%1$s段行程）", orderBean.orderJourneyCount);
                         vh.startAddressTV.setText(dailyPlace);
                     }
                     vh.endAddressLayout.setVisibility(View.GONE);
