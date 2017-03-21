@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
@@ -85,6 +86,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private Params params;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
+    private DeliverInfoBean deliverInfoBean;
 
     public static class Params implements Serializable {
         public String orderId;
@@ -324,6 +326,17 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         return orderBean != null && orderBean.orderNo.equals(action.getData());
     }
 
+    /*
+    * 记录子单发单信息
+    * */
+    public DeliverInfoBean getDeliverInfoBean() {
+        return deliverInfoBean;
+    }
+
+    public void setDeliverInfoBean(DeliverInfoBean deliverInfoBean) {
+        this.deliverInfoBean = deliverInfoBean;
+    }
+
     /**
      * 右上角的菜单，取消订单 联系客服，此部分copy自旧代码
      */
@@ -332,7 +345,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         if (menuLayout == null) {
-            menuLayout  = LayoutInflater.from(this).inflate(R.layout.popup_top_right_menu, null);
+            menuLayout = LayoutInflater.from(this).inflate(R.layout.popup_top_right_menu, null);
         }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
@@ -408,6 +421,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public String getEventSource() {
         return "订单详情";
+    }
+
+    public OrderBean getOrderBean() {
+        return orderBean;
     }
 
     //神策统计_确认行程

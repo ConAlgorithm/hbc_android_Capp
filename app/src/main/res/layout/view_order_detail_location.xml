@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="3dp"
-    android:orientation="vertical">
+    android:paddingBottom="3dp">
+
     <RelativeLayout
+        android:id="@+id/order_travel_item_start_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp">
@@ -53,6 +54,8 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/order_travel_item_end_layout"
+        android:layout_below="@+id/order_travel_item_start_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
@@ -96,6 +99,15 @@
             android:textColor="#808080"
             android:textSize="11sp" />
     </RelativeLayout>
-</LinearLayout>
+
+    <View
+        android:layout_above="@+id/order_travel_item_end_layout"
+        android:layout_alignParentTop="true"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginTop="24dp"
+        android:background="#c0c0c0" />
+</RelativeLayout>
 
 

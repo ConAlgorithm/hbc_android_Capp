@@ -93,6 +93,9 @@ public class HttpRequestUtils {
 //                MLog.e(request.getClass().getSimpleName()+" onSuccess result=" + result);
                 MLog.log(MLog.LogLevel.DEBUG, request.getClass().getSimpleName() + " onSuccess result=" + result);
                 try {
+                    if ("{\"status\":200}".equals(result)) {
+                        return;
+                    }
                     ImplParser parser = request.getParser();
                     if(parser==null) parser= new DefaultParser();//默认解析器
                     Object data = parser.parse(String.class, String.class, result);
