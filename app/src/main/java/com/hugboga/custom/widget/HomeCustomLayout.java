@@ -69,8 +69,7 @@ public class HomeCustomLayout extends LinearLayout{
         switch (view.getId()) {
             case R.id.home_custom_chartered_layout://包车
 //                intentActivity(OrderSelectCityActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
-                Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
-                getContext().startActivity(intent);
+                intentActivity(CharterFirstStepActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
                 break;
             case R.id.home_custom_pickup_layout://中文接送机
                 intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);

@@ -47,6 +47,9 @@ public class LetterOrderAdapter extends BaseAdapter<ChatOrderBean> {
     }
 
     private void setFormatTime(TextView textView,ChatOrderBean chatOrderBean){
+        if (chatOrderBean == null || chatOrderBean.serviceTime == null) {
+            return;
+        }
       if(chatOrderBean.status.equals("进行中")){
             String orderTime = chatOrderBean.serviceTime.length() > 9 ? chatOrderBean.serviceEndTime.substring(0, 10):
                     chatOrderBean.serviceTime;
