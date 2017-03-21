@@ -127,4 +127,8 @@
     <dimen name="travel_item_margin_left">28dp</dimen>
 
     <dimen name="purpose_form_width">85dip</dimen>
+
+    <dimen name="message_bottom_function_viewpager_height">110dp</dimen>
+    <dimen name="input_panel_image_margin_bottom">3dip</dimen>
+    <dimen name="input_panel_image_margin_top">16dip</dimen>
 </resources>

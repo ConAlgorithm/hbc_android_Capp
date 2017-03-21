@@ -82,7 +82,7 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
         holder.ratingView.setRating(collectGuideBean.stars);
 
         holder.score.setText(collectGuideBean.stars + "分");
-        holder.city.setText(collectGuideBean.countryName+"-"+collectGuideBean.cityName);
+        holder.city.setText(collectGuideBean.cityName + "-" + collectGuideBean.countryName);
 
         if(collectGuideBean.gender == 1){
             holder.nameTV.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.man_icon,0);

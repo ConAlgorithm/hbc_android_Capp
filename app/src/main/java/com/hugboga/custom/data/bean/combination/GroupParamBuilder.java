@@ -1,14 +1,11 @@
 package com.hugboga.custom.data.bean.combination;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.CombinationOrderActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -18,7 +15,6 @@ import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GroupQuotesBean;
-import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -26,7 +22,6 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestBatchPrice;
 import com.hugboga.custom.utils.CharterDataUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Config;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.JsonUtils;
@@ -42,7 +37,6 @@ public class GroupParamBuilder {
 
     private Context context;
     private CharterDataUtils charterDataUtils;
-    private CarListBean carListBean;
     private CarBean carBean;
     private ManLuggageBean manLuggageBean;
     private ContactUsersBean contactUsersBean;
@@ -52,7 +46,6 @@ public class GroupParamBuilder {
     private CouponBean couponBean;
     private MostFitBean mostFitBean;
     private PoiBean startPoiBean;
-    private int allChildSeatPrice;
 
     public GroupParamBuilder() {
         context = MyApplication.getAppContext();
@@ -60,11 +53,6 @@ public class GroupParamBuilder {
 
     public GroupParamBuilder charterDataUtils(CharterDataUtils charterDataUtils) {
         this.charterDataUtils = charterDataUtils;
-        return this;
-    }
-
-    public GroupParamBuilder carListBean(CarListBean carListBean) {
-        this.carListBean = carListBean;
         return this;
     }
 
@@ -110,11 +98,6 @@ public class GroupParamBuilder {
 
     public GroupParamBuilder startPoiBean(PoiBean startPoiBean) {
         this.startPoiBean = startPoiBean;
-        return this;
-    }
-
-    public GroupParamBuilder allChildSeatPrice(int allChildSeatPrice) {
-        this.allChildSeatPrice = allChildSeatPrice;
         return this;
     }
 
@@ -204,7 +187,14 @@ public class GroupParamBuilder {
         groupParentParam.adultNum = manLuggageBean.mans;
         groupParentParam.childNum = manLuggageBean.childs;
         groupParentParam.luggageNumber = manLuggageBean.luggages;
-        groupParentParam.childSeatInfo = getAllChileSeatBean(carBean, manLuggageBean);
+
+        OrderBean.ChildSeats childSeats = new OrderBean.ChildSeats();
+        childSeats.childSeatPrice1 = 0;
+        childSeats.childSeatPrice2 = 0;
+        childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(manLuggageBean);
+        childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(manLuggageBean);
+
+        groupParentParam.childSeatInfo = childSeats;
         groupParentParam.userId = UserEntity.getUser().getUserId(context);
         groupParentParam.realSendSms = contactUsersBean.isSendMessage ? 1 : 0;
         groupParentParam.isRealUser = contactUsersBean.isForOther ? 2 : 1;
@@ -218,7 +208,7 @@ public class GroupParamBuilder {
             groupParentParam.realUserExInfo = realUserExInfo;
         }
         groupParentParam.userRemark = mark;
-        groupParentParam.priceChannel = Double.valueOf(carBean.price) + allChildSeatPrice;
+        groupParentParam.priceChannel = Double.valueOf(carBean.price);
         if (isCheckedTravelFund) {
             groupParentParam.travelFund = travelFund;
         } else {
@@ -267,37 +257,13 @@ public class GroupParamBuilder {
         }
         groupParentParam.serviceEndTime = charterDataUtils.chooseDateBean.end_date + " " + CombinationOrderActivity.SERVER_TIME_END;
         groupParentParam.priceMark = carBean.batchNo;
-        return groupParentParam;
-    }
 
-    private OrderBean.ChildSeats getAllChileSeatBean(CarBean _carBean, ManLuggageBean manLuggageBean) {
-        OrderBean.ChildSeats childSeats = new OrderBean.ChildSeats();
-        int allChildSeatPrice1 = 0;
-        int allChildSeatPrice2 = 0;
-        ArrayList<GroupQuotesBean> quotes = _carBean.quotes;
-        int size = quotes.size();
-        for (int i = 0; i < size; i++) {
-            GroupQuotesBean groupQuotesBean = quotes.get(i);
-            if (groupQuotesBean.additionalServicePrice != null) {
-                CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-                if (additionalServicePrice == null) {
-                    continue;
-                }
-                int childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-                int childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
-                if (childSeatPrice1 > 0) {
-                    allChildSeatPrice1 += childSeatPrice1;
-                }
-                if (childSeatPrice2 > 0) {
-                    allChildSeatPrice2 += childSeatPrice2;
-                }
-            }
+        if (startPoiBean != null) {
+            groupParentParam.startAddress = startPoiBean.placeName;
+            groupParentParam.startAddressPoi = startPoiBean.placeDetail;
+            groupParentParam.startAddressDetail = startPoiBean.location;
         }
-        childSeats.childSeatPrice1 = allChildSeatPrice1;
-        childSeats.childSeatPrice2 = allChildSeatPrice2;
-        childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(manLuggageBean);
-        childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(manLuggageBean);
-        return childSeats;
+        return groupParentParam;
     }
 
     private OrderBean.ChildSeats getChileSeatBean(GroupQuotesBean groupQuotesBean, ManLuggageBean manLuggageBean) {
@@ -305,9 +271,8 @@ public class GroupParamBuilder {
             return null;
         }
         OrderBean.ChildSeats childSeats = new OrderBean.ChildSeats();
-        CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-        childSeats.childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-        childSeats.childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
+        childSeats.childSeatPrice1 = 0;
+        childSeats.childSeatPrice2 = 0;
         childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(manLuggageBean);
         childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(manLuggageBean);
         return childSeats;
@@ -332,37 +297,10 @@ public class GroupParamBuilder {
         return userExBean;
     }
 
-    public int getSeatTotalPrice(CarAdditionalServicePrice additionalServicePrice, int childSeatCount) {
-        if (additionalServicePrice == null) {
-            return 0;
-        }
-        int result = 0;
-        if (childSeatCount >= 1 && CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1) > 0) {
-            result = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-        }
-        if (childSeatCount > 1 && CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2) > 0) {
-            result += (CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2) * (childSeatCount - 1));
-        }
-        return result;
-    }
-
     private GroupPickupParam getGroupPickupParam(CityRouteBean.CityRouteScope cityRouteScope) {
         GroupPickupParam groupPickupParam = new GroupPickupParam();
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(0);
-        CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-        if (additionalServicePrice != null) {
-            groupPickupParam.priceFlightBrandSign = CommonUtils.getCountDouble(additionalServicePrice.checkInPrice);
-            if (manLuggageBean.childSeats != 0) {
-                groupPickupParam.priceChannel = groupQuotesBean.price +
-                        OrderUtils.getSeat1PriceTotal(additionalServicePrice, manLuggageBean) +
-                        OrderUtils.getSeat2PriceTotal(additionalServicePrice, manLuggageBean);
-            } else {
-                groupPickupParam.priceChannel = groupQuotesBean.price;
-            }
-        } else {
-            groupPickupParam.priceChannel = groupQuotesBean.price;
-        }
-
+        groupPickupParam.priceChannel = groupQuotesBean.price;
         CityBean startCityBean = charterDataUtils.getStartCityBean(1);
         FlightBean flightBean = charterDataUtils.flightBean;
         groupPickupParam.serviceCityId = startCityBean.cityId;
@@ -481,7 +419,7 @@ public class GroupParamBuilder {
             croupDailyParam.serviceEndCityid = endCityBean.cityId;
         }
 
-        croupDailyParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, manLuggageBean.childSeats);
+        croupDailyParam.priceChannel = groupQuotesBean.price;
         croupDailyParam.priceMark = groupQuotesBean.pricemark;
         croupDailyParam.totalDays = index - groupDailyParamIndex + 1;
         croupDailyParam.serviceCityId = startCityBean.cityId;

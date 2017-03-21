@@ -137,7 +137,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         // 车型描述
         String childSeatCount = "";
         if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
-            childSeatCount = String.format("儿童座椅%1$s个", orderBean.childSeats.getChildSeatCount());
+            childSeatCount = String.format("（儿童座椅%1$s个）", orderBean.childSeats.getChildSeatCount());
         }
         addItemView(R.mipmap.trip_icon_car, orderBean.carDesc + childSeatCount);
 
@@ -165,7 +165,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         // 订单号
         orderNumberView.update(orderBean.orderNo);
 
-        if (orderBean.totalDays == 1) {
+        if (orderBean.orderType == 3) {
             travelView.setVisibility(View.VISIBLE);
             travelView.singleTravel();
             orderBean.orderIndex = 1;

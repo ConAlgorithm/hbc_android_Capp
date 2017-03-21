@@ -175,6 +175,7 @@ public class OrderBean implements IBaseBean{
     public Integer orderJourneyCount;           // 子单个数
     public List<String> subOrderGuideAvartar;   // 子单司导头像
     public List<JourneyItem> journeyList;       // 行程信息
+    public int deliverCategory;                 // 0普通发单，1组合单主单发单，2组合单拆单发单，3人工拆单，
 
     @Deprecated
     public String getOrderTypeStr(Context context) {
@@ -331,6 +332,7 @@ public class OrderBean implements IBaseBean{
         public String destAddressPoi;       // 目的地poi
         public String flightBrandSign;      // 举牌接机姓名
         public String flightNo;             // 航班编号
+        public String serviceCityName;      // 服务城市
     }
 
     public class CTravelDayTransfer implements Serializable{
@@ -373,12 +375,47 @@ public class OrderBean implements IBaseBean{
         public Integer isHalfDaily;        // 是否半日包
         public Double totalHours;          // 当天总时长
 
-//        public ArrayList<Labels> labels;
+        public ArrayList<Labels> labels;
+
+        public String getLabelKilometre() {
+            if (labels == null || labels.size() <= 0) {
+                return "";
+            }
+            int size = labels.size();
+            for (int i = 0; i < size; i++) {
+                Labels label = labels.get(i);
+                if (label == null) {
+                    continue;
+                }
+                if (label.type == 3 || label.type == 4 || label.type == 5) {
+                    return label.kilometre;
+                }
+            }
+            return "";
+        }
+
+        public String getLabelTime() {
+            if (labels == null || labels.size() <= 0) {
+                return "";
+            }
+            int size = labels.size();
+            for (int i = 0; i < size; i++) {
+                Labels label = labels.get(i);
+                if (label == null) {
+                    continue;
+                }
+                if (label.type == 3 || label.type == 4 || label.type == 5) {
+                    return label.time;
+                }
+            }
+            return "";
+        }
     }
 
     public class Labels implements Serializable{
         public String name;
         public String time;
         public String kilometre;
+        public int type;
     }
 }

@@ -808,7 +808,7 @@ public class OrderUtils {
 
     public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
         int start = agree_text.lastIndexOf(agree_text_click);
-        int end = agree_text.length();
+        int end = start + agree_text_click.length();
         SpannableString clickSpan = new SpannableString(agree_text);
         clickSpan.setSpan(new MyCLickSpan(activity,url,color,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());

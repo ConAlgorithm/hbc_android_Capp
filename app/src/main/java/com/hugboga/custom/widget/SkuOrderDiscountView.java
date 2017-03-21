@@ -45,6 +45,7 @@ public class SkuOrderDiscountView extends LinearLayout{
 
     private DiscountOnClickListener listener;
     private int currentType = TYPE_COUPON;
+    private int oldType;
 
     private boolean isInvalidCoupon = false;
     private boolean isInvalidTravelFund = false;
@@ -144,6 +145,8 @@ public class SkuOrderDiscountView extends LinearLayout{
             currentType = TYPE_TRAVEL_FUND;
         } else if (currentType != TYPE_COUPON && isInvalidTravelFund && !isInvalidCoupon) {
             currentType = TYPE_COUPON;
+        } else if (!isInvalidCoupon && !isInvalidTravelFund && oldType == TYPE_TRAVEL_FUND) {
+            currentType = TYPE_COUPON;
         }
         boolean isTravelFund = currentType == TYPE_TRAVEL_FUND && !isInvalidTravelFund;
         boolean isCoupon = currentType == TYPE_COUPON && !isInvalidCoupon;
@@ -153,6 +156,7 @@ public class SkuOrderDiscountView extends LinearLayout{
         couponCountTV.setTextColor(isCoupon ? 0xFFF63308 : 0xFFA8A8A8);
 
         if (currentType == TYPE_INVALID || isTravelFund || isCoupon) {
+            oldType = currentType;
             if (listener != null) {
                 listener.chooseDiscount(currentType);
             }

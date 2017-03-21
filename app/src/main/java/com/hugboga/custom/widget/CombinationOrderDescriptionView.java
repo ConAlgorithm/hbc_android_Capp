@@ -48,12 +48,14 @@ public class CombinationOrderDescriptionView extends LinearLayout{
             e.printStackTrace();
         }
 
-        CityBean endCityBean = null;
-        if (charterDataUtils.travelList != null && charterDataUtils.travelList.get(charterDataUtils.travelList.size() - 1).routeType == CityRouteBean.RouteType.OUTTOWN) {
-            endCityBean = charterDataUtils.getEndCityBean(chooseDateBean.dayNums);
+        String endCityName = "";
+        if (charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
+            endCityName = charterDataUtils.airPortBean.cityName;
+        } else if (charterDataUtils.travelList != null && charterDataUtils.travelList.get(charterDataUtils.travelList.size() - 1).routeType == CityRouteBean.RouteType.OUTTOWN) {
+            endCityName = charterDataUtils.getEndCityBean(chooseDateBean.dayNums).name;
         } else {
-            endCityBean = charterDataUtils.getStartCityBean(chooseDateBean.dayNums);
+            endCityName = charterDataUtils.getStartCityBean(chooseDateBean.dayNums).name;
         }
-        addressTV.setText(String.format("%1$s - %2$s", charterDataUtils.getStartCityBean(1).name, endCityBean.name));
+        addressTV.setText(String.format("%1$s - %2$s", charterDataUtils.getStartCityBean(1).name, endCityName));
     }
 }

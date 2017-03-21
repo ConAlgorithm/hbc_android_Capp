@@ -5,19 +5,19 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.NetWork;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomePageAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -28,16 +28,13 @@ import com.hugboga.custom.data.request.RequestDestinations;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHotExploration;
 import com.hugboga.custom.data.request.RequestTravelStorys;
-import com.hugboga.custom.models.HomeHeaderModel;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
-import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import org.xutils.common.Callback;
@@ -135,7 +132,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (homeBean == null || dy==0) {
+                if (/*homeBean == null ||*/ dy==0) {
                     return;
                 }
                 handleScrollerLoadEvent(); //判断是否滚动到底部 如果是底部请求一下页
@@ -150,7 +147,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
 
     private void handleScrollerTabEvent(){
-        if (homeBean != null && homeBean.headAggVo!=null && homeSearchTabView!=null) {
+        if (/*homeBean != null && homeBean.headAggVo!=null &&*/ homeSearchTabView!=null) {
             if(homePageAdapter.homeHeaderModel!=null){
                 int scrollY = Math.abs(homePageAdapter.homeHeaderModel.getTabViewTop());
                 int statusBarHeight = UIUtils.getStatusBarHeight();
@@ -184,12 +181,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     }
 
     private void handleScrollerServiceViewEvent(){
-        if (homeBean != null && homeBean.headAggVo!=null){
+        if (homePageAdapter.homeHeaderModel!=null){
             homePageAdapter.homeHeaderModel.animateServiceView(homeTitleLayout.findViewById(R.id.home_header_search_title).getMeasuredWidth());
         }
     }
 
     private void handleScrollerLoadEvent() {
+        if(homeBean==null){
+            return;
+        }
         if (!ViewCompat.canScrollVertically(homeListView, 1)) {
             switch (tabIndex) {
                 case TAB_HOTEXPLORE:
@@ -303,6 +303,9 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
+            Toast.makeText(MyApplication.getAppContext(),R.string.net_broken,Toast.LENGTH_LONG).show();
+        }
         if(request instanceof RequestHome){
             homePageAdapter.addNetworkErrorModel(this);
         }
@@ -358,9 +361,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             openActivitesPage();
             return;
         }
-        if (homeBean == null) {
-            return;
-        }
+      
         switch (resId) {
             case R.id.home_header_hot_tab:
                 selectHotExploerTab();
@@ -407,9 +408,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
         tabIndex = TAB_HOTEXPLORE;
         swtichTabScrollToTop();
-
-        if (homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
-            swtichTabScrollToTop();
+        if (homeBean!=null && homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
             homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations, true
             ,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
         }
@@ -421,9 +420,10 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             return;
         }
         tabIndex = TAB_DESTION;
-        if (homeBean.destinationAggVo != null) {
+
+        swtichTabScrollToTop();
+        if (homeBean!=null && homeBean.destinationAggVo != null) {
             if (homeBean.destinationAggVo.hotCities != null) {
-                swtichTabScrollToTop();
                 homePageAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
             }
             if(homeBean.destinationAggVo.lineGroupAggVos!=null){
@@ -440,8 +440,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
         tabIndex = TAB_TRAVEL_STORY;
 
-        if (homeBean.storyAggVo != null && homeBean.storyAggVo.travelStories != null) {
-            swtichTabScrollToTop();
+        swtichTabScrollToTop();
+        if (homeBean!=null && homeBean.storyAggVo != null && homeBean.storyAggVo.travelStories != null) {
             homePageAdapter.addStoryModels(homeBean.storyAggVo.travelStories, true
                     ,homeBean.storyAggVo.listCount
                     ,homeBean.storyAggVo.getTravelStoreySize());

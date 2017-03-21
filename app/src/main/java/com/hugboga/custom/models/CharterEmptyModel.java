@@ -34,6 +34,6 @@ public class CharterEmptyModel extends EpoxyModel<CharterEmptyView> {
     public void bind(CharterEmptyView view) {
         super.bind(view);
         view.setOnRefreshDataListener(listener);
-//        view.setEmptyType(type);
+        view.setEmptyType(type);
     }
 }

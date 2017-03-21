@@ -46,7 +46,7 @@ public class CharterDataUtils {
     public DirectionBean sendDirectionBean;                     // 送机：出发地到机场距离及地图坐标
     public boolean isSelectedSend = false;                      // 送机：是否选中送机
 
-    public ArrayList<CityRouteBean.CityRouteScope> travelList;  // 存储每天的数据，点击"确认"后更新
+    public ArrayList<CityRouteBean.CityRouteScope> travelList;  // 存储每天的数据
     public ArrayMap<Integer, CharterlItemBean> itemInfoList;
 
     public boolean isShowEmpty = false;
@@ -146,13 +146,13 @@ public class CharterDataUtils {
         return getEndCityBean(currentDay);
     }
 
-    public CityBean setDefaultCityBean() {
-        if (currentDay <= 1) {
+    public CityBean setDefaultCityBean(int day) {
+        if (day <= 1) {
             return null;
         }
-        CityBean nextCityBean = getStartCityBean(currentDay);
+        CityBean nextCityBean = getStartCityBean(day);
         if (nextCityBean == null) {
-            int index = currentDay - 2;
+            int index = day - 2;
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(index);
             while (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL && index - 1 >= 0 && index - 1 < travelList.size()) {
                 index--;
@@ -164,7 +164,7 @@ public class CharterDataUtils {
             } else {
                 startCityBean = getStartCityBean(index + 1);
             }
-            addStartCityBean(currentDay, startCityBean);
+            addStartCityBean(day, startCityBean);
             return startCityBean;
         } else {
             return nextCityBean;
@@ -247,9 +247,9 @@ public class CharterDataUtils {
 
         // 判断接机"送达地"是否填写
         boolean checkPickup = routeType == CityRouteBean.RouteType.PICKUP
-                && charterDataUtils.isFirstDay()
-                && charterDataUtils.isSelectedPickUp
-                && charterDataUtils.pickUpPoiBean == null;
+                && isFirstDay()
+                && isSelectedPickUp
+                && pickUpPoiBean == null;
         if (checkPickup) {
             if (isShowToast) {
                 CommonUtils.showToast("请添加接机的送达地");
@@ -259,8 +259,8 @@ public class CharterDataUtils {
 
         // 是否是送机
         boolean isSend = routeType == CityRouteBean.RouteType.SEND
-                && charterDataUtils.isLastDay()
-                && charterDataUtils.isSelectedSend;
+                && airPortBean != null
+                && isSelectedSend;
 
         // 判断送机"时间"是否填写
         boolean checkSendTime = isSend && TextUtils.isEmpty(charterDataUtils.sendServerTime);
@@ -345,9 +345,19 @@ public class CharterDataUtils {
         itemInfoList.clear();
     }
 
-    public void cleanGuidesDeta() {
+    public void cleanGuidesDate() {
         guidesDetailData = null;
         guideCropList = null;
+    }
+
+    public void cleanDayDate(int day) {
+        if (day > 1 && day - 1 < travelList.size()) {
+            travelList.remove(day - 1);
+            itemInfoList.remove(day);
+        }
+        if (day == chooseDateBean.dayNums) {
+            resetSendInfo();
+        }
     }
 
     public void onDestroy() {
@@ -367,6 +377,8 @@ public class CharterDataUtils {
 
         travelList.clear();
         itemInfoList.clear();
+
+        cleanGuidesDate();
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(CityRouteBean.Fence _fence) {
@@ -404,6 +416,12 @@ public class CharterDataUtils {
             hbcLantLng.latitude = CommonUtils.getCountDouble(step.startCoordinate.lat);
             hbcLantLng.longitude = CommonUtils.getCountDouble(step.startCoordinate.lng);
             resultList.add(hbcLantLng);
+            if (i == stepsSize - 1) {
+                HbcLantLng lastHbcLantLng = new HbcLantLng();
+                lastHbcLantLng.latitude = CommonUtils.getCountDouble(step.endCoordinate.lat);
+                lastHbcLantLng.longitude = CommonUtils.getCountDouble(step.endCoordinate.lng);
+                resultList.add(lastHbcLantLng);
+            }
         }
         return resultList;
     }

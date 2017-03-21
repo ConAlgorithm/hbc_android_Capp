@@ -29,6 +29,8 @@ import butterknife.OnClick;
  */
 public class CharterItemView extends LinearLayout{
 
+    public static final String TAG = CharterItemView.class.getSimpleName();
+
     @Bind(R.id.charter_item_root_layout)
     RelativeLayout rootLayout;
     @Bind(R.id.charter_item_selected_iv)
@@ -84,7 +86,6 @@ public class CharterItemView extends LinearLayout{
             if (cityRouteScope.isOpeanFence()) {
                 if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
                     scopeTV.setText("热门城市：" + cityRouteScope.routePlaces);
-
                     CityBean cityBean = charterDataUtils.getEndCityBean();
                     if (cityBean != null) {
                         editArrivedCityTV.setText("送达城市：" + cityBean.name);
@@ -114,9 +115,17 @@ public class CharterItemView extends LinearLayout{
             tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {//跨城市
                 bottomSpaceView.setVisibility(View.VISIBLE);
-                scopeTV.setVisibility(View.VISIBLE);
                 tagLayout.setVisibility(View.VISIBLE);
                 placesTV.setVisibility(View.GONE);
+
+                if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
+                    scopeTV.setVisibility(View.VISIBLE);
+                    tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
+                } else {
+                    scopeTV.setVisibility(View.GONE);
+                    tagLayout.setPadding(0, 0, 0, 0);
+                }
+
                 if (selected) {
                     CityBean cityBean = charterDataUtils.getEndCityBean();
                     if (cityBean == null) {
@@ -139,11 +148,19 @@ public class CharterItemView extends LinearLayout{
                 bottomSpaceView.setVisibility(View.GONE);
             } else {
                 bottomSpaceView.setVisibility(View.VISIBLE);
-                scopeTV.setVisibility(View.VISIBLE);
                 tagLayout.setVisibility(View.VISIBLE);
                 addArrivedCityLayout.setVisibility(View.GONE);
                 editArrivedCityLayout.setVisibility(View.GONE);
-                if (selected) {
+
+                if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                    scopeTV.setVisibility(View.VISIBLE);
+                    tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
+                } else {
+                    scopeTV.setVisibility(View.GONE);
+                    tagLayout.setPadding(0, 0, 0, 0);
+                }
+
+                if (selected && !TextUtils.isEmpty(cityRouteScope.routePlaces)) {
                     placesTV.setVisibility(View.VISIBLE);
                 } else {
                     placesTV.setVisibility(View.GONE);
@@ -163,16 +180,14 @@ public class CharterItemView extends LinearLayout{
                         addArrivedCityLayout.setVisibility(View.GONE);
                         editArrivedCityLayout.setVisibility(View.VISIBLE);
                     }
-                    if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
-                        scopeTV.setVisibility(View.VISIBLE);
-                        tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
-                    } else {
-                        scopeTV.setVisibility(View.GONE);
-                        tagLayout.setPadding(0, 0, 0, 0);
-                    }
                 } else {
                     addArrivedCityLayout.setVisibility(View.GONE);
                     editArrivedCityLayout.setVisibility(View.GONE);
+                }
+                if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
+                    scopeTV.setVisibility(View.VISIBLE);
+                    tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
+                } else {
                     scopeTV.setVisibility(View.GONE);
                     tagLayout.setPadding(0, 0, 0, 0);
                 }
@@ -189,7 +204,7 @@ public class CharterItemView extends LinearLayout{
                 addArrivedCityLayout.setVisibility(View.GONE);
                 editArrivedCityLayout.setVisibility(View.GONE);
                 placesTV.setVisibility(View.GONE);
-                if (selected && !TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
                     scopeTV.setVisibility(View.VISIBLE);
                     tagLayout.setPadding(0, UIUtils.dip2px(8), 0, 0);
                 } else {
@@ -214,7 +229,9 @@ public class CharterItemView extends LinearLayout{
         }
         intent.putExtra(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
         intent.putExtra(ChooseCityActivity.KEY_CITY_ID, cityBean.cityId);
-        intent.putExtra(ChooseCityActivity.KEY_FROM, "lastCity");
+        intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, CharterItemView.TAG);
+        intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.FROM_OUTTOWN);
+        intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.OUTTOWN);
         getContext().startActivity(intent);
     }
 

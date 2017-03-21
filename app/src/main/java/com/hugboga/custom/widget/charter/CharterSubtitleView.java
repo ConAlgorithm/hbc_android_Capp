@@ -29,6 +29,8 @@ import butterknife.OnClick;
  */
 public class CharterSubtitleView extends LinearLayout{
 
+    public static final String TAG = CharterSubtitleView.class.getSimpleName();
+
     @Bind(R.id.charter_subtitle_day_tv)
     TextView dayTV;
     @Bind(R.id.charter_subtitle_arrow_iv)
@@ -169,10 +171,11 @@ public class CharterSubtitleView extends LinearLayout{
             return;
         }
         Bundle bundle = new Bundle();
-        bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.PARAM_TYPE_START);
+        bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.FROM_OUTTOWN);
         bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-        bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterSecondStepActivity.TAG);
-        bundle.putInt(ChooseCityActivity.KEY_CITY_ID, charterDataUtils.getStartCityBean(1).cityId);
+        bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterSubtitleView.TAG);
+        bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.OUTTOWN);
+        bundle.putInt(ChooseCityActivity.KEY_CITY_ID, charterDataUtils.getCurrentDayStartCityBean().cityId);
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(context, ChooseCityActivity.class);
         intent.putExtras(bundle);

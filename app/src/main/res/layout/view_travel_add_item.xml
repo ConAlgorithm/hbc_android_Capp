@@ -16,7 +16,7 @@
         android:paddingBottom="10dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/travel_item_margin_left"
-        android:text="+ 添加一天"
+        android:text="+ 增加一天"
         android:textColor="@color/default_yellow"
         android:textSize="14sp" />
 </RelativeLayout>

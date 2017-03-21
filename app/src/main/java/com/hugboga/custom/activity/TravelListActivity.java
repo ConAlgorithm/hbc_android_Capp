@@ -150,7 +150,7 @@ public class TravelListActivity extends BaseActivity {
 
         @Override
         public void onEditClick(int position) {
-            EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, position + 1));
+            EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(position + 1)));
             activity.finish();
         }
 
@@ -165,19 +165,30 @@ public class TravelListActivity extends BaseActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
-                    charterDataUtils.cleanSendInfo();
-                    charterDataUtils.itemInfoList.remove(chooseDateBean.dayNums);
+                    charterDataUtils.resetSendInfo();
                     if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
-                        charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);
+                        charterDataUtils.cleanDayDate(chooseDateBean.dayNums);
                     }
                     chooseDateBean.dayNums--;
                     chooseDateBean.end_date = DateUtils.getDay(chooseDateBean.end_date, -1);
                     chooseDateBean.showEndDateStr = DateUtils.orderChooseDateTransform(chooseDateBean.end_date);
                     chooseDateBean.endDate = DateUtils.getDateByStr(chooseDateBean.end_date);
+
+                    boolean isAtwill = false;
+                    if (chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {//当前天是随便转转，删除数据，改为默认市内一日游
+                        if (charterDataUtils.travelList.get(chooseDateBean.dayNums - 1).routeType == CityRouteBean.RouteType.AT_WILL) {
+                            if (chooseDateBean.dayNums > 1 && chooseDateBean.dayNums - 1 < charterDataUtils.travelList.size()) {
+                                charterDataUtils.travelList.remove(chooseDateBean.dayNums - 1);
+                                isAtwill = true;
+                            }
+                        }
+                    }
                     setData();
                     if (charterDataUtils.currentDay == chooseDateBean.dayNums + 1) {
                         charterDataUtils.currentDay--;
-                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, charterDataUtils.currentDay));
+                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(charterDataUtils.currentDay)));
+                    } else if (isAtwill) {
+                        EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(charterDataUtils.currentDay, true)));
                     }
                     dialog.dismiss();
                 }
