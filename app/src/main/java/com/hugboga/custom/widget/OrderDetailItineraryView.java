@@ -254,32 +254,18 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         });
     }
 
-    private LinearLayout addLocationItem() {
-        LinearLayout itemView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_order_detail_location, null, false);
+    private RelativeLayout addLocationItem() {
+        RelativeLayout itemView = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_order_detail_location, null, false);
         TextView startTV = (TextView) itemView.findViewById(R.id.order_travel_item_start_tv);
         TextView startDesTV = (TextView) itemView.findViewById(R.id.order_travel_item_start_des_tv);
-        View startLineView = itemView.findViewById(R.id.order_travel_item_start_line_view);
-
         TextView endTV = (TextView) itemView.findViewById(R.id.order_travel_item_end_tv);
         TextView endDesTV = (TextView) itemView.findViewById(R.id.order_travel_item_end_des_tv);
         startTV.setText(orderBean.startAddress);
         if (!TextUtils.isEmpty(orderBean.startAddressDetail)) {
             startDesTV.setVisibility(View.VISIBLE);
             startDesTV.setText(orderBean.startAddressDetail);
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
-            params.topMargin = UIUtils.dip2px(20);
-            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.travel_item_start_des_tv);
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            params.leftMargin = UIUtils.dip2px(7.5f);
-            startLineView.setLayoutParams(params);
         } else {
             startDesTV.setVisibility(View.GONE);
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(5));
-            params.topMargin = UIUtils.dip2px(20);
-            params.leftMargin = UIUtils.dip2px(7.5f);
-            startLineView.setLayoutParams(params);
         }
         endTV.setText(orderBean.destAddress);
         if (!TextUtils.isEmpty(orderBean.destAddressDetail)) {
