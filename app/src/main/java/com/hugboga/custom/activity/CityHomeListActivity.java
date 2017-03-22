@@ -537,8 +537,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             GoodsSec goodsSec = (GoodsSec) itemData;
             if (goodsSec.goodsClass == -1) {//超省心（固定线路）
                 if (cityBean != null) {
-                    Intent intent = new Intent(CityHomeListActivity.this, OrderSelectCityActivity.class);
-                    intent.putExtra("cityBean", cityBean);
+                    Intent intent = new Intent(CityHomeListActivity.this, CharterFirstStepActivity.class);
+                    intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
                     intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     startActivity(intent);
                 } else {

@@ -96,8 +96,9 @@ public class CarUtils {
         ArrayList<CarBean> list = new ArrayList<>();
         for(int n = 0;n < carBeans.size();n++) {
             for (int i = 0; i < guideCars.size(); i++) {
-                if (carBeans.get(n).carType == guideCars.get(i).carType &&
-                        carBeans.get(n).seatType == guideCars.get(i).carClass) {
+//                if (carBeans.get(n).carType == guideCars.get(i).carType &&
+//                        carBeans.get(n).seatType == guideCars.get(i).carClass) {
+                if (carBeans.get(n).carId == guideCars.get(i).carModelId) {
                     CarBean carBean = (CarBean)(carBeans.get(n).clone());
                     carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
                     carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;

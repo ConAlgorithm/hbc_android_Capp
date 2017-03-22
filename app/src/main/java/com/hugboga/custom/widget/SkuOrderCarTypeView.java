@@ -44,6 +44,8 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private OnSelectedCarListener listener;
     private CarBean oldCarBean;
 
+    private boolean isSelectedGuide = false;
+
     public SkuOrderCarTypeView(Context context) {
         this(context, null);
     }
@@ -52,6 +54,10 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         super(context, attrs);
         View view = inflate(context, R.layout.view_sku_order_car_type, this);
         ButterKnife.bind(view);
+    }
+
+    public void setIsSelectedGuide(boolean isSelectedGuide) {
+        this.isSelectedGuide = isSelectedGuide;
     }
 
     @Override
@@ -79,14 +85,18 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             itemView.setVisibility(i < DEFAULT_SHOW_COUNT ? View.VISIBLE : View.GONE);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == 0);
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv)).setText(getContext().getString(R.string.sign_rmb) + carBean.price);
-            String title = carBean.carDesc;
+            String title = isSelectedGuide ? "" + carBean.models : carBean.carDesc;
             List<String> serviceTags = carBean.serviceTags;
             if (serviceTags != null && serviceTags.size() >= 1 && serviceTags.get(0) != null) {
                 title += " + " + serviceTags.get(0);
             }
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(title);
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);
-            showDescriptionTV(itemView, i == 0 ? carBean.models : "", size, i);
+            String carDes = carBean.models;
+            if (isSelectedGuide) {
+                carDes = carBean.carDesc;
+            }
+            showDescriptionTV(itemView, i == 0 ? carDes : "", size, i);
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,7 +159,11 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         for (int i = 0; i < size; i++) {
             View itemView = containerLayot.getChildAt(i);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == view.getId());
-            showDescriptionTV(itemView, i == view.getId() ? carList.get(i).models : "", size, i);
+            String carDes = carList.get(i).models;
+            if (isSelectedGuide) {
+                carDes = carList.get(i).carDesc;
+            }
+            showDescriptionTV(itemView, i == view.getId() ? carDes : "", size, i);
         }
         CarBean carBean = carList.get(view.getId());
         if (listener != null && this.oldCarBean != carBean && carBean != null) {

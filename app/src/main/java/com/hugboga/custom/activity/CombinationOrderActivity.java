@@ -146,6 +146,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         requestBatchPrice();
 
         travelerInfoView.setActivity(this);
+
+        carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
     }
 
     public void initTitleBar() {
@@ -239,9 +241,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestBatchPrice) {
             carListBean = ((RequestBatchPrice) _request).getData();
-            if (!checkDataIsEmpty(carListBean)) {
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList)) {
                 if (charterDataUtils.guidesDetailData != null) {
                     ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, charterDataUtils.guidesDetailData.guideCars);
+                    if (checkDataIsEmpty(carList)) {
+                        return;
+                    }
                     carListBean.carList = carList;
                 }
                 carTypeView.update(carListBean);
@@ -305,9 +310,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         setItemVisibility(View.GONE);
     }
 
-    private boolean checkDataIsEmpty(CarListBean carListBean) {
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
         boolean isEmpty = false;
-        if (carListBean == null || carListBean.carList == null || carListBean.carList.size() <= 0) {
+        if (_carList == null || _carList.size() <= 0) {
             isEmpty = true;
         } else {
             isEmpty = false;
