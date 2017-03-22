@@ -205,7 +205,9 @@ public class ChooseOtherActivity extends BaseActivity {
                 Uri result = data.getData();
                 String[] contact = PhoneInfo.getPhoneContacts(this, result);
 //                org.greenrobot.eventbus.EventBus.getDefault().post(new EventAction(CONTACT, contact));
-
+                if (TextUtils.isEmpty(contact[1]) && TextUtils.isEmpty(contact[0])){
+                    return;
+                }
                         switch (clickViewId) {
                             case R.id.name_right:
                                 nameText.setText(contact[0]);
@@ -331,6 +333,9 @@ public class ChooseOtherActivity extends BaseActivity {
             String[] contact = (String[])action.getData();
             switch (action.getType()) {
                 case CONTACT:
+                    if (TextUtils.isEmpty(contact[1]) && TextUtils.isEmpty(contact[0])){
+                        return;
+                    }
                     switch (clickViewId) {
                         case R.id.name_right:
                             nameText.setText(contact[0]);

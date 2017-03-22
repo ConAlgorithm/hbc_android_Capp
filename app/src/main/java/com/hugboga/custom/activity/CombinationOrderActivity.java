@@ -227,12 +227,16 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             if (contact == null || contact.length < 2) {
                 return;
             }
-            travelerInfoView.setTravelerName(contact[0]);
-            String phone = contact[1];
-            if (!TextUtils.isEmpty(phone)) {
-                phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+            if (!TextUtils.isEmpty(contact[0])){
+                travelerInfoView.setTravelerName(contact[0]);
             }
-            travelerInfoView.setTravelerPhone(phone);
+            if (!TextUtils.isEmpty(contact[1])){
+                String phone = contact[1];
+                if (!TextUtils.isEmpty(phone)) {
+                    phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                }
+                travelerInfoView.setTravelerPhone(phone);
+            }
         }
     }
 
