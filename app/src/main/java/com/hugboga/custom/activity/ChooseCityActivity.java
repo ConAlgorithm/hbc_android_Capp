@@ -794,6 +794,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (msg.obj instanceof CityBean) {
                         cityBean = (CityBean) msg.obj;
                     }
+                    headerView.requestPermisson();
                     headerView.setLociationData(cityBean, showType == ShowType.PICK_UP);
                     break;
             }
@@ -870,7 +871,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+//        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         switch (requestCode) {
             case 11:
             case 12:

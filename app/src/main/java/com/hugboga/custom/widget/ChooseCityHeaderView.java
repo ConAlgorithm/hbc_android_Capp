@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,7 +30,9 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
+import com.hugboga.custom.activity.SkuOrderActivity;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -37,9 +40,13 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.UIUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 /**
  * Created by on 16/7/23.
  */
@@ -298,6 +305,7 @@ public class ChooseCityHeaderView extends LinearLayout{
             });
             return;
         }
+        requestPermisson();
         locationManager = (LocationManager) getContext().getSystemService(getContext().LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -393,5 +401,26 @@ public class ChooseCityHeaderView extends LinearLayout{
             } catch (Exception e1) {
             }
         }
+    }
+
+    @TargetApi(23)
+    public void requestPermisson(){
+        if (Build.VERSION.SDK_INT >= 23) {
+            final List<String> permissionsList = new ArrayList<String>();
+            addPermission(getContext(), permissionsList, Manifest.permission.ACCESS_COARSE_LOCATION);
+            addPermission(getContext(), permissionsList, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionsList.size() > 0 && null != chooseCityActivity) {
+                requestPermissions(chooseCityActivity, permissionsList.toArray(new String[permissionsList.size()]), SkuOrderActivity.REQUEST_CODE_PICK_CONTACTS);
+            }
+        }
+    }
+
+    @TargetApi(23)
+    public boolean addPermission(Context Ctx, List<String> permissionsList,
+                                  String permission) {
+        if (checkSelfPermission(Ctx,permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+        }
+        return true;
     }
 }
