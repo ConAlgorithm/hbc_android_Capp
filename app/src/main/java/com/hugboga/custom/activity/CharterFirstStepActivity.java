@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -262,10 +263,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     @Override
-    public void onDataRequestCancel(BaseRequest _request) {
-        super.onDataRequestCancel(_request);
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
         if (_request instanceof RequestCarMaxCapaCity) {
             setNextViewEnabled(false);
+            countLayout.setAdultValue(0);
+            countLayout.setChildValue(0);
+            countLayout.setSliderEnabled(false);
+            countLayout.setHintViewVisibility(View.GONE);
         }
     }
 

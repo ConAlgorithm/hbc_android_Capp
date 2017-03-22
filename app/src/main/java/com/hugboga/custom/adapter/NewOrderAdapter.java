@@ -244,7 +244,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                             dailyPlace += " - " + orderBean.serviceEndCityName;
                         }
-                        dailyPlace += String.format("（含%1$s段行程）", orderBean.orderJourneyCount);
+                        dailyPlace += String.format("(含%1$s段行程)", orderBean.orderJourneyCount);
                         vh.startAddressTV.setText(dailyPlace);
                     }
                     vh.endAddressLayout.setVisibility(View.GONE);
@@ -322,14 +322,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
-                vh.travel_item_head_layout_all.setVisibility(View.GONE);
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mHeadLayout.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
                 if (orderBean.insuranceEnable) {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
-                    vh.mPrice.setVisibility(View.GONE);
-                    vh.mBtnPay.setVisibility(View.GONE);
-                    vh.mHeadLayout.setVisibility(View.GONE);
-                    vh.mAssessment.setVisibility(View.GONE);
                     vh.br_layout.setVisibility(View.VISIBLE);
                     vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
                         @Override
