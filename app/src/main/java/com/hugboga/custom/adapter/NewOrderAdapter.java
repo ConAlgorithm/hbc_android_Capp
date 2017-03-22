@@ -301,7 +301,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 }
                 vh.travel_item_head_more_tv.setVisibility(3 < size ? View.VISIBLE : View.GONE);
             }
-            return;
         } else {
             vh.travel_item_head_layout_all.setVisibility(View.GONE);
         }

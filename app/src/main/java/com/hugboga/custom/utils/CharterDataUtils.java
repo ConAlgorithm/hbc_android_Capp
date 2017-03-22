@@ -387,8 +387,6 @@ public class CharterDataUtils {
 
         travelList.clear();
         itemInfoList.clear();
-
-        cleanGuidesDate();
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(CityRouteBean.Fence _fence) {

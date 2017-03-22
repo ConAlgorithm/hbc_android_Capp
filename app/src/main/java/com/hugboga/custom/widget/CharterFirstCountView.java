@@ -69,7 +69,7 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         childSlider.setSliderEnabled(isEnabled);
     }
 
-    public void setMaxPassengers(int maxPassengers) {
+    public void setMaxPassengers(int maxPassengers, boolean isGuide) {
         if (adultSlider.getValue() == 0) {
             adultSlider.setMin(1);
             adultSlider.setValue(2);
@@ -77,7 +77,8 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         this.maxPassengers = maxPassengers;
         setHintViewVisibility();
         if (context instanceof BaseActivity) {
-            OrderUtils.genCLickSpan((Activity) context, hintTV, context.getResources().getString(R.string.charter_first_max_passengers_hint, "" + maxPassengers),
+            int hintResId = isGuide ? R.string.charter_first_max_passengers_hint2 : R.string.charter_first_max_passengers_hint;
+            OrderUtils.genCLickSpan((Activity) context, hintTV, context.getResources().getString(hintResId, "" + maxPassengers),
                     context.getResources().getString(R.string.charter_first_max_passengers_service),
                     null,
                     0xFFFFFFFF,

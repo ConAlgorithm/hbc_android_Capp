@@ -273,6 +273,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         } else if (_request instanceof RequestOrderGroup) {
             orderInfoBean = ((RequestOrderGroup) _request).getData();
             charterDataUtils.onDestroy();
+            charterDataUtils.cleanGuidesDate();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
             } else {

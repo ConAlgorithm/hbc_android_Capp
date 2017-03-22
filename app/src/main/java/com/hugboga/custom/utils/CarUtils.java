@@ -104,9 +104,9 @@ public class CarUtils {
                     carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
                     carBean.carBrandName = guideCars.get(i).carBrandName;
                     carBean.carName = guideCars.get(i).carName;
-                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
-                        carBean.carDesc = guideCars.get(i).carInfo1;
-                    }
+//                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
+//                        carBean.carDesc = guideCars.get(i).carInfo1;
+//                    }
                     if (!TextUtils.isEmpty(guideCars.get(i).carInfo2)) {
                         carBean.models = guideCars.get(i).carInfo2;
                     }
