@@ -90,6 +90,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         EventBus.getDefault().unregister(this);
         if (charterDataUtils != null) {
             charterDataUtils.onDestroy();
+            charterDataUtils.cleanGuidesDate();
         }
     }
 
@@ -243,7 +244,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 setDateViewText();
                 countLayout.setAdultValue(charterDataUtils.adultCount);
                 countLayout.setChildValue(charterDataUtils.childCount);
-                countLayout.setMaxPassengers(maxPassengers);
+                countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
                 break;
         }
     }
@@ -254,8 +255,17 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            countLayout.setMaxPassengers(maxPassengers);
+            countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
             countLayout.setSliderEnabled(true);
+            setNextViewEnabled(true);
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest _request) {
+        super.onDataRequestCancel(_request);
+        if (_request instanceof RequestCarMaxCapaCity) {
+            setNextViewEnabled(false);
         }
     }
 
