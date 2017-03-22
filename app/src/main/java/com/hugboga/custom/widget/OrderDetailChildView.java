@@ -66,7 +66,7 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
                 RequestDeliverInfo request = new RequestDeliverInfo(getContext(), orderBean.orderNo);
                 HttpRequestUtils.request(getContext(), request, this, false);
             }
-        } else if (orderBean.orderStatus.code >= 3 && parentOrderBean.isSeparateOrder()) {
+        } else if (orderBean.orderStatus.code > 2) {
             orderDetailDeliverItemView.setVisibility(View.GONE);
             if (orderBean.orderGuideInfo == null) {
                 childCancelTV.setVisibility(View.VISIBLE);

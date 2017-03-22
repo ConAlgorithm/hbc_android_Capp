@@ -94,6 +94,7 @@ public class HttpRequestUtils {
                 MLog.log(MLog.LogLevel.DEBUG, request.getClass().getSimpleName() + " onSuccess result=" + result);
                 try {
                     if ("{\"status\":200}".equals(result)) {
+                        listener.onDataRequestSucceed(request);
                         return;
                     }
                     ImplParser parser = request.getParser();
