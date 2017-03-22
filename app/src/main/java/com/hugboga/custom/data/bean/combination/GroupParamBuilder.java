@@ -140,10 +140,11 @@ public class GroupParamBuilder {
                 groupDailyParam.servicePassDetailList.add(servicePassDetail);
                 servicePassCitys += servicePassDetail.cityId + "-1-" + RequestBatchPrice.getTourType(cityRouteScope.routeType);
 
-                boolean isBatch = charterDataUtils.getStartCityBean(i + 1) != charterDataUtils.getStartCityBean(i + 2);//判断当天出发城市和明天开始城市是否相同，不相同，拆单
-                if ((i + 1 >= size || travelList.get(i + 1).routeType == CityRouteBean.RouteType.AT_WILL)
+                if (i + 1 >= size
+                        || travelList.get(i + 1).routeType == CityRouteBean.RouteType.AT_WILL
                         || travelList.get(i + 1).routeType == CityRouteBean.RouteType.SEND
-                        || cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN || isBatch) {
+                        || (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN && charterDataUtils.getEndCityBean(i + 1).cityId != charterDataUtils.getStartCityBean(i + 2).cityId)
+                        || (cityRouteScope.routeType != CityRouteBean.RouteType.OUTTOWN && charterDataUtils.getStartCityBean(i + 1).cityId != charterDataUtils.getStartCityBean(i + 2).cityId)) {
                     setGroupDailyParam(groupDailyParamIndex, i, orderIndex, size, cityRouteScope, groupDailyParam);
                     groupDailyParam.servicePassCitys = servicePassCitys;
                     dailyList.add(groupDailyParam);
@@ -194,7 +195,9 @@ public class GroupParamBuilder {
         childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(manLuggageBean);
         childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(manLuggageBean);
 
-        groupParentParam.childSeatInfo = childSeats;
+        if (!charterDataUtils.isGroupOrder) {
+            groupParentParam.childSeatInfo = childSeats;
+        }
         groupParentParam.userId = UserEntity.getUser().getUserId(context);
         groupParentParam.realSendSms = contactUsersBean.isSendMessage ? 1 : 0;
         groupParentParam.isRealUser = contactUsersBean.isForOther ? 2 : 1;
@@ -328,7 +331,9 @@ public class GroupParamBuilder {
         groupPickupParam.priceMark = groupQuotesBean.pricemark;
         groupPickupParam.distance = groupQuotesBean.transferDistance;
         groupPickupParam.expectedCompTime = (int)groupQuotesBean.transferEstTime;
-        groupPickupParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
+        if (!charterDataUtils.isGroupOrder) {
+            groupPickupParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
+        }
         return groupPickupParam;
     }
 
@@ -351,7 +356,9 @@ public class GroupParamBuilder {
         groupTransParam.isCheckin = 0;//当前版本不支持isCheckin
         groupTransParam.priceChannel = groupQuotesBean.price;
         groupTransParam.distance = groupQuotesBean.transferDistance;
-        groupTransParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
+        if (!charterDataUtils.isGroupOrder) {
+            groupTransParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
+        }
         return groupTransParam;
     }
 
@@ -413,7 +420,7 @@ public class GroupParamBuilder {
             if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
                 endCityBean = charterDataUtils.getEndCityBean(index + 1);
             } else {
-                endCityBean = startCityBean;
+                endCityBean = charterDataUtils.getStartCityBean(index + 1);
             }
             croupDailyParam.serviceEndCityname = endCityBean.name;
             croupDailyParam.serviceEndCityid = endCityBean.cityId;
@@ -430,7 +437,9 @@ public class GroupParamBuilder {
         if (croupDailyParam.servicePassDetailList != null && croupDailyParam.servicePassDetailList.size() == 1 && cityRouteScope.routeType == CityRouteBean.RouteType.HALFDAY) {
             croupDailyParam.halfDaily = 1;
         }
-        croupDailyParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
+        if (!charterDataUtils.isGroupOrder) {
+            croupDailyParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
+        }
     }
 
     private GroupDailyParam.ServicePassDetail getServicePassDetail(int index, int travelListSize, CityRouteBean.CityRouteScope cityRouteScope) {

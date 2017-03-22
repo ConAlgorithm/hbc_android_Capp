@@ -74,7 +74,7 @@ import cn.iwgang.countdownview.CountdownView;
         }
         if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
             sendRequest(true);
-        } else if (orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
+        } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
             removeAllViews();
             if (guideInfoView == null) {
                 guideInfoView = new OrderDetailGuideInfo(getContext());

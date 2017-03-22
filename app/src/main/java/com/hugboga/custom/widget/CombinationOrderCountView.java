@@ -129,7 +129,7 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
             }
         }
 
-        if (allChildSeatPrice1 == -1 || allChildSeatPrice2 == -1) {
+        if (allChildSeatPrice1 == -1 || allChildSeatPrice2 == -1 || charterDataUtils.isGroupOrder) {
             supportChildseat = false;
         }
 
@@ -143,7 +143,11 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
             if (isInit) {
                 adultCount = charterDataUtils.adultCount;
                 childCount = charterDataUtils.childCount;
-                childSeatLayout.setVisibility(supportChildseat && childCount > 0 ? View.VISIBLE : View.GONE);
+                if (charterDataUtils.isGroupOrder) {
+                    childSeatLayout.setVisibility(View.GONE);
+                } else {
+                    childSeatLayout.setVisibility(supportChildseat && childCount > 0 ? View.VISIBLE : View.GONE);
+                }
             } else {
                 adultCount = carBean.capOfPerson >= 2 ? 2 : 1;
                 childCount = 0;

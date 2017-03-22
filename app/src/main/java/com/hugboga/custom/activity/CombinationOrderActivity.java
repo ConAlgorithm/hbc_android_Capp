@@ -96,7 +96,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private CarListBean carListBean;
     private CarBean carBean;
-    private int orderType = Constants.BUSINESS_TYPE_COMBINATION;
+    private int orderType;
     private OrderInfoBean orderInfoBean;
 
     private DeductionBean deductionBean;
@@ -107,6 +107,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private CharterDataUtils charterDataUtils;
     private CityBean startCityBean;
+    private ArrayList<GuideCarBean> guideCarBeanList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
-        requestBatchPrice();
+        if (charterDataUtils.guidesDetailData != null) {
+            getGuideCars();
+        } else {
+            requestBatchPrice();
+        }
 
         travelerInfoView.setActivity(this);
 
@@ -242,8 +247,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (_request instanceof RequestBatchPrice) {
             carListBean = ((RequestBatchPrice) _request).getData();
             if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList)) {
-                if (charterDataUtils.guidesDetailData != null) {
-                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, charterDataUtils.guidesDetailData.guideCars);
+                if (charterDataUtils.guidesDetailData != null && guideCarBeanList != null) {
+                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
                     if (checkDataIsEmpty(carList)) {
                         return;
                     }
@@ -511,6 +516,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     * */
     private void requestBatchPrice() {
         RequestBatchPrice request = new RequestBatchPrice(this, charterDataUtils);
+        orderType = charterDataUtils.isGroupOrder ? Constants.BUSINESS_TYPE_COMBINATION : 3;
         requestData(request);
     }
 
@@ -573,6 +579,29 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public String getEventSource() {
         return "组合单下单页";
+    }
+
+
+    private void getGuideCars() {
+        RequestCars requestCars = new RequestCars(this, charterDataUtils.guidesDetailData.guideId, null, 10, 0);
+        HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                guideCarBeanList = ((RequestCars)request).getData();
+                requestBatchPrice();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        },true);
     }
 
     private void checkGuideCoflict() {
