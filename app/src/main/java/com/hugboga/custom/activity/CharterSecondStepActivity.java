@@ -34,6 +34,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -486,6 +487,22 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public boolean checkPickUpFlightBean(FlightBean flightBean) {
         final boolean checkCity = charterDataUtils.getStartCityBean(1).cityId != flightBean.arrCityId;
         final boolean checkDate = !charterDataUtils.chooseDateBean.start_date.equals(flightBean.arrDate);
+        if (charterDataUtils.guidesDetailData != null) {//指定司导
+            boolean isContain = false;
+            ArrayList<GuideCropBean> guideCropList = charterDataUtils.guideCropList;
+            final int size = guideCropList.size();
+            for (int i = 0; i < size; i++) {
+                if (guideCropList.get(i) != null && flightBean.arrCityName.equals(guideCropList.get(i).cityName)) {
+                    isContain = true;
+                    break;
+                }
+            }
+            if (!isContain) {
+                showGuideCheckPickUpDialog(flightBean);
+                return false;
+            }
+        }
+
         String title = null;
         if (checkCity && checkDate) {//选航班后降落日期，不等于开始日期；且降落城市，不等于开始城市
             title = String.format("根据您选择的航班，如果继续下单需要将包车开始城市和开始日期，调整为您航班的落地城市%1$s和当地日期%2$s", flightBean.arrCityName, flightBean.arrDate);
@@ -521,6 +538,23 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 } else if (checkDate) {
                     changeTravelDate(true);
                 }
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
+        AlertDialogUtils.showAlertDialogCancelable(this, "很抱歉，您指定的司导无法服务您选择的接机城市", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CharterSecondStepActivity.this.finish();
+                dialog.dismiss();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                charterDataUtils.cleanGuidesDate();
+                requestCarMaxCapaCity(_flightBean.arrCityId);
                 dialog.dismiss();
             }
         });
