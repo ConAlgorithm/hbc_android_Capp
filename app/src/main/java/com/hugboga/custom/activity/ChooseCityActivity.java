@@ -794,7 +794,6 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (msg.obj instanceof CityBean) {
                         cityBean = (CityBean) msg.obj;
                     }
-                    headerView.requestPermisson();
                     headerView.setLociationData(cityBean, showType == ShowType.PICK_UP);
                     break;
             }
