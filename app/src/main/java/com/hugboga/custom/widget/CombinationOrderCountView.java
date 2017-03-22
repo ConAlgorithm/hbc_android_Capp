@@ -95,8 +95,6 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
 
         //酒店
         roomLayout.setVisibility(View.GONE);
-
-        childSeatPriceTV.setText("（免费）");
     }
 
     public void update(CarBean _carBean, CharterDataUtils charterDataUtils, String _serverDate, SkuItemBean skuItemBean) {
@@ -125,10 +123,10 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
                 if (childSeatPrice1 == -1 || childSeatPrice2 == -1) {
                     continue;
                 }
-                if (allChildSeatPrice1 == -1 && childSeatPrice1 == 0) {
+                if (allChildSeatPrice1 == -1 && childSeatPrice1 >= 0) {
                     allChildSeatPrice1 = 0;
                 }
-                if (allChildSeatPrice2 == -1 && childSeatPrice2 == 0) {
+                if (allChildSeatPrice2 == -1 && childSeatPrice2 >= 0) {
                     allChildSeatPrice2 = 0;
                 }
                 allChildSeatPrice1 += childSeatPrice1;

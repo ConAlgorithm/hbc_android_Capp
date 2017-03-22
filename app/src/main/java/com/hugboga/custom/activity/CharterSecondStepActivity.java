@@ -391,7 +391,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     charterDataUtils.addEndCityBean(charterDataUtils.currentDay, cityBean);
                     adapter.updateSelectedModel();
                     requestCityRoute("" + cityBean.cityId, REQUEST_CITYROUTE_TYPE_OUTTOWN);//跨城市
-                } else if(CharterSubtitleView.TAG.equals(cityBean.fromTag)) {//修改开始城市，第二天后可修改
+                }
+                break;
+            case CHOOSE_START_CITY_BACK:
+                CityBean cityBeanData = (CityBean) action.getData();
+                if (CharterSubtitleView.TAG.equals(cityBeanData.fromTag)) {//修改开始城市，第二天后可修改
                     CityBean startCityBean = (CityBean) action.getData();
                     if (startCityBean == null || startCityBean == charterDataUtils.getCurrentDayStartCityBean()) {
                         return;

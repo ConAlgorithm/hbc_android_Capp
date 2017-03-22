@@ -1,7 +1,6 @@
 package com.hugboga.custom.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.ChooseCityActivity;
@@ -54,7 +53,7 @@ public final class DatabaseManager {
         }
         selector.where("1", "=", "1");
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
-            if (ChooseCityActivity.FROM_OUTTOWN.equals(from)) {
+            if (ChooseCityActivity.GROUP_START.equals(from)) {
                 selector.and("is_daily", "=", 1);
                 selector.and("group_id", "=", groupId);
                 if (cityId != -1) {
@@ -67,6 +66,8 @@ public final class DatabaseManager {
                     selector.and("group_id", "=", groupId);
                 }
                 if ("lastCity".equals(from) && cityId != -1){
+                    selector.and("city_id", "<>", cityId);
+                } else if (ChooseCityActivity.GROUP_OUTTOWN.equals(from) && cityId != -1){
                     selector.and("city_id", "<>", cityId);
                 }
             }
@@ -99,13 +100,23 @@ public final class DatabaseManager {
             selector.where("is_hot", "=", 1);
         }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
-            if (groupId == -1) {
+            if (ChooseCityActivity.GROUP_START.equals(from)) {
                 selector.and("is_daily", "=", 1);
-            } else {
                 selector.and("group_id", "=", groupId);
-            }
-            if ("lastCity".equals(from) && cityId != -1){
-                selector.and("city_id", "<>", cityId);
+                if (cityId != -1) {
+                    selector.and("city_id", "<>", cityId);
+                }
+            } else {
+                if (groupId == -1) {
+                    selector.and("is_daily", "=", 1);
+                } else {
+                    selector.and("group_id", "=", groupId);
+                }
+                if ("lastCity".equals(from) && cityId != -1){
+                    selector.and("city_id", "<>", cityId);
+                } else if (ChooseCityActivity.GROUP_OUTTOWN.equals(from) && cityId != -1){
+                    selector.and("city_id", "<>", cityId);
+                }
             }
         } else if (orderType == Constants.BUSINESS_TYPE_RENT) {
             selector.and("is_single", "=", 1);

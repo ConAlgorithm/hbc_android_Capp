@@ -213,6 +213,7 @@ public class OrderBean implements IBaseBean{
                 resID = R.string.custom_send;
                 break;
             case Constants.BUSINESS_TYPE_DAILY://包车
+            case Constants.BUSINESS_TYPE_COMBINATION://组合单
                 resID = R.string.custom_chartered;
                 break;
             case Constants.BUSINESS_TYPE_RENT://单次接送

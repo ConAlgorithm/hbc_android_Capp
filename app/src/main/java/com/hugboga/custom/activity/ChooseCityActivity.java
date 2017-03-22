@@ -36,7 +36,6 @@ import com.hugboga.custom.widget.ChooseCityHeaderView;
 import com.hugboga.custom.widget.ChooseCityTabLayout;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
-import com.zhy.m.permission.MPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.DbManager;
@@ -70,7 +69,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String PARAM_TYPE_START = "startAddress";
     public static final String KEY_BUSINESS_TYPE = "key_business_Type";
 
-    public static final String FROM_OUTTOWN = "outtown";     // 跨城
+    public static final String GROUP_START = "group_start";     // 组合单开始城市
+    public static final String GROUP_OUTTOWN = "group_outtown";     // 组合单开始城市
 
     @Bind(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;
@@ -171,7 +171,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
          */
         public static final int PICK_UP = 0x0003;
 
-        public static final int OUTTOWN = 0x0004;
+        public static final int GROUP_START = 0x0004;
+
+        public static final int GROUP_OUTTOWN = 0x0005;
 
     }
 
@@ -486,7 +488,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             hideSoftInput();
             finish();
 
-            if ("lastCity".equalsIgnoreCase(from) || FROM_OUTTOWN.equalsIgnoreCase(from)) {
+            if ("lastCity".equalsIgnoreCase(from) || GROUP_OUTTOWN.equalsIgnoreCase(from)) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
             } else if (null != from && from.equalsIgnoreCase("end")) {
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_END_CITY_BACK, cityBean));
@@ -536,6 +538,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
      * @param cityBean
      */
     public void saveHistoryDate(CityBean cityBean) {
+        if (GROUP_START.equals(from) || GROUP_OUTTOWN.equals(from)) {
+            return;
+        }
         if (cityHistory == null) cityHistory = new ArrayList<String>();
         cityHistory.remove(String.valueOf(cityBean.cityId));//排重
         cityHistory.add(0, String.valueOf(cityBean.cityId));
@@ -679,7 +684,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     }
                     if (showType != ShowType.SELECT_CITY) {
                         onPreExecuteHandler.sendEmptyMessage(MessageType.HOT_CITY);
-                        if (showType != ShowType.OUTTOWN) {
+                        if (showType != ShowType.GROUP_START || showType != ShowType.GROUP_OUTTOWN) {
                             onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
                             onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
                         }
@@ -694,7 +699,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
                     } else {
-                        if("lastCity".equals(from) || FROM_OUTTOWN.equals(from)){
+                        if("lastCity".equals(from) || GROUP_OUTTOWN.equals(from)){
                             message.obj =  CityUtils.requestHotDate(activity, groupId, cityId, from);
                             onPostExecuteHandler.sendMessage(message);
                             break;
@@ -827,7 +832,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             selector.and(whereBuilder);
         }
         if (orderType == Constants.BUSINESS_TYPE_DAILY) {
-            if (FROM_OUTTOWN.equals(from)) {
+            if (GROUP_START.equals(from)) {
                 selector.and("is_daily", "=", 1);
                 selector.and("group_id", "=", groupId);
                 if (cityId != -1) {
@@ -840,6 +845,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     selector.and("group_id", "=", groupId);
                 }
                 if ("lastCity".equals(from) && cityId != -1) {
+                    selector.and("city_id", "<>", cityId);
+                } else if (GROUP_OUTTOWN.equals(from) && cityId != -1) {
                     selector.and("city_id", "<>", cityId);
                 }
             }

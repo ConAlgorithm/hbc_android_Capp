@@ -265,7 +265,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         vh.mAssessment.setOnClickListener(null);
         vh.mStatus.setText(orderBean.orderStatus.name);
         boolean isShowAvartarLayout = false;
-        if (orderBean.orderType == 888 && orderBean.orderStatus.code > 1) {
+        if (orderBean.orderType == 888 && orderBean.isSeparateOrder() && orderBean.orderStatus.code > 1) {
             List<String> subOrderGuideAvartar = orderBean.subOrderGuideAvartar;
             if (subOrderGuideAvartar == null || subOrderGuideAvartar.size() <= 0) {
                 vh.travel_item_head_layout_all.setVisibility(View.GONE);
