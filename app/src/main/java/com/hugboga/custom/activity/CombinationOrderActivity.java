@@ -96,7 +96,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private CarListBean carListBean;
     private CarBean carBean;
-    private int orderType = Constants.BUSINESS_TYPE_COMBINATION;
+    private int orderType;
     private OrderInfoBean orderInfoBean;
 
     private DeductionBean deductionBean;
@@ -516,6 +516,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     * */
     private void requestBatchPrice() {
         RequestBatchPrice request = new RequestBatchPrice(this, charterDataUtils);
+        orderType = charterDataUtils.isGroupOrder ? Constants.BUSINESS_TYPE_COMBINATION : 3;
         requestData(request);
     }
 
