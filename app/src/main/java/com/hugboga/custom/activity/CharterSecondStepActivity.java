@@ -264,6 +264,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             } else {
                 adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, false);
                 bottomView.setConfirmViewEnabled(true);
+                bottomView.setVisibility(View.VISIBLE);
             }
             if (request.getType() == REQUEST_CITYROUTE_TYPE_OUTTOWN) {//跨城市
                 charterDataUtils.addFences(charterDataUtils.currentDay, _cityRouteBean.fences, false);
@@ -335,6 +336,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (_request instanceof RequestCityRoute) {
             adapter.showEmpty(CharterEmptyView.ERROR_TYPE, true);
             bottomView.setConfirmViewEnabled(false);
+            bottomView.setVisibility(View.GONE);
         }
     }
 

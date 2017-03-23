@@ -604,6 +604,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
                 guideCarBeanList = ((RequestCars)request).getData();
+                if (charterDataUtils.guidesDetailData == null || guideCarBeanList == null) {
+                    return;
+                }
+                charterDataUtils.guidesDetailData.guideCars = guideCarBeanList;
+                charterDataUtils.guidesDetailData.guideCarCount = guideCarBeanList.size();
                 requestBatchPrice();
             }
 

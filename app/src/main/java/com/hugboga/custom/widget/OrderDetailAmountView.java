@@ -113,32 +113,42 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (orderBean.orderSource != 1) {//非app下单不显示退款
             return;
         }
-        if (priceInfo.isRefund == 1) {//已经退款
+        if (orderBean.orderType == 888 && orderBean.isGroupRefund()) {
             refundLayout.setVisibility(View.VISIBLE);
             refundItemLayout.removeAllViews();
-            if (orderBean.orderType == 888) {
-                addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
-                List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
-                int size = subOrderList.size();
-                for (int i = 0; i < size; i++) {
-                    OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
-                    addBillView(refundItemLayout, "行程 " + (i + 1), "" + (int)childPriceInfo.refundPrice);
-                }
-            } else {
-                addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice, false);//退款金额
-            }
 
-            String description = null;
-            if (priceInfo.refundPrice <= 0) {//退款金额为0
-                description = getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
-            } else {
-                addGroupView(refundItemLayout, R.string.order_detail_cost_withhold, "" + (int) priceInfo.cancelFee, false);//订单退改扣款
-                description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, priceInfo.payGatewayName);
+            addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
+            List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
+            int size = subOrderList.size();
+            int allRefundPrice = 0;
+            int allCancelFee = 0;
+            for (int i = 0; i < size; i++) {
+                OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
+                addBillView(refundItemLayout, "行程 " + (i + 1), "" + (int)childPriceInfo.refundPrice);
+                allRefundPrice += (int)childPriceInfo.refundPrice;
+                allCancelFee += (int)childPriceInfo.cancelFee;
             }
-            refundDescriptionTV.setText(description);
+            setRefundPriceLayout(allRefundPrice, allCancelFee, priceInfo.payGatewayName);
+        } else if (priceInfo.isRefund == 1) {//已经退款
+            refundLayout.setVisibility(View.VISIBLE);
+            refundItemLayout.removeAllViews();
+
+            addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice, false);//退款金额
+            setRefundPriceLayout((int) priceInfo.refundPrice, (int) priceInfo.cancelFee, priceInfo.payGatewayName);
         } else {
             refundLayout.setVisibility(View.GONE);
         }
+    }
+
+    private void setRefundPriceLayout(int refundPrice, int cancelFee, String payGatewayName) {
+        String description = null;
+        if (refundPrice <= 0) {//退款金额为0
+            description = getContext().getString(R.string.order_detail_refund_pattern_payment, payGatewayName);
+        } else {
+            addGroupView(refundItemLayout, R.string.order_detail_cost_withhold, "" + cancelFee, false);//订单退改扣款
+            description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, payGatewayName);
+        }
+        refundDescriptionTV.setText(description);
     }
 
 
