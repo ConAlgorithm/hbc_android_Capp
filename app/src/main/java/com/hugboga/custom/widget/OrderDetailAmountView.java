@@ -113,22 +113,28 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         if (orderBean.orderSource != 1) {//非app下单不显示退款
             return;
         }
-        if (orderBean.orderType == 888 && orderBean.isGroupRefund()) {
+        if (orderBean.orderType == 888 && (priceInfo.isRefund == 1 || orderBean.isGroupRefund())) {
             refundLayout.setVisibility(View.VISIBLE);
             refundItemLayout.removeAllViews();
 
             addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
-            List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
-            int size = subOrderList.size();
-            int allRefundPrice = 0;
-            int allCancelFee = 0;
-            for (int i = 0; i < size; i++) {
-                OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
-                addBillView(refundItemLayout, "行程 " + (i + 1), "" + (int)childPriceInfo.refundPrice);
-                allRefundPrice += (int)childPriceInfo.refundPrice;
-                allCancelFee += (int)childPriceInfo.cancelFee;
+            if (priceInfo.isRefund == 1) {//全部退款
+                addBillView(refundItemLayout, "全部行程", "" + (int)priceInfo.refundPrice);
+                setRefundPriceLayout((int)priceInfo.refundPrice, (int)priceInfo.cancelFee, priceInfo.payGatewayName);
+            } else {
+                List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
+                int size = subOrderList.size();
+                int allRefundPrice = 0;
+                int allCancelFee = 0;
+                for (int i = 0; i < size; i++) {
+                    OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
+                    addBillView(refundItemLayout, "行程 " + (i + 1), "" + (int)childPriceInfo.refundPrice);
+                    allRefundPrice += (int)childPriceInfo.refundPrice;
+                    allCancelFee += (int)childPriceInfo.cancelFee;
+                }
+                setRefundPriceLayout(allRefundPrice, allCancelFee, priceInfo.payGatewayName);
             }
-            setRefundPriceLayout(allRefundPrice, allCancelFee, priceInfo.payGatewayName);
+
         } else if (priceInfo.isRefund == 1) {//已经退款
             refundLayout.setVisibility(View.VISIBLE);
             refundItemLayout.removeAllViews();

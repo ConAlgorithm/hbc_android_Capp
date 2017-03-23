@@ -60,7 +60,7 @@ public class CityUtils {
         }
         selector.where("is_passcity_hot", "=", 1);
 
-        if (ChooseCityActivity.GROUP_START.equals(from)) {
+        if (ChooseCityActivity.GROUP_OUTTOWN.equals(from)) {
             selector.and("is_daily", "=", 1);
             selector.and("group_id", "=", groupId);
             if (cityId != -1) {

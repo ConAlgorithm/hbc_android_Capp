@@ -105,4 +105,21 @@
         android:layout_height="match_parent"
         android:layout_above="@id/date_picker_root_layout"
         android:background="#88000000" />
+
+    <TextView
+        android:id="@+id/show_tips"
+        android:layout_width="wrap_content"
+        android:background="@drawable/shape_date_picker_gray"
+        android:textColor="@color/basic_white"
+        android:textSize="12sp"
+        android:layout_alignParentBottom="true"
+        android:text="请选择开始日期"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
