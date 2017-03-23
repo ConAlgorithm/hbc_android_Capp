@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
@@ -21,6 +22,8 @@ import com.hugboga.custom.utils.UIUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.Bind;
@@ -70,7 +73,9 @@ public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBe
                 Intent intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, data.storyUrl);
                 getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.CLICK_STORY, "首页");
+                Map<String,String> map = new HashMap<String, String>();
+                map.put("storytype", 1 == data.storyLableType ? "司导故事" : "旅客故事");
+                MobClickUtils.onEvent(StatisticConstant.CLICK_STORY, map);
                 setSensorGuideStories();
             }
         });

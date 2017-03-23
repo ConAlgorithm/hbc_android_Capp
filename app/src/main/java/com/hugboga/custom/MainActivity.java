@@ -620,6 +620,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         switch (view.getId()) {
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
+                MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
@@ -646,6 +647,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         currentPosition = position;
         if (position == 0) {
             GiftController.getInstance(this).showGiftDialog();
+            MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         } else {
             GiftController.getInstance(this).abortion();
         }

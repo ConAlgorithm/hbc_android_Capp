@@ -34,6 +34,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestHasCreatedTravelForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -211,11 +212,13 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 if (CommonUtils.isLogin(v.getContext())){
                     gotoTravelPurposeForm(v);
                 }
+                MobClickUtils.onEvent(StatisticConstant.YI_XIANG);
                 break;
             case R.id.home_video_page:
                 Intent intent = new Intent(v.getContext(), MediaPlayerActivity.class);
                 intent.putExtra(MediaPlayerActivity.KEY_URL,homeHeaderInfo.headVideo.videoUrl);
                 v.getContext().startActivity(intent);
+                MobClickUtils.onEvent(StatisticConstant.PLAY_VIDEO);
                 break;
         }
     }

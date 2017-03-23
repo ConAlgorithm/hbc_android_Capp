@@ -24,6 +24,8 @@ import com.hugboga.custom.adapter.TravelPurposeFormListAdapter;
 import com.hugboga.custom.data.bean.TravelPurposeFormBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestTravelPurposeFormList;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -209,6 +211,7 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), TravelPurposeFormActivity.class);
                     startActivity(intent);
+                    MobClickUtils.onEvent(StatisticConstant.YI_XIANG_ADD);
                 }
             });
         }

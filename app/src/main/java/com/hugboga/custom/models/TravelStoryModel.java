@@ -12,11 +12,15 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -76,7 +80,9 @@ public class TravelStoryModel extends EpoxyModelWithHolder{
                 Intent intent = new Intent(storyHolder.itemView.getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, travelStory.storyUrl);
                 storyHolder.itemView.getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.CLICK_STORY, "首页");
+                Map<String,String> map = new HashMap<>();
+                map.put("storytype", 1 == travelStory.storyLableType ? "司导故事" : "旅客故事");
+                MobClickUtils.onEvent(StatisticConstant.CLICK_GSTORY, map);
                 setSensorGuideStories();
             }
         });

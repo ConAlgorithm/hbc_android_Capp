@@ -125,6 +125,7 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
                     params.titleName = hotExploration.explorationName;
                     Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA,params);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "首页当季热门探索");
                     v.getContext().startActivity(intent);
                 }else{
                     SkuItemBean skuItemBean1 = hotExplorations.get(position);

@@ -26,6 +26,8 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -295,6 +297,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 remark.getText().toString(),areaCodeStr,phone.getText().toString(),
                 userName.getText().toString().toString());
         requestData(requestTravelPurposeForm);
+        MobClickUtils.onEvent(StatisticConstant.YI_XIANG_SUCCEED);
     }
 
     @Override

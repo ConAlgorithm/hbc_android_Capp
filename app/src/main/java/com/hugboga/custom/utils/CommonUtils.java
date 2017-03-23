@@ -364,4 +364,27 @@ public final class CommonUtils {
         }
 
     }
+
+    /**
+     * 根据payType返回支付方式
+     * @param payType
+     * @return
+     */
+    public static String selectPayStyle(int payType) {
+        String result = "";
+        switch (payType) {
+            case Constants.PAY_STATE_ALIPAY:
+                result = "支付宝";
+                break;
+            case Constants.PAY_STATE_WECHAT:
+                result = "微信";
+                break;
+            case Constants.PAY_STATE_BANK:
+                result = "信用卡";
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
 }

@@ -40,7 +40,9 @@ import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.Bind;
@@ -365,12 +367,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         switch (resId) {
             case R.id.home_header_hot_tab:
                 selectHotExploerTab();
+                MobClickUtils.onEvent(StatisticConstant.CLICK_HOT);
                 break;
             case R.id.home_header_dest_tab:
                 selectDestionTab();
+                MobClickUtils.onEvent(StatisticConstant.CLICK_DEST);
                 break;
             case R.id.home_header_story_tab:
                 selectTravelStoryTab();
+                MobClickUtils.onEvent(StatisticConstant.CLICK_GSTORY);
                 break;
             default:
                 break;
@@ -468,7 +473,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
      * 打开活动页面
      */
     private void openActivitesPage() {
-        MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST, (Map)new HashMap<>().put("source", "首页"));
         Intent intent = new Intent(getContext(), WebInfoActivity.class);
         if(UserEntity.getUser().isLogin(getActivity())){
             intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));

@@ -202,9 +202,9 @@ public class ChoosePaymentActivity extends BaseActivity {
         switch (action.getType()) {
             case PAY_RESULT:
                 if (requestParams.eventPayBean != null) {
-                    requestParams.eventPayBean.paystyle = this.payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
+                    requestParams.eventPayBean.paystyle = CommonUtils.selectPayStyle(this.payType);
                     MobClickUtils.onEvent(new EventPayResult(requestParams.eventPayBean, (boolean) action.getData()));
-                    setSensorsPayResultEvent(payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付", (boolean) action.getData());
+                    setSensorsPayResultEvent(CommonUtils.selectPayStyle(this.payType), (boolean) action.getData());
                 }
                 break;
             default:
@@ -214,9 +214,12 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     private void sendRequest(int payType) {
         if (requestParams.eventPayBean != null) {
-            requestParams.eventPayBean.paystyle = payType == Constants.PAY_STATE_ALIPAY ? "支付宝" : "微信支付";
+            requestParams.eventPayBean.paystyle = CommonUtils.selectPayStyle(payType);
             MobClickUtils.onEvent(new EventPay(requestParams.eventPayBean));
             SensorsUtils.setSensorsPayOnClickEvent(requestParams.eventPayBean, requestParams.eventPayBean.paystyle);
+        }
+        if (payType == Constants.PAY_STATE_BANK){
+            return;
         }
         this.payType = payType;
         RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);
@@ -354,6 +357,7 @@ public class ChoosePaymentActivity extends BaseActivity {
                 bundle.putSerializable(PAY_PARAMS, requestParams);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                sendRequest(Constants.PAY_STATE_BANK);//仅仅只用于埋点
                 break;
             case R.id.choose_payment_credit_card_layout:
                 //直接点击上一次支付的界面进行支付
@@ -367,6 +371,7 @@ public class ChoosePaymentActivity extends BaseActivity {
                 }
                 intent1.putExtra(Constants.PARAMS_SOURCE, TAG);
                 startActivity(intent1);
+                sendRequest(Constants.PAY_STATE_BANK);      //仅仅只用于埋点
                 break;
         }
     }

@@ -32,6 +32,9 @@ public class StatisticConstant {
     public static final String LAUNCH_CITY = "01_launch_city";               // 0城市页展示
     public static final String CLICK_RG = "01_click_RG";                     // 1点击固定线路包车
     public static final String CLICK_RT = "01_click_RT";                     // 1点击推荐线路包车
+    public static final String CLICK_HOT = "01_click_hot";                   // 点击当季热门探索栏目
+    public static final String CLICK_DEST = "01_click_dest";                 // 点击目的地栏目
+    public static final String CLICK_GSTORY = "01_click_Gstory";             // 点击司导故事栏目
 
     // MARK: 02_下单
     public static final String LAUNCH_J = "02_launch_J";                     // 0接机界面展示
@@ -188,5 +191,10 @@ public class StatisticConstant {
     public static final String SHAREG = "07_shareG";                                // 在司导个人页点击分享司导
     public static final String SHAREG_TYPE = "07_shareG_type";                      // 在司导个人页，分享浮层中点击微信好友或朋友圈
     public static final String SHAREG_BACK = "07_shareG_back";                      // 司导分享后回到应用内
+
+    //意向单
+    public static final String YI_XIANG = "08_yixiang";                             //点击咨询定制
+    public static final String YI_XIANG_ADD = "08_yixiang_add";                     //点击添加新意向单
+    public static final String YI_XIANG_SUCCEED = "08_yixiang_succeed";             //意向单提交成功
 
 }

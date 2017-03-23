@@ -250,13 +250,13 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                 Bundle bundle=new Bundle();
                 CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                 Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
-                bundle.putSerializable(Constants.PARAMS_SOURCE,"首页热门目的地");
+                bundle.putSerializable(Constants.PARAMS_SOURCE,"首页目的地栏目");
                 params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
                 params.titleName=hotCity.cityName;
                 params.id=hotCity.cityId;
                 intent.putExtra(Constants.PARAMS_DATA,params);
                 v.getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页热门目的地");
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页目的地栏目");
             }
         });
         return view;
@@ -314,13 +314,13 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                     Bundle bundle=new Bundle();
                     CityHomeListActivity.Params params = new CityHomeListActivity.Params();
                     Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
-                    bundle.putSerializable(Constants.PARAMS_SOURCE,"首页热门目的地");
+                    bundle.putSerializable(Constants.PARAMS_SOURCE,"首页目的地栏目");
                     params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
                     params.titleName=hotCity.cityName;
                     params.id=hotCity.cityId;
                     intent.putExtra(Constants.PARAMS_DATA,params);
                     mContext.startActivity(intent);
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页热门目的地");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页目的地栏目");
                 }
             });
             return convertView;
@@ -384,7 +384,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                     params.titleName = hotCountry.countryName;
                     Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra("source","搜索");
+                    intent.putExtra("source","首页目的地栏目");
                     v.getContext().startActivity(intent);
                 }
             });
