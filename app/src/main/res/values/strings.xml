@@ -593,7 +593,7 @@
     <string name="choose_payment">选择支付方式</string>
     <string name="choose_payment_wechat">微信支付</string>
     <string name="choose_payment_alipay">支付宝</string>
-    <string name="choose_payment_credit_card">信用卡支付（推荐）</string>
+    <string name="choose_payment_credit_card">信用卡支付</string>
     <string name="choose_payment_add_credit_card_tip">*目前仅支持国内信用卡</string>
     <string name="add_credit_activity_title">添加信用卡</string>
     <string name="add_credit_reserved_phone_tip">请输入办卡预留手机号</string>
