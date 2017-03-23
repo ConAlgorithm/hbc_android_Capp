@@ -7,8 +7,7 @@
     android:background="#ffffff"
     android:orientation="horizontal"
     android:paddingTop="5dp"
-    android:paddingLeft="@dimen/order_padding_left"
-    android:paddingRight="@dimen/order_padding_left">
+    android:paddingLeft="@dimen/order_padding_left">
 
     <net.grobas.view.PolygonImageView
         android:id="@+id/ogi_avatar_iv"
@@ -39,6 +38,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/order_padding_left"
             android:orientation="horizontal">
 
             <TextView
@@ -90,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dip"
+            android:layout_marginRight="@dimen/order_padding_left"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/basic_gray_light"
@@ -100,6 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dip"
+            android:layout_marginRight="@dimen/order_padding_left"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/basic_gray_light"
@@ -117,15 +119,15 @@
                 android:id="@+id/ogi_call_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@mipmap/btn_detail_call" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -134,7 +136,7 @@
                     android:layout_marginLeft="2dp"
                     android:text="打电话"
                     android:textColor="@color/default_yellow"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ogi_chat_layout"
@@ -142,13 +144,13 @@
                 android:layout_height="26dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:layout_marginRight="12dp"
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@mipmap/btn_detail_chat" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,7 +159,7 @@
                     android:layout_marginLeft="2dp"
                     android:text="发私聊"
                     android:textColor="@color/default_yellow"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,14 +168,14 @@
                 android:layout_height="26dp"
                 android:background="@drawable/shape_rounded_yellow"
                 android:gravity="center"
-                android:layout_marginRight="12dp"
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:id="@+id/ogi_evaluate_iv"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@mipmap/star_level_full" />
                 <TextView
                     android:id="@+id/ogi_evaluate_tv"
@@ -183,7 +185,7 @@
                     android:layout_marginLeft="2dp"
                     android:text="5星评价"
                     android:textColor="@color/default_yellow"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -192,23 +194,22 @@
                 android:layout_height="26dp"
                 android:background="@drawable/shape_rounded_red"
                 android:gravity="center"
-                android:layout_marginRight="12dp"
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@mipmap/btn_detail_collect" />
                 <TextView
                     android:id="@+id/ogi_collect_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
+                    android:gravity="center_vertical"
                     android:text="收藏"
                     android:textColor="#f66363"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

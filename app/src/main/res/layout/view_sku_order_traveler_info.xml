@@ -138,6 +138,7 @@
         android:id="@+id/sku_order_traveler_info_start_address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:minHeight="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
 
@@ -190,11 +191,6 @@
         android:layout_height="wrap_content"
         android:minHeight="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:background="@color/default_dividing_line"
-            />
         <TextView
             android:id="@+id/sku_order_traveler_info_mark_hint_tv"
             android:layout_width="wrap_content"

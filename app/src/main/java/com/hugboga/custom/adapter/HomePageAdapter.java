@@ -20,9 +20,18 @@ public class HomePageAdapter extends EpoxyAdapter {
     public HomeHeaderModel homeHeaderModel;
 
     public void showHeader(HomeBeanV2.HomeHeaderInfo homeHeaderInfo, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
-        homeHeaderModel = new HomeHeaderModel(homeHeaderInfo, homeTabClickListener);
-        addModel(homeHeaderModel);
+        if(homeHeaderModel!=null){
+            homeHeaderModel.setHomeHeaderInfo(homeHeaderInfo);
+            homeHeaderModel.update();
+        }else{
+            homeHeaderModel = new HomeHeaderModel(homeHeaderInfo, homeTabClickListener);
+            addModel(homeHeaderModel);
+        }
+
+
     }
+
+
 
     public void addHotExploations(List<HomeBeanV2.HotExploration> hotExplorationList,boolean switchTab,int listCount,int dataSize) {
         if(switchTab){
@@ -81,6 +90,15 @@ public class HomePageAdapter extends EpoxyAdapter {
 
     public void clearAll(){
         removeAllModels();
+    }
+
+    public void removeAfterHeader(){
+        if(homeHeaderModel!=null){
+            removeAllAfterModel(homeHeaderModel);
+        }else{
+            removeAllModels();
+        }
+
     }
 
     HomeNetworkErrorModel homeNetworkErrorModel;

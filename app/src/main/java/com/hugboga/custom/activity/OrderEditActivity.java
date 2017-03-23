@@ -210,9 +210,10 @@ public class OrderEditActivity extends BaseActivity {
                 String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
                 upRight.setText(time + "(当地时间)");
             }
-            if (!TextUtils.isEmpty(orderBean.startAddress)) {
-                upAddressRight.setText(orderBean.startAddress);
-            }
+//            if (!TextUtils.isEmpty(orderBean.startAddress)) {
+//                upAddressRight.setText(orderBean.startAddress);
+//            }
+            pickUpLocationLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
                 hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }

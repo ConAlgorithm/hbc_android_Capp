@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -64,6 +65,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private int maxPassengers;
     private CharterDataUtils charterDataUtils;
     private GuidesDetailData guidesDetailData;
+    private boolean isEnabled = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -160,7 +162,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Intent intent = new Intent(activity, DatePickerActivity.class);
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
-        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车开始日期");
+        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
     }
@@ -237,6 +239,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 setDateViewText();
                 break;
             case CHARTER_FIRST_REFRESH:
+                if (charterDataUtils.guidesDetailData == null) {
+                    guideLayout.setVisibility(View.GONE);
+                    guidesDetailData = null;
+                }
                 startBean = charterDataUtils.getStartCityBean(1);
                 chooseDateBean = charterDataUtils.chooseDateBean;
                 maxPassengers = charterDataUtils.maxPassengers;
@@ -258,14 +264,20 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
             countLayout.setSliderEnabled(true);
             setNextViewEnabled(true);
+            isEnabled = true;
         }
     }
 
     @Override
-    public void onDataRequestCancel(BaseRequest _request) {
-        super.onDataRequestCancel(_request);
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
         if (_request instanceof RequestCarMaxCapaCity) {
             setNextViewEnabled(false);
+            countLayout.setAdultValue(0);
+            countLayout.setChildValue(0);
+            countLayout.setSliderEnabled(false);
+            countLayout.setHintViewVisibility(View.GONE);
+            isEnabled = false;
         }
     }
 
@@ -277,7 +289,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
         dateTV.setText(dateStr);
 
-        setNextViewEnabled(true);
+        if (isEnabled) {
+            setNextViewEnabled(true);
+        }
     }
 
     public void setNextViewEnabled(boolean isEnabled) {

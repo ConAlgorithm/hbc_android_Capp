@@ -230,8 +230,8 @@ public class CharterItemView extends LinearLayout{
         intent.putExtra(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
         intent.putExtra(ChooseCityActivity.KEY_CITY_ID, cityBean.cityId);
         intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, CharterItemView.TAG);
-        intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.FROM_OUTTOWN);
-        intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.OUTTOWN);
+        intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.GROUP_OUTTOWN);
+        intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.GROUP_OUTTOWN);
         getContext().startActivity(intent);
     }
 

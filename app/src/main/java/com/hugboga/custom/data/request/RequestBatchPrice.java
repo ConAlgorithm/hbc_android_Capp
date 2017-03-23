@@ -59,6 +59,9 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         int dayArrangementIndex = 0;
         ArrayList<BatchPrice> batchPriceList = new ArrayList<BatchPrice>();
 
+        int isOuttown = -1;
+        int fitstOrderGoodsType = -1;
+
         ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
         int size = travelList.size();
         DailyPriceParam dailyPriceParam = null;
@@ -78,6 +81,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     airportParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
                 }
                 batchPriceList.add(batchPrice);
+                fitstOrderGoodsType = 1;
                 index++;
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {//只送机
                 AirportParam sendParam = new AirportParam();
@@ -121,6 +125,9 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 }
                 if (!isSend) {
                     if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
+                        if (isOuttown == -1) {
+                            isOuttown = 1;
+                        }
                         dayArrangement.endCityId = charterDataUtils.getEndCityBean(i + 1).cityId;
                     } else {
                         dayArrangement.endCityId = startCityBean.cityId;
@@ -167,6 +174,17 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     batchPrice.serviceType = SERVICE_TYPE_CHARTER;
                     batchPrice.index = index;
                     batchPriceList.add(batchPrice);
+                    if (batchPriceList != null && ((fitstOrderGoodsType == 1 && batchPriceList.size() == 2) || batchPriceList.size() == 1)) {
+                        if (isOuttown == 1) {
+                            if (dailyPriceParam.arrangements.size() > 3) {//大长途
+                                fitstOrderGoodsType = 7;
+                            } else if (dailyPriceParam.arrangements.size() <= 3) {//小长途
+                                fitstOrderGoodsType = 6;
+                            }
+                        } else {
+                            fitstOrderGoodsType = 3;
+                        }
+                    }
                     index++;
                     dailyPriceParam = new DailyPriceParam();
                 }
@@ -182,6 +200,8 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         } else {
             charterDataUtils.isGroupOrder = false;
         }
+
+        charterDataUtils.fitstOrderGoodsType = fitstOrderGoodsType;
         return JsonUtils.toJson(batchPriceListBean);
     }
 

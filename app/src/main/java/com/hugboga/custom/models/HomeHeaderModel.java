@@ -52,6 +52,7 @@ import butterknife.ButterKnife;
  */
 public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClickListener{
 
+
     HomeBeanV2.HomeHeaderInfo homeHeaderInfo;
     HomeSearchTabView.HomeTabClickListener homeTabClickListener;
 
@@ -63,6 +64,11 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     public HomeHeaderModel(HomeBeanV2.HomeHeaderInfo homeHeaderInfo,HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
         this.homeHeaderInfo = homeHeaderInfo;
         this.homeTabClickListener = homeTabClickListener;
+
+    }
+
+    public void setHomeHeaderInfo(HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
+        this.homeHeaderInfo = homeHeaderInfo;
     }
 
     @Override
@@ -70,16 +76,25 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         return new HomeHeaderHolder();
     }
 
+    HomeHeaderHolder homeHeaderHolder;
     @Override
     public void bind(EpoxyHolder holder) {
         super.bind(holder);
         if(holder==null){
             return;
         }
-        HomeHeaderHolder homeHeaderHolder = (HomeHeaderHolder) holder;
+        homeHeaderHolder = (HomeHeaderHolder) holder;
+        update();
+    }
+
+
+    public void update(){
+        if(homeHeaderHolder==null){
+            return;
+        }
         if(homeHeaderInfo.dynamicPic!=null){
             homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
-            Tools.showImage(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl);
+            Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
             setPlaceAmmountText(homeHeaderHolder.placeAmmout);
             setGuideAmmountText(homeHeaderHolder.gideAmmountText);
             homeHeaderHolder.chaterView.setOnClickListener(this);
@@ -90,7 +105,6 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         }else{
             homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
         }
-
 
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
         tabView = homeHeaderHolder.homeSearchTabView;

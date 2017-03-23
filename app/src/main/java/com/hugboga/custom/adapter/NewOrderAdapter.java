@@ -244,14 +244,14 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                             dailyPlace += " - " + orderBean.serviceEndCityName;
                         }
-                        dailyPlace += String.format("（含%1$s段行程）", orderBean.orderJourneyCount);
+                        dailyPlace += String.format("(含%1$s段行程)", orderBean.orderJourneyCount);
                         vh.startAddressTV.setText(dailyPlace);
                     }
                     vh.endAddressLayout.setVisibility(View.GONE);
                     break;
             }
         }
-        vh.mBtnChat.setVisibility(View.GONE);
+        //vh.mBtnChat.setVisibility(View.GONE);
         setStatusView(vh, orderBean);
     }
 
@@ -265,7 +265,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         vh.mAssessment.setOnClickListener(null);
         vh.mStatus.setText(orderBean.orderStatus.name);
         boolean isShowAvartarLayout = false;
-        if (orderBean.orderType == 888 && orderBean.orderStatus.code > 1) {
+        if (orderBean.orderType == 888 && orderBean.isSeparateOrder() && orderBean.orderStatus.code > 1) {
             List<String> subOrderGuideAvartar = orderBean.subOrderGuideAvartar;
             if (subOrderGuideAvartar == null || subOrderGuideAvartar.size() <= 0) {
                 vh.travel_item_head_layout_all.setVisibility(View.GONE);
@@ -322,14 +322,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
-                vh.travel_item_head_layout_all.setVisibility(View.GONE);
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mHeadLayout.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
                 if (orderBean.insuranceEnable) {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
-                    vh.mPrice.setVisibility(View.GONE);
-                    vh.mBtnPay.setVisibility(View.GONE);
-                    vh.mHeadLayout.setVisibility(View.GONE);
-                    vh.mAssessment.setVisibility(View.GONE);
                     vh.br_layout.setVisibility(View.VISIBLE);
                     vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -452,7 +451,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.mBtnChat.setVisibility(View.GONE);
                     }
 
-                    if (!orderBean.isEvaluated()) {//服务完成未评价
+                    if (!orderBean.isEvaluated() && orderBean.orderType != 888) {//服务完成未评价
                         vh.mAssessment.setVisibility(View.VISIBLE);
                         vh.mAssessment.setOnClickListener(new TravelOnClickListener(orderBean));
                     } else {

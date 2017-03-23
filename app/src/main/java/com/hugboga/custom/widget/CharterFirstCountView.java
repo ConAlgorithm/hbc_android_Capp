@@ -102,6 +102,7 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
 
     private void setHintViewVisibility() {
         if (maxPassengers <= 0) {
+            hintTV.setVisibility(View.GONE);
             return;
         }
         final boolean isOutRange = childSlider.getValue() + adultSlider.getValue() > maxPassengers;
@@ -114,6 +115,10 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         if (listener != null) {
             listener.onOutRangeChange(isOutRange);
         }
+    }
+
+    public void setHintViewVisibility(int visibility) {
+        hintTV.setVisibility(visibility);
     }
 
     public int getAdultValue() {

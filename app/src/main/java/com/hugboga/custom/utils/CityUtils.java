@@ -2,7 +2,6 @@ package com.hugboga.custom.utils;
 
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
@@ -15,7 +14,6 @@ import android.text.style.ImageSpan;
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
 import com.hugboga.custom.activity.ChooseCityActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
@@ -62,7 +60,7 @@ public class CityUtils {
         }
         selector.where("is_passcity_hot", "=", 1);
 
-        if (ChooseCityActivity.FROM_OUTTOWN.equals(from)) {
+        if (ChooseCityActivity.GROUP_OUTTOWN.equals(from)) {
             selector.and("is_daily", "=", 1);
             selector.and("group_id", "=", groupId);
             if (cityId != -1) {

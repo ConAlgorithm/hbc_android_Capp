@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.ChooseCityActivity;
@@ -171,12 +170,12 @@ public class CharterSubtitleView extends LinearLayout{
             return;
         }
         Bundle bundle = new Bundle();
-        bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.FROM_OUTTOWN);
         bundle.putInt(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
         bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterSubtitleView.TAG);
-        bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.OUTTOWN);
         bundle.putInt(ChooseCityActivity.KEY_CITY_ID, charterDataUtils.getCurrentDayStartCityBean().cityId);
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
+        bundle.putString(ChooseCityActivity.KEY_FROM, ChooseCityActivity.GROUP_START);
+        bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.GROUP_START);
         Intent intent = new Intent(context, ChooseCityActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);

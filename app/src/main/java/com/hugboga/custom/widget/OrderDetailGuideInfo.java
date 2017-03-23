@@ -114,6 +114,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                         navLayout.setVisibility(View.VISIBLE);
                         evaluateLayout.setVisibility(View.GONE);
                         collectLayout.setVisibility(View.GONE);
+                        collectIV.setVisibility(View.GONE);
                         chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                         callLayout.setVisibility(orderBean.isPhone ? View.VISIBLE : View.GONE);
                     }
@@ -146,6 +147,14 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                         collectIV.setVisibility(View.GONE);
                         collectLayout.setVisibility(View.VISIBLE);
                     }
+                    break;
+                case COMPLAINT://10:客诉处理中
+                    navLayout.setVisibility(View.VISIBLE);
+                    callLayout.setVisibility(View.GONE);
+                    evaluateLayout.setVisibility(View.GONE);
+                    collectLayout.setVisibility(View.GONE);
+                    collectIV.setVisibility(View.GONE);
+                    chatLayout.setVisibility(orderBean.isIm ? View.VISIBLE : View.GONE);
                     break;
             }
 

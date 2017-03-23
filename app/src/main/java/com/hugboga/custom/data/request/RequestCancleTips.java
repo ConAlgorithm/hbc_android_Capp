@@ -36,11 +36,11 @@ public class RequestCancleTips extends BaseRequest<List<String>> {
         try {
             map.put("channelId","18");
             map.put("serviceCityId",serviceCityId);
-            if("6".equalsIgnoreCase(goodsType)){
-                map.put("goodsType", "5");
-            }else {
+//            if("6".equalsIgnoreCase(goodsType)){
+//                map.put("goodsType", "5");
+//            }else {
                 map.put("goodsType", goodsType);
-            }
+//            }
             map.put("orderType",orderType);
             map.put("carSeatNum",carSeatNum);
             map.put("carTypeId",carTypeId);
