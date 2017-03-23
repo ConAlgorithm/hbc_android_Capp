@@ -80,6 +80,7 @@ public class Tools {
         Glide.with(MyApplication.getAppContext())
                 .load(url)
                 .centerCrop()
+                .dontAnimate()
                 .placeholder(placeHolderResId)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);

@@ -272,7 +272,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         if (_request instanceof RequestHome) {
             homeBean = ((RequestHome) _request).getData();
             if (homeBean != null) {
-                homePageAdapter.clearAll();
+                homePageAdapter.removeAfterHeader();
                 if (homeBean.headAggVo != null) {
                     addHeader(homeBean.headAggVo);
                 }
