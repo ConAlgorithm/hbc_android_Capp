@@ -627,13 +627,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         }
     }
 
+    //XXX 待优化
     public void drawFences(CityRouteBean.CityRouteScope cityRouteScope) {
         mapView.getaMap().clear();
         locationMapToCity(charterDataUtils.getCurrentDayStartCityBean());
         final int routeType = cityRouteScope.routeType;
         final boolean isOpeanFence = cityRouteScope.isOpeanFence();
         if (routeType == CityRouteBean.RouteType.AT_WILL) {//随便转转
-            //TODO 关闭围栏
+            //关闭围栏
             mapView.getaMap().clear();
             return;
         }
