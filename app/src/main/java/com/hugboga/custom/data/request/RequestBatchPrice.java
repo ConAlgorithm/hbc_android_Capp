@@ -130,9 +130,6 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                         }
                         dayArrangement.endCityId = charterDataUtils.getEndCityBean(i + 1).cityId;
                     } else {
-                        if (isOuttown == -1) {
-                            isOuttown = 0;
-                        }
                         dayArrangement.endCityId = startCityBean.cityId;
                     }
                 }
