@@ -129,7 +129,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     private void initMapView(){
         MapsInitializer.loadWorldGridMap(true);
-        mapView.getLayoutParams().height = (int)(ScreenUtil.screenWidth*0.62f);
+        mapView.getLayoutParams().height = (int)((1 / 2.6f) * ScreenUtil.screenWidth);
         mapView.getaMap().getUiSettings().setZoomControlsEnabled(false);
     }
 

@@ -451,7 +451,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.mBtnChat.setVisibility(View.GONE);
                     }
 
-                    if (!orderBean.isEvaluated()) {//服务完成未评价
+                    if (!orderBean.isEvaluated() && orderBean.orderType != 888) {//服务完成未评价
                         vh.mAssessment.setVisibility(View.VISIBLE);
                         vh.mAssessment.setOnClickListener(new TravelOnClickListener(orderBean));
                     } else {

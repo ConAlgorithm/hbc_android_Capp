@@ -65,6 +65,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private int maxPassengers;
     private CharterDataUtils charterDataUtils;
     private GuidesDetailData guidesDetailData;
+    private boolean isEnabled = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -161,7 +162,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Intent intent = new Intent(activity, DatePickerActivity.class);
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
-        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车开始日期");
+        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
     }
@@ -263,6 +264,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
             countLayout.setSliderEnabled(true);
             setNextViewEnabled(true);
+            isEnabled = true;
         }
     }
 
@@ -275,6 +277,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.setChildValue(0);
             countLayout.setSliderEnabled(false);
             countLayout.setHintViewVisibility(View.GONE);
+            isEnabled = false;
         }
     }
 
@@ -286,7 +289,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
         dateTV.setText(dateStr);
 
-        setNextViewEnabled(true);
+        if (isEnabled) {
+            setNextViewEnabled(true);
+        }
     }
 
     public void setNextViewEnabled(boolean isEnabled) {

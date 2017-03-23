@@ -710,6 +710,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     mAsyncHandler.sendMessage(message);
                     break;
                 case MessageType.SEARCH_HISTORY:
+                    if (showType == ShowType.GROUP_START || showType == ShowType.GROUP_OUTTOWN) {
+                        break;
+                    }
                     String cityHistoryStr = sharedPer.getStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY);
                     cityHistory = new ArrayList<String>();
                     if (!TextUtils.isEmpty(cityHistoryStr)) {
