@@ -238,6 +238,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 setDateViewText();
                 break;
             case CHARTER_FIRST_REFRESH:
+                if (charterDataUtils.guidesDetailData == null) {
+                    guideLayout.setVisibility(View.GONE);
+                    guidesDetailData = null;
+                }
                 startBean = charterDataUtils.getStartCityBean(1);
                 chooseDateBean = charterDataUtils.chooseDateBean;
                 maxPassengers = charterDataUtils.maxPassengers;

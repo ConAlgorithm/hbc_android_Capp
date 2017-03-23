@@ -580,7 +580,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         RequestCancleTips requestCancleTips = new RequestCancleTips(this
                 , carBean
                 , startCityBean.cityId + ""
-                , ""
+                , charterDataUtils.fitstOrderGoodsType + ""
                 , carBean.carType + ""
                 , carBean.seatCategory + ""
                 , charterDataUtils.chooseDateBean.start_date + " " + SERVER_TIME

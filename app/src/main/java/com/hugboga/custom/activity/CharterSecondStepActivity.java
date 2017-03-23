@@ -643,14 +643,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 //mapView.getaMap().clear();
                 DirectionBean directionBean = charterDataUtils.pickUpDirectionBean;
                 if (directionBean != null && directionBean.isHaveLines()) {//是否画点到点间的线
-                    ArrayList<HbcLantLng> hbcLantLngList = charterDataUtils.getHbcLantLngList(directionBean.steps);
+                    ArrayList<HbcLantLng> hbcLantLngList = charterDataUtils.getHbcLantLngList(charterDataUtils.flightBean.arrCityId, directionBean.steps);
                     //TODO 线
                     if(hbcLantLngList!=null && hbcLantLngList.size()>0){
                         mapView.addPoyline(hbcLantLngList,6, Color.argb(150,246,50,7),false);
                     }
                 }
-                HbcLantLng shbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrLocation);
-                HbcLantLng ehbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.pickUpPoiBean.location);
+                HbcLantLng shbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrCityId, charterDataUtils.flightBean.arrLocation);
+                HbcLantLng ehbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrCityId, charterDataUtils.pickUpPoiBean.location);
                 if(shbcLantLng!=null && ehbcLantLng!=null){
                     List<HbcLantLng> hbcLantLngList = new ArrayList<>();
                     hbcLantLngList.add(shbcLantLng);
@@ -662,7 +662,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
                 return;
             } else {//点
-                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrLocation);
+                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.flightBean.arrCityId,charterDataUtils.flightBean.arrLocation);
                 //TODO  点 startCoordinate;
                 if(startCoordinate!=null){
                     Marker startMarker = mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
@@ -674,14 +674,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 //TODO  点到点 charterDataUtils.airPortBean.location    charterDataUtils.sendPoiBean.location  charterDataUtils.sendPoiBean.placeName
                 DirectionBean directionBean = charterDataUtils.sendDirectionBean;
                 if (directionBean.isHaveLines()) {
-                    ArrayList<HbcLantLng> hbcLantLngList = charterDataUtils.getHbcLantLngList(directionBean.steps);
+                    ArrayList<HbcLantLng> hbcLantLngList = charterDataUtils.getHbcLantLngList(charterDataUtils.getStartCityBean(charterDataUtils.currentDay).cityId,directionBean.steps);
                     //TODO  线
                     if(hbcLantLngList!=null && hbcLantLngList.size()>0){
                         mapView.addPoyline(hbcLantLngList,6, Color.argb(150,246,50,7),false);
                     }
                 }
-                HbcLantLng shbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.sendPoiBean.location);
-                HbcLantLng ehbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.location);
+                HbcLantLng shbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.getStartCityBean(charterDataUtils.currentDay).cityId, charterDataUtils.sendPoiBean.location);
+                HbcLantLng ehbcLantLng = CharterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.cityId, charterDataUtils.airPortBean.location);
                 if(shbcLantLng!=null && ehbcLantLng!=null){
                     List<HbcLantLng> hbcLantLngList = new ArrayList<>();
                     hbcLantLngList.add(shbcLantLng);
@@ -693,7 +693,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
                 return;
             }else {//点加围栏
-                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.location);
+                startCoordinate = charterDataUtils.getHbcLantLng(charterDataUtils.airPortBean.airportId, charterDataUtils.airPortBean.location);
                 //TODO  点
                 if(startCoordinate!=null){
                     mapView.addMarker(getIconView(R.mipmap.map_icon_plane,R.drawable.map_read_point,""),startCoordinate);
@@ -707,7 +707,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             //TODO cityBean.name 点加城市名 需要加经纬度
             String location = cityBean.location;
             if(!TextUtils.isEmpty(location)){
-                HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(location);
+                HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(cityBean.cityId,location);
                 if (hbcLantLng != null) {
                     mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,cityBean.name),hbcLantLng);
                     mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),12));
@@ -727,9 +727,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             ArrayList<CityRouteBean.Fence> nextFences = charterDataUtils.getNextDayFences();
 
             if (fences != null && fences.size() >= 1 && nextFences != null && nextFences.size() >= 1) {
-                ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
                 CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
                 CityBean nextCityBean = charterDataUtils.getEndCityBean();
+                ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(currentCityBean.cityId, fences.get(0));//市内围栏
                 if(urbanList!=null && urbanList.size()>0){
                     mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                     if(!TextUtils.isEmpty(currentCityBean.name)){
@@ -739,7 +739,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
                 if(nextFences != null && nextFences.get(0) != null){
                     CityRouteBean.Fence nextFence = nextFences.get(0);
-                    ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextFence);
+                    ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextCityBean.cityId, nextFence);
                     if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
                         mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                         if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
@@ -750,8 +750,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
 
             } else if (fences != null && fences.size() >= 1) {
-                ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
                 CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
+                ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(currentCityBean.cityId,fences.get(0));//市内围栏
                 if(urbanList!=null && urbanList.size()>0){
                     mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                     if(!TextUtils.isEmpty(currentCityBean.name)){
@@ -766,7 +766,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 //TODO cityBean.name 点加城市名 需要加经纬度
                 String location = cityBean.location;
                 if(!TextUtils.isEmpty(location)){
-                    HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(location);
+                    HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(cityBean.cityId,location);
                     if (hbcLantLng != null) {
                         mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,cityBean.name),hbcLantLng);
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),12));
@@ -780,7 +780,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 CityBean nextCityBean = charterDataUtils.getEndCityBean();
                 if(nextFences != null && nextFences.get(0) != null){
                     CityRouteBean.Fence nextFence = nextFences.get(0);
-                    ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextFence);
+                    ArrayList<HbcLantLng> nextHbcLantLngList = charterDataUtils.getHbcLantLngList(nextCityBean.cityId,nextFence);
                     if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
                         mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                         if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
@@ -790,7 +790,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
                         String location = cityBean.location;
                         if(!TextUtils.isEmpty(location)){
-                            HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(location);
+                            HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(cityBean.cityId,location);
                             if (hbcLantLng != null) {
                                 ArrayList<HbcLantLng> hbcLantLngList = new ArrayList<>();
                                 hbcLantLngList.add(hbcLantLng);
@@ -805,7 +805,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     return;
                 }
                 if(!TextUtils.isEmpty(endCityBean.location)){
-                    HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(endCityBean.location);
+                    HbcLantLng hbcLantLng = CharterDataUtils.getHbcLantLng(endCityBean.cityId,endCityBean.location);
                     if (hbcLantLng != null) {
                         mapView.addMarker(getIconView(R.drawable.map_pop_city,R.drawable.map_green_point,endCityBean.name),hbcLantLng);
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),12));
@@ -815,7 +815,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
                         String location = cityBean.location;
                         if(!TextUtils.isEmpty(location)){
-                            HbcLantLng startHbcLantLng = CharterDataUtils.getHbcLantLng(location);
+                            HbcLantLng startHbcLantLng = CharterDataUtils.getHbcLantLng(cityBean.cityId,location);
                             hbcLantLngList.add(startHbcLantLng);
                         }
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(hbcLantLngList),0));
@@ -828,8 +828,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             if (fences == null || fences.size() < 1) {
                 return;
             }
-            ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(fences.get(0));//市内围栏
-            ArrayList<HbcLantLng> outsideList = fences.size() > 1 ? charterDataUtils.getHbcLantLngList(fences.get(1)) : null;//周边围栏
+            CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
+            ArrayList<HbcLantLng> urbanList = charterDataUtils.getHbcLantLngList(currentCityBean.cityId,fences.get(0));//市内围栏
+            ArrayList<HbcLantLng> outsideList = fences.size() > 1 ? charterDataUtils.getHbcLantLngList(currentCityBean.cityId,fences.get(1)) : null;//周边围栏
             if (startCoordinate != null) {
                 // TODO 围栏 startCoordinate hbcLantLngList nextHbcLantLngList 判断坐标点在 市内（一个圈）、周边（俩圈）、超出周边（俩圈）
                 boolean hasOut = false;
@@ -888,7 +889,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if(cityBean==null){
             return;
         }
-        HbcLantLng hbcLantLng =  CharterDataUtils.getHbcLantLng(cityBean.location);
+        HbcLantLng hbcLantLng =  CharterDataUtils.getHbcLantLng(cityBean.cityId, cityBean.location);
         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),16));
     }
 }
