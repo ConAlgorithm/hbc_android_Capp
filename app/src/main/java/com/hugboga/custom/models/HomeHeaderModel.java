@@ -78,7 +78,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         HomeHeaderHolder homeHeaderHolder = (HomeHeaderHolder) holder;
         if(homeHeaderInfo.dynamicPic!=null){
             homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
-            Tools.showImage(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl);
+            Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
             setPlaceAmmountText(homeHeaderHolder.placeAmmout);
             setGuideAmmountText(homeHeaderHolder.gideAmmountText);
             homeHeaderHolder.chaterView.setOnClickListener(this);
