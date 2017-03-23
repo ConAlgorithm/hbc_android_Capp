@@ -251,7 +251,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     break;
             }
         }
-        vh.mBtnChat.setVisibility(View.GONE);
+        //vh.mBtnChat.setVisibility(View.GONE);
         setStatusView(vh, orderBean);
     }
 
