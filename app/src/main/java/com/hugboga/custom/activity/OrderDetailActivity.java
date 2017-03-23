@@ -292,9 +292,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 requestData();
                 break;
             case ORDER_DETAIL_UPDATE_EVALUATION://更新评价UI
-                if (!eventVerification(action)) {
-                    break;
-                }
+//                if (!eventVerification(action)) {
+//                    break;
+//                }
                 requestData();
                 break;
             case ORDER_DETAIL_UPDATE_INFO://更新个人信息UI

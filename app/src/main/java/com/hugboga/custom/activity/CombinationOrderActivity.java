@@ -96,7 +96,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private CarListBean carListBean;
     private CarBean carBean;
-    private int orderType = Constants.BUSINESS_TYPE_COMBINATION;
+    private int orderType;
     private OrderInfoBean orderInfoBean;
 
     private DeductionBean deductionBean;
@@ -107,6 +107,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private CharterDataUtils charterDataUtils;
     private CityBean startCityBean;
+    private ArrayList<GuideCarBean> guideCarBeanList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,9 +144,15 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
-        requestBatchPrice();
+        if (charterDataUtils.guidesDetailData != null) {
+            getGuideCars();
+        } else {
+            requestBatchPrice();
+        }
 
         travelerInfoView.setActivity(this);
+
+        carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
     }
 
     public void initTitleBar() {
@@ -225,12 +232,16 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             if (contact == null || contact.length < 2) {
                 return;
             }
-            travelerInfoView.setTravelerName(contact[0]);
-            String phone = contact[1];
-            if (!TextUtils.isEmpty(phone)) {
-                phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+            if (!TextUtils.isEmpty(contact[0])){
+                travelerInfoView.setTravelerName(contact[0]);
             }
-            travelerInfoView.setTravelerPhone(phone);
+            if (!TextUtils.isEmpty(contact[1])){
+                String phone = contact[1];
+                if (!TextUtils.isEmpty(phone)) {
+                    phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                }
+                travelerInfoView.setTravelerPhone(phone);
+            }
         }
     }
 
@@ -239,9 +250,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestBatchPrice) {
             carListBean = ((RequestBatchPrice) _request).getData();
-            if (!checkDataIsEmpty(carListBean)) {
-                if (charterDataUtils.guidesDetailData != null) {
-                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, charterDataUtils.guidesDetailData.guideCars);
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList)) {
+                if (charterDataUtils.guidesDetailData != null && guideCarBeanList != null) {
+                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
+                    if (checkDataIsEmpty(carList)) {
+                        return;
+                    }
                     carListBean.carList = carList;
                 }
                 carTypeView.update(carListBean);
@@ -263,6 +277,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         } else if (_request instanceof RequestOrderGroup) {
             orderInfoBean = ((RequestOrderGroup) _request).getData();
             charterDataUtils.onDestroy();
+            charterDataUtils.cleanGuidesDate();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
@@ -305,9 +320,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         setItemVisibility(View.GONE);
     }
 
-    private boolean checkDataIsEmpty(CarListBean carListBean) {
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
         boolean isEmpty = false;
-        if (carListBean == null || carListBean.carList == null || carListBean.carList.size() <= 0) {
+        if (_carList == null || _carList.size() <= 0) {
             isEmpty = true;
         } else {
             isEmpty = false;
@@ -353,8 +368,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
         countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date, null);
-        requestMostFit(0);
-        requestTravelFund(0);
+        int additionalPrice = countView.getAdditionalPrice();
+        requestMostFit(additionalPrice);
+        requestTravelFund(additionalPrice);
         requestCancleTips();
     }
 
@@ -377,13 +393,21 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         charterDataUtils.childCount = bean.childs;
     }
 
+    /* 儿童座椅价格发生改变 */
+    @Override
+    public void onAdditionalPriceChange(int price) {
+        requestMostFit(price);
+        requestTravelFund(price);
+    }
+
     /* 选择优惠方式 */
     @Override
     public void chooseDiscount(int type) {
         if (carBean == null) {
             return;
         }
-        int totalPrice = carBean.price;
+        final int additionalPrice = countView.getAdditionalPrice();
+        int totalPrice = carBean.price + additionalPrice;
         int actualPrice = totalPrice;
         int deductionPrice = 0;
 
@@ -401,7 +425,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             case SkuOrderDiscountView.TYPE_TRAVEL_FUND:
                 if (deductionBean != null && deductionBean.priceToPay != null) {
                     deductionPrice = CommonUtils.getCountInteger(deductionBean.deduction);
-                    actualPrice = carBean.price - deductionPrice;
+                    actualPrice = carBean.price - deductionPrice + additionalPrice;
                 }
                 break;
             case SkuOrderDiscountView.TYPE_INVALID:
@@ -421,7 +445,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
         mostFitAvailableBean.limit = 20 + "";
         mostFitAvailableBean.offset = 0 + "";
-        mostFitAvailableBean.priceChannel = "" + carBean.price;
+        mostFitAvailableBean.priceChannel = "" + (carBean.price + countView.getAdditionalPrice());
         mostFitAvailableBean.useOrderPrice = "" + carBean.price;
         mostFitAvailableBean.serviceCityId = startCityBean.cityId + "";
         mostFitAvailableBean.serviceCountryId = startCityBean.areaCode + "";
@@ -489,6 +513,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .couponBean(couponBean)
                 .mostFitBean(mostFitBean)
                 .startPoiBean(travelerInfoBean.poiBean)
+                .allChildSeatPrice(countView.getAdditionalPrice())
                 .build();
         requestSubmitOrder(requestParams);
     }
@@ -506,6 +531,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     * */
     private void requestBatchPrice() {
         RequestBatchPrice request = new RequestBatchPrice(this, charterDataUtils);
+        orderType = charterDataUtils.isGroupOrder ? Constants.BUSINESS_TYPE_COMBINATION : 3;
         requestData(request);
     }
 
@@ -554,7 +580,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         RequestCancleTips requestCancleTips = new RequestCancleTips(this
                 , carBean
                 , startCityBean.cityId + ""
-                , ""
+                , charterDataUtils.fitstOrderGoodsType + ""
                 , carBean.carType + ""
                 , carBean.seatCategory + ""
                 , charterDataUtils.chooseDateBean.start_date + " " + SERVER_TIME
@@ -568,6 +594,34 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public String getEventSource() {
         return "组合单下单页";
+    }
+
+
+    private void getGuideCars() {
+        RequestCars requestCars = new RequestCars(this, charterDataUtils.guidesDetailData.guideId, null, 10, 0);
+        HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                guideCarBeanList = ((RequestCars)request).getData();
+                if (charterDataUtils.guidesDetailData == null || guideCarBeanList == null) {
+                    return;
+                }
+                charterDataUtils.guidesDetailData.guideCars = guideCarBeanList;
+                charterDataUtils.guidesDetailData.guideCarCount = guideCarBeanList.size();
+                requestBatchPrice();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        },true);
     }
 
     private void checkGuideCoflict() {

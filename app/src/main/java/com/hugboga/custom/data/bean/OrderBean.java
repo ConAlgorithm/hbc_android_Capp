@@ -213,6 +213,7 @@ public class OrderBean implements IBaseBean{
                 resID = R.string.custom_send;
                 break;
             case Constants.BUSINESS_TYPE_DAILY://包车
+            case Constants.BUSINESS_TYPE_COMBINATION://组合单
                 resID = R.string.custom_chartered;
                 break;
             case Constants.BUSINESS_TYPE_RENT://单次接送
@@ -313,6 +314,30 @@ public class OrderBean implements IBaseBean{
         }
     }
 
+    /**
+     *  判断组合单是否有退款
+     * */
+    public boolean isGroupRefund() {
+        if (subOrderDetail == null || subOrderDetail.subOrderList == null) {
+            return false;
+        }
+        final int size = subOrderDetail.subOrderList.size();
+        for (int i = 0; i < size; i++) {
+            OrderBean orderBean = subOrderDetail.subOrderList.get(i);
+            if (orderBean == null) {
+                continue;
+            }
+            OrderPriceInfo orderPriceInfo = orderBean.orderPriceInfo;
+            if (orderPriceInfo == null) {
+                continue;
+            }
+            if (orderPriceInfo.isRefund == 1) {//已经退款
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static class SubOrderDetail implements Serializable{
         public Integer totalCount;              // 子单总数
         public List<OrderBean> subOrderList;    // 子单详情
@@ -359,7 +384,7 @@ public class OrderBean implements IBaseBean{
         public String startCityName;       // 开始城市ID
         public Integer cityId;             // cityId:201,城市ID
         public String cityName;            // cityName:"首尔",城市名
-        public Integer type;               // type:1,类型
+        public Integer type;               // 0:半日、1:市内、2:周边、3:其它城市
         public String typeName;            // typeName:"市内"
         public String description;         // description:"",
         public String stayCityInfo;        // 住宿信息
@@ -391,7 +416,7 @@ public class OrderBean implements IBaseBean{
                 if (label == null) {
                     continue;
                 }
-                if (label.type == 3 || label.type == 4 || label.type == 5) {
+                if (label.type == 3 || label.type == 4 || label.type == 5 || label.type == 7) {
                     return label.kilometre;
                 }
             }
@@ -408,7 +433,7 @@ public class OrderBean implements IBaseBean{
                 if (label == null) {
                     continue;
                 }
-                if (label.type == 3 || label.type == 4 || label.type == 5) {
+                if (label.type == 3 || label.type == 4 || label.type == 5 || label.type == 7) {
                     return label.time;
                 }
             }

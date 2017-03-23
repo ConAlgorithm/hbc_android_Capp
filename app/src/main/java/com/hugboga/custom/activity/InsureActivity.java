@@ -92,7 +92,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             orderBean = (OrderBean) this.getIntent().getSerializableExtra("orderBean");
             from = this.getIntent().getStringExtra("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
-                insureListSize = orderBean.insuranceList.size();
+                insureListSize = orderBean.insuranceList == null ? 0 : orderBean.insuranceList.size();
                 bottom.setVisibility(View.VISIBLE);
                 peopleNum.setText(insureListSize + "");
                 peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));

@@ -50,6 +50,16 @@ public class CharterDataUtils {
     public ArrayMap<Integer, CharterlItemBean> itemInfoList;
 
     public boolean isShowEmpty = false;
+    public boolean isGroupOrder = false;                        // 是不是组合单，（查报价时赋值，查报价后才能使用）
+
+    /**
+     * 第一段行程的类型，退改规则使用（查报价时赋值，查报价后才能使用）
+     *
+     * [整日包车]+[全行程为出发城市市内/周边]  市内包车  3
+     * [整日包车]+[行程<=3天]+[住宿/结束城市含其他城市]  小长途  6
+     * [整日包车]+[行程>3天]+[住宿/结束城市含其他城市]  大长途   7
+     * */
+    public int fitstOrderGoodsType;
 
     private CharterDataUtils() {
         travelList = new ArrayList<CityRouteBean.CityRouteScope>();
@@ -377,71 +387,7 @@ public class CharterDataUtils {
 
         travelList.clear();
         itemInfoList.clear();
-
-        cleanGuidesDate();
     }
-
-    public static ArrayList<HbcLantLng> getHbcLantLngList(CityRouteBean.Fence _fence) {
-        if (_fence == null || _fence.fencePoints == null) {
-            return null;
-        }
-        ArrayList<CityRouteBean.Fencepoint> fencePoints = _fence.fencePoints;
-        final int fencePointsSize = fencePoints.size();
-        ArrayList<HbcLantLng> resultList = new ArrayList<>(fencePointsSize);
-        try {
-            for (int i = 0; i < fencePointsSize; i++) {
-                CityRouteBean.Fencepoint fencePoint = fencePoints.get(i);
-                String[] points = fencePoint.startPoint.split(",");
-                HbcLantLng hbcLantLng = new HbcLantLng();
-                hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
-                hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
-                resultList.add(hbcLantLng);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultList;
-    }
-
-    public static ArrayList<HbcLantLng> getHbcLantLngList(ArrayList<DirectionBean.Step> _steps) {
-        if (_steps == null || _steps.size() <= 0) {
-            return null;
-        }
-        ArrayList<DirectionBean.Step> steps = _steps;
-        final int stepsSize = steps.size();
-        ArrayList<HbcLantLng> resultList = new ArrayList<>(stepsSize);
-        for (int i = 0; i < stepsSize; i++) {
-            DirectionBean.Step step = steps.get(i);
-            HbcLantLng hbcLantLng = new HbcLantLng();
-            hbcLantLng.latitude = CommonUtils.getCountDouble(step.startCoordinate.lat);
-            hbcLantLng.longitude = CommonUtils.getCountDouble(step.startCoordinate.lng);
-            resultList.add(hbcLantLng);
-            if (i == stepsSize - 1) {
-                HbcLantLng lastHbcLantLng = new HbcLantLng();
-                lastHbcLantLng.latitude = CommonUtils.getCountDouble(step.endCoordinate.lat);
-                lastHbcLantLng.longitude = CommonUtils.getCountDouble(step.endCoordinate.lng);
-                resultList.add(lastHbcLantLng);
-            }
-        }
-        return resultList;
-    }
-
-    public static HbcLantLng getHbcLantLng(String location) {
-        try {
-            String[] points = location.split(",");
-            HbcLantLng hbcLantLng = new HbcLantLng();
-            hbcLantLng.latitude = CommonUtils.getCountDouble(points[0]);
-            hbcLantLng.longitude = CommonUtils.getCountDouble(points[1]);
-//            if(cityId==1269){
-//                HbcMapViewTools.con
-//            }
-            return hbcLantLng;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {
         if (_fence == null || _fence.fencePoints == null) {

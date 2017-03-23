@@ -184,8 +184,8 @@ public class UrlLibs {
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
     public static final String API_ORDER_GROUP              = "trade/v2.1/c/order/group";                               // 组合单下单c  122
 
-    public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.1/c/airportPickupPrice?";                       // 查询价格 接机
-    public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.1/c/airportTransferPrice?";                     // 查询价格 送机
+    public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
+    public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
     public static final String GET_CAR_INFOS                = "price/v1.3/c/dailyPrice?";                               // 查询价格 日租包车
     public static final String SERVER_IP_PRICE_SINGLE       = "price/v1.1/c/singlePrice?";                              // 查询价格 单次用车
     public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
