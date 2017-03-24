@@ -92,7 +92,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             return;
         }
         if(homeHeaderInfo.dynamicPic!=null){
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
+            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (760 - ScreenUtil.statusbarheight) / 750;
             Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
             setPlaceAmmountText(homeHeaderHolder.placeAmmout);
             setGuideAmmountText(homeHeaderHolder.gideAmmountText);
@@ -102,7 +102,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             homeHeaderHolder.homeHelp.setOnClickListener(this);
             homeHeaderHolder.homeVideoPage.setOnClickListener(this);
         }else{
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
+            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (760 - ScreenUtil.statusbarheight) / 750;
         }
 
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
