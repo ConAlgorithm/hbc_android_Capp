@@ -179,9 +179,9 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     batchPriceList.add(batchPrice);
                     if (batchPriceList != null && ((fitstOrderGoodsType == 1 && batchPriceList.size() == 2) || batchPriceList.size() == 1)) {
                         if (isOuttown == 1) {
-                            if (dailyPriceParam.arrangements.size() >= 3) {//大长途
+                            if (dailyPriceParam.arrangements.size() > 3) {//大长途
                                 fitstOrderGoodsType = 7;
-                            } else if (dailyPriceParam.arrangements.size() < 3) {//小长途
+                            } else if (dailyPriceParam.arrangements.size() <= 3) {//小长途
                                 fitstOrderGoodsType = 6;
                             }
                         } else {
