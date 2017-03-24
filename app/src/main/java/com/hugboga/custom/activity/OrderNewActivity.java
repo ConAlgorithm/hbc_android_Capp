@@ -151,7 +151,7 @@ public class OrderNewActivity extends BaseActivity {
     @Bind(R.id.all_money_submit_click)
     TextView allMoneySubmitClick;
     @Bind(R.id.bottom)
-    LinearLayout bottom;
+    RelativeLayout bottom;
     @Bind(R.id.man_phone)
     TextView manPhone;
     @Bind(R.id.other_phone_name)

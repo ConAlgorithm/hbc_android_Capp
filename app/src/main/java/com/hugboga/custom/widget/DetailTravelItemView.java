@@ -171,7 +171,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             }
             updateLineLayout(data.journey, null);
         }
-        travelItemTitleTv.setText(String.format("Day%1$s: %2$s", "" + data.day, title));//标题
+        travelItemTitleTv.setText(String.format("第%1$s天: %2$s", "" + data.day, title));//标题
     }
 
     public void updatePickupLayout(OrderBean.CTravelDayPickup pickup, boolean isOnly, String dateStr) {

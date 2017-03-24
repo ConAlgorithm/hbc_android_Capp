@@ -16,8 +16,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
-import com.hugboga.custom.utils.UIUtils;
-
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -26,6 +24,7 @@ import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/3/14.
+ * OrderDetailAllTravelView
  */
 public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavior{
 
@@ -52,7 +51,6 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
     @Bind(R.id.order_detail_travel_parrent_layout)
     LinearLayout parrentLayout;
 
-    private boolean isSingleTravel = false;
     private OrderBean orderBean;
 
     public OrderDetailTravelView(Context context) {
@@ -65,17 +63,9 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         ButterKnife.bind(view);
     }
 
-    public void singleTravel() {
-        isSingleTravel = true;
-        orderNoView.setVisibility(View.GONE);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.bottomMargin = UIUtils.dip2px(4);
-        parrentLayout.setLayoutParams(params);
-    }
-
     @Override
     public void update(Object _data) {
-        orderBean = (OrderBean) _data;
+        OrderBean orderBean = (OrderBean) _data;
         if (orderBean.totalDays > 1) {
             moreTV.setVisibility(View.VISIBLE);
             moreIV.setVisibility(View.VISIBLE);
@@ -108,9 +98,6 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         } else {
             secondDateTV.setText("");
             secondTitleTV.setText("");
-            if (isSingleTravel) {
-                secondLayout.setVisibility(View.GONE);
-            }
         }
     }
 

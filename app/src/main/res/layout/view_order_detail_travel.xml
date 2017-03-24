@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/order_detail_travel_title_tv"
             style="@style/SkuOrderSubtitleTextView"
-            android:text="行程单" />
+            android:text="行程安排" />
 
         <TextView
             android:id="@+id/order_detail_travel_more_tv"

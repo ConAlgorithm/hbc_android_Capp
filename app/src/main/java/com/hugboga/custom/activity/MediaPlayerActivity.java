@@ -13,6 +13,7 @@ import com.hugboga.mediaplayer.PlayListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MediaPlayerActivity extends BaseActivity {
 
@@ -83,5 +84,10 @@ public class MediaPlayerActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         mediaPlayerView.destroy();
+    }
+
+    @OnClick({R.id.media_player_back})
+    public void onBack() {
+        finish();
     }
 }

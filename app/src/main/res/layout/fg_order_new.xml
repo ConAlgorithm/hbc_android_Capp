@@ -802,25 +802,8 @@
         </LinearLayout>
 
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:background="#98a3e3"
-            android:text="@string/bargain_hint"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            />
     <RelativeLayout
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/order_bottom_height"
         android:background="#ffffff"
@@ -856,6 +839,5 @@
             android:background="@color/default_dividing_line"
             />
     </RelativeLayout>
-    </LinearLayout>
 
 </RelativeLayout>

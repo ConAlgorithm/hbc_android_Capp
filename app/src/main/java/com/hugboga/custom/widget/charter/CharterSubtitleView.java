@@ -68,7 +68,7 @@ public class CharterSubtitleView extends LinearLayout{
         if (charterDataUtils.chooseDateBean.dayNums == 1) {
             dayTV.setText(currentDayCityBean.name);
         } else {
-            dayTV.setText(String.format("Day%1$s: %2$s", charterDataUtils.currentDay, currentDayCityBean.name));
+            dayTV.setText(String.format("第%1$s天: %2$s", charterDataUtils.currentDay, currentDayCityBean.name));
         }
 
         if (charterDataUtils.isShowEmpty) {
@@ -124,7 +124,9 @@ public class CharterSubtitleView extends LinearLayout{
         } else if (charterDataUtils.currentDay > 1 && charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
             Intent intent = new Intent(context, ChooseAirPortActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-            if (charterDataUtils.getCurrentDayStartCityBean() != null) {
+            if (charterDataUtils.guidesDetailData != null) {
+                intent.putExtra(ChooseAirPortActivity.KEY_CITYIDS, charterDataUtils.getGuideCityIds());
+            } else if (charterDataUtils.getCurrentDayStartCityBean() != null) {
                 intent.putExtra(ChooseAirPortActivity.KEY_GROUPID, charterDataUtils.getCurrentDayStartCityBean().groupId);
             }
             context.startActivity(intent);

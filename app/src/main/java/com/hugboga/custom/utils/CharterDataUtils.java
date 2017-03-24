@@ -389,6 +389,22 @@ public class CharterDataUtils {
         itemInfoList.clear();
     }
 
+    public String getGuideCityIds() {
+        String result = "";
+        if (guideCropList == null || guideCropList.size() <= 0) {
+            return result;
+        }
+        final String split = ",";
+        int size = guideCropList.size();
+        for (int i = 0; i < size; i++) {
+            result += guideCropList.get(i).cityId;
+            if (i < size - 1) {
+                result += split;
+            }
+        }
+        return result;
+    }
+
     public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {
         if (_fence == null || _fence.fencePoints == null) {
             return null;
