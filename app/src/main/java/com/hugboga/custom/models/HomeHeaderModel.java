@@ -133,7 +133,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         int max = UIUtils.statusBarHeight + UIUtils.dip2px(48) + viewMaxHeight;
         int min = UIUtils.statusBarHeight + UIUtils.dip2px(42);
 
-        int animateViewTop = getServiceViewTop() - UIUtils.dip2px(12)/*- viewMaxHeight - UIUtils.dip2px(12)*/;
+        int animateViewTop = getServiceViewTop() - UIUtils.dip2px(8);
 
         ViewHelper.setPivotX(animateServiceView,(float)(viewMaxWidth/2));
         ViewHelper.setPivotY(animateServiceView,(float)(viewMaxHeight));
@@ -161,7 +161,6 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             ViewHelper.setAlpha(animateServiceView,alphaOuter);
             //Log.i("anim","scaleX:" + scaleX + " scaleY:" + scaleY);
         }
-        //Log.i("anim","max:" + max + " min:" + min+" meWidth:"+ viewMaxWidth+ " animateViewTop:"+animateViewTop+ " finalYScale:" + finalScaleY);
     }
 
     private int getServiceViewTop(){
