@@ -65,7 +65,7 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
 
     @Override
     public void update(Object _data) {
-        OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         if (orderBean.totalDays > 1) {
             moreTV.setVisibility(View.VISIBLE);
             moreIV.setVisibility(View.VISIBLE);

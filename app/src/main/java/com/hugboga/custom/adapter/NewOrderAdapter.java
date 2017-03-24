@@ -468,8 +468,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 break;
             case CANCELLED://已取消
             case REFUNDED://已退款
-                vh.mStatusLayout.setVisibility(View.GONE);
-                vh.lineView.setVisibility(View.INVISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);
@@ -497,8 +495,6 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 }
                 break;
             case COMPLAINT://客诉处理中
-                vh.mStatusLayout.setVisibility(View.GONE);
-                vh.lineView.setVisibility(View.INVISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);

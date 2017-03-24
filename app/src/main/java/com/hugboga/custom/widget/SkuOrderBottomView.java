@@ -2,13 +2,15 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,4 +61,29 @@ public class SkuOrderBottomView extends LinearLayout {
     public void setOnSubmitOrderListener(OnSubmitOrderListener listener) {
         this.listener = listener;
     }
+
+    private PopupWindow popup;
+    private LinearLayout popupLayout;
+
+    public void showPopupWindow(int orderPrice, int discountPrice, int actualPay) {
+        popupLayout = new LinearLayout(getContext());
+        popupLayout.setOrientation(LinearLayout.VERTICAL);
+        popupLayout.setPadding(0, UIUtils.dip2px(10) , 0, UIUtils.dip2px(10));
+        addItemView("订单金额", "" + orderPrice, 0xFF333333);
+        addItemView("优惠金额", "" + discountPrice, 0xFF333333);
+        addItemView("还需支付", "" + actualPay, 0xFFF63308);
+    }
+
+    private void addItemView(String title, String price, int priceColor) {
+        LinearLayout itemView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_order_price_bottom_popup_item, null, false);
+        TextView titleTV = (TextView) itemView.findViewById(R.id.item_order_price_title_tv);
+        titleTV.setText(title);
+        TextView priceTV = (TextView) itemView.findViewById(R.id.item_order_price_tv);
+        priceTV.setText(price);
+        priceTV.setTextColor(priceColor);
+        popupLayout.addView(itemView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    }
+
+
+
 }
