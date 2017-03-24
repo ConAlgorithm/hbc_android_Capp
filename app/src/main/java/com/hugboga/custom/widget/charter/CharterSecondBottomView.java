@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,13 +23,16 @@ public class CharterSecondBottomView extends LinearLayout{
 
     @Bind(R.id.sku_order_bottom_confirm_tv)
     TextView confirmTV;
-    @Bind(R.id.sku_order_bottom_day_tv)
-    TextView dayTV;
-    @Bind(R.id.sku_order_bottom_day_layout)
-    LinearLayout dayLayout;
-
+    @Bind(R.id.sku_order_bottom_confirm_arrow_iv)
+    ImageView confirmArrowIV;
+    @Bind(R.id.sku_order_bottom_confirm_layout)
+    LinearLayout confirmLayout;
     @Bind(R.id.charter_bottom_travel_list_layout)
     LinearLayout travelListLayout;
+    @Bind(R.id.charter_bottom_previous_layout)
+    LinearLayout previousLayout;
+
+
 
     private CharterDataUtils charterDataUtils;
     private OnBottomClickListener listener;
@@ -48,18 +52,19 @@ public class CharterSecondBottomView extends LinearLayout{
     public void updateConfirmView() {
         if (charterDataUtils.isLastDay()) {
             confirmTV.setText("查看报价");
-            dayLayout.setVisibility(View.GONE);
+            confirmArrowIV.setVisibility(View.GONE);
         } else {
-            confirmTV.setText("确定  ");
-            dayLayout.setVisibility(View.VISIBLE);
-            dayTV.setText(String.format("Day%1$s", "" + (charterDataUtils.currentDay + 1)));
+            confirmTV.setText("  下一天");
+            confirmArrowIV.setVisibility(View.VISIBLE);
         }
+        previousLayout.setVisibility(charterDataUtils.isFirstDay() ? View.GONE : View.VISIBLE);
     }
 
     public void queryPriceState() {
         confirmTV.setText("查看报价");
-        dayLayout.setVisibility(View.GONE);
+        confirmArrowIV.setVisibility(View.GONE);
         travelListLayout.setVisibility(View.GONE);
+        previousLayout.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.charter_bottom_travel_list_layout})
@@ -69,7 +74,7 @@ public class CharterSecondBottomView extends LinearLayout{
         }
     }
 
-    @OnClick({R.id.sku_order_bottom_confirm_tv})
+    @OnClick({R.id.sku_order_bottom_confirm_layout})
     public void confirm(View view) {
         if (listener != null) {
             listener.confirm();
@@ -86,7 +91,7 @@ public class CharterSecondBottomView extends LinearLayout{
     }
 
     public void setConfirmViewEnabled(boolean isEnabled) {
-        confirmTV.setEnabled(isEnabled);
-        confirmTV.setBackgroundResource(isEnabled ? R.drawable.shape_rounded_yellow_btn : R.drawable.shape_rounded_gray_btn);
+        confirmLayout.setEnabled(isEnabled);
+        confirmLayout.setBackgroundResource(isEnabled ? R.drawable.shape_rounded_yellow_btn : R.drawable.shape_rounded_gray_btn);
     }
 }

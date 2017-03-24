@@ -97,7 +97,7 @@
         android:paddingRight="@dimen/order_padding_left"
         android:paddingBottom="8dp" />
 
-    <com.hugboga.custom.widget.OrderDetailTravelView
+    <com.hugboga.custom.widget.OrderDetailAllTravelView
         android:id="@+id/order_itinerary_item_travel_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

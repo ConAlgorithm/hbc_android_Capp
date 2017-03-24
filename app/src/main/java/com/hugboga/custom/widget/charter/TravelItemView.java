@@ -144,7 +144,7 @@ public class TravelItemView extends LinearLayout {
             CityRouteBean.CityRouteScope cityRouteScope = travelList.get(_position);
             CityBean startCityBean = charterDataUtils.getStartCityBean(_position + 1);
             travelItemTitleTv.setTextColor(getResources().getColor(R.color.default_black));
-            travelItemTitleTv.setText(String.format("Day%1$s: %2$s", _position + 1, startCityBean.name));//标题
+            travelItemTitleTv.setText(String.format("第%1$s天: %2$s", _position + 1, startCityBean.name));//标题
             if (_position == 0) {//第一天（只有接机，只有"编辑"状态）
                 setEditLayout(EditType.EDIT);
                 if (cityRouteScope.routeType == CityRouteBean.RouteType.PICKUP) {//只接机
@@ -206,7 +206,7 @@ public class TravelItemView extends LinearLayout {
                 travelItemTimeLayout.setVisibility(View.GONE);
                 travelItemStartLayout.setVisibility(View.GONE);
                 travelItemEndLayout.setVisibility(View.GONE);
-                travelItemTitleTv.setText(String.format("Day%1$s: %2$s", _position + 1, cityRouteScope.routeTitle));
+                travelItemTitleTv.setText(String.format("第%1$s天: %2$s", _position + 1, cityRouteScope.routeTitle));
                 setEditLayout(isCanEdit ? EditType.EDIT : EditType.VAIN);
             } else {//包车（只有"编辑"）
                 travelItemPickupLayout.setVisibility(View.GONE);
@@ -223,7 +223,7 @@ public class TravelItemView extends LinearLayout {
             travelItemTimeLayout.setVisibility(View.GONE);
             travelItemStartLayout.setVisibility(View.GONE);
             travelItemEndLayout.setVisibility(View.GONE);
-            travelItemTitleTv.setText(String.format("Day%1$s", _position + 1));//标题
+            travelItemTitleTv.setText(String.format("第%1$s天", _position + 1));//标题
             travelItemTitleTv.setTextColor(0xFFA8A8A8);
 
             if (!isCanDel) {
@@ -322,14 +322,14 @@ public class TravelItemView extends LinearLayout {
             CityBean startCityBean = charterDataUtils.getStartCityBean(_position + 1);
             CityBean endCityBean = charterDataUtils.getEndCityBean(_position + 1);
             if (startCityBean != null && endCityBean != null && startCityBean != endCityBean) {
-                travelItemTitleTv.setText(String.format("Day%1$s: %2$s-%3$s", _position + 1, startCityBean.name, endCityBean.name));
+                travelItemTitleTv.setText(String.format("第%1$s天: %2$s-%3$s", _position + 1, startCityBean.name, endCityBean.name));
                 String startAddress = startCityBean.name;
                 if (isPickup) {
                     startAddress = charterDataUtils.flightBean.arrAirportName;
                 }
                 travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startAddress, endCityBean.name));
             } else if(startCityBean != null && endCityBean == null) {
-                travelItemTitleTv.setText(String.format("Day%1$s: %2$s", _position + 1, "跨城市游玩"));
+                travelItemTitleTv.setText(String.format("第%1$s天: %2$s", _position + 1, "跨城市游玩"));
                 travelItemLineTv.setTextColor(0xFFCCCCCC);
                 travelItemLineTv.setText("未选择送达城市");
             } else {

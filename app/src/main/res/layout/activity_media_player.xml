@@ -10,4 +10,13 @@
         android:id="@+id/media_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/media_player_back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@mipmap/top_butn_back"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        />
 </FrameLayout>

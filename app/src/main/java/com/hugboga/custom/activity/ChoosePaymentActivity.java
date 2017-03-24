@@ -47,6 +47,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.wxapi.WXPay;
 import com.hugboga.custom.yilianapi.YiLianPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -170,7 +171,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         fgLeftBtn.setVisibility(View.GONE);
         fgRightTV.setVisibility(View.GONE);
         TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
-        rightTV.setText("查看行程");
+        rightTV.setText("查看订单");
         rightTV.setVisibility(View.VISIBLE);
         rightTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -499,11 +500,19 @@ public class ChoosePaymentActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 EventUtil eventUtil = EventUtil.getInstance();
                 eventUtil.isRePay = false;
+                Intent intent = null;
 
-                Intent intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
+                intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
                 startActivity(intent);
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
                 EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, 1));
+
+                OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+                orderParams.orderId = requestParams.orderId;
+                intent = new Intent(ChoosePaymentActivity.this, OrderDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                intent.putExtra(Constants.PARAMS_SOURCE, ChoosePaymentActivity.this.getEventSource());
+                ChoosePaymentActivity.this.startActivity(intent);
             }
         }, "继续支付", new DialogInterface.OnClickListener() {
             @Override
@@ -531,5 +540,10 @@ public class ChoosePaymentActivity extends BaseActivity {
             return;
         }
         SensorsUtils.setSensorsPayResultEvent(requestParams.eventPayBean, payMethod, payResult);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "选择支付页";
     }
 }
