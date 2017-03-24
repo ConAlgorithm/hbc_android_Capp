@@ -92,7 +92,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             return;
         }
         if(homeHeaderInfo.dynamicPic!=null){
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
+            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (760 - ScreenUtil.statusbarheight) / 750;
             Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
             setPlaceAmmountText(homeHeaderHolder.placeAmmout);
             setGuideAmmountText(homeHeaderHolder.gideAmmountText);
@@ -102,7 +102,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             homeHeaderHolder.homeHelp.setOnClickListener(this);
             homeHeaderHolder.homeVideoPage.setOnClickListener(this);
         }else{
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (810 - ScreenUtil.statusbarheight) / 750;
+            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (760 - ScreenUtil.statusbarheight) / 750;
         }
 
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
@@ -133,7 +133,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         int max = UIUtils.statusBarHeight + UIUtils.dip2px(48) + viewMaxHeight;
         int min = UIUtils.statusBarHeight + UIUtils.dip2px(42);
 
-        int animateViewTop = getServiceViewTop() - UIUtils.dip2px(12)/*- viewMaxHeight - UIUtils.dip2px(12)*/;
+        int animateViewTop = getServiceViewTop() - UIUtils.dip2px(8);
 
         ViewHelper.setPivotX(animateServiceView,(float)(viewMaxWidth/2));
         ViewHelper.setPivotY(animateServiceView,(float)(viewMaxHeight));
@@ -161,7 +161,6 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             ViewHelper.setAlpha(animateServiceView,alphaOuter);
             //Log.i("anim","scaleX:" + scaleX + " scaleY:" + scaleY);
         }
-        //Log.i("anim","max:" + max + " min:" + min+" meWidth:"+ viewMaxWidth+ " animateViewTop:"+animateViewTop+ " finalYScale:" + finalScaleY);
     }
 
     private int getServiceViewTop(){
