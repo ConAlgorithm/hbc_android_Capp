@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -144,6 +145,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (bottomView != null) {
+            bottomView.dismissPopupWindow();
+        }
     }
 
     @Override
@@ -184,19 +188,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideSoftInput();
-                AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
-                }, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                showSaveDialog();
             }
         });
         fgRightTV.setVisibility(View.GONE);
@@ -213,6 +205,30 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             @Override
             public void onClick(View v) {
                 DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
+            }
+        });
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            showSaveDialog();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private void showSaveDialog() {
+        hideSoftInput();
+        AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
     }

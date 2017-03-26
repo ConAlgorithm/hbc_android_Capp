@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:background="#98a3e3"
-        android:text="@string/bargain_hint"
-        android:textSize="12sp"
         android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="@string/bargain_hint"
         android:textColor="#ffffff"
-        />
+        android:textSize="12sp" />
+
     <RelativeLayout
+        android:id="@+id/sku_order_bottom_price_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/order_bottom_height"
         android:background="#ffffff">
@@ -27,17 +28,31 @@
             android:textColor="#f63408"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/sku_order_bottom_discount_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+        <LinearLayout
+            android:id="@+id/sku_order_bottom_price_detail_layout"
             android:layout_toRightOf="@id/sku_order_bottom_price_tv"
-            android:paddingTop="1dp"
-            android:text="已优惠¥0"
-            android:textColor="#7f7f7f"
-            android:textSize="12sp" />
+            android:layout_width="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="5dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/sku_order_bottom_price_detail_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="明细"
+                android:textColor="@color/default_black"
+                android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/sku_order_bottom_price_detail_arrow_iv"
+                android:layout_marginLeft="2dp"
+                android:layout_width="9dp"
+                android:layout_height="5dp"
+                android:background="@mipmap/share_unfold"
+                />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/sku_order_bottom_pay_tv"
