@@ -26,10 +26,10 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/charter_second_recycler_view"
-        android:layout_below="@id/charter_second_line_view"
-        android:layout_above="@id/charter_second_bottom_view"
+    <FrameLayout
+        android:id="@+id/charter_second_list_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/charter_second_line_view"
+        android:layout_above="@id/charter_second_bottom_view" />
 </RelativeLayout>

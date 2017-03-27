@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.CameraUpdateFactory;
@@ -44,6 +45,7 @@ import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterModelBehavior;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.CharterFragmentAgent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
@@ -78,15 +80,16 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Bind(R.id.charter_second_titlebar)
     TitleBarCharterSecond titleBar;
-    @Bind(R.id.charter_second_recycler_view)
-    RecyclerView recyclerView;
     @Bind(R.id.charter_second_bottom_view)
     CharterSecondBottomView bottomView;
     @Bind(R.id.charter_second_map_layout)
     HbcMapView mapView;
+    @Bind(R.id.charter_second_list_container)
+    FrameLayout listContainer;
+
+    private CharterFragmentAgent fragmentAgent;
 
     private CharterSecondStepActivity.Params params;
-    private CityRouteAdapter adapter;
     private CharterDataUtils charterDataUtils;
     private CityRouteBean cityRouteBean;
     private int currentDay;
@@ -96,7 +99,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private int lastType;
     private int lastSelectedRouteType;
 
-    LayoutInflater mLayoutInflater;
+    private LayoutInflater mLayoutInflater;
 
     public static class Params implements Serializable {
         public CityBean startBean;
@@ -148,9 +151,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         mapView.onResume();
         bottomView.updateConfirmView();
         updateTitleBar();
-        adapter.updateSubtitleModel();
-        adapter.updatePickupModelVisibility();
-        adapter.updateNoCharterModelVisibility();
     }
 
     @Override
@@ -185,14 +185,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         });
         updateTitleBar();
 
-        adapter = new CityRouteAdapter();
-        adapter.setOnCharterItemClickListener(this);
-        adapter.setOnPickUpOrSendSelectedListener(this);
-        adapter.setOnRefreshDataListener(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        fragmentAgent = new CharterFragmentAgent(this, R.id.charter_second_list_container);
+        fragmentAgent.setOnCharterItemClickListener(this);
+        fragmentAgent.setOnPickUpOrSendSelectedListener(this);
+        fragmentAgent.setOnRefreshDataListener(this);
+
         bottomView.setOnBottomClickListener(this);
 
         CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
@@ -238,7 +235,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public void requestCarMaxCapaCity(int cityId) {
         requestData(new RequestCarMaxCapaCity(this, cityId));
     }
-
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
@@ -248,7 +244,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             if (_cityRouteBean == null || _cityRouteBean.cityRouteList == null || _cityRouteBean.cityRouteList.size() < 0) {
                 if (request.getType() == REQUEST_CITYROUTE_TYPE_OUTTOWN) {
                     charterDataUtils.addEndCityBean(charterDataUtils.currentDay, null);
-                    adapter.updateSelectedModel();
+                    fragmentAgent.updateSelectedModel();
                     CommonUtils.showToast("很抱歉，还不能线上预订这个城市的包车服务，请联系客服，帮您定制行程");
                 } else {
                     if (charterDataUtils.currentDay > 1) {
@@ -257,12 +253,12 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay));
                         charterDataUtils.travelList.remove(charterDataUtils.currentDay - 1);
                     }
-                    adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, true);
+                    fragmentAgent.showEmpty(CharterEmptyView.EMPTY_TYPE, true);
                     bottomView.setConfirmViewEnabled(false);
                 }
                 return;
             } else {
-                adapter.showEmpty(CharterEmptyView.EMPTY_TYPE, false);
+                fragmentAgent.showEmpty(CharterEmptyView.EMPTY_TYPE, false);
                 bottomView.setConfirmViewEnabled(true);
                 bottomView.setVisibility(View.VISIBLE);
             }
@@ -278,7 +274,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
                 charterDataUtils.addFences(charterDataUtils.currentDay, _cityRouteBean.fences, true);
                 currentDay = charterDataUtils.currentDay;
-                adapter.notifyAllModelsChanged(_cityRouteBean, routeType);
+                fragmentAgent.notifyAllModelsChanged(_cityRouteBean, routeType);
                 bottomView.updateConfirmView();
                 charterDataUtils.setDefaultFences();
 
@@ -292,10 +288,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             DirectionBean directionBean = ((RequestDirection) _request).getData();
             if (charterDataUtils.isFirstDay()) {//接机
                 charterDataUtils.pickUpDirectionBean = directionBean;
-                adapter.updatePickupModel();
+                fragmentAgent.updatePickupModel();
             } else {//送机
                 charterDataUtils.sendDirectionBean = directionBean;
-                adapter.updateSendModel();
+                fragmentAgent.updateSendModel();
             }
             updateDrawFences();
         } else if (_request instanceof RequestCarMaxCapaCity) {
@@ -325,7 +321,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                 charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                 charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
-                adapter.updateSelectedModel();
+                fragmentAgent.updateSelectedModel();
                 requestCityRoute("" + cityBean.cityId, REQUEST_CITYROUTE_TYPE_PICKUP, oldRouteType);
             }
         }
@@ -334,7 +330,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         if (_request instanceof RequestCityRoute) {
-            adapter.showEmpty(CharterEmptyView.ERROR_TYPE, true);
+            fragmentAgent.showEmpty(CharterEmptyView.ERROR_TYPE, true);
             bottomView.setConfirmViewEnabled(false);
             bottomView.setVisibility(View.GONE);
         }
@@ -359,10 +355,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.flightBean = flightBean.transformData();
                 charterDataUtils.isSelectedPickUp = true;
                 if (charterDataUtils.chooseDateBean.dayNums > 1) {
-                    adapter.showPickupModel();
-                    adapter.updatePickupModel();
+                    fragmentAgent.showPickupModel();
+                    fragmentAgent.updatePickupModel();
                 }
-                adapter.updateSubtitleModel();
+                fragmentAgent.updateSubtitleModel();
                 updateDrawFences();
                 break;
             case CHOOSE_POI_BACK:
@@ -392,7 +388,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         return;
                     }
                     charterDataUtils.addEndCityBean(charterDataUtils.currentDay, cityBean);
-                    adapter.updateSelectedModel();
+                    fragmentAgent.updateSelectedModel();
                     requestCityRoute("" + cityBean.cityId, REQUEST_CITYROUTE_TYPE_OUTTOWN);//跨城市
                 }
                 break;
@@ -417,16 +413,16 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 }
                 charterDataUtils.airPortBean = airPortBean;
                 charterDataUtils.isSelectedSend = true;
-                adapter.showSendModel();
-                adapter.updateSendModel();
-                adapter.updateSubtitleModel();
+                fragmentAgent.showSendModel();
+                fragmentAgent.updateSendModel();
+                fragmentAgent.updateSubtitleModel();
                 updateDrawFences();
                 break;
             case CHARTER_LIST_REFRESH:
                 RefreshBean refreshBean = (RefreshBean) action.getData();
                 int selectedDay = refreshBean.day;
                 if (selectedDay == currentDay && !refreshBean.isRefresh) {
-                    recyclerView.smoothScrollToPosition(0);
+                    fragmentAgent.smoothScrollToPosition(0);
                     return;
                 }
                 charterDataUtils.currentDay = selectedDay;
@@ -435,11 +431,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     nextCityBean = charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay);
                 }
                 requestCityRoute("" + nextCityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY);
-                adapter.updateSubtitleModel();
+                fragmentAgent.updateSubtitleModel();
                 if (charterDataUtils.chooseDateBean.dayNums == 1) {
-                    adapter.hideSendModel();
+                    fragmentAgent.hideSendModel();
                 }
-                recyclerView.smoothScrollToPosition(0);
+                fragmentAgent.smoothScrollToPosition(0);
                 break;
         }
     }
@@ -447,6 +443,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public String getEventSource() {
         return getString(R.string.custom_chartered);
+    }
+
+    @Override
+    public void previous() {
+        final CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
+        charterDataUtils.currentDay--;
+        final CityBean preCityBean = charterDataUtils.getStartCityBean(charterDataUtils.currentDay);
+        changeData(false, currentCityBean, preCityBean);
     }
 
     @Override
@@ -461,21 +465,30 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             Intent intent = new Intent(this, CombinationOrderActivity.class);
             startActivity(intent);
         } else {
-            CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
+            final CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
             charterDataUtils.currentDay++;
-            CityBean nextCityBean = charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay);
-            bottomView.updateConfirmView();
-            if (currentCityBean == nextCityBean && cityRouteBean.cityId == nextCityBean.cityId) {
-                adapter.notifyAllModelsChanged(cityRouteBean, charterDataUtils.getRouteType(charterDataUtils.currentDay - 1));
-                charterDataUtils.setDefaultFences();
-                updateDrawFences();
-            } else {
-                adapter.updateSubtitleModel();
-                requestCityRoute("" + nextCityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY);
-            }
-            currentDay = charterDataUtils.currentDay;
-            recyclerView.smoothScrollToPosition(0);
+            final CityBean nextCityBean = charterDataUtils.setDefaultCityBean(charterDataUtils.currentDay);
+            changeData(true, currentCityBean, nextCityBean);
         }
+    }
+
+    public void changeData(boolean isNext, final CityBean currentCityBean, final CityBean nextCityBean) {
+        bottomView.updateConfirmView();
+        fragmentAgent.setCurrentFg(isNext, new CharterFragmentAgent.OnInitializedListener() {
+            @Override
+            public void onInitialized() {
+                if (currentCityBean == nextCityBean && cityRouteBean.cityId == nextCityBean.cityId) {
+                    fragmentAgent.notifyAllModelsChanged(cityRouteBean, charterDataUtils.getRouteType(charterDataUtils.currentDay - 1));
+                    charterDataUtils.setDefaultFences();
+                    updateDrawFences();
+                } else {
+                    fragmentAgent.updateSubtitleModel();
+                    requestCityRoute("" + nextCityBean.cityId, REQUEST_CITYROUTE_TYPE_NOTIFY);
+                }
+                currentDay = charterDataUtils.currentDay;
+                fragmentAgent.smoothScrollToPosition(0);
+            }
+        });
     }
 
     @Override
@@ -580,7 +593,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public boolean checkInfo() {
-        CharterModelBehavior selectedCharterModel = adapter.getSelectedModel();
+        CharterModelBehavior selectedCharterModel = fragmentAgent.getSelectedModel();
         if (selectedCharterModel == null) {
             return false;
         }
@@ -621,7 +634,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void updateDrawFences() {
-        CharterModelBehavior charterModelBehavior = adapter.getSelectedModel();
+        CharterModelBehavior charterModelBehavior = fragmentAgent.getSelectedModel();
         if (charterModelBehavior != null) {
             drawFences(charterModelBehavior.getCityRouteScope());
         }

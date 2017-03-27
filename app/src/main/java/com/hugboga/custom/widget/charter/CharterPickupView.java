@@ -70,7 +70,7 @@ public class CharterPickupView extends LinearLayout {
         charterDataUtils = CharterDataUtils.getInstance();
 
         titleTV.setText("只接机，不包车游玩");
-        addAddressTV.setText("添加接机送达地");
+        addAddressTV.setText("添加送达地点");
 
         LinearLayout.LayoutParams addAddressLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         addAddressLayoutParams.topMargin = UIUtils.dip2px(-4);

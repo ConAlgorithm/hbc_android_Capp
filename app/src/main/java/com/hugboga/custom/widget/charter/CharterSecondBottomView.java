@@ -74,6 +74,13 @@ public class CharterSecondBottomView extends LinearLayout{
         }
     }
 
+    @OnClick({R.id.charter_bottom_previous_layout})
+    public void previous(View view) {
+        if (listener != null) {
+            listener.previous();
+        }
+    }
+
     @OnClick({R.id.sku_order_bottom_confirm_layout})
     public void confirm(View view) {
         if (listener != null) {
@@ -83,6 +90,7 @@ public class CharterSecondBottomView extends LinearLayout{
 
     public interface OnBottomClickListener {
         public void confirm();
+        public void previous();
         public void intentTravelList();
     }
 

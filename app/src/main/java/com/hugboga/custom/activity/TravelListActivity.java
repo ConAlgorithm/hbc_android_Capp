@@ -83,6 +83,11 @@ public class TravelListActivity extends BaseActivity {
             }
 
             @Override
+            public void previous() {
+
+            }
+
+            @Override
             public void intentTravelList() {
 
             }

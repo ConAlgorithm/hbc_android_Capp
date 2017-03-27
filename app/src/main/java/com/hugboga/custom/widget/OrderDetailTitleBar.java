@@ -62,6 +62,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         titleTextMap.put(4, R.string.order_detail_title_single);
         titleTextMap.put(5, R.string.order_detail_title_route);
         titleTextMap.put(6, R.string.order_detail_title_route);
+        titleTextMap.put(888, R.string.order_detail_title_chartered);
     }
 
     @Override
@@ -78,9 +79,9 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
     public void setTitle(int orderGoodsType) {
         //设置title
         int titleTextId = R.string.order_detail_title_default;
-        if (titleTextMap.containsKey(orderGoodsType)) {
-            titleTextId = titleTextMap.get(orderGoodsType);
-        }
+//        if (titleTextMap.containsKey(orderGoodsType)) {
+//            titleTextId = titleTextMap.get(orderGoodsType);
+//        }
         titleTV.setText(getString(titleTextId));
     }
 
