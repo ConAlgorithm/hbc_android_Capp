@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/clickable_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/clickable_list_header_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/ysf_text_bubble_max_width"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/ysf_black_2b2b2b"
+            android:textSize="@dimen/ysf_text_size_16" />
+
+        <View
+            android:id="@+id/clickable_list_header_divider"
+            android:layout_width="@dimen/ysf_text_bubble_max_width"
+            android:layout_height="@dimen/ysf_divider_height"
+            android:background="@color/ysf_grey_dbdbdb" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/clickable_list_container"
+        android:layout_width="@dimen/ysf_text_bubble_max_width"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/clickable_list_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/clickable_list_footer_divider"
+            android:layout_width="@dimen/ysf_text_bubble_max_width"
+            android:layout_height="@dimen/ysf_divider_height"
+            android:background="@color/ysf_grey_dbdbdb" />
+
+        <TextView
+            android:id="@+id/clickable_list_footer_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/ysf_text_bubble_max_width"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/ysf_black_2b2b2b"
+            android:textSize="@dimen/ysf_text_size_16" />
+    </LinearLayout>
+</LinearLayout>

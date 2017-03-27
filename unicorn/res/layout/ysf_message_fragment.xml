@@ -17,7 +17,7 @@
             android:background="@color/ysf_tips_background_fff9e2"
             android:gravity="center"
             android:textColor="@color/ysf_tips_text_c08722"
-            android:textSize="14sp"
+            android:textSize="@dimen/ysf_text_size_14"
             android:visibility="gone" />
 
         <FrameLayout
@@ -30,7 +30,7 @@
                 android:id="@+id/message_activity_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/ysf_gray_f8f8f8" />
+                android:background="@color/ysf_grey_f8f8f8" />
 
             <com.qiyukf.nim.uikit.common.ui.listview.MessageListView
                 android:id="@+id/messageListView"
@@ -70,6 +70,7 @@
                             android:id="@+id/ysf_recording_view_mic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@null"
                             android:src="@drawable/ysf_recording_mic" />
 
                         <ImageView
@@ -79,8 +80,8 @@
                             android:layout_alignBottom="@id/ysf_recording_view_mic"
                             android:layout_marginLeft="16dp"
                             android:layout_toRightOf="@id/ysf_recording_view_mic"
+                            android:contentDescription="@null"
                             android:src="@drawable/ysf_amplitude_list" />
-
                     </RelativeLayout>
 
                     <TextView
@@ -111,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/ysf_recording_cancel"
                     android:visibility="gone" />
 
@@ -124,8 +126,19 @@
                     android:padding="5dp"
                     android:text="@string/ysf_audio_record_cancel_tip"
                     android:textColor="@android:color/white"
-                    android:textSize="13dp" />
+                    android:textSize="@dimen/ysf_text_size_13" />
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/ysf_session_list_entrance"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/ysf_session_list_entrance_right"
+                android:visibility="gone" />
         </FrameLayout>
 
         <include layout="@layout/ysf_message_activity_bottom_layout" />
@@ -156,6 +169,6 @@
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:textColor="@android:color/white"
-            android:textSize="14dp" />
+            android:textSize="@dimen/ysf_text_size_14" />
     </RelativeLayout>
 </com.qiyukf.nim.uikit.session.module.input.MessageRootLayout>

@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_margin="30dp"
             android:text="内容"
-            android:textColor="@color/ysf_black_000000"
+            android:textColor="@color/ysf_black"
             android:textSize="@dimen/ysf_dialog_normal_text_size" />
 
         <include layout="@layout/ysf_include_divider" />
@@ -42,7 +42,7 @@
                 android:id="@+id/ysf_common_dialog_btn_divider"
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="@color/ysf_gray_ececec" />
+                android:background="@color/ysf_grey_ececec" />
 
             <Button
                 android:id="@+id/ysf_common_dialog_btn_right"
