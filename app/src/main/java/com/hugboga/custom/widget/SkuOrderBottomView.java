@@ -57,6 +57,7 @@ public class SkuOrderBottomView extends LinearLayout {
         this.shouldPrice = shouldPrice;
         this.discountPrice = discountPrice;
         priceTV.setText(getContext().getString(R.string.sign_rmb) + shouldPrice);
+        updatePriceItemView((shouldPrice + discountPrice), discountPrice, shouldPrice);
 
     }
 
@@ -102,9 +103,7 @@ public class SkuOrderBottomView extends LinearLayout {
             addItemView("优惠金额", "-" + signRMB + discountPrice, 0xFF333333);
             addItemView("还需支付", signRMB + actualPay, 0xFFF63308);
         } else {
-            updateItemView(0, signRMB + orderPrice);
-            updateItemView(1, "-" + signRMB + discountPrice);
-            updateItemView(2, signRMB + actualPay);
+            updatePriceItemView(orderPrice, discountPrice, actualPay);
         }
         int[] location = new int[2];
         priceLayout.getLocationOnScreen(location);
@@ -137,5 +136,13 @@ public class SkuOrderBottomView extends LinearLayout {
         priceTV.setText(price);
     }
 
+    public void updatePriceItemView(int orderPrice, int discountPrice, int actualPay) {
+        if (popupLayout != null) {
+            final String signRMB = getContext().getResources().getString(R.string.sign_rmb);
+            updateItemView(0, signRMB + orderPrice);
+            updateItemView(1, "-" + signRMB + discountPrice);
+            updateItemView(2, signRMB + actualPay);
+        }
+    }
 
 }

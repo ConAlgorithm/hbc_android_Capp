@@ -315,7 +315,7 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
         }
         manLuggageBean.mans = adultCount;
         manLuggageBean.childs = childCount;
-        manLuggageBean.luggages = carBean.capOfLuggage;
+        manLuggageBean.luggages = maxLuuages;
         manLuggageBean.childSeats = childSeatCount;
         return manLuggageBean;
     }

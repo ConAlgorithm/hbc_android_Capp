@@ -694,7 +694,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 case MessageType.HOT_CITY:
                     if (showType == ShowType.PICK_UP) {
                         if (tabLayout.isInland()) {//国内城市
-                            message.obj = DatabaseManager.getInlandHotCitySql();
+//                            message.obj = DatabaseManager.getInlandHotCitySql();
+                            message.obj = null;
                         } else {//国际港澳台
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
@@ -783,6 +784,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     break;
                 case MessageType.HOT_CITY:
                     if (msg.obj == null) {
+                        hotCityList = null;
+                        headerView.setHotCitysData(hotCityList);
+                        setSectionIndices();
                         break;
                     }
                     hotCityList = (List<CityBean>) msg.obj;

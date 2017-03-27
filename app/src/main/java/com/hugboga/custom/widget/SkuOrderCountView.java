@@ -292,7 +292,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         }
         manLuggageBean.mans = adultCount;
         manLuggageBean.childs = childCount;
-        manLuggageBean.luggages = carBean.capOfLuggage;
+        manLuggageBean.luggages = maxLuuages;
         manLuggageBean.childSeats = childSeatCount;
         manLuggageBean.roomCount = roomCount;
         return manLuggageBean;

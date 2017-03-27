@@ -91,6 +91,7 @@ public class UnicornOrderView extends LinearLayout implements HbcViewBehavior{
                 }
                 break;
             case Constants.BUSINESS_TYPE_DAILY:// 包车
+            case Constants.BUSINESS_TYPE_COMBINATION:// 组合单
                 titleTV.setText(getContext().getString(R.string.custom_chartered));
                 descriptionTV.setText(orderBean.carDesc);
                 if (orderBean.isHalfDaily == 1) {//半日包
