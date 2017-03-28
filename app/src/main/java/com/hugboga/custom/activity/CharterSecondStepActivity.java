@@ -43,6 +43,9 @@ import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.data.request.RequestCityRoute;
 import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterModelBehavior;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CharterFragmentAgent;
@@ -197,6 +200,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         bottomView.updateConfirmView();
 
         locationMapToCity(charterDataUtils.getStartCityBean(1));//默认定位当前城市
+
+        StatisticClickEvent.dailyClick(StatisticConstant.LAUNCH_RWEILAN, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
     }
 
     @Override
@@ -464,6 +470,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             }
             Intent intent = new Intent(this, CombinationOrderActivity.class);
             startActivity(intent);
+
+            StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM2_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                    charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
+            charterDataUtils.setSensorsConfirmEvent(this);
         } else {
             final CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
             charterDataUtils.currentDay++;
@@ -497,6 +507,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
         overridePendingTransition(R.anim.push_bottom_in, 0);
+        MobClickUtils.onEvent(StatisticConstant.R_XINGCHENG);
     }
 
     public boolean checkPickUpFlightBean(FlightBean flightBean) {

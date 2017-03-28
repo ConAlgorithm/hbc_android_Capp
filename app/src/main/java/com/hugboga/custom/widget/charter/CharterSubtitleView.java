@@ -17,6 +17,8 @@ import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CharterDataUtils;
 
 import butterknife.Bind;
@@ -121,6 +123,7 @@ public class CharterSubtitleView extends LinearLayout{
     public void onClick(View view) {
         if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号
             intentActivity(ChooseAirActivity.class);
+            MobClickUtils.onEvent(StatisticConstant.R_ADDJ);
         } else if (charterDataUtils.currentDay > 1 && charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
             Intent intent = new Intent(context, ChooseAirPortActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -128,6 +131,7 @@ public class CharterSubtitleView extends LinearLayout{
                 intent.putExtra(ChooseAirPortActivity.KEY_GROUPID, charterDataUtils.getCurrentDayStartCityBean().groupId);
             }
             context.startActivity(intent);
+            MobClickUtils.onEvent(StatisticConstant.R_ADDS);
         }
     }
 
@@ -179,6 +183,7 @@ public class CharterSubtitleView extends LinearLayout{
         Intent intent = new Intent(context, ChooseCityActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
+        MobClickUtils.onEvent(StatisticConstant.R_CHANGCITY);
     }
 
     public interface OnPickUpOrSendSelectedListener {

@@ -55,6 +55,12 @@ public class StatisticConstant {
     public static final String CARNEXT_R = "02_carnext_R";                   // 0自定义包车选车
     public static final String CONFIRM_RG = "02_confirm_RG";                 // 1固定线路包车确定行程
     public static final String CONFIRM_RT = "02_confirm_RT";                 // 1推荐线路包车确定行程
+    public static final String CONFIRM2_R = "02_confirm2_R";                 // 自定义包车查看报价
+
+    public static final String R_ADDJ = "02_R_addJ";                         // 定制包车点击添加航班
+    public static final String R_ADDS = "02_R_addS";                         // 定制包车点击添加送机机场
+    public static final String R_CHANGCITY = "02_R_changcity";               // 定制包点击切换当日城市
+    public static final String R_XINGCHENG = "02_R_xingcheng";               // 定制包车点击行程单
 
     public static final String SUBMITORDER_J = "02_submitorder_J";           // 0接机提交订单
     public static final String SUBMITORDER_S = "02_submitorder_S";           // 0送机提交订单
@@ -70,6 +76,7 @@ public class StatisticConstant {
     public static final String LAUNCH_R2 = "02_launch_R2";                   // 自定义包车确认订单页面展示
     public static final String LAUNCH_RG2 = "02_launch_RG2";                 // 固定线路包车确认订单页面展示
     public static final String LAUNCH_RT2 = "02_launch_RT2";                 // 推荐线路包车确认订单页面展示
+    public static final String LAUNCH_RWEILAN = "02_launch_Rweilan";         // 行程围栏页面展示
 
     // MARK: 03_支付
     public static final String LAUNCH_PAYJ = "03_launch_payJ";           // 展示接机收银台

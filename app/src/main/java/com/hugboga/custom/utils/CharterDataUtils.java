@@ -1,5 +1,6 @@
 package com.hugboga.custom.utils;
 
+import android.content.Context;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
@@ -17,6 +18,10 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -465,4 +470,23 @@ public class CharterDataUtils {
         }
         return null;
     }
+
+    //神策统计_确认行程
+    public void setSensorsConfirmEvent(Context context) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_is_appoint_guide", guidesDetailData == null ? false : true);// 指定司导下单
+            properties.put("hbc_adultNum", adultCount);// 出行成人数
+            properties.put("hbc_childNum", childCount);// 出行儿童数
+            properties.put("hbc_start_time", chooseDateBean.start_date);// 出发日期
+            properties.put("hbc_end_time", chooseDateBean.end_date);// 结束日期
+            properties.put("hbc_service_city", getStartCityBean(1).name);// 用车城市
+            properties.put("hbc_total_days", chooseDateBean.dayNums);// 游玩天数
+            SensorsDataAPI.sharedInstance(context).track("buy_r_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

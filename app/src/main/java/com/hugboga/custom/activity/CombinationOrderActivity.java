@@ -38,6 +38,11 @@ import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestOrderGroup;
 import com.hugboga.custom.data.request.RequestPayNo;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
@@ -153,6 +158,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         travelerInfoView.setActivity(this);
 
         carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
+
+        StatisticClickEvent.dailyClick(StatisticConstant.LAUNCH_R2, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
     }
 
     public void initTitleBar() {
@@ -288,7 +296,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
-//                requestParams.eventPayBean = getChoosePaymentStatisticParams();
+                requestParams.eventPayBean = getChoosePaymentStatisticParams();
                 Intent intent = new Intent(this, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -304,7 +312,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
-//                    SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
+                    SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }
             }
         }
@@ -318,6 +326,29 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         }
         emptyLayout.setErrorVisibility(View.VISIBLE);
         setItemVisibility(View.GONE);
+    }
+    /*
+    * 后续页面需要的统计参数
+    * */
+    private EventPayBean getChoosePaymentStatisticParams() {
+        EventPayBean eventPayBean = new EventPayBean();
+        eventPayBean.guideCollectId = "";
+        eventPayBean.paysource = "下单过程中";
+        eventPayBean.orderType = orderType;
+
+        if (carBean != null) {
+            eventPayBean.carType = carBean.carDesc;
+            eventPayBean.seatCategory = carBean.seatCategory;
+            eventPayBean.shouldPay = carBean.vehiclePrice + carBean.servicePrice;
+        }
+        if (orderInfoBean != null) {
+            eventPayBean.orderId = orderInfoBean.getOrderno();
+            eventPayBean.actualPay = orderInfoBean.getPriceActual();
+        }
+        eventPayBean.guestcount = (charterDataUtils.adultCount + charterDataUtils.childCount) + "";
+        eventPayBean.isSelectedGuide = charterDataUtils.guidesDetailData != null;
+        eventPayBean.days = charterDataUtils.chooseDateBean.dayNums;
+        return eventPayBean;
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
@@ -516,6 +547,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .allChildSeatPrice(countView.getAdditionalPrice())
                 .build();
         requestSubmitOrder(requestParams);
+        StatisticClickEvent.selectCarClick(StatisticConstant.SUBMITORDER_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                charterDataUtils.guidesDetailData != null, carBean.carDesc, countView.getTotalPeople() + "");
     }
 
     /*

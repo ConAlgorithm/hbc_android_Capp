@@ -18,6 +18,8 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.models.TravelAddItemModel;
 import com.hugboga.custom.models.TravelItemModel;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -79,6 +81,11 @@ public class TravelListActivity extends BaseActivity {
                     Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
+
+                    CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
+                    StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM2_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                            charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
+                    charterDataUtils.setSensorsConfirmEvent(TravelListActivity.this);
                 }
             }
 

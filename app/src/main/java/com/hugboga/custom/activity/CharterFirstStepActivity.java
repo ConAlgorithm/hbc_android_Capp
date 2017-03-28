@@ -19,17 +19,23 @@ import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -135,6 +141,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             cityTV.setText(startBean.name);
             requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
         }
+
+        setSensorsEvent();
     }
 
     @OnClick({R.id.charter_first_city_layout})
@@ -209,6 +217,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         Intent intent = new Intent(this, CharterSecondStepActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
+
+        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
+        setSensorsConfirmEvent();
     }
 
     @Subscribe
@@ -303,6 +315,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_R;
+    }
+
+    @Override
     public String getEventSource() {
         return getString(R.string.custom_chartered);
     }
@@ -345,5 +362,37 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             }
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_is_appoint_guide", charterDataUtils.guidesDetailData != null ? true : false);// 指定司导下单
+            properties.put("hbc_adultNum", countLayout.getAdultValue());// 出行成人数
+            properties.put("hbc_childNum", countLayout.getChildValue());// 出行儿童数
+            properties.put("hbc_start_time", chooseDateBean.start_date);// 出发日期
+            properties.put("hbc_end_time", chooseDateBean.end_date);// 结束日期
+            properties.put("hbc_service_city", startBean != null ? startBean.name : ""); // 用车城市
+            properties.put("hbc_total_days", chooseDateBean.dayNums);// 游玩天数
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_初始页浏览
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_refer", getIntentSource());
+            properties.put("hbc_sku_type", "定制包车游");
+            SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

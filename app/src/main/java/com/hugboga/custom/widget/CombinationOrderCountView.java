@@ -300,6 +300,10 @@ public class CombinationOrderCountView extends LinearLayout implements ChooseCou
         return additionalPrice = getSeatTotalPrice();
     }
 
+    public int getTotalPeople() {
+        return adultCount + childCount;
+    }
+
     public interface OnCountChangeListener {
         public void onCountChange(ManLuggageBean bean);
         public void onAdditionalPriceChange(int price);
