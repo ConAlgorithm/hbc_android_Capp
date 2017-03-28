@@ -128,6 +128,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private int currentPosition = 0;
     private CheckVersionBean cvBean;
     private DialogUtil dialogUtil;
+    public int lastPagerPosition = 0;
 
     //private FgHome fgHome;
     private FgHomePage fgHomePage;
@@ -555,6 +556,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 }
                 break;
             case SET_MAIN_PAGE_INDEX:
+                lastPagerPosition = currentPosition;
                 int index = Integer.valueOf(action.data.toString());
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);

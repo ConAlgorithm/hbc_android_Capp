@@ -371,9 +371,22 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
             int countryFlagWidth = UIUtils.dip2px(30);
             int countryFlagHeight = countryFlagWidth * 16 / 24;
 
-            countryViewHolder.countryFlag.getLayoutParams().width = countryFlagWidth;
-            countryViewHolder.countryFlag.getLayoutParams().height = countryFlagHeight;
+            if (countryViewHolder.countryFlag.getLayoutParams() == null) {
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(countryFlagWidth, countryFlagHeight);
+                countryViewHolder.countryFlag.setLayoutParams(params);
+            } else {
+                countryViewHolder.countryFlag.getLayoutParams().width = countryFlagWidth;
+                countryViewHolder.countryFlag.getLayoutParams().height = countryFlagHeight;
+            }
             Tools.showImage(countryViewHolder.countryFlag, hotCountry.countryPicture, R.mipmap.home_country_dafault);
+
+            if (countryViewHolder.border.getLayoutParams() == null) {
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(countryFlagWidth, countryFlagHeight);
+                countryViewHolder.border.setLayoutParams(params);
+            } else {
+                countryViewHolder.border.getLayoutParams().width = countryFlagWidth;
+                countryViewHolder.border.getLayoutParams().height = countryFlagHeight;
+            }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -406,6 +419,8 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     static class CountryViewHolder {
         @Bind(R.id.home_dest_gridcounty_flag)
         ImageView countryFlag;
+        @Bind(R.id.home_dest_gridcounty_border)
+        ImageView border;
         @Bind(R.id.home_dest_gridcountry)
         TextView countryName;
     }

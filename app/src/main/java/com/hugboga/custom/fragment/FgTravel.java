@@ -25,6 +25,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.recycler.ZDefaultDivider;
 import com.huangbaoche.hbcframe.widget.recycler.ZListPageView;
 import com.huangbaoche.hbcframe.widget.recycler.ZSwipeRefreshLayout;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
@@ -620,6 +621,12 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
                 cleanListData();
                 break;
             case TRAVEL_LIST_TYPE:
+                if (getContext() instanceof MainActivity) {
+                    MainActivity activity = ((MainActivity) getContext());
+                    if (activity.lastPagerPosition == 2) {
+                        break;
+                    }
+                }
                 int index = Integer.valueOf(action.data.toString());
                 if (viewPager != null && index >= 0 && index < 4){
                     viewPager.setCurrentItem(index);
