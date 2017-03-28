@@ -227,11 +227,15 @@ public class MyApplication extends HbcApplication {
      */
     public static String getCurProcessName(Context context) {
         int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                return appProcess.processName;
+        try {
+            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+                if (appProcess.pid == pid) {
+                    return appProcess.processName;
+                }
             }
+        } catch (Exception e) {
+          e.printStackTrace();
         }
         return null;
     }
@@ -267,6 +271,9 @@ public class MyApplication extends HbcApplication {
     public static boolean inMainProcess(Context context) {
         String packageName = context.getPackageName();
         String processName = getCurProcessName(context);
+        if (TextUtils.isEmpty(processName)) {
+            return true;
+        }
         return packageName.equals(processName);
     }
 

@@ -17,6 +17,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -105,12 +106,17 @@ public class CharterSendAirportView extends LinearLayout{
                 addAddressLayout.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.VISIBLE);
                 addressDesTV.setVisibility(View.VISIBLE);
-                distanceTV.setVisibility(View.VISIBLE);
 
                 addressTV.setText(sendPoiBean.placeName);
                 addressDesTV.setText(sendPoiBean.placeDetail);
 
-
+                DirectionBean sendDirectionBean = charterDataUtils.sendDirectionBean;
+                if (charterDataUtils.sendDirectionBean == null || sendDirectionBean.distanceDesc == null || sendDirectionBean.durationDesc == null) {
+                    distanceTV.setVisibility(View.GONE);
+                }else {
+                    distanceTV.setVisibility(View.VISIBLE);
+                    distanceTV.setText(String.format("距离：%1$s  时长：约%2$s", sendDirectionBean.distanceDesc, sendDirectionBean.durationDesc));
+                }
             } else {
                 addAddressLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.GONE);

@@ -485,26 +485,23 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         }
     }
 
+    //历史遗留BUG修改，需重构
     @Override
-    public void notice(Object object) {
-        if (object != null) {
-            Object[] obj = (Object[]) object;
-            switch (pagerPosition) {
-                case 0:
-                    setListCount(tab2NumberTextView, obj[2]);
-                    setListCount(tab3NumberTextView, obj[3]);
-                    setListCount(tab4NumberTextView, obj[4]);
-                    break;
-                case 1:
-                    setListCount(tab2NumberTextView, obj[0]);
-                    break;
-                case 2:
-                    setListCount(tab3NumberTextView, obj[0]);
-                    break;
-                case 3:
-                    setListCount(tab4NumberTextView, obj[0]);
-                    break;
-            }
+    public void notice(BaseRequest request) {
+        if (request == null || request.getData() == null) {
+            return;
+        }
+        Object[] obj = (Object[]) request.getData();//XXX 有隐患，遗留。。。
+        if (request instanceof RequestOrderListAll) {
+            setListCount(tab2NumberTextView, obj[2]);
+            setListCount(tab3NumberTextView, obj[3]);
+            setListCount(tab4NumberTextView, obj[4]);
+        } else if (request instanceof RequestOrderListUnpay) {
+            setListCount(tab2NumberTextView, obj[0]);
+        } else if (request instanceof RequestOrderListDoing) {
+            setListCount(tab3NumberTextView, obj[0]);
+        } else if (request instanceof RequestOrderListUnevaludate) {
+            setListCount(tab4NumberTextView, obj[0]);
         }
     }
 
@@ -648,4 +645,5 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
 
         }
     }
+
 }

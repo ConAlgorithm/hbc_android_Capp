@@ -38,6 +38,9 @@ public class PushReceiver extends BroadcastReceiver implements HttpRequestListen
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
+        if (bundle == null) {
+            return;
+        }
         MLog.e("bundle="+bundle);
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);

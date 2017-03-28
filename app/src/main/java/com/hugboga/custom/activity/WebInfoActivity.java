@@ -80,7 +80,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     }
 
     public void setHeaderTitle(String title) {
-        headerTitle.setText(title);
+        if (headerTitle != null) {
+            headerTitle.setText(title);
+        }
     }
 
     WebViewClient webClient = new WebViewClient() {

@@ -50,7 +50,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_width="9dp"
                 android:layout_height="5dp"
-                android:background="@mipmap/share_unfold"
+                android:background="@mipmap/share_withdraw"
                 />
         </LinearLayout>
 
