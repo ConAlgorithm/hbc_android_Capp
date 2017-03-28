@@ -15,7 +15,8 @@
         android:paddingTop="10dp" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_line_height"
-        android:background="@color/default_dividing_line"
+        android:layout_height="5dp"
+        android:background="@drawable/gradient_order_price_bottom_popup"
+        android:layerType="hardware"
         />
 </RelativeLayout>

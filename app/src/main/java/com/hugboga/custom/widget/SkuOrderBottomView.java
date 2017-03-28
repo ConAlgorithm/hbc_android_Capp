@@ -107,7 +107,7 @@ public class SkuOrderBottomView extends LinearLayout {
         }
         int[] location = new int[2];
         priceLayout.getLocationOnScreen(location);
-        int popupHeight = UIUtils.dip2px(20) + UIUtils.dip2px(22) * 3;
+        int popupHeight = UIUtils.dip2px(20) + UIUtils.dip2px(22) * 3 + UIUtils.dip2px(5);
         if (popup == null) {
             popup = new PopupWindow(popupLayout, LinearLayout.LayoutParams.MATCH_PARENT, popupHeight);
             popup.setBackgroundDrawable(new BitmapDrawable());
