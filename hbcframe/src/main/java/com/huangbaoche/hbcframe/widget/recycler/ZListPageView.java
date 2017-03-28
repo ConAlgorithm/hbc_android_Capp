@@ -221,7 +221,7 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
             }
             //通知界面层
             if (noticeViewTask != null) {
-                noticeViewTask.notice(request.getData());
+                noticeViewTask.notice(request);
             }
         }
 
@@ -250,11 +250,13 @@ public class ZListPageView extends ZListRecyclerView implements IPageList {
 
     /**
      * 界面通知工具
+     * 除了订单列表其它地方不能用，此类将废弃
      */
     NoticeViewTask noticeViewTask;
 
+    @Deprecated
     public interface NoticeViewTask {
-        void notice(Object object);
+        void notice(BaseRequest request);
         void error(ExceptionInfo errorInfo, BaseRequest request);
 
     }
