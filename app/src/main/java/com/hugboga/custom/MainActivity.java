@@ -311,8 +311,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
-        JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
-        uploadPushToken();
+        try {
+            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
+            uploadPushToken();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void uploadPushToken() {
