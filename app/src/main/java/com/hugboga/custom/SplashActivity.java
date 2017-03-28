@@ -20,7 +20,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -38,7 +38,8 @@ public class SplashActivity extends BaseActivity {
 
     @ViewInject(R.id.splash_viewpage)
     ViewPager viewPager;
-    LinePageIndicator mIndicator;
+    @ViewInject(R.id.indicator)
+    CirclePageIndicator mIndicator;
     TextView enter;
 
     private ActionBean actionBean;
@@ -119,7 +120,7 @@ public class SplashActivity extends BaseActivity {
         AdPageAdapter aAdapter = new AdPageAdapter(views);
         viewPager.setAdapter(aAdapter);
 
-        mIndicator = (LinePageIndicator)findViewById(R.id.indicator);
+        mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
 
         enter = (TextView)findViewById(R.id.enter);

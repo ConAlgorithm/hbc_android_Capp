@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:LinePageIndicator = "http://schemas.android.com/apk/res-auto"
+    xmlns:res = "http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hugboga.custom.SplashActivity">
@@ -10,17 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.viewpagerindicator.LinePageIndicator
+    <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
-        android:padding="5dip"
-        android:layout_marginBottom="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="20dip"
+        android:layout_marginBottom="20dip"
         android:layout_alignParentBottom="true"
-        LinePageIndicator:unselectedColor="#88ffffff"
-        LinePageIndicator:selectedColor="@color/basic_white"
-        LinePageIndicator:lineWidth="20dp"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        />
+        android:paddingTop="5dip"
+        res:centered="true"
+        res:pageColor="#efefef"
+        res:fillColor="#a7a9a8"
+        res:strokeColor="#00ffffff"
+        res:strokeWidth="0dip"
+        res:radius="4dip" />
 
     <TextView
         android:id="@+id/enter"
@@ -33,9 +35,9 @@
         android:paddingRight="30dp"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/basic_white"
+        android:textColor="#f89201"
         android:textSize="16sp"
         android:background="@drawable/btn_round_line"
-        android:layout_height="36dp" />
+        android:layout_height="34dp" />
 
 </RelativeLayout>
