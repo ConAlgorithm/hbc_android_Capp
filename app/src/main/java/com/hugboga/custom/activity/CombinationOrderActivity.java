@@ -284,8 +284,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             explainView.setCancleTips(cancleTips);
         } else if (_request instanceof RequestOrderGroup) {
             orderInfoBean = ((RequestOrderGroup) _request).getData();
-            charterDataUtils.onDestroy();
-            charterDataUtils.cleanGuidesDate();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
@@ -302,6 +300,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
+            charterDataUtils.onDestroy();
+            charterDataUtils.cleanGuidesDate();
         } else if (_request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) _request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
@@ -345,9 +345,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             eventPayBean.orderId = orderInfoBean.getOrderno();
             eventPayBean.actualPay = orderInfoBean.getPriceActual();
         }
-        eventPayBean.guestcount = (charterDataUtils.adultCount + charterDataUtils.childCount) + "";
-        eventPayBean.isSelectedGuide = charterDataUtils.guidesDetailData != null;
-        eventPayBean.days = charterDataUtils.chooseDateBean.dayNums;
+        if (charterDataUtils != null) {
+            eventPayBean.guestcount = (charterDataUtils.adultCount + charterDataUtils.childCount) + "";
+            eventPayBean.isSelectedGuide = charterDataUtils.guidesDetailData != null;
+            eventPayBean.days = charterDataUtils.chooseDateBean.dayNums;
+        }
         return eventPayBean;
     }
 
@@ -527,6 +529,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     public void onSubmit() {
+        StatisticClickEvent.selectCarClick(StatisticConstant.SUBMITORDER_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                charterDataUtils.guidesDetailData != null, carBean.carDesc, countView.getTotalPeople() + "");
+
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
         ContactUsersBean contactUsersBean = new ContactUsersBean();
         contactUsersBean.userName = travelerInfoBean.travelerName;
@@ -547,8 +552,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .allChildSeatPrice(countView.getAdditionalPrice())
                 .build();
         requestSubmitOrder(requestParams);
-        StatisticClickEvent.selectCarClick(StatisticConstant.SUBMITORDER_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
-                charterDataUtils.guidesDetailData != null, carBean.carDesc, countView.getTotalPeople() + "");
     }
 
     /*

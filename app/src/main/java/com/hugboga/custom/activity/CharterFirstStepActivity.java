@@ -218,8 +218,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
 
-        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
-                charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
+        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), chooseDateBean.dayNums,
+                guidesDetailData != null, (countLayout.getAdultValue() + countLayout.getChildValue()) + "");
         setSensorsConfirmEvent();
     }
 
@@ -369,7 +369,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_type", "定制包车游");
-            properties.put("hbc_is_appoint_guide", charterDataUtils.guidesDetailData != null ? true : false);// 指定司导下单
+            properties.put("hbc_is_appoint_guide", guidesDetailData != null ? true : false);// 指定司导下单
             properties.put("hbc_adultNum", countLayout.getAdultValue());// 出行成人数
             properties.put("hbc_childNum", countLayout.getChildValue());// 出行儿童数
             properties.put("hbc_start_time", chooseDateBean.start_date);// 出发日期

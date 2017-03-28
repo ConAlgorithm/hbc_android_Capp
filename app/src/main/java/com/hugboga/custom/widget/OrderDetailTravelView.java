@@ -16,6 +16,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.UIUtils;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -52,6 +54,7 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
     LinearLayout parrentLayout;
 
     private OrderBean orderBean;
+    private boolean isSingleTravel = false;
 
     public OrderDetailTravelView(Context context) {
         this(context, null);
@@ -63,6 +66,15 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         ButterKnife.bind(view);
     }
 
+    public void singleTravel() {
+        isSingleTravel = true;
+        orderNoView.setVisibility(View.GONE);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        params.bottomMargin = UIUtils.dip2px(4);
+        parrentLayout.setLayoutParams(params);
+    }
+
+
     @Override
     public void update(Object _data) {
         orderBean = (OrderBean) _data;
@@ -73,7 +85,11 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
             moreTV.setVisibility(View.GONE);
             moreIV.setVisibility(View.GONE);
         }
-        orderNoView.update(orderBean.orderNo);
+        if (isSingleTravel) {
+            orderNoView.setVisibility(View.GONE);
+        } else {
+            orderNoView.update(orderBean.orderNo);
+        }
 
         ArrayList<CityBean> passCityList = orderBean.passByCity;
         if (passCityList == null) {
@@ -98,6 +114,9 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
         } else {
             secondDateTV.setText("");
             secondTitleTV.setText("");
+            if (isSingleTravel) {
+                secondLayout.setVisibility(View.GONE);
+            }
         }
     }
 

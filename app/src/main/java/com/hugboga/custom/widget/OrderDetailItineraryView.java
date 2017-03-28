@@ -58,7 +58,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     TextView cityTV;
 
     @Bind(R.id.order_itinerary_item_travel_view)
-    OrderDetailAllTravelView travelView;
+    OrderDetailTravelView travelView;
 
 
     private OrderBean orderBean;
@@ -171,6 +171,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         if (orderBean.orderType == 3) {
+            travelView.singleTravel();
             travelView.setVisibility(View.VISIBLE);
             orderBean.orderIndex = 1;
             travelView.update(orderBean);
