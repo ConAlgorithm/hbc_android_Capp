@@ -54,6 +54,7 @@ import com.hugboga.custom.widget.CombinationOrderCountView;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
+import com.hugboga.custom.widget.OrderPricePopupLayout;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
@@ -98,6 +99,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     OrderExplainView explainView;
     @Bind(R.id.combination_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
+
+    @Bind(R.id.combination_order_price_bottom_view)
+    OrderPricePopupLayout priceBottomLayout;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -145,6 +149,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
+        bottomView.setOrderPricePopupLayout(priceBottomLayout);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
