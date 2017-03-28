@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -79,6 +80,25 @@ public class OrderUtils {
         return seat1PriceTotal;
     }
 
+    public static int getSeat2PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+        int seat2Price = 0;
+
+        if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice2) {
+            seat2Price = Integer.valueOf(additionalServicePrice.childSeatPrice2);
+        }
+        int seat2PriceTotal = seat2Price * getSeat2Count(manLuggageBean);
+        return seat2PriceTotal;
+    }
+
+    public static int getSeat1PriceTotal(CarAdditionalServicePrice additionalServicePrice, ManLuggageBean manLuggageBean){
+        int seat1Price = 0;
+        if (null != additionalServicePrice && null != additionalServicePrice.childSeatPrice1) {
+            seat1Price = Integer.valueOf(additionalServicePrice.childSeatPrice1);
+        }
+        int seat1PriceTotal = seat1Price * getSeat1Count(manLuggageBean);
+        return seat1PriceTotal;
+    }
+
     public static int getSeat2PriceTotal(CarListBean carListBean,ManLuggageBean manLuggageBean){
         int seat2Price = 0;
 
@@ -88,7 +108,6 @@ public class OrderUtils {
         int seat2PriceTotal = seat2Price * getSeat2Count(manLuggageBean);
         return seat2PriceTotal;
     }
-
 
     private String getChileSeatJson(CarListBean carListBean,ManLuggageBean manLuggageBean){
         int seat1Price = 0;
@@ -274,7 +293,7 @@ public class OrderUtils {
         orderBean.flightBean = flightBean;
         orderBean.startAddress = flightBean.arrivalAirport.airportName;
         //出发地，到达地经纬度
-        orderBean.startLocation = flightBean.arrivalAirport.location;
+        orderBean.startAddressPoi = flightBean.arrivalAirport.location;
         orderBean.terminalLocation = poiBean.location;
         orderBean.carDesc = carBean.carDesc;
         orderBean.destAddress = poiBean.placeName;
@@ -425,7 +444,7 @@ public class OrderUtils {
 
         orderBean.startAddress = startPoi.placeName;
         orderBean.startAddressDetail = startPoi.placeDetail;
-        orderBean.startLocation = startPoi.location;
+        orderBean.startAddressPoi = startPoi.location;
 
         orderBean.destAddress = endPoi.placeName;
         orderBean.destAddressDetail = endPoi.placeDetail;
@@ -529,8 +548,8 @@ public class OrderUtils {
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carDesc = carBean.carDesc;
-        orderBean.contactName = contactName;//manName.getText().toString();
-        orderBean.memo = userRemark;//mark.getText().toString().trim();
+        orderBean.userName = contactName;//manName.getText().toString();
+        orderBean.userRemark = userRemark;//mark.getText().toString().trim();
         orderBean.childSeatNum = childseatNum;
         orderBean.luggageNum = luggageNum;
         orderBean.flightNo = flightNo;//airportName.getText().toString();
@@ -540,7 +559,7 @@ public class OrderUtils {
         orderBean.startAddress = poiBean.placeName;
         orderBean.startAddressDetail = poiBean.placeDetail;
         //出发地，到达地经纬度
-        orderBean.startLocation = poiBean.location;
+        orderBean.startAddressPoi = poiBean.location;
         orderBean.terminalLocation = poiBean.location;
         orderBean.priceMark = carBean.pricemark;
         orderBean.destAddress = airPort.airportName;
@@ -551,7 +570,6 @@ public class OrderUtils {
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carType = carBean.carType;
         orderBean.child = Integer.valueOf(childrenNum);
-        orderBean.userRemark = userRemark;//mark.getText().toString();
         orderBean.distance = carListBean.distance+"";
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
@@ -665,18 +683,16 @@ public class OrderUtils {
         orderBean.urgentFlag = carBean.urgentFlag;
         orderBean.adult = Integer.valueOf(adultNum);//成人数
         orderBean.child = Integer.valueOf(childrenNum);//儿童数
-        orderBean.contactName = "";
         orderBean.luggageNum = luggageNum;
         orderBean.contact = new ArrayList<OrderContact>();
         OrderContact orderContact = new OrderContact();
         orderContact.areaCode = "86";
         orderContact.tel = "";
         orderBean.contact.add(orderContact);
-        orderBean.memo = userRemark;//mark.getText().toString().trim();
         if (poiBean != null) {
             orderBean.startAddress = poiBean.placeName;//startBean.placeName;
             orderBean.startAddressDetail = poiBean.placeDetail;
-            orderBean.startLocation = poiBean.location;
+            orderBean.startAddressPoi = poiBean.location;
         }
         orderBean.realSendSms = contactUsersBean.isSendMessage ? "1" : "0";
 
@@ -777,39 +793,40 @@ public class OrderUtils {
 
     //确认订单协议
     public static void genAgreeMent(final Activity activity, TextView textView,String source) {
-        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f);
+        genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f, null);
     }
 
     //注册协议
     public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef);
+        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef, null);
     }
 
-    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color) {
-        int start = agree_text.indexOf(agree_text_click);
-        int end = agree_text.length();
+    //常用卡支付协议
+    public static void genCreditAgreeMent(final Activity activity, TextView textView) {
+        genCLickSpan(activity,textView,activity.getString(R.string.common_card_payment_protocol),activity.getString(R.string.common_card_payment_protocol),UrlLibs.H5_CREDIT_CARD_ARGEEMENT,0xff393838, null);
+    }
+
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
+        int start = agree_text.lastIndexOf(agree_text_click);
+        int end = start + agree_text_click.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity,url,color), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity,url,color,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
 
-    static class MyCLickSpan extends ClickableSpan{
+    public static class MyCLickSpan extends ClickableSpan{
         Activity activity;
         String url;
         int color = 0xff008cef;
+        OnSpanClickListener listener;
 
-        public MyCLickSpan(Activity activity,String url) {
-            super();
-            this.activity = activity;
-            this.url = url;
-        }
-
-        public MyCLickSpan(Activity activity,String url, int color) {
+        public MyCLickSpan(Activity activity,String url, int color, OnSpanClickListener listener) {
             super();
             this.activity = activity;
             this.url = url;
             this.color = color;
+            this.listener = listener;
         }
 
         @Override
@@ -821,9 +838,21 @@ public class OrderUtils {
 
         @Override
         public void onClick(View widget) {
-            Intent intent = new Intent(activity,WebInfoActivity.class);
-            intent.putExtra("web_url", url);
-            activity.startActivity(intent);
+            if (listener != null) {
+                listener.onSpanClick(widget);
+            } else {
+                Intent intent = new Intent(activity,WebInfoActivity.class);
+                intent.putExtra("web_url", url);
+                activity.startActivity(intent);
+            }
+        }
+
+        public interface OnSpanClickListener {
+            public void onSpanClick(View view);
+        }
+
+        public void setOnSpanClickListener(OnSpanClickListener listener) {
+            this.listener = listener;
         }
     }
 

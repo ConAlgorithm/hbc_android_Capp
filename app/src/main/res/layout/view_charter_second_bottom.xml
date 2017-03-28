@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/order_bottom_height"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/default_dividing_line" />
+
+    <LinearLayout
+        android:id="@+id/charter_bottom_travel_list_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/order_bottom_padding_left"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@mipmap/order_choice_bottom_calendar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="行程单"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <com.hugboga.custom.widget.DashView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:dashWidth="2dp"
+            app:lineWidth="2dp"
+            app:lineColor="#ededed"
+            app:dashOrientation="1"
+            app:lineHeight="1dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/charter_bottom_previous_layout"
+        android:layout_toRightOf="@id/charter_bottom_travel_list_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="10dp"
+            android:background="@mipmap/icon_black_arrow_left"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="前一天"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sku_order_bottom_confirm_layout"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="@dimen/order_bottom_padding_left"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_rounded_yellow_btn"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/sku_order_bottom_confirm_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一天"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/sku_order_bottom_confirm_arrow_iv"
+            android:layout_width="7dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/icon_white_arrow_right" />
+    </LinearLayout>
+</RelativeLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="46dp"
-    android:background="#ffffff"
+    android:background="#e0e1e2"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -17,15 +17,17 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/choose_city_tab_inland"
-            android:textColor="#333333"
+            android:textColor="@color/basic_daily_toolbar_color"
             android:textSize="15sp" />
 
         <View
             android:id="@+id/choose_city_tab_inland_line"
-            android:layout_width="match_parent"
+            android:layout_width="40dip"
             android:layout_height="2dp"
             android:layout_alignParentBottom="true"
-            android:background="#3c3830" />
+            android:layout_centerHorizontal="true"
+            android:background="@color/basic_daily_toolbar_color"
+            />
     </RelativeLayout>
 
     <View
@@ -33,7 +35,8 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
-        android:background="#3c3830" />
+        android:background="#3c3830"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/choose_city_tab_foreign_layout"
@@ -47,15 +50,16 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/choose_city_tab_abroad"
-            android:textColor="#99333333"
+            android:textColor="@color/basic_black"
             android:textSize="15sp" />
 
         <View
             android:id="@+id/choose_city_tab_foreign_line"
-            android:layout_width="match_parent"
+            android:layout_width="80dip"
             android:layout_height="2dp"
             android:layout_alignParentBottom="true"
-            android:background="#3c3830"
-            android:visibility="gone" />
+            android:layout_centerHorizontal="true"
+            android:background="@color/basic_daily_toolbar_color"
+             android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>

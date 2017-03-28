@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -109,7 +110,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         }
     }
 
-    private void loadingLayout(DeliverInfoBean deliverInfoBean) {
+    public void loadingLayout(DeliverInfoBean deliverInfoBean) {
         loadingView.setVisibility(View.VISIBLE);
         countdownLayout.setVisibility(View.GONE);
         avatarLayout.removeAllViews();

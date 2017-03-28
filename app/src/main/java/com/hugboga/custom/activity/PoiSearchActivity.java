@@ -59,6 +59,8 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
     public static final String KEY_CITY_ID = "key_city_id";
     public static final String KEY_LOCATION = "location";
+    public static final String PARAM_BUSINESS_TYPE = "mBusinessType";
+
 
     public PoiSearchAdapter adapter;
     private long t = 0;
@@ -80,7 +82,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         location = getIntent().getStringExtra(KEY_LOCATION);
         source = getIntent().getStringExtra("source");
         sharedPre = new SharedPre(activity);
-        mBusinessType = getIntent().getIntExtra("mBusinessType", 1);
+        mBusinessType = getIntent().getIntExtra(PARAM_BUSINESS_TYPE, 1);
 //        fgTitle.setText("搜索目的地");
     }
 
@@ -137,6 +139,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 editSearch.setHint(getResources().getString(R.string.search_hint_send));
                 break;
             case Constants.BUSINESS_TYPE_DAILY:
+            case Constants.BUSINESS_TYPE_COMBINATION:
                 //日租
                 break;
             case Constants.BUSINESS_TYPE_RENT:
@@ -230,7 +233,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
 
                 arrivalTip.setTextColor(activity.getResources().getColor(R.color.basic_rent_toolbar_color));
                 arrivalTip.setText(R.string.arrival_tip_hotel);
-                arrivalTip.setVisibility(View.VISIBLE);
+                arrivalTip.setVisibility(View.GONE);
             }
 //            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
             isLoading = false;
@@ -283,6 +286,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                         bean.type = type;
                     }
                 }
+                bean.mBusinessType = mBusinessType;
                 EventBus.getDefault().post(new EventAction(EventType.CHOOSE_POI_BACK, bean));
             }
         }

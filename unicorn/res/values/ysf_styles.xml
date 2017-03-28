@@ -2,13 +2,14 @@
 
     <style name="ysf_list_view" parent="@android:style/Widget.ListView">
         <item name="android:scrollbarThumbVertical">@drawable/ysf_scrollbar_handle_holo_dark</item>
-        <item name="android:scrollbarThumbHorizontal">@drawable/ysf_scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/ysf_scrollbar_handle_holo_dark
+        </item>
     </style>
 
     <style name="ysf_horizontal_light_thin_divider">
         <item name="android:layout_height">2px</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:background">@color/ysf_gray_d9d9d9</item>
+        <item name="android:background">@color/ysf_grey_d9d9d9</item>
     </style>
 
     <style name="ysf_custom_dialog_message_text_style">
@@ -67,6 +68,7 @@
     <style name="ysf_title_bar_background">
         <item name="android:background">@drawable/ysf_title_bar_bg</item>
     </style>
+
     <style name="ysf_window_theme" parent="android:Theme">
         <item name="android:windowTitleSize">@dimen/ysf_title_bar_height</item>
         <item name="android:windowTitleBackgroundStyle">@style/ysf_title_bar_background</item>

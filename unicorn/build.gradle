@@ -3,21 +3,20 @@ apply plugin: 'com.android.library'
 def getGitVersion() {
     try {
         return 'git rev-parse --short HEAD'.execute().text.trim()
-    } catch (Throwable th) {
+    } catch (Throwable ignored) {
         return "";
     }
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
-    useLibrary 'org.apache.http.legacy'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
-        versionCode 21
-        versionName '2.9.0'
         minSdkVersion 8
         targetSdkVersion 23
+        versionCode 26
+        versionName '3.4.0'
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
     }
 
@@ -40,7 +39,22 @@ android {
     }
 }
 
+project.afterEvaluate {
+    tasks.all { task ->
+        if (task.name =~ /generate.*BuildConfig/) {
+            task.dependsOn(propagateBuildConfig)
+        }
+    }
+}
+
+// workaround of gradle bug: build type of library is always release.
+task propagateBuildConfig << {
+    project.android.buildTypes.all { type ->
+        type.debuggable = rootProject.ext.has("debugBuild") ? rootProject.ext.debugBuild : false
+    }
+}
+
 dependencies {
     compile 'com.android.support:support-v4:23.1.1'
-    compile fileTree(include: ['*.jar'], exclude: ['android-support-v4.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', exclude: ['android-support-v4.jar'], include: ['*.jar'])
 }

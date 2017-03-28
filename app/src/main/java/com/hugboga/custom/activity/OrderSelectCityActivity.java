@@ -956,6 +956,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                     bundle.putString(KEY_FROM, "startAddress");
                     bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                     Intent intent = new Intent(activity, ChooseCityActivity.class);
+                    intent.putExtra("fromInterCity",true);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -1093,7 +1094,7 @@ public class OrderSelectCityActivity extends BaseActivity {
         intent.putExtra(Constants.PARAMS_SOURCE,getIntentSource());
         intent.putExtras(bundleCar);
         startActivity(intent);
-        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean, (childNum + manNum) + "");
+//        StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), EventUtil.getInstance().sourceDetail, collectGuideBean != null, (childNum + manNum) + "");
         setSensorsConfirmEvent();
         if (null != collectGuideBean && !GuideDetailActivity.TAG.equals(fromSource)) {
             setSensorsPointGuide(collectGuideBean, "定制");

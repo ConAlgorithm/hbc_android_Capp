@@ -96,19 +96,21 @@ public class CarUtils {
         ArrayList<CarBean> list = new ArrayList<>();
         for(int n = 0;n < carBeans.size();n++) {
             for (int i = 0; i < guideCars.size(); i++) {
-                if (carBeans.get(n).carType == guideCars.get(i).carType &&
-                        carBeans.get(n).seatType == guideCars.get(i).carClass) {
+//                if (carBeans.get(n).carType == guideCars.get(i).carType &&
+//                        carBeans.get(n).seatType == guideCars.get(i).carClass) {
+                if (carBeans.get(n).carId == guideCars.get(i).carModelId) {
                     CarBean carBean = (CarBean)(carBeans.get(n).clone());
                     carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
                     carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
                     carBean.carBrandName = guideCars.get(i).carBrandName;
                     carBean.carName = guideCars.get(i).carName;
-                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
-                        carBean.carDesc = guideCars.get(i).carInfo1;
-                    }
+//                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
+//                        carBean.carDesc = guideCars.get(i).carInfo1;
+//                    }
                     if (!TextUtils.isEmpty(guideCars.get(i).carInfo2)) {
                         carBean.models = guideCars.get(i).carInfo2;
                     }
+                    carBean.id = guideCars.get(i).carId;
                     list.add(carBean);
                 }
             }

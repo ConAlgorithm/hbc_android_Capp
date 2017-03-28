@@ -12,6 +12,7 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.hugboga.im.ImHelper;
 
 /**
  * Created by qingcha on 17/2/9.
@@ -32,8 +33,7 @@ public class ActionPageImChat extends ActionPageBase {
         if (type == 3) {
             UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
         } else if (type == 1) {
-            MyApplication.requestRemoteNimUserInfo(bean.tid);
-            NIMChatActivity.start(getContext(), bean.tid, null);
+            NIMChatActivity.start(getContext(), bean.tid);
         }
     }
 

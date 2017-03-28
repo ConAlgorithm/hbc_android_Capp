@@ -50,5 +50,34 @@ public class GuidesDetailData implements Serializable {
         return isFavored == 1;
     }
 
+    public String getCarIds() {
+        if (guideCars == null || guideCars.size() <= 0) {
+            return "";
+        }
+        String carIds = "";
+        int size = guideCars.size();
+        for (int i = 0; i < size; i++) {
+            carIds += guideCars.get(i).carModelId;
+            if (i < size - 1) {
+                carIds += ",";
+            }
+        }
+        return carIds;
+    }
+
+    public String getLabels() {
+        if (commentLabels == null || commentLabels.size() <= 0) {
+            return "";
+        }
+        String labels = "";
+        int size = commentLabels.size();
+        for (int i = 0; i < size; i++) {
+            labels += commentLabels.get(i).labelName;
+            if (i < size - 1) {
+                labels += ",";
+            }
+        }
+        return labels;
+    }
 
 }

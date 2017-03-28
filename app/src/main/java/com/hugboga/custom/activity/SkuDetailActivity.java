@@ -277,18 +277,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 if (cityBean == null) {
                     cityBean = findCityById("" + skuItemBean.arrCityId);
                 }
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(SkuDetailActivity.WEB_SKU, skuItemBean);
-//                if (cityBean != null) {
-//                    bundle.putSerializable(SkuDetailActivity.WEB_CITY, cityBean);
-//                }
-//                bundle.putString("source", source);
-
                 SkuOrderActivity.Params params = new SkuOrderActivity.Params();
                 params.skuItemBean = skuItemBean;
                 params.cityBean = cityBean;
-//                Intent intent = new Intent(activity,SkuNewActivity.class);
-//                intent.putExtras(bundle);
                 Intent intent = new Intent(activity, SkuOrderActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());

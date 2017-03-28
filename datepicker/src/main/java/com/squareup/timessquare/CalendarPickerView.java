@@ -510,7 +510,7 @@ public class CalendarPickerView extends ListView {
 
         if (dateListener != null) {
           if (wasSelected) {
-            dateListener.onDateSelected(clickedDate);
+            dateListener.onDateSelected(cell, clickedDate);
           } else {
             dateListener.onDateUnselected(clickedDate);
           }
@@ -969,7 +969,7 @@ public class CalendarPickerView extends ListView {
    * @see #setOnDateSelectedListener(OnDateSelectedListener)
    */
   public interface OnDateSelectedListener {
-    void onDateSelected(Date date);
+    void onDateSelected(MonthCellDescriptor cell, Date date);
 
     void onDateUnselected(Date date);
   }

@@ -309,7 +309,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="18dp"
                     android:layout_toRightOf="@id/guide_detail_plane_iv"
-                    android:text="中文接送机"
+                    android:text="接送机"
                     android:textColor="#111111"
                     android:textSize="16sp" />
 

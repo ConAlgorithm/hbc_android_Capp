@@ -87,6 +87,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     ImageView headerRightIV;
     @Bind(R.id.city_home_filter_layout)
     CityFilterLayout cityFilterLayout;
+    @Bind(R.id.view_bottom)
+    View view_bottom;
 
     private CityHomeHeader cityHomeHeader;
     private CityHomeFooter cityHomeFooter;
@@ -290,6 +292,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         initView();
         if(cityFilterLayout!=null){
             cityFilterLayout.resetDatas();
+
         }
     }
 
@@ -328,9 +331,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             titlebar.setVisibility(View.GONE);
             titlebar.setBackgroundColor(0x00000000);
             fgTitle.setTextColor(0x00000000);
+            view_bottom.setBackgroundColor(0x00000000);
         } else {
-            titlebar.setBackgroundColor(0xFF111111);
-            fgTitle.setTextColor(0xFFFFFFFF);
+            titlebar.setBackgroundColor(0xFFFFFFFF);
+            fgTitle.setTextColor(0xFF111111);
+            view_bottom.setBackgroundColor(0xFFbfc2c5);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             swipeRefreshLayout.setLayoutParams(params);
             params.addRule(RelativeLayout.BELOW, R.id.cityHome_list_titlebar);
@@ -363,8 +368,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             layoutParam.setMargins(UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2));
         }
         headerRightIV.setVisibility(View.VISIBLE);
-        headerRightIV.setBackgroundResource(R.drawable.black_circle);
-        headerRightIV.setImageResource(R.mipmap.search_box_white);
+        //headerRightIV.setBackgroundResource(R.drawable.black_circle);
+        headerRightIV.setImageResource(R.mipmap.topbar_search_black);
         headerRightIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -438,11 +443,13 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                         } else {
                             alpha = Math.min(1, scrollY / showRegionHight);
                         }
-                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
-                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        titlebar.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFFFFFFF));
+                        fgTitle.setTextColor(UIUtils.getColorWithAlpha(alpha, 0xFF111111));
+                        view_bottom.setBackgroundColor(UIUtils.getColorWithAlpha(alpha, 0xFFbfc2c5));
                     } else {
-                        titlebar.setBackgroundColor(0xFF111111);
-                        fgTitle.setTextColor(0xFFFFFFFF);
+                        titlebar.setBackgroundColor(0xFFFFFFFF);
+                        fgTitle.setTextColor(0xFF111111);
+                        view_bottom.setBackgroundColor(0xFFbfc2c5);
                     }
                 }
                 isShowCityFilter();
@@ -530,8 +537,8 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             GoodsSec goodsSec = (GoodsSec) itemData;
             if (goodsSec.goodsClass == -1) {//超省心（固定线路）
                 if (cityBean != null) {
-                    Intent intent = new Intent(CityHomeListActivity.this, OrderSelectCityActivity.class);
-                    intent.putExtra("cityBean", cityBean);
+                    Intent intent = new Intent(CityHomeListActivity.this, CharterFirstStepActivity.class);
+                    intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
                     intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     startActivity(intent);
                 } else {
@@ -660,8 +667,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 if (isCity) {
                     if(cityHomeBean==null || cityHomeBean.cityService==null){
                         titlebar.setVisibility(View.VISIBLE);
-                        titlebar.setBackgroundColor(0xFF111111);
-                        fgTitle.setTextColor(0xFFFFFFFF);
+                        titlebar.setBackgroundColor(0xFFFFFFFF);
+                        fgTitle.setTextColor(0xFF111111);
+                        view_bottom.setBackgroundColor(0xFFbfc2c5);
                         headerRightIV.setVisibility(View.GONE);
                         emptyView.showEmptyView(true);
                         return;

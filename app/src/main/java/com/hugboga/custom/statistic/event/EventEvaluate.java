@@ -28,6 +28,7 @@ public class EventEvaluate extends EventBase{
                 result = StatisticConstant.CLICKMARK_S;
                 break;
             case 3:
+            case 888:
                 result = StatisticConstant.CLICKMARK_R;
                 break;
             case 4:

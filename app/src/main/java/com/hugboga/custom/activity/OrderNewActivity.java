@@ -250,7 +250,7 @@ public class OrderNewActivity extends BaseActivity {
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         headerRightImage.setLayoutParams(headerRightImageParams);
         headerRightImage.setPadding(0,0,0,0);
-        headerRightImage.setImageResource(R.mipmap.icon_service);
+        headerRightImage.setImageResource(R.mipmap.topbar_cs);
         headerRightImage.setVisibility(View.VISIBLE);
         headerRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1012,7 +1012,7 @@ public class OrderNewActivity extends BaseActivity {
                 startCityId4MostFit,
                 areaCode4MostFit,
                 (null == dayNums ? "0" : dayNums) + "",
-                distance, inNum + "", outNum + "", (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
+                distance, (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
         HttpRequestUtils.request(activity, requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {

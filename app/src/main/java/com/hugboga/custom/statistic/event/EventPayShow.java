@@ -33,6 +33,7 @@ public class EventPayShow extends EventBase{
                 result = StatisticConstant.LAUNCH_PAYS;
                 break;
             case 3:
+            case 888:
                 result = StatisticConstant.LAUNCH_PAYR;
                 break;
             case 4:
@@ -70,10 +71,9 @@ public class EventPayShow extends EventBase{
                 map.put("assist", EventUtil.booleanTransform(eventPayBean.isCheckin));//协助办理登记 是、否
                 break;
             case 3:
-                if (!TextUtils.isEmpty(eventUtil.sourceDetail)) {
-                    map.put("source_detail", eventUtil.sourceDetail);//触发来源-第一步 无、首页、搜索、城市页
-                }
-                map.put("selectG", EventUtil.booleanTransform(!TextUtils.isEmpty(eventPayBean.guideCollectId)));//选择已收藏司导 是、否
+            case 888:
+                map.put("selectG", EventUtil.booleanTransform(eventPayBean.isSelectedGuide));//选择已收藏司导 是、否
+                map.put("days", eventPayBean.days);
                 break;
         }
         return map;

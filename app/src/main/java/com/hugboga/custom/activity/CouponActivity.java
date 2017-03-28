@@ -276,7 +276,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         LayoutInflater inflater = LayoutInflater.from(this);
         final View popView = inflater.inflate(R.layout.coupon_info_layout, null);
         ImageView leftBtn = (ImageView) popView.findViewById(R.id.header_left_btn);
-        leftBtn.setImageResource(R.mipmap.closed_btn);
+        leftBtn.setImageResource(R.mipmap.top_close);
         TextView header_title = (TextView) popView.findViewById(R.id.header_title);
         header_title.setText("我的优惠券");
         final PopupWindow pw = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

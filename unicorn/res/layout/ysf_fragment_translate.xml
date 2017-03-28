@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:text="@string/ysf_audio_under_translating"
             android:textColor="#222222"
-            android:textSize="20sp"
+            android:textSize="@dimen/ysf_text_size_20"
             android:visibility="visible" />
     </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -17,7 +19,9 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.squareup.timessquare.CalendarPickerView;
+import com.squareup.timessquare.MonthCellDescriptor;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,19 +33,29 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 
-public class DatePickerActivity extends BaseActivity {
+public class DatePickerActivity extends Activity {
 
-    @Bind(R.id.header_left_btn)
-    ImageView headerLeftBtn;
-    @Bind(R.id.header_title)
+    public static final int PARAM_TYPE_SINGLE = 1;
+    public static final int PARAM_TYPE_RANGE = 2;
+
+    public static final String PARAM_TYPE = "type";
+    public static final String PARAM_BEAN = "chooseDateBean";
+    public static final String PARAM_TITLE = "title";
+
+    @Bind(R.id.date_picker_title_tv)
     TextView headerTitle;
     @Bind(R.id.week_layout)
     LinearLayout weekLayout;
+    @Bind(R.id.date_picker_root_layout)
+    LinearLayout rootLayout;
     @Bind(R.id.show_tips)
     TextView showTips;
+
+
     private CalendarPickerView calendar;
     int calender_type = 1;//1,日期单选,2 日期多选 3,单选没底部文字
     CalendarPickerView.SelectionMode model = CalendarPickerView.SelectionMode.SINGLE;
@@ -62,6 +76,11 @@ public class DatePickerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_picker_layout);
         ButterKnife.bind(this);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int)(UIUtils.getScreenHeight() * 0.7f));
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        rootLayout.setLayoutParams(params);
+
         calender_type = this.getIntent().getIntExtra("type", 1);
         startDate = this.getIntent().getStringExtra("startDate");
         initViews();
@@ -89,41 +108,41 @@ public class DatePickerActivity extends BaseActivity {
                 dates.add(mChooseDateBean.endDate);
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDates(dates);
             }else if(calender_type == 3 && null != mChooseDateBean.halfDate){
+                showTips.setText(R.string.show_tips_half);
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
                 Date minDate = mChooseDateBean.minDate != null ? mChooseDateBean.minDate : lastYear.getTime();
                 mChooseDateBean.maxDate = nextYear.getTime() != null ? new Date(nextYear.getTime().getTime() - 24 * 3600000) : null;
                 calendar.init(minDate, nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
-                showTips.setText(R.string.show_tips_half);
             } else {
                 if (calender_type == 1) {
                     model = CalendarPickerView.SelectionMode.SINGLE;
                     showTips.setText(R.string.show_tips_half);
                 } else {
                     model = CalendarPickerView.SelectionMode.RANGE;
-                    showTips.setText(R.string.show_tips_start);
+                    showTips.setText(R.string.show_tips_half);
                 }
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
             }
         } else {
             if (calender_type == 1) {
                 model = CalendarPickerView.SelectionMode.SINGLE;
-                showTips.setText(R.string.show_tips_half);
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
+                showTips.setText(R.string.show_tips_half);
             } else if(calender_type == 2){
                 model = CalendarPickerView.SelectionMode.RANGE;
-                showTips.setText(R.string.show_tips_start);
                 calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model);
+                showTips.setText(R.string.show_tips_start);
             } else if(calender_type == 3){
                 Date minDate = lastYear.getTime();
                 model = CalendarPickerView.SelectionMode.SINGLE_NO_TEXT;
-                showTips.setText(R.string.show_tips_half);
                 calendar.init(minDate, nextYear.getTime()).inMode(model);
+                showTips.setText(R.string.show_tips_half);
             }
         }
 
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
-            public void onDateSelected(Date date) {
+            public void onDateSelected(MonthCellDescriptor cell, Date date) {
                 ChooseDateBean chooseDateBean = new ChooseDateBean();
                 if (calender_type == 1 || calender_type == 3) {
                     showTips.setVisibility(GONE);
@@ -152,7 +171,6 @@ public class DatePickerActivity extends BaseActivity {
                             AnimationUtils.showAnimation(showTips,200,null);
                         } else {
                             showTips.setVisibility(GONE);
-
                             List<Date> dates = calendar.getSelectedDates();
                             chooseDateBean.type = calender_type;
                             chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(dates.get(0));
@@ -210,19 +228,13 @@ public class DatePickerActivity extends BaseActivity {
 
     String title = null;
     private void initViews() {
-        title = getIntent().getStringExtra("title");
+        title = getIntent().getStringExtra(PARAM_TITLE);
         if(null == title) {
             headerTitle.setText(getString(R.string.select_day));
         }else{
             headerTitle.setText(title);
         }
 
-        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
 
@@ -231,5 +243,9 @@ public class DatePickerActivity extends BaseActivity {
         super.onConfigurationChanged(newConfig);
     }
 
+    @OnClick(R.id.date_picker_out_side_view)
+    public void onOutSideClickListener(View view) {
+        finish();
+    }
 
 }

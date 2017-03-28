@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -144,6 +145,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (bottomView != null) {
+            bottomView.dismissPopupWindow();
+        }
     }
 
     @Override
@@ -174,6 +178,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
         requestStartDate();
+
+        travelerInfoView.setActivity(this);
     }
 
     public void initTitleBar() {
@@ -182,19 +188,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideSoftInput();
-                AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
-                }, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                showSaveDialog();
             }
         });
         fgRightTV.setVisibility(View.GONE);
@@ -205,12 +199,36 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
         fgRightBtn.setPadding(0,0,0,0);
-        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setImageResource(R.mipmap.topbar_cs);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
+            }
+        });
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            showSaveDialog();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private void showSaveDialog() {
+        hideSoftInput();
+        AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
     }
@@ -270,12 +288,16 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             if (contact == null || contact.length < 2) {
                 return;
             }
-            travelerInfoView.setTravelerName(contact[0]);
-            String phone = contact[1];
-            if (!TextUtils.isEmpty(phone)) {
-                phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+            if (!TextUtils.isEmpty(contact[0])) {
+                travelerInfoView.setTravelerName(contact[0]);
             }
-            travelerInfoView.setTravelerPhone(phone);
+            if (!TextUtils.isEmpty(contact[1])){
+                String phone = contact[1];
+                if (!TextUtils.isEmpty(phone)) {
+                    phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                }
+                travelerInfoView.setTravelerPhone(phone);
+            }
         }
     }
 
@@ -570,8 +592,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , params.cityBean.areaCode + ""
                 , params.skuItemBean.daysCount + ""
                 , carListBean.distance + ""
-                , "0"
-                , params.skuItemBean.daysCount + ""
                 , params.skuItemBean.daysCount + ""
                 , orderType + ""
                 , carBean.carId + "");

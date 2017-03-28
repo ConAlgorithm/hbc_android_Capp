@@ -1,76 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    >
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="36dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="13dp"
-        android:layout_marginRight="13dp">
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="5dp"
+        android:minHeight="36dp">
+
         <TextView
             android:id="@+id/travel_item_typestr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
             android:text="中文送机"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="16sp" />
 
         <View
             android:id="@+id/order_list_vertical_line"
-            android:layout_toRightOf="@id/travel_item_typestr"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="11dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="11dp"
+            android:layout_toRightOf="@id/travel_item_typestr"
             android:background="#333333" />
 
 
         <TextView
             android:id="@+id/travel_item_status"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
+            android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:text="等待支付"
-            android:textSize="13sp"
-            android:textColor="#fce274" />
+            android:textColor="#fce274"
+            android:textSize="13sp" />
+
         <TextView
             android:id="@+id/travel_item_cartype"
-            android:layout_toRightOf="@id/order_list_vertical_line"
-            android:layout_toLeftOf="@id/travel_item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/travel_item_status"
+            android:layout_toRightOf="@id/order_list_vertical_line"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="经济5坐"
-            android:textSize="16sp"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/travel_item_citys"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/travel_item_status"
-            android:layout_marginRight="25dp"
-            android:lineSpacingExtra="3dp"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
+            android:layout_marginRight="25dp"
+            android:layout_toLeftOf="@id/travel_item_status"
+            android:lineSpacingExtra="3dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
             android:text="中文送机"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="16sp" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="22dp"
@@ -78,107 +82,110 @@
         android:layout_marginRight="13dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
         <ImageView
-            android:layout_marginTop="0.5dp"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@mipmap/order_time"
-            />
+            android:layout_marginTop="0.5dp"
+            android:background="@mipmap/order_time" />
+
         <TextView
             android:id="@+id/order_item_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:text="经济5坐"
-            android:textSize="14sp"
             android:textColor="#333333"
-            />
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/order_item_time_local_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:ellipsize="end"
             android:layout_marginLeft="3dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="(台北时间)"
-            android:textSize="13sp"
             android:textColor="#999999"
-            />
+            android:textSize="13sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/order_item_start_address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="22dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
-        android:paddingTop="5dp"
+        android:minHeight="22dp"
+        android:orientation="horizontal"
         android:paddingBottom="5dp"
-        android:orientation="horizontal">
+        android:paddingTop="5dp">
+
         <ImageView
             android:id="@+id/order_item_start_address_iv"
-            android:layout_marginTop="1.5dp"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="#343434"
-            />
+            android:layout_marginTop="1.5dp"
+            android:background="#343434" />
+
         <TextView
             android:id="@+id/order_item_start_address_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:lineSpacingExtra="2dp"
-            android:layout_marginLeft="6dp"
             android:maxLines="2"
-            android:ellipsize="end"
             android:text="经济5坐"
-            android:textSize="14sp"
             android:textColor="#333333"
-            />
+            android:textSize="14sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/order_item_end_address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-3dp"
-        android:minHeight="22dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
-        android:paddingTop="5dp"
+        android:layout_marginTop="-3dp"
+        android:minHeight="22dp"
+        android:orientation="horizontal"
         android:paddingBottom="5dp"
-        android:orientation="horizontal">
+        android:paddingTop="5dp">
+
         <ImageView
             android:id="@+id/order_item_end_address_iv"
-            android:layout_marginTop="1.5dp"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="#343434"
-            />
+            android:layout_marginTop="1.5dp"
+            android:background="#343434" />
+
         <TextView
             android:id="@+id/order_item_end_address_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:lineSpacingExtra="2dp"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:text="经济5坐"
-            android:maxLines="2"
+            android:layout_marginLeft="6dp"
             android:ellipsize="end"
-            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="2"
+            android:text="经济5坐"
             android:textColor="#333333"
-            />
+            android:textSize="14sp" />
     </LinearLayout>
+
     <View
         android:id="@+id/order_list_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:background="@color/default_dividing_line"
-        />
+        android:layout_marginTop="10dp"
+        android:background="@color/default_dividing_line" />
+
     <RelativeLayout
         android:id="@+id/travel_item_status_layout"
         android:layout_width="match_parent"
@@ -196,23 +203,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <com.hugboga.custom.widget.CircleImageView
                     android:id="@+id/travel_item_head_img"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@mipmap/icon_avatar_guide"/>
+                    android:src="@mipmap/icon_avatar_guide" />
+
                 <TextView
                     android:id="@+id/travel_item_head_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxWidth="100dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/basic_margin_small"
+                    android:ellipsize="end"
+                    android:maxWidth="100dp"
+                    android:singleLine="true"
                     android:textColor="#787878"
                     android:textSize="14sp" />
 
@@ -221,8 +228,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/list_btn_chat"
-                    android:layout_marginLeft="6dp" />
+                    android:layout_marginLeft="6dp"
+                    android:src="@mipmap/list_btn_chat" />
 
                 <TextView
                     android:id="@+id/travel_item_btn_chat_num"
@@ -242,24 +249,71 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="13sp"
-                android:textColor="@color/travel_list_pay_color" />
+                android:textColor="@color/travel_list_pay_color"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/travel_item_head_layout_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="#ffffff"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <com.hugboga.custom.widget.CircleImageView
+                android:id="@+id/travel_item_head_img1"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@mipmap/icon_avatar_guide" />
+
+            <com.hugboga.custom.widget.CircleImageView
+                android:id="@+id/travel_item_head_img2"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/icon_avatar_guide" />
+
+            <FrameLayout
+                android:id="@+id/travel_item_head_layout_1"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.hugboga.custom.widget.CircleImageView
+                    android:id="@+id/travel_item_head_img3"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@mipmap/icon_avatar_guide" />
+
+                <TextView
+                    android:id="@+id/travel_item_head_more_tv"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_oval_shade_black"
+                    android:text="more"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/br_layout"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/travel_item_btn_br"
@@ -267,7 +321,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_round_travel"
                     android:text="添加投保人"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:id="@+id/travel_item_btn_br_tips"
@@ -299,9 +353,9 @@
 
         </LinearLayout>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="#eeeeee"
-        />
+        android:background="#eeeeee" />
 </LinearLayout>

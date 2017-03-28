@@ -12,6 +12,8 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -23,7 +25,7 @@ public class ActionPageActivityList extends ActionPageBase {
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
         if (ActionUtils.isLogin(context)) {
-            MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
+            MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST, (Map)new HashMap<>().put("source", "个人中心-活动"));
             Intent intent = new Intent(context, WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL,  UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(context) + "&t=" + new Random().nextInt(100000));
             intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);

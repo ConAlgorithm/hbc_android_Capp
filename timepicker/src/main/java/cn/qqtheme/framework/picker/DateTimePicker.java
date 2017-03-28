@@ -46,6 +46,10 @@ public class DateTimePicker extends WheelPicker {
      * 12小时
      */
     public static final int HOUR = 4;
+    /**
+     * 只显示年月日
+     */
+    public static final int ONLY_YEAR_MONTH_DAY = 5;
 
     private ArrayList<String> years = new ArrayList<String>();
     private ArrayList<String> months = new ArrayList<String>();
@@ -58,8 +62,7 @@ public class DateTimePicker extends WheelPicker {
     private int mode;
 
 
-    @IntDef(flag = false, value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY, HOUR_OF_DAY, HOUR})
-    @Retention(RetentionPolicy.SOURCE)
+    @IntDef(flag = false, value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY, HOUR_OF_DAY, HOUR, ONLY_YEAR_MONTH_DAY})    @Retention(RetentionPolicy.SOURCE)
     public @interface Mode {
     }
 
@@ -172,6 +175,13 @@ public class DateTimePicker extends WheelPicker {
         } else if (mode == MONTH_DAY) {
             yearView.setVisibility(View.GONE);
             yearTextView.setVisibility(View.GONE);
+        }else if (mode == ONLY_YEAR_MONTH_DAY){
+            dayView.setVisibility(View.GONE);
+            dayTextView.setVisibility(View.GONE);
+            hourView.setVisibility(View.GONE);
+            hourTextView.setVisibility(View.GONE);
+            minuteView.setVisibility(View.GONE);
+            minuteTextView.setVisibility(View.GONE);
         }
         if (mode != MONTH_DAY) {
             if (!TextUtils.isEmpty(yearLabel)) {

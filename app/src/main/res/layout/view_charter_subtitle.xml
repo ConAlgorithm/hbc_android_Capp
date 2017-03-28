@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <TextView
+        android:id="@+id/charter_subtitle_day_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:gravity="bottom"
+        android:text="Day1:东京"
+        android:textColor="@color/default_black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/charter_subtitle_arrow_iv"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="1dp"
+        android:layout_toRightOf="@id/charter_subtitle_day_tv"
+        android:layout_alignBottom="@id/charter_subtitle_day_tv"
+        android:background="@mipmap/personal_center_right" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginLeft="1dp"
+        android:layout_toRightOf="@id/charter_subtitle_arrow_iv"
+        android:gravity="bottom"
+        android:paddingBottom="1.5dp"
+        android:text="（今日出发城市）"
+        android:textColor="#a8a8a8"
+        android:textSize="10sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@id/charter_subtitle_day_tv"
+        android:gravity="center_vertical"
+        android:text="*从以下玩法中选择一个"
+        android:textColor="#f9b906"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/charter_subtitle_pickup_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/charter_subtitle_day_tv"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/charter_subtitle_pickup_icon_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/selector_charter_pickup" />
+
+        <TextView
+            android:id="@+id/charter_subtitle_pickup_left_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="从机场出发"
+            android:textColor="#737373"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/charter_subtitle_pickup_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请添加航班号"
+            android:textColor="#19b9da"
+            android:textSize="12sp" />
+        <ImageView
+            android:id="@+id/charter_subtitle_pickup_arrow_iv"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@mipmap/personal_center_right" />
+    </LinearLayout>
+</RelativeLayout>

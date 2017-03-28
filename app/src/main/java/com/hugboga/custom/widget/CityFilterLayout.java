@@ -167,7 +167,7 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
         onlyShowTab();
         int curr = cityFilterViewPager.getCurrentItem();
         if(curr==index){
-            updateSelectStatus(index);
+            updateSelectStatus(index,true);
         }else{
             cityFilterViewPager.setCurrentItem(index);
         }
@@ -184,13 +184,18 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
         return cityFilterViewPager.isShown();
     }
 
-    private void updateSelectStatus(int index){
+    private void updateSelectStatus(int index,boolean open){
         for(int i=0;i<tabs.size();i++){
             ViewGroup viewGroup = tabs.get(i);
             if(i==index){
                 TextView textView =  (TextView) viewGroup.getChildAt(0);
-                textView.setCompoundDrawables(null,null,textUpArraw,null);
-                viewGroup.getChildAt(1).setVisibility(View.VISIBLE);
+                if(open){
+                    textView.setCompoundDrawables(null,null,textUpArraw,null);
+                    viewGroup.getChildAt(1).setVisibility(View.VISIBLE);
+                }else{
+                    textView.setCompoundDrawables(null,null,textDownArraw,null);
+                    viewGroup.getChildAt(1).setVisibility(View.GONE);
+                }
             }else{
                 TextView textView =  (TextView) viewGroup.getChildAt(0);
                 textView.setCompoundDrawables(null,null,textDownArraw,null);
@@ -218,9 +223,9 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
     }
 
     public void setGoodsThemesList(List<CityHomeBean.GoodsThemes> goodsThemesList) {
-        if(this.goodsThemesList!=null && this.goodsThemesList.size()>1){
-            return;
-        }
+//        if(this.goodsThemesList!=null && this.goodsThemesList.size()>1){
+//            return;
+//        }
         this.goodsThemesList = goodsThemesList;
         if(pagerAdapter!=null){
             pagerAdapter.updateThemesValue(goodsThemesList);
@@ -231,12 +236,27 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
     public void onClick(View v) {
          switch (v.getId())  {
              case R.id.cityHome_unlimited_type_lay:
+                 if(cityFilterViewPager.getCurrentItem()==0 && cityFilterViewPager.isShown()){
+                     cityFilterViewPager.setVisibility(View.GONE);
+                     updateSelectStatus(0,false);
+                     return;
+                 }
                  showFilterView(0);
                  break;
              case R.id.cityHome_unlimited_days_lay:
+                 if(cityFilterViewPager.getCurrentItem()==1 && cityFilterViewPager.isShown()){
+                     cityFilterViewPager.setVisibility(View.GONE);
+                     updateSelectStatus(1,false);
+                     return;
+                 }
                  showFilterView(1);
                  break;
              case R.id.cityHome_unlimited_theme_lay:
+                 if(cityFilterViewPager.getCurrentItem()==2 && cityFilterViewPager.isShown()){
+                     cityFilterViewPager.setVisibility(View.GONE);
+                     updateSelectStatus(2,false);
+                     return;
+                 }
                  showFilterView(2);
                  break;
              default:

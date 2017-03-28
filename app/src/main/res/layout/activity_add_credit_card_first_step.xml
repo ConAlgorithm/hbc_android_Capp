@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_header"/>
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/allbg_white">
+       <com.hugboga.custom.utils.BankCardNumEditText
+           android:id="@+id/credit_card_number"
+           android:hint="请输入信用卡卡号"
+           android:textSize="@dimen/text_size_large"
+           android:gravity="center"
+           android:background="@null"
+           android:textColorHint="#CCCCCC"
+           android:padding="15dp"
+           android:maxLength="23"
+           android:inputType="number"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content" />
+       <ImageView
+           android:id="@+id/credit_card_clear"
+           android:src="@mipmap/search_icon_clear"
+           android:layout_centerVertical="true"
+           android:padding="18dp"
+           android:layout_alignParentRight="true"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+   </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/next_step"
+            android:text="下一步"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/shape_rounded_gray_btn"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:textSize="@dimen/text_size_largex"
+            android:textColor="@color/allbg_gray"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next_step"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text="@string/choose_payment_add_credit_card_tip"
+            android:textSize="13sp"
+            android:textColor="#9b9a9a"/>
+    </RelativeLayout>
+</LinearLayout>

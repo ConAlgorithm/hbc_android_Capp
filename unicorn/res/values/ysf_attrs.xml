@@ -5,6 +5,12 @@
         <attr name="ysf_siv_border_color" format="color" />
         <attr name="ysf_siv_border_overlay" format="boolean" />
         <attr name="ysf_siv_fill_color" format="color" />
-        <attr name="ysf_siv_shape" format="integer"/>
+        <attr name="ysf_siv_shape" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="FileNameTextView">
+        <attr name="ysf_fntText" format="string" />
+        <attr name="ysf_fntTextColor" format="color" />
+        <attr name="ysf_fntTextSize" format="dimension" />
     </declare-styleable>
 </resources>

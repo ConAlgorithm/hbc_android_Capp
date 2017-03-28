@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener {
       int r = ((c + 1) * totalWidth) / 7;
       int cellSize = r - l;
       int cellWidthSpec = makeMeasureSpec(cellSize, EXACTLY);
-      int cellHeightSpec = isHeaderRow ? makeMeasureSpec(cellSize, AT_MOST) : cellWidthSpec;
+      int cellHeightSpec = isHeaderRow ? makeMeasureSpec(cellSize, AT_MOST) : cellWidthSpec - dip2px(5);
       child.measure(cellWidthSpec, cellHeightSpec);
       // The row height is the height of the tallest cell.
       if (child.getMeasuredHeight() > rowHeight) {
@@ -123,5 +124,10 @@ public class CalendarRowView extends ViewGroup implements View.OnClickListener {
         ((TextView) getChildAt(i)).setTypeface(typeface);
       }
     }
+  }
+
+  public int dip2px(float dpValue) {
+    return (int)(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue,
+            getContext().getResources().getDisplayMetrics()) + 0.5f);
   }
 }

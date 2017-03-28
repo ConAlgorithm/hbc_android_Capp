@@ -41,7 +41,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         findViewById(R.id.header_detail_back_btn).setOnClickListener(this);
 
         serviceIV = (ImageView)findViewById(R.id.header_detail_right_2_btn);
-        serviceIV.setImageResource(R.mipmap.icon_service);
+        serviceIV.setImageResource(R.mipmap.topbar_cs);
         serviceIV.setPadding(0, 0, 0, 0);
         serviceIV.setOnClickListener(this);
         RelativeLayout.LayoutParams serviceIVParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
@@ -50,7 +50,8 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         serviceIV.setLayoutParams(serviceIVParams);
 
         otherIV = (ImageView)findViewById(R.id.header_detail_right_1_btn);
-        otherIV.setImageResource(R.mipmap.top_more);
+        otherIV.setPadding(UIUtils.dip2px(10), UIUtils.dip2px(10), UIUtils.dip2px(10), UIUtils.dip2px(10));
+        otherIV.setImageResource(R.mipmap.topbar_more);
         otherIV.setOnClickListener(this);
 
         //title类型：中文接机、中文送机、包车游、单次接送、路线包车游
@@ -61,6 +62,7 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
         titleTextMap.put(4, R.string.order_detail_title_single);
         titleTextMap.put(5, R.string.order_detail_title_route);
         titleTextMap.put(6, R.string.order_detail_title_route);
+        titleTextMap.put(888, R.string.order_detail_title_chartered);
     }
 
     @Override
@@ -77,9 +79,9 @@ public class OrderDetailTitleBar extends LinearLayout implements HbcViewBehavior
     public void setTitle(int orderGoodsType) {
         //设置title
         int titleTextId = R.string.order_detail_title_default;
-        if (titleTextMap.containsKey(orderGoodsType)) {
-            titleTextId = titleTextMap.get(orderGoodsType);
-        }
+//        if (titleTextMap.containsKey(orderGoodsType)) {
+//            titleTextId = titleTextMap.get(orderGoodsType);
+//        }
         titleTV.setText(getString(titleTextId));
     }
 

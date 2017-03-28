@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#b0000000"
+    android:gravity="center"
+    android:orientation="vertical" >
+        <LinearLayout
+        android:id="@+id/payeco_ckb_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/payeco_ckb_"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/payeco_inputMsg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/payeco_qunar_bg"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/payeco_ckb_closeBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dip"
+                    android:background="@null"
+                    android:src="@drawable/payeco_qunar_ckb_close" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dip"
+                    android:layout_marginRight="40dip"
+                    android:gravity="center"
+                    android:text="免密支付"
+                    android:textColor="@color/payeco_textColorBlack"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#dedede" />
+
+            <LinearLayout
+                android:id="@+id/payeco_ckb_tipMsg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:background="#fff"
+                        android:id="@+id/payeco_ckb_hintMsg"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:maxLines="2"
+                        android:text="**" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#e6e6e6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/payeco_ckb_captLine"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/payeco_ckb_captTxt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="短信验证码已发送至尾号(XXXX)手机上"
+                    android:textColor="#5A6164"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/payeco_edit_captchas"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/payeco_ckb_captchas"
+                        android:layout_width="fill_parent"
+                        android:layout_height="38dip"
+                        android:layout_weight="0.3"
+                        android:background="@null"
+                        android:hint="请输入验证码"
+                        android:paddingLeft="5dip"
+                        android:textColor="#5A6164"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#e6e6e6" />
+
+                    <Button
+                        android:id="@+id/payeco_ckn_getCapt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="38dip"
+                        android:layout_weight="0.7"
+                        android:background="@null"
+                        android:text="重新发送"
+                        android:textColor="#02a3fe"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/payeco_ckb_firstLine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/payeco_ckb_bankMsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dip"
+                        android:layout_marginLeft="18dip"
+                        android:layout_marginRight="18dip"
+                        android:layout_marginTop="10dip"
+                        android:text="工商银行信用卡(2236)"
+                        android:textColor="#0e0e0e"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/payeco_ckb_fourLine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/payeco_ckb_payBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/payeco_quick_paybtn_selector"
+                    android:text="确认支付"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/payeco_quick_qxkf"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:text="你已开通小额免密支付，无需输入取款密码。"
+                        android:textColor="#aeafaf"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/payeco_ckb_resetQuick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:text="取消"
+                        android:textColor="#02a3fe"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/payeco_diglayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="0.3"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/payeco_ckb_digtBtnLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.15"
+                android:background="@drawable/payeco_qunar_keyboard_nor"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/payeco_unionpay_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="银联认证安全保障"
+                    android:textColor="#333333" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0px"
+                android:layout_weight="0.85"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/payeco_ckb_display_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_1"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_2"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="2" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_3"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/payeco_ckb_display_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_4"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="4" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_5"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="5" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_6"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="6" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/payeco_ckb_display_3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_7"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="7" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_8"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="8" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_9"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="9" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/payeco_ckb_display_4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_non"
+                        android:layout_width="0px"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/payeco_qunar_keyboard_nor"
+                        android:text="" />
+
+                    <Button
+                        android:id="@+id/payeco_ckb_digit_0"
+                        style="@style/payeco_qunar_creditKeyboardDigitButton"
+                        android:layout_weight="1"
+                        android:text="0" />
+
+                    <LinearLayout
+                         android:background="@drawable/payeco_qunar_backstyle" 
+                         android:id="@+id/payeco_ckb_digit_backBtn"
+                         android:layout_width="0px"
+                         android:layout_height="fill_parent"
+                         android:layout_weight="1"
+                         android:gravity="center"
+                         android:clickable="true" >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/payeco_backimg" />
+                      </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
+</LinearLayout>

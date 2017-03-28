@@ -42,25 +42,28 @@
                 android:id="@+id/order_detail_deliver_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginBottom="@dimen/order_margin_vertical"/>
 
             <com.hugboga.custom.widget.OrderDetailItineraryView
                 android:id="@+id/order_detail_itinerary_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_height="wrap_content"/>
 
-            <com.hugboga.custom.widget.OrderDetailAmountView
-                android:id="@+id/order_detail_amount_view"
+            <com.hugboga.custom.widget.OrderDetailTravelGroup
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_height="wrap_content" />
 
             <com.hugboga.custom.widget.OrderDetailInfoView
                 android:id="@+id/order_detail_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="@dimen/order_margin_vertical" />
+
+            <com.hugboga.custom.widget.OrderDetailAmountView
+                android:id="@+id/order_detail_amount_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/order_margin_vertical" />
 
             <include layout="@layout/view_order_detail_explain" />
         </LinearLayout>

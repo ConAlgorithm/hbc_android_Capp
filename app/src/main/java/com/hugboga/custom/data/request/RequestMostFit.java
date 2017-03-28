@@ -29,8 +29,6 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
     String serviceCountryId; // 服务所在国家ID   [必填]
     String totalDays; // 日租天数，[日租必填]
     String distance; // 预估路程公里数 [必填]
-    String serviceLocalDays;// 日租市内天数 [日租必填]
-    String serviceNonlocalDays;// 日租市外天数 [日租必填]
     String expectedCompTime; // 接送机预计完成时间[非日租必填]
     String orderType;
     String carModelId;
@@ -40,8 +38,8 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
                           String priceChannel,String serviceTime,
                           String carTypeId,String carSeatNum,
                           String serviceCityId,String serviceCountryId,
-                          String totalDays,String distance,String serviceLocalDays,
-                          String serviceNonlocalDays,String expectedCompTime,String orderType,String carModelId) {
+                          String totalDays,String distance,
+                          String expectedCompTime,String orderType,String carModelId) {
         super(context);
         this.useOrderPrice = useOrderPrice;
         this.priceChannel = priceChannel;
@@ -53,8 +51,6 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         this.serviceCountryId = serviceCountryId;
         this.totalDays = totalDays;
         this.distance = distance;
-        this.serviceLocalDays = serviceLocalDays;
-        this.serviceNonlocalDays = serviceNonlocalDays;
         this.expectedCompTime = expectedCompTime;
         this.orderType = orderType;
         this.carModelId = carModelId;
@@ -75,8 +71,6 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         map.put("serviceCountryId", serviceCountryId);
         map.put("totalDays", totalDays);
         map.put("distance", distance);
-        map.put("serviceLocalDays", serviceLocalDays);
-        map.put("serviceNonlocalDays", serviceNonlocalDays);
         map.put("expectedCompTime", expectedCompTime);
         map.put("orderType",orderType);
         map.put("carModelId",carModelId);

@@ -2,7 +2,6 @@ package com.hugboga.custom.utils;
 
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
@@ -14,7 +13,7 @@ import android.text.style.ImageSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
-import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.bean.LineGroupItem;
@@ -60,14 +59,16 @@ public class CityUtils {
             e.printStackTrace();
         }
         selector.where("is_passcity_hot", "=", 1);
+
         if (groupId == -1) {
             selector.and("is_daily", "=", 1);
         } else {
             selector.and("group_id", "=", groupId);
         }
-        if ("lastCity".equals(from) && cityId != -1){
+        if (("lastCity".equals(from) || ChooseCityActivity.GROUP_OUTTOWN.equals(from)) && cityId != -1){
             selector.and("city_id", "<>", cityId);
         }
+
         // 修改热门城市排序
         selector.orderBy("passcity_hot_weight", true);
 //        selector.orderBy("hot_weight");

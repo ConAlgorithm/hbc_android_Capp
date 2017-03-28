@@ -1,4 +1,6 @@
 package com.hugboga.custom.data.parser;
+import android.text.TextUtils;
+
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.utils.CommonUtils;
@@ -24,6 +26,9 @@ public class HbcParser extends ImplParser {
     public Object parse(Type resultType, Class<?> resultClass, String result) throws Throwable {
         JSONObject jsonObject = new JSONObject(result);
         Object data = getServerParser().parseObject(jsonObject);
+        if (TextUtils.isEmpty(data.toString())) {
+            return null;
+        }
         if (HbcConfig.IS_DEBUG) {
             try {
                 return JsonUtils.fromJson(data.toString(), type);
@@ -36,7 +41,11 @@ public class HbcParser extends ImplParser {
                 return null;
             }
         } else {
-            return JsonUtils.fromJson(data.toString(), type);
+            try {
+                return JsonUtils.fromJson(data.toString(), type);
+            } catch (Exception e) {
+                return null;
+            }
         }
     }
 

@@ -43,29 +43,13 @@ public class OrderBean implements IBaseBean{
     public String coupPriceInfo;
     public String childSeatStr;// 儿童座椅价格及个数
     public String cancelReason;// 取消订单原因
-
-    /**
-     * 问题字段
-     * */
-    public String userName;    // null
-    public String contactName; // userName 联系人姓名
-
-    public String userRemark; // null
-    public String memo;       // userRemark 用户备注信息
-
-    public String startAddressPoi; // null
-    public String startLocation;   // startAddressPoi 起始位置
-
-
-    public int carId;
     public int special;
-    public String carIntroduction;
-    public List<String> carPictures;
     public int capOfPerson;
+    public int orderIndex;//标识是第几段行程 1开始
 
-
-
-
+    public String userName;                           // 联系人姓名
+    public String userRemark;                         // 用户备注信息
+    public String startAddressPoi;                    // 起始位置
     public String realUserName;                       // 乘车人姓名
     public String realAreaCode;                       // 乘车人区号
     public String realMobile;                         // 乘车人电话
@@ -112,6 +96,7 @@ public class OrderBean implements IBaseBean{
     public String serviceTimeStr;     // 格式化后的当地时间串 开始时间例如： 04月21日（周五）10:05
     public String serviceEndTimeStr;  // 格式化后的服务结束时间，当地时间串 结束时间
 
+    public int carId;
     public Integer carType;              // carTypeId 车辆类型：1-经济型、2-舒适型、3-豪华型、4-奢华型；
     public String carDesc;               // 车辆描述（现代圣达菲,起亚K5,雪佛兰迈锐宝）
     public Integer seatCategory;         // carSeatNum 车座数
@@ -186,6 +171,16 @@ public class OrderBean implements IBaseBean{
 
     public List<OrderContact> contact;
 
+    public SubOrderDetail subOrderDetail;       // 子单信息
+    public Integer orderJourneyCount;           // 子单个数
+    public List<String> subOrderGuideAvartar;   // 子单司导头像
+    public List<JourneyItem> journeyList;       // 行程信息
+    public int deliverCategory;                 // 0普通发单，1组合单主单发单，2组合单拆单发单，3人工拆单，
+
+    public boolean isSeparateOrder() {
+        return deliverCategory == 2 || deliverCategory == 3;
+    }
+
     @Deprecated
     public String getOrderTypeStr(Context context) {
         switch (orderGoodsType) {
@@ -218,6 +213,7 @@ public class OrderBean implements IBaseBean{
                 resID = R.string.custom_send;
                 break;
             case Constants.BUSINESS_TYPE_DAILY://包车
+            case Constants.BUSINESS_TYPE_COMBINATION://组合单
                 resID = R.string.custom_chartered;
                 break;
             case Constants.BUSINESS_TYPE_RENT://单次接送
@@ -316,5 +312,139 @@ public class OrderBean implements IBaseBean{
         } else {
             return orderGuideInfo.guideName;
         }
+    }
+
+    /**
+     *  判断组合单是否有退款
+     * */
+    public boolean isGroupRefund() {
+        if (subOrderDetail == null || subOrderDetail.subOrderList == null) {
+            return false;
+        }
+        final int size = subOrderDetail.subOrderList.size();
+        for (int i = 0; i < size; i++) {
+            OrderBean orderBean = subOrderDetail.subOrderList.get(i);
+            if (orderBean == null) {
+                continue;
+            }
+            OrderPriceInfo orderPriceInfo = orderBean.orderPriceInfo;
+            if (orderPriceInfo == null) {
+                continue;
+            }
+            if (orderPriceInfo.isRefund == 1) {//已经退款
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static class SubOrderDetail implements Serializable{
+        public Integer totalCount;              // 子单总数
+        public List<OrderBean> subOrderList;    // 子单详情
+    }
+
+    public class JourneyItem implements Serializable{
+        public String dateStr;                 // 日期
+        public CTravelDayPickup pickup;        // 接
+        public CTravelDayTransfer transfer;    // 送
+        public CJourneyInfo journey;           // 行
+        public int day;                        // 本地添加，当前天数
+    }
+
+    public class CTravelDayPickup implements Serializable{
+        public String serviceTimeStr;       // 07:00 服务时间
+        public String startAddress;         // 出发地址
+        public String startAddressDetail;   // 出发地址详情
+        public String startAddressPoi;      // 出发的poi
+        public String destAddress;          // 目的地
+        public String destAddressDetail;    // 目的地详情
+        public String destAddressPoi;       // 目的地poi
+        public String flightBrandSign;      // 举牌接机姓名
+        public String flightNo;             // 航班编号
+        public String serviceCityName;      // 服务城市
+    }
+
+    public class CTravelDayTransfer implements Serializable{
+        public String serviceTimeStr;       // 07:00 服务时间
+        public String startAddress;         // 出发地址
+        public String startAddressDetail;   // 出发地址详情
+        public String startAddressPoi;      // 出发的poi
+
+        public String destAddress;          // 目的地
+        public String destAddressDetail;    // 目的地详情
+        public String destAddressPoi;       // 目的地poi
+
+        public String flightNo;             // 航班编号
+        public Integer isCheckin;           // 是否协助登机 1 协助登机 其它不协助登机
+    }
+
+    public class CJourneyInfo implements Serializable{
+        public boolean hasDetailUrl;       // 是否包含行程url
+        public Integer startCityId;        // 开始城市ID
+        public String startCityName;       // 开始城市ID
+        public Integer cityId;             // cityId:201,城市ID
+        public String cityName;            // cityName:"首尔",城市名
+        public Integer type;               // 0:半日、1:市内、2:周边、3:其它城市
+        public String typeName;            // typeName:"市内"
+        public String description;         // description:"",
+        public String stayCityInfo;        // 住宿信息
+        public String remark;              // 人工填写的备注
+
+        public String serviceTimeStr;      // 服务时间 07：00
+        public String startAddress;        // 出发地址
+        public String startAddressDetail;  // 出发地址详情
+        public String startAddressPoi;     // 出发的poi
+
+        public String destAddress;         // 目的地
+        public String destAddressDetail;   // 目的地详情
+        public String destAddressPoi;      // 目的地poi
+
+        public String dateStr;             // 2016-11-11
+        public Integer complexType;        // 1 接机 2 送机
+        public Integer isHalfDaily;        // 是否半日包
+        public Double totalHours;          // 当天总时长
+
+        public ArrayList<Labels> labels;
+
+        public String getLabelKilometre() {
+            if (labels == null || labels.size() <= 0) {
+                return "";
+            }
+            int size = labels.size();
+            for (int i = 0; i < size; i++) {
+                Labels label = labels.get(i);
+                if (label == null) {
+                    continue;
+                }
+                if (label.type == 3 || label.type == 4 || label.type == 5 || label.type == 7) {
+                    return label.kilometre;
+                }
+            }
+            return "";
+        }
+
+        public String getLabelTime() {
+            if (labels == null || labels.size() <= 0) {
+                return "";
+            }
+            int size = labels.size();
+            for (int i = 0; i < size; i++) {
+                Labels label = labels.get(i);
+                if (label == null) {
+                    continue;
+                }
+                if (label.type == 3 || label.type == 4 || label.type == 5 || label.type == 7) {
+                    return label.time;
+                }
+            }
+            return "";
+        }
+    }
+
+    public class Labels implements Serializable{
+        public String name;
+        public String time;
+        public String kilometre;
+        public int type;
     }
 }

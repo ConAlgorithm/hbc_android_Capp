@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    android:background="#111111">
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/header_detail_back_btn"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
         android:padding="@dimen/default_margin_xlarge"
-        android:src="@mipmap/top_back_white" />
+        android:src="@mipmap/top_back_black" />
 
     <ImageView
         android:id="@+id/header_detail_right_1_btn"
@@ -24,8 +24,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="-10dp"
         android:layout_toLeftOf="@id/header_detail_right_1_btn"
-        android:padding="@dimen/default_margin_mlarges"
-        android:src="@mipmap/guide_detail_share" />
+        android:padding="10dp"
+        android:src="@mipmap/topbar_collect_share" />
     <TextView
         android:id="@+id/header_detail_title_tv"
         android:layout_width="wrap_content"
@@ -37,7 +37,13 @@
         android:layout_marginRight="4dp"
         android:singleLine="true"
         android:ellipsize="end"
-        android:textColor="@color/allbg_white"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size_largex" />
 
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_gray_bfc2c5"/>
 </RelativeLayout>

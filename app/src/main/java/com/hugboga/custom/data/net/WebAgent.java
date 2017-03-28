@@ -23,10 +23,10 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
@@ -351,11 +351,11 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                    Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                    Intent intent = new Intent(mActivity,CharterFirstStepActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, EventUtil.getInstance().sourceDetail);
                     if (cityBean != null) {
-                        intent.putExtra("cityBean", cityBean);
+                        intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
                     }
                     mActivity.startActivity(intent);
 //                    mFragment.startFragment(fgOrderSelectCity,bundle);
@@ -508,10 +508,10 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                Intent intent = new Intent(mActivity,CharterFirstStepActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 if (cityBean != null) {
-                    intent.putExtra("cityBean", cityBean);
+                    intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
                 }
                 mActivity.startActivity(intent);
             }
@@ -526,10 +526,10 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity,OrderSelectCityActivity.class);
+                Intent intent = new Intent(mActivity,CharterFirstStepActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 if (cityBean != null) {
-                    intent.putExtra("cityBean", cityBean);
+                    intent.putExtra(Constants.PARAMS_START_CITY_BEAN, cityBean);
                 }
                 mActivity.startActivity(intent);
             }

@@ -20,7 +20,7 @@
                 android:scaleType="centerCrop" />
             <ImageView
                 android:id="@+id/city_home_header_bg_iv_filter"
-                android:background="#7f000000"
+                android:background="#45000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:background="#f5f5f5"
             android:orientation="horizontal"
-            android:padding="@dimen/input_panel_image_margin_top">
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/cityHome_header_play_count"
@@ -85,7 +85,6 @@
                 android:layout_gravity="center_vertical"
                 android:drawableLeft="@mipmap/city_route_icon"
                 android:drawablePadding="12dp"
-
                 android:textColor="#111111"
                 android:textSize="15sp" />
         </LinearLayout>

@@ -4,41 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:gravity="bottom"
-        android:paddingBottom="6dp"
-        android:paddingLeft="17dp"
-        android:paddingRight="17dp"
-        android:text="@string/order_detail_itinerary"
-        android:textColor="#333333"
-        android:textSize="16sp" />
+    android:orientation="vertical"
+    android:paddingTop="8dp">
 
     <RelativeLayout
         android:id="@+id/order_itinerary_route_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="7dp"
-        android:paddingRight="17dp">
+        android:paddingBottom="3dp"
+        android:paddingRight="@dimen/order_padding_left"
+        android:paddingTop="8dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/order_itinerary_route_iv"
             android:layout_width="110dp"
             android:layout_height="90dp"
             android:layout_marginLeft="17dp"
-            android:background="@drawable/default_img_bg" />
+            android:background="@mipmap/home_default_route_free_item" />
 
         <ImageView
             android:id="@+id/order_itinerary_route_tag_iv"
-            android:layout_width="32dp"
+            android:layout_width="26dp"
             android:layout_height="13dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="6dp"
-            android:background="@mipmap/order_sku_tag_blue" />
+            android:background="@mipmap/tag_sharecar" />
 
         <TextView
             android:id="@+id/order_itinerary_route_tv"
@@ -49,15 +40,54 @@
             android:layout_toRightOf="@id/order_itinerary_route_iv"
             android:lineSpacingExtra="2dp"
             android:minHeight="85dp"
-            android:textColor="#333333"
+            android:textColor="@color/default_black"
             android:textSize="15sp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/order_itinerary_route_tv"
+            android:layout_height="2dp"
+            android:layout_below="@id/order_itinerary_route_iv"
+            android:layout_marginLeft="17dp"
             android:layout_marginTop="15dp"
-            android:background="@color/default_dividing_line" />
+            android:background="@drawable/shape_order_no_dash"
+            android:layerType="software" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/order_itinerary_charter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:paddingLeft="@dimen/order_padding_left"
+        android:paddingRight="@dimen/order_padding_left">
+
+        <TextView
+            android:id="@+id/order_itinerary_charter_city_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="开始 - 城市"
+            android:textColor="@color/default_black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/order_itinerary_charter_arrow_iv"
+            android:layout_width="6dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/ente_icon" />
+
+        <TextView
+            android:id="@+id/order_itinerary_charter_travel_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@id/order_itinerary_charter_arrow_iv"
+            android:gravity="center_vertical"
+            android:text="查看行程单"
+            android:textColor="#b0b0b0"
+            android:textSize="11sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -65,24 +95,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="17dp"
-        android:paddingRight="17dp"
-        android:paddingTop="3dp" />
+        android:paddingBottom="8dp"
+        android:paddingLeft="@dimen/order_padding_left"
+        android:paddingRight="@dimen/order_padding_left" />
 
-    <View
+    <!--<com.hugboga.custom.widget.OrderDetailAllTravelView-->
+    <!--android:id="@+id/order_itinerary_item_travel_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
+
+    <com.hugboga.custom.widget.OrderDetailTravelView
+        android:id="@+id/order_itinerary_item_travel_view"
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/default_dividing_line"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp" />
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/order_itinerary_order_number_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="17dp"
-        android:paddingRight="17dp"
-        android:textColor="#333333"
-        android:textSize="15sp" />
+    <com.hugboga.custom.widget.OrderDetailNoView
+        android:id="@+id/order_itinerary_order_number_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

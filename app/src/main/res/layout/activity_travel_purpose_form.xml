@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/travel_purpose_btn"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/wishbanner"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginBottom="-2dp"
+        android:id="@+id/imageView2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="-2dp"
+        android:background="@color/basic_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/purpose_place_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/purpose_place"
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:text="目的地"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/purpose_place"
+                android:hint="想去哪玩?"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/basic_margin_large"
+                android:src="@mipmap/ente_icon" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/allbg_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/travel_date"
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:text="旅行日期"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/travel_date"
+                android:hint="大概什么时候去玩?"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+
+            <CheckBox
+                android:id="@+id/uncertain_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/basic_margin_large"
+                android:button="@drawable/checkbox_style"
+                android:text="不确定"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/allbg_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/remark_tv"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:minEms="4"
+               android:padding="@dimen/basic_margin_large"
+                android:text="备注信息"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/remark"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/remark_tv"
+                android:hint="还有什么旅行要求?(选填，200字以内)"
+                android:minEms="4"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxLength="200"
+                android:padding="@dimen/basic_margin_large"
+                android:background="@null"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/allbg_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:text="姓名"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/user_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/name_tv"
+                android:hint="请填写您的姓名"
+                android:minEms="4"
+                android:singleLine="true"
+                android:maxLength="50"
+                android:ellipsize="end"
+                android:padding="@dimen/basic_margin_large"
+                android:background="@null"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/allbg_gray" />
+
+        <LinearLayout
+            android:id="@+id/register_mobile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/purpose_form_width"
+                android:layout_height="wrap_content"
+                android:minEms="4"
+                android:padding="@dimen/basic_margin_large"
+                android:text="手机号"
+                android:textColor="@color/basic_black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/areacode"
+                android:layout_width="@dimen/change_mobile_areacode_width"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:hint="选择区号"
+                android:text="+86"
+                android:drawableRight="@mipmap/home_major_arrow"
+                android:paddingRight="12dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/basic_black"
+                android:textColorHint="@color/change_mobile_hint"
+                android:textSize="@dimen/text_size_large" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/basic_margin_medium"
+                android:layout_marginTop="@dimen/basic_margin_medium"
+                android:background="@color/change_mobile_line" />
+            android:background="@color/change_mobile_hint" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/remark_tv"
+                android:hint="请填写手机号"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:background="@null"
+                android:maxLength="50"
+                android:textColor="@color/basic_black"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/allbg_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/submit_btn"
+                android:text="提交"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:background="@drawable/shape_rounded_gray_btn"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/allbg_gray"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/submit_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:text="@string/travel_purpose_tip"
+                android:textSize="13sp"
+                android:textColor="#cccccc"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

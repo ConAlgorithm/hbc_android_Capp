@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/easy_dialog_title_view"
@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:divider="@color/ysf_grey_d9d9d9"
         android:dividerHeight="@dimen/ysf_dialog_light_line_size"
-        android:divider="@color/ysf_gray_d9d9d9"
         android:fadingEdge="none" />
-
 </LinearLayout>

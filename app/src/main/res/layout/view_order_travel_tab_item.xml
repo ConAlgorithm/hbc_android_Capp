@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="60dp"
+    android:paddingRight="8dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/order_travel_tab_iv"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@mipmap/order_timeline_focus"
+        android:layout_marginLeft="@dimen/order_bottom_padding_left"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/order_travel_tab_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/order_travel_tab_iv"
+        android:layout_above="@id/order_travel_tab_iv"
+        android:layout_marginBottom="-4dp"
+        android:text="行程1"
+        android:textColor="#666666"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/order_travel_tab_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-4dp"
+        android:layout_toRightOf="@id/order_travel_tab_iv"
+        android:layout_below="@id/order_travel_tab_iv"
+        android:text="2月10日-2月10日"
+        android:textColor="#666666"
+        android:textSize="10sp" />
+</RelativeLayout>

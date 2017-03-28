@@ -54,8 +54,7 @@ public enum OrderStatus {
     /**
      * 10: 客诉处理中
      */
-    COMPLAINT(10, "客诉处理中"), ;
-
+    COMPLAINT(10, "客诉处理中"),;
 
     public int code;
     public String name;

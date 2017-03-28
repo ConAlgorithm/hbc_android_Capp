@@ -16,6 +16,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="default_margin_smallx">2dp</dimen>
     <dimen name="default_margin_small">4dp</dimen>
+    <dimen name="default_margin_mediumx">6dp</dimen>
     <dimen name="default_margin_medium">8dp</dimen>
     <dimen name="default_margin_large">12dp</dimen>
     <dimen name="default_margin_larges">14dp</dimen>
@@ -97,12 +98,37 @@
     <dimen name="unicorn_view_left_size">16dp</dimen>
 
     <dimen name="sku_order_padding_left">17dp</dimen>
-    <dimen name="sku_order_padding_top">14dp</dimen>
-    <dimen name="sku_order_margin_vertical">12dp</dimen>
+    <dimen name="sku_order_margin_vertical">10dp</dimen>
     <dimen name="sku_order_min_item_hight">48dp</dimen>
 
     <dimen name="order_bottom_height">56dp</dimen>
     <dimen name="order_bottom_padding_left">17dp</dimen>
+    <dimen name="order_bottom_all_padding_left">25dp</dimen>
 
     <dimen name="default_line_height">0.7dp</dimen>
+
+    <!-- titlebar -->
+    <dimen name="titlebar_height">50dip</dimen>
+    <dimen name="titlebar_icon_height">30dip</dimen>
+    <dimen name="titlebar_title_size">17sp</dimen>
+    <dimen name="titlebar_right_size">15sp</dimen>
+
+
+    <dimen name="order_padding_left">17dp</dimen>
+    <dimen name="order_negative_padding_left">-17dp</dimen>
+    <dimen name="order_min_item_hight">48dp</dimen>
+    <dimen name="order_margin_vertical">10dp</dimen>
+
+    <dimen name="charter_item_padding_left">15dp</dimen>
+    <dimen name="charter_item_padding_bottom">12dp</dimen>
+    <dimen name="charter_item_margin_left">10dp</dimen>
+
+    <dimen name="travel_item_line_width">20dp</dimen>
+    <dimen name="travel_item_margin_left">28dp</dimen>
+
+    <dimen name="purpose_form_width">85dip</dimen>
+
+    <dimen name="message_bottom_function_viewpager_height">110dp</dimen>
+    <dimen name="input_panel_image_margin_bottom">3dip</dimen>
+    <dimen name="input_panel_image_margin_top">16dip</dimen>
 </resources>

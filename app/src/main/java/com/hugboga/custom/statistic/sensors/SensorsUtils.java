@@ -34,6 +34,7 @@ public class SensorsUtils {
                     skuType = "送机";
                     break;
                 case 3:
+                case 888:
                     skuType = "定制包车游";
                     break;
                 case 4:

@@ -61,7 +61,7 @@ import java.util.List;
 import java.util.Map;
 
 @ContentView(R.layout.fg_travel)
-public class FgTravel extends BaseFragment implements OnItemClickListener, ZListPageView.NoticeViewTask {
+public class  FgTravel extends BaseFragment implements OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
     public static final String JUMP_TYPE = "JUMP_TYPE";
@@ -368,7 +368,7 @@ public class FgTravel extends BaseFragment implements OnItemClickListener, ZList
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
         fgRightBtn.setPadding(0,0,0,0);
-        fgRightBtn.setImageResource(R.mipmap.icon_service);
+        fgRightBtn.setImageResource(R.mipmap.topbar_cs);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override

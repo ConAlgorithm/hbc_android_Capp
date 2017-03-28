@@ -25,6 +25,7 @@ import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/12/16.
+ * 注意和CombinationOrderCountView 使用同一个R.layout.view_sku_order_count
  */
 public class SkuOrderCountView extends LinearLayout implements ChooseCountView.OnCountChangeListener {
 
@@ -95,7 +96,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     public void update(CarBean _carBean, CarListBean _carListBean, String _serverDate, SkuItemBean skuItemBean) {
-        if (_carBean == null || _carListBean == null || skuItemBean == null) {
+        if (_carBean == null || _carListBean == null) {
             return;
         }
 
@@ -132,7 +133,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         setMaxLuggage();
 
         //酒店
-        if (skuItemBean.hotelStatus == 1) {
+        if (skuItemBean != null && skuItemBean.hotelStatus == 1) {
             roomLayout.setVisibility(View.VISIBLE);
             roomTitleTV.setText(String.format("%1$s晚", "" + skuItemBean.hotelCostAmount));
             setPriceText(roomPriceTV, getHotelTotalPrice(), roomCount);
@@ -291,7 +292,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         }
         manLuggageBean.mans = adultCount;
         manLuggageBean.childs = childCount;
-        manLuggageBean.luggages = carBean.capOfLuggage;
+        manLuggageBean.luggages = maxLuuages;
         manLuggageBean.childSeats = childSeatCount;
         manLuggageBean.roomCount = roomCount;
         return manLuggageBean;

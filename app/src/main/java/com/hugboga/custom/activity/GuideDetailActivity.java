@@ -61,7 +61,8 @@ import butterknife.OnClick;
  */
 public class GuideDetailActivity extends BaseActivity{
 
-    public final static  String TAG="GuideDetailActivity";
+    public final static String TAG = GuideDetailActivity.class.getSimpleName();
+    public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
 
     @Bind(R.id.guide_detail_titlebar)
     RelativeLayout titlebar;
@@ -179,7 +180,9 @@ public class GuideDetailActivity extends BaseActivity{
 
         mDialogUtil = DialogUtil.getInstance(this);
         collectIV.setImageResource(R.drawable.selector_guide_detail_collect);
-        shareIV.setImageResource(R.mipmap.guide_detail_share);
+        collectIV.setPadding(UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10));
+        shareIV.setImageResource(R.mipmap.topbar_collect_share);
+        shareIV.setPadding(UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10),UIUtils.dip2px(10));
 
         int cityBgHeight = (int)(UIUtils.getScreenWidth() * (400 / 750.0f));
         cityBgLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, cityBgHeight + UIUtils.dip2px(40)));
@@ -357,9 +360,8 @@ public class GuideDetailActivity extends BaseActivity{
                 setSensorsPointGuide(getCollectBean(), "接送");
                 break;
             case R.id.guide_detail_car_layout:
-                intent = new Intent(this, OrderSelectCityActivity.class);
-                intent.putExtra("collectGuideBean", getCollectBean());
-                intent.putExtra("fromSource", TAG);
+                intent = new Intent(this, CharterFirstStepActivity.class);
+                intent.putExtra(PARAM_GUIDE_BEAN, data);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
                 setSensorsPointGuide(getCollectBean(), "定制");

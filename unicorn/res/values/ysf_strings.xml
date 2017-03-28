@@ -49,14 +49,14 @@
     <string name="ysf_evaluation_message_item_text">感谢您的咨询，请对我们的服务做出评价</string>
     <string name="ysf_evaluation_message_item_btn">评价</string>
     <string name="ysf_evaluation_result">您对我们的服务评价为：&lt;b&gt;%s&lt;/b&gt;</string>
-    <string name="ysf_evaluation_complete_tips">您已完成对当前会话评价，请勿重复评价</string>
     <string name="ysf_evaluation_dialog_message">是否放弃评价，放弃后不可恢复</string>
     <string name="ysf_evaluation_submit_net_error_text">网络连接失败，请稍后再试</string>
     <string name="ysf_request_staff">人工客服</string>
+    <string name="ysf_shop_name">商家</string>
 
     <!-- 语音 -->
     <string name="ysf_audio_record_touch_to_record">按住 说话</string>
-    <string name="ysf_audio_record_up_to_complete">松开  结束</string>
+    <string name="ysf_audio_record_up_to_complete">松开 结束</string>
     <string name="ysf_audio_record_move_up_to_cancel">手指上滑，取消发送</string>
     <string name="ysf_audio_record_alert">说话时间太短</string>
     <string name="ysf_audio_record_time_is_up_tips">说话时间已到%1$d秒</string>
@@ -90,9 +90,9 @@
     <string name="ysf_picker_image_album_empty">相册中没有图片！</string>
     <string name="ysf_picker_image_folder_info">共%d张</string>
     <string name="ysf_picker_image_exceed_max_image_select">最多选择%d张图片！</string>
-    <string name="ysf_picker_image_send_select">完成（%d）</string>
+    <string name="ysf_picker_image_send_select">完成(%d)</string>
     <string name="ysf_picker_image_preview_original">发送原图</string>
-    <string name="ysf_picker_image_preview_original_select">发送原图（%s）</string>
+    <string name="ysf_picker_image_preview_original_select">发送原图(%s)</string>
     <string name="ysf_picker_image_error">目前仅支持jpg/png/bmp/gif格式图片的传送</string>
     <string name="ysf_image_compressed_size">该原始图片大小为: %1$s,</string>
     <string name="ysf_image_unknown_size">未知大小</string>
@@ -103,6 +103,7 @@
     <string name="ysf_image_show_error">图片显示异常</string>
     <string name="ysf_image_out_of_memory">内存不足</string>
     <string name="ysf_image_download_failed">图片下载失败</string>
+
     <!--权限-->
     <string name="ysf_no_permission_camera">没有权限，无法打开摄像头！</string>
     <string name="ysf_no_permission_photo">没有权限，无法打开相册！</string>
@@ -113,4 +114,19 @@
     <string name="ysf_no_permission_download_audio">没有权限，无法加载语音！</string>
     <string name="ysf_no_permission_download_image">没有权限，无法加载图片！</string>
     <string name="ysf_no_permission_download_file">没有权限，无法加载文件！</string>
+
+    <string name="ysf_activity_file_download">文件预览</string>
+    <string name="ysf_download_network_not_available">当前网络不可用，请检查你的网络</string>
+    <string name="ysf_download_tips_title">下载文件将产生手机流量</string>
+    <string name="ysf_download_tips_message">检测到您处于非WIFI环境下，下载文件将产生手机流量，是否确认继续下载？</string>
+    <string name="ysf_download_tips_sure">确认下载</string>
+    <string name="ysf_file_download_file_size">文件大小：%s</string>
+    <string name="ysf_file_download_progress">正在下载…(%1$s/%2$s)</string>
+    <string name="ysf_file_download">下载</string>
+    <string name="ysf_file_open">用其他应用打开</string>
+    <string name="ysf_file_open_tips">七鱼暂时无法打开此类文件，可使用其他应用打开并预览</string>
+    <string name="ysf_file_download_fail">文件下载失败</string>
+    <string name="ysf_file_out_of_date">文件已过期，不能下载</string>
+    <string name="ysf_file_invalid">文件已失效</string>
+    <string name="ysf_file_open_fail">暂无可打开该文件的应用</string>
 </resources>

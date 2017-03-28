@@ -48,15 +48,15 @@ public class ChooseCityTabLayout extends LinearLayout{
             case R.id.choose_city_tab_inland_layout:
                 inlandLineView.setVisibility(View.VISIBLE);
                 foreignLineView.setVisibility(View.GONE);
-                inlandTV.setTextColor(0xFF333333);
-                foreignTV.setTextColor(0x99333333);
+                inlandTV.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
+                foreignTV.setTextColor(getResources().getColor(R.color.basic_black));
                 isInland = true;
                 break;
             case R.id.choose_city_tab_foreign_layout:
                 inlandLineView.setVisibility(View.GONE);
                 foreignLineView.setVisibility(View.VISIBLE);
-                inlandTV.setTextColor(0x99333333);
-                foreignTV.setTextColor(0xFF333333);
+                inlandTV.setTextColor(getResources().getColor(R.color.basic_black));
+                foreignTV.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
                 isInland = false;
                 break;
         }

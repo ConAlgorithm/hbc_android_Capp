@@ -43,16 +43,9 @@ public enum EventType {
     FGTRAVEL_UPDATE,//登录
 
     ORDER_DETAIL_PAY,//去支付
-    ORDER_DETAIL_INSURANCE_H5,//皇包车免费赠送保险说
-    ORDER_DETAIL_ADD_INSURER,//添加投保人
     ORDER_DETAIL_BACK,//返回
     ORDER_DETAIL_CALL,//电话
     ORDER_DETAIL_MORE,//更多
-    ORDER_DETAIL_GUIDE_COLLECT,//收藏
-    ORDER_DETAIL_GUIDE_EVALUATION,//评价
-    ORDER_DETAIL_GUIDE_CALL,//给司导电话
-    ORDER_DETAIL_GUIDE_CHAT,//和司导聊天
-    ORDER_DETAIL_GUIDE_INFO,//司导详情
     ORDER_DETAIL_UPDATE_COLLECT,//更新收藏UI
     ORDER_DETAIL_UPDATE_EVALUATION,//更新评价UI
     ORDER_DETAIL_UPDATE_INFO,//更新个人信息UI
@@ -79,6 +72,7 @@ public enum EventType {
     COUPON_BACK,//选country返回
     PICK_FLIGHT_BACK,//选航班号返回
     AIR_PORT_BACK,//选airport返回
+    CHOOSE_GUIDE_CITY_BACK,//选司导所能服务的城市
 
     NIM_LOGIN_SUCCESS,//云信登录成功回调
     CARIDS,//司导车辆id
@@ -93,4 +87,10 @@ public enum EventType {
     SHOW_GIFT_DIALOG,//显示未登录领卷
 
     SKU_ORDER_REFRESH,//线路下单 数据刷新
+
+    CHARTER_LIST_REFRESH,//包车选行程刷新
+    CHARTER_FIRST_REFRESH,//刷新包车第一步页面
+
+    PURPOSER_CITY,//填写意向单
+    YILIAN_PAY,//易联支付
 }

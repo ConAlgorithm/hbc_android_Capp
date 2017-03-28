@@ -2,30 +2,34 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.InsureInfoActivity;
 import com.hugboga.custom.activity.OrderEditActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
-
+import butterknife.ButterKnife;
 /**
  * Created by qingcha on 16/6/2.
  */
 public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
 
-    private RelativeLayout insuranceInfoLayout;
-    private RelativeLayout insuranceGetLayout;
     private TextView nameTV;
     private TextView editTV;
+
     private TextView insurerTV;
     private TextView insurerStateTV;
+    private ImageView insurerErrorIV;
+    private RelativeLayout insuranceInfoLayout;
 
     private OrderBean orderBean;
 
@@ -35,7 +39,8 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
 
     public OrderDetailInfoView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context, R.layout.view_order_detail_info, this);
+        View view = inflate(context, R.layout.view_order_detail_info, this);
+        ButterKnife.bind(view);
 
         findViewById(R.id.order_detail_info_layout).setOnClickListener(this);
         nameTV = (TextView) findViewById(R.id.order_detail_info_name_tv);
@@ -44,11 +49,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         insuranceInfoLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_info_layout);
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
         insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
-
-        insuranceGetLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_get_layout);
-
-        findViewById(R.id.order_detail_insurance_iv).setOnClickListener(this);
-        findViewById(R.id.order_detail_insurance_iv).setSelected(true);
+        insurerErrorIV = (ImageView) findViewById(R.id.order_detail_insurer_state_error_iv);
     }
 
     @Override
@@ -57,34 +58,55 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             return;
         }
         orderBean = (OrderBean) _data;
-        nameTV.setText(orderBean.contactName);
-        if (orderBean.orderStatus.code > 5) {//1-5显示修改,其它显示详情
-            editTV.setText(getContext().getString(R.string.order_detail));
-            editTV.setTextColor(0xFF999999);
-        } else {
-            editTV.setText(getContext().getString(R.string.order_detail_edit));
-            editTV.setTextColor(0xFFFF6633);
-        }
+        nameTV.setText(orderBean.userName);
+        editTV.setVisibility(orderBean.orderStatus.code > 5 ? View.GONE : View.VISIBLE);// 1-5显示修改
 
         final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {
             insuranceInfoLayout.setVisibility(View.GONE);
-            insuranceGetLayout.setVisibility(View.VISIBLE);
-            insuranceGetLayout.setOnClickListener(this);
+        } else if (orderBean.insuranceEnable && insuranceListSize == 0) {//添加投保人
+            insuranceInfoLayout.setVisibility(View.VISIBLE);
+            insurerErrorIV.setVisibility(View.GONE);
+            insurerStateTV.setVisibility(View.VISIBLE);
+            insurerTV.setText(String.format("平安境外用车险 × %1$s份", "" + (orderBean.adult + orderBean.child)));
+            insuranceInfoLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle insureBundle = new Bundle();
+                    insureBundle.putSerializable("orderBean", orderBean);
+                    Intent intent = new Intent(getContext(), InsureActivity.class);
+                    intent.putExtras(insureBundle);
+                    getContext().startActivity(intent);
+                }
+            });
         } else if (insuranceListSize > 0) {
             insuranceInfoLayout.setVisibility(View.VISIBLE);
             insuranceInfoLayout.setOnClickListener(this);
-            insuranceGetLayout.setVisibility(View.GONE);
-            insurerTV.setText(getContext().getString(R.string.order_detail_info, "" + insuranceListSize));
-            insurerStateTV.setText(orderBean.getInsuranceStatus());
+            insurerStateTV.setVisibility(View.GONE);
+            insurerErrorIV.setVisibility(View.GONE);
+
+            String insuranceStatu = "";
+            switch (orderBean.insuranceStatusCode) {
+                case 1002:
+                    insuranceStatu = "保单出现问题，请尽快联系客服";
+                    insurerErrorIV.setVisibility(View.VISIBLE);
+                    break;
+                case 1003:
+                    insuranceStatu = "为您购买的保险已注销";
+                    break;
+                case 1004:
+                    insuranceStatu = "保单正在处理中...";
+                    break;
+                default:
+                    insuranceStatu = getContext().getString(R.string.order_detail_info, "" + insuranceListSize);
+                    break;
+            }
+            insurerTV.setText(insuranceStatu);
         } else {
             insuranceInfoLayout.setVisibility(View.GONE);
-            insuranceGetLayout.setVisibility(View.GONE);
         }
-
     }
 
-    @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
@@ -97,9 +119,6 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                 intent = new Intent(getContext(), InsureInfoActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
-                break;
-            case R.id.order_detail_insurance_iv://不做任何处理
-                v.setSelected(!v.isSelected());
                 break;
         }
     }

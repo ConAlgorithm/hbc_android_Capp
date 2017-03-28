@@ -22,7 +22,7 @@ public class EventPayBean implements Serializable{
     public OrderStatus orderStatus;//订单状态
     public int orderType;
     public String orderId;
-    public boolean forother;//为他人订车 是、否
+    public boolean forother = false;//为他人订车 是、否
     public String paystyle;//支付方式 支付宝、微信支付、无
     public String paysource;//支付来源 下单过程中、失败重新支付、未支付订单详情页
     public double shouldPay;
@@ -30,6 +30,7 @@ public class EventPayBean implements Serializable{
     public double couponPrice;
     public double travelFundPrice;
     public boolean isSelectedGuide;
+    public int days;
 
     public void transform(OrderBean orderBean) {
         if (orderBean == null) {

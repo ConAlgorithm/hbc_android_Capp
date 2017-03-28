@@ -38,7 +38,6 @@ import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.request.RequestChatOrderDetail;
 import com.hugboga.custom.data.request.RequestIMOrder;
 import com.hugboga.custom.data.request.RequestNIMBlackMan;
-import com.hugboga.custom.data.request.RequestNIMClear;
 import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
@@ -47,24 +46,20 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
+import com.hugboga.im.ImHelper;
+import com.hugboga.im.ImObserverHelper;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.permission.MPermission;
 import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
-import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
-import com.netease.nim.uikit.uinfo.UserInfoHelper;
-import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +71,7 @@ import static android.view.View.GONE;
 /**
  * Created by on 16/8/9.
  */
-public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener{
+public class NIMChatActivity extends BaseActivity implements MessageFragment.OnFragmentInteractionListener, ImObserverHelper.OnUserStatusListener, ImObserverHelper.OnUserInfoListener{
 
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
 
@@ -84,25 +79,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     private String sessionId;
 
-    public static void start(Context context, String contactId, SessionCustomization customization, String orderJson) {
-      start(context,contactId,null/*,orderJson,0*/);
-    }
-
-
     /**
-     *
      * @param context
      * @param contactId
-     * @param customization
      */
-    public static void start(Context context, String contactId, SessionCustomization customization/*, String orderJson,int allowSendMsg*/) {
+    public static void start(Context context, String contactId) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
-        intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
         intent.setClass(context, NIMChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
         context.startActivity(intent);
+        ImHelper.forceUpdateUserInfo(contactId);
     }
 
 
@@ -123,14 +110,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Bind(R.id.imchat_local_time_view)
     CountryLocalTimeView localTimeView;
 
-    //public final String USER_IM_ADD = "G";
-    private boolean isChat = false; //是否开启聊天
     private String userId; //用户ID
-    //private String imUserId; //用户ID
-    //private String userAvatar; //用户头像
     private String targetType; //目标类型
     private int inBlack;//标识对方是否被自己拉黑，1是 0否
-    private int isHideMoreBtn;
 
     private String nationalFlag;
     private int timediff;
@@ -138,8 +120,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private String cityName;
     private String countryName;
 
-    private UserInfoObservable.UserInfoObserver uinfoObserver;
-
+    ImObserverHelper imObserverHelper;
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -147,10 +128,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         ButterKnife.bind(this);
         initView();
 
-        registerObservers(true);
-        registerUserInfoObserver();
-
+        setImObservers();
         requestBasicPermission();
+    }
+
+    private void setImObservers() {
+        imObserverHelper = new ImObserverHelper();
+        imObserverHelper.setOnUserInfoListener(this);
+        imObserverHelper.setOnUserStatusListener(this);
+
+        imObserverHelper.registerUserInfo(sessionId);
+        imObserverHelper.registerUserStatusObservers(true);
     }
 
     @Override
@@ -173,28 +161,18 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private void initView() {
         initDefaultTitleBar();
         fgRightTV.setVisibility(GONE);
-        if (isHideMoreBtn == 1) {
-            header_right_btn.setVisibility(GONE);
-        } else {
-            header_right_btn.setImageResource(R.mipmap.top_more);
-            header_right_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPopupWindow();
-                }
-            });
-            if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
-                header_right_btn.setVisibility(GONE);
+        header_right_btn.setImageResource(R.mipmap.topbar_more);
+        header_right_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow();
             }
+        });
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {
+            header_right_btn.setVisibility(GONE);
         }
 
-        //Bundle bundle = getIntent().getExtras();
-        //String orderJson = bundle.getString(ORDER_INFO_KEY);
-        //getUserInfoToOrder();
-
          addConversationFragment();
-        //刷新订单信息
-
     }
 
     private void addConversationFragment(){
@@ -230,7 +208,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
             }
         });
-        //loadRemoteMsg();
         validateAllowMessage();
 
     }
@@ -268,7 +245,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private void setOrderData(ChatBean chatBean){
         userId = chatBean.targetId;
         fgTitle.setText(chatBean.targetName); //设置标题
-        targetType = String.valueOf(chatBean.targetType);
+        targetType = String.valueOf(chatBean.getTargetType());
         inBlack = chatBean.inBlack;
         nationalFlag = chatBean.flag;
         timediff = chatBean.timediff;
@@ -280,14 +257,10 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     private void resetRightBtn() {
-        if (isHideMoreBtn == 1) {
-            header_right_btn.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
+            header_right_btn.setVisibility(GONE); //显示历史订单按钮
         } else {
-            if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
-                header_right_btn.setVisibility(GONE); //显示历史订单按钮
-            } else {
-                header_right_btn.setVisibility(View.VISIBLE); //显示历史订单按钮
-            }
+            header_right_btn.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
     }
 
@@ -295,8 +268,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      * 展示司导和用户之间的订单
      */
     private void initRunningOrder() {
-        //setUserInfo(); //设置聊天对象头像
-        //resetChatting(); //设置是否可以聊天
         loadImOrder(); //显示聊天订单信息
     }
 
@@ -506,6 +477,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         pointLayout.getChildAt(position).setSelected(true);
     }
 
+
+
     class IMOrderPagerAdapter extends PagerAdapter {
 
         List<View> views;
@@ -564,14 +537,21 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         commonProblemTV.setText("历史订单");
 
         if (popup != null) {
-            popup.showAsDropDown(header_right_btn,0, UIUtils.dip2px(5f));
+            popup.showAsDropDown(header_right_btn,0, 0);
             return;
         }
-        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(header_right_btn,0,UIUtils.dip2px(5f));
+        popup.showAsDropDown(header_right_btn,0,0);
+
+        menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
 
         cancelOrderTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -648,19 +628,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         });
     }
 
-//    private void notifyChatList() {
-//        EventBus.getDefault().post(new EventAction(EventType.REFRESH_CHAT_LIST));
-//    }
-
-
-    /**
-     * 清空融云消息数
-     */
-    private void clearImChat() {
-        // 调用接口清空聊天未读信息
-        RequestNIMClear requestIMClear = new RequestNIMClear(NIMChatActivity.this, userId, targetType);
-        HttpRequestUtils.request(NIMChatActivity.this, requestIMClear, imClearListener);
-    }
 
     /**
      * 刷新IM聊天订单
@@ -697,23 +664,23 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         }
     };
 
-    HttpRequestListener imClearListener = new HttpRequestListener() {
-        @Override
-        public void onDataRequestSucceed(BaseRequest request) {
-            MLog.e("清除IM消息成功");
-        }
-
-        @Override
-        public void onDataRequestCancel(BaseRequest request) {
-
-        }
-
-        @Override
-        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            ErrorHandler handler = new ErrorHandler(NIMChatActivity.this, this);
-            handler.onDataRequestError(errorInfo, request);
-        }
-    };
+//    HttpRequestListener imClearListener = new HttpRequestListener() {
+//        @Override
+//        public void onDataRequestSucceed(BaseRequest request) {
+//            MLog.e("清除IM消息成功");
+//        }
+//
+//        @Override
+//        public void onDataRequestCancel(BaseRequest request) {
+//
+//        }
+//
+//        @Override
+//        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//            ErrorHandler handler = new ErrorHandler(NIMChatActivity.this, this);
+//            handler.onDataRequestError(errorInfo, request);
+//        }
+//    };
 
     public static String getOrderStatus(TextView textView, OrderStatus orderStatus){
         textView.setTextColor(0xFFADADAD);
@@ -759,9 +726,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onDestroy() {
-        clearImChat(); //进入后清空消息提示
-        registerObservers(false);
-        unregisterUserInfoObserver();
+        imObserverHelper.unRegisterUserInfo();
+        imObserverHelper.registerUserStatusObservers(false);
         if (localTimeView != null) {
             localTimeView.setStop(true);
         }
@@ -773,56 +739,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         super.onDestroy();
     }
 
-    private void registerObservers(boolean register) {
-        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, register);
-    }
-
-    
-    /**
-     * 用户状态变化
-     */
-    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
-        @Override
-        public void onEvent(StatusCode code) {
-            if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
-                ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
-            }
-            if (code.wontAutoLogin()) {
-                //IMUtil.getInstance().connect();
-                if(emptyView!=null){
-                    emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText("聊天账号被踢出登录");
-                }
-            } else {
-                if (code == StatusCode.NET_BROKEN) {
-                    if(emptyView!=null){
-                        emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText(R.string.no_network);
-                    }
-                } else if (code == StatusCode.UNLOGIN) {
-                    IMUtil.getInstance().connect();
-                    if(emptyView!=null){
-                        emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText("正在登录聊天，请稍候...");
-                    }
-                } else if (code == StatusCode.CONNECTING) {
-                    if(emptyView!=null){
-                        emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText("正在重连聊天服务器，请稍候...");
-                    }
-                } else if (code == StatusCode.LOGINING) {
-                    if(emptyView!=null){
-                        emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText("正在登录聊天，请稍候...");
-                    }
-                } else {
-                    if(emptyView!=null){
-                        emptyView.setVisibility(View.GONE);
-                    }
-                }
-            }
-        }
-    };
 
     @Override
     public void onSendMessageFailed(int code, String message) {
@@ -834,57 +750,29 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     }
 
     @Override
+    public boolean isAllowMessage() {
+        return chatBean==null?true:chatBean.isCancel==0;
+    }
+
+    @Override
     public void onSendMessageSuccess() {
         MLog.i("nim send message success!");
     }
 
-
-    private void registerUserInfoObserver() {
-        if (uinfoObserver == null) {
-            uinfoObserver = new UserInfoObservable.UserInfoObserver() {
-                @Override
-                public void onUserInfoChanged(List<String> accounts) {
-                    if (accounts.contains(sessionId)) {
-                        requestBuddyInfo();
-                    }
-                }
-            };
-        }
-
-        UserInfoHelper.registerObserver(uinfoObserver);
-    }
-
-    private void unregisterUserInfoObserver() {
-        if (uinfoObserver != null) {
-            UserInfoHelper.unregisterObserver(uinfoObserver);
-        }
-    }
-
-    private void requestBuddyInfo() {
-        if (TextUtils.isEmpty(sessionId)) {
-            return;
-        }
-        if (TextUtils.isEmpty(NimUIKit.getAccount())) {
-            return;
-        }
-        setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-    }
 
     @Override
     public String getEventSource() {
         return "IM聊天页";
     }
 
+    ChatBean chatBean;
     private void validateAllowMessage(){
         RequestChatOrderDetail requestChatOrderDetail = new RequestChatOrderDetail(MyApplication.getAppContext(),sessionId);
         HttpRequestUtils.request(this, requestChatOrderDetail, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
-                ChatBean chatBean = (ChatBean) request.getData();
+                chatBean = (ChatBean) request.getData();
                 setOrderData(chatBean);
-                if(messageFragment!=null){
-                    messageFragment.setAllowSendMsg(chatBean.isCancel);
-                }
             }
             @Override
             public void onDataRequestCancel(BaseRequest request) {
@@ -894,5 +782,51 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
             }
         });
+    }
+
+    @Override
+    public void onPostUserNick(String nickName) {
+        setTitle(nickName);
+    }
+
+    @Override
+    public void onPostUserStatus(StatusCode code) {
+        if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
+            ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
+        }
+        if (code.wontAutoLogin()) {
+            //IMUtil.getInstance().connect();
+            if(emptyView!=null){
+                emptyView.setVisibility(View.VISIBLE);
+                emptyView.setText("聊天账号被踢出登录");
+            }
+        } else {
+            if (code == StatusCode.NET_BROKEN) {
+                if(emptyView!=null){
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText(R.string.no_network);
+                }
+            } else if (code == StatusCode.UNLOGIN) {
+                IMUtil.getInstance().connect();
+                if(emptyView!=null){
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText("正在登录聊天，请稍候...");
+                }
+            } else if (code == StatusCode.CONNECTING) {
+                if(emptyView!=null){
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText("正在重连聊天服务器，请稍候...");
+                }
+            } else if (code == StatusCode.LOGINING) {
+                if(emptyView!=null){
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText("正在登录聊天，请稍候...");
+                }
+            } else {
+                if(emptyView!=null){
+                    emptyView.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 }

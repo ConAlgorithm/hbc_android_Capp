@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:visibility="gone" >
+    android:visibility="gone">
 
-    <com.qiyukf.unicorn.ui.ViewPagerFixed
+    <com.qiyukf.unicorn.widget.ViewPagerFixed
         android:id="@+id/viewPager"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/ysf_message_action_list_height"
@@ -21,5 +21,4 @@
         android:layout_marginBottom="4dip"
         android:gravity="center"
         android:orientation="horizontal" />
-
 </LinearLayout>

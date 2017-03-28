@@ -52,6 +52,7 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgHome;
+import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
@@ -128,7 +129,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private CheckVersionBean cvBean;
     private DialogUtil dialogUtil;
 
-    private FgHome fgHome;
+    //private FgHome fgHome;
+    private FgHomePage fgHomePage;
     private FgNimChat fgChat;
     private FgTravel fgTravel;
     private FgMySpace fgMySpace;
@@ -350,11 +352,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void initAdapterContent() {
-        fgHome = new FgHome();
+        //fgHome = new FgHome();
+        fgHomePage = new FgHomePage();
         fgTravel = new FgTravel();
         fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
-        addFragment(fgHome);
+        //addFragment(fgHome);
+        addFragment(fgHomePage);
         addFragment(fgChat);
         addFragment(fgTravel);
         addFragment(fgMySpace);
@@ -502,15 +506,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             } else {
                 if ("IM".equals(message.type)) {
                     gotoChatList();
-                } else if ("888".equals(message.orderType)) {
-                    if (getFragmentList().size() > 3) {
-                        for (int i = getFragmentList().size() - 1; i >= 3; i--) {
-                            getFragmentList().get(i).finish();
-                        }
-                    }
-                    if (mViewPager != null) {
-                        mViewPager.setCurrentItem(2);
-                    }
+//                } else if ("888".equals(message.orderType)) {
+//                    if (getFragmentList().size() > 3) {
+//                        for (int i = getFragmentList().size() - 1; i >= 3; i--) {
+//                            getFragmentList().get(i).finish();
+//                        }
+//                    }
+//                    if (mViewPager != null) {
+//                        mViewPager.setCurrentItem(2);
+//                    }
                 } else {//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
                 }
@@ -582,9 +586,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
-        if (fgHome != null && fgHome.closeGuideView()) {//关掉引导遮罩
-            return;
-        }
+//        if (fgHome != null && fgHome.closeGuideView()) {//关掉引导遮罩
+//            return;
+//        }
+//        if (fgHomePage != null && fgHomePage.closeGuideView()) {//关掉引导遮罩
+//            return;
+//        }
         if (getFragmentList().size() > mSectionsPagerAdapter.getCount()) {
             doFragmentBack();
         } else if (mViewPager.getCurrentItem() != 0) {
@@ -613,6 +620,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         switch (view.getId()) {
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
+                MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
@@ -639,6 +647,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         currentPosition = position;
         if (position == 0) {
             GiftController.getInstance(this).showGiftDialog();
+            MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
         } else {
             GiftController.getInstance(this).abortion();
         }
@@ -710,7 +719,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: {
-                    return fgHome;
+                    return fgHomePage;
+                    //return fgHome;
                 }
                 case 1: {
                     return fgChat;

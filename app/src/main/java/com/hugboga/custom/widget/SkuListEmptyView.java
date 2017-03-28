@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityHomeListActivity;
-import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -43,6 +43,12 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
         params.bottomMargin = UIUtils.dip2px(20);
         params.gravity = Gravity.CENTER_HORIZONTAL;
         customIV.setLayoutParams(params);
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void showEmptyView(boolean isCity) {
@@ -72,7 +78,7 @@ public class SkuListEmptyView extends LinearLayout implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sku_list_empty_custom_tv:
-                Intent intent = new Intent(getContext(), OrderSelectCityActivity.class);
+                Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
                 if(v.getContext() instanceof CityHomeListActivity) {
                     intent.putExtra(Constants.PARAMS_SOURCE, ((CityHomeListActivity)v.getContext()).getEventSource());
                     intent.putExtra(Constants.PARAMS_SOURCE_DETAIL, ((CityHomeListActivity)v.getContext()).getIntentSource());

@@ -1,20 +1,25 @@
 package com.hugboga.custom.widget;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +30,9 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
+import com.hugboga.custom.activity.SkuOrderActivity;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -33,9 +40,13 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.UIUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 /**
  * Created by on 16/7/23.
  */
@@ -68,7 +79,7 @@ public class ChooseCityHeaderView extends LinearLayout{
 
         final int paddingLeft = UIUtils.dip2px(15);
         final int paddingRight = UIUtils.dip2px(30);
-        setPadding(paddingLeft, 0, paddingRight, 0);
+        setPadding(paddingLeft, 0, paddingRight, UIUtils.dip2px(13));
         tagWidth = (UIUtils.getScreenWidth() - paddingLeft - paddingRight - UIUtils.dip2px(10) * 2) / 3;
         tagHight = UIUtils.dip2px(40);
 
@@ -192,22 +203,34 @@ public class ChooseCityHeaderView extends LinearLayout{
     private LinearLayout getSubTitleLayout(int iconRes, String title) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setGravity(Gravity.CENTER_VERTICAL);
+        linearLayout.setGravity(Gravity.TOP);
 
-        ImageView iconIV = new ImageView(getContext());
-        iconIV.setBackgroundResource(iconRes);
-        linearLayout.addView(iconIV, UIUtils.dip2px(14), UIUtils.dip2px(14));
+//        ImageView iconIV = new ImageView(getContext());
+//        iconIV.setBackgroundResource(iconRes);
+//        linearLayout.addView(iconIV, UIUtils.dip2px(14), UIUtils.dip2px(14));
 
         TextView titleTV = new TextView(getContext());
         titleTV.setTextColor(0xFF898989);
         titleTV.setTextSize(12);
-        titleTV.setText(title);
+        titleTV.setText(title.substring(0,2));
+        Drawable drawable = getResources().getDrawable(R.drawable.yellow_under_line);
+        drawable.setBounds(0,0,UIUtils.dip2px(25),UIUtils.dip2px(2));
+        titleTV.setCompoundDrawables(null,null,null,drawable);
+        TextView titleTV2 = new TextView(getContext());
+        titleTV2.setTextColor(0xFF898989);
+        titleTV2.setTextSize(12);
+        titleTV2.setText(title.substring(2,title.length()));
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        titleParams.leftMargin = UIUtils.dip2px(10);
+        titleParams.leftMargin = UIUtils.dip2px(2);
         linearLayout.addView(titleTV, titleParams);
+        linearLayout.addView(titleTV2);
 
-        addView(linearLayout, LayoutParams.MATCH_PARENT, UIUtils.dip2px(40));
-        return linearLayout;
+        LinearLayout layParent = new LinearLayout(getContext());
+        layParent.setOrientation(LinearLayout.HORIZONTAL);
+        layParent.setGravity(Gravity.CENTER_VERTICAL);
+        layParent.addView(linearLayout, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        addView(layParent, LayoutParams.MATCH_PARENT, UIUtils.dip2px(40));
+        return layParent;
     }
 
     private TextView getTagView() {
@@ -233,6 +256,7 @@ public class ChooseCityHeaderView extends LinearLayout{
         TagGroup tagGroup = new TagGroup(getContext());
         tagGroup.setVerticalSpacing(UIUtils.dip2px(10));
         tagGroup.setHorizontalSpacing(UIUtils.dip2px(10));
+        tagGroup.setPadding(0,0,0,UIUtils.dip2px(10));
         addView(tagGroup);
         return tagGroup;
     }
@@ -281,6 +305,7 @@ public class ChooseCityHeaderView extends LinearLayout{
             });
             return;
         }
+        requestPermisson();
         locationManager = (LocationManager) getContext().getSystemService(getContext().LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -322,6 +347,7 @@ public class ChooseCityHeaderView extends LinearLayout{
                             if (lociationTV != null) {
                                 lociationTV.setText("定位失败");
                                 lociationTV.setTextColor(0xFFf7c216);
+                                checkGpsOpen();
                             }
                         }
                     }, false);
@@ -346,4 +372,55 @@ public class ChooseCityHeaderView extends LinearLayout{
         requestLocation();
     }
 
+    private void checkGpsOpen() {
+        if (!gpsIsOpen(getContext())) {
+            new android.app.AlertDialog.Builder(getContext()).setMessage("没有开启GPS定位,请到设置里开启")
+                    .setNegativeButton("取消", null).setPositiveButton("设置", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    openGPSSeting(getContext());
+                }
+            }).show();
+        }
+    }
+
+    public static boolean gpsIsOpen(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public static void openGPSSeting(Context context) {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            intent.setAction(Settings.ACTION_SETTINGS);
+            try {
+                context.startActivity(intent);
+            } catch (Exception e1) {
+            }
+        }
+    }
+
+    @TargetApi(23)
+    public void requestPermisson(){
+        if (Build.VERSION.SDK_INT >= 23) {
+            final List<String> permissionsList = new ArrayList<String>();
+            addPermission(getContext(), permissionsList, Manifest.permission.ACCESS_COARSE_LOCATION);
+            addPermission(getContext(), permissionsList, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionsList.size() > 0 && null != chooseCityActivity) {
+                requestPermissions(chooseCityActivity, permissionsList.toArray(new String[permissionsList.size()]), SkuOrderActivity.REQUEST_CODE_PICK_CONTACTS);
+            }
+        }
+    }
+
+    @TargetApi(23)
+    public boolean addPermission(Context Ctx, List<String> permissionsList,
+                                  String permission) {
+        if (checkSelfPermission(Ctx,permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+        }
+        return true;
+    }
 }

@@ -210,9 +210,10 @@ public class OrderEditActivity extends BaseActivity {
                 String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
                 upRight.setText(time + "(当地时间)");
             }
-            if (!TextUtils.isEmpty(orderBean.startAddress)) {
-                upAddressRight.setText(orderBean.startAddress);
-            }
+//            if (!TextUtils.isEmpty(orderBean.startAddress)) {
+//                upAddressRight.setText(orderBean.startAddress);
+//            }
+            pickUpLocationLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
                 hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
@@ -227,7 +228,7 @@ public class OrderEditActivity extends BaseActivity {
             String userPhone = userList.get(0).mobile;
             manName.setText(userName);
             manPhone.setText(CommonUtils.addPhoneCodeSign(userList.get(0).areaCode) + " " + userPhone);
-            mark.setText(orderBean.memo);
+            mark.setText(orderBean.userRemark);
             for (int i = 0; i < userList.size(); i++) {
                 if (i == 0) {
                     contactUsersBean.userName = userList.get(i).name;
@@ -390,10 +391,10 @@ public class OrderEditActivity extends BaseActivity {
                 showYearMonthDayTimePicker();
                 break;
             case R.id.up_address_right:
-                if (orderBean.startLocation != null) {
+                if (orderBean.startAddressPoi != null) {
                     Bundle bundlePoiSearch = new Bundle();
                     bundlePoiSearch.putInt(PoiSearchActivity.KEY_CITY_ID, orderBean.serviceCityId);
-                    bundlePoiSearch.putString(PoiSearchActivity.KEY_LOCATION, orderBean.startLocation);
+                    bundlePoiSearch.putString(PoiSearchActivity.KEY_LOCATION, orderBean.startAddressPoi);
                     intent = new Intent(OrderEditActivity.this, PoiSearchActivity.class);
                     intent.putExtras(bundlePoiSearch);
                     intent.putExtra("mBusinessType",orderBean.orderType);

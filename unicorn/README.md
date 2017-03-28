@@ -8,9 +8,9 @@
 
 只需简单 3 步，即可将客服功能加入你的 APP：
 
-1. 添加 SDK 到项目中。 
+1. 添加 SDK 到项目中。
  - Android Studio: 在工程 build.gradle 文件中添加依赖即可。<a href="https://bintray.com/qiyukf/maven/qiyu-android-sdk/_latestVersion" target="_blank"><img src="https://api.bintray.com/packages/qiyukf/maven/qiyu-android-sdk/images/download.svg" style="width:auto" height=20 width=104 alt='Download' /></a>
-   
+
 	``` java
 	compile 'com.qiyukf.unicorn:unicorn:2.4.0' // 最新版本可参考 Download 徽章后对应的数值
 	```
@@ -35,9 +35,9 @@
            return options;
    }
    ```
-   
+
    上面代码中，UnicornImageLoader 可根据你 APP 中图片加载模块做自定义实现，以免 SDK 中引入第三方图片管理库后造成与 APP 的冲突或者浪费。在 demo 中，实现了依赖于 UniversalImageLoader 的 UILImageLoader。其代码以及依赖于 fresco 的实现代码可参考 [图片加载](#图片加载) 一节。
-   
+
 3. 在你的 APP 的合适页面添加客服入口按钮，并在响应函数中加入如下代码：
 
 	```java
@@ -83,14 +83,14 @@ android-support-v4.jar 为工程依赖的外部库，所需最低版本为23.0.0
 ## 初始化
 
 网易七鱼 SDK 需要接收消息推送，因此有一个后台进程，进程名为 "packageName:core"。我们知道，Application 的 onCreate 在各个进程中都会被调用，包括 UI 主进程和七鱼的推送进程。在实现 Application 的 onCreate 时，如果需要在 onCreate 中调用除 init 接口外的其他接口，应先判断当前所属进程，并只有在当前是 UI 进程时才调用。SDK 的 init 接口无需做额外判断，SDK 会自动识别是否需要初始化。另外，要注意不要在主进程外的其他进程中再调用 Unicorn 提供的接口（`init` 除外）。判断当前进程是否是在主进程的代码示例如下：
-   
+
 ```java
 public static boolean inMainProcess(Context context) {
     String packageName = context.getPackageName();
     String processName = SystemUtil.getProcessName(context);
     return packageName.equals(processName);
 }
-   
+
 /**
  * 获取当前进程名
  * @param context
@@ -98,10 +98,10 @@ public static boolean inMainProcess(Context context) {
  */
 public static final String getProcessName(Context context) {
     String processName = null;
-   
+
     // ActivityManager
     ActivityManager am = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
-   
+
     while (true) {
         for (ActivityManager.RunningAppProcessInfo info : am.getRunningAppProcesses()) {
             if (info.pid == android.os.Process.myPid()) {
@@ -109,12 +109,12 @@ public static final String getProcessName(Context context) {
                 break;
             }
         }
-   
+
         // go home
         if (!TextUtils.isEmpty(processName)) {
             return processName;
         }
-  
+
         // take a rest and again
         try {
             Thread.sleep(100L);
@@ -124,10 +124,12 @@ public static final String getProcessName(Context context) {
     }
 }
 ```
-   
+
 初始化包括两个部分，一是本地数据的初始化，二是从七鱼的服务器获取一些配置信息操作。本地数据的初始化是同步的，主要是检查本地是否已经有可以聊天的账号，如果有了，还会做一些缓存数据的初始化操作。如果没有，才会进入到第二部分，去七鱼服务器获取聊天账号。第二部分是异步操作，会在后台自动完成。由于网络操作具有一些不确定性，调用 init 返回 true 之后，并不一定就可以立即和客服聊天了。我们建议，在打开客服聊天窗口前，先调用一次 `Unicorn.isServiceAvailable()` 检查是否已经有了聊天账号，如果返回 false， 则不应该进入聊天界面。当然，由于获取聊天账号的行为只会在安装 APP 后第一次初始化时才会有，在日常的使用中，这个接口都是会返回 true 的。
 
-## 新消息提醒
+## 消息
+
+### 新消息提醒
 
 当用户不处在聊天界面时，收到客服的消息，APP 应当在通知栏或者聊天入口给出提醒。
 
@@ -155,13 +157,59 @@ private UnreadCountChangeListener listener = new UnreadCountChangeListener() { /
             // 在此更新界面, count 为当前未读数，
             // 也可以用 Unicorn.getUnreadCount() 获取总的未读数
         }
-        
+
 private void addUnreadCountChangeListener(boolean add) {
     Unicorn.addUnreadCountChangeListener(listener, add);
 }
 ```
 
 默认情况下，只有访客在聊天界面时，才不会有通知栏提醒，其他界面以及 APP 在后台时，都会有消息提醒。如果当 APP 在前台时，不需要通知栏提醒新消息，可以调用`Unicorn.toggleNotification(false)`关闭消息提醒，然后在 APP 退到后台时，调用`Unicorn.toggleNotification(true)`重新打开。
+
+### 拉取服务器模板消息
+
+APP用户在触发某些事件后（例如发生错误，进入指定页面等等），开发者可调用该接口拉取在管理后台预设的模板消息，发送给用户，提示用户。
+
+```java
+/**
+ * 拉取服务器模板消息
+ * @param msgId 模板消息ID, long
+ */
+Unicorn.pullTemplateMsg(msgId);
+```
+
+用户收到新消息后（通过未读数变化监听接口可获知此事件），如果开发者需要显示新收到的消息，可通过下面接口获取最近一条消息：
+
+```java
+/**
+ * 获取和客服的最后一条聊天消息内容。可用于未读消息变化时，展示最后一条未读消息。或者展示客服的最后一条消息
+ * @return 最后一条消息
+ */
+UnicornMessage message = Unicorn.queryLastMessage();
+```
+
+在 V3.2 版本中增加了该接口的平台商家企业版本，需要传入商家ID，用于平台商家企业调用。
+
+```
+/**
+ * 获取和客服的最后一条聊天消息内容。可用于未读消息变化时，展示最后一条未读消息。或者展示客服的最后一条消息
+ *
+ * @param shopId 商家ID
+ * @return 最后一条消息
+ */
+UnicornMessage message = POPManager.queryLastMessage(String shopId)
+```
+
+### 清除缓存文件
+
+在 V3.4 版本中七鱼 SDK 增加了接收文件功能，为了防止文件过多占用用户手机存储空间，我们增加了清除缓存文件接口
+
+```
+/**
+* 清除文件缓存，将删除SDK接收过的所有文件。<br>
+* 建议在工作线程中执行该操作。
+*/
+Unicorn.clearCache();
+```
 
 ## 定制界面
 
@@ -246,17 +294,9 @@ try {
 }
 ```
 
-
-## 跟踪用户访问记录
-
-用户在使用你的 APP 时，SDK 提供了接口用于跟踪其浏览路径，用于后期用户行为分析以及主动营销。接口为：
-
-```java
-// 两个参数分别为访问内容的 uri，和该 uri 对应的简单描述
-Unicorn.trackUserAccess(uri, description);
-```
-
 ## 关联商户用户信息
+
+### 关联用户和资料
 
 七鱼 SDK 允许 APP 的用户以匿名方式向客户咨询，但如果 APP 希望客服知道咨询的用户的身份信息，可以通过 SDK 提供的 `setUserInfo` 接口告诉给客服。 该接口包含两个功能：
 1. 关联用户账户。调用过该接口后，客服即可知道当前用户是谁，并可以调看该用户之前发生过的访问记录。通过该接口，SDK还会把 APP 端相同用户 ID 的咨询记录整合在一起。如果调用 `setUserInfo` 接口前是匿名状态，那么匿名状态下的聊天记录也会被整合到新设置的这个用户下面。
@@ -275,12 +315,13 @@ Unicorn.trackUserAccess(uri, description);
 - value: 该数据显示的值，类型不做限定，根据实际需要进行设定。
 - href: 超链接地址。若指定该值，则该项数据将显示为超链接样式，点击后跳转到其值所指定的 URL 地址。
 - hidden: 是否隐藏该item。目前仅对mobile和email有效。
- 
-现在，以下3个key由七鱼使用，他们的排序和标签名是固定的，不能指定index和label。
+
+现在，以下4个key由七鱼使用，他们的排序和标签名是固定的，不能指定index和label。
 - real\_name: 用户姓名。
 - mobile\_phone：用户手机号，可以隐藏。
 - email：用户的邮箱账号，可以隐藏。
- 
+- avatar: 用户的头像，可以在客服端显示。访客端的用户头像不会使用该字段。
+
 设置访客信息的示例如下：
 
 ```java
@@ -289,12 +330,20 @@ userInfo.userId="uid";
 userInfo.data="[{"key":"real_name", "value":"土豪"},
                           {"key":"mobile_phone", "hidden":true},
                           {"key":"email", "value":"13800000000@163.com"},
+                          {"key":"avatar", "value": "https://qiyukf.com/def_avatar.png"},
                           {"index":0, "key":"account", "label":"账号", "value":"zhangsan" , "href":"http://example.domain/user/zhangsan"},
                           {"index":1, "key":"sex", "label":"性别", "value":"先生"},
                           {"index":5, "key":"reg_date", "label":"注册日期", "value":"2015-11-16"},
                           {"index":6, "key":"last_login", "label":"上次登录时间", "value":"2015-12-22 15:38:54"}]";
 Unicorn.setUserInfo(userInfo);
 ```
+
+### 注销
+
+如前所述，当关联的用户从 APP 注销后，也应当调用 SDK 的注销接口 `Unicorn,logout()`。这样，注销之后，客服再给前面用户发送消息，将进入留言，等到该用户下次再在同一台设备上登录后，能够再看到。如果 APP 的用户注销后，不调用七鱼的 logout 接口，七鱼不知道用户已经变更，那么客服如果给前面一个用户发起会话，发送消息，当前设备将仍旧能够收到消息，造成混乱。
+`Unicorn.logout()` 接口等效于 `Unicorn.setUserInfo(null)`。
+注意：目前不支持跨设备的消息漫游，在其他设备上通过 `setUserInfo(YSFUserInfo)` 设置相同的用户, 这个设备上不能收到留言。
+
 
 ## 自定义客服分配
 
@@ -304,9 +353,13 @@ Unicorn.setUserInfo(userInfo);
 
 在 2.0 之前的版本中，请求客服时会根据企业在管理后台上对 APP 客服分配的设置，来决定首先接入机器人还是人工客服，如果管理后台开启了机器人，则首先会接入机器人。如果管理后台也允许接入人工客服，那么用户可以通过回复 'RG' 或者 '人工客服' 一类的关键字切换到人工客服，界面上也能展现一个人工客服的入口，用户点击此入口，也能接入人工客服。
 
-在2.0版本中，七鱼加入了访客分配的逻辑。如果APP端开启了访客分配，那么当切换到人工客服时，会首先给出一个客服分组选择的入口，用户可以自主选择某个客服或者客服分组咨询。
+在 2.0 版本中，七鱼加入了访客分配的逻辑。如果APP端开启了访客分配，那么当切换到人工客服时，会首先给出一个客服分组选择的入口，用户可以自主选择某个客服或者客服分组咨询。
 
-在2.2版本中，SDK在 `ConsultSource` 增加了指定客服或者客服组的参数，开发者可以在访客进入咨询界面前就指定好要为其服务的客服，例如从订单页面打开咨询界面时为其指定售后客服，在商品页面打开时，为其指定售前客服。在 `ConsultSource` 中，`staffId` 为客服 ID，`groupId` 为客服组 ID，其值可以在管理后台设置页面的「访客分配」页面中找到。如果这两个参数都没有设置，则按照2.0版本的逻辑分配客服，如果指定了其中一个，则只会分配指定的客服或者在指定的客服分组中分配，如果指定的客服不在线，或者指定的客服分组中没有客服在线，则会提示用户客服不在线。如果同时指定 `staffId` 和 `groupId`，以 `staffId` 为准，忽略 `groupId`。
+在 2.2 版本中，SDK 在 `ConsultSource` 增加了指定客服或者客服组的参数，开发者可以在访客进入咨询界面前就指定好要为其服务的客服，例如从订单页面打开咨询界面时为其指定售后客服，在商品页面打开时，为其指定售前客服。在 `ConsultSource` 中，`staffId` 为客服 ID，`groupId` 为客服组 ID，其值可以在管理后台设置页面的「访客分配」页面中找到。如果这两个参数都没有设置，则按照2.0版本的逻辑分配客服，如果指定了其中一个，则只会分配指定的客服或者在指定的客服分组中分配，如果指定的客服不在线，或者指定的客服分组中没有客服在线，则会提示用户客服不在线。如果同时指定 `staffId` 和 `groupId`，以 `staffId` 为准，忽略 `groupId`。
+
+在 3.1 版本中，SDK 又在 `ConsultSource` 中增加了 robotFirst 参数， 如果指定了 groupId 或者 staffId 时，该参数有效。如果 robotFirst 为 `true`，则会先由机器人接待，如果之后如果用户转人工服务，再分配给上面指定的groupId 或者 staffId。
+
+在 3.1 版本中，为了提高机器人的效率，在 `ConsultSource` 中还增加了 faqGroupId 参数。 faq 由客服人员在管理后台配置。如果指定了此参数，且请求客服为机器人客服，则会下发该 ID 对应的热门问题列表。
 
 ### 汇报商品信息
 
@@ -320,6 +373,9 @@ Unicorn.setUserInfo(userInfo);
 |picture|缩略图图片的 url。|该 url 需要没有跨域访问限制，否则在客服端会无法显示。<br> 长度限制为 1000 字符， 超长不会自动截断，但会发送失败。|
 |url|商品信息详情页 url。|长度限制为 1000 字符，超长不会自动截断，但会发送失败。|
 |show| 是否在访客端显示商品消息。|默认为0，即客服能看到此消息，但访客看不到，也不知道该消息已发送给客服。|
+|alwaysSend|在会话开始后，仍可以发送该商品字段| 默认为 false，不发送。|
+
+在3.1.0版本之前，商品信息只有在连上客服时发送一次，此后如果没有重新连接客服，无论商品信息是否改变，都不会再继续发送了。从3.1.0版本开始，开发者可以通过 `alwaysSend` 字段控制是否需要在中途发送新的商品信息。注意，如果上一次发送的商品链接和这一次的相同，后面一次的不会再发送给客服。
 
 ## 图片加载
 
@@ -453,13 +509,13 @@ compile 'com.squareup.picasso:picasso:2.5.2'
 public class PicassoImageLoader implements UnicornImageLoader{
 
     private final Set<Target> protectedFromGarbageCollectorTargets = new HashSet<>();
-    
+
     @Nullable
     @Override
     public Bitmap loadImageSync(String uri, int width, int height) {
         return null;
     }
-    
+
     @Override
     public void loadImage(final String uri, final int width, final int height, final ImageLoaderListener listener) {
         final Target mTarget = new Target() {
@@ -470,7 +526,7 @@ public class PicassoImageLoader implements UnicornImageLoader{
                     protectedFromGarbageCollectorTargets.remove(this);
                 }
             }
-    
+
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
                 if (listener != null) {
@@ -478,10 +534,10 @@ public class PicassoImageLoader implements UnicornImageLoader{
                     protectedFromGarbageCollectorTargets.remove(this);
                 }
             }
-    
+
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-    
+
             }
         };
         Utils.runOnUiThread(new Runnable() {
@@ -503,7 +559,7 @@ public class PicassoImageLoader implements UnicornImageLoader{
 
 七鱼 SDK 作为用户端的 IM 工具，需要能够及时收到客服回复的消息。同时，就算用户没有主动咨询过客服，客服也可以主动发起会话，进行主动营销。因此，在 2.0 版本之前，SDK一旦初始化之后，会一直保持长连接，定时与服务器交换心跳。
 
-但是，毕竟用户咨询以及客服主动营销都是不太常用的操作，为此保持一个长连接，性价比不高。同时，我们了解到，很多客户的 APP 本身就自带了推送模块，或者继承了第三方的推送 SDK，由此就存在了两条长连接，浪费了用户的电量和流量。因此，在2.0版本中，我们针对 SDK 的长连接策略做了更改，以优化在用户没有发起咨询时的电量消耗。同时，为了保持前向兼容性，默认情况下，SDK 仍旧会保持长连接，如果开发者需要开启省电特性，需要在 `YSFOptions` 中设置 `savePowerConfig`。
+但是，毕竟用户咨询以及客服主动营销都是不太常用的操作，为此保持一个长连接，性价比不高。同时，我们了解到，很多客户的 APP 本身就自带了推送模块，或者继承了第三方的推送 SDK，由此就存在了两条长连接，浪费了用户的电量和流量。因此，在2.0版本中，我们针对 SDK 的长连接策略做了更改，以优化在用户没有发起咨询时的电量消耗。如果开发者需要开启省电特性，需要在 `YSFOptions` 中设置 `savePowerConfig`。从版本3.1.0开始，该选项默认开启，并使用默认间隔。
 
 在咨询客服时，SDK 会保持长连接以便及时收到推送。当一次会话结束后，用户极有可能还会继续发起咨询会话，同时客服也很有可能会主动发起会话，因此，一次会话结束后，长连接可以在继续保持一段时间(`SavePowerConfig.activeDelay`)，以便及时收到消息，同时也可以减少重新连接造成的消耗。如果在这段时间内，再也没有开始过会话，则在计时结束后即可转入省电模式。根据用户配置，省电模式分为两种状态：
 1. 推送模式：用户需要在七鱼的管理后台配置推送服务器，且 `SavePowerConfig.customPush` 设置为 true。此时，如果有新消息，会自动转到后台配置的推送通道上。由于推送不受 SDK 控制，因此收到推送后 SDK 不会自动建立长连接，需要用户进入咨询界面后，才会建立长连接。开启自定义推送后，还需要设置推送的设备 ID：`SavePowerConfig.deviceIdentifier`。在七鱼推送的消息结构体中，会包含该字段。 
@@ -563,7 +619,7 @@ POST 请求会包含以下参数：
     }
 }
  ```
- 
+
 POST 请求的内容为 JSON 格式，编码格式为 UTF-8，其各个字段说明如下：
 
 |字段	|字段说明|
@@ -574,7 +630,7 @@ POST 请求的内容为 JSON 格式，编码格式为 UTF-8，其各个字段说
 |staffName|说话的客服昵称|
 |deviceIdentifier|消息发送对象用户的 deviceIdentifier|
 |package|消息接收对象 APP 的 package name|
- 
+
 
 ## 自定义响应事件
 
@@ -602,3 +658,138 @@ options.onMessageItemClickListener = messageItemClickListener;
 // ... 其他初始化代码
 //Unicorn.init(this, "你的appid", options, new UILImageLoader());
 ```
+
+## 平台商家企业
+
+网易七鱼在 V3.2 版本中加入了平台商家企业的支持，平台商家就是类似京东，天猫一类的企业，下属很多其他的第三方商家，每个第三方商家都能够独立管理自己的客服，平台不直接管理客服的分配，绩效等日常工作。如果您不是平台商家企业，可以忽略这部分内容。
+本节内容仅仅介绍平台电商接入的相关知识，所有内容是在前面内容基础上编写的，有关 SDK 接入，客服分配，UI 定制等基础知识，请先阅读前文内容。
+
+### 指定商家
+
+平台商家在申请客服时需要指定商家ID，需要在打开会话界面时传入的`ConsultSource`中指定`shopId`，`shopId`为企业在管理后台创建商家时填入的商家ID。如果不指定`shopId`将默认申请平台企业下的客服。
+
+### 商家入口和最近联系商家入口
+
+七鱼客服SDK可以在会话界面添加商家入口和最近联系商家列表入口（以下简称会话列表），商家入口位于评价按钮的左侧，会话列表入口位于消息流的右上角以浮层模式展现。
+
+如果需要开启商家入口，需要在打开会话界面时传入的`ConsultSource`中指定`shopEntrance`，如果不指定将不显示商家入口。`ShopEntrance`中的字段通过`ShopEntrance.Builder`设置，包含如下信息
+
+|字段|类型|说明|备注|
+|:--|:--|:--|:--|
+|logo|String|商家logo url|图片地址|
+|name|String|商家名称|最多显示三个字符超出将显示“xx...”|
+
+如果需要开启会话列表入口，需要在`ConsultSource`中指定`sessionListEntrance`，如果不指定将不显示会话列表入口。`SessionListEntrance`中的字段通过`SessionListEntrance.Builder`设置，包含如下信息
+
+|字段|类型|说明|备注|
+|:--|:--|:--|:--|
+|imageResId|DrawableRes资源id|入口图片资源id|建议为半透明图片，如果不设置将显示默认图片|
+|position|Position枚举类型|入口位置|目前包含TOP_LEFT和TOP_RIGHT，即屏幕左上角和右上角，如果不设置将默认位于右上角|
+
+同时，需要在初始化 SDK 时，为`YSFOptions`的`onShopEventListener`赋值，用于用户点击商家入口和会话列表入口时做出响应，示例代码如下
+
+```
+YSFOptions options = new YSFOptions();
+options.onShopEventListener = new OnShopEventListener() {
+    @Override
+    public boolean onShopEntranceClick(Context context, String shopId) {
+        // 点击商家入口响应
+    }
+
+    @Override
+    public boolean onSessionListEntranceClick(Context context) {
+        // 点击会话列表入口响应，以下为示例代码
+        SessionListActivity.start(context);
+        return true;
+    }
+};
+```
+
+### 最近联系商家列表
+
+* 获取最近联系商家列表（以下简称会话列表），可用于展示会话列表
+```
+/**
+ * 获取最近联系商家列表
+ *
+ * @return 最近联系商家列表
+ */
+List<Session> sessionList = POPManager.getSessionList();
+```
+该接口返回一个`Session`列表，`Session`是一个包含会话信息的接口，该接口包含的方法如下
+
+|方法|返回类型|方法说明|备注|
+|:---|:---|:---|:---|
+|getContactId()|String|获取商家ID||
+|getMsgStatus()|MsgStatusEnum|获取最后一条消息状态|MsgStatusEnum为消息状态，包含发送中、已发送等|
+|getUnreadCount()|int|获取商家的未读消息条数||
+|getContent()|String|获取最后一条消息的预览内容||
+|getTime()|long|获取最后一条消息的时间戳||
+|getSessionStatus()|SessionStatusEnum|获取会话状态|`v3.3新增` SessionStatusEnum为会话状态，如会话中、排队中等|
+
+* 删除最近联系商家记录
+```
+/**
+ * 删除最近联系商家记录
+ *
+ * @param shopId          商家ID
+ * @param clearMsgHistory 是否同时清空消息记录
+ */
+POPManager.deleteSession(String shopId, boolean clearMsgHistory);
+```
+
+* 监听会话列表更新
+```
+/**
+ * 注册/注销最近联系商家列表更新监听器（添加、删除、新消息等）
+ *
+ * @param add true，注册；否则注销，请务必在关闭界面时注销此监听器
+ */
+POPManager.addOnSessionListChangedListener(OnSessionListChangedListener listener, boolean add);
+```
+`OnSessionListChangedListener`包含会话更新和会话删除回调
+```
+/**
+ * 商家会话列表监听器
+ */
+public interface OnSessionListChangedListener {
+    /**
+     * 商家会话发生变化（更新/添加）
+     *
+     * @param updateSessionList 变化的商家会话列表
+     */
+    void onSessionUpdate(List<Session> updateSessionList);
+
+    /**
+     * 删除商家会话
+     *
+     * @param shopId 商家ID
+     */
+    void onSessionDelete(String shopId);
+}
+```
+开发者需要在回调中处理会话列表更新的逻辑，以同步更新界面。
+
+> 我们在网易七鱼 Android Demo 中实现了一套完整的会话列表逻辑，开发者可以作为参考。
+
+### 获取商家信息
+
+由于七鱼SDK对会话和商家信息的管理是独立的，因此在`POPManager.getSessionList()`接口返回的信息中没有包含商家信息，如果要获取商家信息，需要调用以下接口
+
+```
+/**
+ * 根据商家ID获取商家信息，如名称，logo
+ *
+ * @param shopId 商家ID
+ * @return 如果用户联系过该商家，返回商家信息，否则返回 null
+ */
+ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
+```
+
+`ShopInfo`接口包含如下方法
+
+|方法|返回类型|说明|备注|
+|:--|:--|:--|:--|
+|getAccount()|String|获取商家ID|即查询商家信息时传入的shopId|
+|getName()|String|获取商家名称||
+|getAvatar()|String|获取商家logo|图片地址|

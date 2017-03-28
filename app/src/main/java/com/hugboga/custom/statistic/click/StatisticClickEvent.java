@@ -89,24 +89,23 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
-    //包车选行程下一步按钮点击
-    public static void dailyClick(String eventId, String source, String  source_detail,
-                                  CollectGuideBean selectG, String guestcount){
+    public static void dailyClick(String eventId, String source, int day,
+                                  boolean isCollectGuide, String guestcount){
         Map map = new HashMap();
         map.put("source",source);
-        map.put("source_detail",source_detail);
-        map.put("selectG",null != selectG?"是":"否");
+        map.put("days",day);
+        map.put("selectG",isCollectGuide ? "是":"否");
         map.put("guestcount",guestcount);
         MobClickUtils.onEvent(eventId,map);
     }
 
     //包车选车下一步按钮点击
-    public static void selectCarClick(String eventId, String source, String  source_detail,
-                                   String carstyle, String guestcount){
+    public static void selectCarClick(String eventId, String source, int day,
+                                      boolean isCollectGuide, String carstyle, String guestcount){
         Map map = new HashMap();
         map.put("source",source);
-        map.put("source_detail",source_detail);
-        map.put("selectG","否");
+        map.put("days",day);
+        map.put("selectG",isCollectGuide ? "是":"否");
         map.put("carstyle",carstyle);
         map.put("guestcount",guestcount);
         MobClickUtils.onEvent(eventId,map);

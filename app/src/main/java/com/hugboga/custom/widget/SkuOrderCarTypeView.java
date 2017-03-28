@@ -44,6 +44,8 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private OnSelectedCarListener listener;
     private CarBean oldCarBean;
 
+    private boolean isSelectedGuide = false;
+
     public SkuOrderCarTypeView(Context context) {
         this(context, null);
     }
@@ -52,6 +54,10 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         super(context, attrs);
         View view = inflate(context, R.layout.view_sku_order_car_type, this);
         ButterKnife.bind(view);
+    }
+
+    public void setIsSelectedGuide(boolean isSelectedGuide) {
+        this.isSelectedGuide = isSelectedGuide;
     }
 
     @Override
@@ -86,7 +92,11 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             }
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(title);
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);
-            showDescriptionTV(itemView, i == 0 ? carBean.models : "", size, i);
+            String carDes = carBean.models;
+            if (isSelectedGuide && !TextUtils.isEmpty(carBean.carLicenceNoCovered)) {//carInfo2 + 车牌
+                carDes += "  车牌:" + carBean.carLicenceNoCovered;
+            }
+            showDescriptionTV(itemView, i == 0 ? carDes : "", size, i);
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,7 +159,11 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         for (int i = 0; i < size; i++) {
             View itemView = containerLayot.getChildAt(i);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == view.getId());
-            showDescriptionTV(itemView, i == view.getId() ? carList.get(i).models : "", size, i);
+            String carDes = carList.get(i).models;
+            if (isSelectedGuide && !TextUtils.isEmpty(carList.get(i).carLicenceNoCovered)) {
+                carDes += "  车牌:" + carList.get(i).carLicenceNoCovered;
+            }
+            showDescriptionTV(itemView, i == view.getId() ? carDes : "", size, i);
         }
         CarBean carBean = carList.get(view.getId());
         if (listener != null && this.oldCarBean != carBean && carBean != null) {

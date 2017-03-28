@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/home_view_vertical_space"
+    android:background="#ffffff"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="40dp"
+    android:paddingTop="20dp">
+
+    <ImageView
+        android:id="@+id/charter_list_empty_iv"
+        android:layout_width="150dp"
+        android:layout_height="120dp" />
+
+    <TextView
+        android:id="@+id/charter_list_empty_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="似乎与网络断开,请检查网络"
+        android:textColor="#A8A8A8"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/charter_list_empty_refresh_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/selector_home_retry"
+        android:gravity="center"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:text="刷新重试"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+</LinearLayout>

@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
@@ -67,9 +68,13 @@ import cn.iwgang.countdownview.CountdownView;
             return;
         }
         orderBean = (OrderBean) _data;
+        if (orderBean.isSeparateOrder()) {
+            setVisibility(View.GONE);
+            return;
+        }
         if (orderBean.orderStatus == OrderStatus.PAYSUCCESS) { // 2.预订成功
             sendRequest(true);
-        } else if (orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
+        } else if (orderBean.orderType != 888 && orderBean.orderStatus != OrderStatus.INITSTATE && orderBean.orderGuideInfo != null) {
             removeAllViews();
             if (guideInfoView == null) {
                 guideInfoView = new OrderDetailGuideInfo(getContext());
@@ -145,6 +150,10 @@ import cn.iwgang.countdownview.CountdownView;
         if (_request instanceof RequestDeliverInfo) {
             RequestDeliverInfo request = (RequestDeliverInfo) _request;
             DeliverInfoBean deliverInfoBean = request.getData();
+            if (deliverInfoBean == null) {
+                setVisibility(View.GONE);
+                return;
+            }
             if (deliverInfoBean.isOrderStatusChanged()) {//订单状态改变
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
             } else {

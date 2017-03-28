@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/order_min_item_hight">
+    <TextView
+        android:id="@+id/slider_layout_min_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="1"
+        android:textColor="#7f7f7f"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/slider_layout_max_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:text="2"
+        android:textColor="#7f7f7f"
+        android:textSize="12sp"/>
+    <com.hugboga.custom.widget.SliderView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/slider_layout_slider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        app:max="50"
+        app:min="0"
+        app:showNumberIndicator="true"
+        />
+</RelativeLayout>

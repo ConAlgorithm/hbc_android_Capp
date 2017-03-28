@@ -44,6 +44,8 @@ import com.hugboga.custom.widget.DialogUtil;
 
 import org.xutils.image.ImageOptions;
 
+import java.util.List;
+
 /**
  * 聊天历史订单
  * Created by ZHZEPHI on 2015/11/7 11:47.
@@ -228,9 +230,28 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.endAddressTV.setText(orderBean.destAddress + " " + orderBean.destAddressDetail);
                     }
                     break;
+                case Constants.BUSINESS_TYPE_COMBINATION://组合单
+                    vh.mTypeStr.setText("定制包车游");
+                    vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
+                    vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
+
+                    if (TextUtils.isEmpty(orderBean.serviceCityName)) {
+                        vh.startAddressLayout.setVisibility(View.GONE);
+                    } else {
+                        vh.startAddressLayout.setVisibility(View.VISIBLE);
+                        vh.startAddressIV.setBackgroundResource(R.mipmap.trip);
+                        String dailyPlace = orderBean.serviceCityName;
+                        if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
+                            dailyPlace += " - " + orderBean.serviceEndCityName;
+                        }
+                        dailyPlace += String.format("(含%1$s段行程)", orderBean.orderJourneyCount);
+                        vh.startAddressTV.setText(dailyPlace);
+                    }
+                    vh.endAddressLayout.setVisibility(View.GONE);
+                    break;
             }
         }
-        vh.mBtnChat.setVisibility(View.GONE);
+        //vh.mBtnChat.setVisibility(View.GONE);
         setStatusView(vh, orderBean);
     }
 
@@ -242,9 +263,49 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
      */
     private void setStatusView(NewOrderVH vh, final OrderBean orderBean) {
         vh.mAssessment.setOnClickListener(null);
+        vh.mStatus.setText(orderBean.orderStatus.name);
+        boolean isShowAvartarLayout = false;
+        if (orderBean.orderType == 888 && orderBean.isSeparateOrder() && orderBean.orderStatus.code > 1) {
+            List<String> subOrderGuideAvartar = orderBean.subOrderGuideAvartar;
+            if (subOrderGuideAvartar == null || subOrderGuideAvartar.size() <= 0) {
+                vh.travel_item_head_layout_all.setVisibility(View.GONE);
+                vh.mStatusLayout.setVisibility(View.GONE);
+                vh.lineView.setVisibility(View.INVISIBLE);
+            } else {
+                vh.mStatusLayout.setVisibility(View.VISIBLE);
+                vh.lineView.setVisibility(View.VISIBLE);
+                vh.travel_item_head_layout_all.setVisibility(View.VISIBLE);
+                vh.mHeadLayout.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);//评价司导
+                vh.mBtnPay.setVisibility(View.GONE);
+
+                int size = subOrderGuideAvartar.size();
+                if (0 < size) {
+                    isShowAvartarLayout = true;
+                    vh.travel_item_head_img1.setVisibility(View.VISIBLE);
+                    Tools.showImage(vh.travel_item_head_img1, subOrderGuideAvartar.get(0), R.mipmap.icon_avatar_guide);
+                } else {
+                    vh.travel_item_head_img1.setVisibility(View.GONE);
+                }
+                if (1 < size) {
+                    vh.travel_item_head_img2.setVisibility(View.VISIBLE);
+                    Tools.showImage(vh.travel_item_head_img2, subOrderGuideAvartar.get(1), R.mipmap.icon_avatar_guide);
+                } else {
+                    vh.travel_item_head_img2.setVisibility(View.GONE);
+                }
+                if (2 < size) {
+                    vh.travel_item_head_img3.setVisibility(View.VISIBLE);
+                    Tools.showImage(vh.travel_item_head_img3, subOrderGuideAvartar.get(2), R.mipmap.icon_avatar_guide);
+                } else {
+                    vh.travel_item_head_img3.setVisibility(View.GONE);
+                }
+                vh.travel_item_head_more_tv.setVisibility(3 < size ? View.VISIBLE : View.GONE);
+            }
+        } else {
+            vh.travel_item_head_layout_all.setVisibility(View.GONE);
+        }
         switch (orderBean.orderStatus) {
             case INITSTATE://等待支付 初始状态
-                vh.mStatus.setText("等待支付");
 
                 vh.mStatusLayout.setVisibility(View.VISIBLE);
                 vh.lineView.setVisibility(View.VISIBLE);
@@ -261,14 +322,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
-                vh.mStatus.setText("预订成功");
+                vh.mPrice.setVisibility(View.GONE);
+                vh.mBtnPay.setVisibility(View.GONE);
+                vh.mHeadLayout.setVisibility(View.GONE);
+                vh.mAssessment.setVisibility(View.GONE);
                 if (orderBean.insuranceEnable) {
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
-                    vh.mPrice.setVisibility(View.GONE);
-                    vh.mBtnPay.setVisibility(View.GONE);
-                    vh.mHeadLayout.setVisibility(View.GONE);
-                    vh.mAssessment.setVisibility(View.GONE);
                     vh.br_layout.setVisibility(View.VISIBLE);
                     vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -290,23 +350,23 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         }
                     });
                 } else {
-                    vh.mStatusLayout.setVisibility(View.GONE);
-                    vh.lineView.setVisibility(View.INVISIBLE);
+                    if (!isShowAvartarLayout) {
+                        vh.mStatusLayout.setVisibility(View.GONE);
+                        vh.lineView.setVisibility(View.INVISIBLE);
+                    }
                     vh.br_layout.setVisibility(View.GONE);
                 }
                 break;
             case AGREE://司导已接单
             case ARRIVED://司导已到达
             case SERVICING://服务中
-                vh.mStatus.setText(orderBean.orderStatus.name);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);
 
-                if (orderBean.orderGuideInfo != null) {
+                boolean isShowStatusLayout = false;
+                if (!isShowAvartarLayout && orderBean.orderGuideInfo != null) {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
-                    vh.mStatusLayout.setVisibility(View.VISIBLE);
-                    vh.lineView.setVisibility(View.VISIBLE);
                     vh.mHeadTitle.setText(orderBean.getGuideName());
                     if (TextUtils.isEmpty(orderBean.orderGuideInfo.guideAvatar)) {
                         vh.mHeadImg.setImageResource(R.mipmap.icon_avatar_guide);
@@ -323,35 +383,42 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }else{
                         vh.mBtnChat.setVisibility(View.GONE);
                     }
-
-                    if (orderBean.insuranceEnable) {
-                        vh.br_layout.setVisibility(View.VISIBLE);
-                        vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("orderBean",orderBean);
-                                bundle.putString("from","orderList");
-                                Intent intent = new Intent(context, InsureActivity.class);
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                            }
-                        });
-                        vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
-                                v.getContext().startActivity(intent);
-                            }
-                        });
-                    } else {
-                        vh.br_layout.setVisibility(View.GONE);
-                    }
+                    isShowStatusLayout = true;
                 } else {
+                    vh.mHeadLayout.setVisibility(View.GONE);
+                }
+
+                if (orderBean.insuranceEnable) {
+                    vh.br_layout.setVisibility(View.VISIBLE);
+                    vh.travel_item_btn_br.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("orderBean",orderBean);
+                            bundle.putString("from","orderList");
+                            Intent intent = new Intent(context, InsureActivity.class);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        }
+                    });
+                    vh.travel_item_btn_br_tips.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                            intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                            v.getContext().startActivity(intent);
+                        }
+                    });
+                    isShowStatusLayout = true;
+                } else {
+                    vh.br_layout.setVisibility(View.GONE);
+                }
+                if (isShowStatusLayout) {
+                    vh.mStatusLayout.setVisibility(View.VISIBLE);
+                    vh.lineView.setVisibility(View.VISIBLE);
+                } else if (!isShowAvartarLayout) {
                     vh.mStatusLayout.setVisibility(View.GONE);
                     vh.lineView.setVisibility(View.INVISIBLE);
-                    vh.mHeadLayout.setVisibility(View.GONE);
                 }
                 break;
             case NOT_EVALUATED://未评价
@@ -362,7 +429,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.br_layout.setVisibility(View.GONE);
 
-                if (orderBean.orderGuideInfo != null) {
+                if (orderBean.orderGuideInfo != null && !isShowAvartarLayout) {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
@@ -384,31 +451,28 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                         vh.mBtnChat.setVisibility(View.GONE);
                     }
 
-                    if (!orderBean.isEvaluated()) {//服务完成未评价
+                    if (!orderBean.isEvaluated() && orderBean.orderType != 888) {//服务完成未评价
                         vh.mAssessment.setVisibility(View.VISIBLE);
                         vh.mAssessment.setOnClickListener(new TravelOnClickListener(orderBean));
-                        vh.mStatus.setText("未评价");
                     } else {
                         vh.mAssessment.setVisibility(View.GONE);
-                        vh.mStatus.setText("服务完成");
                     }
                 } else {
-                    vh.mStatusLayout.setVisibility(View.GONE);
-                    vh.lineView.setVisibility(View.INVISIBLE);
+                    if (!isShowAvartarLayout) {
+                        vh.mStatusLayout.setVisibility(View.GONE);
+                        vh.lineView.setVisibility(View.INVISIBLE);
+                    }
                     vh.mHeadLayout.setVisibility(View.GONE);
                     vh.mAssessment.setVisibility(View.GONE);
                 }
                 break;
             case CANCELLED://已取消
             case REFUNDED://已退款
-                vh.mStatus.setText(orderBean.orderStatus == OrderStatus.CANCELLED ? "已取消" : "已退款");
-                vh.mStatusLayout.setVisibility(View.GONE);
-                vh.lineView.setVisibility(View.INVISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);
                 vh.br_layout.setVisibility(View.GONE);
-                if (orderBean.orderGuideInfo != null) {
+                if (orderBean.orderGuideInfo != null && !isShowAvartarLayout) {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
@@ -423,20 +487,19 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mBtnChat.setVisibility(View.GONE);
                 } else {
-                    vh.mStatusLayout.setVisibility(View.GONE);
-                    vh.lineView.setVisibility(View.INVISIBLE);
+                    if (!isShowAvartarLayout) {
+                        vh.mStatusLayout.setVisibility(View.GONE);
+                        vh.lineView.setVisibility(View.INVISIBLE);
+                    }
                     vh.mHeadLayout.setVisibility(View.GONE);
                 }
                 break;
             case COMPLAINT://客诉处理中
-                vh.mStatus.setText("客诉处理中");
-                vh.mStatusLayout.setVisibility(View.GONE);
-                vh.lineView.setVisibility(View.INVISIBLE);
                 vh.mPrice.setVisibility(View.GONE);
                 vh.mBtnPay.setVisibility(View.GONE);
                 vh.mAssessment.setVisibility(View.GONE);
                 vh.br_layout.setVisibility(View.GONE);
-                if (orderBean.orderGuideInfo != null) {
+                if (orderBean.orderGuideInfo != null && !isShowAvartarLayout) {
                     vh.mHeadLayout.setVisibility(View.VISIBLE);
                     vh.mStatusLayout.setVisibility(View.VISIBLE);
                     vh.lineView.setVisibility(View.VISIBLE);
@@ -451,8 +514,10 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     vh.mHeadImg.setOnClickListener(new TravelOnClickListener(orderBean));
                     vh.mBtnChat.setVisibility(View.GONE);
                 } else {
-                    vh.mStatusLayout.setVisibility(View.GONE);
-                    vh.lineView.setVisibility(View.INVISIBLE);
+                    if (!isShowAvartarLayout) {
+                        vh.mStatusLayout.setVisibility(View.GONE);
+                        vh.lineView.setVisibility(View.INVISIBLE);
+                    }
                     vh.mHeadLayout.setVisibility(View.GONE);
                 }
                 break;
@@ -514,7 +579,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                 case R.id.travel_item_btn_chat:
                     MLog.e("进入聊天" + mOrderBean.orderNo);
                     if(mOrderBean.imInfo!=null){
-                        String imId = mOrderBean.imInfo.neTargetId;
+                        String imId = mOrderBean.imInfo.getNeTargetId();
                         if(!TextUtils.isEmpty(imId)){
                             gotoChatView(imId);
                         }else{
@@ -578,8 +643,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        //String titleJson = getChatInfo(orderGuideInfo, "1",imChatId,inblack);
-        NIMChatActivity.start(context,imChatId,null);
+        NIMChatActivity.start(context,imChatId);
     }
 
 }

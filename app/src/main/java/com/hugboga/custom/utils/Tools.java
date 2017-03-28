@@ -72,6 +72,21 @@ public class Tools {
                 .into(imageView);
     }
 
+
+    public static void showImageHasPlaceHolder(final ImageView imageView, String url, final int placeHolderResId) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .centerCrop()
+                .dontAnimate()
+                .placeholder(placeHolderResId)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+
     public static void showGif(ImageView imageView, int resId) {
         Glide.with(MyApplication.getAppContext())
                 .load(resId)
@@ -157,7 +172,16 @@ public class Tools {
 
 
     public static void showCircleImage(Context context,ImageView imageView,String url){
-        Glide.with(context).load(url).transform(new GlideCircleTransform(context)).into(imageView);
+        Glide.with(context).load(url).transform(new GlideCircleTransform(context))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop().into(imageView);
+    }
+
+    public static void showCircleImage(Context context,ImageView imageView,String url,int placeHolder){
+        Glide.with(context).load(url).transform(new GlideCircleTransform(context))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(placeHolder)
+                .centerCrop().into(imageView);
     }
 
     public static Bitmap getBitmap(Context context,String url){

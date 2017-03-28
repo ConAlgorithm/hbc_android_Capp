@@ -3,11 +3,6 @@ package com.hugboga.custom;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -16,40 +11,20 @@ import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.adapter.viewholder.MsgViewHolderTip;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
-import com.hugboga.custom.map.GdMapProvider;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.netease.nim.uikit.ImageLoaderKit;
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.cache.FriendDataCache;
-import com.netease.nim.uikit.cache.NimUserInfoCache;
-import com.netease.nim.uikit.cache.TeamDataCache;
-import com.netease.nim.uikit.contact.ContactProvider;
-import com.netease.nim.uikit.session.module.MsgForwardFilter;
-import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.SDKOptions;
-import com.netease.nimlib.sdk.StatusBarNotificationConfig;
-import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
-import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.hugboga.im.ImHelper;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
@@ -57,8 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.x;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -93,7 +66,7 @@ public class MyApplication extends HbcApplication {
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            CrashReport.initCrashReport(this, "900024779", false);
+//            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +74,7 @@ public class MyApplication extends HbcApplication {
 
         UmengADPlus umengADPlus = new UmengADPlus();
         umengADPlus.sendMessage(this,"55ccb4cfe0f55ab500004a9d");
-        initNim(this);
+
 
         final boolean inMainProcess = inMainProcess(mAppContext);
         if (inMainProcess) {
@@ -109,6 +82,8 @@ public class MyApplication extends HbcApplication {
             initSensorsData();          // 初始化神策
             initXMpush();               // 小米push
         }
+
+        ImHelper.initNim(this,R.mipmap.icon_avatar_user);
     }
 
     public static Context getAppContext() {
@@ -287,16 +262,6 @@ public class MyApplication extends HbcApplication {
     }
 
 
-    public static void initNim(Context context){
-        NIMClient.init(context, null, getOptions(context));
-        if (inMainProcess(context)) {
-            initUIKit(context);
-            // 注册通知消息过滤器,暂时不需要
-            //registerIMMessageFilter();
-            // 初始化消息提醒
-            NIMClient.toggleNotification(false);
-        }
-    }
 
 
     public static boolean inMainProcess(Context context) {
@@ -306,132 +271,8 @@ public class MyApplication extends HbcApplication {
     }
 
 
-    private static  SDKOptions getOptions(Context context) {
-        SDKOptions options = new SDKOptions();
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-        config.ledARGB = Color.GREEN;
-        config.ledOnMs = 1000;
-        config.ledOffMs = 1500;
-        options.statusBarNotificationConfig = config;
-        String sdkPath = Environment.getExternalStorageDirectory() + "/" + context.getPackageName() + "/nim";
-        options.sdkStorageRootPath = sdkPath;
-        options.databaseEncryptKey = "NETEASE";
-        options.preloadAttach = true;
-        options.thumbnailSize = MsgViewHolderThumbBase.getImageMaxEdge();
-        options.userInfoProvider = infoProvider;
-
-        return options;
-    }
-
-    public static void requestRemoteNimUserInfo(String account){
-        NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
-    }
-
-    private static UserInfoProvider infoProvider = new UserInfoProvider() {
-        @Override
-        public UserInfo getUserInfo(String account) {
-            UserInfo user = NimUserInfoCache.getInstance().getUserInfo(account);
-            if (user == null) {
-                NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
-            }
-            return user;
-        }
-
-        @Override
-        public int getDefaultIconResId() {
-            return R.mipmap.icon_avatar_user;
-        }
-
-        @Override
-        public Bitmap getTeamIcon(String teamId) {
-            Drawable drawable = mAppContext.getResources().getDrawable(R.drawable.nim_avatar_group);
-            if (drawable instanceof BitmapDrawable) {
-                return ((BitmapDrawable) drawable).getBitmap();
-            }
-
-            return null;
-        }
-
-        @Override
-        public Bitmap getAvatarForMessageNotifier(String account) {
-            /**
-             * 注意：这里最好从缓存里拿，如果读取本地头像可能导致UI进程阻塞，导致通知栏提醒延时弹出。
-             */
-            UserInfo user = getUserInfo(account);
-            return (user != null) ? ImageLoaderKit.getNotificationBitmapFromCache(user) : null;
-        }
-
-        @Override
-        public String getDisplayNameForMessageNotifier(String account, String sessionId, SessionTypeEnum sessionType) {
-            String nick = null;
-            if (sessionType == SessionTypeEnum.P2P) {
-                nick = NimUserInfoCache.getInstance().getAlias(account);
-            } else if (sessionType == SessionTypeEnum.Team) {
-                nick = TeamDataCache.getInstance().getTeamNick(sessionId, account);
-                if (TextUtils.isEmpty(nick)) {
-                    nick = NimUserInfoCache.getInstance().getAlias(account);
-                }
-            }
-            // 返回null，交给sdk处理。如果对方有设置nick，sdk会显示nick
-            if (TextUtils.isEmpty(nick)) {
-                return null;
-            }
-
-            return nick;
-        }
-    };
 
 
-    private static ContactProvider contactProvider = new ContactProvider() {
-        @Override
-        public List<UserInfoProvider.UserInfo> getUserInfoOfMyFriends() {
-            List<NimUserInfo> nimUsers = NimUserInfoCache.getInstance().getAllUsersOfMyFriend();
-            List<UserInfoProvider.UserInfo> users = new ArrayList<>(nimUsers.size());
-            if (!nimUsers.isEmpty()) {
-                users.addAll(nimUsers);
-            }
-            return users;
-        }
-
-        @Override
-        public int getMyFriendsCount() {
-            return FriendDataCache.getInstance().getMyFriendCounts();
-        }
-        @Override
-        public String getUserDisplayName(String account) {
-            return NimUserInfoCache.getInstance().getUserDisplayName(account);
-        }
-    };
-//    private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
-//        @Override
-//        public String makeNotifyContent(String nick, IMMessage message) {
-//            return null; // 采用SDK默认文案
-//        }
-//
-//        @Override
-//        public String makeTicker(String nick, IMMessage message) {
-//            return null; // 采用SDK默认文案
-//        }
-//    };
-
-    private static void initUIKit(Context context) {
-        // 初始化，需要传入用户信息提供者
-        NimUIKit.init(context, infoProvider, contactProvider);
-        // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
-        NimUIKit.setLocationProvider(new GdMapProvider());
-        // 会话窗口的定制初始化。
-        //SessionHelper.init();
-        NimUIKit.setMsgForwardFilter(new MsgForwardFilter() {
-            @Override
-            public boolean shouldIgnore(IMMessage message) {
-                return message.getDirect() == MsgDirectionEnum.In
-                        && (message.getAttachStatus() == AttachStatusEnum.transferring
-                        || message.getAttachStatus() == AttachStatusEnum.fail);
-            }
-        });
-
-        NimUIKit.registerTipMsgViewHolder(MsgViewHolderTip.class);
-    }
 
     public void initXMpush() {
         MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");

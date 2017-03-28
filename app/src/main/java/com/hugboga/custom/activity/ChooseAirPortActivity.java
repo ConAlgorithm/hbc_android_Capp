@@ -1,9 +1,11 @@
 package com.hugboga.custom.activity;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +23,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.AirportAdapter;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GPSBean;
 import com.hugboga.custom.data.bean.LocationData;
 import com.hugboga.custom.data.event.EventAction;
@@ -53,6 +56,8 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
 
     public static final String KEY_BUNDLE = "bundle";
     public static final String KEY_AIRPORT = "key_airport";
+
+    public static final String KEY_GROUPID = "key_groupid";//线路圈id
 
     public AirportAdapter adapter;
     @Bind(R.id.header_left_btn)
@@ -91,6 +96,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     private SharedPre sharedPer;
     private ArrayList<String> airportHistory;
 
+    private int groupId;
 
     protected void initHeader() {
         mDbManager = new DBHelper(activity).getDbManager();
@@ -101,9 +107,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             public void onClick(View v) {
                 String keyword = editSearch.getText().toString().trim();
                 hideInputMethod(editSearch);
-                if(!TextUtils.isEmpty(keyword)) {
+                if (!TextUtils.isEmpty(keyword)) {
                     requestDate(keyword); //进行点击搜索
-                }else{
+                } else {
                     CommonUtils.showToast("请输入城市或机场");
                 }
             }
@@ -154,10 +160,16 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     }
 
     protected Callback.Cancelable requestData() {
-        requestDate(null);
-        requestHotDate();
-        requestHistoryDate();
-        getGPSAirport();
+        groupId = getIntent().getIntExtra(KEY_GROUPID, 0);
+        if (groupId != 0) {
+            queryAirPortByGroupId(null);
+        } else {
+            requestDate(null);
+            requestHotDate();
+            requestHistoryDate();
+            getGPSAirport();
+        }
+
         return null;
     }
 
@@ -178,7 +190,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
                 String letter = airPort.cityFirstLetter;
                 if (letter.equals("热门机场")) {
                     letter = "热门";
-                } else if(letter.equals("搜索历史")) {
+                } else if (letter.equals("搜索历史")) {
                     letter = "历史";
                 }
                 sectionIndices.add(letter);
@@ -225,20 +237,24 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     }
 
     protected void requestDate(String keyword) {
-        Selector selector = null;
-        try {
-            selector = mDbManager.selector(AirPort.class);
-        } catch (DbException e) {
-            e.printStackTrace();
+        if (groupId != 0) {
+            queryAirPortByGroupId(keyword);
+        } else {
+            Selector selector = null;
+            try {
+                selector = mDbManager.selector(AirPort.class);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+            if (!TextUtils.isEmpty(keyword))
+                selector.where("airport_name", "LIKE", "%" + keyword + "%").or("city_name", "LIKE", "%" + keyword + "%");
+            try {
+                sourceDateList = selector.findAll();
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+            selector.orderBy("city_initial");
         }
-        if (!TextUtils.isEmpty(keyword))
-            selector.where("airport_name", "LIKE", "%" + keyword + "%").or("city_name", "LIKE", "%" + keyword + "%");
-        try {
-            sourceDateList = selector.findAll();
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-        selector.orderBy("city_initial");
         inflateContent();
         initSideBar();
     }
@@ -406,7 +422,12 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         MLog.e("" + event.getAction() + " " + keyCode);
         if (event.getAction() == KeyEvent.ACTION_UP && (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_ENTER)) {
-            requestDate(editSearch.getText().toString().trim());
+            if(groupId==0){
+                requestDate(editSearch.getText().toString().trim());
+            } else{
+                queryAirPortByGroupId(editSearch.getText().toString().trim());
+            }
+
             return true;
         }
         return false;
@@ -425,9 +446,69 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     @Override
     public void afterTextChanged(Editable s) {
         if (TextUtils.isEmpty(s)) {
-            requestData();
+            if (groupId == 0) {
+                requestData();
+            }  else {
+                queryAirPortByGroupId("");
+            }
         } else {
 //            requestDate(editSearch.getText().toString().trim());
         }
+    }
+
+    private void queryAirPortByGroupId(String keywords) {
+        List<AirPort> airPorts = new ArrayList<>();
+        Selector<CityBean> selector;
+        Cursor cursor = null;
+        try {
+            selector = mDbManager.selector(CityBean.class);
+            selector.where("group_id", "=", groupId);
+            List<CityBean> cityBeanList = selector.findAll();
+            if (cityBeanList != null && cityBeanList.size() > 0) {
+                for (CityBean cityBean : cityBeanList) {
+                    String sql = "select * from airport where city_id=" + cityBean.cityId;
+                    if(!TextUtils.isEmpty(keywords)){
+                        sql += " and (airport_name like '%"+ keywords + "%'" + " or "
+                                + "city_name like '%" + keywords +"%')";
+                    }
+                    Log.i("sql",sql);
+                    cursor = mDbManager.execQuery(sql);
+                    while (cursor!=null && cursor.moveToNext()){
+                        AirPort airPort = new AirPort();
+                        airPort.airportId = cursor.getInt(cursor.getColumnIndexOrThrow("airport_id"));
+                        airPort.airportCode = cursor.getString(cursor.getColumnIndexOrThrow("airport_code"));
+                        airPort.airportName = cursor.getString(cursor.getColumnIndexOrThrow("airport_name"));
+                        airPort.areaCode = cursor.getString(cursor.getColumnIndexOrThrow("area_code"));
+                        airPort.cityFirstLetter = cursor.getString(cursor.getColumnIndexOrThrow("city_initial"));
+                        int bannerswitch = cursor.getInt(cursor.getColumnIndexOrThrow("banner_switch"));
+                        airPort.bannerSwitch = bannerswitch==0?false:true;
+                        airPort.cityId = cursor.getInt(cursor.getColumnIndexOrThrow("city_id"));
+                        airPort.cityName = cursor.getString(cursor.getColumnIndexOrThrow("city_name"));
+                        airPort.location = cursor.getString(cursor.getColumnIndexOrThrow("airport_location"));
+                        airPort.hotWeight = cursor.getInt(cursor.getColumnIndexOrThrow("hot_weight"));
+                        int hot = cursor.getInt(cursor.getColumnIndexOrThrow("is_hot"));
+                        airPort.isHot = hot==0?false:true;
+                        int visaSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("landing_visa_switch"));
+                        airPort.visaSwitch = visaSwitch==0?false:true;
+                        int childSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("childseat_switch"));
+                        airPort.childSeatSwitch = childSwitch==0?false:true;
+                        airPorts.add(airPort);
+                    }
+                    if(cursor!=null){
+                        cursor.close();
+                    }
+                }
+            }
+        } catch (Exception e) {
+
+        }finally {
+            if(cursor!=null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        sourceDateList = airPorts;
+        inflateContent();
+        initSideBar();
+
     }
 }
