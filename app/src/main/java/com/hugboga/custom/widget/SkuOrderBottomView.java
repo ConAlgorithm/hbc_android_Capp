@@ -34,6 +34,9 @@ public class SkuOrderBottomView extends LinearLayout {
     @Bind(R.id.sku_order_bottom_price_detail_arrow_iv)
     ImageView arrowIV;
 
+    @Bind(R.id.sku_order_bottom_selected_guide_hint_tv)
+    TextView selectedGuideHintTV;
+
     public OnSubmitOrderListener listener;
 
     private int shouldPrice;
@@ -99,6 +102,10 @@ public class SkuOrderBottomView extends LinearLayout {
             arrowIV.setBackgroundResource(R.mipmap.share_unfold);
         }
         orderPricePopupLayout.showPopupWindow(orderPrice, discountPrice, actualPay);
+    }
+
+    public TextView getSelectedGuideHintTV() {
+        return selectedGuideHintTV;
     }
 
 }

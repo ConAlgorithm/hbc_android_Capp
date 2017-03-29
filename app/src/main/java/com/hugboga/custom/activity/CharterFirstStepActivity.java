@@ -23,6 +23,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
@@ -117,6 +118,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         charterDataUtils = CharterDataUtils.getInstance();
         if (guidesDetailData != null) {
             charterDataUtils.guidesDetailData = guidesDetailData;
+            startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
         }
 
         titlebar.setTitleBarBackListener(this);
