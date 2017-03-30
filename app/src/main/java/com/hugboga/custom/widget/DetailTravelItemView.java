@@ -151,11 +151,10 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemLineTagLayout.setVisibility(View.GONE);
             travelItemPickupLayout.setVisibility(View.GONE);
             travelItemTimeLayout.setVisibility(View.VISIBLE);
+            travelItemTimeHintTv.setVisibility(View.GONE);
             if (TextUtils.isEmpty(data.transfer.serviceTimeStr)) {
-                travelItemTimeHintTv.setVisibility(View.VISIBLE);
-                travelItemTimeTv.setText("只送机，");
+                travelItemTimeTv.setText("只送机");
             } else {
-                travelItemTimeHintTv.setVisibility(View.GONE);
                 travelItemTimeTv.setText(String.format("只送机，%1$s出发", data.transfer.serviceTimeStr));
             }
             updateSendLayout(data.transfer);
