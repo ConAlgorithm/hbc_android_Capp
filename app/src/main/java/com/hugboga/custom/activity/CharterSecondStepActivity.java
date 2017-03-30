@@ -11,6 +11,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.CameraUpdateFactory;
@@ -69,6 +71,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/2/21.
@@ -89,6 +92,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     HbcMapView mapView;
     @Bind(R.id.charter_second_list_container)
     FrameLayout listContainer;
+
+    @Bind(R.id.charter_second_unfold_map_layout)
+    LinearLayout unfoldMapLayout;
+    @Bind(R.id.charter_second_packup_map_iv)
+    ImageView packupMapIV;
 
     private CharterFragmentAgent fragmentAgent;
 
@@ -629,6 +637,24 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         public RefreshBean(int day, boolean isRefresh) {
             this.day = day;
             this.isRefresh = isRefresh;
+        }
+    }
+
+    @OnClick({R.id.charter_second_unfold_map_layout})
+    public void onUnfoldMapListener() {//展开地图
+
+    }
+
+    @OnClick({R.id.charter_second_packup_map_iv})
+    public void onPackupMapListener() {//收起地图
+
+    }
+
+    private void onUnfoldMap(boolean isUnfold) {
+        if (isUnfold) {
+            bottomView.setVisibility(View.GONE);
+        } else {
+            bottomView.setVisibility(View.VISIBLE);
         }
     }
 
