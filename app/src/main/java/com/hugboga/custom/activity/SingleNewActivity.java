@@ -59,6 +59,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -788,6 +789,13 @@ public class SingleNewActivity extends BaseActivity {
         final Calendar calendar = Calendar.getInstance();
         picker = new DateTimePicker(activity, DateTimePicker.YEAR_MONTH_DAY);
         picker.setRange(calendar.get(Calendar.YEAR),calendar.get(Calendar.YEAR)+1);
+        if (!TextUtils.isEmpty(serverDate) && !TextUtils.isEmpty(serverTime)) {
+            try {
+                calendar.setTime(DateUtils.dateTimeFormat2.parse(serverDate + " " + serverTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {

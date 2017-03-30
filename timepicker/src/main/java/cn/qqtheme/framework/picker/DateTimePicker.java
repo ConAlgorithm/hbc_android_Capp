@@ -266,8 +266,8 @@ public class DateTimePicker extends WheelPicker {
         }
         hourView.setItems(hours, selectedHour);
         ArrayList<String> minutes = new ArrayList<String>();
-        for (int i = 0; i < 60; i++) {
-            minutes.add(DateUtils.fillZero(i));
+        for (int i = 0; i < 6; i++) {
+            minutes.add(DateUtils.fillZero(i * 10));
         }
         minuteView.setItems(minutes, selectedMinute);
         hourView.setOnWheelListener(new WheelView.OnWheelListener() {
@@ -366,7 +366,11 @@ public class DateTimePicker extends WheelPicker {
         selectedMonthIndex = findItemIndex(months, month);
         selectedDayIndex = findItemIndex(days, day);
         selectedHour = DateUtils.fillZero(hour);
-        selectedMinute = DateUtils.fillZero(minute);
+        int _minute = (minute / 10) * 10;
+        if (_minute < 50 && minute % 10 > 0) {
+            _minute += 10;
+        }
+        selectedMinute = DateUtils.fillZero(_minute);
     }
 
     /**

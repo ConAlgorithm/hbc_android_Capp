@@ -59,6 +59,7 @@ import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -638,6 +639,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         final Calendar calendar = Calendar.getInstance();
         picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
         picker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR)+1);
+        if (!TextUtils.isEmpty(serverDate) && !TextUtils.isEmpty(serverTime)) {
+            try {
+                calendar.setTime(DateUtils.dateTimeFormat2.parse(serverDate + " " + serverTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
