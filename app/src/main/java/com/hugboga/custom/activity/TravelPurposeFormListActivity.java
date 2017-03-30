@@ -73,6 +73,8 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
     @Override
     protected void onResume() {
         super.onResume();
+        isFirst = true;
+        setRequest(0,true);
     }
 
     public void initView(){
