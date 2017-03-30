@@ -112,6 +112,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     private LayoutInflater mLayoutInflater;
 
+    private boolean isUnfoldMap = false;
+
     public static class Params implements Serializable {
         public CityBean startBean;
         public ChooseDateBean chooseDateBean;
@@ -143,7 +145,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     private void initMapView(){
         MapsInitializer.loadWorldGridMap(true);
-        mapView.getLayoutParams().height = (int)((1 / 2.6f) * ScreenUtil.screenWidth);
+        mapView.getLayoutParams().height = getMapHight(false);
         mapView.getaMap().getUiSettings().setZoomControlsEnabled(false);
     }
 
@@ -216,6 +218,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isUnfoldMap) {
+                onUnfoldMap(false);
+               return true;
+            }
             finishActivity();
         }
         return super.onKeyUp(keyCode, event);
@@ -642,20 +648,30 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @OnClick({R.id.charter_second_unfold_map_layout})
     public void onUnfoldMapListener() {//展开地图
-
+        onUnfoldMap(true);
     }
 
     @OnClick({R.id.charter_second_packup_map_iv})
     public void onPackupMapListener() {//收起地图
-
+        onUnfoldMap(false);
     }
 
     private void onUnfoldMap(boolean isUnfold) {
+        this.isUnfoldMap = isUnfold;
+        mapView.getLayoutParams().height = getMapHight(isUnfold);
         if (isUnfold) {
             bottomView.setVisibility(View.GONE);
+            packupMapIV.setVisibility(View.VISIBLE);
+            unfoldMapLayout.setVisibility(View.GONE);
         } else {
             bottomView.setVisibility(View.VISIBLE);
+            packupMapIV.setVisibility(View.GONE);
+            unfoldMapLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    public int getMapHight(boolean isUnfold) {
+        return isUnfold ? ScreenUtil.screenWidth : (int)((1 / 2.6f) * ScreenUtil.screenWidth);
     }
 
     @Override
