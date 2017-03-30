@@ -44,14 +44,12 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
-import com.hugboga.custom.widget.OrderPricePopupLayout;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderChooseDateView;
@@ -101,9 +99,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     OrderExplainView explainView;
     @Bind(R.id.sku_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
-
-    @Bind(R.id.sku_order_price_bottom_view)
-    OrderPricePopupLayout priceBottomLayout;
 
     private SkuOrderActivity.Params params;
     private CarListBean carListBean;
@@ -172,7 +167,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setOrderPricePopupLayout(priceBottomLayout);
         emptyLayout.setOnRefreshDataListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 

@@ -41,7 +41,6 @@ import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -54,7 +53,6 @@ import com.hugboga.custom.widget.CombinationOrderCountView;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
-import com.hugboga.custom.widget.OrderPricePopupLayout;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
@@ -99,9 +97,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     OrderExplainView explainView;
     @Bind(R.id.combination_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
-
-    @Bind(R.id.combination_order_price_bottom_view)
-    OrderPricePopupLayout priceBottomLayout;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -149,7 +144,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setOrderPricePopupLayout(priceBottomLayout);
         bottomView.getSelectedGuideHintTV().setVisibility(charterDataUtils.guidesDetailData == null ? View.VISIBLE : View.GONE);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);

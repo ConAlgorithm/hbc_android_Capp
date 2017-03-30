@@ -91,13 +91,4 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
-
-    <com.hugboga.custom.widget.OrderPricePopupLayout
-        android:id="@+id/sku_order_price_bottom_view"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/order_bottom_height"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="91dp">
-    </com.hugboga.custom.widget.OrderPricePopupLayout>
 </RelativeLayout>
