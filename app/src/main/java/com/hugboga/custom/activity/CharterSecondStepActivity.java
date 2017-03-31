@@ -54,6 +54,7 @@ import com.hugboga.custom.utils.CharterFragmentAgent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.charter.CharterEmptyView;
 import com.hugboga.custom.widget.charter.CharterItemView;
@@ -663,15 +664,17 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             bottomView.setVisibility(View.GONE);
             packupMapIV.setVisibility(View.VISIBLE);
             unfoldMapLayout.setVisibility(View.GONE);
+            titleBar.setVisibility(View.GONE);
         } else {
             bottomView.setVisibility(View.VISIBLE);
             packupMapIV.setVisibility(View.GONE);
             unfoldMapLayout.setVisibility(View.VISIBLE);
+            titleBar.setVisibility(View.VISIBLE);
         }
     }
 
     public int getMapHight(boolean isUnfold) {
-        return isUnfold ? ScreenUtil.screenWidth : (int)((1 / 2.6f) * ScreenUtil.screenWidth);
+        return isUnfold ? UIUtils.getScreenHeight() : (int)((1 / 2.6f) * UIUtils.getScreenWidth());
     }
 
     @Override
