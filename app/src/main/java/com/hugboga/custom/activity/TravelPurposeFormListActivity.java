@@ -84,7 +84,6 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
         headerLeftBtn.setVisibility(View.VISIBLE);
 
         headerAddView = new HeaderAddView(this);
-        setRequest(0,true);
 
         adapter = new TravelPurposeFormListAdapter(this);
         GridLayoutManager manager = new GridLayoutManager(this,2);
