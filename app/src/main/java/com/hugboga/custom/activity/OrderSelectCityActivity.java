@@ -836,7 +836,7 @@ public class OrderSelectCityActivity extends BaseActivity {
             OrderUtils.checkGuideCoflict(activity, 3, startBean.cityId,
                     collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " + serverTime + ":00",
                     end_time, getPassCitiesId(),
-                    nums, collectGuideBean.carType, collectGuideBean.carClass,
+                    nums, collectGuideBean.carType, collectGuideBean.carClass,collectGuideBean.special, 0,//collectGuideBean.carId
                     new HttpRequestListener() {
                         @Override
                         public void onDataRequestSucceed(BaseRequest request) {

@@ -28,7 +28,7 @@ public class RequestGuideConflict extends BaseRequest<List<String>> {
 //    passCityId String 选填 途径城市Id（日租，跨城市包车必填）  2,3,5   城市id,城市id
 //    totalDay Integer 选填 用车天数（包车必填）
     public RequestGuideConflict(Context context,int orderType,int cityId,String guideIds,
-                               String startTime,String endTime,String passCityId,int totalDay,int carType,int carClass) {
+                               String startTime,String endTime,String passCityId,int totalDay,int carType,int carClass,int isSpecialCar,int carId) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("orderType", orderType);
@@ -38,9 +38,13 @@ public class RequestGuideConflict extends BaseRequest<List<String>> {
         map.put("endTime", endTime);
         map.put("passCityId", passCityId);
         map.put("totalDay", totalDay);
-        map.put("carType", carType);
-        map.put("carClass", carClass);
-
+        if (isSpecialCar == 0) {
+            map.put("carType", carType);
+            map.put("carClass", carClass);
+        } else {
+            map.put("isSpecialCar", isSpecialCar);
+            map.put("carId", carId);
+        }
     }
 
     @Override

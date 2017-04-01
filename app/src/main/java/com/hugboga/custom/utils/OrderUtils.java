@@ -782,12 +782,12 @@ public class OrderUtils {
 
     public static void checkGuideCoflict(Context context,int orderType,int cityId,String guideIds,
                                          String startTime,String endTime,String passCityId,
-                                         int totalDay,int carType,int carClass,HttpRequestListener listener){
+                                         int totalDay,int carType,int carClass,int isSpecialCar,int carId,HttpRequestListener listener){
 
         RequestGuideConflict requestGuideConflict = new RequestGuideConflict(context,orderType,cityId,
                 guideIds,startTime,
                 endTime,passCityId,totalDay,
-                carType,carClass);
+                carType,carClass,isSpecialCar,carId);
         HttpRequestUtils.request(context, requestGuideConflict,listener,true);
     }
 

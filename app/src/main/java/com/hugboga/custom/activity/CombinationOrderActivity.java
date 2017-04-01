@@ -304,9 +304,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
+
+                charterDataUtils.onDestroy();
+                charterDataUtils.cleanGuidesDate();
             }
-            charterDataUtils.onDestroy();
-            charterDataUtils.cleanGuidesDate();
         } else if (_request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) _request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
@@ -320,6 +321,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                     SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }
             }
+            charterDataUtils.onDestroy();
+            charterDataUtils.cleanGuidesDate();
         }
     }
 
@@ -669,7 +672,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         OrderUtils.checkGuideCoflict(this, 3, charterDataUtils.getStartCityBean(1).cityId,
                 charterDataUtils.guidesDetailData.guideId, charterDataUtils.getStartServiceTime(),
                 charterDataUtils.getEndServiceTime(), charterDataUtils.getPassCitiesId(),
-                charterDataUtils.chooseDateBean.dayNums, carBean.carType, carBean.carSeat,
+                charterDataUtils.chooseDateBean.dayNums, carBean.carType, carBean.carSeat, carBean.special, carBean.carId,
                 new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
