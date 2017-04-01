@@ -206,6 +206,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             showSaveDialog();
+            return true;
         }
         return super.onKeyUp(keyCode, event);
     }

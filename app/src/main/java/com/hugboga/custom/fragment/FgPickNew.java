@@ -467,7 +467,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
                 null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
                 DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
-                cityId + "", 0, carBean.carType, carBean.carSeat,
+                cityId + "", 0, carBean.carType, carBean.carSeat,carBean.special,carBean.carId,
                 new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {

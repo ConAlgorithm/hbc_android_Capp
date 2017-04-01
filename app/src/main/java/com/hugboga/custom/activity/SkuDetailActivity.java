@@ -191,7 +191,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     private void getSkuItemBean(boolean isShowLoading) {
-        if (skuItemBean == null && !TextUtils.isEmpty(goodsNo)) {
+        if (!TextUtils.isEmpty(goodsNo)) {//skuItemBean == null &&
             isPerformClick = isShowLoading;
             RequestGoodsById request = new RequestGoodsById(activity, goodsNo);
             HttpRequestUtils.request(activity, request, new HttpRequestListener() {

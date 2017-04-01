@@ -588,7 +588,7 @@ public class SingleNewActivity extends BaseActivity {
         OrderUtils.checkGuideCoflict(activity, 4, cityBean.cityId,
                 null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
                 DateUtils.getToTime(sTime, Integer.valueOf(carListBean.estTime)),
-                cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,
+                cityBean.cityId + "", 0, carBean.carType, carBean.carSeat,carBean.special,carBean.carId,
                 new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {

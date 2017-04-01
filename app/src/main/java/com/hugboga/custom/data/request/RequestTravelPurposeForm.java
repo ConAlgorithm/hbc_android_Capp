@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -26,7 +27,7 @@ public class RequestTravelPurposeForm extends BaseRequest{
         super(context);
         map = new HashMap<>();
         map.put("opUserId", opUserId);
-        map.put("opUserName", opUserName);
+        map.put("opUserName", TextUtils.isEmpty(opUserName) ? "未知" : opUserName);
         map.put("workChannel", "5");
         map.put("workChannelName", "CAPP");
         map.put("toCityId", toCityId);

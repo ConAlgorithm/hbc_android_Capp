@@ -134,6 +134,7 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
                     intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                     intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean1);
                     intent.putExtra("goodtype",skuItemBean1.goodsType);
+                    intent.putExtra(Constants.PARAMS_ID, skuItemBean1.goodsNo);
                     intent.putExtra("type",type);
                     intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
                     v.getContext().startActivity(intent);

@@ -112,6 +112,7 @@ public class ChoosePaymentActivity extends BaseActivity {
     public RequestParams requestParams;
     public String creditType;
     CreditCardInfoBean cardInfoBean;
+    private boolean isShowingAlipay = false;
 
     public static class RequestParams implements Serializable {
         public String orderId;
@@ -160,6 +161,9 @@ public class ChoosePaymentActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
     }
 
     private void initView() {
@@ -436,6 +440,7 @@ public class ChoosePaymentActivity extends BaseActivity {
                 mDialogUtil.showLoadingDialog();
                 mHandler.sendEmptyMessage(1);
             } else {//正常支付
+                isShowingAlipay = true;
                 Runnable payRunnable = new Runnable() {
                     @Override
                     public void run() {
@@ -486,6 +491,7 @@ public class ChoosePaymentActivity extends BaseActivity {
                     } else {//支付失败
                         mHandler.sendEmptyMessage(2);
                     }
+                    isShowingAlipay = false;
                     break;
                 }
                 case PayResult.SDK_CHECK_FLAG: {
@@ -499,6 +505,9 @@ public class ChoosePaymentActivity extends BaseActivity {
     };
 
     private void backWarn() {
+        if (isFinishing()) {
+            return;
+        }
         DialogUtil dialogUtil = DialogUtil.getInstance(this);
         dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay, requestParams.payDeadTime), "确定离开", new DialogInterface.OnClickListener() {
             @Override
@@ -531,7 +540,9 @@ public class ChoosePaymentActivity extends BaseActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             try {
-                backWarn();
+                if (!isShowingAlipay) {
+                    backWarn();
+                }
             } catch (Exception e) {
 
             }

@@ -329,6 +329,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             }
             RequestUserInfo mRequest = (RequestUserInfo) request;
             UserBean user = mRequest.getData();
+            if (getContext() == null || user == null) {
+                return;
+            }
             UserEntity.getUser().setNickname(getContext(), user.nickname);
             UserEntity.getUser().setAvatar(getContext(), user.avatar);
             UserEntity.getUser().setUserName(getContext(), user.name);

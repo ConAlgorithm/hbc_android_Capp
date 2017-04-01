@@ -369,6 +369,7 @@ public class OrderBean implements IBaseBean{
         public String startAddress;         // 出发地址
         public String startAddressDetail;   // 出发地址详情
         public String startAddressPoi;      // 出发的poi
+        public String serviceCityName;
 
         public String destAddress;          // 目的地
         public String destAddressDetail;    // 目的地详情

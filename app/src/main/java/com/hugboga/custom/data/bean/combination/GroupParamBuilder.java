@@ -500,14 +500,13 @@ public class GroupParamBuilder {
         GroupDailyParam.ServicePassDetail servicePassDetail = new GroupDailyParam.ServicePassDetail();
         CityBean startCityBean = charterDataUtils.getStartCityBean(index + 1);
         servicePassDetail.startCityId = startCityBean.cityId;
-        servicePassDetail.cityName = startCityBean.name;
         if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
             CityBean endCityBean = charterDataUtils.getEndCityBean(index + 1);
             servicePassDetail.cityId = endCityBean.cityId;
-            servicePassDetail.endCityName = endCityBean.name;
+            servicePassDetail.cityName = endCityBean.name;
         } else {
             servicePassDetail.cityId = startCityBean.cityId;
-            servicePassDetail.endCityName = startCityBean.name;
+            servicePassDetail.cityName = startCityBean.name;
         }
         servicePassDetail.days = 1; //后端要求写死
         servicePassDetail.cityType = RequestBatchPrice.getTourType(cityRouteScope.routeType);
@@ -518,7 +517,7 @@ public class GroupParamBuilder {
             servicePassDetail.airportCode = charterDataUtils.airPortBean.airportCode;
             servicePassDetail.complexType = 2;
             servicePassDetail.cityId = charterDataUtils.airPortBean.cityId;
-            servicePassDetail.endCityName = charterDataUtils.airPortBean.cityName;
+            servicePassDetail.cityName = charterDataUtils.airPortBean.cityName;
         }
         servicePassDetail.description = startCityBean.description;
         return servicePassDetail;

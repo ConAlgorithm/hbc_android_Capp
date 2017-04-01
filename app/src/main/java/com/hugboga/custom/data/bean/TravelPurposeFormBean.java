@@ -29,9 +29,9 @@ public class TravelPurposeFormBean implements Serializable {
         public String opUserName;	        //操作人名称
         public String orderNo;              //订单号
         public String partnerRemark;        //谁同行（多种角色用'|'分割，如：父母|儿童|妻子）
-        public Integer remark;              //内部备注(运营人员添加)
+//        public Integer remark;              //内部备注(运营人员添加)
         public String toCity;	            //出行城市名称
-        public Integer toCityId;            //出行城市代码
+//        public Integer toCityId;            //出行城市代码
         public Integer tripDayNum;	        //游玩天数
         public String tripTimeStr;	        //出行日期
         public String updateTime;	    	//更新时间

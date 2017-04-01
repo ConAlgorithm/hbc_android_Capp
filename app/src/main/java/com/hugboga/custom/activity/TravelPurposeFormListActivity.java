@@ -73,6 +73,8 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
     @Override
     protected void onResume() {
         super.onResume();
+        isFirst = true;
+        setRequest(0,true);
     }
 
     public void initView(){
@@ -82,7 +84,6 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
         headerLeftBtn.setVisibility(View.VISIBLE);
 
         headerAddView = new HeaderAddView(this);
-        setRequest(0,true);
 
         adapter = new TravelPurposeFormListAdapter(this);
         GridLayoutManager manager = new GridLayoutManager(this,2);

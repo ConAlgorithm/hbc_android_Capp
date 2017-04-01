@@ -59,8 +59,7 @@ public class GroupDailyParam implements Serializable{
         public String goodsVersion;    // 商品版本号
         public Integer startCityId;    // 开始城市ID
         public Integer cityId;         // 结束城市Id
-        public String cityName;        // 开始城市名
-        public String endCityName;     // 结束城市名
+        public String cityName;        // 结束城市名
         public Integer days;           // 天数
         public Integer cityType;       // 1 市内 2 周边 3 跨城市
         public String description;

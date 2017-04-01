@@ -52,7 +52,7 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 101400
+        versionCode 101580
         versionName "3.3.0"
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true

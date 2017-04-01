@@ -80,7 +80,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     AreaCodeBean areaCodeBean;
     DateTimePicker picker;
     String tripTimeStr ;
-    String areaCodeStr;
+    String areaCodeStr = "86";
 
     //EditText变化监听
     TextWatcher watcher = new TextWatcher() {
@@ -306,7 +306,9 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         AlertDialogUtils.showAlertDialog(this, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                Intent intent = new Intent(TravelPurposeFormActivity.this, TravelPurposeFormListActivity.class);
+                TravelPurposeFormActivity.this.startActivity(intent);
+                TravelPurposeFormActivity.this.finish();
             }
         });
     }

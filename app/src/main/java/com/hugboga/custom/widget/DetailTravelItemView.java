@@ -143,20 +143,19 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemEndLayout.setVisibility(View.GONE);
             travelItemTimeLayout.setVisibility(View.VISIBLE);
             travelItemTimeHintTv.setVisibility(View.GONE);
-            travelItemTimeTv.setText("游玩结束送机: " + data.transfer.startAddress);
-            updateLineLayout(data.journey, data.pickup);
+            travelItemTimeTv.setText("游玩结束送机: " + data.transfer.destAddress);
+            updateLineLayout(data.journey, null);
         } else if (data.transfer != null && data.journey == null) {//只送机
-            title = data.transfer.startAddress;
+            title = data.transfer.serviceCityName;
             travelItemCharterLineLayout.setVisibility(View.GONE);
             travelItemLineTagLayout.setVisibility(View.GONE);
             travelItemPickupLayout.setVisibility(View.GONE);
             travelItemTimeLayout.setVisibility(View.VISIBLE);
+            travelItemTimeHintTv.setVisibility(View.GONE);
             if (TextUtils.isEmpty(data.transfer.serviceTimeStr)) {
-                travelItemTimeHintTv.setVisibility(View.VISIBLE);
-                travelItemTimeTv.setText("只送机，");
+                travelItemTimeTv.setText("只送机");
             } else {
-                travelItemTimeHintTv.setVisibility(View.GONE);
-                travelItemTimeTv.setText(String.format("只送机，%1$s出发", data.transfer.destAddress));
+                travelItemTimeTv.setText(String.format("只送机，%1$s出发", data.transfer.serviceTimeStr));
             }
             updateSendLayout(data.transfer);
         } else if (data.journey != null) {

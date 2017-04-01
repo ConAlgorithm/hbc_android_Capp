@@ -311,7 +311,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
             }
         } else {
             for (int i = itemModelSize; i < cityRouteListSize; i++) {
-                insertModelAfter(getNewCharterItemModel(cityRouteBean, cityRouteList, i), itemModelList.get(itemModelSize));
+                insertModelAfter(getNewCharterItemModel(cityRouteBean, cityRouteList, i), itemModelList.get(itemModelSize - 1));
             }
         }
 
