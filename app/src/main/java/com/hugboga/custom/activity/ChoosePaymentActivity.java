@@ -161,6 +161,9 @@ public class ChoosePaymentActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
+        if (mDialogUtil != null) {
+            mDialogUtil.dismissDialog();
+        }
     }
 
     private void initView() {
