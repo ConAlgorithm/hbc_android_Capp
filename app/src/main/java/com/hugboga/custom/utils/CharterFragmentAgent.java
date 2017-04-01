@@ -3,6 +3,7 @@ package com.hugboga.custom.utils;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.adapter.CityRouteAdapter;
@@ -38,7 +39,7 @@ public class CharterFragmentAgent {
     }
 
     public void setCurrentFg(boolean isNext, OnInitializedListener onInitializedListener) {
-        setCurrentFg(false, getCurrentTag(), isNext, onInitializedListener);
+        setCurrentFg(false, currentTag = getNextTag(), isNext, onInitializedListener);
     }
 
     public void setCurrentFg(boolean isFirst, String tag, boolean isNext, final OnInitializedListener onInitializedListener) {
@@ -78,10 +79,6 @@ public class CharterFragmentAgent {
         if (!isInit && onInitializedListener != null) {
             onInitializedListener.onInitialized();
         }
-    }
-
-    public String getCurrentTag() {
-        return currentTag = getNextTag();
     }
 
     public String getNextTag() {
@@ -148,4 +145,13 @@ public class CharterFragmentAgent {
         currentFragment.getRecyclerView().smoothScrollToPosition(position);
     }
 
+    public void notifyDataSetChanged() {
+        currentFragment.getCityRouteAdapter().notifyDataSetChanged();
+    }
+
+    public void smoothScrollToModel(EpoxyModel<?> model) {
+        CityRouteAdapter cityRouteAdapter = currentFragment.getCityRouteAdapter();
+        int position = cityRouteAdapter.getModelPosition(model);
+        currentFragment.getRecyclerView().smoothScrollToPosition(position);
+    }
 }

@@ -393,6 +393,7 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
                 }
             }
         }
+        notifyDataSetChanged();
         setOuttownModelVisibility();
         if (onPickUpOrSendSelectedListener != null) {
             onPickUpOrSendSelectedListener.onPickUpOrSendSelected(isPickUp, isSelected);
@@ -425,5 +426,10 @@ public class CityRouteAdapter extends EpoxyAdapter implements CharterSubtitleVie
     public void setOnRefreshDataListener(CharterEmptyView.OnRefreshDataListener listener) {
         charterEmptyModel.setOnRefreshDataListener(listener);
         notifyModelChanged(charterEmptyModel);
+    }
+
+    @Override
+    public int getModelPosition(EpoxyModel<?> model) {
+        return super.getModelPosition(model);
     }
 }

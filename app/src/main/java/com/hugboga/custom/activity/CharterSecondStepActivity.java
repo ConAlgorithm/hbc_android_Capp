@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.epoxy.EpoxyModel;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapsInitializer;
 import com.amap.api.maps2d.model.LatLng;
@@ -377,9 +378,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.isSelectedPickUp = true;
                 if (charterDataUtils.chooseDateBean.dayNums > 1) {
                     fragmentAgent.showPickupModel();
-                    fragmentAgent.updatePickupModel();
+//                    fragmentAgent.updatePickupModel();
                 }
-                fragmentAgent.updateSubtitleModel();
+//                fragmentAgent.updateSubtitleModel();
+                fragmentAgent.notifyDataSetChanged();
                 updateDrawFences();
                 break;
             case CHOOSE_POI_BACK:
@@ -435,8 +437,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.airPortBean = airPortBean;
                 charterDataUtils.isSelectedSend = true;
                 fragmentAgent.showSendModel();
-                fragmentAgent.updateSendModel();
-                fragmentAgent.updateSubtitleModel();
+//                fragmentAgent.updateSendModel();
+//                fragmentAgent.updateSubtitleModel();
+                fragmentAgent.notifyDataSetChanged();
                 updateDrawFences();
                 break;
             case CHARTER_LIST_REFRESH:
@@ -623,7 +626,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (selectedCharterModel == null) {
             return false;
         }
-        return charterDataUtils.checkInfo(selectedCharterModel.getRouteType(), charterDataUtils.currentDay, true);
+        boolean result = charterDataUtils.checkInfo(selectedCharterModel.getRouteType(), charterDataUtils.currentDay, true);
+        if (!result && selectedCharterModel instanceof EpoxyModel) {
+            fragmentAgent.smoothScrollToModel((EpoxyModel) selectedCharterModel);
+        }
+        return result;
     }
 
     public void updateTitleBar() {

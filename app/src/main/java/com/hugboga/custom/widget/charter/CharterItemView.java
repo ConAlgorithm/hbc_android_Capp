@@ -80,7 +80,13 @@ public class CharterItemView extends LinearLayout{
         if (_cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
             titleTV.setText(cityRouteScope.routeTitle);
         } else {
-            titleTV.setText(cityRouteScope.routeTitle);
+            String titleStr = cityRouteScope.routeTitle;
+            if (charterDataUtils.isFirstDay() && charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
+                titleStr = "接机+" + titleStr;
+            } else if (charterDataUtils.isLastDay() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
+                titleStr = titleStr + "+送机";
+            }
+            titleTV.setText(titleStr);
             timeTV.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));
             distanceTV.setText(String.format("%1$s公里", "" + cityRouteScope.routeKms));
             if (cityRouteScope.isOpeanFence()) {
