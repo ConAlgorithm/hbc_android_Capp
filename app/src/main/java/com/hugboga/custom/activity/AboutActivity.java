@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckVersion;
+import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
@@ -67,6 +68,10 @@ public class AboutActivity extends BaseActivity {
         });
         headerTitle.setText(activity.getString(R.string.about_title));
         versionTV.setText(activity.getString(R.string.about_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+
+        if ("10007".equals(ChannelUtils.getChannel(this))) {
+            aboutUpdateLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
