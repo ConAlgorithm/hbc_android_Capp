@@ -32,6 +32,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
     String expectedCompTime; // 接送机预计完成时间[非日租必填]
     String orderType;
     String carModelId;
+    Integer isPickupTransfer;// 组合单是否紧接送机 1:是 2:不是
 
 
     public RequestMostFit(Context context, String useOrderPrice,
@@ -39,7 +40,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
                           String carTypeId,String carSeatNum,
                           String serviceCityId,String serviceCountryId,
                           String totalDays,String distance,
-                          String expectedCompTime,String orderType,String carModelId) {
+                          String expectedCompTime,String orderType,String carModelId, Integer isPickupTransfer) {
         super(context);
         this.useOrderPrice = useOrderPrice;
         this.priceChannel = priceChannel;
@@ -54,7 +55,7 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         this.expectedCompTime = expectedCompTime;
         this.orderType = orderType;
         this.carModelId = carModelId;
-
+        this.isPickupTransfer = isPickupTransfer;
     }
 
     @Override
@@ -75,6 +76,9 @@ public class RequestMostFit extends BaseRequest<MostFitBean> {
         map.put("orderType",orderType);
         map.put("carModelId",carModelId);
 
+        if (isPickupTransfer != null) {
+            map.put("isPickupTransfer", isPickupTransfer);
+        }
         return map;
     }
 

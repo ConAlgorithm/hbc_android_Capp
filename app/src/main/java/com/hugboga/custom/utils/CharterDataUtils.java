@@ -410,6 +410,19 @@ public class CharterDataUtils {
         return result;
     }
 
+    /*
+    *  组合单是否紧接送机 1:是 2:不是
+    * */
+    public int isPickupTransfer() {
+        boolean isPickup = flightBean != null && pickUpPoiBean != null && isSelectedPickUp;
+        boolean isTransfer = airPortBean != null && sendPoiBean != null && isSelectedSend;
+        if (chooseDateBean.dayNums == 2 && isPickup && isTransfer) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {
         if (_fence == null || _fence.fencePoints == null) {
             return null;

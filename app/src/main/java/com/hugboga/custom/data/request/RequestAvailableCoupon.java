@@ -44,6 +44,9 @@ public class RequestAvailableCoupon extends BaseRequest<ArrayList<CouponBean>> {
         map.put("orderType", params.orderType);
         map.put("useOrderPrice", params.useOrderPrice);
         map.put("carModelId", params.carModelId);
+        if (params.isPickupTransfer != null) {
+            map.put("isPickupTransfer", params.isPickupTransfer);
+        }
     }
 
     @Override

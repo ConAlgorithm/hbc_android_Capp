@@ -588,7 +588,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , carListBean.distance + ""
                 , params.skuItemBean.daysCount + ""
                 , orderType + ""
-                , carBean.carId + "");
+                , carBean.carId + ""
+                , null);
         requestData(requestMostFit);
     }
 

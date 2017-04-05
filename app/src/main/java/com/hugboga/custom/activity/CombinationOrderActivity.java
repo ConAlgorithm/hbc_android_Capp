@@ -492,6 +492,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.totalDays = charterDataUtils.chooseDateBean.dayNums + "";
         mostFitAvailableBean.orderType = orderType + "";
         mostFitAvailableBean.carModelId = carBean.carId + "";
+        mostFitAvailableBean.isPickupTransfer = charterDataUtils.isPickupTransfer();
         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
         if (null != mostFitBean) {
             couponId = mostFitBean.couponId;
@@ -591,7 +592,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , carListBean.distance + ""
                 , charterDataUtils.chooseDateBean.dayNums + ""
                 , orderType + ""
-                , carBean.carId + "");
+                , carBean.carId + ""
+                , charterDataUtils.isPickupTransfer());
         requestData(requestMostFit);
     }
 
