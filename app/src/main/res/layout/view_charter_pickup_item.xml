@@ -3,14 +3,15 @@
     android:id="@+id/charter_pickup_item_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ImageView
         android:id="@+id/charter_pickup_item_selected_iv"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/order_choice_sel"
-        />
+        android:background="@mipmap/order_choice_sel" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,36 +29,79 @@
             android:textSize="15sp" />
 
         <LinearLayout
-            android:id="@+id/charter_pickup_item_add_time_layout"
-            android:layout_width="match_parent"
+            android:id="@+id/charter_pickup_item_add_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="-4dp">
+            android:visibility="gone"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:background="@mipmap/order_choice_icon_time" />
-
-            <TextView
-                android:id="@+id/charter_pickup_item_add_time_tv"
+            <LinearLayout
+                android:id="@+id/charter_pickup_item_add_time_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:ellipsize="end"
-                android:paddingRight="20dp"
-                android:singleLine="true"
-                android:text="测试爱迪测试爱测试667爱测测试232323爱测测试爱测"
-                android:textColor="#f4b900"
-                android:textSize="12sp" />
+                android:background="@drawable/shape_charter_pickup_gray"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="7dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:background="@mipmap/order_choice_icon_time" />
+
+                <TextView
+                    android:id="@+id/charter_pickup_item_add_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="添加送达地点"
+                    android:textColor="#808080"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/charter_pickup_item_add_address_layout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_charter_pickup_gray"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="7dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@mipmap/order_choice_icon_place" />
+
+                <TextView
+                    android:id="@+id/charter_pickup_item_add_address_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="添加出发地点"
+                    android:textColor="#808080"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/charter_pickup_item_time_layout"
             android:layout_width="match_parent"
-            android:layout_marginTop="-12dp"
-            android:layout_height="25dp">
+            android:layout_height="25dp"
+            android:layout_marginTop="-10dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/charter_pickup_item_time_tv"
@@ -69,24 +113,29 @@
                 android:singleLine="true"
                 android:text="测试爱迪测试爱测试667爱测试试试"
                 android:textColor="@color/default_black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_alignRight="@id/charter_pickup_item_time_tv"
-                android:layout_marginBottom="2dp"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
                 android:layout_alignParentBottom="true"
+                android:layout_alignRight="@id/charter_pickup_item_time_tv"
+                android:layout_marginBottom="3.3dp"
                 android:background="@mipmap/trip_icon_edit" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/charter_pickup_item_add_address_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_charter_pickup_gray"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginTop="7dp">
+            android:paddingBottom="5dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="7dp"
+            android:paddingTop="5dp">
 
             <ImageView
                 android:layout_width="12dp"
@@ -99,19 +148,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:ellipsize="end"
-                android:paddingRight="20dp"
                 android:singleLine="true"
-                android:text="测试爱迪测试爱测试667爱测测试232323爱测测试爱测"
-                android:textColor="#f4b900"
+                android:text="添加出发地点"
+                android:textColor="#808080"
                 android:textSize="12sp" />
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/charter_pickup_item_address_layout"
             android:layout_width="match_parent"
-            android:layout_marginTop="-3dp"
-            android:visibility="gone"
-            android:layout_height="25dp">
+            android:layout_height="25dp"
+            android:layout_marginTop="-2dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/charter_pickup_item_address_tv"
@@ -123,14 +171,14 @@
                 android:singleLine="true"
                 android:text="时间按时打多爱我啊大叔"
                 android:textColor="@color/default_black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginBottom="2dp"
-                android:layout_alignRight="@id/charter_pickup_item_address_tv"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
                 android:layout_alignParentBottom="true"
+                android:layout_alignRight="@id/charter_pickup_item_address_tv"
+                android:layout_marginBottom="3.3dp"
                 android:background="@mipmap/trip_icon_edit" />
         </RelativeLayout>
 
@@ -138,27 +186,29 @@
             android:id="@+id/charter_pickup_item_address_des_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:visibility="gone"
-            android:ellipsize="end"
+            android:layout_marginTop="2dp"
             android:text="2-1-3 YouyuJi, Shibuyi-ku,新宿，东京，日本，151-0053"
-            android:textColor="#6d6d6d"
-            android:textSize="10sp" />
+            android:textColor="#7f7f7f"
+            android:textSize="11sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/charter_pickup_item_distance_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:gravity="center_vertical"
             android:text="距离：13.6公里  时长：35分钟"
             android:textColor="@color/default_black"
-            android:textSize="12sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
+
         <View
             android:id="@+id/charter_pickup_item_bottom_space_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/charter_item_padding_bottom"
-            />
+            android:layout_height="@dimen/charter_item_padding_bottom" />
     </LinearLayout>
 </RelativeLayout>

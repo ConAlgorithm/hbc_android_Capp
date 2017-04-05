@@ -35,8 +35,8 @@
             android:layout_marginTop="-7dp"
             android:gravity="center_vertical"
             android:text="范围：仅限东京市内游玩"
-            android:textColor="#737373"
-            android:textSize="12sp" />
+            android:textColor="#7f7f7f"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/charter_item_places_tv"
@@ -45,8 +45,8 @@
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
             android:text="推荐景点：浅草寺、东京迪士尼乐园、东京塔、新宿、银座、台场、故宫博物院"
-            android:textColor="#737373"
-            android:textSize="12sp" />
+            android:textColor="#7f7f7f"
+            android:textSize="13sp" />
 
         <LinearLayout
             android:id="@+id/charter_item_tag_layout"
@@ -61,10 +61,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rounded_charter_trip"
                 android:gravity="center_vertical"
-                android:paddingBottom="3dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
                 android:text="10小时"
                 android:textColor="#37cca2"
                 android:textSize="11sp" />
@@ -73,13 +73,13 @@
                 android:id="@+id/charter_item_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/shape_rounded_charter_trip"
                 android:gravity="center_vertical"
-                android:paddingBottom="3dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
                 android:text="150公里"
                 android:textColor="#37cca2"
                 android:textSize="11sp" />
@@ -89,7 +89,7 @@
             android:id="@+id/charter_item_edit_arrived_city_layout"
             android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="25dp">
+            android:layout_height="26dp">
 
             <TextView
                 android:id="@+id/charter_item_edit_arrived_city_tv"
@@ -101,25 +101,30 @@
                 android:singleLine="true"
                 android:text="测试爱迪测试爱测试667爱测试试试"
                 android:textColor="@color/default_black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignRight="@id/charter_item_edit_arrived_city_tv"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="3.3dp"
                 android:background="@mipmap/trip_icon_edit" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/charter_item_add_arrived_city_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:orientation="horizontal"
-            android:paddingTop="9dp">
+            android:visibility="gone"
+            android:background="@drawable/shape_charter_pickup_gray"
+            android:layout_marginTop="11dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="7dp"
+            android:paddingTop="5dp">
 
             <ImageView
                 android:layout_width="12dp"
@@ -131,10 +136,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:ellipsize="end"
-                android:paddingRight="20dp"
                 android:singleLine="true"
                 android:text="选择送达城市"
-                android:textColor="#f4b900"
+                android:textColor="#808080"
                 android:textSize="12sp" />
         </LinearLayout>
         <View
