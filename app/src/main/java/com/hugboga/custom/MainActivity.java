@@ -410,7 +410,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (Build.VERSION.SDK_INT >= 23) {
-                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                        boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                        if (!isVerify) {
+                            downloadApk();
+                        }
                     } else {
                         downloadApk();
                     }
@@ -419,7 +422,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (Build.VERSION.SDK_INT >= 23) {
-                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                        boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                        if (!isVerify) {
+                            updateDb();
+                        }
                     } else {
                         updateDb();
                     }
@@ -456,13 +462,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         });
     }
 
-    public static void verifyStoragePermissions(Activity activity, int requestCode) {
+    public static boolean verifyStoragePermissions(Activity activity, int requestCode) {
         if (Build.VERSION.SDK_INT >= 23) {
             int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, requestCode);
+                return true;
             }
         }
+        return false;
     }
 
     @Override
