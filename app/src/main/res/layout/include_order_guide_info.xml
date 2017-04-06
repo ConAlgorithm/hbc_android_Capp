@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:ellipsize="end"
-                android:maxWidth="70dp"
+                android:maxWidth="60dp"
                 android:singleLine="true"
                 android:textColor="#333333"
                 android:textSize="16sp" />
@@ -57,7 +57,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="4dp"
                 android:layout_toRightOf="@id/ogi_name_tv"
                 android:background="@mipmap/star_level_full" />
 
@@ -68,9 +68,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/ogi_star_iv"
-                android:ellipsize="end"
-                android:maxWidth="150dp"
-                android:singleLine="true"
                 android:textColor="#7f7f7f"
                 android:textSize="12sp" />
 

@@ -52,6 +52,13 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
 
     @Bind(R.id.travel_item_charter_line_iv)
     ImageView travelItemCharterLineIv;
+    @Bind(R.id.travel_item_charter_line_layout)
+    RelativeLayout travelItemCharterLineLayout;
+    @Bind(R.id.travel_item_scope_tv)
+    TextView travelItemScopeTv;
+    @Bind(R.id.travel_item_places_tv)
+    TextView travelItemPlacesTv;
+
     @Bind(R.id.travel_item_line_tv)
     TextView travelItemLineTv;
     @Bind(R.id.travel_item_line_time_tv)
@@ -60,8 +67,6 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
     TextView travelItemLineDistanceTv;
     @Bind(R.id.travel_item_line_tag_layout)
     LinearLayout travelItemLineTagLayout;
-    @Bind(R.id.travel_item_charter_line_layout)
-    RelativeLayout travelItemCharterLineLayout;
 
     @Bind(R.id.travel_item_time_iv)
     ImageView travelItemTimeIv;
@@ -101,6 +106,8 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         travelItemEditTv.setVisibility(View.GONE);
         travelItemEditLineView.setVisibility(View.GONE);
         travelItemDelTv.setVisibility(View.GONE);
+        travelItemScopeTv.setVisibility(View.GONE);
+        travelItemPlacesTv.setVisibility(View.GONE);
 
         parentLayout.setLayoutParams(new LinearLayout.LayoutParams(UIUtils.getScreenWidth(), LayoutParams.WRAP_CONTENT));
     }

@@ -42,10 +42,10 @@
     <LinearLayout
         android:id="@+id/charter_subtitle_pickup_layout"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/charter_subtitle_day_tv"
-        android:layout_marginBottom="-4dp"
+        android:layout_below="@id/charter_subtitle_day_tv"
         android:gravity="center"
         android:orientation="horizontal">
 

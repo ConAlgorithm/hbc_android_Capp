@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
@@ -63,6 +68,9 @@ import com.hugboga.custom.widget.charter.CharterSecondBottomView;
 import com.hugboga.custom.widget.charter.CharterSubtitleView;
 import com.hugboga.custom.widget.title.TitleBarCharterSecond;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,8 +105,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Bind(R.id.charter_second_unfold_map_layout)
     LinearLayout unfoldMapLayout;
-    @Bind(R.id.charter_second_packup_map_iv)
-    ImageView packupMapIV;
+    @Bind(R.id.charter_second_packup_map_layout)
+    FrameLayout packupMapLayout;
 
     private CharterFragmentAgent fragmentAgent;
 
@@ -659,24 +667,82 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         onUnfoldMap(true);
     }
 
-    @OnClick({R.id.charter_second_packup_map_iv})
+    @OnClick({R.id.charter_second_packup_map_layout})
     public void onPackupMapListener() {//收起地图
         onUnfoldMap(false);
     }
 
     private void onUnfoldMap(boolean isUnfold) {
         this.isUnfoldMap = isUnfold;
-        mapView.getLayoutParams().height = getMapHight(isUnfold);
         if (isUnfold) {
-            bottomView.setVisibility(View.GONE);
-            packupMapIV.setVisibility(View.VISIBLE);
             unfoldMapLayout.setVisibility(View.GONE);
-            titleBar.setVisibility(View.GONE);
+            bottomView.setVisibility(View.GONE);
+            final int actionBarSize = UIUtils.getActionBarSize();
+            ObjectAnimator anim = ObjectAnimator.ofFloat(titleBar, "translationY", -actionBarSize);
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    titleBar.setY(0);
+                    titleBar.setVisibility(View.GONE);
+                    packupMapLayout.setVisibility(View.VISIBLE);
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+                    params.topMargin = 0;
+                    mapView.getaMap().moveCamera(CameraUpdateFactory.zoomIn());
+                    updateDrawFences();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float h = (float)valueAnimator.getAnimatedValue();
+                    float topMargin = actionBarSize + h;
+                    if (topMargin >= 0) {
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+                        params.topMargin = (int)topMargin;
+                        mapView.requestLayout();
+                    }
+                }
+            });
+            anim.setDuration(300);
+            anim.start();
+
+            ValueAnimator va = ValueAnimator.ofInt(getMapHight(false), getMapHight(true));
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int h = (Integer)valueAnimator.getAnimatedValue();
+                    mapView.getLayoutParams().height = h;
+                    mapView.requestLayout();
+                }
+            });
+            va.setDuration(500);
+            va.start();
         } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+            params.height = getMapHight(isUnfold);
+            params.topMargin = UIUtils.getActionBarSize();
             bottomView.setVisibility(View.VISIBLE);
-            packupMapIV.setVisibility(View.GONE);
+            packupMapLayout.setVisibility(View.GONE);
             unfoldMapLayout.setVisibility(View.VISIBLE);
             titleBar.setVisibility(View.VISIBLE);
+            updateDrawFences();
+            mapView.getaMap().moveCamera(CameraUpdateFactory.zoomOut());
         }
     }
 
