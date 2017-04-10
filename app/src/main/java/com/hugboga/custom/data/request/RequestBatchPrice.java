@@ -35,6 +35,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         super(context);
         map = new HashMap<String, Object>();
         bodyEntity = getRequestParamsBody(charterDataUtils);
+        errorType = ERROR_TYPE_IGNORE;
     }
 
     @Override

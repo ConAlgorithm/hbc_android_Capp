@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -64,6 +65,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -309,7 +311,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             chooseDateView.setVisibility(View.VISIBLE);
         } else if (_request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) _request).getData();
-            if (!checkDataIsEmpty(carListBean)) {
+            if (!checkDataIsEmpty(carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
                 carTypeView.update(carListBean);
             }
             scrollToTop();
@@ -363,6 +365,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestPriceSku) {
+            String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服帮您下单";
+            checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
+            return;
+        }
         if (request instanceof RequestSubmitBase || request instanceof RequestPayNo) {
             return;
         }
@@ -370,15 +378,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         setItemVisibility(View.GONE);
     }
 
-    private boolean checkDataIsEmpty(CarListBean carListBean) {
-        boolean isEmpty = false;
-        if (carListBean == null || carListBean.carList == null || carListBean.carList.size() <= 0) {
-            isEmpty = true;
-        } else {
-            isEmpty = false;
-        }
-        emptyLayout.setEmptyVisibility(isEmpty ? View.VISIBLE : View.GONE);
-
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
 

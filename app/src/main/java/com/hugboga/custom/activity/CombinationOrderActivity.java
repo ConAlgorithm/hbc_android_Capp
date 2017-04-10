@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -258,7 +259,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestBatchPrice) {
             carListBean = ((RequestBatchPrice) _request).getData();
-            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList)) {
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
                 if (charterDataUtils.guidesDetailData != null && guideCarBeanList != null) {
                     ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
                     if (checkDataIsEmpty(carList)) {
@@ -324,6 +325,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestBatchPrice) {
+            String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服帮您下单";
+            checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
+            return;
+        }
         if (request instanceof RequestOrderGroup || request instanceof RequestPayNo) {
             return;
         }
@@ -357,17 +364,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
-        boolean isEmpty = false;
-        if (_carList == null || _carList.size() <= 0) {
-            isEmpty = true;
-        } else {
-            isEmpty = false;
-        }
-        emptyLayout.setNoCarVisibility(isEmpty ? View.VISIBLE : View.GONE, charterDataUtils.guidesDetailData != null);
+        return checkDataIsEmpty(_carList, 0, null);
+    }
 
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
+        boolean isEmpty = emptyLayout.setNoCarVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
-
         return isEmpty;
     }
 
