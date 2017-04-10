@@ -250,7 +250,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void testPush() {
-        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"J100091049121\",\"type\":\"G1\",\"orderType\":\"1\",\"sound\":\"newOrder.mp3\"}";
+//        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
+        String teset  = "{\"orderNo\":\"Z191195516914\",\"subOrderNo\":\"R1Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(teset, PushMessage.class);
         pushMessage.title = "";
         pushMessage.message = "您有1个新订单，能收到声音吗,请赶快登录皇包车-司导端APP去接单吧";
@@ -550,7 +551,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         OrderDetailActivity.Params params = new OrderDetailActivity.Params();
         params.orderType = CommonUtils.getCountInteger(message.orderType);
         params.orderId = message.orderNo;
-
+        if ("888".equals(message.orderType) && !TextUtils.isEmpty(message.subOrderNo)) {
+            params.subOrderId = message.subOrderNo;
+        }
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, params.source);

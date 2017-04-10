@@ -338,6 +338,24 @@ public class OrderBean implements IBaseBean{
         return false;
     }
 
+    public int getSubOrderPosition(String subOrderNo) {
+        int subOrderPosition = -1;
+        if (TextUtils.isEmpty(subOrderNo)) {
+         return subOrderPosition;
+        }
+        if (subOrderDetail != null && subOrderDetail.totalCount > 0 && subOrderDetail.subOrderList != null) {
+            int size = subOrderDetail.subOrderList.size();
+            for (int i = 0; i < size; i++) {
+                OrderBean orderBean = subOrderDetail.subOrderList.get(i);
+                if (orderBean != null && subOrderNo.equalsIgnoreCase(orderBean.orderNo)) {
+                    subOrderPosition = i;
+                    break;
+                }
+            }
+        }
+        return subOrderPosition;
+    }
+
     public static class SubOrderDetail implements Serializable{
         public Integer totalCount;              // 子单总数
         public List<OrderBean> subOrderList;    // 子单详情
