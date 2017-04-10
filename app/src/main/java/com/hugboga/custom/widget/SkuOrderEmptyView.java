@@ -47,7 +47,7 @@ public class SkuOrderEmptyView extends LinearLayout{
     public void setEmptyVisibility(int visibility) {
         if (visibility == View.VISIBLE) {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.icon_sku_order_empty_car);
+            emptyIV.setBackgroundResource(R.drawable.empty_car);
             hintTV.setText("很抱歉，没有找到可服务的司导，换个日期试试");
             refreshTV.setVisibility(View.GONE);
             type = 0;
@@ -59,7 +59,7 @@ public class SkuOrderEmptyView extends LinearLayout{
     public void setErrorVisibility(int visibility) {
         if (visibility == View.VISIBLE) {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.icon_sku_order_net_error);
+            emptyIV.setBackgroundResource(R.drawable.empty_wifi);
             hintTV.setText("似乎与网络断开，请检查网络环境");
             refreshTV.setVisibility(View.VISIBLE);
             refreshTV.setText("刷新试试");
@@ -72,7 +72,7 @@ public class SkuOrderEmptyView extends LinearLayout{
     public void setNoCarVisibility(int visibility, boolean isAssignGuide) {
         if (visibility == View.VISIBLE) {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.icon_sku_order_empty_car);
+            emptyIV.setBackgroundResource(R.drawable.empty_car);
             if (isAssignGuide) {
                 hintTV.setText("很抱歉，该司导暂无可服务的车辆\n请联系客服，我们会协助您完成预订");
             } else {

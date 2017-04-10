@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -20,7 +21,10 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPoiSearch;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.ZListView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -199,6 +203,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
         MobClickUtils.onEvent(StatisticConstant.SEARCH,map);
 
         RequestPoiSearch requestPoiSearch = new RequestPoiSearch(activity, cityId, location, searchWord, offset, PAGESIZE);
+        requestPoiSearch.setErrorType(BaseRequest.ERROR_TYPE_SHOW_DIALOG);
         requestData(requestPoiSearch);
     }
 
@@ -235,7 +240,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
                 arrivalTip.setText(R.string.arrival_tip_hotel);
                 arrivalTip.setVisibility(View.GONE);
             }
-//            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
+            emptyViewText.setText(getString(R.string.arrival_empty_text,searchWord));
             isLoading = false;
         }
     }
@@ -307,6 +312,13 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     private void search() {
         searchWord = editSearch.getText().toString();
         if (!TextUtils.isEmpty(searchWord) && !TextUtils.isEmpty(searchWord.trim())) {
+            final int size = searchWord.length();
+            for(int i = 0; i < size; i++) {
+                if (!Tools.isEmojiCharacter(searchWord.charAt(i))) {
+                    AlertDialogUtils.showAlertDialog(PoiSearchActivity.this, null, "提交的内容中不能包含表情字符哦", "知道了", null);
+                    return;
+                }
+            }
             searchWord = searchWord.trim();
             saveHistoryDate(searchWord);
             onRefresh();

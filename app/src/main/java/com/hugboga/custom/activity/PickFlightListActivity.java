@@ -21,6 +21,7 @@ import com.hugboga.custom.data.request.RequestFlightByNo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +39,7 @@ import java.util.TreeSet;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created on 16/8/3.
@@ -62,10 +64,6 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     TextView headerRightTxt;
     @Bind(R.id.flight_list)
     ListView flightList;
-    @Bind(R.id.flight_empty_no)
-    TextView flightEmptyNo;
-    @Bind(R.id.flight_empty_btn)
-    Button flightEmptyBtn;
 
     private FlightAdapter mAdapter;
     private ArrayList<FlightBean> mListDate;
@@ -126,8 +124,6 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     }
 
     protected Callback.Cancelable requestData() {
-        TextView emptyNo = (TextView) findViewById(R.id.flight_empty_no);
-
         try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
             flightInfo.setVisibility(View.VISIBLE);
@@ -137,10 +133,8 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }
         BaseRequest request;
         if (flightType == 1) {
-//            emptyNo.setText(String.format(getString(R.string.flight_empty_no), flightNo));
             request = new RequestFlightByNo(activity, flightNo, flightDate, mBusinessType);
         } else {
-            emptyNo.setText(R.string.flight_empty_no_city);
             request = new RequestFlightByCity(activity, flightFromCityId, flightToCityId, flightDate);
         }
         requestData(request);
@@ -203,6 +197,11 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         EventBus.getDefault().post(new EventAction(EventType.PICK_FLIGHT_BACK, bean));
         finish();
 //        finishForResult(bundle);
+    }
+
+    @OnClick({R.id.flight_empty_service_tv})
+    public void onService() {
+        DialogUtil.showServiceDialog(PickFlightListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
     }
 
     private void addAirportInfo(ArrayList<FlightBean> listDate) {

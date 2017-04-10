@@ -602,6 +602,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
         if (_request instanceof RequestCityHomeList) {
             cityHomeBean = ((RequestCityHomeList) _request).getData();
             cityHomeHeader.update(cityHomeBean);
+            cityHomeFooter.update(cityHomeBean);
             fgTitle.setText(cityHomeBean.cityContent.cityName);
             titlebar.setVisibility(View.VISIBLE);
             showEmptyView(true);

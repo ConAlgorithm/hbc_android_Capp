@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestUploadLocationV11;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,6 +48,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created on 16/8/5.
@@ -126,7 +128,6 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     protected void initView() {
         //实例化汉字转拼音类
         emptyView = findViewById(R.id.arrival_empty_layout);
-        emptyViewText.setText(getString(R.string.empty_text));
         sideBar = (SideBar) findViewById(R.id.sidrbar);
         TextView dialog = (TextView) findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
@@ -150,6 +151,11 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     protected void onStop() {
         super.onStop();
         hideInputMethod(headSearch);
+    }
+
+    @OnClick({R.id.arrival_empty_service_tv})
+    public void onService() {
+        DialogUtil.showServiceDialog(ChooseAirPortActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
     }
 
     private void getGPSAirport() {
@@ -367,7 +373,6 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     protected void inflateContent() {
         // 设置key
         setFirstWord(sourceDateList);
-//		emptyViewText.setText(getString(R.string.arrival_empty_text, editSearch.getText().toString().trim()));
         if (sourceDateList == null || sourceDateList.size() == 0) {
             emptyView.setVisibility(View.VISIBLE);
         } else {

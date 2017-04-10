@@ -5,7 +5,7 @@
         android:id="@+id/sku_order_empty_iv"
         android:layout_width="150dp"
         android:layout_height="120dp"
-        android:background="@drawable/icon_sku_order_net_error" />
+        android:background="@drawable/empty_wifi" />
 
     <TextView
         android:id="@+id/sku_order_empty_hint_tv"

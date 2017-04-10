@@ -35,6 +35,8 @@ public class ParserCheckPrice extends ImplParser {
         carListBean.estTime = obj.optString("estTime");
         carListBean.enableLocal = obj.optString("enableLocal");
         carListBean.noneCarsReason = obj.optString("noneCarsReason");
+        carListBean.noneCarsState = obj.optInt("noneCarsState");
+        carListBean.noneCarsParam = obj.optJSONObject("noneCarsParam");
 
         JSONArray priceList = obj.optJSONArray("cars");
         CarBean bean;

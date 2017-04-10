@@ -23,6 +23,7 @@ import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -351,7 +352,12 @@ public class FgChooseAirAddress extends BaseFragment {
                 checkNextBtnStatus();
                 break;
             case CHOOSE_END_CITY_BACK:
-                city =  (CityBean)action.getData();
+                CityBean endCityBean =  (CityBean)action.getData();
+                if (endCityBean != null && ("中国".equals(endCityBean.placeName) || "中国大陆".equals(endCityBean.placeName))) {
+                    CommonUtils.showToast("航班降落地点应该选在境外哦");
+                    break;
+                }
+                this.city = endCityBean;
                 if (city != null) {
                     endCityName = city.name;
                     endCity.setText(endCityName);

@@ -78,6 +78,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     TextView emptyTV;
     @Bind(R.id.choose_city_empty_iv)
     ImageView emptyIV;
+    @Bind(R.id.choose_city_empty_service_tv)
+    TextView emptyServiceTV;
+
     @Bind(R.id.choose_city_listview)
     StickyListHeadersListView mListview;
     @Bind(R.id.choose_city_sidebar_firstletter)
@@ -394,21 +397,30 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         }
                     }
                 } else if (cityList.size() <= 0) {
+                    emptyTV.setVisibility(View.VISIBLE);
+                    emptyIV.setVisibility(View.VISIBLE);
                     if (mBusinessType == Constants.BUSINESS_TYPE_DAILY) {
                         if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
                             emptyTV.setText(getString(R.string.can_not_choose_start_city_text));
+                        } else if (GROUP_OUTTOWN.equalsIgnoreCase(from) ||GROUP_START.equalsIgnoreCase(from) ) {
+                            emptyTV.setText(getString(R.string.out_of_range_city_text2));
                         } else {
                             emptyTV.setText(getString(R.string.out_of_range_city_text));
                         }
+                    } else if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                        emptyTV.setText("很抱歉，没有找到您搜索的城市\n或者该城市暂未开通接机服务\n可联系客服，帮您查找");
+                        emptyServiceTV.setVisibility(View.VISIBLE);
+                        emptyServiceTV.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DialogUtil.showServiceDialog(ChooseCityActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+                            }
+                        });
                     }
                 }
             }
             mAdapter.setData(cityList);
             mListview.setSelection(0);
-            if (cityList == null || cityList.size() <= 0) {
-                emptyTV.setVisibility(View.VISIBLE);
-                emptyIV.setVisibility(View.VISIBLE);
-            }
         }
     }
 

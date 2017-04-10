@@ -20,20 +20,36 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dip"
-            android:src="@mipmap/empty_car" />
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:background="@drawable/empty_flight"
+            android:layout_marginTop="50dip"  />
 
         <TextView
             android:id="@+id/empty_layout_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
             android:gravity="center"
-            android:text="@string/out_of_range_city_text"
-            android:textSize="14sp"
-            android:textColor="#ACACAC"/>
+            android:textSize="13sp"
+            android:textColor="#a8a8a8"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="很抱歉，没有找到您搜索的机场\n或者该城市暂未开通送机服务\n可联系客服，帮您查找" />
+        <TextView
+            android:id="@+id/arrival_empty_service_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_empty_btn_shape"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="15dp"
+            android:text="联系客服"
+            android:textSize="13sp"
+            android:textColor="#828282"
+            />
     </LinearLayout>
 
     <FrameLayout

@@ -639,7 +639,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
 
     private void getGuideCars() {
-        RequestCars requestCars = new RequestCars(this, charterDataUtils.guidesDetailData.guideId, null, 10, 0);
+        RequestCars requestCars = new RequestCars(this, charterDataUtils.guidesDetailData.guideId, null, 20, 0);
         HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {

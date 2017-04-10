@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -16,12 +18,15 @@ import com.hugboga.custom.data.bean.CarMaxCapaCityBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
+import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
@@ -37,6 +42,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -242,7 +249,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 charterDataUtils.guideCropList = guideServiceCitys.guideCropList;
                 startBean = guideServiceCitys.getSelectedCityBean();
                 cityTV.setText(startBean.name);
-                requestData(new RequestCarMaxCapaCity(this, startBean.cityId, guidesDetailData.getCarIds()));
+                getGuideCars();
                 break;
             case CHOOSE_DATE:
                 ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();
@@ -364,6 +371,36 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             }
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void getGuideCars() {
+        if (guidesDetailData == null) {
+            return;
+        }
+        RequestCars requestCars = new RequestCars(this, guidesDetailData.guideId, null, 20, 0);
+        HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                ArrayList<GuideCarBean> guideCarBeanList = ((RequestCars)request).getData();
+                if (guideCarBeanList == null) {
+                    return;
+                }
+                guidesDetailData.guideCars = guideCarBeanList;
+                guidesDetailData.guideCarCount = guideCarBeanList.size();
+                requestData(new RequestCarMaxCapaCity(CharterFirstStepActivity.this, startBean.cityId, guidesDetailData.getCarIds()));
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+            }
+        }, true);
     }
 
     //神策统计_确认行程

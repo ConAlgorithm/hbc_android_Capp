@@ -55,7 +55,7 @@ public class CharterEmptyView extends LinearLayout {
         this.type = _type;
         if (_type == ERROR_TYPE) {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.icon_sku_order_net_error);
+            emptyIV.setBackgroundResource(R.drawable.empty_wifi);
             hintTV.setText("似乎与网络断开，请检查网络环境");
             refreshTV.setVisibility(View.VISIBLE);
         } else {
