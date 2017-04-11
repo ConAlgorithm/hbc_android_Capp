@@ -596,7 +596,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
-        AlertDialogUtils.showAlertDialogCancelable(this, "很抱歉，您指定的司导无法服务您选择的接机城市", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(this, String.format("很抱歉，您指定的司导无法服务%1$s城市", flightBean.arrCityName), "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CharterSecondStepActivity.this.finish();

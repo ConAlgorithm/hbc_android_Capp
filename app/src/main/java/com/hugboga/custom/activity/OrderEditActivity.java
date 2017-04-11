@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -477,6 +478,17 @@ public class OrderEditActivity extends BaseActivity {
             realUserExJson.append("]");
         }
         return realUserExJson.toString();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (orderBean.orderStatus.code <= 5) {
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
+            }
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
 }

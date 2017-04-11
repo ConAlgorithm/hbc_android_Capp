@@ -126,7 +126,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 134
+    //current urlErrorCode 136
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -265,8 +265,11 @@ public class UrlLibs {
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          //易联查询银行卡所属银行129
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                //易联支付接口130
 
-    public static final String API_HOTEXPLORATIONS           = "basicdata/v1.0/c/home/hotexplorations";                 //首页热门探索列表 request code 131
+    public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  //首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     //首页目的地列表    request code 132
-    public static final String API_TRAVEL_STORYS             = "basicdata/v1.0/c/home/storys";                          //司导故事列表     request code 133
+    public static final String API_TRAVEL_STORYS            = "basicdata/v1.0/c/home/storys";                           //司导故事列表     request code 133
+
+    public static final String API_INSURANCE_RESUBMIT       = "insurance/v1.0/c/insurance/resubmit";                    // 重新提交保单 135
+    public static final String API_INSURANCE_SEARCH         = "insurance/v1.0/c/insurance/search";                      // 查询订单保单接口 136
 
 }

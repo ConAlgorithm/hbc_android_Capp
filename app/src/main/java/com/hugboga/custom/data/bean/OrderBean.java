@@ -240,6 +240,14 @@ public class OrderBean implements IBaseBean{
         return payDeadTime;
     }
 
+    public int getTravelerCount() {
+        if (child != null) {
+            return adult + child;
+        } else {
+            return adult;
+        }
+    }
+
     /**
      * 是否评价过
      * */

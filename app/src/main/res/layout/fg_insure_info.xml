@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/basic_white"
-    android:orientation="vertical">
-    <include layout="@layout/include_header" />
+    android:background="@color/default_bg">
+
+    <include
+        android:id="@+id/insure_info_header"
+        layout="@layout/include_header" />
+
+    <RelativeLayout
+        android:id="@+id/insure_info_add_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_bottom_height"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/insure_info_add_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:textColor="#252525"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/insure_info_add_tv"
+            style="@style/OrderBottomConfirm"
+            android:text="添加投保人" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/insure_info_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/insure_info_header"
+        android:layout_above="@id/insure_info_add_layout"
+        android:background="@color/basic_white"
         android:divider="@null" />
-</LinearLayout>
+</RelativeLayout>

@@ -609,8 +609,8 @@
     <string name="par_result_repay">重新支付</string>
 
     <string name="insure_info_title">投保信息</string>
-    <string name="insure_info_passport">护照号:%1$s</string>
-    <string name="insure_info_policy_num">保单号:%1$s</string>
+    <string name="insure_info_passport">护照号: %1$s</string>
+    <string name="insure_info_policy_num">保单号: %1$s</string>
 
     <string name="order_detail_title_default">订单详情</string>
     <string name="order_detail_title_chartered">定制包车游</string>
