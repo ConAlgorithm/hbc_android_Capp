@@ -22,16 +22,22 @@ public class HomeSearchTabView extends FrameLayout {
     TextView hotTabText;
     @Bind(R.id.home_header_hot_tab_icon)
     View hotTabIcon;
+    @Bind(R.id.home_header_hot_tab_line)
+    View hotTabLine;
 
     @Bind(R.id.home_header_dest_tab_text)
     TextView destTabText;
     @Bind(R.id.home_header_dest_tab_icon)
     View destTabIcon;
+    @Bind(R.id.home_header_dest_tab_line)
+    View destTabLine;
 
     @Bind(R.id.home_header_story_tab_text)
     TextView storyTabText;
     @Bind(R.id.home_header_story_tab_icon)
     View storyTabIcon;
+    @Bind(R.id.home_header_story_tab_line)
+    View storyTabLine;
 
     @Bind(R.id.home_activies_view)
     View activiesTabIcon;
@@ -51,6 +57,7 @@ public class HomeSearchTabView extends FrameLayout {
         super(context, attrs);
         View view = inflate(context, R.layout.home_header_tab, this);
         ButterKnife.bind(view);
+        setBackgroundColor(0xFFFFFFFF);
     }
 
     @OnClick({R.id.home_header_hot_tab, R.id.home_header_dest_tab, R.id.home_header_story_tab,
@@ -64,16 +71,28 @@ public class HomeSearchTabView extends FrameLayout {
                 hotTabIcon.setVisibility(View.VISIBLE);
                 destTabIcon.setVisibility(View.GONE);
                 storyTabIcon.setVisibility(View.GONE);
+
+                hotTabLine.setVisibility(View.VISIBLE);
+                destTabLine.setVisibility(View.GONE);
+                storyTabLine.setVisibility(View.GONE);
                 break;
             case R.id.home_header_dest_tab:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.VISIBLE);
                 storyTabIcon.setVisibility(View.GONE);
+
+                hotTabLine.setVisibility(View.GONE);
+                destTabLine.setVisibility(View.VISIBLE);
+                storyTabLine.setVisibility(View.GONE);
                 break;
             case R.id.home_header_story_tab:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.GONE);
                 storyTabIcon.setVisibility(View.VISIBLE);
+
+                hotTabLine.setVisibility(View.GONE);
+                destTabLine.setVisibility(View.GONE);
+                storyTabLine.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -85,16 +104,28 @@ public class HomeSearchTabView extends FrameLayout {
                 hotTabIcon.setVisibility(View.VISIBLE);
                 destTabIcon.setVisibility(View.GONE);
                 storyTabIcon.setVisibility(View.GONE);
+
+                hotTabLine.setVisibility(View.VISIBLE);
+                destTabLine.setVisibility(View.GONE);
+                storyTabLine.setVisibility(View.GONE);
                 break;
             case FgHomePage.TAB_DESTION:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.VISIBLE);
                 storyTabIcon.setVisibility(View.GONE);
+
+                hotTabLine.setVisibility(View.GONE);
+                destTabLine.setVisibility(View.VISIBLE);
+                storyTabLine.setVisibility(View.GONE);
                 break;
             case FgHomePage.TAB_TRAVEL_STORY:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.GONE);
                 storyTabIcon.setVisibility(View.VISIBLE);
+
+                hotTabLine.setVisibility(View.GONE);
+                destTabLine.setVisibility(View.GONE);
+                storyTabLine.setVisibility(View.VISIBLE);
                 break;
         }
     }

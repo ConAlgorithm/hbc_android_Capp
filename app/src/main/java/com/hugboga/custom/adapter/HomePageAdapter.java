@@ -2,6 +2,7 @@ package com.hugboga.custom.adapter;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.models.DestinationAggModel;
 import com.hugboga.custom.models.HomeEndModel;
 import com.hugboga.custom.models.HomeHeaderModel;
@@ -43,7 +44,7 @@ public class HomePageAdapter extends EpoxyAdapter {
             }
         }
         if(listCount==dataSize){
-            addFooterModel();
+            addFooterModel(FgHomePage.TAB_HOTEXPLORE);
         }
     }
 
@@ -65,7 +66,7 @@ public class HomePageAdapter extends EpoxyAdapter {
             }
         }
         if(listCount==dataSize){
-            addFooterModel();
+            addFooterModel(FgHomePage.TAB_DESTION);
         }
     }
 
@@ -80,12 +81,14 @@ public class HomePageAdapter extends EpoxyAdapter {
             }
         }
         if(listCount==dataSize){
-            addFooterModel();
+            addFooterModel(FgHomePage.TAB_TRAVEL_STORY);
         }
     }
 
-    public void addFooterModel(){
-        addModel(new HomeEndModel());
+    public void addFooterModel(int tab){
+        HomeEndModel homeEndModel = new HomeEndModel();
+        homeEndModel.setCurrentTab(tab);
+        addModel(homeEndModel);
     }
 
     public void clearAll(){

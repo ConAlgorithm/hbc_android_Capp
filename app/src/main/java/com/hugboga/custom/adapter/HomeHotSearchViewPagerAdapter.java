@@ -70,7 +70,6 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
     private void handlerViewShow(View view, final int position) {
         ImageView imageView = (ImageView) view.findViewById(R.id.home_hot_search_city_img);
         View filterView = view.findViewById(R.id.home_hot_search_city_fillter_view);
-        View guideIconLayout = view.findViewById(R.id.home_hot_search_city_icon_layout);
         TextView guideCountView = (TextView) view.findViewById(R.id.home_hot_search_city_bottom_text);
         TextView bottomTitle = (TextView) view.findViewById(R.id.home_hot_search_city_title);
         View bottomLayout = view.findViewById(R.id.home_hot_search_city_item_bottom_layout);
@@ -85,20 +84,20 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
         if (position == getCount() - 1) {
             imageView.setImageResource(R.mipmap.home_more);
             filterView.setVisibility(View.GONE);
-            guideIconLayout.setVisibility(View.GONE);
             bottomLayout.setVisibility(View.GONE);
             bottomTitle.setVisibility(View.GONE);
+            guideCountView.setVisibility(View.GONE);
         } else {
             SkuItemBean skuItemBean = hotExplorations.get(position);
             Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-            guideCountView.setText(skuItemBean.guideAmount + "位中文司导带你玩");
+            customCount.setText(skuItemBean.guideAmount + "位中文导游可服务");
             bottomTitle.setText(skuItemBean.goodsName);
-            customCount.setText(skuItemBean.saleAmount + "人已体验");
+            guideCountView.setText(skuItemBean.saleAmount + "人已体验");
 
             String price = "￥" + skuItemBean.perPrice;
             String count = "/人起";
             SpannableString spannableString = new SpannableString(price + count);
-            spannableString.setSpan(new AbsoluteSizeSpan(14, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(15, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new AbsoluteSizeSpan(12, true), price.length(), count.length() + price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             perPrice.setText(spannableString);
         }

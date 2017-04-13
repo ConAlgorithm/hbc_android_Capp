@@ -72,6 +72,7 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.HomeCustomLayout;
+import com.hugboga.custom.widget.NoScrollViewPager;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -115,7 +116,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @ViewInject(R.id.container)
-    private ViewPager mViewPager;
+    private NoScrollViewPager mViewPager;
 
     @ViewInject(R.id.bottom_point_2)
     private TextView bottomPoint2;
@@ -161,6 +162,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
+        mViewPager.setScrollble(false);
 
         //为服务器授权
         grantPhone();

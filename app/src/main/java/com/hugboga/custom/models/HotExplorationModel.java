@@ -44,7 +44,7 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
         HotExplorationHolder hotExplorationHolder = (HotExplorationHolder) holder;
         if(hotExploration.explorationType==1){
             hotExplorationHolder.homeHotTitle.setText(hotExploration.explorationName);
-            hotExplorationHolder.guideCity.setText("/" + hotExploration.explorationName+"司导");
+            hotExplorationHolder.guideCity.setText("/ " + hotExploration.explorationName+"司导");
             hotExplorationHolder.guideCity.setVisibility(View.VISIBLE);
             hotExplorationHolder.cityNameIcon.setVisibility(View.VISIBLE);
         }else{
