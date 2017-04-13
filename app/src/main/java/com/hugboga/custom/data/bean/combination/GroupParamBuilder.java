@@ -456,7 +456,7 @@ public class GroupParamBuilder {
             croupDailyParam.setTravelFlightParam(travelFlightParam, true);
 
             croupDailyParam.serviceTime = travelFlightParam.serviceTime;
-        } else if (index == 0 && startPoiBean != null) {
+        } else if (orderIndex == 0 && startPoiBean != null) {
             croupDailyParam.startAddress = startPoiBean.placeName;
             croupDailyParam.startAddressDetail = startPoiBean.placeDetail;
             croupDailyParam.startAddressPoi = startPoiBean.location;
