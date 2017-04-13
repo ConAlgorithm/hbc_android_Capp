@@ -13,8 +13,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
-
+        android:paddingLeft="@dimen/sku_order_padding_left"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:layout_centerVertical="true"
+            android:paddingTop="3dp"
+            android:textColor="#f56363"
+            android:textSize="14sp"
+            android:layout_marginLeft="-10dp"
+            />
         <TextView
             android:id="@+id/sku_order_traveler_info_contacts_hint_tv"
             android:layout_width="wrap_content"
@@ -71,8 +83,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
-
+        android:paddingLeft="@dimen/sku_order_padding_left"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:layout_centerVertical="true"
+            android:paddingTop="3dp"
+            android:textColor="#f56363"
+            android:textSize="14sp"
+            android:layout_marginLeft="-10dp"
+            />
         <TextView
             android:id="@+id/sku_order_traveler_info_phone_hint_tv"
             android:layout_width="wrap_content"
@@ -135,10 +158,42 @@
             />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/sku_order_traveler_info_start_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+
+        <TextView
+            android:id="@+id/sku_order_traveler_info_start_time_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:minWidth="80dp"
+            android:gravity="center_vertical"
+            android:text="上车时间"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/sku_order_traveler_info_start_time_tv"
+            android:layout_toRightOf="@id/sku_order_traveler_info_start_time_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="9:00"
+            android:textColorHint="#cccccc"
+            android:layout_marginTop="14.6dp"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line"
+            />
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/sku_order_traveler_info_start_address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:minHeight="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
 
@@ -184,13 +239,18 @@
             android:layout_marginBottom="13dp"
             android:textColor="#cccccc"
             android:textSize="12sp" />
-
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
+        <View
+            android:id="@+id/sku_order_traveler_info_mark_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:background="@color/default_dividing_line"
+            />
         <TextView
             android:id="@+id/sku_order_traveler_info_mark_hint_tv"
             android:layout_width="wrap_content"

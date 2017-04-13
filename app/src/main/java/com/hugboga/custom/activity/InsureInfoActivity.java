@@ -156,7 +156,6 @@ public class InsureInfoActivity extends BaseActivity {
             if (isUpdateOrderDetail) {
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
             }
-            return true;
         }
         return super.onKeyUp(keyCode, event);
     }

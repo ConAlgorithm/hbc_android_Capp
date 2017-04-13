@@ -103,6 +103,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             insurerTV.setTextColor(insuranceColor);
         } else {
             insuranceInfoLayout.setVisibility(View.GONE);
+            insuranceAddLayout.setVisibility(View.GONE);
         }
     }
 

@@ -76,6 +76,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         , CombinationOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
         , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
 
+    public static final String TAG = CombinationOrderActivity.class.getSimpleName();
+
     public static final String SERVER_TIME = "09:00:00";
     public static final String SERVER_TIME_END = "23:59:59";
     public static final int REQUEST_CODE_PICK_CONTACTS = 101;
@@ -142,6 +144,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
         descriptionLayout.update(charterDataUtils);
         carTypeView.setOnSelectedCarListener(this);
+        carTypeView.showLuggageExplain();
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
@@ -149,14 +152,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
+        travelerInfoView.setTag(TAG);
 
         if (charterDataUtils.guidesDetailData != null) {
             getGuideCars();
         } else {
             requestBatchPrice();
         }
-
-        travelerInfoView.setActivity(this);
 
         carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
 
@@ -376,7 +378,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
-        countView.setVisibility(visibility);
+//        countView.setVisibility(visibility);
         travelerInfoView.setVisibility(visibility);
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
@@ -557,6 +559,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .mostFitBean(mostFitBean)
                 .startPoiBean(travelerInfoBean.poiBean)
                 .allChildSeatPrice(countView.getAdditionalPrice())
+                .travelerInfoBean(travelerInfoBean)
                 .build();
         requestSubmitOrder(requestParams);
     }

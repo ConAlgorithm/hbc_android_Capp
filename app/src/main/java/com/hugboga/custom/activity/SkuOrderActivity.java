@@ -173,8 +173,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
 
         requestStartDate();
-
-        travelerInfoView.setActivity(this);
     }
 
     public void initTitleBar() {

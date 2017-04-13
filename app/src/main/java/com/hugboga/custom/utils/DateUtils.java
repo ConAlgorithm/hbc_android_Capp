@@ -37,6 +37,7 @@ public class DateUtils {
     public static SimpleDateFormat datePonintDateTimeFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
     public static SimpleDateFormat dateSimpleDateFormatMMdd = new SimpleDateFormat("MM月dd日");
     public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    public static SimpleDateFormat timeFormat2 = new SimpleDateFormat("HH:mm");
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
     public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E");
     public static SimpleDateFormat dateYearMonth = new SimpleDateFormat("yyyy年MM月");
@@ -755,6 +756,16 @@ public class DateUtils {
             Date date = dateDateFormat.parse(startDateStr);
             return dateDateFormat.format(date.getTime() +  day * count);
         }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getDifferenceTime(String time, int differenceTime) {
+        try {
+            Date date = timeFormat2.parse(time);
+            return timeFormat2.format(date.getTime() +  differenceTime);
+        } catch (Exception e){
             e.printStackTrace();
             return null;
         }

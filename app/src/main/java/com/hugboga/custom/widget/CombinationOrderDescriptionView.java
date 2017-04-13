@@ -26,8 +26,12 @@ public class CombinationOrderDescriptionView extends LinearLayout{
 
     @Bind(R.id.combination_order_des_date_tv)
     TextView dateTV;
+    @Bind(R.id.combination_order_des_people_tv)
+    TextView peopleTV;
     @Bind(R.id.combination_order_des_address_tv)
     TextView addressTV;
+    @Bind(R.id.combination_order_travel_view)
+    OrderTravelView travelView;
 
     public CombinationOrderDescriptionView(Context context) {
         this(context, null);
@@ -48,6 +52,12 @@ public class CombinationOrderDescriptionView extends LinearLayout{
             e.printStackTrace();
         }
 
+        String travellerCount = String.format("成人%1$s位", charterDataUtils.adultCount);
+        if (charterDataUtils.childCount > 0) {
+            travellerCount += String.format("，儿童%1$s位", charterDataUtils.childCount);
+        }
+        peopleTV.setText(travellerCount);
+
         String endCityName = "";
         if (charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
             endCityName = charterDataUtils.airPortBean.cityName;
@@ -57,5 +67,7 @@ public class CombinationOrderDescriptionView extends LinearLayout{
             endCityName = charterDataUtils.getStartCityBean(chooseDateBean.dayNums).name;
         }
         addressTV.setText(String.format("%1$s - %2$s", charterDataUtils.getStartCityBean(1).name, endCityName));
+
+        travelView.update(charterDataUtils);
     }
 }

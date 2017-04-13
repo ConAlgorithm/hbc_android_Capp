@@ -211,11 +211,11 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         travelItemCharterLineLayout.setVisibility(View.VISIBLE);
         travelItemLineTv.setTextColor(getResources().getColor(R.color.default_black));
         if (isOuttown(journey)) {
-            String startAddress = journey.startCityName;
             if (pickup != null) {
-                startAddress = pickup.startAddress;
+                travelItemLineTv.setText(String.format("%1$s出发，游玩至%2$s结束", journey.startCityName, journey.cityName));
+            } else {
+                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", journey.startCityName, journey.cityName));
             }
-            travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startAddress, journey.cityName));
         } else {
             if (pickup != null) {
                 travelItemLineTv.setText(String.format("%1$s出发，%2$s", pickup.startAddress, journey.description));

@@ -18,7 +18,9 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -99,7 +101,17 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
             } else if (orderBean.orderType == 2) {//只送机
                 firstDateTV.setText(DateUtils.orderChooseDateTransform(orderBean.serviceTime));
                 String airportName = TextUtils.isEmpty(orderBean.flightAirportName) ? orderBean.destAddress : orderBean.flightAirportName;
-                firstTitleTV.setText("只送机，机场：" + airportName);
+                String timeStr = "";
+                if (!TextUtils.isEmpty(orderBean.serviceTime)) {
+                    try {
+                        Date date = DateUtils.dateTimeFormat.parse(orderBean.serviceTime);
+                        timeStr = String.format("(%1$s:%2$s出发)", date.getHours(), date.getMinutes());
+                    } catch (ParseException e) {
+                        timeStr = "";
+                        e.printStackTrace();
+                    }
+                }
+                firstTitleTV.setText(String.format("只送机：%1$s", airportName) + timeStr);
             }
             return;
         }

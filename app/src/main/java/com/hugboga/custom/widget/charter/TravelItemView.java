@@ -342,11 +342,12 @@ public class TravelItemView extends LinearLayout {
             CityBean endCityBean = charterDataUtils.getEndCityBean(_position + 1);
             if (startCityBean != null && endCityBean != null && startCityBean != endCityBean) {
                 travelItemTitleTv.setText(String.format("第%1$s天: %2$s-%3$s", _position + 1, startCityBean.name, endCityBean.name));
-                String startAddress = startCityBean.name;
                 if (isPickup) {
-                    startAddress = charterDataUtils.flightBean.arrAirportName;
+                    travelItemLineTv.setText(String.format("%1$s出发，游玩至%2$s结束", charterDataUtils.flightBean.arrAirportName, endCityBean.name));
+                } else {
+                    travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startCityBean.name, endCityBean.name));
                 }
-                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startAddress, endCityBean.name));
+
             } else if (startCityBean != null && endCityBean == null) {
                 travelItemTitleTv.setText(String.format("第%1$s天: %2$s", _position + 1, "跨城市游玩"));
                 travelItemLineTv.setTextColor(0xFFCCCCCC);

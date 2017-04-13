@@ -31,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -211,10 +212,26 @@ public class OrderEditActivity extends BaseActivity {
                 String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
                 upRight.setText(time + "(当地时间)");
             }
-//            if (!TextUtils.isEmpty(orderBean.startAddress)) {
-//                upAddressRight.setText(orderBean.startAddress);
-//            }
-            pickUpLocationLayout.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(orderBean.startAddress)) {
+                upAddressRight.setText(orderBean.startAddress);
+            }
+            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
+                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
+                if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
+                    pickUpLocationLayout.setVisibility(View.GONE);
+                    pickUpTime.setVisibility(View.VISIBLE);
+                } else if (journeyItem.pickup != null) {//只接机
+                    pickUpLocationLayout.setVisibility(View.GONE);
+                    pickUpTime.setVisibility(View.GONE);
+                } else {//包车
+                    pickUpLocationLayout.setVisibility(View.VISIBLE);
+                    pickUpTime.setVisibility(View.VISIBLE);
+                }
+            } else {//线路
+                pickUpLocationLayout.setVisibility(View.VISIBLE);
+                pickUpTime.setVisibility(View.GONE);
+            }
+
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
                 hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
@@ -354,6 +371,20 @@ public class OrderEditActivity extends BaseActivity {
         picker = new TimePicker(activity, TimePicker.HOUR_24);
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
+//        if (orderBean.orderType == 3 || orderBean.orderType == 888) {
+//            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
+//                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
+//                if (journeyItem.pickup != null && journeyItem.journey == null) {//包车加接机
+//                    try {
+//                        Date date = DateUtils.timeFormat2.parse(journeyItem.pickup.s);
+//                        picker.setRangeStart(date.getHours(), date.getMinutes());
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
@@ -486,7 +517,6 @@ public class OrderEditActivity extends BaseActivity {
             if (orderBean.orderStatus.code <= 5) {
                 EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
             }
-            return true;
         }
         return super.onKeyUp(keyCode, event);
     }

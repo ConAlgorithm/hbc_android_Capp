@@ -119,6 +119,7 @@
         android:id="@+id/order_detail_insurance_add_layout"
         android:background="#ffffff"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/sku_order_min_item_hight"
         android:paddingLeft="@dimen/sku_order_padding_left"
         android:paddingRight="@dimen/order_padding_left"
