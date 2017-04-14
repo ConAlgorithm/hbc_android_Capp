@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:paddingLeft="@dimen/city_list_margin_left"
+    android:paddingRight="@dimen/city_list_margin_left">
+
+    <TextView
+        android:id="@+id/city_custom_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="萨达所大多所阿萨德阿萨德啊"
+        android:textColor="@color/default_black"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shape_order_no_dash"
+        android:layerType="software"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/city_custom_charter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/city_custom_charter_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="按天包车游"
+                android:textColor="@color/common_font_color_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/city_custom_charter_desc_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/city_custom_charter_title_tv"
+                android:layout_marginTop="6dp"
+                android:text="专属行程，中文司机兼导游服务"
+                android:textColor="@color/common_font_color_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/city_custom_charter_desc2_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/city_custom_charter_desc_tv"
+                android:drawableRight="@mipmap/order_choice_bottom_arrow"
+                android:text="预订后可挑选司导"
+                android:textColor="@color/common_font_color_gray"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/city_custom_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/dash_line_h"></View>
+
+        <LinearLayout
+            android:id="@+id/city_custom_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+            <LinearLayout
+                android:id="@+id/city_custom_picksend_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="接送机"
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_chater_title"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@mipmap/order_choice_bottom_arrow"
+                    android:text="中文包车接送机"
+                    android:textColor="@color/common_font_color_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <View
+                android:id="@+id/city_custom_bottom_vertical_line"
+                android:layout_width="1dp"
+                android:layout_height="46dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/dash_line_v"></View>
+            <LinearLayout
+                android:id="@+id/city_custom_single_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="单次接送"
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_chater_title"
+                    android:layout_marginTop="8dp"
+                    android:drawableRight="@mipmap/order_choice_bottom_arrow"
+                    android:text="点到点中文包车"
+                    android:textColor="@color/common_font_color_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
