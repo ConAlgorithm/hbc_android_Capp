@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#ff0000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="拉面和啊啊啊啊，司导奥迪实打实大声道的司导司导"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/choiceness_guide_level_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/choiceness_guide_level_hint_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:layout_centerHorizontal="true"
+                android:text="服务升级"
+                android:textColor="#898989"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/choiceness_guide_level_tv"
+                android:layout_below="@id/choiceness_guide_level_hint_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:text="4.92"
+                android:textColor="#f9b900"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="@dimen/default_line_height"
+                android:layout_height="60dp"
+                android:background="@color/default_dividing_line"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/choiceness_guide_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="孟晓雷"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/choiceness_guide_level_layout"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <com.hugboga.custom.widget.TagGroup
+            android:id="@+id/choiceness_guide_taggroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/choiceness_guide_level_layout"
+            android:layout_below="@id/choiceness_guide_name_tv"
+            android:layout_marginTop="6dp"
+            app:horizontalSpacing="15dp"
+            app:isCenter="true"
+            app:verticalSpacing="15dp" />
+
+        <TextView
+            android:id="@+id/choiceness_guide_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/choiceness_guide_level_layout"
+            android:layout_below="@id/choiceness_guide_taggroup"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="6dp"
+            android:text="孟晓雷孟晓雷孟晓雷孟晓雷孟晓雷孟晓雷"
+            android:textColor="#898989"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:layout_marginTop="10dp"
+        android:background="@color/default_dividing_line" />
+</LinearLayout>

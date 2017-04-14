@@ -194,7 +194,7 @@ public class UrlLibs {
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
     public static final String API_BATCH_PRICE              = "price/v1.4/c/batchPrice";                                // 组合单报价  121
 
-    public static final String API_CITY_HOME_LIST           = "goods/v1.4/c/home/cityGoods?";                           // 城市商品列表
+    public static final String API_CITY_HOME_LIST           = "goods/v1.5/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
     public static final String API_CITY_HOME_ROUTE_LIST     = "goods/v1.4/c/home/lineGroupGoods?";                      // 线路圈
     public static final String API_GOODS_BY_ID              = "goods/v1.3/c/home/goodsByNo";                            // 按商品编号查商品详情

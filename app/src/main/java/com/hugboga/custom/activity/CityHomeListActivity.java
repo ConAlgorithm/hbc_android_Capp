@@ -519,7 +519,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 if(placeHolderView!=null){
                     placeHolderView.hide();
                 }
-                request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
+//                request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
                 break;
             case ROUTE:
                 request = new RequestRouteCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
@@ -600,7 +600,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCityHomeList) {
-            cityHomeBean = ((RequestCityHomeList) _request).getData();
+//            cityHomeBean = ((RequestCityHomeList) _request).getData();
             cityHomeHeader.update(cityHomeBean);
             cityHomeFooter.update(cityHomeBean);
             fgTitle.setText(cityHomeBean.cityContent.cityName);

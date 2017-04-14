@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/city_list_margin_left">
+    <ImageView
+        android:id="@+id/city_list_header_bg_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/city_list_header_description_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="d是多大的"
+        android:textSize="12sp"
+        android:textColor="#ffffff"/>
+    <TextView
+        android:id="@+id/city_list_header_city_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="d是多大的"
+        android:layout_marginBottom="2dp"
+        android:layout_above="@id/city_list_header_description_tv"
+        android:textSize="20sp"
+        android:textColor="#ffffff"/>
+    <ImageView
+        android:layout_alignTop="@id/city_list_header_city_tv"
+        android:layout_toRightOf="@id/city_list_header_city_tv"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="15dp"
+        android:layout_height="9dp"
+        android:background="@mipmap/share_unfold_white"/>
+</RelativeLayout>
