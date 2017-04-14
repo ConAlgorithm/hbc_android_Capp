@@ -161,7 +161,6 @@
         android:id="@+id/sku_order_traveler_info_start_time_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sku_order_min_item_hight"
-        android:visibility="gone"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
 
         <TextView
@@ -178,7 +177,7 @@
             android:layout_toRightOf="@id/sku_order_traveler_info_start_time_hint_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="9:00"
+            android:hint="09:00 (当地时间)"
             android:textColorHint="#cccccc"
             android:layout_marginTop="14.6dp"
             android:textColor="@color/default_black"
@@ -222,7 +221,7 @@
             android:layout_toLeftOf="@id/sku_order_traveler_info_start_address_arrow_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="请选择上车地点"
+            android:hint="请添加上车地点"
             android:textColorHint="#cccccc"
             android:layout_marginTop="14.6dp"
             android:textColor="@color/default_black"

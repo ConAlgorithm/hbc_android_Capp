@@ -213,7 +213,11 @@ public class OrderEditActivity extends BaseActivity {
                 upRight.setText(time + "(当地时间)");
             }
             if (!TextUtils.isEmpty(orderBean.startAddress)) {
-                upAddressRight.setText(orderBean.startAddress);
+                String startAddress = orderBean.startAddress;
+                if (!TextUtils.isEmpty(orderBean.startAddressDetail)) {
+                    startAddress = orderBean.startAddress + "\n" + orderBean.startAddressDetail;
+                }
+                upAddressRight.setText(startAddress);
             }
             if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
                 OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
@@ -229,7 +233,7 @@ public class OrderEditActivity extends BaseActivity {
                 }
             } else {//线路
                 pickUpLocationLayout.setVisibility(View.VISIBLE);
-                pickUpTime.setVisibility(View.GONE);
+                pickUpTime.setVisibility(View.VISIBLE);
             }
 
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
@@ -372,19 +376,17 @@ public class OrderEditActivity extends BaseActivity {
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
-//        if (orderBean.orderType == 3 || orderBean.orderType == 888) {
-//            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
-//                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
-//                if (journeyItem.pickup != null && journeyItem.journey == null) {//包车加接机
-//                    try {
-//                        Date date = DateUtils.timeFormat2.parse(journeyItem.pickup.s);
-//                        picker.setRangeStart(date.getHours(), date.getMinutes());
-//                    } catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
+        if (orderBean.orderType == 3 || orderBean.orderType == 888) {
+            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
+                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
+                if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
+                    Date date = DateUtils.getDateTimeFromStr2(journeyItem.pickup.flightArriveTime);
+                    if (date != null) {
+                        picker.setRangeStart(date.getHours(), date.getMinutes());
+                    }
+                }
+            }
+        }
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {

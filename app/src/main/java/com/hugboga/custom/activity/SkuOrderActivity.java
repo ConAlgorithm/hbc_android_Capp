@@ -78,7 +78,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         , SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
         , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener{
 
-    private static final String SERVER_TIME = "09:00";
+    public static final String TAG = SkuOrderActivity.class.getSimpleName();
+
+    public static final String SERVER_TIME = "09:00";
     public static final int REQUEST_CODE_PICK_CONTACTS = 101;
 
     @Bind(R.id.sku_order_scrollview)
@@ -171,6 +173,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         bottomView.setOnSubmitOrderListener(this);
         emptyLayout.setOnRefreshDataListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
+        travelerInfoView.setTag(TAG);
 
         requestStartDate();
     }
@@ -658,7 +661,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         return new OrderUtils().getSKUOrderByInput(""
                 , params.skuItemBean
                 , serverDate
-                , SERVER_TIME
+                , TextUtils.isEmpty(travelerInfoBean.serverTime) ? SERVER_TIME : travelerInfoBean.serverTime
                 , carListBean.distance + ""
                 , carBean
                 , manLuggageBean.mans + ""

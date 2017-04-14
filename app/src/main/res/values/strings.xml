@@ -362,8 +362,8 @@
     <string name="add_user_phone_left">* 联系电话</string>
     <string name="add_user_phone_area_no">选择区号></string>
     <string name="add_user_phone">联系人电话</string>
-    <string name="local_time">09:00(当地时间)</string>
-    <string name="aboard_where">请选择上车地点</string>
+    <string name="local_time">09:00 (当地时间)</string>
+    <string name="aboard_where">请添加上车地点</string>
     <string name="hotel_phone">酒店电话</string>
     <string name="order_tips">选填,行前可以随时联系司导更改</string>
     <string name="for_other_people">为他人订车</string>
@@ -399,7 +399,7 @@
     <string name="complete_days_info">请完善每天的行程</string>
     <string name="complete_half_start_date">请完善游玩日期</string>
     <string name="edit_mark_left">备注信息</string>
-    <string name="edit_mark">给司导捎句话</string>
+    <string name="edit_mark">如有其他需求，请在这里给司导留言</string>
     <string name="all_cost_info">费用详情</string>
 
     <string name="noraml_question">常见问题</string>

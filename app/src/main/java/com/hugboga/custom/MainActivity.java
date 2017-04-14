@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -192,6 +193,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             currentPosition = pagePosition;
             mViewPager.setCurrentItem(currentPosition);
         }
+
+        requesetBattery();
     }
 
     @Override
@@ -994,6 +997,24 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 检测是否有手机白名单设置，如果没有则弹框要求增加
+     */
+    private void requesetBattery() {
+        try {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                    //如果没有系统白名单设置，则弹框要求加入白名单
+                    Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).setData(Uri.parse("package:" + getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 
 

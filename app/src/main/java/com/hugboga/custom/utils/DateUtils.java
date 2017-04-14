@@ -50,6 +50,25 @@ public class DateUtils {
         return dateTimeFormat.parse(datetime);
     }
 
+    public static Date getDateTimeFromStr2(String datetime) {
+        try {
+            return dateTimeFormat.parse(datetime);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String getTime(Date date) {
+        if (date == null) {
+            return "";
+        }
+        return fillZero(date.getHours()) + ":" + fillZero(date.getMinutes());
+    }
+
+    public static String fillZero(int number) {
+        return number < 10 ? "0" + number : "" + number;
+    }
+
     public static String formatSecond(Long time) {
         long minute = time / (60 * 1000);
         long second = (time - minute * 60 * 1000) / 1000;

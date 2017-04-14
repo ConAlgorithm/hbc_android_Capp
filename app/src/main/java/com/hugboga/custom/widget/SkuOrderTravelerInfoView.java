@@ -185,6 +185,13 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
                 addressTV.setHint("添加第1天上车地点");
                 travelerInfoBean.serverTime = CombinationOrderActivity.SERVER_TIME.substring(0, CombinationOrderActivity.SERVER_TIME.lastIndexOf(":00"));
             }
+        } else if (SkuOrderActivity.TAG.equals(tag)) {
+            timeLayout.setVisibility(View.VISIBLE);
+            addressLayout.setVisibility(View.VISIBLE);
+            markLineView.setVisibility(View.VISIBLE);
+            timeTV.setHint("09:00（当地时间）");
+            addressTV.setHint("请添加上车地点");
+            travelerInfoBean.serverTime = SkuOrderActivity.SERVER_TIME;
         }
     }
 

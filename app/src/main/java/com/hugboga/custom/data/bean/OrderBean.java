@@ -388,6 +388,7 @@ public class OrderBean implements IBaseBean{
         public String flightBrandSign;      // 举牌接机姓名
         public String flightNo;             // 航班编号
         public String serviceCityName;      // 服务城市
+        public String flightArriveTime;     // 航班到达时间
     }
 
     public class CTravelDayTransfer implements Serializable{

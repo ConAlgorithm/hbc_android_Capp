@@ -15,6 +15,8 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -187,7 +189,12 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         } else {
             travelItemPickupTv.setText("接机航班: " + pickup.flightNo);//接机航班：NH956
         }
-        travelItemArrdateTv.setText(String.format("当地时间%1$s %2$s降落", dateStr, pickup.serviceTimeStr));//计划到达时间（当地时间：2017年02月18日 周五 12:40降落）
+        String serviceTime = pickup.serviceTimeStr;
+        Date date = DateUtils.getDateTimeFromStr2(pickup.flightArriveTime);
+        if (date != null) {
+            serviceTime = DateUtils.getTime(date);
+        }
+        travelItemArrdateTv.setText(String.format("当地时间%1$s %2$s降落", dateStr, serviceTime));//计划到达时间（当地时间：2017年02月18日 周五 12:40降落）
     }
 
     public void updateOnlyPickupLayout(OrderBean.CTravelDayPickup pickup) {

@@ -105,7 +105,7 @@ public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavi
                 if (!TextUtils.isEmpty(orderBean.serviceTime)) {
                     try {
                         Date date = DateUtils.dateTimeFormat.parse(orderBean.serviceTime);
-                        timeStr = String.format("(%1$s:%2$s出发)", date.getHours(), date.getMinutes());
+                        timeStr = String.format("(%1$s出发)", DateUtils.getTime(date));
                     } catch (ParseException e) {
                         timeStr = "";
                         e.printStackTrace();
