@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,12 +66,14 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String KEY_SHOW_TYPE = "key_show_type";
     public static String KEY_FROM = "key_from";
     public static String KEY_FROM_TAG = "from_tag";
+    public static final String KEY_COUNTRY_ID = "key_country_id";
 
     public static final String PARAM_TYPE_START = "startAddress";
     public static final String KEY_BUSINESS_TYPE = "key_business_Type";
 
     public static final String GROUP_START = "group_start";     // 组合单开始城市
     public static final String GROUP_OUTTOWN = "group_outtown";     // 组合单开始城市
+    public static final String CITY_LIST = "city_list";
 
     @Bind(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;
@@ -131,6 +134,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private DialogUtil mDialogUtil;
     private int mBusinessType;
     public String fromTag;
+    public volatile int countryId = -1;
 
     private List<CityBean> hotCityList;
     private List<CityBean> historyList;
@@ -177,6 +181,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         public static final int GROUP_START = 0x0004;
 
         public static final int GROUP_OUTTOWN = 0x0005;
+
+        public static final int CITY_LIST = 0x0007;
 
     }
 
@@ -253,6 +259,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             source = bundle.getString("source");
             mBusinessType = bundle.getInt(KEY_BUSINESS_TYPE, -1);
             fromTag = bundle.getString(KEY_FROM_TAG);
+            countryId = bundle.getInt(KEY_COUNTRY_ID, -1);
         }
 
         sideBar.setTextView((TextView) findViewById(R.id.choose_city_sidebar_firstletter));
@@ -494,6 +501,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 str = str.substring(0, str.length() - 1);
             cityHeadText.setText(str);
             mAdapter.notifyDataSetChanged();
+        } else if (showType == ShowType.CITY_LIST) {
+            CityListActivity.Params params = new CityListActivity.Params();
+            params.id = cityBean.cityId;
+            params.titleName = cityBean.name;
+            params.cityHomeType = CityListActivity.CityHomeType.CITY;
+            Intent intent = new Intent(this, CityListActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE, "热门城市页");
+            startActivity(intent);
         } else {//包车城市搜索
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
@@ -550,7 +566,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
      * @param cityBean
      */
     public void saveHistoryDate(CityBean cityBean) {
-        if (GROUP_START.equals(from) || GROUP_OUTTOWN.equals(from)) {
+        if (GROUP_START.equals(from) || GROUP_OUTTOWN.equals(from) || CITY_LIST.equals(from)) {
             return;
         }
         if (cityHistory == null) cityHistory = new ArrayList<String>();
@@ -687,7 +703,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                                 startCityName = cityBean.name;
                             }
                         }
-                        message.obj = DatabaseManager.getAllCitySql(mBusinessType, groupId, cityId, from);
+                        message.obj = DatabaseManager.getAllCitySql(mBusinessType, groupId, cityId, from, countryId);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
                         } else {
@@ -696,7 +712,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     }
                     if (showType != ShowType.SELECT_CITY) {
                         onPreExecuteHandler.sendEmptyMessage(MessageType.HOT_CITY);
-                        if (showType != ShowType.GROUP_START || showType != ShowType.GROUP_OUTTOWN) {
+                        if (showType != ShowType.GROUP_START && showType != ShowType.GROUP_OUTTOWN && showType != ShowType.CITY_LIST) {
                             onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
                             onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
                         }
@@ -717,7 +733,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                             onPostExecuteHandler.sendMessage(message);
                             break;
                         }else{
-                            message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from);
+                            message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from, countryId);
                         }
                     }
                     mAsyncHandler.sendMessage(message);
@@ -857,6 +873,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 if (cityId != -1) {
                     selector.and("city_id", "<>", cityId);
                 }
+            } else if (CITY_LIST.equals(from) && countryId != -1) {
+                selector.and("place_id", "=", countryId);
             } else {
                 if (groupId == -1) {
                     selector.and("is_daily", "=", 1);

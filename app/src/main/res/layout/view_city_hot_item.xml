@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:res="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="#ffffff"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F8F8F8"></View>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -8,24 +20,23 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="7dp">
 
         <TextView
-            android:id="@+id/home_hotcity_title_tv"
+            android:id="@+id/city_hot_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textColor="@color/common_font_color_black"
-            android:textStyle="bold"
-            android:text="热门城市"
-            android:textSize="22sp"/>
+            android:textSize="22sp"
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/home_hotcity_more_tv"
+            android:id="@+id/city_hot_more_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/home_hotcity_title_tv"
-            android:layout_toRightOf="@id/home_hotcity_title_tv"
+            android:layout_alignBottom="@id/city_hot_title_tv"
+            android:layout_toRightOf="@id/city_hot_title_tv"
             android:gravity="right"
             android:includeFontPadding="false"
             android:paddingLeft="5dp"
@@ -38,29 +49,16 @@
         <ImageView
             android:layout_width="4.5dp"
             android:layout_height="7dp"
-            android:layout_alignBottom="@id/home_hotcity_more_tv"
+            android:layout_alignBottom="@id/city_hot_more_tv"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="2.5dp"
             android:layout_marginRight="5dp"
             android:background="@mipmap/icon_yellow_arrow_right" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/home_hotcity_viewpager"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/city_hot_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="6dp"
-        android:clipChildren="false" />
-
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/home_hotcity_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="20dip"
-        android:layout_marginTop="8dp"
-        res:centered="true"
-        res:fillColor="#ffe7a1"
-        res:pageColor="#e2e2e7"
-        res:radius="2.5dip"
-        res:strokeWidth="0dip" />
-</merge>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

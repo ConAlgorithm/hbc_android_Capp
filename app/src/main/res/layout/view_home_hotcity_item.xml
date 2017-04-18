@@ -13,10 +13,12 @@
     <TextView
         android:id="@+id/hotcity_item_cityname_tv"
         android:layout_width="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:layout_height="24dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:gravity="center"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textColor="#111111"
         />
     <TextView
@@ -24,6 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:textSize="12sp"
-        android:textColor="#999999"
+        android:textColor="#7f7f7f"
         />
 </LinearLayout>

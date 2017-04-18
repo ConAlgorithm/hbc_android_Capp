@@ -22,9 +22,6 @@ import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-/**
- * Created by qingcha on 16/7/23.
- */
 public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     private Context mContext;

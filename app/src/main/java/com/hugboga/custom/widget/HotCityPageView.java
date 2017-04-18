@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ import java.util.ArrayList;
 /**
  * Created by qingcha on 16/10/20.
  */
-public class HomeHotCityPageView extends GridView implements HbcViewBehavior{
+public class HotCityPageView extends GridView implements HbcViewBehavior{
 
-    public HomeHotCityPageView(Context context) {
+    public HotCityPageView(Context context) {
         this(context, null);
     }
 
-    public HomeHotCityPageView(Context context, AttributeSet attrs) {
+    public HotCityPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setNumColumns(3);
         setVerticalSpacing(UIUtils.dip2px(8));
@@ -31,7 +31,7 @@ public class HomeHotCityPageView extends GridView implements HbcViewBehavior{
 
     @Override
     public void update(Object _data) {
-        ArrayList<HomeBean.HotCity> arrayList = (ArrayList<HomeBean.HotCity>)_data;
+        ArrayList<HomeBeanV2.HotCity> arrayList = (ArrayList<HomeBeanV2.HotCity>)_data;
         GridViewAdapter adapter = new GridViewAdapter(getContext(), arrayList);
         this.setAdapter(adapter);
     }
@@ -39,14 +39,14 @@ public class HomeHotCityPageView extends GridView implements HbcViewBehavior{
     public static class GridViewAdapter extends BaseAdapter {
 
         private Context context;
-        private ArrayList<HomeBean.HotCity> arrayList;
+        private ArrayList<HomeBeanV2.HotCity> arrayList;
 
-        public GridViewAdapter(Context _context, ArrayList<HomeBean.HotCity> arrayList) {
+        public GridViewAdapter(Context _context, ArrayList<HomeBeanV2.HotCity> arrayList) {
             this.context = _context;
             this.arrayList = arrayList;
         }
 
-        public void update(ArrayList<HomeBean.HotCity> arrayList) {
+        public void update(ArrayList<HomeBeanV2.HotCity> arrayList) {
             this.arrayList = arrayList;
             this.notifyDataSetChanged();
         }

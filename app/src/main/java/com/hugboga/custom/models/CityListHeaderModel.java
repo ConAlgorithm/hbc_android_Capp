@@ -1,5 +1,7 @@
 package com.hugboga.custom.models;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -7,12 +9,19 @@ import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityListBean;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
  * Created by qingcha on 17/4/14.
  */
-public class CityListHeaderModel extends EpoxyModel<View> {
+public class CityListHeaderModel extends EpoxyModel<RelativeLayout> {
+
+    private CityListBean.CityContent cityContent;
+    private int displayLayoutHeight;
 
     @Override
     protected int getDefaultLayout() {
@@ -20,12 +29,36 @@ public class CityListHeaderModel extends EpoxyModel<View> {
     }
 
     @Override
-    public void bind(View view) {
+    public void bind(RelativeLayout view) {
         super.bind(view);
-        ImageView bgIV = (ImageView) view.findViewById(R.id.city_list_header_bg_iv);//720 400
+        ImageView bgIV = (ImageView) view.findViewById(R.id.city_list_header_bg_iv);
         TextView descriptionTV = (TextView) view.findViewById(R.id.city_list_header_description_tv);
         TextView cityTV = (TextView) view.findViewById(R.id.city_list_header_city_tv);
-        RelativeLayout.LayoutParams bgParams = new RelativeLayout.LayoutParams(UIUtils.getScreenWidth(), (int)((720 / 400.0f) * UIUtils.getScreenWidth()));
-        bgIV.setLayoutParams(bgParams);
+        displayLayoutHeight = (int)((400 / 720.0f) * UIUtils.getScreenWidth());
+        view.getLayoutParams().height = displayLayoutHeight;
+
+        Tools.showImage(bgIV, cityContent.cityHeadPicture, R.drawable.city_banner_default);
+        cityTV.setText(cityContent.cityName);
+        descriptionTV.setText(cityContent.cityDesc);
+
+        cityTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, ChooseCityNewActivity.class);
+                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
+                intent.putExtra("isHomeIn", false);
+                intent.putExtra("source", "城市页");
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    public void setData(CityListBean.CityContent cityContent) {
+        this.cityContent = cityContent;
+    }
+
+    public int getDisplayLayoutHeight() {
+        return displayLayoutHeight;
     }
 }

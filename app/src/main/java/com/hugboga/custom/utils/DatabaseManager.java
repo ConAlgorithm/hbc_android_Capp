@@ -17,9 +17,6 @@ import org.xutils.ex.DbException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by qingcha on 16/7/21.
- */
 public final class DatabaseManager {
 
     public static DbManager getDbManager() {
@@ -44,7 +41,7 @@ public final class DatabaseManager {
     /**
      * 查询全部城市
      */
-    public static Selector getAllCitySql(int orderType, int groupId, int cityId, String from) {
+    public static Selector getAllCitySql(int orderType, int groupId, int cityId, String from, int countryId) {
         Selector selector = null;
         try {
             selector = getDbManager().selector(CityBean.class);
@@ -59,6 +56,8 @@ public final class DatabaseManager {
                 if (cityId != -1) {
                     selector.and("city_id", "<>", cityId);
                 }
+            } else if (ChooseCityActivity.CITY_LIST.equals(from) && countryId != -1) {
+                selector.and("place_id", "=", countryId);
             } else {
                 if (groupId == -1) {
                     selector.and("is_daily", "=", 1);
@@ -87,7 +86,7 @@ public final class DatabaseManager {
     /**
      * 热门城市
      */
-    public static Selector getHotDateSql(int orderType, int groupId, int cityId, String from) {
+    public static Selector getHotDateSql(int orderType, int groupId, int cityId, String from, int countryId) {
         Selector selector = null;
         try {
             selector = getDbManager().selector(CityBean.class);
@@ -106,6 +105,8 @@ public final class DatabaseManager {
                 if (cityId != -1) {
                     selector.and("city_id", "<>", cityId);
                 }
+            } else if (ChooseCityActivity.CITY_LIST.equals(from) && countryId != -1) {
+                selector.and("place_id", "=", countryId);
             } else {
                 if (groupId == -1) {
                     selector.and("is_daily", "=", 1);

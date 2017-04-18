@@ -133,4 +133,5 @@
     <dimen name="input_panel_image_margin_top">16dip</dimen>
 
     <dimen name="city_list_margin_left">20dip</dimen>
+    <dimen name="city_list_margin_vertical">12dip</dimen>
 </resources>

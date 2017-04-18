@@ -11,11 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.ChooseCityActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeBean;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.UIUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -28,38 +27,35 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/10/20.
  */
-public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
+public class HotCityView extends LinearLayout implements HbcViewBehavior{
 
     @Bind(R.id.home_hotcity_viewpager)
     ViewPager mViewPager;
     @Bind(R.id.home_hotcity_indicator)
     CirclePageIndicator mIndicator;
 
-    public HomeHotCityView(Context context) {
+    public HotCityView(Context context) {
         this(context, null);
     }
 
-    public HomeHotCityView(Context context, AttributeSet attrs) {
+    public HotCityView(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = inflate(context, R.layout.view_home_hotcity, this);
         ButterKnife.bind(this, view);
-
-        final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
-        int itemWidth = (UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8) * 2) / 3;
-        int pagerHeight = (itemWidth + UIUtils.dip2px(56)) * 2 + UIUtils.dip2px(8);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, pagerHeight);
-        mViewPager.setLayoutParams(params);
+        setOrientation(LinearLayout.VERTICAL);
+        setBackgroundColor(0xFFFFFFFF);
+        setPadding(0, 0, 0, UIUtils.dip2px(8));
     }
 
     @Override
     public void update(Object _data) {
-        ArrayList<ArrayList<HomeBean.HotCity>> hotCityList = (ArrayList<ArrayList<HomeBean.HotCity>>)_data;
+        ArrayList<ArrayList<HomeBeanV2.HotCity>> hotCityList = (ArrayList<ArrayList<HomeBeanV2.HotCity>>)_data;
         if (hotCityList == null || hotCityList.size() <= 0) {
             this.setVisibility(View.GONE);
             return;
         }
         this.setVisibility(View.VISIBLE);
-        HomeHotCityAdapter adapter = new HomeHotCityAdapter(getContext(), hotCityList);
+        HotCityAdapter adapter = new HotCityAdapter(getContext(), hotCityList);
         mViewPager.setAdapter(adapter);
         mIndicator.setViewPager(mViewPager);
         if (hotCityList.size() <= 1) {
@@ -67,29 +63,49 @@ public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
         } else {
             mIndicator.setVisibility(View.VISIBLE);
         }
+
+        int rowCount = 2;
+        if (hotCityList.size() <= 1 && hotCityList.get(0) != null && hotCityList.get(0).size() <= 3) {
+            rowCount = 1;
+            setPadding(0, 0, 0, 0);
+        }
+        setItemHeight(rowCount);
+    }
+
+    private void setItemHeight(int rowCount) {
+        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        int itemWidth = (UIUtils.getScreenWidth() - paddingLeft * rowCount - UIUtils.dip2px(8) * 2) / 3;
+        int itemHeigh = (int)((160 / 220.0f) * itemWidth);
+        int pagerHeight = (itemHeigh + UIUtils.dip2px(54)) * rowCount + UIUtils.dip2px(8);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, pagerHeight);
+        mViewPager.setLayoutParams(params);
     }
 
     @OnClick({R.id.home_hotcity_more_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_hotcity_more_tv:
-                Intent intent = new Intent(getContext(), ChooseCityNewActivity.class);
-                intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-                intent.putExtra("isHomeIn", true);
-                intent.putExtra("source", "首页-热门目的地-查看更多");
-                getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页热门目的地");
+                if (getContext() instanceof CityListActivity) {
+                    CityListActivity cityListActivity = (CityListActivity) getContext();
+                    Intent intent = new Intent(getContext(), ChooseCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, cityListActivity.getEventSource());
+                    intent.putExtra(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
+                    intent.putExtra(ChooseCityActivity.KEY_COUNTRY_ID, cityListActivity.paramsData.id);
+                    intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.CITY_LIST);
+                    intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.CITY_LIST);
+                    getContext().startActivity(intent);
+                }
                 break;
         }
     }
 
-    public static class HomeHotCityAdapter extends PagerAdapter {
+    public static class HotCityAdapter extends PagerAdapter {
 
         private Context mContext;
 
-        private ArrayList<ArrayList<HomeBean.HotCity>> hotCityList;
+        private ArrayList<ArrayList<HomeBeanV2.HotCity>> hotCityList;
 
-        public HomeHotCityAdapter(Context context, ArrayList<ArrayList<HomeBean.HotCity>> hotCityList) {
+        public HotCityAdapter(Context context, ArrayList<ArrayList<HomeBeanV2.HotCity>> hotCityList) {
             this.mContext = context;
             this.hotCityList = hotCityList;
         }
@@ -109,7 +125,7 @@ public class HomeHotCityView extends LinearLayout implements HbcViewBehavior{
             final int paddingLeft = mContext.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
             FrameLayout frameLayout = new FrameLayout(mContext);
             frameLayout.setPadding(paddingLeft, 0, paddingLeft, 0);
-            HomeHotCityPageView itemView = new HomeHotCityPageView(mContext);
+            HotCityPageView itemView = new HotCityPageView(mContext);
             itemView.update(hotCityList.get(position));
             frameLayout.addView(itemView);
             container.addView(frameLayout, 0);

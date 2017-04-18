@@ -39,4 +39,17 @@ public class CityListBean implements Serializable {
             return serviceON == 1;
         }
     }
+
+    public boolean isCanService() {
+        if (airportServiceVo != null && airportServiceVo.isCanService()) {
+            return true;
+        }
+        if (dailyServiceVo != null && dailyServiceVo.isCanService()) {
+            return true;
+        }
+        if (singleServiceVo != null && singleServiceVo.isCanService()) {
+            return true;
+        }
+        return false;
+    }
 }
