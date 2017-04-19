@@ -1,13 +1,19 @@
 package com.hugboga.custom.utils;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -24,6 +30,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.tools.HLog;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
 import com.qiyukf.unicorn.api.OnMessageItemClickListener;
@@ -38,7 +45,6 @@ import com.qiyukf.unicorn.ui.fragment.ServiceMessageFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by on 16/8/26.
@@ -51,10 +57,27 @@ public class UnicornUtils {
     private static  String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
 
     public static void initUnicorn() {
-        Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize());
+        try {
+            if(!Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize())){
+                HLog.e("七鱼初始化失败");
+                uploadQiyuInitError("");
+            }
+        }catch (Exception e){
+            String errorMsg = "七鱼初始化失败";
+            if(e!=null && !TextUtils.isEmpty(e.getMessage())){
+                errorMsg = e.getMessage();
+            }
+            uploadQiyuInitError(errorMsg);
+        }
+
     }
 
     public static void openServiceActivity(final Context context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
+        if(!Unicorn.isServiceAvailable()){
+            initUnicorn();
+            Toast.makeText(MyApplication.getAppContext(),"连接客服失败，请稍候重试",Toast.LENGTH_SHORT).show();
+            return;
+        }
         if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
                 || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
             return;
@@ -227,6 +250,26 @@ public class UnicornUtils {
                 }
             }
         }
+    }
+
+    public static void uploadQiyuInitError(String errorMsg){
+        if(isGranted(Manifest.permission.READ_PHONE_STATE,MyApplication.getAppContext())){
+            ApiFeedbackUtils.requestIMFeedback(23001, "23001",TextUtils.isEmpty(errorMsg)?"七鱼客服初始化失败":errorMsg);
+
+        }
+    }
+
+    public static boolean isGranted(String permission,Context context) {
+        return !isMarshmallow() || isGranted_(permission,context);
+    }
+
+    private static boolean isGranted_(String permission,Context context) {
+        int checkSelfPermission = ActivityCompat.checkSelfPermission(context, permission);
+        return checkSelfPermission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private static boolean isMarshmallow() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
 }
