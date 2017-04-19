@@ -24,7 +24,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
-import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
@@ -235,18 +235,18 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
-                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                Intent intent = new Intent(mActivity, CityListActivity.class);
+                CityListActivity.Params params = new CityListActivity.Params();
                 params.id = CommonUtils.getCountInteger(areaID);
                 switch (CommonUtils.getCountInteger(areaType)) {
                     case 1:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                        params.cityHomeType = CityListActivity.CityHomeType.CITY;
                         break;
                     case 2:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                        params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                         break;
                     case 3:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                        params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
                         break;
                     default:
                         return;
@@ -403,10 +403,10 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                CityListActivity.Params params = new CityListActivity.Params();
                 params.id = CommonUtils.getCountInteger(cityId);
-                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
-                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                Intent intent = new Intent(mActivity, CityListActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 mActivity.startActivity(intent);

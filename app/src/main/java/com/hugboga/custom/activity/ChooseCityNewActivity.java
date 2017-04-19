@@ -25,7 +25,6 @@ import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -463,8 +462,8 @@ public class ChooseCityNewActivity extends BaseActivity {
                 params.titleName = searchGroupBean.spot_name;
             }
         }
-//        Intent intent = new Intent(this, CityHomeListActivity.class);
         Intent intent = new Intent(this, CityListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra("source","搜索");
         startActivity(intent);

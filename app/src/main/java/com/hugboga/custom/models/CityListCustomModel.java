@@ -22,7 +22,6 @@ public class CityListCustomModel extends EpoxyModel<CityListCustomView> {
     @Override
     public void bind(CityListCustomView view) {
         super.bind(view);
-        ButterKnife.bind(view);
         if (cityListBean != null) {
             view.setData(cityListBean);
         }

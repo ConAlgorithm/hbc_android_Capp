@@ -19,11 +19,14 @@ import com.hugboga.custom.adapter.CityListAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
+import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
+import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +35,8 @@ import butterknife.ButterKnife;
  * Created by qingcha on 17/4/14.
  */
 public class CityListActivity extends BaseActivity{
+
+    public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
 
     @Bind(R.id.city_list_titlebar)
     RelativeLayout titlebar;
@@ -124,7 +129,7 @@ public class CityListActivity extends BaseActivity{
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(cityListAdapter);
-        requestData();
+        requestCityList();
         setOnScrollListener();
     }
 
@@ -168,7 +173,7 @@ public class CityListActivity extends BaseActivity{
         backLayout.setAlpha(0);
     }
 
-    public void requestData() {
+    public void requestCityList() {
         BaseRequest baseRequest = null;
         switch (paramsData.cityHomeType) {
             case CITY:
@@ -184,6 +189,23 @@ public class CityListActivity extends BaseActivity{
         requestData(baseRequest);
     }
 
+    public void requestGuideList() {
+        RequestFilterGuide.Builder builder = new RequestFilterGuide.Builder();
+        switch (paramsData.cityHomeType) {
+            case CITY:
+                builder.setCityIds("" + paramsData.id);
+                break;
+            case ROUTE:
+                builder.setLineGroupId("" + paramsData.id);
+                break;
+            case COUNTRY:
+                builder.setCoutryId("" + paramsData.id);
+                break;
+        }
+        builder.setLimit(GUIDE_LIST_COUNT);
+        requestData(new RequestFilterGuide(this, builder));
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
@@ -194,6 +216,7 @@ public class CityListActivity extends BaseActivity{
                 setEmptyLayout(false, true);
                 cityListAdapter.setCityData(cityListBean);
                 fgTitle.setText(cityListBean.cityContent.cityName);
+                requestGuideList();
             } else {
                 setEmptyLayout(true, true);
             }
@@ -201,13 +224,20 @@ public class CityListActivity extends BaseActivity{
             setEmptyLayout(false, true);
             CountryGroupBean countryGroupBean = ((RequestCountryGroup) _request).getData();
             cityListAdapter.setCountryGroupData(countryGroupBean);
+            requestGuideList();
+        } else if(_request instanceof RequestFilterGuide) {
+            setEmptyLayout(false, true);
+            ArrayList<FilterGuideBean> guideList = ((RequestFilterGuide) _request).getData();
+            cityListAdapter.setGuideListData(guideList);
         }
     }
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        setEmptyLayout(true, false);
+        if (request instanceof RequestCityHomeList || request instanceof RequestCountryGroup) {
+            setEmptyLayout(true, false);
+        }
     }
 
     @Override
@@ -247,7 +277,7 @@ public class CityListActivity extends BaseActivity{
             emptyLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    requestData();
+                    requestCityList();
                 }
             });
         }
