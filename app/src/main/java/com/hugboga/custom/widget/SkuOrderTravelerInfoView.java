@@ -283,6 +283,9 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
             travelerName = UserEntity.getUser().getUserName(context);
             travelerPhone = UserEntity.getUser().getPhone(context);
             areaCode = UserEntity.getUser().getAreaCode(context);
+            if (TextUtils.isEmpty(areaCode)) {
+                areaCode = "+86";
+            }
         }
 
         public String travelerName;

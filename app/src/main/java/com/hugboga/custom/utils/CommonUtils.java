@@ -321,7 +321,7 @@ public final class CommonUtils {
     }
 
     public static String removePhoneCodeSign(String phoneCode) {
-        String result = "";
+        String result = "86";
         if (TextUtils.isEmpty(phoneCode) || TextUtils.isEmpty(phoneCode.trim())) {
             return result;
         }
