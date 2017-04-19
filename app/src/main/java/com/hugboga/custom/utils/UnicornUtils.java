@@ -24,7 +24,6 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.qiyukf.unicorn.activity.ServiceMessageFragment;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
 import com.qiyukf.unicorn.api.OnMessageItemClickListener;
@@ -35,6 +34,7 @@ import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnicornImageLoader;
 import com.qiyukf.unicorn.api.YSFOptions;
 import com.qiyukf.unicorn.api.YSFUserInfo;
+import com.qiyukf.unicorn.ui.fragment.ServiceMessageFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -70,6 +70,7 @@ public class UnicornUtils {
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "IM");
+
     }
 
     public static void openServiceActivity(Context context, int sourceType) {
