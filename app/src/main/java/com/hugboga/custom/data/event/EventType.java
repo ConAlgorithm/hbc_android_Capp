@@ -93,4 +93,10 @@ public enum EventType {
 
     PURPOSER_CITY,//填写意向单
     YILIAN_PAY,//易联支付
+
+    GUIDE_FILTER_CITY,
+    GUIDE_FILTER_SCOPE,
+    GUIDE_FILTER_SORT,
+    GUIDE_FILTER_CLOSE,
+
 }

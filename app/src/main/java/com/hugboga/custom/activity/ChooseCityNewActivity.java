@@ -270,11 +270,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(GONE);
-                for (SearchGroupBean lineGroupBean : groupList2) {
-                    lineGroupBean.isSelected = false;
-                }
-                groupList2.get(position).isSelected = true;
-                levelCityAdapterMiddle.notifyDataSetChanged();
+                levelCityAdapterMiddle.setMiddleLineShow(true);
 
                 if (groupList2.get(position).spot_id == -1) {
                     Intent intent = new Intent(activity, PickSendActivity.class);
@@ -301,6 +297,11 @@ public class ChooseCityNewActivity extends BaseActivity {
                         showRightData(position);
                     }
                 }
+                for (SearchGroupBean lineGroupBean : groupList2) {
+                    lineGroupBean.isSelected = false;
+                }
+                groupList2.get(position).isSelected = true;
+                levelCityAdapterMiddle.notifyDataSetChanged();
             }
         });
 
@@ -368,6 +369,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             levelCityAdapterRight.setList(groupList3);
             rightList.setAdapter(levelCityAdapterRight);
             levelCityAdapterRight.notifyDataSetChanged();
+            levelCityAdapterMiddle.setMiddleLineShow(false);
         }
     }
 
@@ -377,15 +379,11 @@ public class ChooseCityNewActivity extends BaseActivity {
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getHotCityWithHead(activity));
         } else {
-            SearchGroupBean lineGroupBean;
-            SearchGroupBean searchGroupBean = groupList.get(position);
-            lineGroupBean = (SearchGroupBean) searchGroupBean.clone();
-            lineGroupBean.isSelected = false;
             groupList2 = new ArrayList<>();
-            groupList2.add(0, lineGroupBean);
             groupList2.addAll(CityUtils.getLevel2City(activity, groupList.get(position).group_id));
         }
         levelCityAdapterMiddle.setList(groupList2);
+        levelCityAdapterMiddle.setMiddleLineShow(true);
         levelCityAdapterMiddle.notifyDataSetChanged();
         middleList.setAdapter(levelCityAdapterMiddle);
     }
@@ -467,8 +465,6 @@ public class ChooseCityNewActivity extends BaseActivity {
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra("source","搜索");
         startActivity(intent);
-
-
     }
 
 
