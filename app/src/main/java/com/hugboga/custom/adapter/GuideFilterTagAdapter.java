@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
@@ -47,6 +48,7 @@ public class GuideFilterTagAdapter extends BaseAdapter {
             viewHolder = new GuideFilterTagAdapter.ViewHolder();
             convertView = LayoutInflater.from(MyApplication.getAppContext()).inflate(R.layout.guide_filter_sort_item, null);
             viewHolder.filterItemTV = (TextView) convertView.findViewById(R.id.guide_filter_sort_item_tv);
+            viewHolder.selectedIV = (ImageView) convertView.findViewById(R.id.guide_filter_sort_selected_iv);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (GuideFilterTagAdapter.ViewHolder)convertView.getTag();
@@ -54,13 +56,16 @@ public class GuideFilterTagAdapter extends BaseAdapter {
         viewHolder.filterItemTV.setText(data.typeStr);
         if (data.selected) {
             viewHolder.filterItemTV.setTextColor(selectedColor);
+            viewHolder.selectedIV.setVisibility(View.VISIBLE);
         } else {
             viewHolder.filterItemTV.setTextColor(normalColor);
+            viewHolder.selectedIV.setVisibility(View.GONE);
         }
         return convertView;
     }
 
     public static class ViewHolder{
         TextView filterItemTV;
+        ImageView selectedIV;
     }
 }

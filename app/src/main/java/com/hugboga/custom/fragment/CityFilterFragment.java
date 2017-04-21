@@ -83,7 +83,7 @@ public class CityFilterFragment extends BaseFragment {
                 rightList.setVisibility(GONE);
                 levelCityAdapterMiddle.setMiddleLineShow(true);
                 if (groupList2.get(position).spot_id == -4) {//全部目的地
-
+                    EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CITY, null));
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         goCityList(groupList2.get(position));

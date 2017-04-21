@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/guide_filter_sort_item_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingBottom="@dimen/default_margin_xlarge"
@@ -14,4 +14,13 @@
         android:textColor="@color/hbc_common_text_color_black"
         android:textSize="@dimen/text_size_mediumx" />
 
+    <ImageView
+        android:id="@+id/guide_filter_sort_selected_iv"
+        android:layout_width="11dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="0.5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_gravity="center_vertical"
+        android:background="@mipmap/guide_screening_choose"
+        android:gravity="center_vertical"/>
 </LinearLayout>

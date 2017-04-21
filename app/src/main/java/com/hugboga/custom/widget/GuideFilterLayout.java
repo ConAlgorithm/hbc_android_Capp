@@ -32,8 +32,8 @@ public class GuideFilterLayout extends LinearLayout {
 
     @Bind(R.id.filter_guide_type_city_layout)
     LinearLayout cityLayout;
-    @Bind(R.id.filter_guide_type_filter_layout)
-    LinearLayout filterLayout;
+    @Bind(R.id.filter_guide_type_scope_layout)
+    LinearLayout scopeLayout;
     @Bind(R.id.filter_guide_type_sort_layout)
     LinearLayout sortLayout;
 
@@ -42,10 +42,12 @@ public class GuideFilterLayout extends LinearLayout {
 
     private GuideFilterAdapter pagerAdapter;
     private List<LinearLayout> tabs = new ArrayList<>();
-    private Drawable grayUpArrow, grayDownArrow, yellowUpArrow, yellowDownArrow;
+    private Drawable grayDownArrow, yellowUpArrow, yellowDownArrow;
     private int pagerPosition;
 
     private CityListActivity.Params cityParams;
+    private GuideFilterSortFragment.SortTypeBean sortTypeBean;
+    private GuideFilterFragment.GuideFilterBean guideFilterBean;
 
     public GuideFilterLayout(Context context) {
         this(context, null);
@@ -77,14 +79,12 @@ public class GuideFilterLayout extends LinearLayout {
 
 
         tabs.add(cityLayout);
-        tabs.add(filterLayout);
+        tabs.add(scopeLayout);
         tabs.add(sortLayout);
 
         Resources resources = MyApplication.getAppContext().getResources();
         grayDownArrow = resources.getDrawable(R.mipmap.city_filter_tab_arrow_down);
         grayDownArrow.setBounds(0, 0, grayDownArrow.getMinimumWidth(), grayDownArrow.getMinimumHeight());
-        grayUpArrow = resources.getDrawable(R.mipmap.city_filter_tab_arrow_up);
-        grayUpArrow.setBounds(0, 0, grayUpArrow.getMinimumWidth(), grayUpArrow.getMinimumHeight());
 
         yellowUpArrow = resources.getDrawable(R.mipmap.guide_filter_tab_arrow_up);
         yellowUpArrow.setBounds(0, 0, yellowUpArrow.getMinimumWidth(), yellowUpArrow.getMinimumHeight());
@@ -92,20 +92,22 @@ public class GuideFilterLayout extends LinearLayout {
         yellowDownArrow.setBounds(0, 0, yellowDownArrow.getMinimumWidth(), yellowDownArrow.getMinimumHeight());
     }
 
-    @OnClick({R.id.filter_guide_type_city_layout, R.id.filter_guide_type_filter_layout, R.id.filter_guide_type_sort_layout})
+    @OnClick({R.id.filter_guide_type_city_layout, R.id.filter_guide_type_scope_layout, R.id.filter_guide_type_sort_layout})
     public void onTabClick(View view) {
         int index = 0;
         switch (view.getId()) {
             case R.id.filter_guide_type_city_layout:
                 index = 0;
                 break;
-            case R.id.filter_guide_type_filter_layout:
+            case R.id.filter_guide_type_scope_layout:
                 index = 1;
                 break;
             case R.id.filter_guide_type_sort_layout:
                 index = 2;
                 break;
         }
+
+        pagerAdapter.resetScopeFilter();
 
         if (pagerPosition == index && viewPager.isShown()) {
             updateSelectStatus(index, false);
@@ -123,16 +125,18 @@ public class GuideFilterLayout extends LinearLayout {
             LinearLayout linearLayout = tabs.get(i);
             TextView textView = (TextView) linearLayout.getChildAt(1);
             Drawable drawable = null;
-            if (i == index) {
-                if (i == 0 && cityParams != null) {
-                    drawable = open ? yellowUpArrow : yellowDownArrow;
-                } else {
-                    drawable = open ? grayUpArrow : grayDownArrow;
-                }
+            boolean isSelectedCity = i == 0 && cityParams != null;
+            boolean isSelectedFilter = i == 1 && guideFilterBean != null && !guideFilterBean.isInitial;
+            boolean isSelectedSort = i == 2 && sortTypeBean != null;
+            if (i == index && open) {
+                drawable = yellowUpArrow;
+                textView.setTextColor(0xFFFFC110);
             } else {
-                if (i == 0 && cityParams != null) {
+                if (isSelectedCity || isSelectedFilter || isSelectedSort) {
+                    textView.setTextColor(0xFFFFC110);
                     drawable = yellowDownArrow;
                 } else {
+                    textView.setTextColor(0xFF898989);
                     drawable = grayDownArrow;
                 }
             }
@@ -140,43 +144,68 @@ public class GuideFilterLayout extends LinearLayout {
         }
     }
 
-    public void showFilterView() {
-        if (viewPager.isShown()) {
-            viewPager.setVisibility(View.GONE);
-        } else {
-            viewPager.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void showFilterView(int index) {
-        if (pagerPosition == index){
-            updateSelectStatus(index, true);
-        } else {
-            viewPager.setCurrentItem(index);
-        }
-
-        if (!viewPager.isShown()) {
-            viewPager.setVisibility(View.VISIBLE);
-        }
-    }
-
     public void hideFilterView() {
         viewPager.setVisibility(View.GONE);
+        updateSelectStatus(pagerPosition, false);
+    }
+
+    public boolean isShowFilterView() {
+        return viewPager.isShown();
     }
 
     public void setCityParams(CityListActivity.Params cityParams) {
         if (cityParams == null) {
             return;
         }
+        setGuideFilterBean(null);
+        setSortTypeBean(null);
+        pagerAdapter.resetFilter();
+
         this.cityParams = cityParams;
-        TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_guide_city_tv);
+        TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_guide_type_city_tv);
         cityTV.setTextColor(0xFFFFC110);
         cityTV.setText(cityParams.titleName);
         updateSelectStatus(0, false);
-        hideFilterView();
+        viewPager.setVisibility(View.GONE);
+    }
+
+    public void setGuideFilterBean(GuideFilterFragment.GuideFilterBean guideFilterBean) {
+        this.guideFilterBean = guideFilterBean;
+        TextView scopeCountTV = (TextView) scopeLayout.findViewById(R.id.filter_guide_type_scope_count_tv);
+        if (guideFilterBean == null) {
+            scopeCountTV.setVisibility(View.GONE);
+        } else {
+            int operateCount = guideFilterBean.getOperateCount();
+            if (guideFilterBean.isInitial || operateCount <= 0) {
+                scopeCountTV.setVisibility(View.GONE);
+            } else {
+                scopeCountTV.setVisibility(View.VISIBLE);
+                scopeCountTV.setText("" + operateCount);
+            }
+            updateSelectStatus(1, false);
+            viewPager.setVisibility(View.GONE);
+        }
+    }
+
+    public void setSortTypeBean(GuideFilterSortFragment.SortTypeBean sortTypeBean) {
+        this.sortTypeBean = sortTypeBean;
+        View sortIV = sortLayout.findViewById(R.id.filter_guide_type_sort_iv);
+        if (sortTypeBean == null) {
+            sortIV.setVisibility(View.GONE);
+        } else {
+            sortIV.setVisibility(sortTypeBean.type != 0 ? View.VISIBLE : View.GONE);
+            TextView sortTV = (TextView) sortLayout.findViewById(R.id.filter_guide_type_sort_tv);
+            sortTV.setTextColor(0xFFFFC110);
+            sortTV.setText(sortTypeBean.typeFilterStr);
+            updateSelectStatus(2, false);
+            viewPager.setVisibility(View.GONE);
+        }
     }
 
     public static class GuideFilterAdapter extends FragmentStatePagerAdapter {
+
+        GuideFilterFragment guideFilterFragment;
+        GuideFilterSortFragment guideFilterSortFragment;
 
         public GuideFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -186,14 +215,14 @@ public class GuideFilterLayout extends LinearLayout {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    CityFilterFragment fragment1 = new CityFilterFragment();
-                    return fragment1;
+                    CityFilterFragment cityFilterfragment = new CityFilterFragment();
+                    return cityFilterfragment;
                 case 1:
-                    GuideFilterFragment fragment2 = new GuideFilterFragment();
-                    return fragment2;
+                    guideFilterFragment = new GuideFilterFragment();
+                    return guideFilterFragment;
                 case 2:
-                    GuideFilterSortFragment fragment3 = new GuideFilterSortFragment();
-                    return fragment3;
+                    guideFilterSortFragment = new GuideFilterSortFragment();
+                    return guideFilterSortFragment;
             }
             return null;
         }
@@ -201,6 +230,19 @@ public class GuideFilterLayout extends LinearLayout {
         @Override
         public int getCount() {
             return 3;
+        }
+
+        public void resetFilter() {
+            if (guideFilterFragment != null) {
+                guideFilterFragment.resetALLFilterBean();
+            }
+            if (guideFilterSortFragment != null) {
+                guideFilterSortFragment.resetFilter();
+            }
+        }
+
+        public boolean resetScopeFilter() {
+            return guideFilterFragment == null ? false : guideFilterFragment.resetCacheFilter();
         }
     }
 }

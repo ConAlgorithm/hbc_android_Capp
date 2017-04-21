@@ -3,15 +3,13 @@ package com.hugboga.custom.data.request;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.CreditCardInfoBean;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.JsonUtils;
 
 import org.json.JSONArray;
@@ -96,7 +94,7 @@ public class RequestFilterGuide extends BaseRequest<ArrayList<FilterGuideBean>> 
         public int orderByType = 0;
         public String orderDesc = "desc";
         public int isQuality = 0;
-        public int limit = 20;
+        public int limit = Constants.DEFAULT_PAGESIZE;
         public int offset = 0;
 
         public Builder setCityIds(String cityIds) {

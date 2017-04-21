@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +26,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/guide_filter_genders_male_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_guide_filter_tag"
@@ -35,12 +37,14 @@
                 android:paddingTop="7dp">
 
                 <ImageView
+                    android:id="@+id/guide_filter_genders_male_iv"
                     android:layout_width="9dp"
                     android:layout_height="12dp"
                     android:layout_marginTop="2.5dp"
                     android:background="@mipmap/guide_man_uncheck" />
 
                 <TextView
+                    android:id="@+id/guide_filter_genders_male_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="男"
@@ -49,6 +53,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/guide_filter_genders_female_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -60,12 +65,14 @@
                 android:paddingTop="7dp">
 
                 <ImageView
+                    android:id="@+id/guide_filter_genders_female_iv"
                     android:layout_width="9dp"
                     android:layout_height="12dp"
                     android:layout_marginTop="2.5dp"
                     android:background="@mipmap/guide_woman_uncheck" />
 
                 <TextView
+                    android:id="@+id/guide_filter_genders_female_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="女"
@@ -95,6 +102,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/guide_filter_pickorsend_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_guide_filter_tag"
@@ -107,6 +115,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/guide_filter_single_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -120,6 +129,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/guide_filter_daily_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -148,6 +158,7 @@
             android:textSize="14sp" />
 
         <com.hugboga.custom.widget.SliderLayout
+            android:id="@+id/guide_filter_slider_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/city_list_margin_left" />
@@ -167,6 +178,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/guide_filter_reset_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -179,6 +191,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/guide_filter_confirm_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -193,4 +206,10 @@
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+    <View
+        android:id="@+id/guide_filter_scope_outside_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#50000000"
+        />
+</LinearLayout>

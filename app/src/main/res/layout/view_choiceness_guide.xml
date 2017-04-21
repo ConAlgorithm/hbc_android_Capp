@@ -104,7 +104,6 @@
             android:layout_below="@id/choiceness_guide_taggroup"
             android:layout_gravity="bottom"
             android:layout_marginTop="6dp"
-            android:layout_toLeftOf="@id/choiceness_guide_level_layout"
             android:textColor="#898989"
             android:textSize="13sp" />
     </RelativeLayout>
