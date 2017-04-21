@@ -11,8 +11,7 @@
         android:autoLink="phone|email"
         android:gravity="center_vertical|left"
         android:includeFontPadding="false"
-        android:lineSpacingExtra="3dip"
-        android:maxWidth="@dimen/ysf_text_bubble_max_width"
+        android:lineSpacingExtra="3dp"
         android:textColor="@color/ysf_black_b3000000"
         android:textSize="@dimen/ysf_text_size_16" />
 </LinearLayout>

@@ -2,27 +2,15 @@
 <resources>
     <!-- 通用 -->
     <dimen name="ysf_action_bar_height">48dp</dimen>
-    <dimen name="ysf_split_one_pixels">1px</dimen>
     <dimen name="ysf_title_bar_height">48dp</dimen>
-    <dimen name="ysf_title_bar_text_size">18dp</dimen>
+    <dimen name="ysf_title_bar_text_size">@dimen/ysf_text_size_18</dimen>
     <dimen name="ysf_title_bar_icon_size">22.5dp</dimen>
     <dimen name="ysf_avatar_size">50dp</dimen>
     <dimen name="ysf_divider_height">0.5dp</dimen>
 
-    <!-- dialog -->
-    <dimen name="ysf_dialog_small_text_size">@dimen/ysf_text_size_9</dimen>
-    <dimen name="ysf_dialog_medium_text_size">@dimen/ysf_text_size_10</dimen>
-    <dimen name="ysf_dialog_normal_text_size">@dimen/ysf_text_size_16</dimen>
-    <dimen name="ysf_dialog_big_text_size">@dimen/ysf_text_size_17</dimen>
-    <dimen name="ysf_dialog_light_line_size">0.5dp</dimen>
-    <dimen name="ysf_dialog_thick_line_size">1dp</dimen>
-    <dimen name="ysf_dialog_text_margin_horizontal">15dp</dimen>
-    <dimen name="ysf_dialog_padding_vertical">20dp</dimen>
-    <dimen name="ysf_custom_dialog_padding_vertical">15dp</dimen>
-    <dimen name="ysf_dark_line_size">1.5dp</dimen>
-
     <!-- bubble -->
-    <dimen name="ysf_text_bubble_max_width">228dp</dimen>
+    <dimen name="ysf_bubble_content_max_width">228dp</dimen>
+    <dimen name="ysf_bubble_max_width">235dp</dimen>
     <dimen name="ysf_bottom_component_margin_horizontal">6dp</dimen>
     <dimen name="ysf_bottom_component_margin_vertical">8dp</dimen>
     <dimen name="ysf_bubble_time_layout_margin_top">18dp</dimen>

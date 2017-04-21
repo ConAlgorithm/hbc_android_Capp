@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ysf_file_download_stop" />
+                    android:src="@drawable/ysf_ic_file_download_stop" />
             </LinearLayout>
         </FrameLayout>
 

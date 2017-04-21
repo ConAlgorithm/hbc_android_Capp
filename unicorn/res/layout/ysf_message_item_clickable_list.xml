@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+    android:id="@+id/ysf_clickable_list_content"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/clickable_list_header"
+        android:id="@+id/ysf_clickable_list_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/clickable_list_header_text"
+            android:id="@+id/ysf_clickable_list_header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/ysf_text_bubble_max_width"
+            android:maxWidth="@dimen/ysf_bubble_content_max_width"
             android:paddingBottom="10dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -24,36 +24,36 @@
             android:textColor="@color/ysf_black_2b2b2b"
             android:textSize="@dimen/ysf_text_size_16" />
 
-        <View
-            android:id="@+id/clickable_list_header_divider"
-            android:layout_width="@dimen/ysf_text_bubble_max_width"
-            android:layout_height="@dimen/ysf_divider_height"
-            android:background="@color/ysf_grey_dbdbdb" />
+        <include
+            android:id="@+id/ysf_clickable_list_header_divider"
+            layout="@layout/ysf_include_divider"
+            android:layout_width="@dimen/ysf_bubble_content_max_width"
+            android:layout_height="@dimen/ysf_divider_height" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/clickable_list_container"
-        android:layout_width="@dimen/ysf_text_bubble_max_width"
+        android:id="@+id/ysf_clickable_list_container"
+        android:layout_width="@dimen/ysf_bubble_content_max_width"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
     <LinearLayout
-        android:id="@+id/clickable_list_footer"
+        android:id="@+id/ysf_clickable_list_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/clickable_list_footer_divider"
-            android:layout_width="@dimen/ysf_text_bubble_max_width"
-            android:layout_height="@dimen/ysf_divider_height"
-            android:background="@color/ysf_grey_dbdbdb" />
+        <include
+            android:id="@+id/ysf_clickable_list_footer_divider"
+            layout="@layout/ysf_include_divider"
+            android:layout_width="@dimen/ysf_bubble_content_max_width"
+            android:layout_height="@dimen/ysf_divider_height" />
 
         <TextView
-            android:id="@+id/clickable_list_footer_text"
+            android:id="@+id/ysf_clickable_list_footer_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/ysf_text_bubble_max_width"
+            android:maxWidth="@dimen/ysf_bubble_content_max_width"
             android:paddingBottom="10dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
