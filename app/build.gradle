@@ -52,8 +52,10 @@ android {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
         targetSdkVersion 23
+        //version start
         versionCode 101700
         versionName "4.0.0"
+        //version end
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true
         ndk {
@@ -82,8 +84,8 @@ android {
     productFlavors {
         developer {}
 //        stage {}
-        examination {}
-        '10000'{}
+//        examination {}
+/*        '10000'{}
         '10001'{}
         '10002'{}
         '10003'{}
@@ -94,7 +96,7 @@ android {
         '10011'{}
         '10012'{}
         '10013'{}
-        '10092'{}
+        '10092'{}*/
     }
     //==productFlavors_end==
     //==productFlavors==
@@ -116,7 +118,7 @@ android {
 //                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api.stage.hbc.tech/"')
 //                flavor.manifestPlaceholders(JPUSH_KEY: "a351a47a9106354c59188e16", APP_CHANNEL: "stage", RONG_CLOUD_APP_KEY: "ik1qhw091eiyp")
 //                break;
-            case 'examination':
+/*            case 'examination':
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5-test.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info-test.huangbaoche.com"')
                 flavor.buildConfigField('String', 'SHARE_BASE_URL_1','"https://op-test.huangbaoche.com/app/auth.html"')
@@ -126,8 +128,8 @@ android {
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "580ff852cd505c00c4be92d6", APP_CHANNEL: "examination", RONG_CLOUD_APP_KEY: "3argexb6r2kve")
                 flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"00"')
-                break;
-            case '10000':
+                break;*/
+/*            case '10000':
             case '10001':
             case '10002':
             case '10003':
@@ -138,7 +140,7 @@ android {
             case '10011':
             case '10012':
             case '10013':
-            case '10092':
+            case '10092':*/
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
@@ -211,4 +213,6 @@ dependencies {
     compile 'com.hugboga.tools:app-tools:1.0.6'
     compile 'com.hugboga.mediaplayer:app-mediaplayer:1.0.0'
     compile 'com.android.support:cardview-v7:25+'
+    compile 'com.hugboga.http:HbcHttp:1.0.0'
+
 }
