@@ -59,7 +59,7 @@ public class CityListActivity extends BaseActivity{
     private CityListAdapter cityListAdapter;
 
     public enum CityHomeType {
-        CITY, ROUTE, COUNTRY
+        CITY, ROUTE, COUNTRY, ALL
     }
 
     public static class Params implements Serializable {

@@ -6,15 +6,17 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FilterGuideListActivity;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import net.grobas.view.PolygonImageView;
 
 import java.util.ArrayList;
 
@@ -22,47 +24,85 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by qingcha on 17/4/14.
+ * Created by qingcha on 17/4/21.
  */
-public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.choiceness_guide_bg_iv)
-    ImageView bgIV;
-    @Bind(R.id.choiceness_guide_description_tv)
-    TextView descTV;
-    @Bind(R.id.choiceness_guide_level_tv)
-    TextView levelTV;
-    @Bind(R.id.choiceness_guide_name_tv)
+public class GuideItemView extends LinearLayout implements HbcViewBehavior {
+
+    @Bind(R.id.guide_item_include_avatar_iv)
+    PolygonImageView avatarIV;
+    @Bind(R.id.guide_item_include_gender_iv)
+    ImageView genderIV;
+
+    @Bind(R.id.guide_item_include_name_tv)
     TextView nameTV;
-    @Bind(R.id.choiceness_guide_taggroup)
+
+    @Bind(R.id.guide_item_include_city_iv)
+    ImageView cityIV;
+    @Bind(R.id.guide_item_include_city_tv)
+    TextView cityTV;
+
+    @Bind(R.id.guide_item_include_order_tv)
+    TextView orderTV;
+    @Bind(R.id.guide_item_include_evaluate_tv)
+    TextView evaluateTV;
+    @Bind(R.id.guide_item_include_star_tv)
+    TextView starTV;
+
+    @Bind(R.id.guide_item_include_info_layout)
+    LinearLayout infoLayout;
+    @Bind(R.id.guide_item_include_taggroup)
     TagGroup tagGroup;
-    @Bind(R.id.choiceness_guide_service_type_tv)
+    @Bind(R.id.view_guide_item_desc_tv)
+    TextView descTV;
+    @Bind(R.id.view_guide_item_service_type_tv)
     TextView serviceTypeTV;
 
-    public ChoicenessGuideView(Context context) {
+    public GuideItemView(Context context) {
         this(context, null);
     }
 
-    public ChoicenessGuideView(Context context, @Nullable AttributeSet attrs) {
+    public GuideItemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_choiceness_guide, this);
+        View view = inflate(context, R.layout.view_guide_item, this);
         ButterKnife.bind(view);
-
-        int padding = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(0xFFFFFFFF);
-        setPadding(0, padding, 0, 0);
-
-        int imageWidth = UIUtils.getScreenWidth() - padding * 2;
-        int imageHeight = (int)((400/690.0f) * imageWidth);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(imageWidth, imageHeight);
-        bgIV.setLayoutParams(params);
     }
 
     @Override
     public void update(Object _data) {
         FilterGuideBean data = (FilterGuideBean) _data;
-        Tools.showImage(bgIV, data.guideCover, R.drawable.home_guide_dafault);
+        serviceTypeTV.getLayoutParams().width = UIUtils.getScreenWidth();
+        Tools.showImage(avatarIV, data.avatar, R.mipmap.icon_avatar_guide);
+
+        nameTV.setText(data.guideName);
+
+        boolean isShowCity = !TextUtils.isEmpty(data.cityName);
+        if (isShowCity && getContext() instanceof FilterGuideListActivity) {
+            FilterGuideListActivity filterGuideListActivity = (FilterGuideListActivity) getContext();
+            isShowCity = filterGuideListActivity.isShowCity();
+        }
+
+        if (isShowCity) {
+            cityIV.setVisibility(View.VISIBLE);
+            cityTV.setVisibility(View.VISIBLE);
+            cityTV.setText(data.cityName);
+        } else {
+            cityIV.setVisibility(View.GONE);
+            cityTV.setVisibility(View.GONE);
+        }
+
+        genderIV.setBackgroundResource("1".equals(data.gender) ? R.mipmap.icon_man : R.mipmap.icon_woman);
+
+        orderTV.setText(data.completeOrderNum + "单");
+
+        evaluateTV.setText(data.commentNum + "评价");
+
+        String level = data.serviceStar <= 0 ? "暂无星级" : data.serviceStar + "星";
+        starTV.setText(level);
+
+        setTag(data.skillLabelNames);
 
         if (TextUtils.isEmpty(data.homeDesc)) {
             descTV.setVisibility(View.GONE);
@@ -70,17 +110,6 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             descTV.setVisibility(View.VISIBLE);
             descTV.setText(data.homeDesc);
         }
-        if (data.serviceStar <= 0) {
-            levelTV.setText("暂无星级");
-            levelTV.setTextSize(14);
-            levelTV.setBackgroundColor(0xFFD1D1D1);
-        } else {
-            levelTV.setText("" + data.serviceStar);
-            levelTV.setTextSize(16);
-            levelTV.setBackgroundColor(0xFFF9B900);
-        }
-        nameTV.setText(data.guideName);
-        setTag(data.skillLabelNames);
 
         String serviceType = data.getServiceType();
         if (TextUtils.isEmpty(serviceType)) {
@@ -147,5 +176,4 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
 
         return linearLayout;
     }
-
 }

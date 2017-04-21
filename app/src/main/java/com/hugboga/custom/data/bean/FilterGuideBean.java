@@ -28,6 +28,8 @@ public class FilterGuideBean implements Serializable{
     public int serviceDaily;            // 是否可服务包车，0否，1是
     public int serviceJsc;              // 是否可服务接送机、单次接送，0否，1是
 
+    public boolean isShowCity = true;   // 本地字段 筛选当前城市不显示城市
+
     public String getServiceType() {
         if (serviceDaily == 0 && serviceJsc == 0) {
             return "";

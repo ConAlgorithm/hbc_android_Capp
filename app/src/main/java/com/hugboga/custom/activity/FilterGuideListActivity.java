@@ -3,9 +3,15 @@ package com.hugboga.custom.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
@@ -16,8 +22,8 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
-import com.hugboga.custom.widget.ChoicenessGuideView;
 import com.hugboga.custom.widget.GuideFilterLayout;
+import com.hugboga.custom.widget.GuideItemView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +41,13 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     @Bind(R.id.guide_list_recyclerview)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.guide_list_empty_layout)
+    LinearLayout emptyLayout;
+    @Bind(R.id.guide_list_empty_iv)
+    ImageView emptyIV;
+    @Bind(R.id.guide_list_empty_hint_tv)
+    TextView emptyHintTV;
+
     private Params paramsData;
 
     private CityListActivity.Params cityParams;
@@ -43,6 +56,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     private HbcRecyclerSingleTypeAdpater<FilterGuideBean> mAdapter;
     private ArrayList<FilterGuideBean> guideList;
+    private CityListActivity.CityHomeType lastCityHomeType;//用来判断是否显示当前城市
 
     public static class Params implements Serializable {
         public int id;
@@ -107,7 +121,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new HbcRecyclerSingleTypeAdpater(this, ChoicenessGuideView.class);
+        mAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideItemView.class);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -139,7 +153,16 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     }
 
     public void requestGuideList(CityListActivity.CityHomeType cityHomeType, int id) {
+        lastCityHomeType = cityHomeType;
         requestData(new RequestFilterGuide(this, getRequestBuilder(cityHomeType, id)));
+    }
+
+    public boolean isShowCity() {
+        if (lastCityHomeType != null && lastCityHomeType == CityListActivity.CityHomeType.CITY) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -151,21 +174,25 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case GUIDE_FILTER_CITY:
-                guideFilterBean = null;
-                sortTypeBean = null;
                 if (action.getData() instanceof CityListActivity.Params) {
+                    paramsData = null;
+                    guideFilterBean = null;
+                    sortTypeBean = null;
+
                     cityParams = (CityListActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
+
                     requestGuideList(cityParams.cityHomeType, cityParams.id);
-                } else {
-                    cityParams = null;
-                    requestGuideList(null, 0);
                 }
                 break;
             case GUIDE_FILTER_SORT:
                 if (action.getData() instanceof GuideFilterSortFragment.SortTypeBean) {
-                    sortTypeBean = (GuideFilterSortFragment.SortTypeBean) action.getData();
+                    GuideFilterSortFragment.SortTypeBean _sortTypeBean = (GuideFilterSortFragment.SortTypeBean) action.getData();
                     filterLayout.setSortTypeBean(sortTypeBean);
+                    if (_sortTypeBean == sortTypeBean) {
+                        return;
+                    }
+                    sortTypeBean = _sortTypeBean;
                     requestGuideList();
                 }
                 break;
@@ -214,6 +241,57 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         if(_request instanceof RequestFilterGuide) {
             guideList = ((RequestFilterGuide) _request).getData();
             mAdapter.addData(guideList);
+            if (guideList == null || guideList.size() <= 0) {
+                setEmptyLayout(true, true);
+            } else {
+                setEmptyLayout(false, true);
+            }
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        setEmptyLayout(true, false);
+    }
+
+    private boolean checkCityParamsChange(CityListActivity.Params params1, CityListActivity.Params params2) {
+        if (params1 == null || params2 == null) {
+            return true;
+        }
+        if (params1.id == params2.id && params1.cityHomeType == params2.cityHomeType && TextUtils.equals(params1.titleName, params2.titleName)) {
+            return false;
+        }
+        return true;
+    }
+
+    private void setEmptyLayout(boolean isShow, boolean isDataNull) {
+        emptyLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        if (!isShow) {
+            return;
+        }
+        hideFilterView();
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        if (isDataNull) {
+            params.addRule(RelativeLayout.BELOW, R.id.guide_list_filter_layout);
+            emptyLayout.setLayoutParams(params);
+
+            emptyIV.setBackgroundResource(R.drawable.empty_city);
+            emptyHintTV.setText("暂无满足当前筛选条件的司导");
+            emptyLayout.setEnabled(false);
+        } else {
+            params.addRule(RelativeLayout.BELOW, R.id.guide_list_titlebar);
+            emptyLayout.setLayoutParams(params);
+
+            emptyIV.setBackgroundResource(R.drawable.empty_wifi);
+            emptyHintTV.setText("似乎与网络断开，点击屏幕重试");
+            emptyLayout.setEnabled(true);
+            emptyLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestGuideList();
+                }
+            });
         }
     }
 }

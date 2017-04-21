@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f4f4f4" />
+
+    <include layout="@layout/view_guide_item_include" />
+
+    <TextView
+        android:id="@+id/view_guide_item_desc_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/home_hot_explore_title_bg"
+        android:lineSpacingExtra="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
+        android:paddingTop="4dp"
+        android:text="位卡大声位卡大声货位卡大声道阿萨,德阿萨德卡大声道阿卡大声道阿"
+        android:textColor="#7f7f7f"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/view_guide_item_service_type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choiceness_guide_taggroup"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="10dp"
+        android:text="位卡大声位卡大声货位卡大声道"
+        android:textColor="#8a8a8a"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:layout_marginTop="14dp"
+        android:background="@color/default_dividing_line" />
+</merge>
