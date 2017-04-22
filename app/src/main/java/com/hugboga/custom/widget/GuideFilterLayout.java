@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.data.bean.CapacityBean;
 import com.hugboga.custom.fragment.CityFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
@@ -76,7 +77,6 @@ public class GuideFilterLayout extends LinearLayout {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
 
         tabs.add(cityLayout);
         tabs.add(scopeLayout);
@@ -202,10 +202,15 @@ public class GuideFilterLayout extends LinearLayout {
         }
     }
 
+    public void setCapacityBean(CapacityBean capacityBean) {
+        pagerAdapter.setCapacityBean(capacityBean);
+    }
+
     public static class GuideFilterAdapter extends FragmentStatePagerAdapter {
 
         GuideFilterFragment guideFilterFragment;
         GuideFilterSortFragment guideFilterSortFragment;
+        CapacityBean capacityBean;
 
         public GuideFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -219,6 +224,9 @@ public class GuideFilterLayout extends LinearLayout {
                     return cityFilterfragment;
                 case 1:
                     guideFilterFragment = new GuideFilterFragment();
+                    if (capacityBean != null) {
+                        guideFilterFragment.setCapacityBean(capacityBean);
+                    }
                     return guideFilterFragment;
                 case 2:
                     guideFilterSortFragment = new GuideFilterSortFragment();
@@ -243,6 +251,14 @@ public class GuideFilterLayout extends LinearLayout {
 
         public boolean resetScopeFilter() {
             return guideFilterFragment == null ? false : guideFilterFragment.resetCacheFilter();
+        }
+
+        public void setCapacityBean(CapacityBean capacityBean) {
+            if (guideFilterFragment != null) {
+                guideFilterFragment.setCapacityBean(capacityBean);
+            } else {
+                this.capacityBean = capacityBean;
+            }
         }
     }
 }

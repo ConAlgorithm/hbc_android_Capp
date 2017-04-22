@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CapacityBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.widget.SliderLayout;
@@ -52,6 +53,7 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
 
     private GuideFilterBean guideFilterBean;
     private GuideFilterBean guideFilterBeanCache;
+    private CapacityBean capacityBean;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +67,11 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
         guideFilterBean = new GuideFilterBean();
         guideFilterBeanCache = new GuideFilterBean();
 
-        sliderLayout.setMax(11);
+        if (capacityBean != null) {
+            sliderLayout.setMax(capacityBean.numOfPerson);
+        } else {
+            sliderLayout.setMax(11);
+        }
         sliderLayout.setMin(1);
         sliderLayout.setValue(2);
         sliderLayout.setOnValueChangedListener(this);
@@ -132,6 +138,17 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
     @OnClick({R.id.guide_filter_scope_outside_layout})
     public void onOutsideClick() {
         EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CLOSE));
+    }
+
+    public void setCapacityBean(CapacityBean capacityBean) {
+        if (capacityBean == null) {
+            return;
+        }
+        if (sliderLayout != null) {
+            sliderLayout.setMax(capacityBean.numOfPerson);
+        } else {
+            this.capacityBean = capacityBean;
+        }
     }
 
     public void setGendersMaleLayoutSelected(boolean isSelected) {

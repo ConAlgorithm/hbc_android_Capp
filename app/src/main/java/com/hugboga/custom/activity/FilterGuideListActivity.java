@@ -14,10 +14,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CapacityBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestFilterGuide;
+import com.hugboga.custom.data.request.RequestMaxCapacityOverall;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
@@ -128,6 +130,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideItemView.class);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
+
+        requestMaxCapacityOverall();
         requestGuideList();
     }
 
@@ -175,6 +179,11 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         requestData(requestFilterGuide, isShowLoading);
     }
 
+    // 可服务车型最大乘坐人数
+    public void requestMaxCapacityOverall() {
+        requestData(new RequestMaxCapacityOverall(this));
+    }
+
     public boolean isShowCity() {
         if (lastCityHomeType != null && lastCityHomeType == CityListActivity.CityHomeType.CITY) {
             return false;
@@ -199,7 +208,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
                     cityParams = (CityListActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
-
                     requestGuideList();
                 }
                 break;
@@ -253,7 +261,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
-        if(_request instanceof RequestFilterGuide) {
+        if (_request instanceof RequestFilterGuide) {
             FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
             int offset = _request.getOffset();
             if (offset == 0 && (filterGuideListBean == null || filterGuideListBean.listData == null || filterGuideListBean.listCount <= 0)) {
@@ -267,13 +275,21 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                 mRecyclerView.smoothScrollToPosition(0);
             }
             mRecyclerView.setNoMore(guideList.size() >= filterGuideListBean.listCount);
+        } else if (_request instanceof RequestMaxCapacityOverall) {
+            CapacityBean capacityBean = ((RequestMaxCapacityOverall) _request).getData();
+            filterLayout.setCapacityBean(capacityBean);
         }
     }
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        setEmptyLayout(true, false);
+        if (request instanceof RequestFilterGuide) {
+            int offset = request.getOffset();
+            if (offset == 0) {
+                setEmptyLayout(true, false);
+            }
+        }
     }
 
     private void setEmptyLayout(boolean isShow, boolean isDataNull) {
