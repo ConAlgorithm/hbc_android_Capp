@@ -33,8 +33,8 @@ public class TravelFundData implements Serializable {
         return effectiveDate;
     }
 
-    public String getListCount() {
-        return String.valueOf(listCount);
+    public int getListCount() {
+        return listCount;
     }
 
     public String getFundAmount() {

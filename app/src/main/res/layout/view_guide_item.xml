@@ -17,11 +17,12 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/home_hot_explore_title_bg"
         android:lineSpacingExtra="4dp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:paddingBottom="4dp"
         android:paddingLeft="17dp"
         android:paddingRight="17dp"
         android:paddingTop="4dp"
-        android:text="位卡大声位卡大声货位卡大声道阿萨,德阿萨德卡大声道阿卡大声道阿"
         android:textColor="#7f7f7f"
         android:textSize="13sp" />
 
@@ -33,7 +34,6 @@
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
         android:layout_marginTop="10dp"
-        android:text="位卡大声位卡大声货位卡大声道"
         android:textColor="#8a8a8a"
         android:textSize="13sp" />
 

@@ -219,6 +219,11 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         return cancelable;
     }
 
+    protected Callback.Cancelable requestData(BaseRequest request, boolean isShowLoading) {
+        cancelable = HttpRequestUtils.request(this, request, this, isShowLoading);
+        return cancelable;
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         ApiReportHelper.getInstance().addReport(request);

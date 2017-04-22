@@ -46,11 +46,13 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
             clearData();
         }
         datas.addAll(_data);
-        if (isNextPage) {
-            this.notifyItemRangeInserted(lastCount, lastCount + _data.size());
-        } else {
+
+//        if (isNextPage) {
+            //java.lang.IllegalArgumentException: Called attach on a child which is not de...
+//            this.notifyItemRangeInserted(lastCount, lastCount + _data.size());
+//        } else {
             this.notifyDataSetChanged();
-        }
+//        }
     }
 
     public ArrayList<T> getDatas() {
@@ -208,4 +210,5 @@ public abstract class HbcRecyclerTypeBaseAdpater<T> extends RecyclerView.Adapter
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
+
 }

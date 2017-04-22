@@ -20,10 +20,12 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -125,7 +127,7 @@ public class CityListActivity extends BaseActivity{
     public void initView() {
         initTitleBar();
         cityListAdapter = new CityListAdapter();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(cityListAdapter);
@@ -227,8 +229,8 @@ public class CityListActivity extends BaseActivity{
             requestGuideList();
         } else if(_request instanceof RequestFilterGuide) {
             setEmptyLayout(false, true);
-            ArrayList<FilterGuideBean> guideList = ((RequestFilterGuide) _request).getData();
-            cityListAdapter.setGuideListData(guideList);
+            FilterGuideListBean filterGuideListBean  = ((RequestFilterGuide) _request).getData();
+            cityListAdapter.setGuideListData(filterGuideListBean.listData);
         }
     }
 

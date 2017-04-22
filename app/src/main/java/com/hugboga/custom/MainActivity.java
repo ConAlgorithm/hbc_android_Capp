@@ -40,6 +40,7 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.FilterGuideListActivity;
+import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -650,7 +651,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 startActivity(new Intent(this, FilterGuideListActivity.class));
                 break;
             case R.id.tab_text_3:
-                mViewPager.setCurrentItem(2);
+                startActivity(new Intent(this, FilterSkuListActivity.class));
+//                mViewPager.setCurrentItem(2);
                 break;
             case R.id.tab_text_4:
                 mViewPager.setCurrentItem(3);

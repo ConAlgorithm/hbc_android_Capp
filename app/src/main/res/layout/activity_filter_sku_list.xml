@@ -6,43 +6,43 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/guide_list_titlebar"
+        android:id="@+id/filter_sku_list_titlebar"
         layout="@layout/include_header" />
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/guide_list_recyclerview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/filter_sku_list_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/guide_list_titlebar"
+        android:layout_below="@id/filter_sku_list_titlebar"
         android:layout_marginTop="44dp"
         android:clipChildren="false"
         android:clipToPadding="false" />
 
-    <com.hugboga.custom.widget.GuideFilterLayout
-        android:id="@+id/guide_list_filter_layout"
+    <com.hugboga.custom.widget.SkuFilterLayout
+        android:id="@+id/filter_sku_list_filter_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/guide_list_titlebar" />
+        android:layout_below="@id/filter_sku_list_titlebar" />
 
     <LinearLayout
-        android:id="@+id/guide_list_empty_layout"
+        android:id="@+id/filter_sku_list_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/guide_list_filter_layout"
+        android:layout_below="@+id/filter_sku_list_filter_layout"
         android:gravity="center_horizontal"
         android:visibility="gone"
         android:background="@color/default_bg"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/guide_list_empty_iv"
+            android:id="@+id/filter_sku_list_empty_iv"
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:layout_marginTop="50dip"
             android:background="@drawable/empty_wifi" />
 
         <TextView
-            android:id="@+id/guide_list_empty_hint_tv"
+            android:id="@+id/filter_sku_list_empty_hint_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

@@ -107,7 +107,7 @@ public class EvaluateListActivity extends BaseActivity{
         if (_request instanceof RequestCommentsList) {
             RequestCommentsList request = (RequestCommentsList) _request;
             CommentsListData data = request.getData();
-            fgTitle.setText(getString(R.string.evaluate_list_title, data.getListCount()));
+            fgTitle.setText(getString(R.string.evaluate_list_title, "" + data.getListCount()));
             List<EvaluateItemData> list = data.getListData();
             if (list != null) {
                 if (adapter == null) {

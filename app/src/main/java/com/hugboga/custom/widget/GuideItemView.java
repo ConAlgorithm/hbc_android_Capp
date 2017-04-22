@@ -108,7 +108,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             descTV.setVisibility(View.GONE);
         } else {
             descTV.setVisibility(View.VISIBLE);
-            descTV.setText(data.homeDesc);
+            descTV.setText(data.homeDesc.trim());
         }
 
         String serviceType = data.getServiceType();

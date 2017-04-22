@@ -25,6 +25,7 @@ import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.TravelAddItemView;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
 import com.hugboga.custom.widget.charter.TravelItemView;
@@ -68,7 +69,7 @@ public class TravelListActivity extends BaseActivity {
         titleBar.getLeftTV().setBackgroundResource(R.mipmap.top_close);
 
         TravelListAdapter adapter = new TravelListAdapter(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
