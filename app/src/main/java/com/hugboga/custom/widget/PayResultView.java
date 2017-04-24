@@ -24,7 +24,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BargainActivity;
-import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PaySucceedBean;
@@ -112,10 +112,10 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 break;
             case R.id.view_pay_result_line_tv: //城市列表
                 if (paySucceedBean != null && paySucceedBean.getCityId() != 0) {
-                    CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                    CityListActivity.Params params = new CityListActivity.Params();
                     params.id = paySucceedBean.getCityId();
-                    params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
-                    Intent intent = new Intent(getContext(), CityHomeListActivity.class);
+                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    Intent intent = new Intent(getContext(), CityListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     getContext().startActivity(intent);

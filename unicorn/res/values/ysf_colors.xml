@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- common -->
+    <color name="ysf_grey_pressed">#E0E0E0</color>
     <color name="ysf_grey_555555">#555555</color>
     <color name="ysf_grey_666666">#666666</color>
+    <color name="ysf_grey_76838F">#76838F</color>
+    <color name="ysf_grey_9976838F">#9976838F</color>
     <color name="ysf_grey_999999">#999999</color>
     <color name="ysf_grey_b3b3b3">#b3b3b3</color>
     <color name="ysf_grey_c5c4c4">#c5c4c4</color>
@@ -12,23 +15,24 @@
     <color name="ysf_grey_e4e4e4">#e4e4e4</color>
     <color name="ysf_grey_e6e6e6">#e6e6e6</color>
     <color name="ysf_grey_eaeaea">#eaeaea</color>
-    <color name="ysf_grey_ececec">#ececec</color>
     <color name="ysf_grey_eoeoeo">#e0e0e0</color>
     <color name="ysf_grey_f1f1f1">#F1F1F1</color>
     <color name="ysf_grey_f3f3f3">#F3F3F3</color>
     <color name="ysf_grey_f8f8f8">#FAFAFA</color>
     <color name="ysf_red_9d3b39">#9d3b39</color>
+    <color name="ysf_blue_5092e1">#5092e1</color>
     <color name="ysf_blue_5e94e2">#5e94e2</color>
-    <color name="ysf_blue_bbd6f5">#bbd6f5</color>
     <color name="ysf_blue_61a7ea">#61a7ea</color>
+    <color name="ysf_blue_bbd6f5">#bbd6f5</color>
     <color name="ysf_white">@android:color/white</color>
+    <color name="ysf_white_99FFFFFF">#99FFFFFF</color>
     <color name="ysf_black">@android:color/black</color>
     <color name="ysf_black_b3000000">#b3000000</color>
     <color name="ysf_black_222222">#222222</color>
     <color name="ysf_black_2b2b2b">#2b2b2b</color>
     <color name="ysf_black_333333">#333333</color>
-    <color name="ysf_translucent_black">#80000000</color>
-    <color name="ysf_translucent_30">#30000000</color>
+    <color name="ysf_black_80000000">#80000000</color>
+    <color name="ysf_black_30000000">#30000000</color>
 
     <!-- title bar -->
     <color name="ysf_title_bar_title_color">@color/ysf_black</color>
@@ -44,12 +48,7 @@
     <color name="ysf_notification_bg">#eeeeee</color>
     <color name="ysf_recording_background_color">#80000000</color>
     <color name="ysf_picker_unselected_color">#60000000</color>
-
     <color name="ysf_play_audio_mode_background">#B2000000</color>
-    <color name="ysf_evaluation_text_dark">#76838F</color>
-    <color name="ysf_evaluation_text_dark_disabled">#9976838F</color>
-    <color name="ysf_evaluation_text_light">@color/ysf_white</color>
-    <color name="ysf_evaluation_text_light_disabled">#99FFFFFF</color>
 
     <!-- 可以自定义的按钮颜色 -->
     <!-- 普通状态的颜色，影响各按钮 -->

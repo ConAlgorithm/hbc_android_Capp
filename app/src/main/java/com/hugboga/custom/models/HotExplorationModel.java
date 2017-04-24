@@ -9,8 +9,7 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
-import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.adapter.HomeHotSearchViewPagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
@@ -64,23 +63,23 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
         hotExplorationHolder.moreView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                CityListActivity.Params params = new CityListActivity.Params();
                 params.id = hotExploration.explorationId;
                 switch (hotExploration.explorationType) {
                     case 1:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                        params.cityHomeType = CityListActivity.CityHomeType.CITY;
                         break;
                     case 2:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                        params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                         break;
                     case 3:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                        params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
                         break;
                     default:
                         return;
                 }
                 params.titleName = hotExploration.explorationName;
-                Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                Intent intent = new Intent(v.getContext(), CityListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA,params);
                 intent.putExtra(Constants.PARAMS_SOURCE, "首页当季热门探索");
                 v.getContext().startActivity(intent);

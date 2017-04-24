@@ -63,9 +63,9 @@ public class CityFilterLayout extends LinearLayout implements View.OnClickListen
 
     private void initRes(){
         Resources resources = MyApplication.getAppContext().getResources();
-        textDownArraw = resources.getDrawable(R.mipmap.city_filter_tab_arraw_down);
+        textDownArraw = resources.getDrawable(R.mipmap.city_filter_tab_arrow_down);
         textDownArraw.setBounds(0, 0, textDownArraw.getMinimumWidth(), textDownArraw.getMinimumHeight());
-        textUpArraw = resources.getDrawable(R.mipmap.city_filter_tab_arraw_up);
+        textUpArraw = resources.getDrawable(R.mipmap.city_filter_tab_arrow_up);
         textUpArraw.setBounds(0, 0, textUpArraw.getMinimumWidth(), textUpArraw.getMinimumHeight());
     }
 

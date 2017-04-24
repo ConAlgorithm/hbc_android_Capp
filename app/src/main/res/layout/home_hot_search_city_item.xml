@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="@color/common_font_color_gray"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
             <TextView
                 android:id="@+id/home_hot_search_city_item_per_price"
                 android:layout_alignParentRight="true"

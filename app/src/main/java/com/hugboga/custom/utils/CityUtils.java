@@ -897,6 +897,16 @@ public class CityUtils {
         return hotCityList;
     }
 
+    public static List<SearchGroupBean> getHotCityWithAllCityHead(Activity activity) {
+        List<SearchGroupBean> hotCityList = getHotCity(activity);
+        SearchGroupBean searchGroupBean = new SearchGroupBean();
+        searchGroupBean.spot_id = -4;
+        searchGroupBean.spot_name = "全部目的地";
+        searchGroupBean.flag = 4;
+        hotCityList.add(0, searchGroupBean);
+        return hotCityList;
+    }
+
 
     public static List<SearchGroupBean> getSaveCity() {
         try {

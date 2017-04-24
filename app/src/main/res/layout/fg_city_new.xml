@@ -92,7 +92,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#edeeef"
                     android:divider="@null"
                     android:dividerHeight="0dp" />
 
@@ -119,7 +118,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/basic_white"
                     android:divider="@null"
                     android:visibility="gone" />
 

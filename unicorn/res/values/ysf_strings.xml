@@ -35,6 +35,7 @@
     <string name="ysf_staff_assigned">%1$s为您服务</string>
     <string name="ysf_staff_assigned_with_group">已连接至%1$s，%2$s将为您服务</string>
     <string name="ysf_service_in_queue">正在排队，您的前面还有%1$d个人，请稍等…</string>
+    <string name="ysf_service_in_queue_hide_length">当前排队人数较多，请耐心等待…</string>
     <string name="ysf_service_product_invalid">当前没有客服在线</string>
     <string name="ysf_evaluation">评价</string>
     <string name="ysf_evaluation_complete">已评价</string>
@@ -51,8 +52,17 @@
     <string name="ysf_evaluation_result">您对我们的服务评价为：&lt;b&gt;%s&lt;/b&gt;</string>
     <string name="ysf_evaluation_dialog_message">是否放弃评价，放弃后不可恢复</string>
     <string name="ysf_evaluation_submit_net_error_text">网络连接失败，请稍后再试</string>
-    <string name="ysf_request_staff">人工客服</string>
-    <string name="ysf_shop_name">商家</string>
+    <string name="ysf_menu_request_staff">人工客服</string>
+    <string name="ysf_menu_shop_name">商家</string>
+    <string name="ysf_menu_close_session">退出</string>
+    <string name="ysf_dialog_close_session">确认退出对话？</string>
+    <string name="ysf_dialog_quit_queue">确认退出排队？</string>
+    <string name="ysf_dialog_message_queue">是否继续咨询在线客服？您可以先去逛逛，排队成功后将提醒您</string>
+    <string name="ysf_service_title_default">在线客服</string>
+    <string name="ysf_service_source_title_notification">通知栏</string>
+    <string name="ysf_msg_quit_session_failed">退出对话失败，请稍后再试</string>
+    <string name="ysf_msg_quit_queue_failed">退出排队失败，请稍后再试</string>
+    <string name="ysf_msg_quit_session_tips">您退出了咨询</string>
 
     <!-- 语音 -->
     <string name="ysf_audio_record_touch_to_record">按住 说话</string>
@@ -114,6 +124,19 @@
     <string name="ysf_no_permission_download_audio">没有权限，无法加载语音！</string>
     <string name="ysf_no_permission_download_image">没有权限，无法加载图片！</string>
     <string name="ysf_no_permission_download_file">没有权限，无法加载文件！</string>
+
+    <!--ptr-->
+    <string name="ysf_ptr_pull_to_refresh">下拉刷新</string>
+    <string name="ysf_ptr_release_to_refresh">释放立即刷新</string>
+    <string name="ysf_ptr_refreshing">正在刷新…</string>
+    <string name="ysf_ptr_refresh_succeed">刷新成功</string>
+    <string name="ysf_ptr_refresh_failed">刷新失败，请稍后再试</string>
+    <string name="ysf_ptr_pull_to_load">加载更多</string>
+    <string name="ysf_ptr_release_to_load">释放立即加载</string>
+    <string name="ysf_ptr_loading">正在加载…</string>
+    <string name="ysf_ptr_load_succeed">加载成功</string>
+    <string name="ysf_ptr_load_failed">加载失败，请稍后再试</string>
+    <string name="ysf_ptr_load_completed">没有更多了</string>
 
     <string name="ysf_activity_file_download">文件预览</string>
     <string name="ysf_download_network_not_available">当前网络不可用，请检查你的网络</string>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_content"
-    android:layout_width="@dimen/ysf_text_bubble_max_width"
+    android:layout_width="@dimen/ysf_bubble_max_width"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal">
