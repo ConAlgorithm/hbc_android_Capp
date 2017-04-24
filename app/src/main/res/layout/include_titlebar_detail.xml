@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/titlebar_detail_back_btn"
+        android:layout_width="@dimen/titlebar_icon_height"
+        android:layout_height="@dimen/titlebar_icon_height"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dip"
+        android:background="@mipmap/topbar_back"
+        android:clickable="false"
+        android:gravity="center_vertical"
+        android:textColor="#000000"
+        android:textSize="@dimen/titlebar_right_size" />
+
+    <ImageView
+        android:id="@+id/titlebar_detail_right_1_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/selector_guide_detail_collect" />
+
+    <ImageView
+        android:id="@+id/titlebar_detail_right_2_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:layout_toLeftOf="@id/titlebar_detail_right_1_btn"
+        android:src="@mipmap/guide_homepage_share" />
+
+    <TextView
+        android:id="@+id/titlebar_detail_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:text="测试阿达"
+        android:layout_toLeftOf="@id/titlebar_detail_right_2_btn"
+        android:layout_toRightOf="@id/titlebar_detail_back_btn"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/default_black"
+        android:textSize="@dimen/text_size_largex" />
+
+    <View
+        android:id="@+id/titlebar_detail_bottom_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/default_dividing_line" />
+</RelativeLayout>

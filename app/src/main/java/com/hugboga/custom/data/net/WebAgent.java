@@ -35,6 +35,8 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -661,6 +663,44 @@ public class WebAgent implements HttpRequestListener {
 
     public String getEventSource() {
         return TextUtils.isEmpty(title) ? "web页面" : title;
+    }
+
+    @JavascriptInterface
+    public void pushToGuideOrderWithParams(final String param) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GuideOrderWebParamsBean data = JsonUtils.getObject(param, GuideOrderWebParamsBean.class);
+                if (data == null) {
+                    return;
+                }
+                CollectGuideBean collectBean = new CollectGuideBean();
+                collectBean.guideId = data.guideId;
+                collectBean.name = data.guideName;
+                collectBean.cityName = data.guideCityName;
+                Intent intent = null;
+                switch (data.orderType) {
+                    case 1://1：接送机
+                        intent = new Intent(mActivity, PickSendActivity.class);
+                        intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                    case 2://2：单次接送
+                        intent = new Intent(mActivity, SingleNewActivity.class);
+                        intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                    case 3://3：包车
+                        intent = new Intent(mActivity, CharterFirstStepActivity.class);
+                        intent.putExtra("guidesDetailData", collectBean);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 
 }

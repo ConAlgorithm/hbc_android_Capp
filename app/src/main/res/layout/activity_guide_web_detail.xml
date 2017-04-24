@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/guide_web_detail_titlebar"
+        layout="@layout/include_titlebar_detail" />
+
+    <com.hugboga.custom.widget.GuideWebDetailBottomView
+        android:id="@+id/guide_detail_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true" />
+
+    <WebView
+        android:id="@+id/guide_detail_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/guide_web_detail_titlebar"
+        android:layout_above="@id/guide_detail_bottom_view" />
+</RelativeLayout>
