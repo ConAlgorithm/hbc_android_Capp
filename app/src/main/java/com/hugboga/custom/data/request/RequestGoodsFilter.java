@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -24,15 +25,16 @@ public class RequestGoodsFilter extends BaseRequest<GoodsFilterBean> {
         map.put("source", Constants.REQUEST_SOURCE);
         map.put("channelId", "18");
 
-        map.put("id", "18");//线路圈ID/国家ID/城市ID
-        map.put("type", "18");//1.线路圈 2.国家 3.城市
-        map.put("days", "18");//行程天数
-        map.put("themeIds", "18");//主题ID列表  格式：主题ID,主题ID
+        map.put("id", builder.id);//线路圈ID/国家ID/城市ID
+        map.put("type", builder.type);//1.线路圈 2.国家 3.城市 -1.全部目的地（此时id无限制）
+        if (!TextUtils.isEmpty(builder.themeIds)) {
+            map.put("themeIds", builder.themeIds);//主题ID列表  格式：主题ID,主题ID
+        }
 
-        map.put("returnThemes", "18");//是否返回主题集合  默认false，不返
+        map.put("returnThemes", builder.returnThemes);//是否返回主题集合  默认false，不返
 
-        map.put("offset", "18");//偏移量
-        map.put("limit", "18");//条数
+        map.put("offset", builder.offset);//偏移量
+        map.put("limit", builder.limit);//条数
     }
 
     @Override
@@ -53,10 +55,9 @@ public class RequestGoodsFilter extends BaseRequest<GoodsFilterBean> {
     public static class Builder {
         public int id;
         public int type;
-        public int days;
-        public int themeIds;
+        public String themeIds;
         public boolean returnThemes;
         public int offset;
-        public int limit;
+        public int limit = Constants.DEFAULT_PAGESIZE;
     }
 }

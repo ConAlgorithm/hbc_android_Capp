@@ -15,5 +15,6 @@ public class GoodsFilterBean implements Serializable{
     public static class FilterTheme implements Serializable{
         public int themeId;
         public String themeName;
+        public boolean isSelected = false;//本地字段
     }
 }

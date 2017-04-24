@@ -17,8 +17,12 @@ import android.widget.TextView;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.data.bean.CapacityBean;
+import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.fragment.CityFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterFragment;
+import com.hugboga.custom.fragment.SkuScopeFilterFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +45,7 @@ public class SkuFilterLayout extends LinearLayout {
     private int pagerPosition;
 
     private CityListActivity.Params cityParams;
+    private SkuScopeFilterFragment.SkuFilterBean skuFilterBean;
 
     public SkuFilterLayout(Context context) {
         this(context, null);
@@ -70,7 +75,6 @@ public class SkuFilterLayout extends LinearLayout {
             }
         });
 
-
         tabs.add(cityLayout);
         tabs.add(scopeLayout);
 
@@ -96,7 +100,7 @@ public class SkuFilterLayout extends LinearLayout {
                 break;
         }
 
-//        pagerAdapter.resetScopeFilter();
+        pagerAdapter.resetScopeFilter();
 
         if (pagerPosition == index && viewPager.isShown()) {
             updateSelectStatus(index, false);
@@ -115,19 +119,18 @@ public class SkuFilterLayout extends LinearLayout {
             TextView textView = (TextView) linearLayout.getChildAt(1);
             Drawable drawable = null;
             boolean isSelectedCity = i == 0 && cityParams != null;
-//            boolean isSelectedFilter = i == 1 && guideFilterBean != null && !guideFilterBean.isInitial;
-//            boolean isSelectedSort = i == 2 && sortTypeBean != null;
+            boolean isSelectedFilter = i == 1 && skuFilterBean != null && !skuFilterBean.isInitial;
             if (i == index && open) {
                 drawable = yellowUpArrow;
                 textView.setTextColor(0xFFFFC110);
             } else {
-//                if (isSelectedCity || isSelectedFilter || isSelectedSort) {
-//                    textView.setTextColor(0xFFFFC110);
-//                    drawable = yellowDownArrow;
-//                } else {
-//                    textView.setTextColor(0xFF898989);
-//                    drawable = grayDownArrow;
-//                }
+                if (isSelectedCity || isSelectedFilter) {
+                    textView.setTextColor(0xFFFFC110);
+                    drawable = yellowDownArrow;
+                } else {
+                    textView.setTextColor(0xFF898989);
+                    drawable = grayDownArrow;
+                }
             }
             textView.setCompoundDrawables(null, null, drawable, null);
         }
@@ -146,21 +149,43 @@ public class SkuFilterLayout extends LinearLayout {
         if (cityParams == null) {
             return;
         }
-//        setGuideFilterBean(null);
-//        setSortTypeBean(null);
+        setSkuFilterBean(null);
         pagerAdapter.resetFilter();
 
         this.cityParams = cityParams;
-        TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_guide_type_city_tv);
+        TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_sku_type_city_tv);
         cityTV.setTextColor(0xFFFFC110);
         cityTV.setText(cityParams.titleName);
         updateSelectStatus(0, false);
         viewPager.setVisibility(View.GONE);
     }
 
+    public void setSkuFilterBean(SkuScopeFilterFragment.SkuFilterBean skuFilterBean) {
+        this.skuFilterBean = skuFilterBean;
+        TextView scopeCountTV = (TextView) scopeLayout.findViewById(R.id.filter_sku_type_scope_count_tv);
+        if (skuFilterBean == null) {
+            scopeCountTV.setVisibility(View.GONE);
+        } else {
+            int operateCount = skuFilterBean.getOperateCount();
+            if (skuFilterBean.isInitial || operateCount <= 0) {
+                scopeCountTV.setVisibility(View.GONE);
+            } else {
+                scopeCountTV.setVisibility(View.VISIBLE);
+                scopeCountTV.setText("" + operateCount);
+            }
+            updateSelectStatus(1, false);
+            viewPager.setVisibility(View.GONE);
+        }
+    }
+
+    public void setThemeList(List<GoodsFilterBean.FilterTheme> themeList) {
+        pagerAdapter.setThemeList(themeList);
+    }
+
     public static class SkuFilterAdapter extends FragmentStatePagerAdapter {
 
-        GuideFilterFragment guideFilterFragment;
+        SkuScopeFilterFragment skuScopeFilterFragment;
+        List<GoodsFilterBean.FilterTheme> themeList;
 
         public SkuFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -173,8 +198,11 @@ public class SkuFilterLayout extends LinearLayout {
                     CityFilterFragment cityFilterfragment = new CityFilterFragment();
                     return cityFilterfragment;
                 case 1:
-                    guideFilterFragment = new GuideFilterFragment();
-                    return guideFilterFragment;
+                    skuScopeFilterFragment = new SkuScopeFilterFragment();
+                    if (themeList != null) {
+                        skuScopeFilterFragment.setThemeList(themeList);
+                    }
+                    return skuScopeFilterFragment;
             }
             return null;
         }
@@ -185,13 +213,23 @@ public class SkuFilterLayout extends LinearLayout {
         }
 
         public void resetFilter() {
-            if (guideFilterFragment != null) {
-                guideFilterFragment.resetALLFilterBean();
+            if (skuScopeFilterFragment != null) {
+                skuScopeFilterFragment.resetAllFilterBean();
             }
         }
 
-        public boolean resetScopeFilter() {
-            return guideFilterFragment == null ? false : guideFilterFragment.resetCacheFilter();
+        public void resetScopeFilter() {
+            if (skuScopeFilterFragment != null) {
+                skuScopeFilterFragment.resetCacheFilter();
+            }
+        }
+
+        public void setThemeList(List<GoodsFilterBean.FilterTheme> themeList) {
+            if (skuScopeFilterFragment != null) {
+                skuScopeFilterFragment.setThemeList(themeList);
+            } else {
+                this.themeList = themeList;
+            }
         }
     }
 

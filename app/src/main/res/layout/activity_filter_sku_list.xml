@@ -9,7 +9,7 @@
         android:id="@+id/filter_sku_list_titlebar"
         layout="@layout/include_header" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/filter_sku_list_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +28,7 @@
         android:id="@+id/filter_sku_list_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/filter_sku_list_filter_layout"
+        android:layout_below="@id/filter_sku_list_filter_layout"
         android:gravity="center_horizontal"
         android:visibility="gone"
         android:background="@color/default_bg"

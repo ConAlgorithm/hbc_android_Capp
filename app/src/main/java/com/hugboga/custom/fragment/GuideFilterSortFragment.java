@@ -59,7 +59,7 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
 
     @OnClick({R.id.guide_filter_outside_view})
     public void onOutsideClick() {
-        EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CLOSE));
+        EventBus.getDefault().post(new EventAction(EventType.FILTER_CLOSE));
     }
 
     private void updateSelectedStauts(int index){

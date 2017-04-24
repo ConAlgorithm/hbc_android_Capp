@@ -24,7 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-@ContentView(R.layout.fragment_guide_filiter)
+@ContentView(R.layout.fragment_guide_filter)
 public class GuideFilterFragment extends BaseFragment implements SliderView.OnValueChangedListener{
 
     @Bind(R.id.guide_filter_genders_male_layout)
@@ -137,7 +137,7 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
 
     @OnClick({R.id.guide_filter_scope_outside_layout})
     public void onOutsideClick() {
-        EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CLOSE));
+        EventBus.getDefault().post(new EventAction(EventType.FILTER_CLOSE));
     }
 
     public void setCapacityBean(CapacityBean capacityBean) {
