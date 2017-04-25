@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -61,17 +64,24 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
 
     @Override
     public void update(Object _data) {
-        FilterGuideBean data = (FilterGuideBean) _data;
+        final FilterGuideBean data = (FilterGuideBean) _data;
         Tools.showImage(bgIV, data.guideCover, R.drawable.home_guide_dafault);
 
-        if (TextUtils.isEmpty(data.homeDesc)) {
+        if (TextUtils.isEmpty(data.homeDesc) || TextUtils.isEmpty(data.homeDesc.trim())) {
             descTV.setVisibility(View.GONE);
         } else {
             descTV.setVisibility(View.VISIBLE);
-            descTV.setText(data.homeDesc);
+            descTV.setText(data.homeDesc.trim());
         }
-
-        levelTV.setText("" + data.serviceStar);
+        if (data.serviceStar <= 0) {
+            levelTV.setText("暂无星级");
+            levelTV.setTextSize(11);
+            levelTV.setTextColor(0xFFD1D1D1);
+        } else {
+            levelTV.setText("" + data.serviceStar);
+            levelTV.setTextSize(16);
+            levelTV.setTextColor(0xFFF9B900);
+        }
         nameTV.setText(data.guideName);
         setTag(data.skillLabelNames);
 
@@ -82,6 +92,17 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             serviceTypeTV.setVisibility(View.VISIBLE);
             serviceTypeTV.setText(serviceType);
         }
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+                params.guideId = data.guideId;
+                Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     private void setTag(String tagsStr) {

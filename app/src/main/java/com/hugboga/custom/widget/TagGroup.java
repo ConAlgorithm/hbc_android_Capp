@@ -157,7 +157,8 @@ public class TagGroup extends ViewGroup {
         if (isRemoveViews) {
             removeAllViews();
         }
-        for (int i = 0; i < views.size(); i++) {
+        int size = views.size();
+        for (int i = 0; i < size; i++) {
             View tag = views.get(i);
             addView(tag);
             tag.setOnClickListener(new OnClickListener() {
@@ -169,6 +170,18 @@ public class TagGroup extends ViewGroup {
                 }
             });
         }
+    }
+
+    public void addTag(View views) {
+        addView(views);
+        views.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null) {
+                    mListener.onTagClick(v, indexOfChild(v));
+                }
+            }
+        });
     }
 
     @Override

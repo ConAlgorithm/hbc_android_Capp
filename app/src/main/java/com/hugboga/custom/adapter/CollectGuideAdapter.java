@@ -13,6 +13,7 @@ import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.OrderSelectCityActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
@@ -193,13 +194,10 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 if (isChartered) {//&& !collectGuideBean.isAppointments()
                     return;
                 }
-                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                 params.guideId = collectGuideBean.guideId;
-                Intent intent = new Intent(context, GuideDetailActivity.class);
+                Intent intent = new Intent(context, GuideWebDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                if (context instanceof CollectGuideListActivity) {
-                    intent.putExtra(Constants.PARAMS_SOURCE, ((CollectGuideListActivity)context).getIntentSource());
-                }
                 context.startActivity(intent);
             }
         });

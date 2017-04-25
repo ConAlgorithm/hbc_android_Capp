@@ -109,4 +109,21 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
 
     }
 
+    public int getOffset() {
+        int offset = 0;
+        if (map != null && map.containsKey("offset") && map.get("offset") != null) {
+            Object offsetObj = map.get("offset");
+            if (offsetObj instanceof String) {
+                try {
+                    offset = Integer.valueOf((String)offsetObj);
+                } catch(Exception e) {
+                    offset = 0;
+                }
+            } else if (offsetObj instanceof Integer) {
+                offset = (Integer) offsetObj;
+            }
+        }
+        return offset;
+    }
+
 }

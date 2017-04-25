@@ -8,8 +8,11 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.FilterGuideListBean;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.JsonUtils;
 
 import org.json.JSONArray;
@@ -24,7 +27,7 @@ import java.util.HashMap;
  * Created by qingcha on 17/4/19.
  */
 @HttpRequest(path = UrlLibs.API_FILTER_GUIDES, builder = NewParamsBuilder.class)
-public class RequestFilterGuide extends BaseRequest<ArrayList<FilterGuideBean>> {
+public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
 
     public RequestFilterGuide(Context context, Builder builder) {
         super(context);
@@ -47,9 +50,11 @@ public class RequestFilterGuide extends BaseRequest<ArrayList<FilterGuideBean>> 
         if (!TextUtils.isEmpty(builder.guestNum)) {
             map.put("guestNum", builder.guestNum);              // 可接待人数
         }
-        map.put("orderByType", builder.orderByType);        // 排序类型:0-默认排序; 1-按星级排序;2-按评分排序;3-按单数排序
-        map.put("orderDesc", builder.orderDesc);            // 排序方式,desc-从高到低, asc-从低到高
-        map.put("isQuality", builder.isQuality);            // 是否优质司导, 1-是，0-否
+        map.put("orderByType", builder.orderByType);            // 排序类型:0-默认排序; 1-按星级排序;2-按评分排序;3-按单数排序
+        map.put("orderDesc", builder.orderDesc);                // 排序方式,desc-从高到低, asc-从低到高
+        if (builder.isQuality != null) {
+            map.put("isQuality", builder.isQuality);            // 是否优质司导, 1-是，0-否
+        }
         map.put("limit", builder.limit);
         map.put("offset", builder.offset);
     }
@@ -61,28 +66,13 @@ public class RequestFilterGuide extends BaseRequest<ArrayList<FilterGuideBean>> 
 
     @Override
     public ImplParser getParser() {
-        return new DataParser();
+        return new HbcParser(UrlLibs.API_FILTER_GUIDES, FilterGuideListBean.class);
     }
 
     @Override
     public String getUrlErrorCode() {
         return "40138";
     }
-
-    private class DataParser extends ImplParser {
-
-        @Override
-        public Object parseArray(JSONArray array) throws Throwable {
-            ArrayList<FilterGuideBean> beanArrayList = JsonUtils.INSTANCE.getGson().fromJson(array.toString(),new TypeToken<ArrayList<FilterGuideBean>>(){}.getType());
-            return beanArrayList;
-        }
-
-        @Override
-        public Object parseObject(JSONObject obj) throws Throwable {
-            return null;
-        }
-    }
-
 
     public static class Builder {
         public String cityIds;
@@ -93,7 +83,7 @@ public class RequestFilterGuide extends BaseRequest<ArrayList<FilterGuideBean>> 
         public String guestNum;
         public int orderByType = 0;
         public String orderDesc = "desc";
-        public int isQuality = 0;
+        public Integer isQuality;
         public int limit = Constants.DEFAULT_PAGESIZE;
         public int offset = 0;
 

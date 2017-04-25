@@ -40,13 +40,11 @@ import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.widget.SimpleRatingBar;
 import com.hugboga.custom.widget.TagGroup;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;

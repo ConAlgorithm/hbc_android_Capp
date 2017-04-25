@@ -19,6 +19,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestGuideCrop;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ChooseGuideCityView;
 import com.hugboga.custom.widget.title.TitleBar;
 
@@ -68,7 +69,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         leftTV.setLayoutParams(leftViewParams);
         titleBar.getLeftTV().setBackgroundResource(R.mipmap.top_close);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, ChooseGuideCityView.class);
         mAdapter.setOnItemClickListener(this);

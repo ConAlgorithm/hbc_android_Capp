@@ -1,11 +1,16 @@
 package com.hugboga.custom.models;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.FilterGuideListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
@@ -13,9 +18,15 @@ import com.hugboga.custom.utils.UIUtils;
  */
 public class CityListGuideFooterModel extends EpoxyModel<LinearLayout> {
 
+    private CityListActivity.Params paramsData;
+
     @Override
     protected int getDefaultLayout() {
         return R.layout.home_page_footer;
+    }
+
+    public CityListGuideFooterModel(CityListActivity.Params paramsData) {
+        this.paramsData = paramsData;
     }
 
     @Override
@@ -29,6 +40,16 @@ public class CityListGuideFooterModel extends EpoxyModel<LinearLayout> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, FilterGuideListActivity.class);
+                if (paramsData != null) {
+                    FilterGuideListActivity.Params params = new FilterGuideListActivity.Params();
+                    params.id = paramsData.id;
+                    params.cityHomeType = paramsData.cityHomeType;
+                    params.titleName = paramsData.titleName;
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                }
+                context.startActivity(intent);
             }
         });
     }

@@ -34,6 +34,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
@@ -106,7 +107,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     @Override
     protected void initView() {
         homePageAdapter = new HomePageAdapter();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this.getActivity());
         homeListView.setLayoutManager(layoutManager);
         homeListView.setHasFixedSize(true);
         homeListView.setAdapter(homePageAdapter);

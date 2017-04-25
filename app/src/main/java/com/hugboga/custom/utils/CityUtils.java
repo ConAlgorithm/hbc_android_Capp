@@ -1237,4 +1237,40 @@ public class CityUtils {
     }
 
 
+    public static LineGroupBean getLineGroupBean(Activity activity,String place_id){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+
+            String sql = "select * from line_group_item where sub_place_id="+place_id;
+
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            LineGroupBean lineGroupBean = null;
+            try {
+                DbModel model = mDbManager.findDbModelFirst(sqlinfo);
+                if (model != null) {
+                    lineGroupBean = new LineGroupBean();
+                    lineGroupBean.isSelected = false;
+
+                    lineGroupBean.group_id = model.getInt("group_id");
+                    lineGroupBean.group_name = model.getString("group_name");
+
+                    lineGroupBean.type = 1;//model.getInt("type");
+
+                    lineGroupBean.has_sub = model.getInt("has_sub");
+
+                    lineGroupBean.hot_weight = model.getInt("hot_weight");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lineGroupBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

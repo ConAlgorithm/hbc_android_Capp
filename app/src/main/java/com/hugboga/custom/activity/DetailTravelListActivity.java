@@ -8,6 +8,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.DetailTravelItemView;
 import com.hugboga.custom.widget.title.TitleBar;
 
@@ -58,7 +59,7 @@ public class DetailTravelListActivity extends BaseActivity {
     public void initView() {
         titleBar.setTitle("行程单");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         HbcRecyclerSingleTypeAdpater mAdapter = new HbcRecyclerSingleTypeAdpater(this, DetailTravelItemView.class);
         recyclerView.setAdapter(mAdapter);

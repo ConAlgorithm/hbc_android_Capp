@@ -23,16 +23,10 @@ import java.util.List;
 public class CityListAdapter extends EpoxyAdapter {
 
     public CityListHeaderModel cityListHeaderModel;
+    private CityListActivity.Params paramsData;
 
-    public void setData(CityListActivity.CityHomeType type) {
-        switch (type) {
-            case CITY:
-                break;
-            case ROUTE:
-                break;
-            case COUNTRY:
-                break;
-        }
+    public void setData(CityListActivity.Params paramsData) {
+        this.paramsData = paramsData;
     }
 
     public void setCityData(CityListBean cityListBean) {
@@ -68,7 +62,7 @@ public class CityListAdapter extends EpoxyAdapter {
         if (guideList == null || guideList.size() <= 0) {
             return;
         }
-        addModel(new CityListGuideHeaderModel());
+        addModel(new CityListGuideHeaderModel(paramsData));
         int size = guideList.size();
         for (int i = 0; i < size; i++) {
             ChoicenessGuideModel guideModel = new ChoicenessGuideModel();
@@ -76,14 +70,14 @@ public class CityListAdapter extends EpoxyAdapter {
             addModel(guideModel);
         }
         if (size > CityListActivity.GUIDE_LIST_COUNT) {
-            addModel(new CityListGuideFooterModel());
+            addModel(new CityListGuideFooterModel(paramsData));
         }
     }
 
     public void addCityListHotModel(List<SkuItemBean> hotLines, int type) {
         if (hotLines != null && hotLines.size() > 0) {
             CityListHotModel cityListHotModel = new CityListHotModel();
-            cityListHotModel.setDate(hotLines, type);
+            cityListHotModel.setDate(paramsData, hotLines, type);
             addModel(cityListHotModel);
         }
     }
