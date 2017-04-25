@@ -64,6 +64,16 @@ public class CanServiceGuideBean implements IBaseBean {
         private int orderCounts;
         private double serviceStar;
         private String allocatGno;//用于选择司导时传递给服务端
+        private String commentNum;// 评论数
+        private List<String> skillLabelNames;// 司导评论标签列表
+
+        public String getCommentNum() {
+            return commentNum;
+        }
+
+        public List<String> getSkillLabelNames() {
+            return skillLabelNames;
+        }
 
         public String getAllocatGno() {
             return allocatGno;

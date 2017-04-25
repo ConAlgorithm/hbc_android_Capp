@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,12 +12,11 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.FilterGuideListActivity;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -104,14 +102,14 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
         String level = data.serviceStar <= 0 ? "暂无星级" : data.serviceStar + "星";
         starTV.setText(level);
 
-        setTag(data.skillLabelNames);
+        GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
 
         String serviceType = data.getServiceType();
         if (TextUtils.isEmpty(serviceType)) {
             serviceLineView.setVisibility(View.INVISIBLE);
             serviceTypeTV.setVisibility(View.GONE);
             disableIV.setVisibility(View.VISIBLE);
-            setBackgroundColor(0xFFEAEAEA);
+            setBackgroundColor(0xFFeaeaea);
         } else {
             serviceLineView.setVisibility(View.VISIBLE);
             serviceTypeTV.setVisibility(View.VISIBLE);
@@ -119,57 +117,5 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
             disableIV.setVisibility(View.GONE);
             setBackgroundColor(0xFFFFFFFF);
         }
-    }
-
-    private void setTag(ArrayList<String> skillLabelNames) {
-        if (skillLabelNames == null || skillLabelNames.size() == 0) {
-            tagGroup.setVisibility(View.GONE);
-            return;
-        }
-        tagGroup.setVisibility(View.VISIBLE);
-        final int labelsSize = skillLabelNames.size();
-        ArrayList<View> viewList = new ArrayList<View>(labelsSize);
-        for (int i = 0; i < labelsSize; i++) {
-            String tag = skillLabelNames.get(i);
-            if (TextUtils.isEmpty(tag) || TextUtils.isEmpty(tag.trim())) {
-                continue;
-            }
-            tag = tag.trim();
-            if (i < tagGroup.getChildCount()) {
-                LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
-                tagLayout.setVisibility(View.VISIBLE);
-                TextView tagTV = (TextView)tagLayout.findViewWithTag("tagTV");
-                tagTV.setText(tag);
-            } else {
-                viewList.add(getNewTagView(tag));
-            }
-        }
-        for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
-            tagGroup.getChildAt(j).setVisibility(View.GONE);
-        }
-        tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
-    }
-
-    private LinearLayout getNewTagView(String label) {
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-        ImageView imageView = new ImageView(getContext());
-        imageView.setBackgroundResource(R.mipmap.personal_label);
-        linearLayout.addView(imageView);
-        imageView.getLayoutParams().height = UIUtils.dip2px(12);
-        imageView.getLayoutParams().width = UIUtils.dip2px(12);
-
-        TextView tagTV = new TextView(getContext());
-        tagTV.setPadding(UIUtils.dip2px(2), 0, 0, UIUtils.dip2px(3));
-        tagTV.setTextSize(13);
-        tagTV.setTextColor(0xFFF9B900);
-        tagTV.setEnabled(false);
-        tagTV.setText(label);
-        tagTV.setTag("tagTV");
-        linearLayout.addView(tagTV);
-
-        return linearLayout;
     }
 }

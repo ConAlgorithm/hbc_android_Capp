@@ -292,7 +292,11 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideExtinfo) {
             guideExtinfoBean = ((RequestGuideExtinfo) _request).getData();
-            bottomView.update(guideExtinfoBean);
+            if (paramsData.canService) {
+                bottomView.update(guideExtinfoBean);
+            } else {
+                bottomView.setVisibility(View.GONE);
+            }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
             if (guideExtinfoBean.isCollected != null) {

@@ -101,6 +101,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
             if (offset == 0) {
                 mRecyclerView.smoothScrollToPosition(0);
             }
+            mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= collectGuideNewBean.count);
         }
     }
