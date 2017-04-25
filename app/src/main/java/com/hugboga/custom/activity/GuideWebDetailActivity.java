@@ -80,11 +80,8 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     public static class Params implements Serializable {
         public String guideId;
-        public String canService = "1";
-    }
-
-    public boolean isCanService() {
-        return "1".equals(paramsData.canService);
+        public boolean canService = true;
+        public boolean canCollect = true;
     }
 
     @Override
@@ -133,7 +130,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     public void initView() {
         titleTV.setText("精选司导");
-        if (isCanService()) {
+        if (paramsData.canCollect) {
             shareIV.setEnabled(false);
             collectIV.setEnabled(false);
             shareIV.setVisibility(View.VISIBLE);
@@ -161,14 +158,14 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         loadUrl();
 
-        requestData(new RequestGuideExtinfo(GuideWebDetailActivity.this, paramsData.guideId));
+        requestData(new RequestGuideExtinfo(GuideWebDetailActivity.this, paramsData.guideId), false);
 
     }
 
     public String loadUrl() {
         String isCanService = "0";
         if (UserEntity.getUser().isLogin(this)) {
-            isCanService = paramsData.canService;
+            isCanService = paramsData.canService ? "1" : "0";
         }
         String url = UrlLibs.H5_GUIDE_DETAIL + "guideId=" + paramsData.guideId + "&canService=" + isCanService;
         if (!TextUtils.isEmpty(url)) {

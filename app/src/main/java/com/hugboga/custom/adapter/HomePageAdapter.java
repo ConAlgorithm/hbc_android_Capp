@@ -65,7 +65,7 @@ public class HomePageAdapter extends EpoxyAdapter {
                 addModel(new DestinationAggModel(lineGroupAgg));
             }
         }
-        if(listCount>=dataSize){
+        if(listCount==dataSize){
             addFooterModel(FgHomePage.TAB_DESTION);
         }
     }
