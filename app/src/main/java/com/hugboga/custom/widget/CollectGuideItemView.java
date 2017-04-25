@@ -127,7 +127,7 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
             return;
         }
         tagGroup.setVisibility(View.VISIBLE);
-        final int labelsSize = skillLabelNames.size() > 5 ? 5 : skillLabelNames.size();
+        final int labelsSize = skillLabelNames.size();
         ArrayList<View> viewList = new ArrayList<View>(labelsSize);
         for (int i = 0; i < labelsSize; i++) {
             String tag = skillLabelNames.get(i);

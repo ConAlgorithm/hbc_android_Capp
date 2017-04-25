@@ -85,12 +85,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
             startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
@@ -114,7 +114,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (guidesDetailData != null) {
-            outState.putSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+            outState.putSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
         }
         if (startBean != null) {
             outState.putSerializable(Constants.PARAMS_START_CITY_BEAN, startBean);

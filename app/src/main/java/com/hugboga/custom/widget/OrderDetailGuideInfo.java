@@ -16,6 +16,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.constants.Constants;
@@ -216,12 +217,13 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
-                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+                GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                 params.guideId = orderBean.orderGuideInfo.guideID;
-                params.guideCarId = "" + orderBean.carId;
-                params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
-                params.isSelectedService = orderBean.guideAgencyType == 3;
-                intent = new Intent(getContext(), GuideDetailActivity.class);
+                params.canService = "0";
+//                params.guideCarId = "" + orderBean.carId;
+//                params.guideAgencyDriverId = orderBean.guideAgencyDriverId;
+//                params.isSelectedService = orderBean.guideAgencyType == 3;
+                intent = new Intent(getContext(), GuideWebDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, ((OrderDetailActivity) getContext()).getEventSource());
                 getContext().startActivity(intent);

@@ -59,6 +59,8 @@ import butterknife.OnClick;
 
 public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
+    public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
+
     @Bind(R.id.titlebar_detail_right_1_btn)
     ImageView collectIV;
     @Bind(R.id.titlebar_detail_right_2_btn)
