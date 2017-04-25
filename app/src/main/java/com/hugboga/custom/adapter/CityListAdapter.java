@@ -13,6 +13,7 @@ import com.hugboga.custom.models.CityListGuideHeaderModel;
 import com.hugboga.custom.models.CityListHeaderModel;
 import com.hugboga.custom.models.CityListHotModel;
 import com.hugboga.custom.models.HotCityModel;
+import com.hugboga.custom.widget.CityListHotView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class CityListAdapter extends EpoxyAdapter {
         cityListCustom.setData(cityListBean);
         addModel(cityListCustom);
 
-        addCityListHotModel(cityListBean.hotLines, CityListHotModel.TYPE_HOT);
+        addCityListHotModel(cityListBean.hotLines, CityListHotView.TYPE_HOT);
     }
 
     public void setCountryGroupData(CountryGroupBean countryGroupBean) {
@@ -54,8 +55,8 @@ public class CityListAdapter extends EpoxyAdapter {
             addModel(new HotCityModel(countryGroupBean.getHotCityList()));
         }
         addModel(new CityListCustomModel());
-        addCityListHotModel(countryGroupBean.shortLines, CityListHotModel.TYPE_SHORT);
-        addCityListHotModel(countryGroupBean.deepLines, CityListHotModel.TYPE_DEEP);
+        addCityListHotModel(countryGroupBean.shortLines, CityListHotView.TYPE_SHORT);
+        addCityListHotModel(countryGroupBean.deepLines, CityListHotView.TYPE_DEEP);
     }
 
     public void setGuideListData(ArrayList<FilterGuideBean> guideList) {

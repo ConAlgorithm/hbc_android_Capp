@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.adapter.CityListHotAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
@@ -35,6 +39,10 @@ public class CityListHotView extends LinearLayout {
 
     public List<SkuItemBean> hotLines;
     public int type;
+    public CityListActivity.Params paramsData;
+
+    public int displayImgWidth, displayImgHeight;
+    public CityListHotAdapter adapter;
 
     public CityListHotView(Context context) {
         this(context, null);
@@ -44,18 +52,10 @@ public class CityListHotView extends LinearLayout {
         super(context, attrs);
         View view = inflate(context, R.layout.view_city_hot_item, this);
         ButterKnife.bind(view);
-    }
-
-    public void setDate(List<SkuItemBean> hotLines, int type) {
-        this.hotLines = hotLines;
-        this.type = type;
-
-
-        titleTV.setText(getTitle());
 
         final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
-        int displayImgWidth = UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8);
-        int displayImgHeight = (int)((400 / 650.0) * displayImgWidth);
+        displayImgWidth = UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8);
+        displayImgHeight = (int)((400 / 650.0) * displayImgWidth);
         int viewHeight = displayImgHeight + ScreenUtil.dip2px(84);
         cityRecyclerView.getLayoutParams().height = viewHeight;
 
@@ -67,10 +67,45 @@ public class CityListHotView extends LinearLayout {
         SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
         itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
         cityRecyclerView.addItemDecoration(itemDecoration);
-//        CityListHotAdapter adapter = new CityListHotAdapter(getContext(), hotLines, displayImgWidth, displayImgHeight);
-//        cityRecyclerView.setAdapter(adapter);
     }
 
+    public void setDate(CityListActivity.Params _paramsData, List<SkuItemBean> hotLines, int _type) {
+        this.paramsData = _paramsData;
+        this.hotLines = hotLines;
+        this.type = _type;
+
+
+        titleTV.setText(getTitle());
+        if (adapter == null) {
+            adapter = new CityListHotAdapter(getContext(), paramsData, hotLines, type, displayImgWidth, displayImgHeight);
+            cityRecyclerView.setAdapter(adapter);
+        } else {
+            adapter.setData(hotLines);
+        }
+
+        moreTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterSkuListActivity.Params params = new FilterSkuListActivity.Params();
+                if (paramsData != null) {
+                    params.id = paramsData.id;
+                    params.cityHomeType = paramsData.cityHomeType;
+                    params.titleName = paramsData.titleName;
+                }
+                switch (type) {
+                    case TYPE_DEEP://2天以上行程
+                        params.days = "-1";
+                        break;
+                    case TYPE_SHORT://1或2天行程
+                        params.days = "1,2";
+                        break;
+                }
+                Intent intent = new Intent(v.getContext(), FilterSkuListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                v.getContext().startActivity(intent);
+            }
+        });
+    }
 
     public String getTitle() {
         String result = "";
