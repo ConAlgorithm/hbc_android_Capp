@@ -1,5 +1,6 @@
 package com.hugboga.custom.models;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.adapter.CityListHotAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
@@ -26,8 +30,10 @@ public class CityListHotModel extends EpoxyModelWithHolder {
 
     public List<SkuItemBean> hotLines;
     public int type;
+    public CityListActivity.Params paramsData;
 
-    public void setDate(List<SkuItemBean> hotLines, int type) {
+    public void setDate(CityListActivity.Params paramsData, List<SkuItemBean> hotLines, int type) {
+        this.paramsData = paramsData;
         this.hotLines = hotLines;
         this.type = type;
     }
@@ -57,8 +63,31 @@ public class CityListHotModel extends EpoxyModelWithHolder {
         SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
         itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
         holder.cityRecyclerView.addItemDecoration(itemDecoration);
-        CityListHotAdapter adapter = new CityListHotAdapter(holder.itemView.getContext(), hotLines, displayImgWidth, displayImgHeight);
+        CityListHotAdapter adapter = new CityListHotAdapter(holder.itemView.getContext(), paramsData, hotLines, type, displayImgWidth, displayImgHeight);
         holder.cityRecyclerView.setAdapter(adapter);
+
+        holder.moreTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterSkuListActivity.Params params = new FilterSkuListActivity.Params();
+                if (paramsData != null) {
+                    params.id = paramsData.id;
+                    params.cityHomeType = paramsData.cityHomeType;
+                    params.titleName = paramsData.titleName;
+                }
+                switch (type) {
+                    case TYPE_DEEP://2天以上行程
+                        params.days = "-1";
+                        break;
+                    case TYPE_SHORT://1或2天行程
+                        params.days = "1,2";
+                        break;
+                }
+                Intent intent = new Intent(v.getContext(), FilterSkuListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

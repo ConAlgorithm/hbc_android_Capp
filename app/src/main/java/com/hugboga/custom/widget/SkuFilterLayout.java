@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ public class SkuFilterLayout extends LinearLayout {
     private Drawable grayDownArrow, yellowUpArrow, yellowDownArrow;
     private int pagerPosition;
 
+    private String dayTypes;
     private CityListActivity.Params cityParams;
     private SkuScopeFilterFragment.SkuFilterBean skuFilterBean;
 
@@ -119,7 +121,19 @@ public class SkuFilterLayout extends LinearLayout {
             TextView textView = (TextView) linearLayout.getChildAt(1);
             Drawable drawable = null;
             boolean isSelectedCity = i == 0 && cityParams != null;
-            boolean isSelectedFilter = i == 1 && skuFilterBean != null && !skuFilterBean.isInitial;
+
+            boolean isSelectedFilter = false;
+            if (i == 1) {
+                if (skuFilterBean != null && skuFilterBean.getOperateCount() > 0) {
+                    isSelectedFilter = true;
+                } else if (skuFilterBean == null && !TextUtils.isEmpty(dayTypes)) {
+                    isSelectedFilter = true;
+                    String[] dayType = dayTypes.split(",");
+                    TextView scopeCountTV = (TextView) scopeLayout.findViewById(R.id.filter_sku_type_scope_count_tv);
+                    scopeCountTV.setVisibility(View.VISIBLE);
+                    scopeCountTV.setText("" + dayType.length);
+                }
+            }
             if (i == index && open) {
                 drawable = yellowUpArrow;
                 textView.setTextColor(0xFFFFC110);
@@ -178,14 +192,21 @@ public class SkuFilterLayout extends LinearLayout {
         }
     }
 
-    public void setThemeList(List<GoodsFilterBean.FilterTheme> themeList) {
+    public void setThemeList(ArrayList<GoodsFilterBean.FilterTheme> themeList) {
         pagerAdapter.setThemeList(themeList);
+    }
+
+    public void setDayTypes(String dayTypes) {
+        this.dayTypes = dayTypes;
+        pagerAdapter.setDayTypes(dayTypes);
+        updateSelectStatus(1, false);
     }
 
     public static class SkuFilterAdapter extends FragmentStatePagerAdapter {
 
         SkuScopeFilterFragment skuScopeFilterFragment;
-        List<GoodsFilterBean.FilterTheme> themeList;
+        ArrayList<GoodsFilterBean.FilterTheme> themeList;
+        String dayTypes;
 
         public SkuFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -201,6 +222,9 @@ public class SkuFilterLayout extends LinearLayout {
                     skuScopeFilterFragment = new SkuScopeFilterFragment();
                     if (themeList != null) {
                         skuScopeFilterFragment.setThemeList(themeList);
+                    }
+                    if (!TextUtils.isEmpty(dayTypes)) {
+                        skuScopeFilterFragment.setDayTypes(dayTypes);
                     }
                     return skuScopeFilterFragment;
             }
@@ -224,11 +248,19 @@ public class SkuFilterLayout extends LinearLayout {
             }
         }
 
-        public void setThemeList(List<GoodsFilterBean.FilterTheme> themeList) {
+        public void setThemeList(ArrayList<GoodsFilterBean.FilterTheme> themeList) {
             if (skuScopeFilterFragment != null) {
                 skuScopeFilterFragment.setThemeList(themeList);
             } else {
                 this.themeList = themeList;
+            }
+        }
+
+        public void setDayTypes(String dayTypes) {
+            if (skuScopeFilterFragment != null) {
+                skuScopeFilterFragment.setDayTypes(dayTypes);
+            } else {
+                this.dayTypes = dayTypes;
             }
         }
     }

@@ -648,9 +648,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
                 break;
             case R.id.tab_text_2:
-//                mViewPager.setCurrentItem(1);
-//                startActivity(new Intent(this, FilterGuideListActivity.class));
-                startActivity(new Intent(this, FilterSkuListActivity.class));
+                mViewPager.setCurrentItem(1);
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);

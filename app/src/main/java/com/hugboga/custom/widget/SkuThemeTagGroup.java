@@ -19,7 +19,7 @@ import java.util.List;
 public class SkuThemeTagGroup extends TagGroup{
 
     private ArrayList<String> selectedTagIdList;
-    private List<GoodsFilterBean.FilterTheme> themeList;
+    private ArrayList<GoodsFilterBean.FilterTheme> themeList;
 
     public SkuThemeTagGroup(Context context) {
         this(context, null);
@@ -30,7 +30,7 @@ public class SkuThemeTagGroup extends TagGroup{
         selectedTagIdList = new ArrayList<String>();
     }
 
-    public List<GoodsFilterBean.FilterTheme> getThemeList() {
+    public ArrayList<GoodsFilterBean.FilterTheme> getThemeList() {
         selectedTagIdList.clear();
         if (themeList != null) {
             int labelsSize = themeList.size();
@@ -43,7 +43,7 @@ public class SkuThemeTagGroup extends TagGroup{
         return themeList;
     }
 
-    public void setThemeData(List<GoodsFilterBean.FilterTheme> themeList) {
+    public void setThemeData(ArrayList<GoodsFilterBean.FilterTheme> themeList) {
         int childCount = getChildCount();
 
         if (themeList == null) {

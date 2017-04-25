@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -199,7 +200,11 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
-//        guideList
+        GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+        params.guideId = guideList.get(position).guideId;
+        Intent intent = new Intent(FilterGuideListActivity.this, GuideWebDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     @Subscribe

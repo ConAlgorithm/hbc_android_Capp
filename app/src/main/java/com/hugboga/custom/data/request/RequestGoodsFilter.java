@@ -31,6 +31,10 @@ public class RequestGoodsFilter extends BaseRequest<GoodsFilterBean> {
             map.put("themeIds", builder.themeIds);//主题ID列表  格式：主题ID,主题ID
         }
 
+        if (!TextUtils.isEmpty(builder.days)) {
+            map.put("days", builder.days);
+        }
+
         map.put("returnThemes", builder.returnThemes);//是否返回主题集合  默认false，不返
 
         map.put("offset", builder.offset);//偏移量
@@ -59,5 +63,6 @@ public class RequestGoodsFilter extends BaseRequest<GoodsFilterBean> {
         public boolean returnThemes;
         public int offset;
         public int limit = Constants.DEFAULT_PAGESIZE;
+        public String days;
     }
 }

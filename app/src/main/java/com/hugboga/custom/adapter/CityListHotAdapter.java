@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.FilterSkuListActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.models.CityListHotModel;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.HotLinesItemView;
@@ -27,12 +32,16 @@ public class CityListHotAdapter extends RecyclerView.Adapter<CityListHotAdapter.
 
     private Context mContext;
     private List<SkuItemBean> itemList;
+    public int type;
+    public CityListActivity.Params paramsData;
     private int displayImgWidth;
     private int displayImgHeight;
 
-    public CityListHotAdapter(Context context, List<SkuItemBean> _itemList, int displayImgWidth, int displayImgHeight) {
+    public CityListHotAdapter(Context context, CityListActivity.Params paramsData, List<SkuItemBean> _itemList, int type, int displayImgWidth, int displayImgHeight) {
         this.mContext = context;
         this.itemList = _itemList;
+        this.paramsData = paramsData;
+        this.type = type;
         this.displayImgWidth = displayImgWidth;
         this.displayImgHeight = displayImgHeight;
     }
@@ -72,6 +81,23 @@ public class CityListHotAdapter extends RecyclerView.Adapter<CityListHotAdapter.
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FilterSkuListActivity.Params params = new FilterSkuListActivity.Params();
+                    if (paramsData != null) {
+                        params.id = paramsData.id;
+                        params.cityHomeType = paramsData.cityHomeType;
+                        params.titleName = paramsData.titleName;
+                    }
+                    switch (type) {
+                        case CityListHotModel.TYPE_DEEP://2天以上行程
+                            params.days = "-1";
+                            break;
+                        case CityListHotModel.TYPE_SHORT://1或2天行程
+                            params.days = "1,2";
+                            break;
+                    }
+                    Intent intent = new Intent(v.getContext(), FilterSkuListActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    v.getContext().startActivity(intent);
                 }
             });
         } else {

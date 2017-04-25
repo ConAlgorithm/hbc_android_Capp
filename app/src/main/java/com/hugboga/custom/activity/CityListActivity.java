@@ -19,7 +19,6 @@ import com.hugboga.custom.adapter.CityListAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
-import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
@@ -28,8 +27,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

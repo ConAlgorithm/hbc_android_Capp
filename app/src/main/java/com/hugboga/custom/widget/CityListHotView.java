@@ -67,8 +67,8 @@ public class CityListHotView extends LinearLayout {
         SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
         itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
         cityRecyclerView.addItemDecoration(itemDecoration);
-        CityListHotAdapter adapter = new CityListHotAdapter(getContext(), hotLines, displayImgWidth, displayImgHeight);
-        cityRecyclerView.setAdapter(adapter);
+//        CityListHotAdapter adapter = new CityListHotAdapter(getContext(), hotLines, displayImgWidth, displayImgHeight);
+//        cityRecyclerView.setAdapter(adapter);
     }
 
 

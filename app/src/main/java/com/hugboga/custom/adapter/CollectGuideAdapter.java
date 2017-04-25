@@ -194,14 +194,6 @@ public class CollectGuideAdapter extends BaseAdapter<CollectGuideBean> {
                 if (isChartered) {//&& !collectGuideBean.isAppointments()
                     return;
                 }
-//                GuideDetailActivity.Params params = new GuideDetailActivity.Params();
-//                params.guideId = collectGuideBean.guideId;
-//                Intent intent = new Intent(context, GuideDetailActivity.class);
-//                intent.putExtra(Constants.PARAMS_DATA, params);
-//                if (context instanceof CollectGuideListActivity) {
-//                    intent.putExtra(Constants.PARAMS_SOURCE, ((CollectGuideListActivity)context).getIntentSource());
-//                }
-//                context.startActivity(intent);
                 GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                 params.guideId = collectGuideBean.guideId;
                 Intent intent = new Intent(context, GuideWebDetailActivity.class);

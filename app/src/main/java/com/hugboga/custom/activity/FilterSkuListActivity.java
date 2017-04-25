@@ -1,7 +1,7 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestGoodsFilter;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
 import com.hugboga.custom.widget.SkuFilterLayout;
@@ -48,11 +49,14 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
     ImageView emptyIV;
     @Bind(R.id.filter_sku_list_empty_hint_tv)
     TextView emptyHintTV;
+    @Bind(R.id.filter_sku_list_empty_charter_layout)
+    LinearLayout emptyCharterLayout;
 
     private FilterSkuListActivity.Params paramsData;
 
     private CityListActivity.Params cityParams;
     private SkuScopeFilterFragment.SkuFilterBean skuFilterBean;
+    private boolean isThemes;
 
     private HbcRecyclerSingleTypeAdpater<SkuItemBean> mAdapter;
     public List<SkuItemBean> listData;
@@ -61,6 +65,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         public int id;
         public CityListActivity.CityHomeType cityHomeType;
         public String titleName;
+        public String days;
     }
 
     @Override
@@ -126,8 +131,10 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, SkuItemView.class);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
-
-        requestGuideList(null, 0, null, true, 0, true);
+        if (paramsData != null) {
+            filterLayout.setDayTypes(paramsData.days);
+        }
+        requestGuideList(true);
     }
 
     public void initTitleBar() {
@@ -181,8 +188,12 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     @Override
     public void onLoadMore() {
-        Log.i("aa", "onLoadMore");
         requestGuideList(false, mAdapter.getListCount(), false);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "商品列表页";
     }
 
     public void requestGuideList(boolean isThemes) {
@@ -191,15 +202,28 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     public void requestGuideList(boolean isThemes, int offset, boolean isShowLoading) {
         if (cityParams != null) {
-            requestGuideList(cityParams.cityHomeType, cityParams.id, null, isThemes, offset, isShowLoading);
+            String themeIds = null;
+            String dayTypes = null;
+            if (skuFilterBean != null) {
+                themeIds = skuFilterBean.getThemeIds();
+                dayTypes = skuFilterBean.getDayTypeParams();
+            }
+            requestGuideList(cityParams.cityHomeType, cityParams.id, themeIds, isThemes, dayTypes, offset, isShowLoading);
         } else if (paramsData != null) {
-            requestGuideList(paramsData.cityHomeType, paramsData.id, null, isThemes, offset, isShowLoading);
+            String themeIds = null;
+            String dayTypes = paramsData.days;
+            if (skuFilterBean != null) {
+                themeIds = skuFilterBean.getThemeIds();
+                dayTypes = skuFilterBean.getDayTypeParams();
+            }
+            requestGuideList(paramsData.cityHomeType, paramsData.id, themeIds, isThemes, dayTypes, offset, isShowLoading);
         } else {
-            requestGuideList(null, 0, null, isThemes, offset, isShowLoading);
+            requestGuideList(null, 0, null, isThemes, null, offset, isShowLoading);
         }
     }
 
-    public void requestGuideList(CityListActivity.CityHomeType cityHomeType, int id, String themeIds, boolean isThemes, int offset, boolean isShowLoading) {
+    public void requestGuideList(CityListActivity.CityHomeType cityHomeType, int id, String themeIds, boolean isThemes, String days, int offset, boolean isShowLoading) {
+        this.isThemes = isThemes;
         RequestGoodsFilter.Builder builder = new RequestGoodsFilter.Builder();
         int type = -1;//全部
         if (cityHomeType != null && id > 0) {
@@ -221,9 +245,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         builder.offset = offset;
         builder.themeIds = themeIds;
         builder.returnThemes = isThemes;
-        if (skuFilterBean != null) {
-
-        }
+        builder.days = days;
         requestData(new RequestGoodsFilter(this, builder), isShowLoading);
     }
 
@@ -269,23 +291,41 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         hideFilterView();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         if (isDataNull) {
-            params.addRule(RelativeLayout.BELOW, R.id.guide_list_filter_layout);
+            params.addRule(RelativeLayout.BELOW, R.id.filter_sku_list_filter_layout);
             emptyLayout.setLayoutParams(params);
 
-            emptyIV.setBackgroundResource(R.drawable.empty_city);
-            emptyHintTV.setText("暂无满足当前筛选条件的司导");
-            emptyLayout.setEnabled(false);
+            emptyIV.setBackgroundResource(R.drawable.empty_trip);
+            emptyHintTV.setText("暂无满足当前筛选条件的线路");
+            emptyCharterLayout.setVisibility(View.VISIBLE);
+            emptyLayout.setOnClickListener(null);
+            emptyCharterLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int cityId = -1;
+                    if (cityParams != null && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
+                        cityId = cityParams.id;
+                    } else if (paramsData != null && paramsData.cityHomeType == CityListActivity.CityHomeType.CITY ) {
+                        cityId = paramsData.id;
+                    }
+                    Intent intent = new Intent(FilterSkuListActivity.this, CharterFirstStepActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    if (cityId != -1) {
+                        intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityId));
+                    }
+                    startActivity(intent);
+                }
+            });
         } else {
-            params.addRule(RelativeLayout.BELOW, R.id.guide_list_titlebar);
+            params.addRule(RelativeLayout.BELOW, R.id.filter_sku_list_titlebar);
             emptyLayout.setLayoutParams(params);
 
             emptyIV.setBackgroundResource(R.drawable.empty_wifi);
             emptyHintTV.setText("似乎与网络断开，点击屏幕重试");
-            emptyLayout.setEnabled(true);
+            emptyCharterLayout.setVisibility(View.GONE);
             emptyLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    requestGuideList();
+                    requestGuideList(isThemes);
                 }
             });
         }

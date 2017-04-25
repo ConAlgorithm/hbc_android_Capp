@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,8 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
 
     private SkuFilterBean skuFilterBean;
     private SkuFilterBean skuFilterBeanCache;
-    private List<GoodsFilterBean.FilterTheme> themeList;
+    private ArrayList<GoodsFilterBean.FilterTheme> themeList;
+    private String dayTypes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +66,11 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
         skuFilterBean = new SkuFilterBean();
         skuFilterBeanCache = new SkuFilterBean();
         updateThemeViews(themeList);
+        if (skuFilterBean != null) {
+            skuFilterBean.themeList = themeList;
+            skuFilterBeanCache.themeList = themeList;
+        }
+        setDayTypes(dayTypes);
     }
 
     @OnClick({R.id.sku_filter_scope_outside_layout})
@@ -102,8 +109,6 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sku_filter_reset_tv:
-                skuFilterBeanCache.themeList.clear();
-                skuFilterBeanCache.themeList.addAll(themeTagGroup.getThemeList());
                 skuFilterBean.reset();
                 updateUI(skuFilterBean);
                 skuFilterBean.isSave = false;
@@ -112,7 +117,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
                 skuFilterBean.themeList = themeTagGroup.getThemeList();
                 skuFilterBeanCache = (SkuFilterBean) skuFilterBean.clone();
                 skuFilterBean.isSave = true;
-                EventBus.getDefault().post(new EventAction(EventType.SKU_FILTER_SCOPE, skuFilterBean));
+                EventBus.getDefault().post(new EventAction(EventType.SKU_FILTER_SCOPE, skuFilterBeanCache));
                 break;
         }
     }
@@ -129,7 +134,6 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
     }
 
     public void resetCacheFilter() {
-        updateUI(skuFilterBean);
         if (!skuFilterBean.isSave) {
             skuFilterBean = (SkuFilterBean) skuFilterBeanCache.clone();
             updateUI(skuFilterBean);
@@ -143,15 +147,47 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
         updateThemeViews(skuFilterBean.themeList);
     }
 
-    public void setThemeList(List<GoodsFilterBean.FilterTheme> themeList) {
+    public void setThemeList(ArrayList<GoodsFilterBean.FilterTheme> themeList) {
         if (themeTitleTV != null) {
             updateThemeViews(themeList);
+            if (skuFilterBean != null) {
+                skuFilterBean.themeList = themeList;
+                skuFilterBeanCache.themeList = themeList;
+            }
         } else {
             this.themeList = themeList;
         }
     }
 
-    public void updateThemeViews(List<GoodsFilterBean.FilterTheme> _themeList) {
+    public void setDayTypes(String dayTypes) {
+        if (themeTitleTV != null) {
+            updateDayTypeViews(dayTypes);
+        } else {
+            this.dayTypes = dayTypes;
+        }
+    }
+
+    public void updateDayTypeViews(String dayTypes) {
+        if (TextUtils.isEmpty(dayTypes)) {
+            return;
+        }
+        String[] dayType = dayTypes.split(",");
+        for (int i = 0; i < dayType.length; i++) {
+            if ("1".equals(dayType[i])) {
+                skuFilterBean.dayOne = true;
+                skuFilterBeanCache.dayOne = true;
+            } else if ("2".equals(dayType[i])) {
+                skuFilterBean.dayTwo = true;
+                skuFilterBeanCache.dayTwo = true;
+            } else if ("-1".equals(dayType[i])) {
+                skuFilterBean.dayMulti = true;
+                skuFilterBeanCache.dayTwo = true;
+            }
+        }
+        updateUI(skuFilterBean);
+    }
+
+    public void updateThemeViews(ArrayList<GoodsFilterBean.FilterTheme> _themeList) {
         if (_themeList != null && _themeList.size() > 0) {
             themeTitleTV.setVisibility(View.VISIBLE);
             lineView.setVisibility(View.VISIBLE);
@@ -162,10 +198,6 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
             themeTagGroup.setVisibility(View.GONE);
         }
         themeTagGroup.setThemeData(_themeList);
-        if (skuFilterBean != null) {
-            skuFilterBean.themeList = _themeList;
-            skuFilterBeanCache.themeList = _themeList;
-        }
     }
 
     public static class SkuFilterBean implements Serializable, Cloneable {
@@ -173,7 +205,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
         public boolean dayOne;
         public boolean dayTwo;
         public boolean dayMulti;
-        public List<GoodsFilterBean.FilterTheme> themeList;
+        public ArrayList<GoodsFilterBean.FilterTheme> themeList;
 
         public boolean isInitial = true;
         public boolean isSave = false;
@@ -221,26 +253,54 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
             SkuFilterBean skuFilterBean = null;
             try {
                 skuFilterBean = (SkuFilterBean) super.clone();
+                skuFilterBean.themeList = new ArrayList<>();
+                int size = themeList.size();
+                for (int i = 0; i < size; i++) {
+                    skuFilterBean.themeList.add((GoodsFilterBean.FilterTheme)themeList.get(i).clone());
+                }
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
             return skuFilterBean;
         }
 
-//        public String getRequestTagIds() {
-//            if (selectedTagIds == null) {
-//                return null;
-//            }
-//            String result = "";
-//            final int size = selectedTagIds.size();
-//            for (int i = 0; i < size; i++) {
-//                result += selectedTagIds.get(i);
-//                if (i <= size - 1) {
-//                    result += ",";
-//                }
-//            }
-//            return result;
-//        }
+        public String getDayTypeParams() {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (dayOne) {
+                stringBuilder.append("1");
+            }
+            if (dayTwo) {
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.append(",");
+                }
+                stringBuilder.append("2");
+            }
+            if (dayMulti) {
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.append(",");
+                }
+                stringBuilder.append("-1");
+            }
+            return stringBuilder.toString();
+        }
+
+        public String getThemeIds() {
+            if (themeList == null) {
+                return null;
+            }
+            String result = "";
+            final int size = themeList.size();
+            for (int i = 0; i < size; i++) {
+                if (!themeList.get(i).isSelected) {
+                    continue;
+                }
+                if (!TextUtils.isEmpty(result)) {
+                    result += ",";
+                }
+                result += themeList.get(i).themeId;
+            }
+            return result;
+        }
     }
 
 }

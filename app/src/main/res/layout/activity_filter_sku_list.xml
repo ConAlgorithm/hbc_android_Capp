@@ -28,11 +28,11 @@
         android:id="@+id/filter_sku_list_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/filter_sku_list_filter_layout"
-        android:gravity="center_horizontal"
-        android:visibility="gone"
         android:background="@color/default_bg"
-        android:orientation="vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_below="@id/filter_sku_list_titlebar"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/filter_sku_list_empty_iv"
@@ -51,5 +51,34 @@
             android:text="似乎与网络断开，点击屏幕重试"
             android:textColor="#a8a8a8"
             android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/filter_sku_list_empty_charter_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="试试"
+                android:textColor="#a8a8a8"
+                android:textSize="13sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="按天包车游"
+                android:textColor="#ffc110"
+                android:textSize="13sp" />
+            <ImageView
+                android:layout_marginLeft="3dp"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@mipmap/sku_arrow_yellow" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
