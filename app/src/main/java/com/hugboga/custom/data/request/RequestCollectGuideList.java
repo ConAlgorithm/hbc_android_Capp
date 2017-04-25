@@ -5,9 +5,12 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.CollectGuideNewBean;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.data.parser.ParserCollectGuideList;
 
 import org.xutils.http.HttpMethod;
@@ -20,7 +23,7 @@ import java.util.HashMap;
  * Created by qingcha on 16/5/23.
  */
 @HttpRequest(path = UrlLibs.COLLECT_GUIDES_LIST, builder = NewParamsBuilder.class)
-public class RequestCollectGuideList extends BaseRequest<ParserCollectGuideList.CollectGuideList> {
+public class RequestCollectGuideList extends BaseRequest<CollectGuideNewBean> {
     public RequestCollectGuideList(Context context, int offset) {
         super(context);
         map = new HashMap<String, Object>();
@@ -32,7 +35,7 @@ public class RequestCollectGuideList extends BaseRequest<ParserCollectGuideList.
 
     @Override
     public ImplParser getParser() {
-        return new ParserCollectGuideList();
+        return new HbcParser(UrlLibs.COLLECT_GUIDES_LIST, CollectGuideNewBean.class);
     }
 
     @Override

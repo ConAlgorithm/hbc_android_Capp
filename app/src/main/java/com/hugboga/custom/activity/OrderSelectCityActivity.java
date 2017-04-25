@@ -6,15 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +24,6 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.OrderSelectCityAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -38,9 +33,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
 import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
@@ -49,10 +42,8 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.DBCityUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
@@ -62,23 +53,18 @@ import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,7 +72,6 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
 import static android.view.View.GONE;
-import static com.huangbaoche.hbcframe.fragment.BaseFragment.KEY_FRAGMENT_NAME;
 import static com.hugboga.custom.R.id.baggage_text_click;
 import static com.hugboga.custom.R.id.people_text_click;
 import static com.hugboga.custom.R.id.start_city_click;
@@ -760,28 +745,28 @@ public class OrderSelectCityActivity extends BaseActivity {
         } else {
             if (checkParams()) {
                 if (UserEntity.getUser().isLogin(activity)) {
-                    Bundle bundle = new Bundle();
-                    RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
-                    params.startCityId = startBean.cityId;
-                    params.startTime = isHalfTravel ? halfDate + " " + serverTime + ":00" : start_date_str + " " + serverTime + ":00";
-
-                    String end_time = (isHalfTravel ? halfDate : end_date_str) + " " + serverTime + ":00";
-                    if ("00:00".equalsIgnoreCase(serverTime)) {
-                        end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
-                    }
-                    params.endTime = end_time;
-                    params.adultNum = manNum;
-                    params.childrenNum = childNum;
-                    params.childSeatNum = childSeatNums;
-                    params.luggageNum = baggageNum;
-                    params.orderType = 3;
-                    params.totalDays = isHalfTravel ? 1 : nums;
-                    params.passCityId = startBean.cityId + "";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
-                    bundle.putSerializable(Constants.PARAMS_DATA, params);
-                    Intent intent = new Intent(this, CollectGuideListActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE,"包车下单选择司导");
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+//                    Bundle bundle = new Bundle();
+//                    RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+//                    params.startCityId = startBean.cityId;
+//                    params.startTime = isHalfTravel ? halfDate + " " + serverTime + ":00" : start_date_str + " " + serverTime + ":00";
+//
+//                    String end_time = (isHalfTravel ? halfDate : end_date_str) + " " + serverTime + ":00";
+//                    if ("00:00".equalsIgnoreCase(serverTime)) {
+//                        end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
+//                    }
+//                    params.endTime = end_time;
+//                    params.adultNum = manNum;
+//                    params.childrenNum = childNum;
+//                    params.childSeatNum = childSeatNums;
+//                    params.luggageNum = baggageNum;
+//                    params.orderType = 3;
+//                    params.totalDays = isHalfTravel ? 1 : nums;
+//                    params.passCityId = startBean.cityId + "";//isHalfTravel ? startBean.cityId + "" : getPassCitiesId();
+//                    bundle.putSerializable(Constants.PARAMS_DATA, params);
+//                    Intent intent = new Intent(this, CollectGuideListActivity.class);
+//                    intent.putExtra(Constants.PARAMS_SOURCE,"包车下单选择司导");
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(activity, LoginActivity.class);
                     intent.putExtra("source", getEventSource());

@@ -265,6 +265,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
             int offset = _request.getOffset();
             if (offset == 0 && (goodsFilterBean == null || goodsFilterBean.listData == null || goodsFilterBean.listCount <= 0)) {
                 setEmptyLayout(true, true);
+                return;
             } else {
                 setEmptyLayout(false, true);
             }

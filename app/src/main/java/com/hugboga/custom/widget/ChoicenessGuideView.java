@@ -120,38 +120,33 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         });
     }
 
-    private void setTag(String tagsStr) {
-        if (TextUtils.isEmpty(tagsStr)) {
+    private void setTag(ArrayList<String> skillLabelNames) {
+        if (skillLabelNames == null || skillLabelNames.size() == 0) {
             tagGroup.setVisibility(View.GONE);
             return;
         }
-        String[] tagList = tagsStr.split(",");
-        if (tagList != null && tagList.length > 0) {
-            tagGroup.setVisibility(View.VISIBLE);
-            final int labelsSize = tagList.length;
-            ArrayList<View> viewList = new ArrayList<View>(labelsSize);
-            for (int i = 0; i < labelsSize; i++) {
-                String tag = tagList[i];
-                if (TextUtils.isEmpty(tag) || TextUtils.isEmpty(tag.trim())) {
-                    continue;
-                }
-                tag = tag.trim();
-                if (i < tagGroup.getChildCount()) {
-                    LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
-                    tagLayout.setVisibility(View.VISIBLE);
-                    TextView tagTV = (TextView)tagLayout.findViewWithTag("tagTV");
-                    tagTV.setText(tag);
-                } else {
-                    viewList.add(getNewTagView(tag));
-                }
+        tagGroup.setVisibility(View.VISIBLE);
+        final int labelsSize = skillLabelNames.size() > 5 ? 5 : skillLabelNames.size();
+        ArrayList<View> viewList = new ArrayList<View>(labelsSize);
+        for (int i = 0; i < labelsSize; i++) {
+            String tag = skillLabelNames.get(i);
+            if (TextUtils.isEmpty(tag) || TextUtils.isEmpty(tag.trim())) {
+                continue;
             }
-            for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
-                tagGroup.getChildAt(j).setVisibility(View.GONE);
+            tag = tag.trim();
+            if (i < tagGroup.getChildCount()) {
+                LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
+                tagLayout.setVisibility(View.VISIBLE);
+                TextView tagTV = (TextView)tagLayout.findViewWithTag("tagTV");
+                tagTV.setText(tag);
+            } else {
+                viewList.add(getNewTagView(tag));
             }
-            tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
-        } else {
-            tagGroup.setVisibility(View.GONE);
         }
+        for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
+            tagGroup.getChildAt(j).setVisibility(View.GONE);
+        }
+        tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
     }
 
     private LinearLayout getNewTagView(String label) {

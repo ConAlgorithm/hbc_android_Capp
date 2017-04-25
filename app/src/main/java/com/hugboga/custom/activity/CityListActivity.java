@@ -30,9 +30,6 @@ import java.io.Serializable;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by qingcha on 17/4/14.
- */
 public class CityListActivity extends BaseActivity{
 
     public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数

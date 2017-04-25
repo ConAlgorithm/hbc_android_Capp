@@ -38,7 +38,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCars;
-import com.hugboga.custom.data.request.RequestCollectGuidesFilter;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -562,34 +561,34 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             }
 
             man_luggage_layout.setVisibility(View.VISIBLE);
-            driverName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TextUtils.isEmpty(startTime)) {
-                        AlertDialogUtils.showAlertDialogOneBtn(getActivity(), getString(R.string.dairy_choose_guide), "好的");
-                    } else {
-                        Bundle bundle = new Bundle();
-                        RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
-                        params.startCityId = cityId;
-                        params.startTime = startTime;
-                        params.endTime = endTime;
-                        params.childrenNum = 0;
-                        params.orderType = orderType;
-                        params.totalDays = 1;
-                        params.passCityId = cityId + "";
-                        bundle.putSerializable(Constants.PARAMS_DATA, params);
-                        bundle.putString(Constants.PARAMS_SOURCE, source);
-                        if (guideCarList != null && guideCarList.size() > currentIndex && guideCarList.get(currentIndex) != null) {
-                            params.adultNum = guideCarList.get(currentIndex).capOfPerson;
-                            params.childSeatNum = guideCarList.get(currentIndex).carSeat;
-                            params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
-                        }
-                        Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                }
-            });
+//            driverName.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (TextUtils.isEmpty(startTime)) {
+//                        AlertDialogUtils.showAlertDialogOneBtn(getActivity(), getString(R.string.dairy_choose_guide), "好的");
+//                    } else {
+//                        Bundle bundle = new Bundle();
+//                        RequestCollectGuidesFilter.CollectGuidesFilterParams params = new RequestCollectGuidesFilter.CollectGuidesFilterParams();
+//                        params.startCityId = cityId;
+//                        params.startTime = startTime;
+//                        params.endTime = endTime;
+//                        params.childrenNum = 0;
+//                        params.orderType = orderType;
+//                        params.totalDays = 1;
+//                        params.passCityId = cityId + "";
+//                        bundle.putSerializable(Constants.PARAMS_DATA, params);
+//                        bundle.putString(Constants.PARAMS_SOURCE, source);
+//                        if (guideCarList != null && guideCarList.size() > currentIndex && guideCarList.get(currentIndex) != null) {
+//                            params.adultNum = guideCarList.get(currentIndex).capOfPerson;
+//                            params.childSeatNum = guideCarList.get(currentIndex).carSeat;
+//                            params.luggageNum = guideCarList.get(currentIndex).capOfLuggage;
+//                        }
+//                        Intent intent = new Intent(v.getContext(), CollectGuideListActivity.class);
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//                    }
+//                }
+//            });
             if (null != carListBean) {
                 genData();
             }

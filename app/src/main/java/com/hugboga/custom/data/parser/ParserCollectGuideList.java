@@ -12,9 +12,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by qingcha on 16/5/23.
- */
 public class ParserCollectGuideList extends ImplParser {
 
     @Override
