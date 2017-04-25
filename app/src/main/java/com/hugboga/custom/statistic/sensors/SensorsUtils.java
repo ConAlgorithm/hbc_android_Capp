@@ -35,7 +35,7 @@ public class SensorsUtils {
                     break;
                 case 3:
                 case 888:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     break;
                 case 4:
                     skuType = "单次接送";
@@ -76,7 +76,7 @@ public class SensorsUtils {
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     break;
                 case 4:
                     skuType = "单次接送";

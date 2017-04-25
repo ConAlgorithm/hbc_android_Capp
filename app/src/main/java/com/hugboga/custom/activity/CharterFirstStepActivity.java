@@ -407,7 +407,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private void setSensorsConfirmEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_is_appoint_guide", guidesDetailData != null ? true : false);// 指定司导下单
             properties.put("hbc_adultNum", countLayout.getAdultValue());// 出行成人数
             properties.put("hbc_childNum", countLayout.getChildValue());// 出行儿童数
@@ -426,7 +426,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

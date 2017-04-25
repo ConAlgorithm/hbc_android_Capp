@@ -182,7 +182,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     break;
                 case Constants.BUSINESS_TYPE_DAILY://日租 包车游
-                    vh.mTypeStr.setText("定制包车游");
+                    vh.mTypeStr.setText("按天包车游");
                     if (orderBean.isHalfDaily == 1) {//半日包
                         vh.timeTV.setText(orderBean.serviceTime + " 半天");
                     } else {
@@ -231,7 +231,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     break;
                 case Constants.BUSINESS_TYPE_COMBINATION://组合单
-                    vh.mTypeStr.setText("定制包车游");
+                    vh.mTypeStr.setText("按天包车游");
                     vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
                     vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
 

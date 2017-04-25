@@ -817,7 +817,7 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     private void setSensorsConfirmEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_is_appoint_guide", TextUtils.isEmpty(guideId) ? false : true);// 指定司导下单
             properties.put("hbc_adultNum", CommonUtils.getCountInteger(adultNum));// 出行成人数
             properties.put("hbc_childNum", CommonUtils.getCountInteger(childrenNum));// 出行儿童数

@@ -387,7 +387,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 result = "中文送机";
                 break;
             case 3:
-                result = "定制包车游";
+                result = "按天包车游";
                 break;
             case 4:
                 result = "单次接送";

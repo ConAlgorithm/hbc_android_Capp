@@ -91,7 +91,7 @@
                             android:id="@+id/home_chater_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="定制包车游"
+                            android:text="按天包车游"
                             android:textColor="@color/common_font_color_black"
                             android:textSize="16sp" />
 
@@ -194,7 +194,7 @@
                 android:layout_marginBottom="12dp"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/home_wish_arrow"
-                android:text="找司导助手实现旅行心愿"
+                android:text="找司导助手帮您规划行程"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 

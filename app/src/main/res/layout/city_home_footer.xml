@@ -84,7 +84,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_marginTop="15dp"
-                android:text="定制包车游"
+                android:text="按天包车游"
                 android:textSize="13sp"
                 android:textColor="#828282"
                 />

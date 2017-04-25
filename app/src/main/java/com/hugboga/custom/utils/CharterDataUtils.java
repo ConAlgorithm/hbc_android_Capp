@@ -488,7 +488,7 @@ public class CharterDataUtils {
     public void setSensorsConfirmEvent(Context context) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_is_appoint_guide", guidesDetailData == null ? false : true);// 指定司导下单
             properties.put("hbc_adultNum", adultCount);// 出行成人数
             properties.put("hbc_childNum", childCount);// 出行儿童数

@@ -446,7 +446,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     break;
                 case 4:
