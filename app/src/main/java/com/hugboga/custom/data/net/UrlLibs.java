@@ -247,7 +247,7 @@ public class UrlLibs {
     public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132
     public static final String API_TRAVEL_STORYS            = "basicdata/v1.0/c/home/storys";                           // 司导故事列表     request code 133
-    public static final String API_HOME                     = "basicdata/v1.1/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.2/c/home/aggregation";                      // 首页城市卡片列表
 
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 

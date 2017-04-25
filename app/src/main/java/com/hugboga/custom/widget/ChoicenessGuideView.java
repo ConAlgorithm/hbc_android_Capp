@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.constants.Constants;
@@ -41,6 +42,11 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     TagGroup tagGroup;
     @Bind(R.id.choiceness_guide_service_type_tv)
     TextView serviceTypeTV;
+
+    @Bind(R.id.choiceness_guide_city_iv)
+    ImageView cityIV;
+    @Bind(R.id.choiceness_guide_city_tv)
+    TextView cityTV;
 
     public ChoicenessGuideView(Context context) {
         this(context, null);
@@ -84,6 +90,15 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         }
         nameTV.setText(data.guideName);
         setTag(data.skillLabelNames);
+
+        if (!TextUtils.isEmpty(data.cityName) && getContext() instanceof MainActivity) {
+            cityIV.setVisibility(View.VISIBLE);
+            cityTV.setVisibility(View.VISIBLE);
+            cityTV.setText(data.cityName);
+        } else {
+            cityIV.setVisibility(View.GONE);
+            cityTV.setVisibility(View.GONE);
+        }
 
         String serviceType = data.getServiceType();
         if (TextUtils.isEmpty(serviceType)) {

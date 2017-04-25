@@ -153,7 +153,15 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
-
+        SkuItemBean skuItemBean = listData.get(position);
+        Intent intent = new Intent(FilterSkuListActivity.this, SkuDetailActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
+        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+        intent.putExtra("goodtype",skuItemBean.goodsType);
+        intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
+        intent.putExtra("type", 1);
+        startActivity(intent);
     }
 
     @Subscribe

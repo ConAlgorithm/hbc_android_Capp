@@ -14,7 +14,8 @@ public class HomeBeanV2 implements Serializable {
     public HomeHeaderInfo headAggVo; //首页头部信息
     public HotExplorationAggregation hotExplorationAggVo; //热门探索
     public DestinationAggregation destinationAggVo; //目的地
-    public TravelStoryAggregation storyAggVo; // 旅行故事
+    public ArrayList<FilterGuideBean> qualityGuides; //旅行故事
+
 
     /**
      * 首页头部信息

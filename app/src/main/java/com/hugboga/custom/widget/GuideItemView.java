@@ -104,7 +104,7 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
         setTag(data.skillLabelNames);
 
-        if (TextUtils.isEmpty(data.homeDesc)) {
+        if (TextUtils.isEmpty(data.homeDesc) || TextUtils.isEmpty(data.homeDesc.trim())) {
             descTV.setVisibility(View.GONE);
         } else {
             descTV.setVisibility(View.VISIBLE);
