@@ -109,6 +109,10 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         }
     }
 
+    public void sendRequest() {
+        requestData(new RequestGuideExtinfo(GuideWebDetailActivity.this, paramsData.guideId), false);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -124,6 +128,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 loadUrl();
+                sendRequest();
                 break;
         }
     }
@@ -158,8 +163,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         loadUrl();
 
-        requestData(new RequestGuideExtinfo(GuideWebDetailActivity.this, paramsData.guideId), false);
-
+        sendRequest();
     }
 
     public String loadUrl() {
