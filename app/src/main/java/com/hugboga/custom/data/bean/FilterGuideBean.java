@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by qingcha on 17/4/19.
@@ -21,7 +22,7 @@ public class FilterGuideBean implements Serializable{
     public int completeOrderNum;        // 服务完成订单数
     public int commentNum;              // 评论数
     public double serviceStar;          // 星级分数
-    public String skillLabelNames;      // 特殊技能标签,(多个逗号隔开)
+    public ArrayList<String> skillLabelNames;// 特殊技能标签
     public String homeDesc;             // 司导个人简介
     public String serviceTypes;         // 提供的服务,(服务标识，逗号隔开)
     public int isQuality;               // 是否优质司导, 1-是，0-否

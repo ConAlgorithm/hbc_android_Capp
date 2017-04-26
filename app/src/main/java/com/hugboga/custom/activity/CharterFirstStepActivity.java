@@ -85,12 +85,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
             startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
@@ -114,7 +114,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (guidesDetailData != null) {
-            outState.putSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+            outState.putSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
         }
         if (startBean != null) {
             outState.putSerializable(Constants.PARAMS_START_CITY_BEAN, startBean);
@@ -407,7 +407,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private void setSensorsConfirmEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_is_appoint_guide", guidesDetailData != null ? true : false);// 指定司导下单
             properties.put("hbc_adultNum", countLayout.getAdultValue());// 出行成人数
             properties.put("hbc_childNum", countLayout.getChildValue());// 出行儿童数
@@ -426,7 +426,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

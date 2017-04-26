@@ -13,13 +13,11 @@ import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.models.CityListHotModel;
-import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CityListHotView;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.HotLinesItemView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,7 +44,7 @@ public class CityListHotAdapter extends RecyclerView.Adapter<CityListHotAdapter.
         this.displayImgHeight = displayImgHeight;
     }
 
-    public void setData(ArrayList<SkuItemBean> _itemList) {
+    public void setData(List<SkuItemBean> _itemList) {
         this.itemList = _itemList;
         notifyDataSetChanged();
     }
@@ -88,10 +86,10 @@ public class CityListHotAdapter extends RecyclerView.Adapter<CityListHotAdapter.
                         params.titleName = paramsData.titleName;
                     }
                     switch (type) {
-                        case CityListHotModel.TYPE_DEEP://2天以上行程
+                        case CityListHotView.TYPE_DEEP://2天以上行程
                             params.days = "-1";
                             break;
-                        case CityListHotModel.TYPE_SHORT://1或2天行程
+                        case CityListHotView.TYPE_SHORT://1或2天行程
                             params.days = "1,2";
                             break;
                     }

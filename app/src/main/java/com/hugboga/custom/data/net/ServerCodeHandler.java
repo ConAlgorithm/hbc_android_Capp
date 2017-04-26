@@ -127,15 +127,20 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 return true;
             case 89932://固定线路下单 价格变更
             case 89933://固定线路下单 商品数量变更
-                AlertDialogUtils.showAlertDialog(mContext, "提示", content, "我知道了", new DialogInterface.OnClickListener() {
-
+            case 300028://超过了验价有效期
+                AlertDialogUtils.showAlertDialog(mContext, content, "刷新", "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EventBus.getDefault().post(new EventAction(EventType.SKU_ORDER_REFRESH));
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
                 return true;
-
         }
         return false;
     }

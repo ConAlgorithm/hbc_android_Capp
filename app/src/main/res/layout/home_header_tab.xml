@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="司导故事"
+                android:text="精选司导"
                 android:textColor="@color/common_font_color_black"
                 android:textSize="13sp" />
 

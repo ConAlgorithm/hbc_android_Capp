@@ -49,7 +49,7 @@ public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
             priceTV.setTextSize(14);
 
             ProductDetail.Builder builder = new ProductDetail.Builder();
-            builder.setTitle("定制包车游");
+            builder.setTitle("按天包车游");
             builder.setPicture("http://fr.huangbaoche.com/default/dingzhi.png");
             builder.setDesc(title);
             builder.setShow(1);

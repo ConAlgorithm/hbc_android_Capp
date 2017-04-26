@@ -80,6 +80,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 batchPrice.index = index;
                 if (charterDataUtils.guidesDetailData != null) {
                     airportParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                    airportParam.premiumMark = charterDataUtils.guidesDetailData.isQuality;
                 }
                 batchPriceList.add(batchPrice);
                 fitstOrderGoodsType = 1;
@@ -92,6 +93,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 sendParam.endLocation = charterDataUtils.airPortBean.location;
                 if (charterDataUtils.guidesDetailData != null) {
                     sendParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                    sendParam.premiumMark = charterDataUtils.guidesDetailData.isQuality;
                 }
                 BatchPrice batchPrice = new BatchPrice();
                 batchPrice.param = sendParam;
@@ -168,6 +170,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     dailyPriceParam.endDate = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, i) + " " + CombinationOrderActivity.SERVER_TIME_END;
                     if (charterDataUtils.guidesDetailData != null) {
                         dailyPriceParam.carIds = charterDataUtils.guidesDetailData.getCarIds();
+                        dailyPriceParam.premiumMark = charterDataUtils.guidesDetailData.isQuality;
                     }
 
                     BatchPrice batchPrice = new BatchPrice();
@@ -248,11 +251,13 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         public String carIds;               // 否 车型列表 格式 车型ID,车型ID  e.g: 100005,200005
         public int source = 1;              // 来源
         public int specialCarsIncluded = 1; // 是否包含特殊车型,默认不包含1.包含 0.不包含 写死为1
+        public int premiumMark = 0;
     }
 
     public static class DailyPriceParam implements Serializable {
         public Long channelId = 18l;                 // 渠道ID
         public String carIds;                        // 否 指定报价车型 格式：车型ID,车型ID
+        public int premiumMark = 0;
         public int specialCarsIncluded = 1;          // 是否包含特殊车型 0.不包含 1.包含 默认不包含 写死为1
         public int startCityId;                      // 出发城市ID
         public int endCityId;                        // 结束城市ID

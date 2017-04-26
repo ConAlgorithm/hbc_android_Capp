@@ -148,8 +148,7 @@ public class UrlLibs {
     public static final String WECHAT_BIND_MOBILE           = SERVER_IP_PUBLIC_UER_CENTER + "wechat/bind/mobile?";           // 微信绑定手机号
     public static final String WECHAT_AFTER_SET_PASSWORD    = SERVER_IP_PUBLIC_UER_CENTER + "wechat/update/password?";       // 微信跳过后再绑定手机设置密码
 
-    public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.1/c/favorite/guides";                         // 收藏的司导列表
-    public static final String COLLECT_GUIDES_FILTER        = "ucenter/v1.1/c/favorite/guides/filter";                  // 过滤用户收藏的司导
+    public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.2/c/favorite/guides";                         // 收藏的司导列表
     public static final String COLLECT_GUIDES_ID            = "ucenter/v1.0/c/userid/favorite/guide";                   // 收藏司导（司导ID）
     public static final String UNCOLLECT_GUIDES_ID          = "ucenter/v1.0/c/userid/unfavor/guide";                    // 取消收藏司导（司导ID）
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
@@ -247,7 +246,7 @@ public class UrlLibs {
     public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132
     public static final String API_TRAVEL_STORYS            = "basicdata/v1.0/c/home/storys";                           // 司导故事列表     request code 133
-    public static final String API_HOME                     = "basicdata/v1.1/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.2/c/home/aggregation";                      // 首页城市卡片列表
 
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 

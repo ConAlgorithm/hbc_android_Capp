@@ -368,7 +368,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         super.onDataRequestError(errorInfo, request);
         if (request instanceof RequestPriceSku) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服帮您下单";
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n我们会协助您完成预订";
             checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
             return;
         }
@@ -732,7 +732,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     break;
                 case 4:

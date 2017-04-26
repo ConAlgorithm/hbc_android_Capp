@@ -49,6 +49,7 @@
             android:src="@mipmap/ente_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/driver_line"
             android:layout_centerVertical="true"/>

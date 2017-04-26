@@ -5,21 +5,20 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +40,11 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     TagGroup tagGroup;
     @Bind(R.id.choiceness_guide_service_type_tv)
     TextView serviceTypeTV;
+
+    @Bind(R.id.choiceness_guide_city_iv)
+    ImageView cityIV;
+    @Bind(R.id.choiceness_guide_city_tv)
+    TextView cityTV;
 
     public ChoicenessGuideView(Context context) {
         this(context, null);
@@ -83,7 +87,16 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             levelTV.setTextColor(0xFFF9B900);
         }
         nameTV.setText(data.guideName);
-        setTag(data.skillLabelNames);
+        GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
+
+        if (!TextUtils.isEmpty(data.cityName) && getContext() instanceof MainActivity) {
+            cityIV.setVisibility(View.VISIBLE);
+            cityTV.setVisibility(View.VISIBLE);
+            cityTV.setText(data.cityName);
+        } else {
+            cityIV.setVisibility(View.GONE);
+            cityTV.setVisibility(View.GONE);
+        }
 
         String serviceType = data.getServiceType();
         if (TextUtils.isEmpty(serviceType)) {
@@ -104,62 +117,4 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             }
         });
     }
-
-    private void setTag(String tagsStr) {
-        if (TextUtils.isEmpty(tagsStr)) {
-            tagGroup.setVisibility(View.GONE);
-            return;
-        }
-        String[] tagList = tagsStr.split(",");
-        if (tagList != null && tagList.length > 0) {
-            tagGroup.setVisibility(View.VISIBLE);
-            final int labelsSize = tagList.length;
-            ArrayList<View> viewList = new ArrayList<View>(labelsSize);
-            for (int i = 0; i < labelsSize; i++) {
-                String tag = tagList[i];
-                if (TextUtils.isEmpty(tag) || TextUtils.isEmpty(tag.trim())) {
-                    continue;
-                }
-                tag = tag.trim();
-                if (i < tagGroup.getChildCount()) {
-                    LinearLayout tagLayout = (LinearLayout)tagGroup.getChildAt(i);
-                    tagLayout.setVisibility(View.VISIBLE);
-                    TextView tagTV = (TextView)tagLayout.findViewWithTag("tagTV");
-                    tagTV.setText(tag);
-                } else {
-                    viewList.add(getNewTagView(tag));
-                }
-            }
-            for (int j = labelsSize; j < tagGroup.getChildCount(); j++) {
-                tagGroup.getChildAt(j).setVisibility(View.GONE);
-            }
-            tagGroup.setTags(viewList, tagGroup.getChildCount() <= 0);
-        } else {
-            tagGroup.setVisibility(View.GONE);
-        }
-    }
-
-    private LinearLayout getNewTagView(String label) {
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-        ImageView imageView = new ImageView(getContext());
-        imageView.setBackgroundResource(R.mipmap.personal_label);
-        linearLayout.addView(imageView);
-        imageView.getLayoutParams().height = UIUtils.dip2px(12);
-        imageView.getLayoutParams().width = UIUtils.dip2px(12);
-
-        TextView tagTV = new TextView(getContext());
-        tagTV.setPadding(UIUtils.dip2px(2), 0, 0, UIUtils.dip2px(3));
-        tagTV.setTextSize(13);
-        tagTV.setTextColor(0xFFF9B900);
-        tagTV.setEnabled(false);
-        tagTV.setText(label);
-        tagTV.setTag("tagTV");
-        linearLayout.addView(tagTV);
-
-        return linearLayout;
-    }
-
 }

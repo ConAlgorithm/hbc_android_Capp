@@ -30,9 +30,6 @@ import java.io.Serializable;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by qingcha on 17/4/14.
- */
 public class CityListActivity extends BaseActivity{
 
     public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
@@ -124,6 +121,7 @@ public class CityListActivity extends BaseActivity{
     public void initView() {
         initTitleBar();
         cityListAdapter = new CityListAdapter();
+        cityListAdapter.setData(paramsData);
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -224,9 +222,9 @@ public class CityListActivity extends BaseActivity{
             CountryGroupBean countryGroupBean = ((RequestCountryGroup) _request).getData();
             cityListAdapter.setCountryGroupData(countryGroupBean);
             requestGuideList();
-        } else if(_request instanceof RequestFilterGuide) {
+        } else if (_request instanceof RequestFilterGuide) {
             setEmptyLayout(false, true);
-            FilterGuideListBean filterGuideListBean  = ((RequestFilterGuide) _request).getData();
+            FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
             cityListAdapter.setGuideListData(filterGuideListBean.listData);
         }
     }

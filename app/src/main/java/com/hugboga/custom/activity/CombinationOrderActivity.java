@@ -329,7 +329,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         super.onDataRequestError(errorInfo, request);
         if (request instanceof RequestBatchPrice) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服帮您下单";
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服，我们会协助您完成预订";
             checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
             return;
         }

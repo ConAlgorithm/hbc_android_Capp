@@ -40,6 +40,8 @@ public class GuidesDetailData implements Serializable {
     public ArrayList<GuideCarBean> guideCars;       // 车辆信息
     public int guideCarCount;                       // 车辆数
 
+    public int isQuality;                           // 是否优质司导, 1-是，0-否
+
     public static class CommentLabel implements Serializable {
         public int labelCount;      // 评价次数
         public int labelId;         // 标签id

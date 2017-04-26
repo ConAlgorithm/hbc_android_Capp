@@ -17,7 +17,7 @@ public class RequestCheckPrice extends BaseRequest {
     private int orderType;
 
     public RequestCheckPrice(Context context, int orderType, String airportCode, Integer cityId,
-                             String startLocation, String endLocation, String date,String carIds) {
+                             String startLocation, String endLocation, String date,String carIds,int premiumMark) {
         super(context);
         map = new HashMap<String, Object>();
         this.orderType = orderType;
@@ -33,6 +33,7 @@ public class RequestCheckPrice extends BaseRequest {
             map.put("assitCheckIn", 1);
             if(null != carIds) {
                 map.put("carIds", carIds);
+                map.put("premiumMark", premiumMark);// 优质司导溢价标记 1.溢价 0.不溢价
             }
 
         } catch (Exception e) {

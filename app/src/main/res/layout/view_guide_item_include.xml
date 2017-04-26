@@ -12,6 +12,7 @@
         android:background="@color/default_dividing_line" />
 
     <ImageView
+        android:id="@+id/guide_item_include_disable_iv"
         android:layout_width="60dp"
         android:layout_height="47dp"
         android:visibility="gone"
@@ -59,7 +60,7 @@
         android:layout_height="14dp"
         android:layout_alignTop="@id/guide_item_include_name_tv"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="3.5dp"
         android:layout_toRightOf="@id/guide_item_include_name_tv"
         android:background="@mipmap/city_location" />
 
@@ -67,8 +68,8 @@
         android:id="@+id/guide_item_include_city_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/guide_item_include_city_iv"
-        android:layout_marginTop="-2.8dp"
+        android:layout_alignTop="@id/guide_item_include_name_tv"
+        android:layout_marginTop="1.5dp"
         android:layout_toRightOf="@id/guide_item_include_city_iv"
         android:ellipsize="end"
         android:paddingRight="10dp"

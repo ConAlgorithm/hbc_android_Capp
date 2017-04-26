@@ -35,6 +35,8 @@ public class CollectGuideBean implements Serializable {
     public String carLicenceNo;                 //车牌号
     public String carLicenceNoCovered;          //车牌号遮盖
 
+    public int isQuality;                       //是否优质司导, 1-是，0-否
+
     /**
      * 判断可预约状态 1.可预约(true)、0.不可预约
      * */

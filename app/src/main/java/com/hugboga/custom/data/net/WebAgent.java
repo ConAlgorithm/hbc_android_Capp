@@ -26,6 +26,7 @@ import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
@@ -37,6 +38,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -678,6 +680,7 @@ public class WebAgent implements HttpRequestListener {
                 collectBean.guideId = data.guideId;
                 collectBean.name = data.guideName;
                 collectBean.cityName = data.guideCityName;
+                collectBean.isQuality = data.isQuality;
                 Intent intent = null;
                 switch (data.orderType) {
                     case 1://1：接送机
@@ -693,8 +696,16 @@ public class WebAgent implements HttpRequestListener {
                         mActivity.startActivity(intent);
                         break;
                     case 3://3：包车
+                        GuidesDetailData guidesDetailData = new GuidesDetailData();
+                        guidesDetailData.guideId = data.guideId;
+                        guidesDetailData.guideName = data.guideName;
+                        guidesDetailData.avatar = data.guideAvatar;
+                        guidesDetailData.countryName = data.guideCountryName;
+                        guidesDetailData.cityId = CommonUtils.getCountInteger(data.guideCityId);
+                        guidesDetailData.cityName = data.guideCityName;
+                        guidesDetailData.isQuality = data.isQuality;
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);
-                        intent.putExtra("guidesDetailData", collectBean);
+                        intent.putExtra(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;

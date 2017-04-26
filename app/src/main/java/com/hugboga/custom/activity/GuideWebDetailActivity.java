@@ -59,6 +59,8 @@ import butterknife.OnClick;
 
 public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
+    public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
+
     @Bind(R.id.titlebar_detail_right_1_btn)
     ImageView collectIV;
     @Bind(R.id.titlebar_detail_right_2_btn)
@@ -78,11 +80,8 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     public static class Params implements Serializable {
         public String guideId;
-        public String canService = "1";
-    }
-
-    public boolean isCanService() {
-        return "1".equals(paramsData.canService);
+        public boolean canService = true;
+        public boolean canCollect = true;
     }
 
     @Override
@@ -110,6 +109,10 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         }
     }
 
+    public void sendRequest() {
+        requestData(new RequestGuideExtinfo(GuideWebDetailActivity.this, paramsData.guideId), false);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -125,13 +128,14 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 loadUrl();
+                sendRequest();
                 break;
         }
     }
 
     public void initView() {
         titleTV.setText("精选司导");
-        if (isCanService()) {
+        if (paramsData.canCollect) {
             shareIV.setEnabled(false);
             collectIV.setEnabled(false);
             shareIV.setVisibility(View.VISIBLE);
@@ -159,14 +163,13 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         loadUrl();
 
-        requestData(new RequestGuideExtinfo(GuideWebDetailActivity.this, paramsData.guideId));
-
+        sendRequest();
     }
 
     public String loadUrl() {
         String isCanService = "0";
         if (UserEntity.getUser().isLogin(this)) {
-            isCanService = paramsData.canService;
+            isCanService = paramsData.canService ? "1" : "0";
         }
         String url = UrlLibs.H5_GUIDE_DETAIL + "guideId=" + paramsData.guideId + "&canService=" + isCanService;
         if (!TextUtils.isEmpty(url)) {
@@ -293,7 +296,11 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideExtinfo) {
             guideExtinfoBean = ((RequestGuideExtinfo) _request).getData();
-            bottomView.update(guideExtinfoBean);
+            if (paramsData.canService) {
+                bottomView.update(guideExtinfoBean);
+            } else {
+                bottomView.setVisibility(View.GONE);
+            }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
             if (guideExtinfoBean.isCollected != null) {

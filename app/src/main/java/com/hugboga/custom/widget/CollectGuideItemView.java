@@ -22,11 +22,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by qingcha on 17/4/21.
+ * Created by qingcha on 17/4/25.
  */
-
-public class GuideItemView extends LinearLayout implements HbcViewBehavior {
-
+public class CollectGuideItemView extends LinearLayout implements HbcViewBehavior{
     @Bind(R.id.guide_item_include_avatar_iv)
     PolygonImageView avatarIV;
     @Bind(R.id.guide_item_include_gender_iv)
@@ -34,6 +32,9 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
     @Bind(R.id.guide_item_include_name_tv)
     TextView nameTV;
+
+    @Bind(R.id.guide_item_include_disable_iv)
+    ImageView disableIV;
 
     @Bind(R.id.guide_item_include_city_iv)
     ImageView cityIV;
@@ -51,18 +52,19 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
     LinearLayout infoLayout;
     @Bind(R.id.guide_item_include_taggroup)
     TagGroup tagGroup;
-    @Bind(R.id.view_guide_item_desc_tv)
-    TextView descTV;
+
+    @Bind(R.id.view_guide_item_service_line_view)
+    View serviceLineView;
     @Bind(R.id.view_guide_item_service_type_tv)
     TextView serviceTypeTV;
 
-    public GuideItemView(Context context) {
+    public CollectGuideItemView(Context context) {
         this(context, null);
     }
 
-    public GuideItemView(Context context, @Nullable AttributeSet attrs) {
+    public CollectGuideItemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_guide_item, this);
+        View view = inflate(context, R.layout.view_collect_guide_item, this);
         ButterKnife.bind(view);
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(0xFFFFFFFF);
@@ -102,19 +104,18 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
         GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
 
-        if (TextUtils.isEmpty(data.homeDesc) || TextUtils.isEmpty(data.homeDesc.trim())) {
-            descTV.setVisibility(View.GONE);
-        } else {
-            descTV.setVisibility(View.VISIBLE);
-            descTV.setText(data.homeDesc.trim());
-        }
-
         String serviceType = data.getServiceType();
         if (TextUtils.isEmpty(serviceType)) {
+            serviceLineView.setVisibility(View.INVISIBLE);
             serviceTypeTV.setVisibility(View.GONE);
+            disableIV.setVisibility(View.VISIBLE);
+            setBackgroundColor(0xFFeaeaea);
         } else {
+            serviceLineView.setVisibility(View.VISIBLE);
             serviceTypeTV.setVisibility(View.VISIBLE);
             serviceTypeTV.setText(serviceType);
+            disableIV.setVisibility(View.GONE);
+            setBackgroundColor(0xFFFFFFFF);
         }
     }
 }

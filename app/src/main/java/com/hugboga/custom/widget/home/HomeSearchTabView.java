@@ -118,7 +118,7 @@ public class HomeSearchTabView extends FrameLayout {
                 destTabLine.setVisibility(View.VISIBLE);
                 storyTabLine.setVisibility(View.GONE);
                 break;
-            case FgHomePage.TAB_TRAVEL_STORY:
+            case FgHomePage.TAB_GUIDE:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.GONE);
                 storyTabIcon.setVisibility(View.VISIBLE);

@@ -283,6 +283,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             int offset = _request.getOffset();
             if (offset == 0 && (filterGuideListBean == null || filterGuideListBean.listData == null || filterGuideListBean.listCount <= 0)) {
                 setEmptyLayout(true, true);
+                return;
             } else {
                 setEmptyLayout(false, true);
             }
