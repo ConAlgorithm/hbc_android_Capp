@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
@@ -89,7 +90,16 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         nameTV.setText(data.guideName);
         GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
 
-        if (!TextUtils.isEmpty(data.cityName) && getContext() instanceof MainActivity) {
+        boolean isShowCity = false;
+        if (!TextUtils.isEmpty(data.cityName)) {
+            if (getContext() instanceof MainActivity) {
+                isShowCity = true;
+            } else if (getContext() instanceof CityListActivity && ((CityListActivity)getContext()).isShowCity()) {
+                isShowCity = true;
+            }
+        }
+
+        if (isShowCity) {
             cityIV.setVisibility(View.VISIBLE);
             cityTV.setVisibility(View.VISIBLE);
             cityTV.setText(data.cityName);

@@ -279,4 +279,12 @@ public class CityListActivity extends BaseActivity{
             });
         }
     }
+
+    public boolean isShowCity() {
+        if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == CityHomeType.COUNTRY) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
