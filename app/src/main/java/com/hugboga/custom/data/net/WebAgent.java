@@ -680,6 +680,7 @@ public class WebAgent implements HttpRequestListener {
                 collectBean.guideId = data.guideId;
                 collectBean.name = data.guideName;
                 collectBean.cityName = data.guideCityName;
+                collectBean.isQuality = data.isQuality;
                 Intent intent = null;
                 switch (data.orderType) {
                     case 1://1：接送机
@@ -702,6 +703,7 @@ public class WebAgent implements HttpRequestListener {
                         guidesDetailData.countryName = data.guideCountryName;
                         guidesDetailData.cityId = CommonUtils.getCountInteger(data.guideCityId);
                         guidesDetailData.cityName = data.guideCityName;
+                        guidesDetailData.isQuality = data.isQuality;
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);
                         intent.putExtra(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

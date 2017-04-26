@@ -523,7 +523,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         needBanner = airPortBean.bannerSwitch;
 
         RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType,
-                airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime,carIds);
+                airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime, carIds, collectGuideBean==null ? 0 : collectGuideBean.isQuality);
         requestData(requestCheckPriceForTransfer);
     }
 
