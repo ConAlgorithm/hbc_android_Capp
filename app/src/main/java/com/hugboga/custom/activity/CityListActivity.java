@@ -196,7 +196,7 @@ public class CityListActivity extends BaseActivity{
                 builder.setLineGroupId("" + paramsData.id);
                 break;
             case COUNTRY:
-                builder.setCoutryId("" + paramsData.id);
+                builder.setCountryId("" + paramsData.id);
                 break;
         }
         builder.setLimit(GUIDE_LIST_COUNT);

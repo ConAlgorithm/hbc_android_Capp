@@ -259,7 +259,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                     builder.setLineGroupId("" + id);
                     break;
                 case COUNTRY:
-                    builder.setCoutryId("" + id);
+                    builder.setCountryId("" + id);
                     break;
             }
         }
