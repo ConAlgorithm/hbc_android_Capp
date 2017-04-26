@@ -146,7 +146,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                     if (isStop) {
                         return;
                     }
-                    timeTv.setText(String.format("当地时间: %1$s", dateTimeFormat.format(System.currentTimeMillis())));
+                    timeTv.setText(String.format("司导当地时间: %1$s", dateTimeFormat.format(System.currentTimeMillis())));
                     break;
                 default:
                     break;

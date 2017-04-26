@@ -121,6 +121,7 @@ public class CityListActivity extends BaseActivity{
     public void initView() {
         initTitleBar();
         cityListAdapter = new CityListAdapter();
+        cityListAdapter.setData(paramsData);
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -221,9 +222,9 @@ public class CityListActivity extends BaseActivity{
             CountryGroupBean countryGroupBean = ((RequestCountryGroup) _request).getData();
             cityListAdapter.setCountryGroupData(countryGroupBean);
             requestGuideList();
-        } else if(_request instanceof RequestFilterGuide) {
+        } else if (_request instanceof RequestFilterGuide) {
             setEmptyLayout(false, true);
-            FilterGuideListBean filterGuideListBean  = ((RequestFilterGuide) _request).getData();
+            FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
             cityListAdapter.setGuideListData(filterGuideListBean.listData);
         }
     }
