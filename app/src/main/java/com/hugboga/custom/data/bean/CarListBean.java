@@ -23,7 +23,7 @@ public class CarListBean implements IBaseBean {
     public boolean supportBanner;
     public String noneCarsReason;
     public int noneCarsState;
-    public Object noneCarsParam;
+//    public String noneCarsParam;
 
     public String estTime;
     public String enableLocal;
@@ -35,6 +35,5 @@ public class CarListBean implements IBaseBean {
 
 
     public CarAdditionalServicePrice additionalServicePrice;
-
 
 }

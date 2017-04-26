@@ -24,7 +24,7 @@ import butterknife.OnClick;
  */
 public class SkuOrderEmptyView extends LinearLayout{
 
-    public static final int API_ERROR_STATE = -2000;//非用户操作的异常状态码，前端定义
+    public static final int API_ERROR_STATE = -2000;//非用户操作的异常状态码，前端定义，status!=200
 
     @Bind(R.id.sku_order_empty_iv)
     ImageView emptyIV;
@@ -50,6 +50,7 @@ public class SkuOrderEmptyView extends LinearLayout{
         refreshTV.getPaint().setAntiAlias(true);
     }
 
+    //线路
     public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
         boolean isEmpty = false;
         if (noneCarsState == 6) {
@@ -59,7 +60,7 @@ public class SkuOrderEmptyView extends LinearLayout{
             hintTV.setText(noneCarsReason);
             isEmpty = true;
             if (TextUtils.isEmpty(noneCarsReason)) {
-                hintTV.setText("很抱歉，没有找到可服务的司导，换个日期试试");
+                hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
             }
         } else if (noneCarsState == API_ERROR_STATE) {
             setVisibility(View.VISIBLE);
@@ -94,6 +95,7 @@ public class SkuOrderEmptyView extends LinearLayout{
         }
     }
 
+    //组合单
     public boolean setNoCarVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide) {
         boolean isEmpty = false;
         // noneCarsState == 202 当地时间已过了 服务开始时间
@@ -105,7 +107,11 @@ public class SkuOrderEmptyView extends LinearLayout{
             hintTV.setText(noneCarsReason);
             isEmpty = true;
             if (TextUtils.isEmpty(noneCarsReason)) {
-                hintTV.setText("很抱歉，没有找到可服务的司导");
+                if (noneCarsState == 202) {
+                    hintTV.setText("当地时间已过了您预订的服务时间，想服务但做不到啊…");
+                } else if (noneCarsState == 6) {
+                    hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
+                }
             }
         } else if (noneCarsState == API_ERROR_STATE) {
             setVisibility(View.VISIBLE);
@@ -119,7 +125,7 @@ public class SkuOrderEmptyView extends LinearLayout{
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
             if (isAssignGuide) {
-                hintTV.setText("很抱歉，该司导暂无可服务的车辆\n请联系客服，我们会协助您完成预订");
+                hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
             } else {
                 hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
             }
