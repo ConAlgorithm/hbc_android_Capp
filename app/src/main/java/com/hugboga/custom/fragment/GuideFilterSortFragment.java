@@ -31,6 +31,7 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
 
     private ArrayList<SortTypeBean> sortTypeList;
     private GuideFilterTagAdapter adapter;
+    private Integer lastSelectedPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
     @Override
     protected void initView() {
         sortTypeList = new ArrayList<>();
-        sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(true, 0, "默认排序", "排序"));
+        sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 0, "默认排序", "排序"));
         sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 1, "星级从高到低", "星级"));
         sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 2, "评价从多到少", "评价"));
         sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 3, "接单数从多到少", "接单数"));
@@ -53,6 +54,7 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        lastSelectedPosition = position;
         updateSelectedStauts(position);
         EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_SORT, sortTypeList.get(position)));
     }
@@ -75,7 +77,7 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
     }
 
     public void resetFilter() {
-        updateSelectedStauts(0);
+        updateSelectedStauts(lastSelectedPosition != null ? 0 : -1);
     }
 
     public static class SortTypeBean implements Serializable{

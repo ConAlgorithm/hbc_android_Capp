@@ -71,7 +71,9 @@ public class CityListAdapter extends EpoxyAdapter {
             guideModel.setGuideData(guideList.get(i));
             addModel(guideModel);
         }
-        addModel(new CityListGuideFooterModel(paramsData));
+        if (size > CityListActivity.GUIDE_LIST_COUNT) {
+            addModel(new CityListGuideFooterModel(paramsData));
+        }
     }
 
     public void addCityListHotModel(List<SkuItemBean> hotLines, int type) {

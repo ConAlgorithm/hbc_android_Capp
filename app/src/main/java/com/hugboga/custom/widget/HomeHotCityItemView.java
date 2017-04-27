@@ -56,7 +56,7 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
         if (TextUtils.isEmpty(data.cityHeadPicture)) {
             cityIV.setImageResource(R.mipmap.home_default_route_free_item);
         } else {
-            Tools.showImage(cityIV, data.cityHeadPicture, R.mipmap.home_default_route_free_item);
+            Tools.showImage(cityIV, data.cityPicture, R.mipmap.home_default_route_free_item);
         }
         citynameTV.setText(data.cityName);
         guideCountTV.setText(String.format("%1$s位司导", "" + data.cityGuideAmount));
