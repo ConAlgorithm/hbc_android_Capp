@@ -60,7 +60,7 @@ public class CityListAdapter extends EpoxyAdapter {
         addCityListHotModel(countryGroupBean.deepLines, CityListHotView.TYPE_DEEP);
     }
 
-    public void setGuideListData(ArrayList<FilterGuideBean> guideList) {
+    public void setGuideListData(ArrayList<FilterGuideBean> guideList, int listCount) {
         if (guideList == null || guideList.size() <= 0) {
             return;
         }
@@ -71,7 +71,7 @@ public class CityListAdapter extends EpoxyAdapter {
             guideModel.setGuideData(guideList.get(i));
             addModel(guideModel);
         }
-        if (size > CityListActivity.GUIDE_LIST_COUNT) {
+        if (listCount > CityListActivity.GUIDE_LIST_COUNT) {
             addModel(new CityListGuideFooterModel(paramsData));
         }
     }

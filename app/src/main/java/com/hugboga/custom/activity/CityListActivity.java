@@ -225,7 +225,7 @@ public class CityListActivity extends BaseActivity{
         } else if (_request instanceof RequestFilterGuide) {
             setEmptyLayout(false, true);
             FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
-            cityListAdapter.setGuideListData(filterGuideListBean.listData);
+            cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
         }
     }
 
