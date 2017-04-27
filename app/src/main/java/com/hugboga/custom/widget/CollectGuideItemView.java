@@ -108,14 +108,17 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
         if (TextUtils.isEmpty(serviceType)) {
             serviceLineView.setVisibility(View.INVISIBLE);
             serviceTypeTV.setVisibility(View.GONE);
-            disableIV.setVisibility(View.VISIBLE);
-            setBackgroundColor(0xFFeaeaea);
         } else {
             serviceLineView.setVisibility(View.VISIBLE);
             serviceTypeTV.setVisibility(View.VISIBLE);
             serviceTypeTV.setText(serviceType);
+        }
+        if (data.isCanService()) {
             disableIV.setVisibility(View.GONE);
             setBackgroundColor(0xFFFFFFFF);
+        } else {
+            disableIV.setVisibility(View.VISIBLE);
+            setBackgroundColor(0xFFeaeaea);
         }
     }
 }

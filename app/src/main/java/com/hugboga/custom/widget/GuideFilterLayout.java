@@ -153,6 +153,11 @@ public class GuideFilterLayout extends LinearLayout {
         return viewPager.isShown();
     }
 
+    public void initCityFilter(CityListActivity.Params cityParams) {
+        pagerAdapter.setCityParams(cityParams);
+        setCityParams(cityParams);
+    }
+
     public void setCityParams(CityListActivity.Params cityParams) {
         if (cityParams == null) {
             return;
@@ -207,6 +212,7 @@ public class GuideFilterLayout extends LinearLayout {
         GuideFilterFragment guideFilterFragment;
         GuideFilterSortFragment guideFilterSortFragment;
         CapacityBean capacityBean;
+        CityListActivity.Params cityParams;
 
         public GuideFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -217,6 +223,7 @@ public class GuideFilterLayout extends LinearLayout {
             switch (position) {
                 case 0:
                     CityFilterFragment cityFilterfragment = new CityFilterFragment();
+                    cityFilterfragment.setCityParams(cityParams);
                     return cityFilterfragment;
                 case 1:
                     guideFilterFragment = new GuideFilterFragment();
@@ -246,6 +253,10 @@ public class GuideFilterLayout extends LinearLayout {
             } else {
                 this.capacityBean = capacityBean;
             }
+        }
+
+        public void setCityParams(CityListActivity.Params cityParams) {
+            this.cityParams = cityParams;
         }
     }
 }

@@ -26,6 +26,7 @@ public class FilterGuideBean implements Serializable{
     public String homeDesc;             // 司导个人简介
     public String serviceTypes;         // 提供的服务,(服务标识，逗号隔开)
     public int isQuality;               // 是否优质司导, 1-是，0-否
+    public int availableStatus;         // 是否可用司导：1-是，0-否
     public int serviceDaily;            // 是否可服务包车，0否，1是
     public int serviceJsc;              // 是否可服务接送机、单次接送，0否，1是
 
@@ -44,5 +45,9 @@ public class FilterGuideBean implements Serializable{
             result += "接送机、单次接送";
         }
         return result;
+    }
+
+    public boolean isCanService() {
+        return availableStatus == 1;
     }
 }
