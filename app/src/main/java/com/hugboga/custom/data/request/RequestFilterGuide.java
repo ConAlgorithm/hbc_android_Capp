@@ -27,8 +27,8 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         if (!TextUtils.isEmpty(builder.cityIds)) {
             map.put("cityIds", builder.cityIds);                // 城市标识,(多个用逗号隔开)
         }
-        if (!TextUtils.isEmpty(builder.coutryId)) {
-            map.put("coutryId", builder.coutryId);              // 国家ID
+        if (!TextUtils.isEmpty(builder.countryId)) {
+            map.put("countryId", builder.countryId);            // 国家ID
         }
         if (!TextUtils.isEmpty(builder.lineGroupId)) {
             map.put("lineGroupId", builder.lineGroupId);        // 线路圈ID
@@ -68,7 +68,7 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
 
     public static class Builder {
         public String cityIds;
-        public String coutryId;
+        public String countryId;
         public String lineGroupId;
         public String genders;
         public String serviceTypes;
@@ -84,8 +84,8 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
             return this;
         }
 
-        public Builder setCoutryId(String coutryId) {
-            this.coutryId = coutryId;
+        public Builder setCountryId(String countryId) {
+            this.countryId = countryId;
             return this;
         }
 

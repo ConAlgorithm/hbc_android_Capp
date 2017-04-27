@@ -196,7 +196,7 @@ public class CityListActivity extends BaseActivity{
                 builder.setLineGroupId("" + paramsData.id);
                 break;
             case COUNTRY:
-                builder.setCoutryId("" + paramsData.id);
+                builder.setCountryId("" + paramsData.id);
                 break;
         }
         builder.setLimit(GUIDE_LIST_COUNT);
@@ -225,7 +225,7 @@ public class CityListActivity extends BaseActivity{
         } else if (_request instanceof RequestFilterGuide) {
             setEmptyLayout(false, true);
             FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
-            cityListAdapter.setGuideListData(filterGuideListBean.listData);
+            cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
         }
     }
 
@@ -277,6 +277,14 @@ public class CityListActivity extends BaseActivity{
                     requestCityList();
                 }
             });
+        }
+    }
+
+    public boolean isShowCity() {
+        if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == CityHomeType.COUNTRY) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

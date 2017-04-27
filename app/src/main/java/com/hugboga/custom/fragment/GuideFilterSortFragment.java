@@ -42,7 +42,7 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
     @Override
     protected void initView() {
         sortTypeList = new ArrayList<>();
-        sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(true, 0, "默认排序", "排序"));
+        sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 0, "默认排序", "排序"));
         sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 1, "星级从高到低", "星级"));
         sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 2, "评价从多到少", "评价"));
         sortTypeList.add(new GuideFilterSortFragment.SortTypeBean(false, 3, "接单数从多到少", "接单数"));
@@ -72,10 +72,6 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
             data.selected = i == index;
         }
         adapter.notifyDataSetChanged();
-    }
-
-    public void resetFilter() {
-        updateSelectedStauts(0);
     }
 
     public static class SortTypeBean implements Serializable{

@@ -157,10 +157,6 @@ public class GuideFilterLayout extends LinearLayout {
         if (cityParams == null) {
             return;
         }
-        setGuideFilterBean(null);
-        setSortTypeBean(null);
-        pagerAdapter.resetFilter();
-
         this.cityParams = cityParams;
         TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_guide_type_city_tv);
         cityTV.setTextColor(0xFFFFC110);
@@ -238,15 +234,6 @@ public class GuideFilterLayout extends LinearLayout {
         @Override
         public int getCount() {
             return 3;
-        }
-
-        public void resetFilter() {
-            if (guideFilterFragment != null) {
-                guideFilterFragment.resetALLFilterBean();
-            }
-            if (guideFilterSortFragment != null) {
-                guideFilterSortFragment.resetFilter();
-            }
         }
 
         public boolean resetScopeFilter() {

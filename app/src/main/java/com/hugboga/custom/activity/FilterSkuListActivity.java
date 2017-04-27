@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,18 +98,6 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if (hideFilterView()) {
-                return true;
-            } else {
-                return super.onKeyUp(keyCode, event);
-            }
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
     private boolean hideFilterView() {
         if (filterLayout.isShowFilterView()) {
             filterLayout.hideFilterView();
@@ -140,14 +127,6 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
     public void initTitleBar() {
         initDefaultTitleBar();
         fgTitle.setText("包车线路");
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!hideFilterView()) {
-                    finish();
-                }
-            }
-        });
         fgRightTV.setVisibility(View.GONE);
     }
 

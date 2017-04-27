@@ -104,18 +104,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if (hideFilterView()) {
-                return true;
-            } else {
-                return super.onKeyUp(keyCode, event);
-            }
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
     private boolean hideFilterView() {
         if (filterLayout.isShowFilterView()) {
             filterLayout.hideFilterView();
@@ -144,14 +132,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     public void initTitleBar() {
         initDefaultTitleBar();
         fgTitle.setText("精选司导");
-        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!hideFilterView()) {
-                   finish();
-                }
-            }
-        });
         fgRightTV.setVisibility(View.GONE);
     }
 
@@ -213,19 +193,9 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             case GUIDE_FILTER_CITY:
                 if (action.getData() instanceof CityListActivity.Params) {
                     paramsData = null;
-                    guideFilterBean = null;
-                    sortTypeBean = null;
-
                     cityParams = (CityListActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
                     requestGuideList();
-
-                    if (cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
-                        CityBean cityBean = DatabaseManager.getCityBean("" + cityParams.id);
-                        if (cityBean != null && !TextUtils.isEmpty(cityBean.placeId)) {
-                            LineGroupBean getLineGroupBean = CityUtils.getLineGroupBean(this, cityBean.placeId);
-                        }
-                    }
                 }
                 break;
             case GUIDE_FILTER_SCOPE:
@@ -259,7 +229,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                     builder.setLineGroupId("" + id);
                     break;
                 case COUNTRY:
-                    builder.setCoutryId("" + id);
+                    builder.setCountryId("" + id);
                     break;
             }
         }
