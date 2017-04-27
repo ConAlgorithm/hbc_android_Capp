@@ -193,19 +193,9 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             case GUIDE_FILTER_CITY:
                 if (action.getData() instanceof CityListActivity.Params) {
                     paramsData = null;
-                    guideFilterBean = null;
-                    sortTypeBean = null;
-
                     cityParams = (CityListActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
                     requestGuideList();
-
-                    if (cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
-                        CityBean cityBean = DatabaseManager.getCityBean("" + cityParams.id);
-                        if (cityBean != null && !TextUtils.isEmpty(cityBean.placeId)) {
-                            LineGroupBean getLineGroupBean = CityUtils.getLineGroupBean(this, cityBean.placeId);
-                        }
-                    }
                 }
                 break;
             case GUIDE_FILTER_SCOPE:

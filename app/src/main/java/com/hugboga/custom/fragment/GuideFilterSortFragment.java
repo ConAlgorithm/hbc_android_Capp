@@ -31,7 +31,6 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
 
     private ArrayList<SortTypeBean> sortTypeList;
     private GuideFilterTagAdapter adapter;
-    private Integer lastSelectedPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        lastSelectedPosition = position;
         updateSelectedStauts(position);
         EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_SORT, sortTypeList.get(position)));
     }
@@ -74,10 +72,6 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
             data.selected = i == index;
         }
         adapter.notifyDataSetChanged();
-    }
-
-    public void resetFilter() {
-        updateSelectedStauts(lastSelectedPosition != null ? 0 : -1);
     }
 
     public static class SortTypeBean implements Serializable{
