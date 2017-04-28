@@ -13,10 +13,13 @@ import butterknife.ButterKnife;
 public class DeveloperActionTestActivity extends BaseActivity {
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_developer_action_test;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_developer_action_test);
-        ButterKnife.bind(this);
         initDefaultTitleBar();
         fgTitle.setText("Action test");
     }

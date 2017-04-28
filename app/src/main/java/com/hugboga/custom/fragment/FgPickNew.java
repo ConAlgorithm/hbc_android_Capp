@@ -59,7 +59,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +75,6 @@ import static android.view.View.GONE;
  * Created  on 16/5/13.
  */
 
-@ContentView(R.layout.fg_picknew)
 public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Bind(R.id.info_left)
     TextView infoLeft;
@@ -148,6 +146,11 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     private boolean needChildrenSeat = false;//是否需要儿童座椅
     private boolean needBanner = true;//是否可以展示接机牌
     private DialogUtil mDialogUtil;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_picknew;
+    }
 
     @Override
     protected void initHeader() {
@@ -589,7 +592,6 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
         source = getArguments().getString("source");
         Map map = new HashMap();

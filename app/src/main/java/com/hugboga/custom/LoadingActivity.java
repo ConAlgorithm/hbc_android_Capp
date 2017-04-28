@@ -42,22 +42,17 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-@ContentView(R.layout.activity_loading)
+
 public class LoadingActivity extends BaseActivity implements HttpRequestListener {
 
     AlertDialog versionDialog; //版本更新弹窗
@@ -77,6 +72,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     protected void onStart() {
         super.onStart();
         grantPhone(); //先对手机授权
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_loading;
     }
 
     @Override

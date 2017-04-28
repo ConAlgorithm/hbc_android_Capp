@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -23,14 +22,12 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ChooseGuideCityView;
 import com.hugboga.custom.widget.title.TitleBar;
 
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 17/3/12.
@@ -48,6 +45,11 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
     private ArrayList<GuideCropBean> guideCropList;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_choose_guide_city;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -58,8 +60,6 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
                 guideId = bundle.getString(Constants.PARAMS_ID);
             }
         }
-        setContentView(R.layout.activity_choose_guide_city);
-        ButterKnife.bind(this);
 
         titleBar.setTitle("选择开始城市");
         TextView leftTV = titleBar.getLeftTV();

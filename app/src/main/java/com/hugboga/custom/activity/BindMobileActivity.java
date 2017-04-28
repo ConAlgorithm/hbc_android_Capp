@@ -34,7 +34,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.HashMap;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -61,10 +60,13 @@ public class BindMobileActivity extends BaseActivity{
     public static int REQUEST_CODE = 0x001;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_bind_mobile;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_bind_mobile);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         requestData();
         initView();
@@ -124,7 +126,6 @@ public class BindMobileActivity extends BaseActivity{
     public void onDestroy() {
         super.onDestroy();
         destroyHandler();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

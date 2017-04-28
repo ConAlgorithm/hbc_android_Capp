@@ -14,7 +14,6 @@ import com.hugboga.custom.data.request.RequestCallBack;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -72,18 +71,16 @@ public class CallBackActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        setContentView(R.layout.fg_call_back);
-        ButterKnife.bind(this);
-        initHeader();
+    public int getContentViewId() {
+        return R.layout.fg_call_back;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        initHeader();
     }
+
 
     protected void initHeader() {
         //设置标题颜色，返回按钮图片

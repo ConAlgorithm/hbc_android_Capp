@@ -16,7 +16,6 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -66,7 +65,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
@@ -167,8 +165,12 @@ public class SingleNewActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_single_new;
     }
 
     @Override
@@ -177,8 +179,6 @@ public class SingleNewActivity extends BaseActivity {
         eventUtil.source = getIntentSource();
         source = getIntentSource();
         super.onCreate(arg0);
-        setContentView(R.layout.fg_single_new);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initHeader();

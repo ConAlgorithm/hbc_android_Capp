@@ -19,7 +19,6 @@ import com.hugboga.custom.widget.ZListView;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by on 16/8/8.
@@ -41,6 +40,11 @@ public class TravelFundRecordActivity extends BaseActivity{
     private TravelFundAdapter adapter;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_travelfund_record;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             type = savedInstanceState.getInt(Constants.PARAMS_TYPE);
@@ -51,16 +55,12 @@ public class TravelFundRecordActivity extends BaseActivity{
             }
         }
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_travelfund_record);
-        ButterKnife.bind(this);
         initView();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

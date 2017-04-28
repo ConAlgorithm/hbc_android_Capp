@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -29,7 +28,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.R.id.add_other_phone_click;
@@ -310,10 +308,13 @@ public class ChooseOtherActivity extends BaseActivity {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.add_user_layout;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.add_user_layout);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initHeader();
@@ -322,7 +323,6 @@ public class ChooseOtherActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

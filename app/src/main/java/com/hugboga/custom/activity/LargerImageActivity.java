@@ -12,12 +12,10 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.HackyViewPager;
 import com.viewpagerindicator.CirclePageIndicator;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -40,6 +38,11 @@ public class LargerImageActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_larger_image;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -50,10 +53,6 @@ public class LargerImageActivity extends BaseActivity{
                 params = (Params)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-
-        setContentView(R.layout.fg_larger_image);
-        ButterKnife.bind(this);
-
         initView();
     }
 

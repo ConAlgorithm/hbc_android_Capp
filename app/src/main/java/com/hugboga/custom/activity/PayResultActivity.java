@@ -23,6 +23,11 @@ public class PayResultActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_pay_result;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -33,8 +38,6 @@ public class PayResultActivity extends BaseActivity{
                 params = (Params)bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-
-        setContentView(R.layout.activity_pay_result);
 
         fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
         fgPayResult.initView(params.payResult, params.orderId);

@@ -47,7 +47,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -212,21 +211,19 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_city;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_city);
-        ButterKnife.bind(this);
         initView();
         initHeader();
         inflateContent();
         requestData();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-    }
 
     private void setFirstWord(List<AirPort> sourceDateList) {
         String key = "";

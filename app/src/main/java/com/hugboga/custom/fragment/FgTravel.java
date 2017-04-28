@@ -1,6 +1,5 @@
 package com.hugboga.custom.fragment;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +29,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
-import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -41,7 +39,6 @@ import com.hugboga.custom.data.request.RequestOrderListAll;
 import com.hugboga.custom.data.request.RequestOrderListDoing;
 import com.hugboga.custom.data.request.RequestOrderListUnevaludate;
 import com.hugboga.custom.data.request.RequestOrderListUnpay;
-import com.hugboga.custom.data.request.RequestTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
@@ -52,16 +49,15 @@ import com.hugboga.custom.widget.DialogUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ContentView(R.layout.fg_travel)
+import butterknife.Bind;
+import butterknife.OnClick;
+
 public class  FgTravel extends BaseFragment implements OnItemClickListener, ZListPageView.NoticeViewTask {
 
     public static final String FILTER_FLUSH = "com.hugboga.custom.travel.flush";
@@ -75,49 +71,49 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
     public static final int TYPE_ORDER_CANCEL = 2;
     public static final int TYPE_ORDER_EVALUATE = 3;
 
-    @ViewInject(R.id.travel_logout_layout)
-    private View logoutLayout;
-    @ViewInject(R.id.travel_content)
+    @Bind(R.id.travel_logout_layout)
+    View logoutLayout;
+    @Bind(R.id.travel_content)
     LinearLayout contentLayout; //主题部分
     //Tab1
-    @ViewInject(R.id.header_left_btn)
-    private ImageView leftBtn;
+    @Bind(R.id.header_left_btn)
+    ImageView leftBtn;
     //Tab1
-    @ViewInject(R.id.travel_tab1_layout)
+    @Bind(R.id.travel_tab1_layout)
     RelativeLayout tab1Layout;
-    @ViewInject(R.id.travel_tab1_title)
+    @Bind(R.id.travel_tab1_title)
     TextView tab1TextView;
-    @ViewInject(R.id.travel_tab1_line)
+    @Bind(R.id.travel_tab1_line)
     View tab1LineView;
     //Tab2
-    @ViewInject(R.id.travel_tab2_layout)
+    @Bind(R.id.travel_tab2_layout)
     RelativeLayout tab2Layout;
-    @ViewInject(R.id.travel_tab2_title)
+    @Bind(R.id.travel_tab2_title)
     TextView tab2TextView;
-    @ViewInject(R.id.travel_tab2_number)
+    @Bind(R.id.travel_tab2_number)
     TextView tab2NumberTextView;
-    @ViewInject(R.id.travel_tab2_line)
+    @Bind(R.id.travel_tab2_line)
     View tab2LineView;
     //Tab3
-    @ViewInject(R.id.travel_tab3_layout)
+    @Bind(R.id.travel_tab3_layout)
     RelativeLayout tab3Layout;
-    @ViewInject(R.id.travel_tab3_title)
+    @Bind(R.id.travel_tab3_title)
     TextView tab3TextView;
-    @ViewInject(R.id.travel_tab3_number)
+    @Bind(R.id.travel_tab3_number)
     TextView tab3NumberTextView;
-    @ViewInject(R.id.travel_tab3_line)
+    @Bind(R.id.travel_tab3_line)
     View tab3LineView;
     //Tab4
-    @ViewInject(R.id.travel_tab4_layout)
+    @Bind(R.id.travel_tab4_layout)
     RelativeLayout tab4Layout;
-    @ViewInject(R.id.travel_tab4_title)
+    @Bind(R.id.travel_tab4_title)
     TextView tab4TextView;
-    @ViewInject(R.id.travel_tab4_number)
+    @Bind(R.id.travel_tab4_number)
     TextView tab4NumberTextView;
-    @ViewInject(R.id.travel_tab4_line)
+    @Bind(R.id.travel_tab4_line)
     View tab4LineView;
 
-    @ViewInject(R.id.travel_viewpager)
+    @Bind(R.id.travel_viewpager)
     ViewPager viewPager; //滑动页面
 
     //进行中订单部分
@@ -148,6 +144,11 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
     HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
 
     private int pagerPosition = 0;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_travel;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -396,8 +397,8 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         super.onDestroy();
     }
 
-    @Event({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,  R.id.travel_tab4_layout, R.id.travel_login_btn})
-    private void onClickView(View view) {
+    @OnClick({R.id.travel_tab1_layout, R.id.travel_tab2_layout, R.id.travel_tab3_layout,  R.id.travel_tab4_layout, R.id.travel_login_btn})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.travel_tab1_layout:
                 //进行中

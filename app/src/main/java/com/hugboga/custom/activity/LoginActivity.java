@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -54,11 +53,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -113,10 +110,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_login;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_login);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView(getIntent());
         initHeader();
@@ -149,7 +149,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

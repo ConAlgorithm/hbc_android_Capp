@@ -54,7 +54,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
@@ -85,6 +84,11 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_guide_web_detail;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -95,8 +99,6 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                 paramsData = (GuideWebDetailActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_guide_web_detail);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }
@@ -116,7 +118,6 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
         if (bottomView != null) {
             bottomView.setStop(true);

@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +37,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -113,11 +111,14 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_pick_flight_list;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_pick_flight_list);
         mBusinessType = this.getIntent().getIntExtra("mBusinessType", -1);
-        ButterKnife.bind(this);
         initView();
         initHeader();
         requestData();

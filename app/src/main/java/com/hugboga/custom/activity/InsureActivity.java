@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -169,10 +168,13 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_insure_list;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_insure_list);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initHeader();
@@ -181,7 +183,6 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

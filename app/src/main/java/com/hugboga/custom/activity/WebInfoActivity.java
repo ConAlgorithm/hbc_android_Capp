@@ -34,7 +34,6 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -43,7 +42,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class WebInfoActivity extends BaseActivity implements View.OnKeyListener {
 
@@ -71,11 +69,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     private String title;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_webview;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_webview);
-        ButterKnife.bind(this);
         initView();
     }
 
@@ -246,7 +247,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         super.onDestroy();
         try {
             webView.destroy();
-            ButterKnife.unbind(this);
         }catch (Exception e){
             e.printStackTrace();
         }

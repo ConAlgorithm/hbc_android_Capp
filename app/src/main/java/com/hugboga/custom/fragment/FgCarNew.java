@@ -22,12 +22,10 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.activity.ManLuggageActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.CarViewpagerAdapter;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
@@ -38,7 +36,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCars;
-import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -49,7 +46,6 @@ import com.hugboga.custom.widget.MoneyTextView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +62,6 @@ import static com.hugboga.custom.R.id.l_sub;
 /**
  * Created  on 16/5/19.
  */
-@ContentView(R.layout.fg_car_new)
 public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeListener {
     @Bind(R.id.jazzy_pager)
     JazzyViewPager jazzyPager;
@@ -180,6 +175,11 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     LinearLayout luggageTipsLayout;
     @Bind(R.id.car_empty_reason_tv)
     TextView reasonTV;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_car_new;
+    }
 
     @Override
     protected void initHeader() {
@@ -647,7 +647,6 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
         return rootView;
     }

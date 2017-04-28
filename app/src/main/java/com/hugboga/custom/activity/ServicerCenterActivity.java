@@ -16,7 +16,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.data.net.UrlLibs.H5_CANCEL;
@@ -129,18 +128,19 @@ public class ServicerCenterActivity extends BaseActivity {
 
     }
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_servicer_center;
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_servicer_center);
-        ButterKnife.bind(this);
         initHeader();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 }

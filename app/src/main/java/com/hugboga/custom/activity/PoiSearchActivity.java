@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -22,7 +21,6 @@ import com.hugboga.custom.data.request.RequestPoiSearch;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.ZListView;
@@ -36,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -100,12 +97,16 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     String type;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_arrival_search;
+    }
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_arrival_search);
         type = this.getIntent().getStringExtra("key_from");
-        ButterKnife.bind(this);
         initHeader();
         initData();
     }

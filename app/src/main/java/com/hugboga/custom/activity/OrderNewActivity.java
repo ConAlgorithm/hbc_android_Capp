@@ -80,7 +80,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
@@ -1099,12 +1098,14 @@ public class OrderNewActivity extends BaseActivity {
 
     }
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_order_new;
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_order_new);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initHeader();

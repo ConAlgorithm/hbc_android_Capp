@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -36,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 17/2/28.
@@ -52,10 +50,13 @@ public class TravelListActivity extends BaseActivity {
     CharterSecondBottomView bottomView;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_travel_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_travel_list);
-        ButterKnife.bind(this);
         initView();
     }
 

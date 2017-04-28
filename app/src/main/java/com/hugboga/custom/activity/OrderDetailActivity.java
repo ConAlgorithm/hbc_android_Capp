@@ -51,7 +51,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/8/2.
@@ -97,6 +96,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_order_detail;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -108,8 +112,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             }
         }
         source = getIntentSource();
-        setContentView(R.layout.fg_order_detail);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         mDialogUtil = DialogUtil.getInstance(this);

@@ -24,7 +24,6 @@ import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
-import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -40,14 +39,11 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.hugboga.custom.R.mipmap.closed_btn;
 import static com.hugboga.custom.R.mipmap.top_back_black;
-import static com.hugboga.custom.R.mipmap.top_back_white;
 import static com.hugboga.custom.R.mipmap.top_close;
 
 public class ChooseCityNewActivity extends BaseActivity {
@@ -145,13 +141,14 @@ public class ChooseCityNewActivity extends BaseActivity {
     }
 
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_city_new;
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_city_new);
-        ButterKnife.bind(this);
-
         initView();
     }
 
@@ -493,12 +490,6 @@ public class ChooseCityNewActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         hideInputMethod(headSearch);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

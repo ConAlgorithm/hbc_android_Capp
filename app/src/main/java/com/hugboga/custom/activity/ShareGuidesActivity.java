@@ -1,13 +1,11 @@
 package com.hugboga.custom.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -22,14 +20,12 @@ import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -56,6 +52,11 @@ public class ShareGuidesActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_share_evaluate;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -67,8 +68,6 @@ public class ShareGuidesActivity extends BaseActivity{
             }
         }
 
-        setContentView(R.layout.activity_share_evaluate);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         initView();

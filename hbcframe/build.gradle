@@ -39,4 +39,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.android.support:multidex:1+'
+    compile 'com.jakewharton:butterknife:7.0.1'
 }

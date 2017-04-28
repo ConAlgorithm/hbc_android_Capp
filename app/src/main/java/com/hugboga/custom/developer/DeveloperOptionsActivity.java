@@ -2,22 +2,17 @@ package com.hugboga.custom.developer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
-import com.hugboga.custom.widget.HomeBannerView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -40,10 +35,13 @@ public class DeveloperOptionsActivity extends BaseActivity implements RadioGroup
     TextView hintTV;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_developer_options;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_developer_options);
-        ButterKnife.bind(this);
         initDefaultTitleBar();
         fgTitle.setText("Developer Options");
         environmentRG.setOnCheckedChangeListener(this);

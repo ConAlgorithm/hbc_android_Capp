@@ -12,7 +12,6 @@ import com.hugboga.mediaplayer.MediaPlayerView;
 import com.hugboga.mediaplayer.PlayListener;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MediaPlayerActivity extends BaseActivity {
@@ -23,10 +22,13 @@ public class MediaPlayerActivity extends BaseActivity {
     public static final String KEY_URL = "key_url";
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_media_player;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_media_player);
-        ButterKnife.bind(this);
         screenFull();
 
         //视频设置

@@ -33,7 +33,6 @@ import org.xutils.common.Callback;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -62,10 +61,13 @@ public class TravelPurposeFormListActivity extends BaseActivity implements HbcRe
     Boolean isFirst = true;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_travel_purpose_form_list;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_travel_purpose_form_list);
-        ButterKnife.bind(this);
         initView();
     }
 

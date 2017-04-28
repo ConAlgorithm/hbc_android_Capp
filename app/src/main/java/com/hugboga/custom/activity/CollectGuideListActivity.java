@@ -28,7 +28,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/8/4.
@@ -44,10 +43,13 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
     private List<FilterGuideBean> guideList;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_collect_guide_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_collect_guide_list);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initDefaultTitleBar();
 

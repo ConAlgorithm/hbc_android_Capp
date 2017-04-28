@@ -692,4 +692,17 @@ public class FileUtil {
         return json.toString();
     }
 
+    public static long getFileOrDirSize(File file) {
+        if (!file.exists()) return 0;
+        if (!file.isDirectory()) return file.length();
+        long length = 0;
+        File[] list = file.listFiles();
+        if (list != null) { // 文件夹被删除时, 子文件正在被写入, 文件属性异常返回null.
+            for (File item : list) {
+                length += getFileOrDirSize(item);
+            }
+        }
+
+        return length;
+    }
 }

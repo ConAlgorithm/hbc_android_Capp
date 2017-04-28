@@ -1,10 +1,8 @@
 package com.hugboga.custom.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
@@ -26,7 +23,6 @@ import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
-import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -46,15 +42,11 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.DialogUtil;
 
 import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,12 +55,10 @@ import java.util.List;
 import java.util.Random;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by on 16/10/13.
  */
-@ContentView(R.layout.fg_myspace)
 public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener{
 
     @Bind(R.id.fg_space_listview)
@@ -98,6 +88,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             ));
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_myspace;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
@@ -106,7 +101,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

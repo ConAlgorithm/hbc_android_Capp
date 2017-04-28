@@ -33,7 +33,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
 
@@ -68,6 +67,11 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_filter_sku_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -78,8 +82,6 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
                 paramsData = (FilterSkuListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_filter_sku_list);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }

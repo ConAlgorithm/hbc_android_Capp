@@ -41,7 +41,6 @@ import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,13 +49,11 @@ import java.util.Map;
 import java.util.Random;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by SPW on 2017/3/7.
  */
-@ContentView(R.layout.fg_homepage)
 public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTabClickListener,HomeNetworkErrorModel.ReloadListener {
 
     private static final int CHOICENESS_GUIDES_COUNT = 40;
@@ -90,11 +87,14 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
     HomeSearchTabView homeSearchTabView;
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_homepage;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         setSensorsDefaultEvent(getEventSource(), SensorsConstant.DISCOVERY);
         return rootView;
     }

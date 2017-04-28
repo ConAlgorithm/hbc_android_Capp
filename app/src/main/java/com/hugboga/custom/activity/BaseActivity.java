@@ -57,6 +57,11 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     private String intentSource;
 
     @Override
+    public int getContentViewId() {
+        return 0;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         activity = this;

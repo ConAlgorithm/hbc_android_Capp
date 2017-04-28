@@ -34,7 +34,6 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -78,11 +77,14 @@ public class ChooseCountryActivity extends BaseActivity {
     };
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_choose_country;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_choose_country);
         viewId = this.getIntent().getIntExtra("viewId",0);
-        ButterKnife.bind(this);
         initViews();
         initHeader();
         requestDate(null);

@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hugboga.custom.R;
@@ -15,7 +14,6 @@ import com.hugboga.custom.widget.title.TitleBar;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 17/3/16.
@@ -31,6 +29,11 @@ public class DetailTravelListActivity extends BaseActivity {
     private OrderBean orderBean;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_detail_travel_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -41,9 +44,6 @@ public class DetailTravelListActivity extends BaseActivity {
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_detail_travel_list);
-        ButterKnife.bind(this);
-
         if (orderBean == null || orderBean.journeyList == null) {
             finish();
         }

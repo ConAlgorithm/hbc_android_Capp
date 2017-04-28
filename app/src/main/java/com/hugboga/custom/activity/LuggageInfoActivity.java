@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class LuggageInfoActivity extends BaseActivity {
     @Bind(R.id.header_left_btn)
@@ -17,10 +16,13 @@ public class LuggageInfoActivity extends BaseActivity {
     TextView headerTitle;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_luggageinfo;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_luggageinfo);
-        ButterKnife.bind(this);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,28 +32,4 @@ public class LuggageInfoActivity extends BaseActivity {
         headerTitle.setText("行李说明");
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }

@@ -46,7 +46,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -82,6 +81,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private boolean isEnabled = false;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_charter_first;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -94,8 +98,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
-        setContentView(R.layout.activity_charter_first);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }

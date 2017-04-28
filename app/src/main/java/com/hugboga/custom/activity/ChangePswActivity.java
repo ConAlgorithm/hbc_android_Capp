@@ -17,7 +17,6 @@ import com.hugboga.custom.utils.CommonUtils;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -54,10 +53,13 @@ public class ChangePswActivity extends BaseActivity {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_change_passwd;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_change_passwd);
-        ButterKnife.bind(this);
         initHeader();
     }
 
@@ -67,11 +69,6 @@ public class ChangePswActivity extends BaseActivity {
         hideSoftInput();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-    }
 
     @OnClick({R.id.change_passwd_submit})
     public void onClick(View view) {

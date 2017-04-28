@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,10 +34,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 
@@ -132,10 +128,13 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.add_new_insure;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.add_new_insure);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         getArgument();
         initView();
@@ -145,7 +144,6 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

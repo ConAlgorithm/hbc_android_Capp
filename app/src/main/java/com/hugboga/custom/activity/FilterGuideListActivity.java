@@ -2,8 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,17 +15,13 @@ import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CapacityBean;
-import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
-import com.hugboga.custom.data.bean.LineGroupBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestMaxCapacityOverall;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
-import com.hugboga.custom.utils.CityUtils;
-import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.GuideFilterLayout;
 import com.hugboga.custom.widget.GuideItemView;
@@ -41,7 +35,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class FilterGuideListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
 
@@ -74,6 +67,11 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_filter_guide_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -84,8 +82,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                 paramsData = (FilterGuideListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_filter_guide_list);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }

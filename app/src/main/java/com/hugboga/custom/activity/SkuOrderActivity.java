@@ -60,6 +60,7 @@ import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
@@ -69,7 +70,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/12/16.
@@ -126,6 +126,11 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_sku_order;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -136,8 +141,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 params = (SkuOrderActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_sku_order);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }

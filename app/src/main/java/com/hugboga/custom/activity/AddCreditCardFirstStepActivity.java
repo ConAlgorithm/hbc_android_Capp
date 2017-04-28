@@ -58,11 +58,13 @@ public class AddCreditCardFirstStepActivity extends BaseActivity {
     StringBuffer bufferCreditNum;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_add_credit_card_first_step;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_add_credit_card_first_step);
-        ButterKnife.bind(this);
-
         params = (ChoosePaymentActivity.RequestParams)getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
         init();
     }

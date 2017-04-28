@@ -67,7 +67,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
@@ -849,13 +848,16 @@ public class OrderSelectCityActivity extends BaseActivity {
     String serverTime = "00:00";
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_order_select_city;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_select_city);
         if (!TextUtils.isEmpty(getIntent().getStringExtra("fromSource"))) {
             fromSource = getIntent().getStringExtra("fromSource");
         }
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         setSensorsEvent();
@@ -897,7 +899,6 @@ public class OrderSelectCityActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

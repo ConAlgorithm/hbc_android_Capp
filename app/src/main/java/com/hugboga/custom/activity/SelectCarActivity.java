@@ -26,7 +26,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarInfoBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.DayQuoteBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.ServiceQuoteSumBean;
@@ -48,7 +47,6 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.JazzyViewPager;
 import com.hugboga.custom.widget.MoneyTextView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -58,12 +56,9 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.id;
 import static android.view.View.GONE;
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/4.
@@ -212,10 +207,13 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     private String source = "";
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_select_car_new;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_select_car_new);
-        ButterKnife.bind(this);
         initView();
         initHeader();
         source = getIntentSource();
@@ -224,7 +222,6 @@ public class SelectCarActivity extends BaseActivity implements ViewPager.OnPageC
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     protected void initHeader() {

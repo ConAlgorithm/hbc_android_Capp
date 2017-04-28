@@ -28,7 +28,6 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestRegister;
 import com.hugboga.custom.data.request.RequestVerity;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -49,7 +48,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -83,10 +81,13 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
     String password;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_register;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_register);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         initDefaultTitleBar();
@@ -138,7 +139,6 @@ public class RegisterActivity extends BaseActivity implements TextWatcher {
     public void onDestroy() {
         super.onDestroy();
         destroyHandler();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

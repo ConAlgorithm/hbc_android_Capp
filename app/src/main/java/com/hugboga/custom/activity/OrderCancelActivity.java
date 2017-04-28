@@ -15,10 +15,10 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.widget.DialogUtil;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -43,11 +43,13 @@ public class OrderCancelActivity extends BaseActivity{
     private DialogUtil mDialogUtil;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_order_cancel;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_order_cancel);
-        ButterKnife.bind(this);
-
         initView();
     }
 

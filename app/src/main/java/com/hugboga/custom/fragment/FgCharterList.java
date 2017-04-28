@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,15 +11,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityRouteAdapter;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
-import org.xutils.view.annotation.ContentView;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 17/3/27.
  */
-@ContentView(R.layout.fg_charter_list)
 public class FgCharterList extends BaseFragment {
 
     @Bind(R.id.fg_charter_list_recycler_view)
@@ -30,9 +25,13 @@ public class FgCharterList extends BaseFragment {
     private OnInitializedListener onInitializedListener;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_charter_list;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

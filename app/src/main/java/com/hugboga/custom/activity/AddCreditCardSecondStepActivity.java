@@ -1,28 +1,18 @@
 package com.hugboga.custom.activity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +25,7 @@ import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.YiLianPayBean;
@@ -43,7 +34,6 @@ import com.hugboga.custom.data.request.RequestAddCreditCard;
 import com.hugboga.custom.data.request.RequestCreditCardPay;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.yilianapi.YiLianPay;
@@ -62,10 +52,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import com.hugboga.custom.constants.Constants;
 import static com.huangbaoche.hbcframe.data.net.HttpRequestUtils.getDialogUtil;
 
 /**
@@ -137,10 +125,13 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_add_credit_sec_step;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_add_credit_sec_step);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         Intent intent = getIntent();
         if (null == intent.getSerializableExtra(CRAD_INFO)) {

@@ -11,15 +11,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.PayResultView;
 
-import org.xutils.view.annotation.ContentView;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/9/6.
  */
-@ContentView(R.layout.fg_payresult)
 public class FgPayResult extends BaseFragment{
 
     @Bind(R.id.fg_result_view)
@@ -28,9 +24,13 @@ public class FgPayResult extends BaseFragment{
     private boolean isPaySucceed;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_payresult;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

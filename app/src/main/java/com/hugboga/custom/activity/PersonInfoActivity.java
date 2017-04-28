@@ -49,7 +49,6 @@ import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.x;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,7 +58,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -86,10 +84,13 @@ public class PersonInfoActivity extends BaseActivity{
     boolean isSetHead = false;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_my_info;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_my_info);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initDefaultTitleBar();
         fgTitle.setText("我的资料");
@@ -100,7 +101,6 @@ public class PersonInfoActivity extends BaseActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
         hideSoftInput();
     }

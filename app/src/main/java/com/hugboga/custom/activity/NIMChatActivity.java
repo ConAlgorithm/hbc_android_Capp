@@ -44,7 +44,6 @@ import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CountryLocalTimeView;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.ImObserverHelper;
@@ -64,7 +63,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
 
@@ -121,11 +119,15 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     private String countryName;
 
     ImObserverHelper imObserverHelper;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_nimchat;
+    }
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_nimchat);
-        ButterKnife.bind(this);
         initView();
 
         setImObservers();

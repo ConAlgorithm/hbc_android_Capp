@@ -64,7 +64,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/10/18.
@@ -125,6 +124,11 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_city_home_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -135,8 +139,6 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 paramsData = (CityHomeListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.fg_city_home_list);
-        ButterKnife.bind(this);
 
         initDefaultTitleBar();
 

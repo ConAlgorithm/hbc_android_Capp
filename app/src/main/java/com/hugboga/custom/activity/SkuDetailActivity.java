@@ -65,7 +65,6 @@ import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
-import org.xutils.view.annotation.ContentView;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -76,13 +75,11 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
 
 
-@ContentView(R.layout.fg_sku_detail)
 public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener  {
 
     public static final String TAG = SkuDetailActivity.class.getSimpleName();
@@ -479,6 +476,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_sku_detail;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         if (this.getIntent() != null) {
             skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
@@ -490,8 +492,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_sku_detail);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         setSensorsShowEvent();
@@ -500,7 +500,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

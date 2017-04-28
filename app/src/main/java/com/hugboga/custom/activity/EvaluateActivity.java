@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,7 +43,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -86,6 +84,11 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
     private boolean isFirstIn = true;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_evaluate;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -97,8 +100,6 @@ public class EvaluateActivity extends BaseActivity implements RatingView.OnLevel
             }
         }
         mDialogUtil = DialogUtil.getInstance(this);
-        setContentView(R.layout.fg_evaluate);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         initView();

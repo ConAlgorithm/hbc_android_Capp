@@ -22,27 +22,30 @@ import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+
 import static android.view.View.GONE;
 
-@ContentView(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity {
 
     //引导图片资源
     private static final int[] pics = {R.drawable.splash_1, R.drawable.splash_2, R.drawable.splash_3};
 
-    @ViewInject(R.id.splash_viewpage)
+    @Bind(R.id.splash_viewpage)
     ViewPager viewPager;
-    @ViewInject(R.id.indicator)
+    @Bind(R.id.indicator)
     CirclePageIndicator mIndicator;
     TextView enter;
 
     private ActionBean actionBean;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_splash;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

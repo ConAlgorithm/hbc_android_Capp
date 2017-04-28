@@ -72,7 +72,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -125,6 +124,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_charter_second;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -135,8 +139,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 params = (CharterSecondStepActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_charter_second);
-        ButterKnife.bind(this);
         initMapView();
         mapView.onCreate(savedInstanceState);
 

@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +13,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
-import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 17/3/16.
  */
-public class DetailPassCityListActivity extends Activity {
+public class DetailPassCityListActivity extends BaseActivity {
 
     @Bind(R.id.detail_pass_city_title_tv)
     TextView titleTV;
@@ -34,6 +31,11 @@ public class DetailPassCityListActivity extends Activity {
     ListView listView;
 
     private OrderBean orderBean;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_detail_pass_city;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,9 +48,6 @@ public class DetailPassCityListActivity extends Activity {
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_detail_pass_city);
-        ButterKnife.bind(this);
-
         if (orderBean == null || orderBean.passByCity == null) {
             finish();
         }
@@ -86,8 +85,7 @@ public class DetailPassCityListActivity extends Activity {
             ViewHolder holder = null;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.view_detail_pass_city_item, null);
-                holder = new ViewHolder();
-                x.view().inject(holder, convertView);
+                holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -100,9 +98,13 @@ public class DetailPassCityListActivity extends Activity {
     }
 
     class ViewHolder {
-        @ViewInject(R.id.detail_pass_city_item_date_tv)
+        @Bind(R.id.detail_pass_city_item_date_tv)
         TextView dateTV;
-        @ViewInject(R.id.detail_pass_city_item_title_tv)
+        @Bind(R.id.detail_pass_city_item_title_tv)
         TextView titleTV;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

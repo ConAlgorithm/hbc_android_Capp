@@ -24,10 +24,11 @@ import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 
 import org.xutils.common.Callback;
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import butterknife.ButterKnife;
 
 
 public abstract class BaseFragment extends Fragment implements HttpRequestListener, View.OnTouchListener {
@@ -38,19 +39,19 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public Callback.Cancelable cancelable;
     protected int contentId = -1;
 
-    private boolean injected = false;
+    private boolean isBinded = false;
     private boolean initView = false;
     private ErrorHandler errorHandler;
     protected BaseFragment mSourceFragment;//fragment来源，从哪个跳转来的
     private ArrayList<EditText> editTextArray = new ArrayList<EditText>();
 
-    private View contentView;
-
+    protected View contentView;
+    public abstract int getContentViewId();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        injected = true;
-        if (contentView == null)
-            contentView = x.view().inject(this, inflater, container);
+        contentView =inflater.inflate(getContentViewId(),container,false);
+        ButterKnife.bind(this,contentView);//绑定framgent
+        isBinded = true;
         MLog.i(this + "onCreateView " + contentView);
         return contentView;
     }
@@ -59,8 +60,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MLog.i(this + "onViewCreated");
-        if (!injected) {
-            x.view().inject(this, this.getView());
+        if (!isBinded) {
+            ButterKnife.bind(this,this.getView());
         }
         if (!initView) {
             initView = true;

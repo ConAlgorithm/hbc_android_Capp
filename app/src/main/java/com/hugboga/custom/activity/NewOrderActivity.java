@@ -20,7 +20,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by on 16/8/9.
@@ -41,11 +40,14 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
     Bundle bundle;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_new_order;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_new_order);
         EventBus.getDefault().register(this);
-        ButterKnife.bind(this);
         initView();
     }
 
@@ -53,7 +55,6 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        ButterKnife.unbind(this);
     }
 
     private void initView() {

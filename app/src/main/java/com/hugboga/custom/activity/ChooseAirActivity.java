@@ -1,12 +1,9 @@
 package com.hugboga.custom.activity;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +23,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -75,10 +71,13 @@ public class ChooseAirActivity extends BaseActivity {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_choose_air;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_choose_air);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initHeader();
@@ -87,7 +86,6 @@ public class ChooseAirActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

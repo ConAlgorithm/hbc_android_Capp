@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,23 +33,20 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/12/9.
  */
-public class GiftDialogActivity extends Activity implements HttpRequestListener {
+public class GiftDialogActivity extends BaseActivity implements HttpRequestListener {
 
     //屏幕中的占比
     private static final float WIDTH_SCALE = 0.77f;
@@ -80,6 +76,11 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
     private CouponActivityBean couponActivityBean;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.view_dialog_gift;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -94,9 +95,7 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
         if (couponActivityBean == null || couponActivityBean.couponActiviyVo == null) {
             finish();
         }
-        setContentView(R.layout.view_dialog_gift);
 
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         final int screenWidth = UIUtils.getScreenWidth();

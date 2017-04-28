@@ -22,8 +22,8 @@ import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -45,10 +45,13 @@ public class ChangeMobileActivtiy extends BaseActivity{
     TextView timeTextView;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_change_mobile;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_change_mobile);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         requestData();
@@ -58,7 +61,6 @@ public class ChangeMobileActivtiy extends BaseActivity{
     public void onDestroy() {
         super.onDestroy();
         destroyHandler();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

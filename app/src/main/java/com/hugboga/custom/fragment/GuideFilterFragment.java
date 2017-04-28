@@ -16,7 +16,6 @@ import com.hugboga.custom.widget.SliderLayout;
 import com.hugboga.custom.widget.SliderView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
 
@@ -24,7 +23,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-@ContentView(R.layout.fragment_guide_filter)
 public class GuideFilterFragment extends BaseFragment implements SliderView.OnValueChangedListener{
 
     @Bind(R.id.guide_filter_genders_male_layout)
@@ -56,9 +54,13 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
     private CapacityBean capacityBean;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fragment_guide_filter;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

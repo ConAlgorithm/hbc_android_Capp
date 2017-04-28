@@ -32,7 +32,6 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -73,10 +72,13 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout developerLayout;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_setting;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_setting);
-        ButterKnife.bind(this);
         initHeader();
 
         if (HbcConfig.IS_DEBUG) {
@@ -89,7 +91,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     private DialogUtil mDialogUtil;

@@ -14,16 +14,13 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-@ContentView(R.layout.fragment_guide_filiter_sort)
 public class GuideFilterSortFragment extends BaseFragment implements AbsListView.OnItemClickListener{
 
     @Bind(R.id.guide_filter_listview)
@@ -33,9 +30,13 @@ public class GuideFilterSortFragment extends BaseFragment implements AbsListView
     private GuideFilterTagAdapter adapter;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fragment_guide_filiter_sort;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

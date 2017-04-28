@@ -18,7 +18,6 @@ import com.hugboga.custom.utils.CommonUtils;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -38,10 +37,13 @@ public class SetPasswordActivity extends BaseActivity{
     private boolean isAfterProcess = false;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_set_passwd;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_set_passwd);
-        ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
@@ -60,7 +62,6 @@ public class SetPasswordActivity extends BaseActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

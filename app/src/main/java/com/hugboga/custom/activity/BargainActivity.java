@@ -48,7 +48,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -78,10 +77,13 @@ public class BargainActivity extends BaseActivity {
     TextView rule;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_bargain;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_bargain);
-        ButterKnife.bind(this);
         initView();
         getIntentValue();
         getData();
@@ -372,7 +374,6 @@ public class BargainActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
         if(null != countDownTimer) {
             countDownTimer.cancel();

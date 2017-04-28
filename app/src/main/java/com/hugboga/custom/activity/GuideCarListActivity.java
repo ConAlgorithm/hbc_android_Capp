@@ -15,7 +15,6 @@ import org.xutils.common.Callback;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/10/8.
@@ -31,6 +30,11 @@ public class GuideCarListActivity extends BaseActivity{
     private GuideCarListAdapter adapter;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_guide_car_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -44,8 +48,6 @@ public class GuideCarListActivity extends BaseActivity{
             }
         }
 
-        setContentView(R.layout.activity_guide_car_list);
-        ButterKnife.bind(this);
         initDefaultTitleBar();
 
         initView();

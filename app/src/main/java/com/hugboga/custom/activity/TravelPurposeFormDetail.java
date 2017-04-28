@@ -1,20 +1,17 @@
 package com.hugboga.custom.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.TravelPurposeFormBean;
 import com.hugboga.custom.data.request.RequestTravelPurposeFormDetail;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -43,12 +40,14 @@ public class TravelPurposeFormDetail extends BaseActivity {
     private String opUserId = "";     //操作人ID
     private Integer id = 0;         //工单ID
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_travel_purpose_form_detail;
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_travel_purpose_form_detail);
-        ButterKnife.bind(this);
         init();
     }
 

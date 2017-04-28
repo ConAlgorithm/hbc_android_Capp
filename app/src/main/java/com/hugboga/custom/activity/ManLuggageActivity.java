@@ -23,7 +23,6 @@ import com.hugboga.custom.utils.Tools;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -185,12 +184,14 @@ public class ManLuggageActivity extends BaseActivity {
 //        showChildSeat.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_man_luggage;
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.fg_man_luggage);
-        ButterKnife.bind(this);
         initView();
         initHeader();
     }

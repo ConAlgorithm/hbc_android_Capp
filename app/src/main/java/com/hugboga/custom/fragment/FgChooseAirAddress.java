@@ -28,7 +28,6 @@ import com.hugboga.custom.utils.CommonUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -41,7 +40,6 @@ import butterknife.OnClick;
 /**
  * Created  on 16/5/13.
  */
-@ContentView(R.layout.fg_choose_air_address)
 public class FgChooseAirAddress extends BaseFragment {
 
     @Bind(R.id.from_city)
@@ -68,6 +66,11 @@ public class FgChooseAirAddress extends BaseFragment {
     LinearLayout startLayout;
     @Bind(R.id.end_layout)
     LinearLayout endLayout;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_choose_air_address;
+    }
 
     @Override
     protected void initHeader() {
@@ -97,7 +100,6 @@ public class FgChooseAirAddress extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
         return rootView;
     }

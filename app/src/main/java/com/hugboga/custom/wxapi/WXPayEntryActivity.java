@@ -27,9 +27,13 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private String orderId;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_pay_result;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pay_result);
         fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
 
         SharedPre sharedPre = new SharedPre(WXPayEntryActivity.this);

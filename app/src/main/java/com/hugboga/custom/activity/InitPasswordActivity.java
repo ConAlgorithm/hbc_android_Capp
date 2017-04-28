@@ -20,7 +20,6 @@ import com.hugboga.custom.utils.CommonUtils;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -38,6 +37,11 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
     private String oldPassword;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_init_password;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -48,8 +52,6 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
                 oldPassword = bundle.getString(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_init_password);
-        ButterKnife.bind(this);
 
         initDefaultTitleBar();
         fgTitle.setText("设置密码");

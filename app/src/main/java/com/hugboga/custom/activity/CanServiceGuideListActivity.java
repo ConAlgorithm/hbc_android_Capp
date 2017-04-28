@@ -18,11 +18,9 @@ import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.widget.ZListView;
 
-
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created on 16/9/9.
@@ -42,6 +40,11 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
     private int totalSize;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_choose_guide;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -54,8 +57,6 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
                 orderType = bundle.getString(Constants.PARAMS_ORDER_TYPE);
             }
         }
-        setContentView(R.layout.activity_choose_guide);
-        ButterKnife.bind(this);
 
         initView();
 
@@ -133,10 +134,6 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public String getEventId() {

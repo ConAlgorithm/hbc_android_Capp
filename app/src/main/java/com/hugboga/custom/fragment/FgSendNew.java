@@ -21,7 +21,6 @@ import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderNewActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
-import com.hugboga.custom.adapter.CarViewpagerAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
@@ -57,7 +56,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -77,7 +75,6 @@ import static com.hugboga.custom.utils.CommonUtils.showToast;
 /**
  * Created  on 16/5/13.
  */
-@ContentView(R.layout.fg_sendnew)
 public class FgSendNew extends BaseFragment implements View.OnTouchListener {
 
     @Bind(R.id.info_left)
@@ -128,6 +125,10 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     private String serverTime;
     private String serverDate;
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_sendnew;
+    }
 
     @Override
     protected void initHeader() {
@@ -530,7 +531,6 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         EventBus.getDefault().register(this);
         source = getArguments().getString("source");
         Map map = new HashMap();

@@ -26,10 +26,7 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/6.
@@ -140,17 +137,15 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        setContentView(R.layout.fg_about);
-        ButterKnife.bind(this);
-        initHeader();
+    public int getContentViewId() {
+        return R.layout.fg_about;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
+    public void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        initHeader();
     }
+
 }
 

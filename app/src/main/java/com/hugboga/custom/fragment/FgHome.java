@@ -21,17 +21,15 @@ import com.hugboga.custom.widget.HomeCustomLayout;
 import com.hugboga.custom.widget.HomeScrollView;
 import com.hugboga.custom.widget.HomeSearchView;
 import com.hugboga.custom.widget.HomeTravelStoriesView;
+
 import org.xutils.common.Callback;
-import org.xutils.view.annotation.ContentView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/8/2.
  */
-@ContentView(R.layout.fg_home)
 public class FgHome extends BaseFragment {
 
     @Bind(R.id.home_scrollview)
@@ -66,9 +64,13 @@ public class FgHome extends BaseFragment {
     LinearLayout emptyLayout;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_home;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         setSensorsDefaultEvent(getEventSource(), SensorsConstant.DISCOVERY);
         return rootView;
     }

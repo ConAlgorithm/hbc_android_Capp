@@ -22,11 +22,9 @@ import com.hugboga.custom.data.request.RequestInsuranceSearch;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -59,6 +57,11 @@ public class InsureInfoActivity extends BaseActivity {
     public boolean isRefreshInsuranceList = false;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_insure_info;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -69,9 +72,6 @@ public class InsureInfoActivity extends BaseActivity {
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-
-        setContentView(R.layout.fg_insure_info);
-        ButterKnife.bind(this);
 
         initView();
     }

@@ -7,12 +7,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.CityFilterTagAdapter;
 import com.hugboga.custom.adapter.CityFilterThemeTagAdapter;
 import com.hugboga.custom.data.bean.CityHomeBean;
 import com.hugboga.custom.data.event.EventAction;
@@ -20,17 +16,15 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.view.annotation.ContentView;
 
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/10/22.
  */
-@ContentView(R.layout.city_filter_theme_fragment)
+
 public class CityFilterThemesFragment extends BaseFragment implements AbsListView.OnItemClickListener{
 
     @Bind(R.id.city_filter_theme_gridview)
@@ -43,6 +37,10 @@ public class CityFilterThemesFragment extends BaseFragment implements AbsListVie
     View filterContentView;
 
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.city_filter_theme_fragment;
+    }
 
     public void setDatas(List<CityHomeBean.GoodsThemes> goodsThemes){
         this.goodsThemesList = goodsThemes;
@@ -55,7 +53,6 @@ public class CityFilterThemesFragment extends BaseFragment implements AbsListVie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

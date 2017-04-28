@@ -67,7 +67,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 17/3/4.
@@ -117,10 +116,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private ArrayList<GuideCarBean> guideCarBeanList;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_combination_order;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combination_order);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }

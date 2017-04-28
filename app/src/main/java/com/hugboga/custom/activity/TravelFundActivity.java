@@ -36,7 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -60,10 +59,13 @@ public class TravelFundActivity extends BaseActivity {
     private TravelFundData travelFundData;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_travel_fund;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_travel_fund);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         setSensorsDefaultEvent("旅游基金", SensorsConstant.TRAVELFOUND);
@@ -72,7 +74,6 @@ public class TravelFundActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 

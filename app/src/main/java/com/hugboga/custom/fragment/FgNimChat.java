@@ -3,12 +3,15 @@ package com.hugboga.custom.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,9 +58,6 @@ import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -69,28 +69,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.OnClick;
+
 /**
  * Created by SPW on 2017/1/5.
  */
-@ContentView(R.layout.fg_chat)
 public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener {
 
-    @ViewInject(R.id.header_left_btn)
-    private ImageView leftBtn;
+    @Bind(R.id.header_left_btn)
+    ImageView leftBtn;
 
-    @ViewInject(R.id.chat_content)
+    @Bind(R.id.chat_content)
     RelativeLayout chatLayout; //主题内容显示
-    @ViewInject(R.id.listview)
+    @Bind(R.id.listview)
     ZListRecyclerView recyclerView;
-    @ViewInject(R.id.swipe)
+    @Bind(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
-    @ViewInject(R.id.chat_logout)
+    @Bind(R.id.chat_logout)
     RelativeLayout emptyLayout;
 
-    @ViewInject(R.id.chat_list_empty_tv)
+    @Bind(R.id.chat_list_empty_tv)
     TextView emptyTV;
 
-    @ViewInject(R.id.login_btn)
+    @Bind(R.id.login_btn)
     TextView loginBtn;
 
 
@@ -106,6 +108,15 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     ImObserverHelper imObserverHelper;
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_chat;
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
+    }
     @Override
     protected void initHeader() {
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -290,8 +301,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         return super.getEventMap();
     }
 
-    @Event({R.id.login_btn, R.id.chat_list_empty_tv})
-    private void onClickView(View view) {
+    @OnClick({R.id.login_btn, R.id.chat_list_empty_tv})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_btn:
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);

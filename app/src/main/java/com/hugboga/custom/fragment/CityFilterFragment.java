@@ -21,7 +21,6 @@ import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.view.annotation.ContentView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-@ContentView(R.layout.fragment_filter_city)
 public class CityFilterFragment extends BaseFragment {
 
     @Bind(R.id.filter_left_list)
@@ -53,9 +50,13 @@ public class CityFilterFragment extends BaseFragment {
     List<SearchGroupBean> groupList3;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fragment_filter_city;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

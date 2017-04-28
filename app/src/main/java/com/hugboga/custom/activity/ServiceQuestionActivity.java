@@ -23,17 +23,14 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/11/14.
@@ -48,6 +45,11 @@ public class ServiceQuestionActivity extends BaseActivity{
     public int lastCustomRole;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_service_question;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -59,8 +61,6 @@ public class ServiceQuestionActivity extends BaseActivity{
             }
         }
 
-        setContentView(R.layout.activity_service_question);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         initDefaultTitleBar();

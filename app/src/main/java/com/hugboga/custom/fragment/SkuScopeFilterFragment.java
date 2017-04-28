@@ -15,17 +15,14 @@ import com.hugboga.custom.widget.SkuThemeTagGroup;
 import com.hugboga.custom.widget.TagGroup;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.view.annotation.ContentView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-@ContentView(R.layout.fragment_sku_scope_filter)
 public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnTagItemClickListener {
 
     @Bind(R.id.sku_filter_day_one_tv)
@@ -48,9 +45,13 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
     private String dayTypes;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fragment_sku_scope_filter;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

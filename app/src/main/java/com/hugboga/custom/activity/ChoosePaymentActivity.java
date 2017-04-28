@@ -129,6 +129,11 @@ public class ChoosePaymentActivity extends BaseActivity {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_choose_payment;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -140,9 +145,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             }
         }
 
-        setContentView(R.layout.fg_choose_payment);
         EventBus.getDefault().register(this);
-        ButterKnife.bind(this);
         initDefaultTitleBar();
 
         initView();

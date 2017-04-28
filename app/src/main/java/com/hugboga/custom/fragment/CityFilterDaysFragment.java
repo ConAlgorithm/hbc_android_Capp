@@ -7,24 +7,20 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityFilterTagAdapter;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 
 import org.greenrobot.eventbus.EventBus;
-import org.xutils.view.annotation.ContentView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/10/22.
  */
-@ContentView(R.layout.city_filiter_list_fragment)
+
 public class CityFilterDaysFragment extends BaseFragment implements AbsListView.OnItemClickListener {
 
     @Bind(R.id.city_filter_listview)
@@ -35,9 +31,13 @@ public class CityFilterDaysFragment extends BaseFragment implements AbsListView.
     View filterContentView;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.city_filiter_list_fragment;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

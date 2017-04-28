@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,7 +23,6 @@ import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -39,7 +37,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.Calendar;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
@@ -101,10 +98,13 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     };
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_travel_purpose_form;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_travel_purpose_form);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         init();
     }

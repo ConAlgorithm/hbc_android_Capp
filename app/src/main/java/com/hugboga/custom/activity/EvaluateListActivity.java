@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -17,7 +16,6 @@ import org.xutils.common.Callback;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/8/4.
@@ -30,6 +28,11 @@ public class EvaluateListActivity extends BaseActivity{
     private String guideId;
     private String listCount;
     private EvaluateListAdapter adapter;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fg_evaluate_list;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,6 @@ public class EvaluateListActivity extends BaseActivity{
             }
         }
 
-        setContentView(R.layout.fg_evaluate_list);
-        ButterKnife.bind(this);
         initDefaultTitleBar();
 
         initView();

@@ -1,13 +1,10 @@
 package com.hugboga.custom.activity;
 
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,19 +22,17 @@ import com.squareup.timessquare.MonthCellDescriptor;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.view.View.GONE;
 
-public class DatePickerActivity extends Activity {
+public class DatePickerActivity extends BaseActivity {
 
     public static final int PARAM_TYPE_SINGLE = 1;
     public static final int PARAM_TYPE_RANGE = 2;
@@ -72,11 +67,13 @@ public class DatePickerActivity extends Activity {
     String startDate = "";
 
     @Override
+    public int getContentViewId() {
+        return R.layout.date_picker_layout;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.date_picker_layout);
-        ButterKnife.bind(this);
-
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int)(UIUtils.getScreenHeight() * 0.7f));
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         rootLayout.setLayoutParams(params);

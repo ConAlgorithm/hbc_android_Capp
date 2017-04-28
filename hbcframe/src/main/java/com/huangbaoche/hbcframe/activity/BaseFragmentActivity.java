@@ -1,41 +1,36 @@
 package com.huangbaoche.hbcframe.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.huangbaoche.hbcframe.BuildConfig;
 import com.huangbaoche.hbcframe.fragment.BaseFragment;
-import com.huangbaoche.hbcframe.util.FastClickUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.umeng.analytics.MobclickAgent;
 
-import org.xutils.x;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
 
 
 /**
  * fragmentActivity 基类
  */
-public class BaseFragmentActivity extends AppCompatActivity  {
+public abstract class BaseFragmentActivity extends AppCompatActivity  {
 
     private ArrayList<BaseFragment> mFragmentList = new ArrayList<>();
     protected int contentId = -1;
-
+    public abstract int getContentViewId();
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        x.view().inject(this);
+        setContentView(getContentViewId());
+        ButterKnife.bind(this);
 //		addErrorProcess();
     }
 
@@ -146,6 +141,7 @@ public class BaseFragmentActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
         MLog.i("onDestroy" + this);
     }
 

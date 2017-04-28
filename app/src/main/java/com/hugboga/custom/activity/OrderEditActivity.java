@@ -34,7 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
@@ -106,6 +105,11 @@ public class OrderEditActivity extends BaseActivity {
     RequestOrderEdit.Params requestParams;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_order_info_edit;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -118,8 +122,6 @@ public class OrderEditActivity extends BaseActivity {
             }
         }
 
-        setContentView(R.layout.fg_order_info_edit);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         initView();

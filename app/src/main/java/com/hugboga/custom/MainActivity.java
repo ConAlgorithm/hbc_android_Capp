@@ -39,9 +39,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.FilterGuideListActivity;
-import com.hugboga.custom.activity.FilterSkuListActivity;
-import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -55,7 +52,6 @@ import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
-import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgNimChat;
@@ -65,6 +61,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.LocationUtils;
@@ -89,10 +86,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
-import org.xutils.common.util.FileUtil;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -101,10 +94,11 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
 
-@ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HttpRequestListener {
 
     public static final String PUSH_BUNDLE_MSG = "pushMessage";
@@ -119,13 +113,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public static final int REQUEST_EXTERNAL_STORAGE = 3;
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    @ViewInject(R.id.container)
-    private NoScrollViewPager mViewPager;
+    @Bind(R.id.container)
+    NoScrollViewPager mViewPager;
 
-    @ViewInject(R.id.bottom_point_2)
-    private TextView bottomPoint2;
-    @ViewInject(R.id.bottom_point_3)
-    private TextView qyServiceUnreadMsgCount;
+    @Bind(R.id.bottom_point_2)
+    TextView bottomPoint2;
+    @Bind(R.id.bottom_point_3)
+    TextView qyServiceUnreadMsgCount;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TextView tabMenu[] = new TextView[4];
@@ -141,6 +135,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private FgTravel fgTravel;
     private FgMySpace fgMySpace;
     private SharedPre sharedPre;
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -640,8 +639,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
-    @Event({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4})
-    private void onClickView(View view) {
+    @OnClick({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4})
+    void onClick(View view) {
         switch (view.getId()) {
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);

@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -87,12 +86,15 @@ public class PickSendActivity extends BaseActivity {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_picksend;
+    }
+
+    @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         Bundle bundle = getIntent().getExtras();
 
-        setContentView(R.layout.fg_picksend);
-        ButterKnife.bind(this);
         initView();
         initHeader();
         EventUtil eventUtil = EventUtil.getInstance();

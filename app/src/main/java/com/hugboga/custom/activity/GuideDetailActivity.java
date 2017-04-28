@@ -51,7 +51,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -137,6 +136,11 @@ public class GuideDetailActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_guide_detail;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -147,8 +151,6 @@ public class GuideDetailActivity extends BaseActivity{
                 params = (Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_guide_detail);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         initUI();

@@ -17,7 +17,6 @@ import com.qiyukf.unicorn.api.ProductDetail;
 import java.io.Serializable;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/11/9.
@@ -37,6 +36,11 @@ public class UnicornServiceActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_unicorn_service;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -47,9 +51,6 @@ public class UnicornServiceActivity extends BaseActivity{
                 params = (UnicornServiceActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-
-        setContentView(R.layout.activity_unicorn_service);
-        ButterKnife.bind(this);
 
         initDefaultTitleBar();
         fgTitle.setText("皇包车客服");

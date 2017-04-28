@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -187,10 +186,13 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_choose_city;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_choose_city);
-        ButterKnife.bind(this);
         initView();
     }
 

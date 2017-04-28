@@ -44,7 +44,6 @@ import java.text.ParseException;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -87,6 +86,11 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private String idStr = null;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_coupon;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -101,9 +105,6 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 orderPrice = bundle.getDouble(ORDER_PRICE);
             }
         }
-
-        setContentView(R.layout.fg_coupon);
-        ButterKnife.bind(this);
 
         initView();
         requestData();

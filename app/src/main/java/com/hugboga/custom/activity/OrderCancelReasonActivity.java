@@ -3,7 +3,6 @@ package com.hugboga.custom.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -36,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -56,6 +54,11 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
     private OrderBean orderBean;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_order_cancel_reason;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -66,8 +69,6 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_order_cancel_reason);
-        ButterKnife.bind(this);
 
         initDefaultTitleBar();
         fgTitle.setText("请选择取消原因");

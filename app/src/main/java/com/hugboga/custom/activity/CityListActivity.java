@@ -27,8 +27,8 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
 import java.io.Serializable;
+
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class CityListActivity extends BaseActivity{
 
@@ -65,6 +65,11 @@ public class CityListActivity extends BaseActivity{
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_city_list;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -75,8 +80,6 @@ public class CityListActivity extends BaseActivity{
                 paramsData = (CityListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        setContentView(R.layout.activity_city_list);
-        ButterKnife.bind(this);
         initView();
     }
 

@@ -30,7 +30,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -54,10 +53,13 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
     Button forget_passwd_submit; //验证码倒计时
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_forget_passwd;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fg_forget_passwd);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
     }
@@ -65,7 +67,6 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
         if (handler != null && runnable != null) {
             handler.removeCallbacks(runnable);

@@ -34,7 +34,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
-import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
@@ -66,7 +65,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.WebInfoActivity.CONTACT_SERVICE;
@@ -104,12 +102,15 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     CollectGuideBean collectGuideBean;
 
     @Override
+    public int getContentViewId() {
+        return R.layout.fg_sku_detail;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
         this.collectGuideBean = (CollectGuideBean)getIntent().getSerializableExtra("collectGuideBean");
-        setContentView(R.layout.fg_sku_detail);
-        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         setSensorsEvent();
@@ -260,7 +261,6 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 
