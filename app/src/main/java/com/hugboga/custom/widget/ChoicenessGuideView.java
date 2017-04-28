@@ -78,12 +78,13 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             descTV.setVisibility(View.VISIBLE);
             descTV.setText(data.homeDesc.trim());
         }
-        if (data.serviceStar <= 0) {
+        double serviceStar = data.getServiceStar();
+        if (serviceStar <= 0) {
             levelTV.setText("暂无星级");
             levelTV.setTextSize(11);
             levelTV.setTextColor(0xFFD1D1D1);
         } else {
-            levelTV.setText("" + data.serviceStar);
+            levelTV.setText("" + serviceStar);
             levelTV.setTextSize(16);
             levelTV.setTextColor(0xFFF9B900);
         }

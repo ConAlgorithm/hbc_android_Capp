@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,7 @@ public class FilterGuideBean implements Serializable{
     public String genderName;           // 性别名称
     public int completeOrderNum;        // 服务完成订单数
     public int commentNum;              // 评论数
-    public double serviceStar;          // 星级分数
+    private double serviceStar;          // 星级分数
     public ArrayList<String> skillLabelNames;// 特殊技能标签
     public String homeDesc;             // 司导个人简介
     public String serviceTypes;         // 提供的服务,(服务标识，逗号隔开)
@@ -49,5 +50,14 @@ public class FilterGuideBean implements Serializable{
 
     public boolean isCanService() {
         return availableStatus == 1;
+    }
+
+    public double getServiceStar() {
+        try {
+            BigDecimal bigDecimal = new BigDecimal(serviceStar);
+            return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        } catch (Exception e) {
+            return serviceStar;
+        }
     }
 }

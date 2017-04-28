@@ -38,4 +38,11 @@ public class CountryGroupBean implements Serializable{
         }
         return hotCityList;
     }
+
+    public boolean isEmpty() {
+        boolean hotListEmpty = hotCities == null || hotCities.size() <= 0;
+        boolean shortLinesEmpty = shortLines == null || shortLines.size() <= 0;
+        boolean deepLinesEmpty = deepLines == null || deepLines.size() <= 0;
+        return hotListEmpty && shortLinesEmpty && deepLinesEmpty;
+    }
 }
