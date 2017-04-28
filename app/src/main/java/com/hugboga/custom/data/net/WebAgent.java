@@ -42,6 +42,8 @@ import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -51,6 +53,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -710,6 +713,16 @@ public class WebAgent implements HttpRequestListener {
                         mActivity.startActivity(intent);
                         break;
                 }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void showGuideDetailTopBottomBar(final int show) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new EventAction(EventType.SHOW_GUIDE_DETAIL_BAR, show));
             }
         });
     }

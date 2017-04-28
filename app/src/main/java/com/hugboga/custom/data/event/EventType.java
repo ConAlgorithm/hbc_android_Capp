@@ -100,4 +100,6 @@ public enum EventType {
     FILTER_CLOSE,
 
     SKU_FILTER_SCOPE,
+
+    SHOW_GUIDE_DETAIL_BAR,
 }

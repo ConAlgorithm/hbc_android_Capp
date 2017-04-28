@@ -18,6 +18,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
@@ -57,10 +58,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
+public class
+GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
     public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
 
+    @Bind(R.id.guide_web_detail_titlebar)
+    RelativeLayout titlebar;
     @Bind(R.id.titlebar_detail_right_1_btn)
     ImageView collectIV;
     @Bind(R.id.titlebar_detail_right_2_btn)
@@ -129,6 +133,16 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             case CLICK_USER_LOGIN:
                 loadUrl();
                 sendRequest();
+                break;
+            case SHOW_GUIDE_DETAIL_BAR:
+                int isShow = (int) action.getData();
+                if (isShow == 1) {
+                    titlebar.setVisibility(View.VISIBLE);
+                    bottomView.setVisibility(View.VISIBLE);
+                } else {
+                    titlebar.setVisibility(View.GONE);
+                    bottomView.setVisibility(View.GONE);
+                }
                 break;
         }
     }
@@ -229,9 +243,6 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            if (!SkuDetailActivity.this.isFinishing()) {
-//                gotoOrder.setVisibility(View.VISIBLE);
-//            }
         }
 
         @Override
@@ -246,14 +257,12 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         @Override
         public WebResourceResponse shouldInterceptRequest(final WebView view, String url) {
-            MLog.e("WebResourceResponse1 =" + url);
             return null;
         }
 
         @Override
         @TargetApi(21)
         public WebResourceResponse shouldInterceptRequest(final WebView view, WebResourceRequest interceptedRequest) {
-            MLog.e("WebResourceResponse2 =" + interceptedRequest.getUrl());
             return null;
         }
 
