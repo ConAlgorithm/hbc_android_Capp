@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,11 +29,12 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.view.View.GONE;
 
-public class DatePickerActivity extends BaseActivity {
+public class DatePickerActivity extends Activity {
 
     public static final int PARAM_TYPE_SINGLE = 1;
     public static final int PARAM_TYPE_RANGE = 2;
@@ -67,13 +69,11 @@ public class DatePickerActivity extends BaseActivity {
     String startDate = "";
 
     @Override
-    public int getContentViewId() {
-        return R.layout.date_picker_layout;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.date_picker_layout);
+        ButterKnife.bind(this);
+
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int)(UIUtils.getScreenHeight() * 0.7f));
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         rootLayout.setLayoutParams(params);

@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -41,12 +42,13 @@ import org.json.JSONObject;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/12/9.
  */
-public class GiftDialogActivity extends BaseActivity implements HttpRequestListener {
+public class GiftDialogActivity extends Activity implements HttpRequestListener {
 
     //屏幕中的占比
     private static final float WIDTH_SCALE = 0.77f;
@@ -76,11 +78,6 @@ public class GiftDialogActivity extends BaseActivity implements HttpRequestListe
     private CouponActivityBean couponActivityBean;
 
     @Override
-    public int getContentViewId() {
-        return R.layout.view_dialog_gift;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -95,7 +92,9 @@ public class GiftDialogActivity extends BaseActivity implements HttpRequestListe
         if (couponActivityBean == null || couponActivityBean.couponActiviyVo == null) {
             finish();
         }
+        setContentView(R.layout.view_dialog_gift);
 
+        ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
         final int screenWidth = UIUtils.getScreenWidth();

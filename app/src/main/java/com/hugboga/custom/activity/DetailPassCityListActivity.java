@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 17/3/16.
  */
-public class DetailPassCityListActivity extends BaseActivity {
+public class DetailPassCityListActivity extends Activity {
 
     @Bind(R.id.detail_pass_city_title_tv)
     TextView titleTV;
@@ -31,11 +32,6 @@ public class DetailPassCityListActivity extends BaseActivity {
     ListView listView;
 
     private OrderBean orderBean;
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_detail_pass_city;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +44,9 @@ public class DetailPassCityListActivity extends BaseActivity {
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        setContentView(R.layout.activity_detail_pass_city);
+        ButterKnife.bind(this);
+
         if (orderBean == null || orderBean.passByCity == null) {
             finish();
         }
