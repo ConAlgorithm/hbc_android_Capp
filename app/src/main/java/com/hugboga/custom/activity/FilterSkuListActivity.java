@@ -119,6 +119,12 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         if (paramsData != null) {
+            CityListActivity.Params params = new CityListActivity.Params();
+            params.cityHomeType = paramsData.cityHomeType;
+            params.id = paramsData.id;
+            params.titleName = paramsData.titleName;
+            filterLayout.initCityFilter(params);
+
             filterLayout.setDayTypes(paramsData.days);
         }
         requestGuideList(true);

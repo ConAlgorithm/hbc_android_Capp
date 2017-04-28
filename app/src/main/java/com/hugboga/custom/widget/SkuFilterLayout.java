@@ -18,10 +18,8 @@ import android.widget.TextView;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
-import com.hugboga.custom.data.bean.CapacityBean;
 import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.fragment.CityFilterFragment;
-import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
 
 import java.util.ArrayList;
@@ -159,11 +157,17 @@ public class SkuFilterLayout extends LinearLayout {
         return viewPager.isShown();
     }
 
+    public void initCityFilter(CityListActivity.Params cityParams) {
+        pagerAdapter.setCityParams(cityParams);
+        setCityParams(cityParams);
+    }
+
     public void setCityParams(CityListActivity.Params cityParams) {
         if (cityParams == null) {
             return;
         }
         setSkuFilterBean(null);
+        setDayTypes(null);
         pagerAdapter.resetFilter();
 
         this.cityParams = cityParams;
@@ -207,6 +211,7 @@ public class SkuFilterLayout extends LinearLayout {
         SkuScopeFilterFragment skuScopeFilterFragment;
         ArrayList<GoodsFilterBean.FilterTheme> themeList;
         String dayTypes;
+        CityListActivity.Params cityParams;
 
         public SkuFilterAdapter(FragmentManager fm) {
             super(fm);
@@ -217,6 +222,7 @@ public class SkuFilterLayout extends LinearLayout {
             switch (position) {
                 case 0:
                     CityFilterFragment cityFilterfragment = new CityFilterFragment();
+                    cityFilterfragment.setCityParams(cityParams);
                     return cityFilterfragment;
                 case 1:
                     skuScopeFilterFragment = new SkuScopeFilterFragment();
@@ -262,6 +268,10 @@ public class SkuFilterLayout extends LinearLayout {
             } else {
                 this.dayTypes = dayTypes;
             }
+        }
+
+        public void setCityParams(CityListActivity.Params cityParams) {
+            this.cityParams = cityParams;
         }
     }
 

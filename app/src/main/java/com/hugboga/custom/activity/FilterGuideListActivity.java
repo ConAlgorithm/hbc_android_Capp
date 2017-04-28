@@ -122,9 +122,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        requestMaxCapacityOverall();
-        requestGuideList();
-
         if (paramsData != null) {
             CityListActivity.Params params = new CityListActivity.Params();
             params.cityHomeType = paramsData.cityHomeType;
@@ -132,6 +129,9 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             params.titleName = paramsData.titleName;
             filterLayout.initCityFilter(params);
         }
+
+        requestMaxCapacityOverall();
+        requestGuideList();
     }
 
     public void initTitleBar() {
