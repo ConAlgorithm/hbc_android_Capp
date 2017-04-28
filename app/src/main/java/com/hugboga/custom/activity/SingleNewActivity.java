@@ -743,7 +743,7 @@ public class SingleNewActivity extends BaseActivity {
                     CommonUtils.showToast("先选择城市");
                     return;
                 }
-                if (!TextUtils.isEmpty(startTitle.getText())) {
+                if (startBean != null) {
                     bundle.putString("source", "下单过程中");
                     bundle.putString(KEY_FROM, "to");
                     bundle.putInt(PoiSearchActivity.KEY_CITY_ID, cityBean.cityId);
@@ -773,11 +773,11 @@ public class SingleNewActivity extends BaseActivity {
             CommonUtils.showToast("先选择城市");
             return false;
         }
-        if(TextUtils.isEmpty(startTitle.getText())){
+        if(startBean == null){
             CommonUtils.showToast("先选择出发地");
             return false;
         }
-        if(TextUtils.isEmpty(endTitle.getText())){
+        if(arrivalBean == null){
             CommonUtils.showToast("先选择目的地");
             return false;
         }
