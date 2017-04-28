@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -21,11 +22,12 @@ public class FilterGuideBean implements Serializable{
     public String genderName;           // 性别名称
     public int completeOrderNum;        // 服务完成订单数
     public int commentNum;              // 评论数
-    public double serviceStar;          // 星级分数
+    private double serviceStar;          // 星级分数
     public ArrayList<String> skillLabelNames;// 特殊技能标签
     public String homeDesc;             // 司导个人简介
     public String serviceTypes;         // 提供的服务,(服务标识，逗号隔开)
     public int isQuality;               // 是否优质司导, 1-是，0-否
+    public int availableStatus;         // 是否可用司导：1-是，0-否
     public int serviceDaily;            // 是否可服务包车，0否，1是
     public int serviceJsc;              // 是否可服务接送机、单次接送，0否，1是
 
@@ -37,12 +39,25 @@ public class FilterGuideBean implements Serializable{
         }
         String result = "可提供服务：";
         if (serviceDaily == 1 && serviceJsc == 1) {
-            result += "接送机、单次接送、定制包车";
+            result += "接送机、单次接送、按天包车";
         } else if (serviceDaily == 1) {
-            result += "定制包车";
+            result += "按天包车";
         } else if (serviceJsc == 1) {
             result += "接送机、单次接送";
         }
         return result;
+    }
+
+    public boolean isCanService() {
+        return availableStatus == 1;
+    }
+
+    public double getServiceStar() {
+        try {
+            BigDecimal bigDecimal = new BigDecimal(serviceStar);
+            return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        } catch (Exception e) {
+            return serviceStar;
+        }
     }
 }

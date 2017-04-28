@@ -49,6 +49,18 @@ public class CityFilterFragment extends BaseFragment {
     List<SearchGroupBean> groupList2;
     List<SearchGroupBean> groupList3;
 
+    private CityListActivity.Params cityParams;
+
+    public void setCityParams(CityListActivity.Params cityParams) {
+        if (cityParams == null) {
+            return;
+        }
+        if (levelCityAdapterLeft != null) {
+            levelCityAdapterLeft.setCityParams(cityParams);
+        }
+        this.cityParams = cityParams;
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_filter_city;
@@ -89,6 +101,13 @@ public class CityFilterFragment extends BaseFragment {
                     params.cityHomeType = CityListActivity.CityHomeType.ALL;
                     params.titleName = groupList2.get(position).spot_name;
                     EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CITY, params));
+                    cityParams = params;
+                    if (levelCityAdapterMiddle != null) {
+                        levelCityAdapterMiddle.setCityParams(params);
+                    }
+                    if (levelCityAdapterRight != null) {
+                        levelCityAdapterRight.setCityParams(params);
+                    }
                 } else {
                     if (CityUtils.canGoCityList(groupList2.get(position))) {
                         goCityList(groupList2.get(position));
@@ -107,17 +126,17 @@ public class CityFilterFragment extends BaseFragment {
         rightList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                goCityList(groupList3.get(position));
                 for (SearchGroupBean lineGroupBean : groupList3) {
                     lineGroupBean.isSelected = false;
                 }
                 groupList3.get(position).isSelected = true;
                 levelCityAdapterRight.notifyDataSetChanged();
-                goCityList(groupList3.get(position));
             }
         });
 
-
         levelCityAdapterLeft = new LevelCityAdapter(getActivity(), 1);
+        levelCityAdapterLeft.setCityParams(cityParams);
         SearchGroupBean lineGroupBean = new SearchGroupBean();
         lineGroupBean.group_id = 0;
         lineGroupBean.flag = 1;
@@ -156,14 +175,13 @@ public class CityFilterFragment extends BaseFragment {
             lineGroupBean = (SearchGroupBean) searchGroupBean.clone();
             lineGroupBean.isSelected = false;
 
-
             groupList3 = new ArrayList<>();
             groupList3.add(0, lineGroupBean);
             rightList.setVisibility(VISIBLE);
             groupList3.addAll(list3);
+            levelCityAdapterRight.setCityParams(cityParams);
             levelCityAdapterRight.setList(groupList3);
             rightList.setAdapter(levelCityAdapterRight);
-            levelCityAdapterRight.notifyDataSetChanged();
             levelCityAdapterMiddle.setMiddleLineShow(false);
         }
     }
@@ -178,13 +196,13 @@ public class CityFilterFragment extends BaseFragment {
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getLevel2City(getActivity(), groupList.get(position).group_id));
         }
+        levelCityAdapterMiddle.setCityParams(cityParams);
         levelCityAdapterMiddle.setList(groupList2);
-        levelCityAdapterMiddle.notifyDataSetChanged();
         levelCityAdapterMiddle.setMiddleLineShow(true);
         middleList.setAdapter(levelCityAdapterMiddle);
     }
 
-    private void goCityList(SearchGroupBean searchGroupBean) {
+    private CityListActivity.Params goCityList(SearchGroupBean searchGroupBean) {
         CityListActivity.Params params = new CityListActivity.Params();
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
@@ -192,27 +210,35 @@ public class CityFilterFragment extends BaseFragment {
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
-                params.id = searchGroupBean.sub_place_id;
+                params.id = searchGroupBean.group_id;
                 params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
                 params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
             } else {
-                params.id = searchGroupBean.sub_place_id;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.id = searchGroupBean.sub_city_id;
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
                 params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
+            } else if (searchGroupBean.type == 1) {
+                    params.id = searchGroupBean.group_id;
+                    params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                    params.titleName = searchGroupBean.group_name;
+            } else if (searchGroupBean.type == 2) {
+                    params.id = searchGroupBean.sub_place_id;
+                    params.titleName = searchGroupBean.sub_place_name;
+                    params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
             } else {
-                params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityListActivity.CityHomeType.CITY;
-                params.titleName = searchGroupBean.sub_place_name;
+                    params.id = searchGroupBean.sub_city_id;
+                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
@@ -224,7 +250,15 @@ public class CityFilterFragment extends BaseFragment {
                 params.titleName = searchGroupBean.spot_name;
             }
         }
+        cityParams = params;
+        if (levelCityAdapterMiddle != null) {
+            levelCityAdapterMiddle.setCityParams(params);
+        }
+        if (levelCityAdapterRight != null) {
+            levelCityAdapterRight.setCityParams(params);
+        }
         EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_CITY, params));
+        return params;
     }
 
 }

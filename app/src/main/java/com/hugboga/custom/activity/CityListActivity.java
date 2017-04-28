@@ -53,6 +53,7 @@ public class CityListActivity extends BaseActivity{
 
     public CityListActivity.Params paramsData;
     private CityListAdapter cityListAdapter;
+    private CountryGroupBean countryGroupBean;
 
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY, ALL
@@ -222,12 +223,18 @@ public class CityListActivity extends BaseActivity{
             }
         } else if (_request instanceof RequestCountryGroup) {
             setEmptyLayout(false, true);
-            CountryGroupBean countryGroupBean = ((RequestCountryGroup) _request).getData();
-            cityListAdapter.setCountryGroupData(countryGroupBean);
+            countryGroupBean = ((RequestCountryGroup) _request).getData();
+            if (!countryGroupBean.isEmpty()) {
+                cityListAdapter.setCountryGroupData(countryGroupBean);
+            }
             requestGuideList();
         } else if (_request instanceof RequestFilterGuide) {
-            setEmptyLayout(false, true);
             FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
+            if (paramsData.cityHomeType != CityHomeType.CITY && (countryGroupBean == null || countryGroupBean.isEmpty()) && filterGuideListBean.listCount == 0) {
+                setEmptyLayout(true, true);
+            } else {
+                setEmptyLayout(false, true);
+            }
             cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
         }
     }
@@ -263,13 +270,9 @@ public class CityListActivity extends BaseActivity{
             return;
         }
         if (isDataNull) {
-            if (paramsData.cityHomeType == CityHomeType.CITY) {
-                emptyIV.setBackgroundResource(R.drawable.empty_city);
-                emptyHintTV.setText("很抱歉该地区还未开通服务");
-                emptyLayout.setEnabled(false);
-
-                showTitleBar();
-            }
+            emptyIV.setBackgroundResource(R.drawable.empty_city);
+            emptyHintTV.setText("很抱歉该地区还未开通服务");
+            emptyLayout.setEnabled(false);
         } else {
             emptyIV.setBackgroundResource(R.drawable.empty_wifi);
             emptyHintTV.setText("似乎与网络断开，点击屏幕重试");
@@ -281,6 +284,7 @@ public class CityListActivity extends BaseActivity{
                 }
             });
         }
+        showTitleBar();
     }
 
     public boolean isShowCity() {

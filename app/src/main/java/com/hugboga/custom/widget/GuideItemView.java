@@ -97,7 +97,8 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
 
         evaluateTV.setText(data.commentNum + "评价");
 
-        String level = data.serviceStar <= 0 ? "暂无星级" : data.serviceStar + "星";
+        double serviceStar = data.getServiceStar();
+        String level = serviceStar <= 0 ? "暂无星级" : serviceStar + "星";
         starTV.setText(level);
 
         GuideItemUtils.setTag(tagGroup, data.skillLabelNames);

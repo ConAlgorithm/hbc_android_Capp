@@ -3,7 +3,6 @@ package com.hugboga.custom.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -25,6 +25,8 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
     boolean middleLineShow;
     boolean isFilter;
 
+    CityListActivity.Params cityParams;
+
     public LevelCityAdapter(Context context,int flag) {
         super(context);
         mContext = context;
@@ -37,6 +39,11 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
 
     public void isFilter(boolean isFilter) {
         this.isFilter = isFilter;
+    }
+
+    public void setCityParams(CityListActivity.Params cityParams) {
+        this.cityParams = cityParams;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -156,7 +163,17 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             viewHolder.has_sub_img.setVisibility(View.GONE);
         }
 
-        if (isFilter && (flag == 2 || flag == 3) && (getItem(position).has_sub != 1 || flag == 3 && position == 0)) {
+        boolean isShowSelectedImg = (flag == 2 || flag == 3) && (getItem(position).has_sub != 1 || flag == 3 && position == 0);
+
+        boolean isSelectedItem = isSelectedItem(position, flag);
+        if ((isShowSelectedImg && isFilter) || (isSelectedItem && isShowSelectedImg)) {
+            if (isSelectedItem && isShowSelectedImg) {
+                getItem(position).isSelected = true;
+                viewHolder.name.setTextColor(Color.parseColor("#fcd633"));
+            } else{
+                getItem(position).isSelected = false;
+                viewHolder.name.setTextColor(Color.parseColor("#111111"));
+            }
             if (getItem(position).isSelected) {
                 viewHolder.name.setPadding(UIUtils.dip2px(20), 0, UIUtils.dip2px(18), 0);
                 viewHolder.city_selected_img.setVisibility(View.VISIBLE);
@@ -192,7 +209,42 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             return getItem(position).spot_name;
         }
         return "";
+    }
 
+    public boolean isSelectedItem(int position, int _flag) {
+        if (cityParams == null) {
+            return false;
+        }
+        int flag = getItem(position).flag == 4 ? 4 : _flag;
+        SearchGroupBean searchGroupBean = getItem(position);
+        if (flag == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+            return searchGroupBean.group_id == cityParams.id;
+        } else if (flag == 2) {
+            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+                return searchGroupBean.group_id == cityParams.id;
+            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+                return searchGroupBean.sub_place_id == cityParams.id;
+            } else if (searchGroupBean.type == 3 && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
+                return searchGroupBean.sub_city_id == cityParams.id;
+            }
+        } else if (flag == 3) {
+            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+                return searchGroupBean.group_id == cityParams.id;
+            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+                return searchGroupBean.sub_place_id == cityParams.id;
+            } else if (searchGroupBean.type == 3 && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY){
+                return searchGroupBean.sub_city_id == cityParams.id;
+            }
+        } else if (flag == 4) {
+            if (searchGroupBean.type == 1 && cityParams.cityHomeType == CityListActivity.CityHomeType.CITY) {
+                return searchGroupBean.spot_id == cityParams.id;
+            } else if (searchGroupBean.type == 2 && cityParams.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+                return searchGroupBean.spot_id == cityParams.id;
+            } else if (cityParams.cityHomeType == CityListActivity.CityHomeType.ALL) {
+                return searchGroupBean.spot_id ==cityParams.id;
+            }
+        }
+        return false;
     }
 
     private static class ViewHolder{

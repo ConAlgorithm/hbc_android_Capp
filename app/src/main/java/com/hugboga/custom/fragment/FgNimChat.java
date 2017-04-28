@@ -180,7 +180,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         adapter = new HbcRecyclerSingleTypeAdpater<>(getActivity(), ImItemView.class);
         recyclerView.setAdapter(adapter);
         ZDefaultDivider divider = recyclerView.getItemDecoration();
-        divider.setItemOffsets(5, 10, 5, 10);
+        divider.setItemOffsets(0, 0, 0, 0);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
         if (!UserEntity.getUser().isLogin(getActivity())) {

@@ -57,7 +57,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     private GuideFilterSortFragment.SortTypeBean sortTypeBean;
 
     private HbcRecyclerSingleTypeAdpater<FilterGuideBean> mAdapter;
-    private ArrayList<FilterGuideBean> guideList;
     private CityListActivity.CityHomeType lastCityHomeType;//用来判断是否显示当前城市
 
     public static class Params implements Serializable {
@@ -121,6 +120,14 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
+        if (paramsData != null) {
+            CityListActivity.Params params = new CityListActivity.Params();
+            params.cityHomeType = paramsData.cityHomeType;
+            params.id = paramsData.id;
+            params.titleName = paramsData.titleName;
+            filterLayout.initCityFilter(params);
+        }
+
         requestMaxCapacityOverall();
         requestGuideList();
     }
@@ -177,6 +184,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     @Override
     public void onItemClick(View view, int position, Object itemData) {
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+        ArrayList<FilterGuideBean> guideList = mAdapter.getDatas();
         params.guideId = guideList.get(position).guideId;
         Intent intent = new Intent(FilterGuideListActivity.this, GuideWebDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
@@ -253,8 +261,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             } else {
                 setEmptyLayout(false, true);
             }
-            guideList = filterGuideListBean.listData;
-            mAdapter.addData(guideList, offset > 0);
+            mAdapter.addData(filterGuideListBean.listData, offset > 0);
             if (offset == 0) {
                 mRecyclerView.smoothScrollToPosition(0);
             }
@@ -287,7 +294,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             params.addRule(RelativeLayout.BELOW, R.id.guide_list_filter_layout);
             emptyLayout.setLayoutParams(params);
 
-            emptyIV.setBackgroundResource(R.drawable.empty_city);
+            emptyIV.setBackgroundResource(R.drawable.empty_car);
             emptyHintTV.setText("暂无满足当前筛选条件的司导");
             emptyLayout.setEnabled(false);
         } else {

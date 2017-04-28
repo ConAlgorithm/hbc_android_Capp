@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import com.huangbaoche.hbcframe.data.bean.IBaseBean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -167,12 +168,17 @@ public class CanServiceGuideBean implements IBaseBean {
             this.orderCounts = orderCounts;
         }
 
-        public double getServiceStar() {
-            return serviceStar;
-        }
-
         public void setServiceStar(double serviceStar) {
             this.serviceStar = serviceStar;
+        }
+
+        public double getServiceStar() {
+            try {
+                BigDecimal bigDecimal = new BigDecimal(serviceStar);
+                return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            } catch (Exception e) {
+                return serviceStar;
+            }
         }
     }
 }
