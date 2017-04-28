@@ -277,6 +277,7 @@ public class CityListActivity extends BaseActivity{
                     requestCityList();
                 }
             });
+            showTitleBar();
         }
     }
 
