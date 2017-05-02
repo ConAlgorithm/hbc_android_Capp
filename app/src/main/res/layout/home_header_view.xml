@@ -194,7 +194,7 @@
                 android:layout_marginBottom="12dp"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/home_wish_arrow"
-                android:text="找司导助手帮您规划行程"
+                android:text="找司导助手规划行程"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
