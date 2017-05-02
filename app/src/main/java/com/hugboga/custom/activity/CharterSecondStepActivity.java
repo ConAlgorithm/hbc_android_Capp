@@ -127,7 +127,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public int getContentViewId() {
         return R.layout.activity_charter_second;
     }
-
+    //此页有map，不能解绑
+    protected boolean isUnbinded(){
+        return false;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

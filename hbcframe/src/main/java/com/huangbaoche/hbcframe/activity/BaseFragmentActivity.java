@@ -26,6 +26,9 @@ public abstract class BaseFragmentActivity extends AppCompatActivity  {
     private ArrayList<BaseFragment> mFragmentList = new ArrayList<>();
     protected int contentId = -1;
     public abstract int getContentViewId();
+    protected boolean isUnbinded(){
+        return true;
+    }
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -141,7 +144,9 @@ public abstract class BaseFragmentActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        if(isUnbinded()){
+            ButterKnife.unbind(this);
+        }
         MLog.i("onDestroy" + this);
     }
 
