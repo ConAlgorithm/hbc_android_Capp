@@ -406,7 +406,7 @@
     <string name="air_info">航班信息</string>
     <string name="air_address">送达地</string>
 
-    <string name="input_air_no">请输入航班号(延误免费等)</string>
+    <string name="input_air_no">选航班查机场，延误免费等候</string>
     <string name="input_go_where">送您到哪里去</string>
 
     <string name="air_start_address">出发地</string>
