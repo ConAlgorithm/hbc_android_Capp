@@ -11,16 +11,6 @@
         android:layout_marginBottom="14dp"
         android:background="@color/default_dividing_line" />
 
-    <ImageView
-        android:id="@+id/guide_item_include_disable_iv"
-        android:layout_width="60dp"
-        android:layout_height="47dp"
-        android:visibility="gone"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@mipmap/collect_disable" />
-
     <net.grobas.view.PolygonImageView
         android:id="@+id/guide_item_include_avatar_iv"
         android:layout_width="55dp"

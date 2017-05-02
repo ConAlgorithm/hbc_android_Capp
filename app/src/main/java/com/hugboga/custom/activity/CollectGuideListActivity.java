@@ -131,7 +131,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
     @Override
     public void onItemClick(View view, int position, Object itemData) {
         FilterGuideBean filterGuideBean = guideList.get(position);
-        if (filterGuideBean == null || TextUtils.isEmpty(filterGuideBean.getServiceType())) {
+        if (filterGuideBean == null || !filterGuideBean.isCanService()) {
             return;
         }
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();

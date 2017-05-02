@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 17/4/25.
  */
-public class CollectGuideItemView extends LinearLayout implements HbcViewBehavior{
+public class CollectGuideItemView extends RelativeLayout implements HbcViewBehavior{
     @Bind(R.id.guide_item_include_avatar_iv)
     PolygonImageView avatarIV;
     @Bind(R.id.guide_item_include_gender_iv)
@@ -33,8 +34,10 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
     @Bind(R.id.guide_item_include_name_tv)
     TextView nameTV;
 
-    @Bind(R.id.guide_item_include_disable_iv)
-    ImageView disableIV;
+    @Bind(R.id.view_guide_item_disable_tv)
+    TextView disableTV;
+    @Bind(R.id.view_guide_item_disable_shade_view)
+    View disableShadeView;
 
     @Bind(R.id.guide_item_include_city_iv)
     ImageView cityIV;
@@ -66,8 +69,6 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
         super(context, attrs);
         View view = inflate(context, R.layout.view_collect_guide_item, this);
         ButterKnife.bind(view);
-        setOrientation(LinearLayout.VERTICAL);
-        setBackgroundColor(0xFFFFFFFF);
     }
 
     @Override
@@ -105,7 +106,18 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
 
         GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
 
-        String serviceType = data.getServiceType();
+        String serviceType = "";
+
+        if (!data.isCanService()) {
+            disableTV.setVisibility(View.VISIBLE);
+            disableShadeView.setVisibility(View.VISIBLE);
+            serviceType = "司导暂不可为您提供服务";
+        } else {
+            disableTV.setVisibility(View.GONE);
+            disableShadeView.setVisibility(View.GONE);
+            serviceType = data.getServiceType();
+        }
+
         if (TextUtils.isEmpty(serviceType)) {
             serviceLineView.setVisibility(View.INVISIBLE);
             serviceTypeTV.setVisibility(View.GONE);
@@ -113,13 +125,6 @@ public class CollectGuideItemView extends LinearLayout implements HbcViewBehavio
             serviceLineView.setVisibility(View.VISIBLE);
             serviceTypeTV.setVisibility(View.VISIBLE);
             serviceTypeTV.setText(serviceType);
-        }
-        if (data.isCanService()) {
-            disableIV.setVisibility(View.GONE);
-            setBackgroundColor(0xFFFFFFFF);
-        } else {
-            disableIV.setVisibility(View.VISIBLE);
-            setBackgroundColor(0xFFeaeaea);
         }
     }
 }
