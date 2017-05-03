@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="26dp"
-            android:text="下单后添加投保人资料，保单即可生效"
+            android:text="下单后添加投保人护照，保单即可生效"
             android:textColor="#cccccc"
             android:textSize="14sp" />
 

@@ -67,7 +67,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     TextView timeSecond;
     private ErrorHandler errorHandler;
 
-    TextView bottom_txt;
+    ImageView bottom_txt;
     ImageView show_ad;
 
     private ActionBean actionBean;
@@ -159,7 +159,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
    public void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
-        bottom_txt = (TextView) findViewById(R.id.bottom_txt);
+        bottom_txt = (ImageView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {

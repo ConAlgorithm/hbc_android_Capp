@@ -33,7 +33,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:minEms="4"
-                    android:text="@string/air_info"
+                    android:text="接机机场"
                     android:textSize="15sp" />
 
                 <LinearLayout
