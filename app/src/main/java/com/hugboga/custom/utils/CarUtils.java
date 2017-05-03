@@ -130,6 +130,7 @@ public class CarUtils {
                     carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
                     carBean.carBrandName = guideCars.get(i).carBrandName;
                     carBean.carName = guideCars.get(i).carName;
+                    carBean.id = guideCars.get(i).guideCarId;
                     list.add(carBean);
                 }
             }
@@ -155,6 +156,7 @@ public class CarUtils {
                 }
                 carBean.capOfLuggage = guideCars.get(i).modelLuggageNum;
                 carBean.capOfPerson = guideCars.get(i).modelGuestNum;
+                carBean.id = guideCars.get(i).guideCarId;
                 list.add(carBean);
             }
         return list;

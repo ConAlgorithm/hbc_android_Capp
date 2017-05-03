@@ -340,6 +340,7 @@ public class OrderUtils {
         orderBean.isCheckin = isCheckIn ? "1" : "0";
 
         orderBean.carId = carBean.carId;
+        orderBean.guideCarId = carBean.id;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
 
@@ -439,6 +440,7 @@ public class OrderUtils {
         orderBean.serviceTime = serverDate + " " + serverTime + ":00";
 
         orderBean.carId = carBean.carId;
+        orderBean.guideCarId = carBean.id;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
 
@@ -576,6 +578,7 @@ public class OrderUtils {
         orderBean.realMobile = contactUsersBean.otherPhone;
 
         orderBean.carId = carBean.carId;
+        orderBean.guideCarId = carBean.id;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
 
