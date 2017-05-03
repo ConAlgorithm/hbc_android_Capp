@@ -689,12 +689,14 @@ public class WebAgent implements HttpRequestListener {
                     case 1://1：接送机
                         intent = new Intent(mActivity, PickSendActivity.class);
                         intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;
                     case 2://2：单次接送
                         intent = new Intent(mActivity, SingleNewActivity.class);
                         intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;

@@ -448,27 +448,12 @@ public class SingleNewActivity extends BaseActivity {
 
             case CHOOSE_START_CITY_BACK://选择城市返回
                 cityBean =  (CityBean)action.getData();
-                useCityTips.setText(cityBean.name);
-                startBean = null;
-                arrivalBean = null;
-                startTips.setVisibility(View.VISIBLE);
-                startTitle.setVisibility(GONE);
-                startDetail.setVisibility(GONE);
-                startTitle.setText("");
-                startDetail.setText("");
-
-                endTips.setVisibility(View.VISIBLE);
-                endTitle.setVisibility(GONE);
-                endDetail.setVisibility(GONE);
-                endTitle.setText("");
-                endDetail.setText("");
-
-                bottom.setVisibility(GONE);
-                if (null == collectGuideBean) {
-                    showCarsLayoutSingle.setVisibility(GONE);
-                }
-                timeText.setText("");
-
+                chooseCityBack(cityBean);
+                break;
+            case CHOOSE_GUIDE_CITY_BACK:
+                ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
+                cityBean = guideServiceCitys.getSelectedCityBean();
+                chooseCityBack(cityBean);
                 break;
             case MAX_LUGGAGE_NUM://最大行李数
                 maxLuuages = (int) action.getData();
@@ -571,6 +556,29 @@ public class SingleNewActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void chooseCityBack(CityBean cityBean) {
+        useCityTips.setText(cityBean.name);
+        startBean = null;
+        arrivalBean = null;
+        startTips.setVisibility(View.VISIBLE);
+        startTitle.setVisibility(GONE);
+        startDetail.setVisibility(GONE);
+        startTitle.setText("");
+        startDetail.setText("");
+
+        endTips.setVisibility(View.VISIBLE);
+        endTitle.setVisibility(GONE);
+        endDetail.setVisibility(GONE);
+        endTitle.setText("");
+        endDetail.setText("");
+
+        bottom.setVisibility(GONE);
+        if (null == collectGuideBean) {
+            showCarsLayoutSingle.setVisibility(GONE);
+        }
+        timeText.setText("");
     }
 
     @Override
@@ -711,10 +719,16 @@ public class SingleNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.city_layout:
-                intent = new Intent(this, ChooseCityActivity.class);
-                intent.putExtra("source", "下单过程中");
-                intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
-                startActivity(intent);
+                if (collectGuideBean != null) {
+                    intent = new Intent(this, ChooseGuideCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_ID, collectGuideBean.guideId);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(this, ChooseCityActivity.class);
+                    intent.putExtra("source", "下单过程中");
+                    intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
+                    startActivity(intent);
+                }
                 break;
             case R.id.start_tips:
             case R.id.start_title:

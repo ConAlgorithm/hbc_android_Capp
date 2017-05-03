@@ -305,17 +305,18 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideExtinfo) {
             guideExtinfoBean = ((RequestGuideExtinfo) _request).getData();
-            if (paramsData.canService) {
-                bottomView.update(guideExtinfoBean);
-            } else {
-                bottomView.setVisibility(View.GONE);
-            }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
-            if (guideExtinfoBean.isCollected != null) {
-                collectIV.setSelected(guideExtinfoBean.isCollected == 1);
+            if (UserEntity.getUser().isLogin(this)) {
+                if (paramsData.canService) {
+                    bottomView.update(guideExtinfoBean);
+                } else {
+                    bottomView.setVisibility(View.GONE);
+                }
+                if (guideExtinfoBean.isCollected != null) {
+                    collectIV.setSelected(guideExtinfoBean.isCollected == 1);
+                }
             }
-            bottomView.setVisibility(View.VISIBLE);
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;
             collectIV.setSelected(false);
