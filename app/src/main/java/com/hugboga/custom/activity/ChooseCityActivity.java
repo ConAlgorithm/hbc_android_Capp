@@ -800,15 +800,24 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MessageType.ALL_CITY:
+                    if (mDialogUtil != null) {
+                        mDialogUtil.dismissLoadingDialog();
+                    }
                     if (msg.obj == null) {
                         break;
                     }
                     cityList = (List<CityBean>) msg.obj;
-                    mAdapter.setData(cityList);
-                    mListview.setSelection(0);
-                    setSectionIndices();
-                    mDialogUtil.dismissLoadingDialog();
-                    emptyLayout.setVisibility(GONE);
+                    if (cityList.size() <= 0) {
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        emptyTV.setVisibility(View.VISIBLE);
+                        emptyIV.setVisibility(View.VISIBLE);
+                        emptyTV.setText("没有可更换的城市，驾车无法到达哦");
+                    } else {
+                        mAdapter.setData(cityList);
+                        mListview.setSelection(0);
+                        setSectionIndices();
+                        emptyLayout.setVisibility(View.GONE);
+                    }
                     break;
                 case MessageType.HOT_CITY:
                     if (msg.obj == null) {
