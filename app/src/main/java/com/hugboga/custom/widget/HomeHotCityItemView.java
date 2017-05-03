@@ -53,7 +53,7 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
         if (data == null) {
             return;
         }
-        if (TextUtils.isEmpty(data.cityHeadPicture)) {
+        if (TextUtils.isEmpty(data.cityPicture)) {
             cityIV.setImageResource(R.mipmap.home_default_route_free_item);
         } else {
             Tools.showImage(cityIV, data.cityPicture, R.mipmap.home_default_route_free_item);

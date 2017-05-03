@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.InsureInfoActivity;
+import com.hugboga.custom.activity.OrderDetailTravelerInfoActivity;
 import com.hugboga.custom.activity.OrderEditActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -111,7 +112,11 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         Intent intent = null;
         switch (v.getId()) {
             case R.id.order_detail_info_layout://出行人信息
-                intent = new Intent(getContext(), OrderEditActivity.class);
+                if (orderBean.orderType == 3 || orderBean.orderType == 888 || orderBean.orderType == 5 || orderBean.orderType == 6) {
+                    intent = new Intent(getContext(), OrderDetailTravelerInfoActivity.class);
+                } else {
+                    intent = new Intent(getContext(), OrderEditActivity.class);
+                }
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
                 break;

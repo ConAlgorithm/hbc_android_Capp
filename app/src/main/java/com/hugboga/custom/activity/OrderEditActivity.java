@@ -104,6 +104,7 @@ public class OrderEditActivity extends BaseActivity {
     private ContactUsersBean contactUsersBean;
     private OrderBean orderBean;
     RequestOrderEdit.Params requestParams;
+    private PoiBean poiBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -205,7 +206,7 @@ public class OrderEditActivity extends BaseActivity {
             pickUpLocationLayout.setVisibility(View.GONE);
             hotelPhoneLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
-        } else {//包车
+        } else {//包车 OrderDetailTravelerInfoActivity
             pickNameLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
@@ -352,7 +353,7 @@ public class OrderEditActivity extends BaseActivity {
                 if (!(action.getData() instanceof PoiBean)) {
                     break;
                 }
-                PoiBean poiBean = (PoiBean) action.getData();
+                poiBean = (PoiBean) action.getData();
                 if (poiBean == null) {
                     break;
                 }
@@ -461,7 +462,10 @@ public class OrderEditActivity extends BaseActivity {
         requestParams.serviceAreaCode = CommonUtils.removePhoneCodeSign(orderBean.serviceAreaCode);//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
         if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
-            requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
+            String startAddress = poiBean == null ? orderBean.startAddress : poiBean.placeName;
+            String startAddressDetail = poiBean == null ? orderBean.startAddressDetail : poiBean.placeDetail;
+            requestParams.startAddress = startAddress;
+            requestParams.startAddressDetail = startAddressDetail;
         }
         if (orderBean.orderType == 1) {
             requestParams.flightBrandSign = TextUtils.isEmpty(pickName.getText()) ? "" : pickName.getText().toString();//接送机接机牌名称

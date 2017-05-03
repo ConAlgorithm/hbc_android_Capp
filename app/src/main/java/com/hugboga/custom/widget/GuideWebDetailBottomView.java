@@ -82,7 +82,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
 
     @OnClick(R.id.guide_detail_bottom_choose_guide_tv)
     public void chooseGuide() {
-        if (params == null || params.chooseGuide == null || params.orderNo == null) {
+        if (params == null || params.chooseGuide == null || params.orderNo == null || !UserEntity.getUser().isLogin(getContext())) {
             return;
         }
         if (chooseGuideUtils == null) {
@@ -93,7 +93,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
 
     @OnClick(R.id.guide_detail_bottom_contact_layout)
     public void contactGuide() {
-        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined()) {
+        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
             return;
         }
         NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId);

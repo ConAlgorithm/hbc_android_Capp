@@ -288,9 +288,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
-        editSearch.setHint("想去哪里?");
+        editSearch.setHint("请输入城市名称");
         if ("startAddress".equals(from)) {
-            editSearch.setHint("想去哪里?");
+            editSearch.setHint("请输入城市名称");
         } else if ("end".equals(from)) {
             editSearch.setHint("请输入城市名称");
             tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
@@ -299,7 +299,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         } else if (mBusinessType == Constants.BUSINESS_TYPE_RENT) {
             editSearch.setHint("搜索用车城市");
         } else if ("lastCity".equals(from) || "nearby".equals(from)) {
-            editSearch.setHint("想去哪里?");
+            editSearch.setHint("请输入城市名称");
         }
 
         sharedPer = new SharedPre(this);

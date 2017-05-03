@@ -33,6 +33,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         map.put("userRemark", params.userRemark);
         if (!TextUtils.isEmpty(params.startAddress)) {
             map.put("startAddress", params.startAddress);
+            map.put("startAddressDetail", params.startAddressDetail);
         }
         if (!TextUtils.isEmpty(params.flightBrandSign)) {
             map.put("flightBrandSign", params.flightBrandSign);
@@ -96,6 +97,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         public String serviceRecTime;//日租服务时间的时分秒
         public String servicePassCitys;//日租途径城市
         public String startAddress;//出发地
+        public String startAddressDetail;
         public String flightBrandSign;//接送机接机牌名称
         public String flightNo;//送机航班号
         public String flightAirportCode;//送机航班机场三字码

@@ -447,6 +447,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
+            android:name=".activity.OrderDetailTravelerInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
             android:name=".activity.TravelPurposeFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
