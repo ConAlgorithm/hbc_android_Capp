@@ -26,6 +26,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -84,8 +85,9 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
     public static class Params implements Serializable {
         public String guideId;
-        public boolean canService = true;
-        public boolean canCollect = true;
+        public boolean isChooseGuide = false;
+        public String orderNo;
+        public CanServiceGuideBean.GuidesBean chooseGuide;
     }
 
     @Override
@@ -132,7 +134,9 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
                 loadUrl();
-                sendRequest();
+                if (!paramsData.isChooseGuide) {
+                    sendRequest();
+                }
                 break;
             case SHOW_GUIDE_DETAIL_BAR:
                 int isShow = (int) action.getData();
@@ -149,15 +153,6 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
     public void initView() {
         titleTV.setText("精选司导");
-        if (paramsData.canCollect) {
-            shareIV.setEnabled(false);
-            collectIV.setEnabled(false);
-            shareIV.setVisibility(View.VISIBLE);
-            collectIV.setVisibility(View.VISIBLE);
-        } else {
-            shareIV.setVisibility(View.GONE);
-            collectIV.setVisibility(View.GONE);
-        }
 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
@@ -177,13 +172,23 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
         loadUrl();
 
-        sendRequest();
+        if (paramsData.isChooseGuide) {
+            shareIV.setVisibility(View.GONE);
+            collectIV.setVisibility(View.GONE);
+            bottomView.showChooseGuideView(paramsData);
+        } else {
+            shareIV.setEnabled(false);
+            collectIV.setEnabled(false);
+            shareIV.setVisibility(View.VISIBLE);
+            collectIV.setVisibility(View.VISIBLE);
+            sendRequest();
+        }
     }
 
     public String loadUrl() {
         String isCanService = "0";
         if (UserEntity.getUser().isLogin(this)) {
-            isCanService = paramsData.canService ? "1" : "0";
+            isCanService = !paramsData.isChooseGuide ? "1" : "0";
         }
         String url = UrlLibs.H5_GUIDE_DETAIL + "guideId=" + paramsData.guideId + "&canService=" + isCanService;
         if (!TextUtils.isEmpty(url)) {
@@ -308,14 +313,12 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
             if (UserEntity.getUser().isLogin(this)) {
-                if (paramsData.canService) {
-                    bottomView.update(guideExtinfoBean);
-                } else {
-                    bottomView.setVisibility(View.GONE);
-                }
+                bottomView.update(guideExtinfoBean);
                 if (guideExtinfoBean.isCollected != null) {
                     collectIV.setSelected(guideExtinfoBean.isCollected == 1);
                 }
+            } else {
+                bottomView.setVisibility(View.GONE);
             }
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;

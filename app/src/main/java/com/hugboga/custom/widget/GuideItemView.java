@@ -86,9 +86,15 @@ public class GuideItemView extends LinearLayout implements HbcViewBehavior {
             cityIV.setVisibility(View.VISIBLE);
             cityTV.setVisibility(View.VISIBLE);
             cityTV.setText(data.cityName);
+
+            nameTV.setMaxWidth(UIUtils.dip2px(100));
+            nameTV.setPadding(0, 0, 0, 0);
         } else {
             cityIV.setVisibility(View.GONE);
             cityTV.setVisibility(View.GONE);
+
+            nameTV.setMaxWidth(UIUtils.dip2px(200));
+            nameTV.setPadding(0, 0, UIUtils.dip2px(20), 0);
         }
 
         genderIV.setBackgroundResource("1".equals(data.gender) ? R.mipmap.icon_man : R.mipmap.icon_woman);

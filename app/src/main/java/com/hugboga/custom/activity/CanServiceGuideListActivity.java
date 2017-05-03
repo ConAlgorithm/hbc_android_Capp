@@ -167,9 +167,9 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
     public void intentGuideDetail(CanServiceGuideBean.GuidesBean bean) {
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         params.guideId = bean.getGuideId();
-        params.canService = false;
-        params.canCollect = false;
-//        params.orderNo = orderNo;
+        params.isChooseGuide = true;
+        params.orderNo = orderNo;
+        params.chooseGuide = bean;
         Intent intent = new Intent(this, GuideWebDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
