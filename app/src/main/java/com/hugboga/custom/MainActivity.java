@@ -205,10 +205,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
         if (currentPosition == 0) {
-            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
-            if (BuildConfig.VERSION_NAME.equals(versionName)) {
+//            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
+//            if (BuildConfig.VERSION_NAME.equals(versionName)) {
                 GiftController.getInstance(this).showGiftDialog();
-            }
+//            }
         }
     }
 
@@ -583,11 +583,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 int index = Integer.valueOf(action.data.toString());
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
-                break;
-            case SHOW_GIFT_DIALOG:
-                if (currentPosition == 0) {
-                    GiftController.getInstance(this).showGiftDialog();
-                }
                 break;
             default:
                 break;
