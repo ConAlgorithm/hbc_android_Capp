@@ -690,7 +690,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             case R.id.man_text:
             case R.id.luggage_text:
             case R.id.childseat_text:
-                if (null == carListBean || null == carListBean.carList) {
+                if (null == carListBean || null == carListBean.carList || carListBean.carList.size() <= 0) {
                     CommonUtils.showToast(R.string.no_price_error);
                     return;
                 }

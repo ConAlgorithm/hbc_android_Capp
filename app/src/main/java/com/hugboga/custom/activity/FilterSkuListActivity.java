@@ -112,7 +112,6 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setPullRefreshEnabled(false);
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, SkuItemView.class);
@@ -176,7 +175,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     @Override
     public void onRefresh() {
-
+        requestGuideList(isThemes, 0, false);
     }
 
     @Override
@@ -262,6 +261,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
             if (hasThemes(_request)) {
                 filterLayout.setThemeList(goodsFilterBean.themes);
             }
+            mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= goodsFilterBean.listCount);
         }
     }

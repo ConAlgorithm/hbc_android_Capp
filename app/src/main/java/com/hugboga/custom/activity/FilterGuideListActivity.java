@@ -115,7 +115,6 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setPullRefreshEnabled(false);
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideItemView.class);
@@ -142,7 +141,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     @Override
     public void onRefresh() {
-        //没有下拉刷新
+        requestGuideList(0, false);
     }
 
     @Override
@@ -267,6 +266,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             if (offset == 0) {
                 mRecyclerView.smoothScrollToPosition(0);
             }
+            mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= filterGuideListBean.listCount);
         } else if (_request instanceof RequestMaxCapacityOverall) {
             CapacityBean capacityBean = ((RequestMaxCapacityOverall) _request).getData();

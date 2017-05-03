@@ -73,13 +73,16 @@ public class HbcLoadingMoreFooter extends LoadingMoreFooter {
         switch(state) {
             case STATE_LOADING:
                 progressCon.setVisibility(View.VISIBLE);
+                mText.setText("正在加载...");
                 this.setVisibility(View.VISIBLE);
                 break;
             case STATE_COMPLETE:
                 this.setVisibility(View.GONE);
                 break;
             case STATE_NOMORE:
-                this.setVisibility(View.GONE);
+                progressCon.setVisibility(View.GONE);
+                mText.setText("没有更多了");
+                this.setVisibility(View.VISIBLE);
                 break;
         }
     }
