@@ -1,10 +1,12 @@
 package com.hugboga.custom.utils;
 
+import android.database.Cursor;
 import android.text.TextUtils;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CityBean;
 
 import org.xutils.DbManager;
@@ -276,5 +278,46 @@ public final class DatabaseManager {
             e.printStackTrace();
         }
         return resultList;
+    }
+
+    public static List<AirPort> queryAirPortByCityId(String cityId) {
+        DbManager mDbManager = new DBHelper(MyApplication.getAppContext()).getDbManager();
+        List<AirPort> airPorts = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String sql = "select * from airport where city_id=" + cityId;
+            cursor = mDbManager.execQuery(sql);
+            while (cursor!=null && cursor.moveToNext()){
+                AirPort airPort = new AirPort();
+                airPort.airportId = cursor.getInt(cursor.getColumnIndexOrThrow("airport_id"));
+                airPort.airportCode = cursor.getString(cursor.getColumnIndexOrThrow("airport_code"));
+                airPort.airportName = cursor.getString(cursor.getColumnIndexOrThrow("airport_name"));
+                airPort.areaCode = cursor.getString(cursor.getColumnIndexOrThrow("area_code"));
+                airPort.cityFirstLetter = cursor.getString(cursor.getColumnIndexOrThrow("city_initial"));
+                int bannerswitch = cursor.getInt(cursor.getColumnIndexOrThrow("banner_switch"));
+                airPort.bannerSwitch = bannerswitch==0?false:true;
+                airPort.cityId = cursor.getInt(cursor.getColumnIndexOrThrow("city_id"));
+                airPort.cityName = cursor.getString(cursor.getColumnIndexOrThrow("city_name"));
+                airPort.location = cursor.getString(cursor.getColumnIndexOrThrow("airport_location"));
+                airPort.hotWeight = cursor.getInt(cursor.getColumnIndexOrThrow("hot_weight"));
+                int hot = cursor.getInt(cursor.getColumnIndexOrThrow("is_hot"));
+                airPort.isHot = hot==0?false:true;
+                int visaSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("landing_visa_switch"));
+                airPort.visaSwitch = visaSwitch==0?false:true;
+                int childSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("childseat_switch"));
+                airPort.childSeatSwitch = childSwitch==0?false:true;
+                airPorts.add(airPort);
+            }
+            if(cursor!=null){
+                cursor.close();
+            }
+        } catch (Exception e) {
+
+        }finally {
+            if(cursor!=null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        return airPorts;
     }
 }

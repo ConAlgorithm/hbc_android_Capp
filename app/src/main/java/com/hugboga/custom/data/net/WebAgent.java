@@ -687,6 +687,7 @@ public class WebAgent implements HttpRequestListener {
                 collectBean.name = data.guideName;
                 collectBean.cityName = data.guideCityName;
                 collectBean.isQuality = data.isQuality;
+                collectBean.cityId = CommonUtils.getCountInteger(data.guideCityId);
                 Intent intent = null;
                 switch (data.orderType) {
                     case 1://1：接送机

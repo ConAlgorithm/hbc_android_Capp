@@ -32,7 +32,7 @@
                 android:layout_gravity="center"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/home_major_arrow"
-                android:text="定制中文包车游"
+                android:text="快速预订"
                 android:textColor="#151515"
                 android:textSize="15sp" />
         </FrameLayout>

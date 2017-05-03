@@ -44,6 +44,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
@@ -211,6 +212,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
             initCarFragment(false);
+            if (collectGuideBean.cityId != 0) {
+                List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + collectGuideBean.cityId);
+                if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
+                    airPortBean = airPortList.get(0);
+                    updateAirPort();
+                }
+            }
         }
         confirmJourney.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,21 +311,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     break;
                 case AIR_PORT_BACK:
                     airPortBean = (AirPort) action.getData();
-                    String airPortName = airPortBean.cityName + " " + airPortBean.airportName;
-                    if (airPortName != null && airPortName.equals(addressTips.getText())) {
-                        return;
-                    }
-                    showCarsLayoutSend.setVisibility(View.GONE);
-                    addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
-                    poiBean = null;
-                    airTitle.setText("");
-                    airDetail.setText("");
-                    infoTips.setVisibility(View.VISIBLE);
-                    airTitle.setVisibility(View.GONE);
-                    airDetail.setVisibility(View.GONE);
-                    timeText.setText("");
-                    bottom.setVisibility(View.GONE);
-                    checkInput();
+                    updateAirPort();
                     break;
                 case CHOOSE_POI_BACK:
                     poiBean = (PoiBean) action.getData();
@@ -435,6 +429,27 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     break;
             }
         }
+    }
+
+    public void updateAirPort() {
+        if (airPortBean == null) {
+            return;
+        }
+        String airPortName = airPortBean.cityName + " " + airPortBean.airportName;
+        if (airPortName != null && airPortName.equals(addressTips.getText())) {
+            return;
+        }
+        showCarsLayoutSend.setVisibility(View.GONE);
+        addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
+        poiBean = null;
+        airTitle.setText("");
+        airDetail.setText("");
+        infoTips.setVisibility(View.VISIBLE);
+        airTitle.setVisibility(View.GONE);
+        airDetail.setVisibility(View.GONE);
+        timeText.setText("");
+        bottom.setVisibility(View.GONE);
+        checkInput();
     }
 
     @Override
@@ -618,6 +633,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.address_layout:
             case R.id.address_tips://选择机场
                 Intent intent = new Intent(getActivity(),ChooseAirPortActivity.class);
+                if (collectGuideBean != null) {
+                    intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, collectGuideBean.cityId);
+                }
                 getActivity().startActivity(intent);
 
                 break;
