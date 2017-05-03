@@ -39,6 +39,7 @@ public class TravelFundRecordActivity extends BaseActivity{
 
     private int type = 0;
     private TravelFundAdapter adapter;
+    private int totalSize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,8 @@ public class TravelFundRecordActivity extends BaseActivity{
     ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
         @Override
         public void onLoad() {
-            if (adapter.getCount() > 0) {
+            int count = adapter.getCount();
+            if (count > 0 && count < totalSize) {
                 sendRequest(adapter == null ? 0 : adapter.getCount());
             }
         }
@@ -133,15 +135,17 @@ public class TravelFundRecordActivity extends BaseActivity{
             RequestTravelFundLogs request = (RequestTravelFundLogs) _request;
             travelFundData = request.getData();
             listData = travelFundData.getListData();
+            totalSize = travelFundData.getListCount();
         } else if (_request instanceof RequestInvitationFriendsLogs) {
             RequestInvitationFriendsLogs request = (RequestInvitationFriendsLogs) _request;
             travelFundData = request.getData();
             listData = travelFundData.getLogs();
+            totalSize = travelFundData.getLogsCount();
         }
 
         if (travelFundData != null) {
             adapter.addList(listData);
-            if (listData != null && listData.size() < Constants.DEFAULT_PAGESIZE) {
+            if (adapter.getCount() >= Constants.DEFAULT_PAGESIZE) {
                 listView.onLoadCompleteNone();
             }
         } else {

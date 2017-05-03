@@ -100,7 +100,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
 
     private void sendRequest(int pageIndex) {
         if (pageIndex == 0 && adapter != null) {
-            adapter = null;
+            adapter.setList(null);
         }
         RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(this, orderNo, Constants.DEFAULT_PAGESIZE, pageIndex);
         HttpRequestUtils.request(this, requestAcceptGuide, this);
@@ -124,7 +124,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
                     adapter.addList(list);
                 }
             }
-            if (list != null && list.size() < Constants.DEFAULT_PAGESIZE) {
+            if (adapter.getCount() >= Constants.DEFAULT_PAGESIZE) {
                 listView.onLoadCompleteNone();
             } else {
                 listView.onLoadComplete();
