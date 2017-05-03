@@ -30,8 +30,6 @@ public class HomePageAdapter extends EpoxyAdapter {
             homeHeaderModel = new HomeHeaderModel(homeHeaderInfo, homeTabClickListener);
             addModel(homeHeaderModel);
         }
-
-
     }
 
     public void addHotExploations(List<HomeBeanV2.HotExploration> hotExplorationList,boolean switchTab,int listCount,int dataSize) {

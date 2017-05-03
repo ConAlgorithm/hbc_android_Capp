@@ -133,7 +133,6 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                loadUrl();
                 if (!paramsData.isChooseGuide) {
                     sendRequest();
                 }
@@ -185,16 +184,17 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
         }
     }
 
-    public String loadUrl() {
-        String isCanService = "0";
-        if (UserEntity.getUser().isLogin(this)) {
-            isCanService = !paramsData.isChooseGuide ? "1" : "0";
-        }
+    public String getLoadUrl() {
+        String isCanService = !paramsData.isChooseGuide ? "1" : "0";
         String url = UrlLibs.H5_GUIDE_DETAIL + "guideId=" + paramsData.guideId + "&canService=" + isCanService;
+        return url;
+    }
+
+    public void loadUrl() {
+        String url = getLoadUrl();
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }
-        return url;
     }
 
     @Override
@@ -361,7 +361,7 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
         }
         String title = String.format("去%1$s，推荐你找当地华人司导%2$s开车带你玩！", guideExtinfoBean.cityName, guideExtinfoBean.guideName);
         String desc = TextUtils.isEmpty(guideExtinfoBean.homeDesc) ? "我可以为您规划行程、陪同翻译和向导，让您舒舒服服坐车玩！" : guideExtinfoBean.homeDesc;
-        CommonUtils.shareDialog(this, guideExtinfoBean.avatarUrl, title, desc, loadUrl(),
+        CommonUtils.shareDialog(this, guideExtinfoBean.avatarUrl, title, desc, getLoadUrl(),
                 GuideWebDetailActivity.class.getSimpleName(),
                 new ShareDialog.OnShareListener() {
                     @Override

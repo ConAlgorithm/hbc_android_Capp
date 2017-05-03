@@ -86,7 +86,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     HomePageAdapter homePageAdapter;
     HomeBeanV2 homeBean;
 
-    private int tabIndex = TAB_HOTEXPLORE;
+    private int tabIndex = TAB_GUIDE;
 
     HomeSearchTabView homeSearchTabView;
 
@@ -284,9 +284,31 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 if (homeBean.headAggVo != null) {
                     addHeader(homeBean.headAggVo);
                 }
-                if (homeBean.hotExplorationAggVo != null) {
-                    homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations,
-                            false,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
+                switch (tabIndex) {
+                    case TAB_GUIDE:
+                        if (homeBean!=null && homeBean.qualityGuides != null) {
+                            homePageAdapter.addGuideModels(homeBean.qualityGuides, true
+                                    ,CHOICENESS_GUIDES_COUNT
+                                    ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
+                        }
+                        break;
+                    case TAB_HOTEXPLORE:
+                        if (homeBean!=null && homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
+                            homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations, true
+                                    ,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
+                        }
+                        break;
+                    case TAB_DESTION:
+                        if (homeBean!=null && homeBean.destinationAggVo != null) {
+                            if (homeBean.destinationAggVo.hotCities != null) {
+                                homePageAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
+                            }
+                            if(homeBean.destinationAggVo.lineGroupAggVos!=null){
+                                homePageAdapter.addDestionLineGroups(homeBean.destinationAggVo.lineGroupAggVos
+                                        ,homeBean.destinationAggVo.listCount,homeBean.destinationAggVo.getLineGroupAggSize());
+                            }
+                        }
+                        break;
                 }
             }
 
