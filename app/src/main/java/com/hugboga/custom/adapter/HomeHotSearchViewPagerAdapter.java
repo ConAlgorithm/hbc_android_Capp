@@ -90,9 +90,9 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
         } else {
             SkuItemBean skuItemBean = hotExplorations.get(position);
             Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-            customCount.setText(skuItemBean.guideAmount + "位中文司导可服务");
+            customCount.setText(skuItemBean.saleAmount + "人已体验");
             bottomTitle.setText(skuItemBean.goodsName);
-            guideCountView.setText(skuItemBean.saleAmount + "人已体验");
+            guideCountView.setText(skuItemBean.guideAmount + "位中文司导带你玩");
 
             String price = "￥" + skuItemBean.perPrice;
             String count = "/人起";
