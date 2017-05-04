@@ -153,7 +153,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     @Override
     protected void onStop() {
         super.onStop();
-        hideInputMethod(headSearch);
+        hideSoftInput();
     }
 
     @OnClick({R.id.arrival_empty_service_tv})

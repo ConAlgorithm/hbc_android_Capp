@@ -169,6 +169,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
                 timeLayout.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.GONE);
                 markLineView.setVisibility(View.GONE);
+                travelerInfoBean.serverTime = SkuOrderActivity.SERVER_TIME;
             } else if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {// 包车加接机
                 timeLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.GONE);

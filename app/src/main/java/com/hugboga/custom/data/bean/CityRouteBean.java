@@ -1,10 +1,8 @@
 package com.hugboga.custom.data.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.hugboga.amap.entity.HbcLantLng;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

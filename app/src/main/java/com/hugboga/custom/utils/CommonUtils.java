@@ -2,6 +2,7 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -14,14 +15,18 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
 
 
@@ -386,5 +391,21 @@ public final class CommonUtils {
                 break;
         }
         return result;
+    }
+
+    public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source) {
+        String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request) + "\n请联系客服，我们会协助您完成预订";
+        AlertDialogUtils.showAlertDialog(context, errorMessage, "知道了", "联系客服", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, source);
+                dialog.dismiss();
+            }
+        });
     }
 }

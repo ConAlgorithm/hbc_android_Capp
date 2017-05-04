@@ -23,11 +23,14 @@ import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.data.request.RequestCars;
+import com.hugboga.custom.data.request.RequestGuideCrop;
+import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CharterFirstCountView;
@@ -123,10 +126,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private void initView() {
         charterDataUtils = CharterDataUtils.getInstance();
-        if (guidesDetailData != null) {
-            charterDataUtils.guidesDetailData = guidesDetailData;
-            startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
-        }
 
         titlebar.setTitleBarBackListener(this);
         titlebar.setRightListener(new View.OnClickListener() {
@@ -141,9 +140,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (guidesDetailData == null) {
             guideLayout.setVisibility(View.GONE);
         } else {
+            charterDataUtils.guidesDetailData = guidesDetailData;
+            startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
             guideLayout.setVisibility(View.VISIBLE);
             Tools.showImage(avatarIV, guidesDetailData.avatar, R.mipmap.icon_avatar_guide);
             guideTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guidesDetailData.guideName, guidesDetailData.countryName));
+            requestData(new RequestGuideCrop(this, guidesDetailData.guideId));
         }
 
         if (startBean != null) {
@@ -286,6 +288,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.setSliderEnabled(true);
             setNextViewEnabled(true);
             isEnabled = true;
+        } else if (_request instanceof RequestGuideCrop) {
+            charterDataUtils.guideCropList = ((RequestGuideCrop) _request).getData();
         }
     }
 
@@ -377,7 +381,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (guidesDetailData == null) {
             return;
         }
-        RequestCars requestCars = new RequestCars(this, guidesDetailData.guideId, null, 20, 0);
+        RequestNewCars requestCars = new RequestNewCars(this, 1, guidesDetailData.guideId, null, 20, 0);
         HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -398,7 +402,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+                CommonUtils.apiErrorShowService(CharterFirstStepActivity.this, errorInfo, request, CharterFirstStepActivity.this.getEventSource());
             }
         }, true);
     }

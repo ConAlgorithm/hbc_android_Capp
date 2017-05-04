@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 141
+    //current urlErrorCode 143
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -234,10 +234,12 @@ public class UrlLibs {
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
     public static final String CARS                         = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息
+    public static final String API_CARS                     = "supplier/v2.0/c/guidecenter/detail/cars";                // 司导个人车辆信息2.0 142
     public static final String GUIDE_CROP_VALID             = "supplier/v1.0/c/guides/crop/valid";                      // 用户派单，验证接口
     public static final String API_GUIDECROP                = "supplier/v2.0/c/guides/guideCrop";                       // 查询司导可服务城市
     public static final String API_FILTER_GUIDES            = "supplier/v2.0/c/guides/qualityGuidesList";               // 查询精选司导列表 138
     public static final String API_GUIDE_EXTINFO            = "supplier/v2.0/c/guide/guidePersonalPageExtInfo";         // 司导个人页附加信息141
+    public static final String API_GUIDE_AVAILABLE_CHECK    = "supplier/v2.0/c/guides/availableCheck";                  // 下单前校验司导是否可用 143
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测

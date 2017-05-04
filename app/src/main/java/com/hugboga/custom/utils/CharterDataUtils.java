@@ -307,12 +307,15 @@ public class CharterDataUtils {
         return true;
     }
 
-    public String getStartServiceTime() {
+    public String getStartServiceTime(String serverTime) {
         String result = "";
         if (isSelectedPickUp && flightBean != null) {
             result = chooseDateBean.start_date + " " + flightBean.arrivalTime + ":00";
         } else {
             result = chooseDateBean.start_date + " " + CombinationOrderActivity.SERVER_TIME;
+        }
+        if (!TextUtils.isEmpty(serverTime)) {
+            result = chooseDateBean.start_date + " " + serverTime + ":00";
         }
         return result;
     }
