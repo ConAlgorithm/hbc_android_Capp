@@ -392,6 +392,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
             EventBus.getDefault().unregister(this);
             ApiReportHelper.getInstance().commitAllReport();
+            ApiReportHelper.getInstance().abort();
         } catch (Exception e) {
             e.printStackTrace();
         }

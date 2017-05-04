@@ -20,9 +20,6 @@ import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.List;
 
-/**
- * Created by qingcha on 17/4/17.
- */
 public class CityListHotAdapter extends RecyclerView.Adapter<CityListHotAdapter.MyViewHolder>{
 
     private static final int TYPE_ITEM = 0x01;

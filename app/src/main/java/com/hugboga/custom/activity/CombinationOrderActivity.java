@@ -679,6 +679,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
+                        ApiReportHelper.getInstance().addReport(request);
                         RequestGuideConflict mRequest = (RequestGuideConflict) request;
                         List<String> guideList = mRequest.getData();
                         if (guideList.size() == 0) {
