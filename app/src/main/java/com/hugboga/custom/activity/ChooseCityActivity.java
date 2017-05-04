@@ -706,6 +706,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         message.obj = DatabaseManager.getAllCitySql(mBusinessType, groupId, cityId, from, countryId);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
+                        } else if (showType == ShowType.MULTIPLY && cityId <= 0) {
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         } else {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
                         }
