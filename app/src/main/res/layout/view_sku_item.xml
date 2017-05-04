@@ -27,20 +27,42 @@
             android:layout_height="wrap_content"
             android:background="@drawable/picture_filter_shape"></View>
 
-        <TextView
-            android:id="@+id/home_hot_search_city_bottom_text"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="bottom|right"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="6dp"
-            android:background="#88000000"
-            android:paddingBottom="3dp"
-            android:paddingLeft="7dp"
-            android:paddingRight="7dp"
-            android:paddingTop="3dp"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:gravity="center_vertical">
+
+            <RelativeLayout
+                android:id="@+id/home_hot_search_city_bottom_layout"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:background="@mipmap/home_gnumber_bg">
+
+                <TextView
+                    android:id="@+id/home_hot_search_city_bottom_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="23dp"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>>
+
+            <ImageView
+                android:id="@+id/home_hot_search_city_bottom_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/home_hot_search_city_bottom_layout"
+                android:layout_marginLeft="-10dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/guide_head" />
+        </RelativeLayout>
     </FrameLayout>
 
     <TextView
