@@ -121,7 +121,7 @@ public class EvaluateListActivity extends BaseActivity{
                     adapter.addList(list);
                 }
             }
-            if (adapter.getCount() >= Constants.DEFAULT_PAGESIZE) {
+            if (adapter.getCount() >= totalSize) {
                 listView.onLoadCompleteNone();
             } else {
                 listView.onLoadComplete();

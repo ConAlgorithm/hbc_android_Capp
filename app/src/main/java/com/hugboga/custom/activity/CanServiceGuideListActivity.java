@@ -124,7 +124,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
                     adapter.addList(list);
                 }
             }
-            if (adapter.getCount() >= Constants.DEFAULT_PAGESIZE) {
+            if (adapter.getCount() >= totalSize) {
                 listView.onLoadCompleteNone();
             } else {
                 listView.onLoadComplete();
