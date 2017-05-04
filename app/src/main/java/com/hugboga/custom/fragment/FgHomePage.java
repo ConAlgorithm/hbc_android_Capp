@@ -488,12 +488,18 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         if(distance>0){
             homeListView.smoothScrollBy(0, distance);
         }
+        if(homeBindIcon != null){
+            homeBindIcon.setAlpha(1f);
+        }
     }
 
     private void swtichTabScrollToTop(){
         ((LinearLayoutManager)homeListView.getLayoutManager()).scrollToPositionWithOffset(1,UIUtils.dip2px(88));
         if(homeTitleLayout!=null){
             homeTitleLayout.setAlpha(1.0f);
+        }
+        if(homeBindIcon != null){
+            homeBindIcon.setAlpha(1f);
         }
     }
 

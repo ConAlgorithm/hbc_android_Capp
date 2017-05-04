@@ -23,6 +23,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.MediaPlayerActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
@@ -93,7 +94,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             return;
         }
         if(homeHeaderInfo.dynamicPic!=null){
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (760 - ScreenUtil.statusbarheight) / 750;
+            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
             Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
             setPlaceAmmountText(homeHeaderHolder.placeAmmout);
             setGuideAmmountText(homeHeaderHolder.gideAmmountText);
@@ -103,7 +104,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             homeHeaderHolder.homeHelp.setOnClickListener(this);
             homeHeaderHolder.homeVideoPage.setOnClickListener(this);
         }else{
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (760 - ScreenUtil.statusbarheight) / 750;
+            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
         }
 
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
@@ -111,6 +112,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         animateServiceView = homeHeaderHolder.serviceLayout;
         animateBaseLineView = homeHeaderHolder.homeHelp;
         animateServiceInnerView = homeHeaderHolder.serviceInnerLayout;
+        homeHeaderHolder.homeHeaderSearch.setOnClickListener(this);
     }
 
     public void locationTab(int index){
@@ -183,25 +185,30 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     private void setPlaceAmmountText(TextView textView){
         String countryStr = homeHeaderInfo.countryNum+"+";
         String cityStr = homeHeaderInfo.cityNum+"+";
-        String showStr = countryStr+"个国家  "+ cityStr+"个城市";
+        String firstString = "开车带你玩遍" + countryStr;
+        String country="国家、";
+        String city = "城市";
+        String showStr = firstString + country + cityStr + city;
+        int cityNumber = firstString.length() + country.length() + cityStr.length();
         SpannableString spannableString = new SpannableString(showStr);
-        spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),0,countryStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new SuperscriptSpan(),countryStr.length()-1,countryStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new  AbsoluteSizeSpan(25),countryStr.length()-1,countryStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //spannableString.setSpan(new ForegroundColorSpan(0xffffff),0,countryStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new SuperscriptSpan(),firstString.length()-1,firstString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new  AbsoluteSizeSpan(25),firstString.length()-1,firstString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),countryStr.length()+5,countryStr.length()+cityStr.length()+5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new SuperscriptSpan(),countryStr.length()+cityStr.length()+4,countryStr.length()+cityStr.length()+5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new  AbsoluteSizeSpan(25),countryStr.length()+cityStr.length()+4,countryStr.length()+cityStr.length()+5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),countryStr.length()+5,countryStr.length()+cityStr.length()+5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new SuperscriptSpan(),cityNumber-1,cityNumber, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new  AbsoluteSizeSpan(25),cityNumber-1,cityNumber, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         textView.setText(spannableString);
     }
 
     private void setGuideAmmountText(TextView textView){
         String guideAmmountStr = homeHeaderInfo.guideNum+"万";
-        String showStr = guideAmmountStr+"认证华人司导";
-        SpannableString spannableString = new SpannableString(showStr);
-        spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),0,guideAmmountStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textView.setText(spannableString);
+        String showStr = guideAmmountStr+"华人导游";
+        //SpannableString spannableString = new SpannableString(showStr);
+        //spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),0,guideAmmountStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(showStr);
+        textView.setShadowLayer(0.5f,0.5f,0.5f,0x9a000b34);
     }
 
     @Override
@@ -232,6 +239,14 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 intent.putExtra(MediaPlayerActivity.KEY_URL,homeHeaderInfo.headVideo.videoUrl);
                 v.getContext().startActivity(intent);
                 MobClickUtils.onEvent(StatisticConstant.PLAY_VIDEO);
+                break;
+            case R.id.home_header_search:
+                Intent intentSearch = new Intent(v.getContext(), ChooseCityNewActivity.class);
+                intentSearch.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+                intentSearch.putExtra("isHomeIn", true);
+                intentSearch.putExtra("source", "首页搜索框");
+                v.getContext().startActivity(intentSearch);
+                StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
                 break;
         }
     }
@@ -286,6 +301,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         View serviceLayout;
         @Bind(R.id.home_search_service_inner_layout)
         View serviceInnerLayout;
+        @Bind(R.id.home_header_search)
+        View homeHeaderSearch;//首页搜索
 
         @Override
         protected void bindView(View itemView) {
