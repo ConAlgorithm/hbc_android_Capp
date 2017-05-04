@@ -489,7 +489,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        MLog.e(errorInfo == null ? "" : errorInfo.toString());
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
