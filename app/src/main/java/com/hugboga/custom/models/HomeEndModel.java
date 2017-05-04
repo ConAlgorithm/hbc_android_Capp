@@ -61,12 +61,14 @@ public class HomeEndModel extends EpoxyModel<LinearLayout> {
                         intent = new Intent(context, ChooseCityNewActivity.class);
                         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                         intent.putExtra("isHomeIn", true);
-                        intent.putExtra("source", "首页搜索框");
+                        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                         context.startActivity(intent);
                         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
                         break;
                     case FgHomePage.TAB_GUIDE:
-                        context.startActivity(new Intent(context, FilterGuideListActivity.class));
+                        intent = new Intent(context, FilterGuideListActivity.class);
+                        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                        context.startActivity(intent);
                         break;
                 }
             }

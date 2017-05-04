@@ -17,6 +17,9 @@ import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.IMUtil;
 
@@ -97,6 +100,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             return;
         }
         NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId);
+        StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
     }
 
     @Override

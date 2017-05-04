@@ -42,6 +42,20 @@ public class CityListGuideHeaderModel extends EpoxyModel<LinearLayout> {
                     params.cityHomeType = paramsData.cityHomeType;
                     params.titleName = paramsData.titleName;
                     intent.putExtra(Constants.PARAMS_DATA, params);
+
+                    String source = "";
+                    switch (paramsData.cityHomeType) {
+                        case CITY:
+                            source = "城市页";
+                            break;
+                        case ROUTE:
+                            source = "国家页";
+                            break;
+                        case COUNTRY:
+                            source = "线路圈页";
+                            break;
+                    }
+                    intent.putExtra(Constants.PARAMS_SOURCE, source);
                 }
                 context.startActivity(intent);
             }

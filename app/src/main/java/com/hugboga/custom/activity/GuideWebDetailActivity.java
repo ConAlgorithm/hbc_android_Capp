@@ -59,8 +59,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class
-GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
+public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
     public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
 
@@ -369,6 +368,16 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
                         StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
                     }
                 });
+    }
+
+    @Override
+    public String getEventSource() {
+        return "司导个人页";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_GPROFILE;
     }
 
 }

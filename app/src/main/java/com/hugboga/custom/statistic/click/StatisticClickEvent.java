@@ -15,6 +15,10 @@ import java.util.Map;
 
 public class StatisticClickEvent {
 
+    public static void click(String eventId){
+        MobClickUtils.onEvent(eventId);
+    }
+
     //触发来源
     public static void click(String eventId,String source){
         Map map = new HashMap();

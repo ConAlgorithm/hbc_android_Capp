@@ -19,6 +19,8 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestGoodsFilter;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
@@ -146,6 +148,13 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
         intent.putExtra("type", 1);
         startActivity(intent);
+        if (skuItemBean.goodsClass == 1) {
+            StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());
+            StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, getEventSource());
+        } else {
+            StatisticClickEvent.click(StatisticConstant.CLICK_RT, getEventSource());
+            StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, getEventSource());
+        }
     }
 
     @Subscribe

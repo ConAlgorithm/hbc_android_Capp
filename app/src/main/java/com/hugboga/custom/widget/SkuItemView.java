@@ -87,10 +87,15 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior{
                 intent.putExtra("goodtype",skuItemBean.goodsType);
                 intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
                 intent.putExtra("type", 1);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
+                intent.putExtra(Constants.PARAMS_SOURCE, "商品列表页");
                 v.getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
+                if (skuItemBean.goodsClass == 1) {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "商品列表页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, "商品列表页");
+                } else {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "商品列表页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, "商品列表页");
+                }
             }
         });
     }

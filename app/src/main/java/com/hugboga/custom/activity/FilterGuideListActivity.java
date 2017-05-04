@@ -24,8 +24,7 @@ import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestMaxCapacityOverall;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
-import com.hugboga.custom.utils.CityUtils;
-import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.GuideFilterLayout;
 import com.hugboga.custom.widget.GuideItemView;
@@ -140,6 +139,16 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     }
 
     @Override
+    public String getEventSource() {
+        return "司导列表页";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_GLIST;
+    }
+
+    @Override
     public void onRefresh() {
         requestGuideList(0, false);
     }
@@ -188,6 +197,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         ArrayList<FilterGuideBean> guideList = mAdapter.getDatas();
         params.guideId = guideList.get(position).guideId;
         Intent intent = new Intent(FilterGuideListActivity.this, GuideWebDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
     }
