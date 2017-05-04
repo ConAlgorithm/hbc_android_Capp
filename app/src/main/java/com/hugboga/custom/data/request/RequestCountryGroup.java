@@ -5,13 +5,13 @@ import android.support.v4.util.ArrayMap;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 
 import org.xutils.db.Selector;
@@ -39,35 +39,26 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
         map.put("channelId","18");
         map.put("id", id);//国家/线路圈ID
         map.put("type", type);//类型 1.线路圈 2.国家
-        map.put("hotCityIds", getHotCityId(id));
+        map.put("hotCityIds", getHotCityId(id, CommonUtils.getCountInteger(type)));
     }
 
-    public String getHotCityId(int countryId) {
+    public String getHotCityId(int id, int type) {
 
         ArrayMap<Integer, CityBean> arrayMap = new ArrayMap<>();
-
         try {
-            Selector hotSelector = DatabaseManager.getHotDateSql(Constants.BUSINESS_TYPE_DAILY, 0, 0, ChooseCityActivity.CITY_LIST, countryId);
-            List<CityBean> hotCityList = (List<CityBean>) hotSelector.findAll();
+            String sql = "";
+            if (type == 1) {
+                sql = DatabaseManager.getCitysByGroupIdSql(id, null, false, true);
+            } else {
+                sql = DatabaseManager.getCitysByPlaceIdSql(id, null, false, true);
+            }
+            List<CityBean> hotCityList = DatabaseManager.getCityBeanList(sql);
             int size = hotCityList.size();
             for (int i = 0; i < size; i++) {
                 CityBean cityBean = hotCityList.get(i);
                 arrayMap.put(cityBean.cityId, cityBean);
             }
-
-            int hotCityListSize = hotCityList.size();
-            if (hotCityListSize < MAX_CITY_COUNT) {
-                Selector allCitySelector = DatabaseManager.getHotDateSql(Constants.BUSINESS_TYPE_DAILY, 0, 0, ChooseCityActivity.CITY_LIST, countryId);
-                List<CityBean> allCityList = (List<CityBean>) allCitySelector.findAll();
-                int allCityListSize = allCityList.size();
-                for (int i = 0; i < (MAX_CITY_COUNT - hotCityListSize) && i < allCityListSize; i++) {
-                    CityBean cityBean = allCityList.get(i);
-                    if (!arrayMap.containsKey(cityBean.cityId)) {
-                        arrayMap.put(cityBean.cityId, cityBean);
-                    }
-                }
-            }
-        } catch (DbException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

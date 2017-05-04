@@ -225,6 +225,82 @@ public final class DatabaseManager {
         return "select * from city where is_city_code=1 and (place_name<>'中国' and place_name<>'中国大陆') and is_hot=1 order by hot_weight desc";
     }
 
+    public static String getCitysByPlaceIdSql(int place_id) {
+        return getCitysByPlaceIdSql(place_id, null, false, false);
+    }
+
+    public static String getCitysByPlaceIdSql(int place_id, String _keyword, boolean isNeedMore, boolean ishot) {
+        String sql = "select * from city where place_id=%1$s %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by is_hot, hot_weight desc";
+        String keywordSql = "";
+        if (!TextUtils.isEmpty(_keyword)) {
+            if (isNeedMore) {
+                keywordSql = "and cn_name like '%"+ _keyword + "%'";
+            } else {
+                keywordSql = "and cn_name like '"+ _keyword + "%'";
+            }
+        }
+        String hotCitySql = "";
+        if (ishot) {
+            hotCitySql = "and is_hot=1";
+        }
+        return String.format(sql, place_id, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql);
+    }
+
+    public static String getCitysByGroupIdSql(int place_id) {
+        return getCitysByGroupIdSql(place_id, null, false, false);
+    }
+
+    public static String getCitysByGroupIdSql(int place_id, String _keyword, boolean isNeedMore, boolean ishot) {
+        try {
+            DbManager mDbManager = getDbManager();
+            SqlInfo sqlinfo = new SqlInfo();
+            String keywordSql = "";
+            if (!TextUtils.isEmpty(_keyword)) {
+                if (isNeedMore) {
+                    keywordSql = "and cn_name like '%"+ _keyword + "%'";
+                } else {
+                    keywordSql = "and cn_name like '"+ _keyword + "%'";
+                }
+            }
+            String hotCitySql = "";
+            if (ishot) {
+                hotCitySql = "and is_hot=1";
+            }
+
+            sqlinfo.setSql(String.format("select * from line_group where group_id=%1$s", place_id));
+            String sql = "select * from city where (%1$s) %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by is_hot desc, hot_weight desc;";
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            String subPlaces = model.getString("sub_places");
+                            String subCities = model.getString("sub_cities");//city_id in (1270, 1269) or place_id in(70)
+                            String params = "";
+                            if (!TextUtils.isEmpty(subCities) && !TextUtils.isEmpty(subPlaces)) {
+                                params = String.format("city_id in (%1$s) or place_id in(%2$s)", subCities, subPlaces);
+                            } else if (!TextUtils.isEmpty(subPlaces)) {
+                                params = String.format("place_id in(%1$s)", subPlaces);
+                            } else if (!TextUtils.isEmpty(subCities)) {
+                                params = String.format("city_id in(%1$s)", subCities);
+                            } else {
+                                return null;
+                            }
+                            return String.format(sql, params, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     /**
