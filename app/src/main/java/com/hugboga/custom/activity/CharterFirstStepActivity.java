@@ -3,6 +3,8 @@ package com.hugboga.custom.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,7 +24,6 @@ import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
-import com.hugboga.custom.data.request.RequestCars;
 import com.hugboga.custom.data.request.RequestGuideCrop;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -288,7 +289,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+            mHandler.sendEmptyMessageDelayed(1, 200);//FIXME: 17/5/6 临时办法，待优化
             countLayout.setSliderEnabled(true);
             setNextViewEnabled(true);
             isEnabled = true;
@@ -296,6 +297,19 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             charterDataUtils.guideCropList = ((RequestGuideCrop) _request).getData();
         }
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
