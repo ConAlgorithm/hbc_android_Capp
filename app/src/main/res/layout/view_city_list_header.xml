@@ -2,46 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/city_list_header_bg_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        />
+        android:scaleType="centerCrop" />
 
     <View
         android:id="@+id/city_list_header_fillter_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/picture_filter_shape"></View>
-    <TextView
-        android:id="@+id/city_list_header_description_tv"
+
+    <LinearLayout
+        android:id="@+id/city_list_header_description_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/city_list_margin_left"
         android:layout_marginLeft="@dimen/city_list_margin_left"
         android:layout_marginRight="@dimen/city_list_margin_left"
-        android:layout_marginBottom="@dimen/city_list_margin_left"
         android:layout_alignParentBottom="true"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textSize="12sp"
-        android:textColor="#ffffff"/>
-    <TextView
-        android:id="@+id/city_list_header_city_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="@dimen/city_list_margin_left"
-        android:layout_above="@id/city_list_header_description_tv"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#ffffff"/>
-    <ImageView
-        android:layout_alignTop="@id/city_list_header_city_tv"
-        android:layout_toRightOf="@id/city_list_header_city_tv"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="14dp"
-        android:layout_width="15dp"
-        android:layout_height="9dp"
-        android:background="@mipmap/share_unfold_white"/>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/city_list_header_city_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="234234we4"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/city_list_header_description_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:visibility="gone"
+            android:maxLines="2"
+            android:text="111111111"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+    </LinearLayout>
 </RelativeLayout>
