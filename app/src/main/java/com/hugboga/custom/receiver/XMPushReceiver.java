@@ -76,6 +76,21 @@ public class XMPushReceiver extends PushMessageReceiver implements HttpRequestLi
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage miPushCommandMessage) {
         super.onCommandResult(context, miPushCommandMessage);
+        if ("register".equals(miPushCommandMessage.getCommand())) {
+            String regId = "";
+            if (miPushCommandMessage.getCommandArguments() != null
+                    && miPushCommandMessage.getCommandArguments().size() > 0) {
+                regId = miPushCommandMessage.getCommandArguments().get(0);
+            }
+            PushUtils.uploadMiPushRegister(regId);
+        } else if ("set-alias".equals(miPushCommandMessage.getCommand())) {
+            String alias = "";
+            if (miPushCommandMessage.getCommandArguments() != null
+                    && miPushCommandMessage.getCommandArguments().size() > 0) {
+                alias = miPushCommandMessage.getCommandArguments().get(0);
+            }
+            PushUtils.uploadMiPushAlias((int) miPushCommandMessage.getResultCode(), alias);
+        }
     }
 
     @Override

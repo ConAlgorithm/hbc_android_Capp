@@ -95,10 +95,12 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 @ContentView(R.layout.activity_main)
@@ -318,18 +320,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
         try {
-            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
-            uploadPushToken();
+            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), new TagAliasCallback() {
+                @Override
+                public void gotResult(int code, String alias, Set<String> tags) {
+                    PushUtils.uploadPushAlias(code, alias);
+                }
+            });
+            MiPushClient.setAlias(getApplicationContext(), PhoneInfo.getIMEI(this), "");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void uploadPushToken() {
-        String imei = PhoneInfo.getIMEI(this);
-        RequestPushToken request = new RequestPushToken(this, imei, imei, BuildConfig.VERSION_NAME, imei, PhoneInfo.getSoftwareVersion(this));
-        HttpRequestUtils.request(this, request, this);
-        MiPushClient.setAlias(getApplicationContext(), imei, "");
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)

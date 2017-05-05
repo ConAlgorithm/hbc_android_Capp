@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 143
+    //current urlErrorCode 144
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -242,6 +242,7 @@ public class UrlLibs {
     public static final String API_GUIDE_AVAILABLE_CHECK    = "supplier/v2.0/c/guides/availableCheck";                  // 下单前校验司导是否可用 143
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
+    public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
 
