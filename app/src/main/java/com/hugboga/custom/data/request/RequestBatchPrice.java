@@ -63,6 +63,8 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         int isOuttown = -1;
         int fitstOrderGoodsType = -1;
 
+        RequestCheckGuide.CheckGuideBeanList checkGuideBeanList = new RequestCheckGuide.CheckGuideBeanList();
+
         ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
         int size = travelList.size();
         DailyPriceParam dailyPriceParam = null;
@@ -84,6 +86,16 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 }
                 batchPriceList.add(batchPrice);
                 fitstOrderGoodsType = 1;
+
+                if (charterDataUtils.guidesDetailData != null) {
+                    RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+                    checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
+                    checkGuideBean.cityId = charterDataUtils.getStartCityBean(i + 1).cityId;
+                    checkGuideBean.orderType = 1;
+                    checkGuideBean.startTime = airportParam.serviceDate;
+                    checkGuideBean.endTime = charterDataUtils.chooseDateBean.start_date + " "+ CombinationOrderActivity.SERVER_TIME_END;
+                    checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+                }
                 index++;
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {//只送机
                 AirportParam sendParam = new AirportParam();
@@ -100,6 +112,16 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                 batchPrice.serviceType = SERVICE_TYPE_SEND;
                 batchPrice.index = index;
                 batchPriceList.add(batchPrice);
+
+                if (charterDataUtils.guidesDetailData != null) {
+                    RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+                    checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
+                    checkGuideBean.cityId = charterDataUtils.getStartCityBean(i + 1).cityId;
+                    checkGuideBean.orderType = 2;
+                    checkGuideBean.startTime = sendParam.serviceDate;
+                    checkGuideBean.endTime = charterDataUtils.chooseDateBean.end_date + " "+ CombinationOrderActivity.SERVER_TIME_END;
+                    checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+                }
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
                 continue;
             } else {
@@ -178,17 +200,22 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     batchPrice.serviceType = SERVICE_TYPE_CHARTER;
                     batchPrice.index = index;
                     batchPriceList.add(batchPrice);
+
+                    //第一个订单的订单类型，退改规则使用
                     if (batchPriceList != null && ((fitstOrderGoodsType == 1 && batchPriceList.size() == 2) || batchPriceList.size() == 1)) {
-                        if (isOuttown == 1) {
-                            if (dailyPriceParam.arrangements.size() > 3) {//大长途
-                                fitstOrderGoodsType = 7;
-                            } else if (dailyPriceParam.arrangements.size() <= 3) {//小长途
-                                fitstOrderGoodsType = 6;
-                            }
-                        } else {
-                            fitstOrderGoodsType = 3;
-                        }
+                        fitstOrderGoodsType = getOrderType(isOuttown == 1, dailyPriceParam.arrangements.size());
                     }
+
+                    if (charterDataUtils.guidesDetailData != null) {
+                        RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+                        checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
+                        checkGuideBean.cityId = dailyPriceParam.startCityId;
+                        checkGuideBean.orderType = getOrderType(isOuttown == 1, dailyPriceParam.arrangements.size());
+                        checkGuideBean.startTime = dailyPriceParam.startDate;
+                        checkGuideBean.endTime = dailyPriceParam.endDate;
+                        checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+                    }
+
                     index++;
                     dailyPriceParam = new DailyPriceParam();
                 }
@@ -206,9 +233,27 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         }
 
         charterDataUtils.fitstOrderGoodsType = fitstOrderGoodsType;
+
+        if (charterDataUtils.guidesDetailData != null) {
+            charterDataUtils.checkGuideBeanList = checkGuideBeanList;
+        }
         return JsonUtils.toJson(batchPriceListBean);
     }
 
+
+    public int getOrderType(boolean isOuttown, int size) {
+        int result = 3;
+        if (isOuttown) {
+            if (size > 3) {//大长途
+                result = 7;
+            } else if (size <= 3) {//小长途
+                result = 6;
+            }
+        } else {
+            result = 3;
+        }
+        return result;
+    }
 
     public static int getTourType(int routeType) {
         switch (routeType) {

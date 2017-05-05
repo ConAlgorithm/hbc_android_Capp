@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
@@ -28,6 +29,12 @@ public class RequestPushToken extends BaseRequest {
         map.put("appVersion",appVersion);
         map.put("deviceId",deviceId);
         map.put("osVersion",osVersion);
+        if (UserEntity.getUser().isLogin(context)) {
+            map.put("id",UserEntity.getUser().getUserId(context));
+        }
+//        map.put("success",osVersion);//是否注册成功，1-成功，0-失败
+//        map.put("regId",osVersion);//极光、小米或信鸽返回的标识ID
+//        map.put("desc",osVersion);//注册失败的描述，错误码等
     }
 
     @Override

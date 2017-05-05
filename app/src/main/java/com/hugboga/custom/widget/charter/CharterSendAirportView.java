@@ -213,6 +213,9 @@ public class CharterSendAirportView extends LinearLayout{
     public void showTimePicker() {
         Calendar calendar = Calendar.getInstance();
         try {
+            if (!TextUtils.isEmpty(charterDataUtils.sendServerTime)) {
+                serverTime = charterDataUtils.sendServerTime;
+            }
             if (!"00:00".equals(serverTime)) {
                 calendar.setTime(DateUtils.timeFormat.parse(serverTime + ":00"));
             }

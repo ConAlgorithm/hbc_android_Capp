@@ -150,7 +150,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
         if (startBean != null) {
             cityTV.setText(startBean.name);
-            requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+            if (guidesDetailData == null) {
+                requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+            } else {
+                getGuideCars();
+            }
         }
 
         setSensorsEvent();
@@ -386,8 +390,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
-                ArrayList<GuideCarBean> guideCarBeanList = ((RequestCars)request).getData();
+                ArrayList<GuideCarBean> guideCarBeanList = ((RequestNewCars)request).getData();
                 if (guideCarBeanList == null) {
+                    CommonUtils.showToast("很抱歉，该司导暂无符合的车型");
                     return;
                 }
                 guidesDetailData.guideCars = guideCarBeanList;
