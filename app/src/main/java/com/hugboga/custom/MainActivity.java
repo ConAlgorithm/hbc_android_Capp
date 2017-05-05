@@ -265,8 +265,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void showAdWebView(String url){
         if(null != url) {
-            if (CommonUtils.isLogin(activity)) {
-                url = CommonUtils.getBaseUrl(url) + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
+            if (UserEntity.getUser().isLogin(activity)) {
+                url = CommonUtils.getBaseUrl(url) + "userId=" + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
             }
             Intent intent = new Intent(activity,WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);

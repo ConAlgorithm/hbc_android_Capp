@@ -29,6 +29,7 @@ import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.TravelPurposeFormActivity;
 import com.hugboga.custom.activity.TravelPurposeFormListActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -235,10 +236,20 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 MobClickUtils.onEvent(StatisticConstant.YI_XIANG);
                 break;
             case R.id.home_video_page:
-                Intent intent = new Intent(v.getContext(), MediaPlayerActivity.class);
-                intent.putExtra(MediaPlayerActivity.KEY_URL,homeHeaderInfo.headVideo.videoUrl);
-                v.getContext().startActivity(intent);
-                MobClickUtils.onEvent(StatisticConstant.PLAY_VIDEO);
+                if (homeHeaderInfo == null || homeHeaderInfo.headVideo == null) {
+                    break;
+                }
+                Intent intent = null;
+                if (homeHeaderInfo.headVideo.type == 1) {
+                    intent = new Intent(v.getContext(), MediaPlayerActivity.class);
+                    intent.putExtra(MediaPlayerActivity.KEY_URL, homeHeaderInfo.headVideo.videoUrl);
+                    v.getContext().startActivity(intent);
+                    MobClickUtils.onEvent(StatisticConstant.PLAY_VIDEO);
+                } else {
+                    intent = new Intent(v.getContext(), WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, homeHeaderInfo.headVideo.videoUrl);
+                    v.getContext().startActivity(intent);
+                }
                 break;
             case R.id.home_header_search:
                 Intent intentSearch = new Intent(v.getContext(), ChooseCityNewActivity.class);
