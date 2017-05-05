@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -27,40 +28,32 @@
                 android:background="@drawable/picture_filter_shape"></View>
 
             <RelativeLayout
+                android:id="@+id/home_hot_search_city_icon_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="bottom|right"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="6dp"
-                android:gravity="center_vertical">
+                android:layout_marginBottom="2dp"
+                android:layout_gravity="bottom|right">
 
-                <RelativeLayout
-                    android:id="@+id/home_hot_search_city_bottom_layout"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:scaleType="centerCrop"
-                    android:background="@mipmap/home_gnumber_bg">
-
-                    <TextView
-                        android:id="@+id/home_hot_search_city_bottom_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:textSize="12sp"
-                        android:layout_marginLeft="23dp"
-                        android:textColor="@android:color/white" />
-                </RelativeLayout>>
-
-                <ImageView
-                    android:id="@+id/home_hot_search_city_bottom_avatar"
+                <TextView
+                    android:id="@+id/home_hot_search_city_bottom_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/home_hot_search_city_bottom_layout"
-                    android:layout_marginLeft="-10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/guide_head" />
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/home_gnumber_bg"
+                    android:textColor="@android:color/white" />
+
+                <net.grobas.view.PolygonImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginLeft="-4dp"
+                    android:layout_toRightOf="@id/home_hot_search_city_bottom_text"
+                    android:src="@drawable/guide_head"
+                    app:poly_vertices="0"
+                    app:poly_border="true"
+                    app:poly_border_color="@android:color/white"
+                    app:poly_border_width="2dp" />
             </RelativeLayout>
 
         </FrameLayout>
