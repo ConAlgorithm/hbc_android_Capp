@@ -45,9 +45,9 @@
                     android:textColor="@android:color/white" />
 
                 <net.grobas.view.PolygonImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="-4dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="-8dp"
                     android:layout_toRightOf="@id/home_hot_search_city_bottom_text"
                     android:src="@drawable/guide_head"
                     app:poly_vertices="0"
