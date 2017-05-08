@@ -544,7 +544,7 @@
 
     <string name="evaluate_subtitle_grade">为司导打分</string>
     <string name="evaluate_submit">确认提交</string>
-    <string name="evaluate_et_hint">其它意见或建议</string>
+    <string name="evaluate_et_hint">您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦</string>
     <string name="evaluate_title">我的评价</string>
     <string name="evaluate_succeed">评价成功!</string>
 

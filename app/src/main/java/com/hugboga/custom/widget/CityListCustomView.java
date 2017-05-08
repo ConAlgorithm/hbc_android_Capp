@@ -16,6 +16,7 @@ import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
+import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.utils.DatabaseManager;
 
 import butterknife.Bind;
@@ -101,6 +102,46 @@ public class CityListCustomView extends LinearLayout {
             if (!TextUtils.isEmpty(cityListBean.singleServiceVo.bookNote)) {
                 singleTV.setText(cityListBean.singleServiceVo.bookNote);
             }
+        } else {
+            singleLayout.setVisibility(View.GONE);
+        }
+
+        if (!pickOrSendIsCanService && !singleCanService) {
+            bottomLayout.setVisibility(View.GONE);
+            lineView.setVisibility(View.GONE);
+        } else {
+            if (!dailyIsCanService) {
+                lineView.setVisibility(View.GONE);
+            }
+            if (pickOrSendIsCanService && singleCanService) {
+                bottomVerticalLine.setVisibility(View.VISIBLE);
+            } else {
+                bottomVerticalLine.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public void setData(CountryGroupBean countryGroupBean) {
+        if (countryGroupBean == null) {
+            return;
+        }
+        boolean dailyIsCanService = countryGroupBean.hasDailyService;
+        if (dailyIsCanService) {
+            charterLayout.setVisibility(View.VISIBLE);
+        } else {
+            charterLayout.setVisibility(View.GONE);
+        }
+
+        boolean pickOrSendIsCanService = countryGroupBean.hasAirportService;
+        if (pickOrSendIsCanService) {
+            picksendLayout.setVisibility(View.VISIBLE);
+        } else {
+            picksendLayout.setVisibility(View.GONE);
+        }
+
+        boolean singleCanService = countryGroupBean.hasSingleService;
+        if (singleCanService) {
+            singleLayout.setVisibility(View.VISIBLE);
         } else {
             singleLayout.setVisibility(View.GONE);
         }
