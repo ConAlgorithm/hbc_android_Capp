@@ -837,7 +837,7 @@
     <string name="phone_format_incorrect">手机格式不正确，请重新输入</string>
     <string name="alert_submit_success">司导小助手将主动联系您</string>
     <string name="travel_purpose_form_list">行程规划</string>
-    <string name="travel_purpose_form_detail">行程规划详情</string>
+    <string name="travel_purpose_form_detail">行程规划心愿单</string>
 
     <string name="bargain_hint">支付后还可以挑选司导哦~</string>
 </resources>

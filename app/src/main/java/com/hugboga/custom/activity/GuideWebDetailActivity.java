@@ -150,7 +150,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     }
 
     public void initView() {
-        titleTV.setText("精选司导");
+        titleTV.setText("");
 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
@@ -179,8 +179,8 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             collectIV.setEnabled(false);
             shareIV.setVisibility(View.VISIBLE);
             collectIV.setVisibility(View.VISIBLE);
-            sendRequest();
         }
+        sendRequest();
     }
 
     public String getLoadUrl() {
@@ -309,6 +309,10 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideExtinfo) {
             guideExtinfoBean = ((RequestGuideExtinfo) _request).getData();
+            titleTV.setText(guideExtinfoBean.guideName);
+            if (paramsData.isChooseGuide) {
+                return;
+            }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
             if (UserEntity.getUser().isLogin(this)) {
