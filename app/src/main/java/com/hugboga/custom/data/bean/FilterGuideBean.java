@@ -15,6 +15,7 @@ public class FilterGuideBean implements Serializable{
     public String guideLevelName;       // 司导等级名称
     public String guideCover;           // 司导主页banner大图
     public String avatar;               // 司导头像
+    public String guideAvatarUrl;       // 收藏司导列表
     public int cityId;                  // 司导所在城市标识
     public String cityName;             // 司导所在城市名称
     public String guideName;            // 司导姓名
