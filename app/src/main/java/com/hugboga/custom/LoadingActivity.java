@@ -215,7 +215,10 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
         initView();
-        requestKey(UserEntity.getUser().getAccessKey(this).isEmpty());
+        try {
+            requestKey(UserEntity.getUser().getAccessKey(this).isEmpty());
+        } catch (Exception e) {
+        }
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
