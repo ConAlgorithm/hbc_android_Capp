@@ -16,7 +16,7 @@
         android:gravity="center"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
-        android:text="优秀司导都在服务用户的路上，下单后沟通更高效"
+        android:text="优秀司导都在服务用户的路上，预订后沟通更高效"
         android:textColor="#a2a19e"
         android:textSize="12sp" />
     <View
