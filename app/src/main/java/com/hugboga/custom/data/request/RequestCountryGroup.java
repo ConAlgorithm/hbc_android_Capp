@@ -46,17 +46,33 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
 
         ArrayMap<Integer, CityBean> arrayMap = new ArrayMap<>();
         try {
-            String sql = "";
+            String hotCitySql = "";
             if (type == 1) {
-                sql = DatabaseManager.getCitysByGroupIdSql(id, null, false, true);
+                hotCitySql = DatabaseManager.getCitysByGroupIdSql(id, null, false, true);
             } else {
-                sql = DatabaseManager.getCitysByPlaceIdSql(id, null, false, true);
+                hotCitySql = DatabaseManager.getCitysByPlaceIdSql(id, null, false, true);
             }
-            List<CityBean> hotCityList = DatabaseManager.getCityBeanList(sql);
-            int size = hotCityList.size();
-            for (int i = 0; i < size; i++) {
+            List<CityBean> hotCityList = DatabaseManager.getCityBeanList(hotCitySql);
+            int hotCityListSize = hotCityList.size();
+            for (int i = 0; i < hotCityListSize; i++) {
                 CityBean cityBean = hotCityList.get(i);
                 arrayMap.put(cityBean.cityId, cityBean);
+            }
+            if (hotCityListSize < MAX_CITY_COUNT) {
+                String citySql = "";
+                if (type == 1) {
+                    citySql = DatabaseManager.getCitysByGroupIdSql(id, null, false, false);
+                } else {
+                    citySql = DatabaseManager.getCitysByPlaceIdSql(id, null, false, false);
+                }
+                List<CityBean> allCityList = DatabaseManager.getCityBeanList(citySql);
+                int allCityListSize = allCityList.size();
+                for (int i = 0; i < allCityListSize && arrayMap.size() < MAX_CITY_COUNT; i++) {
+                    CityBean cityBean = allCityList.get(i);
+                    if (!arrayMap.containsKey(cityBean.cityId)) {
+                        arrayMap.put(cityBean.cityId, cityBean);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
