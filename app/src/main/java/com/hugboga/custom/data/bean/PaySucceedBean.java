@@ -16,6 +16,7 @@ public class PaySucceedBean implements Serializable{
     private int bargainStatus;
     private String goodMsg;
     private int cityId;
+    private String cityName;
     private List<String> content;
 
     private String highLightStr = "";
@@ -30,6 +31,10 @@ public class PaySucceedBean implements Serializable{
 
     public int getCityId() {
         return cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
     }
 
     public String getHighLightStr() {

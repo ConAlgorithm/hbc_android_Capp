@@ -115,6 +115,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                     CityListActivity.Params params = new CityListActivity.Params();
                     params.id = paySucceedBean.getCityId();
                     params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    params.titleName = paySucceedBean.getCityName();
                     Intent intent = new Intent(getContext(), CityListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                     intent.putExtra(Constants.PARAMS_DATA, params);
