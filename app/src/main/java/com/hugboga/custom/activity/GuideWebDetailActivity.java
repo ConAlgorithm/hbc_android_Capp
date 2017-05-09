@@ -140,7 +140,11 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                 int isShow = (int) action.getData();
                 if (isShow == 1) {
                     titlebar.setVisibility(View.VISIBLE);
-                    bottomView.setVisibility(View.VISIBLE);
+                    if (UserEntity.getUser().isLogin(this)) {
+                        bottomView.setVisibility(View.VISIBLE);
+                    } else {
+                        bottomView.setVisibility(View.GONE);
+                    }
                 } else {
                     titlebar.setVisibility(View.GONE);
                     bottomView.setVisibility(View.GONE);
