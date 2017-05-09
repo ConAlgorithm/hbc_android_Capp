@@ -628,7 +628,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PRICE);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PRICE_V2_2);
                 v.getContext().startActivity(intent);
             }
         });
