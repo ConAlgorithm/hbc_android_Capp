@@ -24,8 +24,9 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
-import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
@@ -35,9 +36,14 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
@@ -47,6 +53,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SaveFileTask;
 import com.hugboga.custom.widget.DialogUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -235,18 +242,18 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
-                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                Intent intent = new Intent(mActivity, CityListActivity.class);
+                CityListActivity.Params params = new CityListActivity.Params();
                 params.id = CommonUtils.getCountInteger(areaID);
                 switch (CommonUtils.getCountInteger(areaType)) {
                     case 1:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                        params.cityHomeType = CityListActivity.CityHomeType.CITY;
                         break;
                     case 2:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                        params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                         break;
                     case 3:
-                        params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                        params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
                         break;
                     default:
                         return;
@@ -403,10 +410,10 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                CityListActivity.Params params = new CityListActivity.Params();
                 params.id = CommonUtils.getCountInteger(cityId);
-                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
-                Intent intent = new Intent(mActivity, CityHomeListActivity.class);
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                Intent intent = new Intent(mActivity, CityListActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 mActivity.startActivity(intent);
@@ -661,6 +668,69 @@ public class WebAgent implements HttpRequestListener {
 
     public String getEventSource() {
         return TextUtils.isEmpty(title) ? "web页面" : title;
+    }
+
+    @JavascriptInterface
+    public void pushToGuideOrderWithParams(final String param) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!CommonUtils.isLogin(mActivity)) {
+                    return;
+                }
+                GuideOrderWebParamsBean data = JsonUtils.getObject(param, GuideOrderWebParamsBean.class);
+                if (data == null) {
+                    return;
+                }
+                CollectGuideBean collectBean = new CollectGuideBean();
+                collectBean.guideId = data.guideId;
+                collectBean.name = data.guideName;
+                collectBean.cityName = data.guideCityName;
+                collectBean.isQuality = data.isQuality;
+                collectBean.cityId = CommonUtils.getCountInteger(data.guideCityId);
+                Intent intent = null;
+                switch (data.orderType) {
+                    case 1://1：接送机
+                        intent = new Intent(mActivity, PickSendActivity.class);
+                        intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                    case 2://2：单次接送
+                        intent = new Intent(mActivity, SingleNewActivity.class);
+                        intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                    case 3://3：包车
+                        GuidesDetailData guidesDetailData = new GuidesDetailData();
+                        guidesDetailData.guideId = data.guideId;
+                        guidesDetailData.guideName = data.guideName;
+                        guidesDetailData.avatar = data.guideAvatar;
+                        guidesDetailData.countryName = data.guideCountryName;
+                        guidesDetailData.cityId = CommonUtils.getCountInteger(data.guideCityId);
+                        guidesDetailData.cityName = data.guideCityName;
+                        guidesDetailData.isQuality = data.isQuality;
+                        intent = new Intent(mActivity, CharterFirstStepActivity.class);
+                        intent.putExtra(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void showGuideDetailTopBottomBar(final int show) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new EventAction(EventType.SHOW_GUIDE_DETAIL_BAR, show));
+            }
+        });
     }
 
 }

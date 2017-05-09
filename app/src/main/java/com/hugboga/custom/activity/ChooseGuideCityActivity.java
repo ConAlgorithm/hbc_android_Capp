@@ -17,9 +17,9 @@ import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestGuideCrop;
-import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.ChooseGuideCityView;
 import com.hugboga.custom.widget.title.TitleBar;
 
@@ -64,12 +64,12 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         titleBar.setTitle("选择开始城市");
         TextView leftTV = titleBar.getLeftTV();
         RelativeLayout.LayoutParams leftViewParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(20), UIUtils.dip2px(20));
-        leftViewParams.leftMargin = UIUtils.dip2px(15);
+        leftViewParams.leftMargin = UIUtils.dip2px(5);
         leftViewParams.addRule(RelativeLayout.CENTER_VERTICAL);
         leftTV.setLayoutParams(leftViewParams);
         titleBar.getLeftTV().setBackgroundResource(R.mipmap.top_close);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, ChooseGuideCityView.class);
         mAdapter.setOnItemClickListener(this);
@@ -129,6 +129,5 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
             }
             return cityId;
         }
-
     }
 }

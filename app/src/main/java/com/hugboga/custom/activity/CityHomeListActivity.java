@@ -368,7 +368,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             layoutParam.setMargins(UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2), UIUtils.dip2px(2));
         }
         headerRightIV.setVisibility(View.VISIBLE);
-        //headerRightIV.setBackgroundResource(R.drawable.black_circle);
+//        headerRightIV.setBackgroundResource(R.drawable.black_circle);
         headerRightIV.setImageResource(R.mipmap.topbar_search_black);
         headerRightIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -519,7 +519,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                 if(placeHolderView!=null){
                     placeHolderView.hide();
                 }
-                request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
+//                request = new RequestCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
                 break;
             case ROUTE:
                 request = new RequestRouteCityHomeList(this, "" + paramsData.id, pageIndex, paramsData.daysCountMin, paramsData.daysCountMax, paramsData.goodsClass, paramsData.themeId);
@@ -600,8 +600,9 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCityHomeList) {
-            cityHomeBean = ((RequestCityHomeList) _request).getData();
+//            cityHomeBean = ((RequestCityHomeList) _request).getData();
             cityHomeHeader.update(cityHomeBean);
+            cityHomeFooter.update(cityHomeBean);
             fgTitle.setText(cityHomeBean.cityContent.cityName);
             titlebar.setVisibility(View.VISIBLE);
             showEmptyView(true);

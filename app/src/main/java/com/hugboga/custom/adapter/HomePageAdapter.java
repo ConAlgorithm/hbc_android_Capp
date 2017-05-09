@@ -1,7 +1,10 @@
 package com.hugboga.custom.adapter;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.fragment.FgHomePage;
+import com.hugboga.custom.models.ChoicenessGuideModel;
 import com.hugboga.custom.models.DestinationAggModel;
 import com.hugboga.custom.models.HomeEndModel;
 import com.hugboga.custom.models.HomeHeaderModel;
@@ -27,11 +30,7 @@ public class HomePageAdapter extends EpoxyAdapter {
             homeHeaderModel = new HomeHeaderModel(homeHeaderInfo, homeTabClickListener);
             addModel(homeHeaderModel);
         }
-
-
     }
-
-
 
     public void addHotExploations(List<HomeBeanV2.HotExploration> hotExplorationList,boolean switchTab,int listCount,int dataSize) {
         if(switchTab){
@@ -43,7 +42,7 @@ public class HomePageAdapter extends EpoxyAdapter {
             }
         }
         if(listCount==dataSize){
-            addFooterModel();
+            addFooterModel(FgHomePage.TAB_HOTEXPLORE);
         }
     }
 
@@ -65,27 +64,31 @@ public class HomePageAdapter extends EpoxyAdapter {
             }
         }
         if(listCount==dataSize){
-            addFooterModel();
+            addFooterModel(FgHomePage.TAB_DESTION);
         }
     }
 
-    public void addStoryModels(List<HomeBeanV2.TravelStory> stories,boolean switchTab,int listCount,int dataSize) {
-        if(switchTab){
+    public void addGuideModels(List<FilterGuideBean> guideList, boolean switchTab, int listCount, int dataSize) {
+        if (switchTab) {
             removeAllAfterModel(homeHeaderModel);
         }
-        if (stories != null && stories.size() > 0) {
-            for (int i = 0; i < stories.size(); i++) {
-                TravelStoryModel model = new TravelStoryModel(stories.get(i), i);
-                addModel(model);
+        if (guideList != null && guideList.size() > 0) {
+            int size = guideList.size();
+            for (int i = 0; i < size; i++) {
+                ChoicenessGuideModel guideModel = new ChoicenessGuideModel();
+                guideModel.setGuideData(guideList.get(i));
+                addModel(guideModel);
             }
         }
         if(listCount==dataSize){
-            addFooterModel();
+            addFooterModel(FgHomePage.TAB_GUIDE);
         }
     }
 
-    public void addFooterModel(){
-        addModel(new HomeEndModel());
+    public void addFooterModel(int tab){
+        HomeEndModel homeEndModel = new HomeEndModel();
+        homeEndModel.setCurrentTab(tab);
+        addModel(homeEndModel);
     }
 
     public void clearAll(){

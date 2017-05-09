@@ -3,7 +3,6 @@ package com.hugboga.custom.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityRouteAdapter;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
 import org.xutils.view.annotation.ContentView;
 
@@ -39,7 +39,7 @@ public class FgCharterList extends BaseFragment {
     @Override
     protected void initView() {
         adapter = new CityRouteAdapter();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

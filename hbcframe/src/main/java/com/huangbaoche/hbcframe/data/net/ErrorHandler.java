@@ -2,6 +2,8 @@ package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -61,8 +63,19 @@ public  class ErrorHandler implements HttpRequestListener{
                 errState = "服务器返回错误";
                 ServerException serverException = (ServerException) errorInfo.exception;
                 ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
-                if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener))
-                Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
+                if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener)) {
+                    if (request.errorType == BaseRequest.ERROR_TYPE_DEFAULT) {
+                        Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
+                    } else if (request.errorType == BaseRequest.ERROR_TYPE_SHOW_DIALOG) {
+                        showAlertDialog(mActivity, null, serverException.getMessage(), "知道了", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                }
                 return;
             case ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND:
                 errState = "404";
@@ -92,13 +105,23 @@ public  class ErrorHandler implements HttpRequestListener{
                     }
                 }
                 String errorStr = request.getUrlErrorCode();
-                if ("40001".equals(errorStr)) {
+                if (!HbcConfig.IS_DEBUG && "40001".equals(errorStr)) {
                     return;
                 }
                 if (!TextUtils.isEmpty(errorInfo.errorCode)) {
                     errorStr += " - " + errorInfo.errorCode;
                 }
-                Toast.makeText(mActivity, mActivity.getString(R.string.request_error, errorStr), Toast.LENGTH_LONG).show();
+                if (request.errorType == BaseRequest.ERROR_TYPE_DEFAULT) {
+                    Toast.makeText(mActivity, mActivity.getString(R.string.request_error, errorStr), Toast.LENGTH_LONG).show();
+                } else if (request.errorType == BaseRequest.ERROR_TYPE_SHOW_DIALOG) {
+                    showAlertDialog(mActivity, null, mActivity.getString(R.string.request_error, errorStr), "知道了", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
             }
         }
     }
@@ -106,6 +129,41 @@ public  class ErrorHandler implements HttpRequestListener{
     @Override
     public void onDataRequestCancel(BaseRequest request) {
 
+    }
+
+    public static String getErrorMessage(ExceptionInfo errorInfo, BaseRequest request) {
+        if (errorInfo == null || request == null || request.errorType != BaseRequest.ERROR_TYPE_IGNORE) {
+            return null;
+        }
+        switch (errorInfo.state) {
+            case ExceptionErrorCode.ERROR_CODE_SERVER:
+                ServerException serverException = (ServerException) errorInfo.exception;
+                return serverException.getMessage();
+        }
+        return String.format("服务器忙翻了，请稍后再试(%1$s)", getErrorCode(errorInfo, request));
+    }
+
+    public static String getErrorCode(ExceptionInfo errorInfo, BaseRequest request) {
+        if (errorInfo == null || request == null || request.errorType != BaseRequest.ERROR_TYPE_IGNORE) {
+            return null;
+        }
+        String errorStr = request.getUrlErrorCode();
+        if (!TextUtils.isEmpty(errorInfo.errorCode)) {
+            errorStr += " - " + errorInfo.errorCode;
+        }
+        return errorStr;
+    }
+
+    public void showAlertDialog(Context context,String title,String content,String okText,DialogInterface.OnClickListener onClick){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        if (!TextUtils.isEmpty(title)) {
+            dialog.setTitle(title);
+        }
+        dialog.setMessage(content);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, okText, onClick);
+        dialog.show();
     }
 
 

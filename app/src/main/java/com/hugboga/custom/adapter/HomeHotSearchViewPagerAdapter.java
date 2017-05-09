@@ -9,10 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
@@ -70,13 +71,14 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
     private void handlerViewShow(View view, final int position) {
         ImageView imageView = (ImageView) view.findViewById(R.id.home_hot_search_city_img);
         View filterView = view.findViewById(R.id.home_hot_search_city_fillter_view);
-        View guideIconLayout = view.findViewById(R.id.home_hot_search_city_icon_layout);
         TextView guideCountView = (TextView) view.findViewById(R.id.home_hot_search_city_bottom_text);
         TextView bottomTitle = (TextView) view.findViewById(R.id.home_hot_search_city_title);
         View bottomLayout = view.findViewById(R.id.home_hot_search_city_item_bottom_layout);
         TextView perPrice = (TextView) view.findViewById(R.id.home_hot_search_city_item_per_price);
         TextView customCount = (TextView) view.findViewById(R.id.home_hot_search_city_item_custom_count);
         View containerView = view.findViewById(R.id.home_hot_search_city_layout);
+        RelativeLayout avatarHead = (RelativeLayout) view.findViewById(R.id.home_hot_search_city_icon_layout);
+
 
         int viewWidth = ScreenUtil.screenWidth - ScreenUtil.dip2px(40);
         containerView.getLayoutParams().width = viewWidth;
@@ -85,20 +87,21 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
         if (position == getCount() - 1) {
             imageView.setImageResource(R.mipmap.home_more);
             filterView.setVisibility(View.GONE);
-            guideIconLayout.setVisibility(View.GONE);
             bottomLayout.setVisibility(View.GONE);
             bottomTitle.setVisibility(View.GONE);
+            guideCountView.setVisibility(View.GONE);
+            avatarHead.setVisibility(View.GONE);
         } else {
             SkuItemBean skuItemBean = hotExplorations.get(position);
             Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-            guideCountView.setText(skuItemBean.guideAmount + "位中文司导带你玩");
-            bottomTitle.setText(skuItemBean.goodsName);
             customCount.setText(skuItemBean.saleAmount + "人已体验");
+            bottomTitle.setText(skuItemBean.goodsName);
+            guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
 
             String price = "￥" + skuItemBean.perPrice;
             String count = "/人起";
             SpannableString spannableString = new SpannableString(price + count);
-            spannableString.setSpan(new AbsoluteSizeSpan(14, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(15, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new AbsoluteSizeSpan(12, true), price.length(), count.length() + price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             perPrice.setText(spannableString);
         }
@@ -107,23 +110,23 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if(position==getCount() - 1){
-                    CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+                    CityListActivity.Params params = new CityListActivity.Params();
                     params.id = hotExploration.explorationId;
                     switch (hotExploration.explorationType) {
                         case 1:
-                            params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                            params.cityHomeType = CityListActivity.CityHomeType.CITY;
                             break;
                         case 2:
-                            params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                            params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                             break;
                         case 3:
-                            params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+                            params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
                             break;
                         default:
                             return;
                     }
                     params.titleName = hotExploration.explorationName;
-                    Intent intent = new Intent(v.getContext(), CityHomeListActivity.class);
+                    Intent intent = new Intent(v.getContext(), CityListActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA,params);
                     intent.putExtra(Constants.PARAMS_SOURCE, "首页当季热门探索");
                     v.getContext().startActivity(intent);

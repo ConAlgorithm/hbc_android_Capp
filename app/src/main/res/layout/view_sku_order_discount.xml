@@ -21,7 +21,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/checkbox_sku_order_single" />
 
         <TextView
@@ -71,7 +71,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/checkbox_sku_order_single" />
 
         <TextView
@@ -101,6 +101,11 @@
         android:layout_height="@dimen/sku_order_margin_vertical"
         android:background="@color/default_bg" />
 
+    <TextView
+        style="@style/SkuOrderSubtitleTextView"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:text="投保信息"/>
+
     <RelativeLayout
         android:id="@+id/sku_order_discount_insurance_layout"
         android:layout_width="match_parent"
@@ -113,7 +118,7 @@
             android:layout_height="18dp"
             android:layout_marginTop="0.5dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/checkbox_sku_order_multi"/>
 
         <TextView
@@ -147,4 +152,25 @@
             android:textColor="#f63308"
             android:textSize="14sp" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="26dp"
+            android:text="下单后添加投保人护照，保单即可生效"
+            android:textColor="#cccccc"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
 </LinearLayout>

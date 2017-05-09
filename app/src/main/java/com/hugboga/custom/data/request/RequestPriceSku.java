@@ -35,6 +35,7 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
         map.put("channelId", Config.channelId);
         map.put("cityId", cityId);
         map.put("specialCarsIncluded","1");
+        errorType = ERROR_TYPE_IGNORE;
     }
 
     @Override

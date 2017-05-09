@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
     @Bind(R.id.order_detail_travel_pager)
     ViewPager travelPager;
     private int lastPosition = 0;
+    private OrderBean orderBean;
 
     public OrderDetailTravelGroup(Context context) {
         this(context, null);
@@ -44,7 +46,7 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
 
     @Override
     public void update(Object _data) {
-        OrderBean orderBean = (OrderBean) _data;
+        orderBean = (OrderBean) _data;
         if (orderBean.orderType != 888 || orderBean.subOrderDetail.totalCount <= 1) {
             setVisibility(View.GONE);
             return;
@@ -68,6 +70,16 @@ public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehav
         travelPager.setClipChildren(false);
         if (lastPosition < travelPager.getChildCount()) {
             travelPager.setCurrentItem(lastPosition, false);
+        }
+    }
+
+    public void onChangeSubOrder(String subOrderId) {
+        if (travelPager == null || TextUtils.isEmpty(subOrderId) || orderBean.orderType != 888) {
+            return;
+        }
+        int subOrderPosition = orderBean.getSubOrderPosition(subOrderId);
+        if (subOrderPosition > 0) {
+            travelPager.setCurrentItem(subOrderPosition, false);
         }
     }
 

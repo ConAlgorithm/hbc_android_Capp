@@ -1012,7 +1012,7 @@ public class OrderNewActivity extends BaseActivity {
                 startCityId4MostFit,
                 areaCode4MostFit,
                 (null == dayNums ? "0" : dayNums) + "",
-                distance, (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"");
+                distance, (null == dayNums ? "0" : dayNums) + "", orderType,carBean.carId+"", null);
         HttpRequestUtils.request(activity, requestMostFit, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
@@ -1548,7 +1548,7 @@ public class OrderNewActivity extends BaseActivity {
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     break;
                 case 4:

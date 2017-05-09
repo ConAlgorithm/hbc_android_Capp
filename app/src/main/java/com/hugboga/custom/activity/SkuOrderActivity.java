@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
@@ -44,14 +45,12 @@ import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
-import com.hugboga.custom.widget.OrderPricePopupLayout;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderChooseDateView;
@@ -66,6 +65,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -78,7 +78,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         , SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
         , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener{
 
-    private static final String SERVER_TIME = "09:00";
+    public static final String TAG = SkuOrderActivity.class.getSimpleName();
+
+    public static final String SERVER_TIME = "09:00";
     public static final int REQUEST_CODE_PICK_CONTACTS = 101;
 
     @Bind(R.id.sku_order_scrollview)
@@ -101,9 +103,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     OrderExplainView explainView;
     @Bind(R.id.sku_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
-
-    @Bind(R.id.sku_order_price_bottom_view)
-    OrderPricePopupLayout priceBottomLayout;
 
     private SkuOrderActivity.Params params;
     private CarListBean carListBean;
@@ -172,13 +171,11 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setOrderPricePopupLayout(priceBottomLayout);
         emptyLayout.setOnRefreshDataListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
+        travelerInfoView.setTag(TAG);
 
         requestStartDate();
-
-        travelerInfoView.setActivity(this);
     }
 
     public void initTitleBar() {
@@ -315,7 +312,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             chooseDateView.setVisibility(View.VISIBLE);
         } else if (_request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) _request).getData();
-            if (!checkDataIsEmpty(carListBean)) {
+            if (!checkDataIsEmpty(carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
                 carTypeView.update(carListBean);
             }
             scrollToTop();
@@ -369,6 +366,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestPriceSku) {
+            String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n我们会协助您完成预订";
+            checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
+            return;
+        }
         if (request instanceof RequestSubmitBase || request instanceof RequestPayNo) {
             return;
         }
@@ -376,15 +379,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         setItemVisibility(View.GONE);
     }
 
-    private boolean checkDataIsEmpty(CarListBean carListBean) {
-        boolean isEmpty = false;
-        if (carListBean == null || carListBean.carList == null || carListBean.carList.size() <= 0) {
-            isEmpty = true;
-        } else {
-            isEmpty = false;
-        }
-        emptyLayout.setEmptyVisibility(isEmpty ? View.VISIBLE : View.GONE);
-
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
 
@@ -594,7 +590,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , carListBean.distance + ""
                 , params.skuItemBean.daysCount + ""
                 , orderType + ""
-                , carBean.carId + "");
+                , carBean.carId + ""
+                , null);
         requestData(requestMostFit);
     }
 
@@ -664,7 +661,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         return new OrderUtils().getSKUOrderByInput(""
                 , params.skuItemBean
                 , serverDate
-                , SERVER_TIME
+                , TextUtils.isEmpty(travelerInfoBean.serverTime) ? SERVER_TIME : travelerInfoBean.serverTime
                 , carListBean.distance + ""
                 , carBean
                 , manLuggageBean.mans + ""
@@ -735,7 +732,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     break;
                 case 4:

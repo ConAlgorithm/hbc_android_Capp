@@ -897,6 +897,16 @@ public class CityUtils {
         return hotCityList;
     }
 
+    public static List<SearchGroupBean> getHotCityWithAllCityHead(Activity activity) {
+        List<SearchGroupBean> hotCityList = getHotCity(activity);
+        SearchGroupBean searchGroupBean = new SearchGroupBean();
+        searchGroupBean.spot_id = -4;
+        searchGroupBean.spot_name = "全部目的地";
+        searchGroupBean.flag = 4;
+        hotCityList.add(0, searchGroupBean);
+        return hotCityList;
+    }
+
 
     public static List<SearchGroupBean> getSaveCity() {
         try {
@@ -1224,6 +1234,42 @@ public class CityUtils {
             ssb.setSpan(yellowSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return ssb;
+    }
+
+
+    public static LineGroupBean getLineGroupBean(Activity activity,String place_id){
+        try {
+            DbManager mDbManager = new DBHelper(activity).getDbManager();
+
+            String sql = "select * from line_group_item where sub_place_id="+place_id;
+
+            SqlInfo sqlinfo = new SqlInfo();
+            sqlinfo.setSql(sql);
+
+            LineGroupBean lineGroupBean = null;
+            try {
+                DbModel model = mDbManager.findDbModelFirst(sqlinfo);
+                if (model != null) {
+                    lineGroupBean = new LineGroupBean();
+                    lineGroupBean.isSelected = false;
+
+                    lineGroupBean.group_id = model.getInt("group_id");
+                    lineGroupBean.group_name = model.getString("group_name");
+
+                    lineGroupBean.type = 1;//model.getInt("type");
+
+                    lineGroupBean.has_sub = model.getInt("has_sub");
+
+                    lineGroupBean.hot_weight = model.getInt("hot_weight");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return lineGroupBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

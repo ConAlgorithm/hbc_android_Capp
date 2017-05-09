@@ -3,9 +3,10 @@ package com.hugboga.custom.widget.title;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -20,10 +21,16 @@ import butterknife.OnClick;
  */
 public class TitleBar extends TitleBarBase {
 
+    @Bind(R.id.titlebar_left_layout)
+    RelativeLayout leftLayout;
     @Bind(R.id.titlebar_left_tv)
     TextView leftTV;
+
+    @Bind(R.id.titlebar_right_layout)
+    RelativeLayout rightLayout;
     @Bind(R.id.titlebar_right_tv)
     TextView rightTV;
+
     @Bind(R.id.titlebar_middle_tv)
     TextView middleTV;
 
@@ -45,13 +52,13 @@ public class TitleBar extends TitleBarBase {
         }
         int rightIcon = typedArray.getResourceId(R.styleable.TitleBar_right_icon, View.NO_ID);
         if (rightIcon != View.NO_ID) {
-            rightTV.setVisibility(View.VISIBLE);
+            rightLayout.setVisibility(View.VISIBLE);
             rightTV.setBackgroundResource(rightIcon);
         }
         typedArray.recycle();
     }
 
-    @OnClick({R.id.titlebar_left_tv})
+    @OnClick({R.id.titlebar_left_layout})
     public void onBack(View view) {
         if (listener != null) {
             if (listener.onTitleBarBack()) {
@@ -67,20 +74,20 @@ public class TitleBar extends TitleBarBase {
     }
 
     public void setRightListener(OnClickListener listener) {
-        if (rightTV == null) {
+        if (rightLayout == null) {
             return;
         }
-        rightTV.setVisibility(View.VISIBLE);
-        rightTV.setOnClickListener(listener);
+        rightLayout.setVisibility(View.VISIBLE);
+        rightLayout.setOnClickListener(listener);
     }
 
     public void setRightListener(int resid, OnClickListener listener) {
-        if (rightTV == null) {
+        if (rightLayout == null) {
             return;
         }
-        rightTV.setVisibility(View.VISIBLE);
         rightTV.setBackgroundResource(resid);
-        rightTV.setOnClickListener(listener);
+        rightLayout.setVisibility(View.VISIBLE);
+        rightLayout.setOnClickListener(listener);
     }
 
     public void setTitle(String title) {
@@ -106,10 +113,10 @@ public class TitleBar extends TitleBarBase {
     }
 
     public void setLeftViewHide() {
-        if (leftTV == null) {
+        if (leftLayout == null) {
             return;
         }
-        leftTV.setVisibility(View.INVISIBLE);
+        leftLayout.setVisibility(View.INVISIBLE);
     }
 
     public interface OnTitleBarBackListener{

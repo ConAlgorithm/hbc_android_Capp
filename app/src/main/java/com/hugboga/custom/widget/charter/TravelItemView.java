@@ -30,6 +30,9 @@ import butterknife.OnClick;
  */
 public class TravelItemView extends LinearLayout {
 
+    @Bind(R.id.travel_item_parent_layout)
+    LinearLayout parentLayout;
+
     @Bind(R.id.travel_item_edit_iv)
     ImageView travelItemEditIv;
     @Bind(R.id.travel_item_edit_tv)
@@ -57,14 +60,24 @@ public class TravelItemView extends LinearLayout {
     ImageView travelItemCharterLineIv;
     @Bind(R.id.travel_item_line_tv)
     TextView travelItemLineTv;
+    @Bind(R.id.travel_item_charter_line_layout)
+    RelativeLayout travelItemCharterLineLayout;
+    @Bind(R.id.travel_item_scope_tv)
+    TextView travelItemScopeTv;
+    @Bind(R.id.travel_item_places_tv)
+    TextView travelItemPlacesTv;
+
+    @Bind(R.id.travel_item_scope_tv2)
+    TextView travelItemScopeTv2;
+    @Bind(R.id.travel_item_places_tv2)
+    TextView travelItemPlacesTv2;
+
+    @Bind(R.id.travel_item_line_tag_layout)
+    LinearLayout travelItemLineTagLayout;
     @Bind(R.id.travel_item_line_time_tv)
     TextView travelItemLineTimeTv;
     @Bind(R.id.travel_item_line_distance_tv)
     TextView travelItemLineDistanceTv;
-    @Bind(R.id.travel_item_line_tag_layout)
-    LinearLayout travelItemLineTagLayout;
-    @Bind(R.id.travel_item_charter_line_layout)
-    RelativeLayout travelItemCharterLineLayout;
 
     @Bind(R.id.travel_item_time_iv)
     ImageView travelItemTimeIv;
@@ -172,6 +185,8 @@ public class TravelItemView extends LinearLayout {
                 travelItemPickupLayout.setVisibility(View.GONE);
                 if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {//只送机
                     travelItemTimeLayout.setVisibility(View.VISIBLE);
+                    travelItemScopeTv2.setVisibility(View.GONE);
+                    travelItemPlacesTv2.setVisibility(View.GONE);
                     if (TextUtils.isEmpty(charterDataUtils.sendServerTime)) {
                         travelItemTimeHintTv.setVisibility(View.VISIBLE);
                         travelItemTimeTv.setText("只送机，");
@@ -317,18 +332,23 @@ public class TravelItemView extends LinearLayout {
         travelItemLineTagLayout.setVisibility(View.VISIBLE);
         travelItemCharterLineLayout.setVisibility(View.VISIBLE);
         travelItemLineTv.setTextColor(getResources().getColor(R.color.default_black));
+        travelItemScopeTv.setVisibility(View.GONE);
+        travelItemPlacesTv.setVisibility(View.GONE);
+        travelItemScopeTv2.setVisibility(View.GONE);
+        travelItemPlacesTv2.setVisibility(View.GONE);
         boolean isPickup = _position == 0 && charterDataUtils.isSelectedPickUp &&  charterDataUtils.flightBean != null;
         if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
             CityBean startCityBean = charterDataUtils.getStartCityBean(_position + 1);
             CityBean endCityBean = charterDataUtils.getEndCityBean(_position + 1);
             if (startCityBean != null && endCityBean != null && startCityBean != endCityBean) {
                 travelItemTitleTv.setText(String.format("第%1$s天: %2$s-%3$s", _position + 1, startCityBean.name, endCityBean.name));
-                String startAddress = startCityBean.name;
                 if (isPickup) {
-                    startAddress = charterDataUtils.flightBean.arrAirportName;
+                    travelItemLineTv.setText(String.format("%1$s出发，游玩至%2$s结束", charterDataUtils.flightBean.arrAirportName, endCityBean.name));
+                } else {
+                    travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startCityBean.name, endCityBean.name));
                 }
-                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startAddress, endCityBean.name));
-            } else if(startCityBean != null && endCityBean == null) {
+
+            } else if (startCityBean != null && endCityBean == null) {
                 travelItemTitleTv.setText(String.format("第%1$s天: %2$s", _position + 1, "跨城市游玩"));
                 travelItemLineTv.setTextColor(0xFFCCCCCC);
                 travelItemLineTv.setText("未选择送达城市");
@@ -340,6 +360,29 @@ public class TravelItemView extends LinearLayout {
                 travelItemLineTv.setText(String.format("%1$s出发，%2$s", charterDataUtils.flightBean.arrAirportName, cityRouteScope.routeTitle));
             } else {
                 travelItemLineTv.setText(cityRouteScope.routeTitle);
+            }
+            boolean isSend = _position == charterDataUtils.chooseDateBean.dayNums - 1
+                    && cityRouteScope.routeType != CityRouteBean.RouteType.SEND
+                    && charterDataUtils.airPortBean != null && charterDataUtils.isSelectedSend;
+
+            TextView scopeTV = isSend ? travelItemScopeTv2: travelItemScopeTv;
+            TextView placesTV = isSend ? travelItemPlacesTv2: travelItemPlacesTv;
+
+            if (cityRouteScope.isOpeanFence()) {
+                if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                    String scope = cityRouteScope.routeType == CityRouteBean.RouteType.SUBURBAN ? "周边范围：" : "市内范围：";
+                    scopeTV.setText(scope + cityRouteScope.routeScope);
+                    scopeTV.setVisibility(View.VISIBLE);
+                }
+                if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
+                    placesTV.setText("推荐景点：" + cityRouteScope.routePlaces);
+                    placesTV.setVisibility(View.VISIBLE);
+                }
+            } else {
+                if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                    scopeTV.setText(cityRouteScope.routeScope);
+                    scopeTV.setVisibility(View.VISIBLE);
+                }
             }
         }
         travelItemLineTimeTv.setText(String.format("%1$s小时", "" + cityRouteScope.routeLength));
@@ -353,29 +396,33 @@ public class TravelItemView extends LinearLayout {
                 travelItemEditTv.setVisibility(View.VISIBLE);
                 travelItemEditLineView.setVisibility(View.GONE);
                 travelItemDelTv.setVisibility(View.GONE);
+                parentLayout.setClickable(true);
                 break;
             case DEL:
                 travelItemEditIv.setVisibility(View.GONE);
                 travelItemEditTv.setVisibility(View.GONE);
                 travelItemEditLineView.setVisibility(View.GONE);
                 travelItemDelTv.setVisibility(View.VISIBLE);
+                parentLayout.setClickable(false);
                 break;
             case ALL:
                 travelItemEditIv.setVisibility(View.VISIBLE);
                 travelItemEditTv.setVisibility(View.VISIBLE);
                 travelItemEditLineView.setVisibility(View.VISIBLE);
                 travelItemDelTv.setVisibility(View.VISIBLE);
+                parentLayout.setClickable(true);
                 break;
             case VAIN:
                 travelItemEditIv.setVisibility(View.GONE);
                 travelItemEditTv.setVisibility(View.GONE);
                 travelItemEditLineView.setVisibility(View.GONE);
                 travelItemDelTv.setVisibility(View.GONE);
+                parentLayout.setClickable(false);
                 break;
         }
     }
 
-    @OnClick({R.id.travel_item_edit_iv, R.id.travel_item_edit_tv})
+    @OnClick({R.id.travel_item_parent_layout, R.id.travel_item_edit_iv, R.id.travel_item_edit_tv})
     public void onEditClick() {
         if (listener != null) {
             listener.onEditClick(position);

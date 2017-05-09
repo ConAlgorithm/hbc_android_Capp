@@ -39,6 +39,7 @@ import com.hugboga.custom.widget.OrderDetailDeliverView;
 import com.hugboga.custom.widget.OrderDetailFloatView;
 import com.hugboga.custom.widget.OrderDetailItineraryView;
 import com.hugboga.custom.widget.OrderDetailTitleBar;
+import com.hugboga.custom.widget.OrderDetailTravelGroup;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,6 +93,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         public String orderId;
         public String source;
         public int orderType;
+        public String subOrderId;
     }
 
     @Override
@@ -182,6 +184,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 View item = groupLayout.getChildAt(i);
                 if (item instanceof HbcViewBehavior) {
                     ((HbcViewBehavior) item).update(orderBean);
+                }
+                if (item instanceof OrderDetailTravelGroup) {
+                    ((OrderDetailTravelGroup) item).onChangeSubOrder(params.subOrderId);
+                    params.subOrderId = null;
                 }
             }
 
@@ -440,7 +446,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     properties.put("hbc_start_time", orderBean.serviceTime);
                     break;
                 case 4:

@@ -25,7 +25,6 @@ import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -185,11 +184,12 @@ public class ChooseCityNewActivity extends BaseActivity {
                 break;
             case R.id.header_left_btn:
                 expandableListView.setVisibility(GONE);
+                hideSoftInput();
                 finish();
                 StatisticClickEvent.click(StatisticConstant.SEARCH_CLOSE,getIntentSource());
-                if(!isHomeIn) {
-                    overridePendingTransition(R.anim.push_buttom_out, 0);
-                }
+//                if(!isHomeIn) {
+//                    overridePendingTransition(R.anim.push_buttom_out, 0);
+//                }
                 break;
             case R.id.head_search_clean:
                 headSearch.setText("");
@@ -271,11 +271,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rightList.setVisibility(GONE);
-                for (SearchGroupBean lineGroupBean : groupList2) {
-                    lineGroupBean.isSelected = false;
-                }
-                groupList2.get(position).isSelected = true;
-                levelCityAdapterMiddle.notifyDataSetChanged();
+                levelCityAdapterMiddle.setMiddleLineShow(true);
 
                 if (groupList2.get(position).spot_id == -1) {
                     Intent intent = new Intent(activity, PickSendActivity.class);
@@ -302,6 +298,11 @@ public class ChooseCityNewActivity extends BaseActivity {
                         showRightData(position);
                     }
                 }
+                for (SearchGroupBean lineGroupBean : groupList2) {
+                    lineGroupBean.isSelected = false;
+                }
+                groupList2.get(position).isSelected = true;
+                levelCityAdapterMiddle.notifyDataSetChanged();
             }
         });
 
@@ -369,6 +370,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             levelCityAdapterRight.setList(groupList3);
             rightList.setAdapter(levelCityAdapterRight);
             levelCityAdapterRight.notifyDataSetChanged();
+            levelCityAdapterMiddle.setMiddleLineShow(false);
         }
     }
 
@@ -378,15 +380,11 @@ public class ChooseCityNewActivity extends BaseActivity {
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getHotCityWithHead(activity));
         } else {
-            SearchGroupBean lineGroupBean;
-            SearchGroupBean searchGroupBean = groupList.get(position);
-            lineGroupBean = (SearchGroupBean) searchGroupBean.clone();
-            lineGroupBean.isSelected = false;
             groupList2 = new ArrayList<>();
-            groupList2.add(0, lineGroupBean);
             groupList2.addAll(CityUtils.getLevel2City(activity, groupList.get(position).group_id));
         }
         levelCityAdapterMiddle.setList(groupList2);
+        levelCityAdapterMiddle.setMiddleLineShow(true);
         levelCityAdapterMiddle.notifyDataSetChanged();
         middleList.setAdapter(levelCityAdapterMiddle);
     }
@@ -423,52 +421,59 @@ public class ChooseCityNewActivity extends BaseActivity {
         CityUtils.addCityHistoryData(searchGroupBean);
 //        finish();
         expandableListView.setVisibility(GONE);
-        CityHomeListActivity.Params params = new CityHomeListActivity.Params();
+        CityListActivity.Params params = new CityListActivity.Params();
 
         if (searchGroupBean.flag == 1) {
             params.id = searchGroupBean.group_id;
-            params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
+            params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
-                params.id = searchGroupBean.sub_place_id;
-                params.cityHomeType = CityHomeListActivity.CityHomeType.ROUTE;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.id = searchGroupBean.group_id;
+                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
-                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
             } else {
-                params.id = searchGroupBean.sub_place_id;
-                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.id = searchGroupBean.sub_city_id;
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
+            } else if (searchGroupBean.type == 1) {
+                params.id = searchGroupBean.group_id;
+                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.titleName = searchGroupBean.group_name;
+            } else if (searchGroupBean.type == 2) {
+                params.id = searchGroupBean.sub_place_id;
+                params.titleName = searchGroupBean.sub_place_name;
+                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_city_id;
-                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;
             if (searchGroupBean.type == 1) {
-                params.cityHomeType = CityHomeListActivity.CityHomeType.CITY;
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
                 params.titleName = searchGroupBean.spot_name;
             } else if (searchGroupBean.type == 2) {
-                params.cityHomeType = CityHomeListActivity.CityHomeType.COUNTRY;
+                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.spot_name;
             }
         }
-        Intent intent = new Intent(this, CityHomeListActivity.class);
+        Intent intent = new Intent(this, CityListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra("source","搜索");
         startActivity(intent);
-
-
     }
 
 

@@ -13,8 +13,8 @@ import org.xutils.http.annotation.HttpRequest;
 @HttpRequest(path = UrlLibs.SERVER_IP_PRICE_TRANSFER, builder = NewParamsBuilder.class)
 public class RequestCheckPriceForTransfer extends RequestCheckPrice {
     public RequestCheckPriceForTransfer(Context context, int orderType, String airportCode,
-                                        Integer cityId, String startLocation, String endLocation, String date,String carIds) {
-        super(context, orderType, airportCode, cityId, startLocation, endLocation, date,carIds);
+                                        Integer cityId, String startLocation, String endLocation, String date,String carIds,int premiumMark) {
+        super(context, orderType, airportCode, cityId, startLocation, endLocation, date,carIds,premiumMark);
     }
 
     @Override

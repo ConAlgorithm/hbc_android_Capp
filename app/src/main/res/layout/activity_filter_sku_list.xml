@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/filter_sku_list_titlebar"
+        layout="@layout/include_header" />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/filter_sku_list_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/filter_sku_list_titlebar"
+        android:layout_marginTop="44dp"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+    <com.hugboga.custom.widget.SkuFilterLayout
+        android:id="@+id/filter_sku_list_filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_sku_list_titlebar" />
+
+    <LinearLayout
+        android:id="@+id/filter_sku_list_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_below="@id/filter_sku_list_titlebar"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/filter_sku_list_empty_iv"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="50dip"
+            android:background="@drawable/empty_wifi" />
+
+        <TextView
+            android:id="@+id/filter_sku_list_empty_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="似乎与网络断开，点击屏幕重试"
+            android:textColor="#a8a8a8"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/filter_sku_list_empty_charter_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="试试"
+                android:textColor="#a8a8a8"
+                android:textSize="13sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="按天包车游"
+                android:textColor="#ffc110"
+                android:textSize="13sp" />
+            <ImageView
+                android:layout_marginLeft="3dp"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@mipmap/sku_arrow_yellow" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

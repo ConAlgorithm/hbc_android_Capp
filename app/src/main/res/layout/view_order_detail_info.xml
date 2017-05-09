@@ -51,7 +51,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textColor="#333333"
+            android:textColor="@color/default_black"
             android:textSize="14sp" />
 
     </RelativeLayout>
@@ -88,8 +88,8 @@
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@id/order_detail_insurer_arrow_iv"
             android:gravity="center_vertical"
-            android:text="添加"
-            android:textColor="@color/default_yellow"
+            android:text="免费赠送"
+            android:textColor="#f7350a"
             android:textSize="13sp" />
         <ImageView
             android:id="@+id/order_detail_insurer_state_error_iv"
@@ -114,5 +114,49 @@
             android:ellipsize="end"
             android:textColor="#333333"
             android:textSize="14sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/order_detail_insurance_add_layout"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:paddingLeft="@dimen/sku_order_padding_left"
+        android:paddingRight="@dimen/order_padding_left"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="添加投保人资料，保单即可生效"
+            android:textColor="#cccccc"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/order_detail_insurer_add_arrow_iv"
+            android:layout_width="7dp"
+            android:layout_height="13dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/personalcenter_right" />
+
+        <TextView
+            android:id="@+id/order_detail_insurer_add_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@id/order_detail_insurer_add_arrow_iv"
+            android:gravity="center_vertical"
+            android:text="添加"
+            android:textColor="@color/default_yellow"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:background="@color/default_dividing_line" />
     </RelativeLayout>
 </LinearLayout>

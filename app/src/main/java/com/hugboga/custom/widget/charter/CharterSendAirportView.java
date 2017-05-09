@@ -49,10 +49,18 @@ public class CharterSendAirportView extends LinearLayout{
     @Bind(R.id.charter_pickup_item_title_tv)
     TextView titleTV;
 
+    @Bind(R.id.charter_pickup_item_add_layout)
+    LinearLayout addLayout;
+
     @Bind(R.id.charter_pickup_item_add_address_layout)
     LinearLayout addAddressLayout;
     @Bind(R.id.charter_pickup_item_add_address_tv)
     TextView addAddressTV;
+
+    @Bind(R.id.charter_pickup_item_add_address_layout2)
+    LinearLayout addAddressLayout2;
+    @Bind(R.id.charter_pickup_item_add_address_tv2)
+    TextView addAddressTV2;
 
     @Bind(R.id.charter_pickup_item_add_time_layout)
     LinearLayout addTimeLayout;
@@ -91,8 +99,9 @@ public class CharterSendAirportView extends LinearLayout{
         charterDataUtils = CharterDataUtils.getInstance();
 
         titleTV.setText("只送机，不包车游玩");
-        addAddressTV.setText("添加出发地点");
         addTimeTV.setText("选择出发时间");
+        addAddressTV.setText("添加出发地点");
+        addAddressTV2.setText("添加出发地点");
     }
 
     public void update() {
@@ -101,9 +110,41 @@ public class CharterSendAirportView extends LinearLayout{
             selectedIV.setVisibility(View.VISIBLE);
             bottomSpaceView.setVisibility(View.VISIBLE);
 
+            String sendServerTime = charterDataUtils.sendServerTime;
             PoiBean sendPoiBean = charterDataUtils.sendPoiBean;
-            if (sendPoiBean != null) {
+
+            boolean isAddTime = !TextUtils.isEmpty(sendServerTime);
+            boolean isAddPoi = sendPoiBean != null;
+
+            LinearLayout addAddressLayoutLoc = this.addAddressLayout;
+            if (!isAddTime && !isAddPoi) {
+                addLayout.setVisibility(View.VISIBLE);
+                addAddressLayoutLoc = this.addAddressLayout2;
                 addAddressLayout.setVisibility(View.GONE);
+            } else if (!isAddTime) {
+                addLayout.setVisibility(View.VISIBLE);
+                addAddressLayoutLoc = this.addAddressLayout2;
+                addAddressLayout.setVisibility(View.GONE);
+            } else if (!isAddPoi) {
+                addLayout.setVisibility(View.GONE);
+                addAddressLayoutLoc = this.addAddressLayout;
+            } else {
+                addLayout.setVisibility(View.GONE);
+            }
+
+            if (isAddTime) {
+                addTimeLayout.setVisibility(View.GONE);
+                timeLayout.setVisibility(View.VISIBLE);
+                timeTV.setVisibility(View.VISIBLE);
+                timeTV.setText(String.format("出发时间：%1$s", sendServerTime));
+            } else {
+                addTimeLayout.setVisibility(View.VISIBLE);
+                timeLayout.setVisibility(View.GONE);
+                timeTV.setVisibility(View.GONE);
+            }
+
+            if (isAddPoi) {
+                addAddressLayoutLoc.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.VISIBLE);
                 addressDesTV.setVisibility(View.VISIBLE);
 
@@ -118,28 +159,17 @@ public class CharterSendAirportView extends LinearLayout{
                     distanceTV.setText(String.format("距离：%1$s  时长：约%2$s", sendDirectionBean.distanceDesc, sendDirectionBean.durationDesc));
                 }
             } else {
-                addAddressLayout.setVisibility(View.VISIBLE);
+                addAddressLayoutLoc.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.GONE);
                 addressDesTV.setVisibility(View.GONE);
                 distanceTV.setVisibility(View.GONE);
-            }
-
-            String sendServerTime = charterDataUtils.sendServerTime;
-            if (TextUtils.isEmpty(sendServerTime)) {
-                addTimeLayout.setVisibility(View.VISIBLE);
-                timeLayout.setVisibility(View.GONE);
-                timeTV.setVisibility(View.GONE);
-            } else {
-                addTimeLayout.setVisibility(View.GONE);
-                timeLayout.setVisibility(View.VISIBLE);
-                timeTV.setVisibility(View.VISIBLE);
-                timeTV.setText(String.format("出发日期：%1$s %2$s", charterDataUtils.chooseDateBean.showEndDateStr, sendServerTime));
             }
         } else {
             rootLayout.setBackgroundResource(R.drawable.shape_rounded_charter_unselected);
             selectedIV.setVisibility(View.GONE);
             bottomSpaceView.setVisibility(View.GONE);
 
+            addLayout.setVisibility(View.GONE);
             addAddressLayout.setVisibility(View.GONE);
             addTimeLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
@@ -156,8 +186,10 @@ public class CharterSendAirportView extends LinearLayout{
     }
 
     @OnClick({R.id.charter_pickup_item_add_address_layout,
+            R.id.charter_pickup_item_add_address_layout2,
             R.id.charter_pickup_item_address_layout,
-            R.id.charter_pickup_item_address_tv})
+            R.id.charter_pickup_item_address_tv
+            })
     public void intentPoiSearch() {
         if (charterDataUtils == null || charterDataUtils.airPortBean == null) {
             return;
@@ -181,6 +213,9 @@ public class CharterSendAirportView extends LinearLayout{
     public void showTimePicker() {
         Calendar calendar = Calendar.getInstance();
         try {
+            if (!TextUtils.isEmpty(charterDataUtils.sendServerTime)) {
+                serverTime = charterDataUtils.sendServerTime;
+            }
             if (!"00:00".equals(serverTime)) {
                 calendar.setTime(DateUtils.timeFormat.parse(serverTime + ":00"));
             }

@@ -281,7 +281,6 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
         return displayLayoutHeight;
     }
 
-
     private HeaderTabClickListener headerTabClickListener;
 
     public void setHeaderTabClickListener(HeaderTabClickListener headerTabClickListener) {

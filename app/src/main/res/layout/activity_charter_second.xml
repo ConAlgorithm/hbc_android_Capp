@@ -6,30 +6,79 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
+    <com.hugboga.amap.view.HbcMapView
+        android:id="@+id/charter_second_map_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize" />
+
     <com.hugboga.custom.widget.title.TitleBarCharterSecond
         android:id="@+id/charter_second_titlebar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize" />
-    <com.hugboga.amap.view.HbcMapView
+
+    <LinearLayout
+        android:id="@+id/charter_second_unfold_map_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/charter_second_titlebar"
-        android:id="@+id/charter_second_map_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_charter_unfold_map"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="4dp">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@mipmap/map_full" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="展开地图"
+            android:textColor="#ffffff"
+            android:textSize="11sp" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/charter_second_packup_map_layout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_charter_pickup_map"
+        android:visibility="gone"
+        android:layout_width="35dp"
+        android:layout_height="35dp">
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="1dp"
+            android:layout_gravity="center"
+            android:background="@mipmap/top_back_white" />
+    </FrameLayout>
+
     <View
         android:id="@+id/charter_second_line_view"
-        android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="@color/default_dividing_line"
-        android:layout_below="@id/charter_second_map_layout" />
+        android:layout_height="1dp"
+        android:layout_below="@id/charter_second_map_layout"
+        android:background="@color/default_dividing_line" />
+
     <com.hugboga.custom.widget.charter.CharterSecondBottomView
         android:id="@+id/charter_second_bottom_view"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
     <FrameLayout
         android:id="@+id/charter_second_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/charter_second_line_view"
-        android:layout_above="@id/charter_second_bottom_view" />
+        android:layout_above="@id/charter_second_bottom_view"
+        android:layout_below="@id/charter_second_line_view" />
 </RelativeLayout>

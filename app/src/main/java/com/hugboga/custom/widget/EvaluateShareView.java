@@ -159,7 +159,7 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
                     skuType = "送机";
                     break;
                 case 3:
-                    skuType = "定制包车游";
+                    skuType = "按天包车游";
                     break;
                 case 4:
                     skuType = "单次接送";

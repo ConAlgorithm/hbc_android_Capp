@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.InsureInfoActivity;
+import com.hugboga.custom.activity.OrderDetailTravelerInfoActivity;
 import com.hugboga.custom.activity.OrderEditActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -29,7 +30,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     private TextView insurerTV;
     private TextView insurerStateTV;
     private ImageView insurerErrorIV;
-    private RelativeLayout insuranceInfoLayout;
+    private RelativeLayout insuranceInfoLayout, insuranceAddLayout;
 
     private OrderBean orderBean;
 
@@ -47,6 +48,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         editTV = (TextView) findViewById(R.id.order_detail_info_edit_tv);
 
         insuranceInfoLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_info_layout);
+        insuranceAddLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_add_layout);
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
         insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
         insurerErrorIV = (ImageView) findViewById(R.id.order_detail_insurer_state_error_iv);
@@ -64,32 +66,29 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {
             insuranceInfoLayout.setVisibility(View.GONE);
+            insuranceAddLayout.setVisibility(View.GONE);
         } else if (orderBean.insuranceEnable && insuranceListSize == 0) {//添加投保人
             insuranceInfoLayout.setVisibility(View.VISIBLE);
+            insuranceAddLayout.setVisibility(View.VISIBLE);
             insurerErrorIV.setVisibility(View.GONE);
             insurerStateTV.setVisibility(View.VISIBLE);
             insurerTV.setText(String.format("平安境外用车险 × %1$s份", "" + (orderBean.adult + orderBean.child)));
-            insuranceInfoLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle insureBundle = new Bundle();
-                    insureBundle.putSerializable("orderBean", orderBean);
-                    Intent intent = new Intent(getContext(), InsureActivity.class);
-                    intent.putExtras(insureBundle);
-                    getContext().startActivity(intent);
-                }
-            });
+            insuranceInfoLayout.setOnClickListener(null);
+            insuranceAddLayout.setOnClickListener(this);
         } else if (insuranceListSize > 0) {
             insuranceInfoLayout.setVisibility(View.VISIBLE);
-            insuranceInfoLayout.setOnClickListener(this);
+            insuranceAddLayout.setVisibility(View.GONE);
             insurerStateTV.setVisibility(View.GONE);
             insurerErrorIV.setVisibility(View.GONE);
+            insuranceInfoLayout.setOnClickListener(this);
 
             String insuranceStatu = "";
+            int insuranceColor = getContext().getResources().getColor(R.color.default_black);
             switch (orderBean.insuranceStatusCode) {
                 case 1002:
                     insuranceStatu = "保单出现问题，请尽快联系客服";
                     insurerErrorIV.setVisibility(View.VISIBLE);
+                    insuranceColor = 0xFFF7350A;
                     break;
                 case 1003:
                     insuranceStatu = "为您购买的保险已注销";
@@ -102,8 +101,10 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                     break;
             }
             insurerTV.setText(insuranceStatu);
+            insurerTV.setTextColor(insuranceColor);
         } else {
             insuranceInfoLayout.setVisibility(View.GONE);
+            insuranceAddLayout.setVisibility(View.GONE);
         }
     }
 
@@ -111,14 +112,28 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         Intent intent = null;
         switch (v.getId()) {
             case R.id.order_detail_info_layout://出行人信息
-                intent = new Intent(getContext(), OrderEditActivity.class);
+                if (orderBean.orderType == 3 || orderBean.orderType == 888 || orderBean.orderType == 5 || orderBean.orderType == 6) {
+                    intent = new Intent(getContext(), OrderDetailTravelerInfoActivity.class);
+                } else {
+                    intent = new Intent(getContext(), OrderEditActivity.class);
+                }
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
                 break;
-            case R.id.order_detail_insurance_info_layout://投保人list
-                intent = new Intent(getContext(), InsureInfoActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, orderBean);
-                getContext().startActivity(intent);
+            case R.id.order_detail_insurance_add_layout:
+            case R.id.order_detail_insurance_info_layout:
+                final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
+                if (orderBean.insuranceEnable && insuranceListSize == 0) {//添加投保人
+                    Bundle insureBundle = new Bundle();
+                    insureBundle.putSerializable("orderBean", orderBean);
+                    intent = new Intent(getContext(), InsureActivity.class);
+                    intent.putExtras(insureBundle);
+                    getContext().startActivity(intent);
+                } else {//投保人list
+                    intent = new Intent(getContext(), InsureInfoActivity.class);
+                    intent.putExtra(Constants.PARAMS_DATA, orderBean);
+                    getContext().startActivity(intent);
+                }
                 break;
         }
     }

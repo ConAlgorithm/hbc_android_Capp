@@ -2,6 +2,7 @@ package com.hugboga.custom.widget.charter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -34,8 +35,8 @@ public class CharterSubtitleView extends LinearLayout{
 
     @Bind(R.id.charter_subtitle_day_tv)
     TextView dayTV;
-    @Bind(R.id.charter_subtitle_arrow_iv)
-    ImageView arrowIV;
+    @Bind(R.id.charter_subtitle_amend_tv)
+    TextView amendTV;
 
     @Bind(R.id.charter_subtitle_pickup_layout)
     LinearLayout pickupLayout;
@@ -62,6 +63,9 @@ public class CharterSubtitleView extends LinearLayout{
         View view = inflate(context, R.layout.view_charter_subtitle, this);
         ButterKnife.bind(view);
 
+        amendTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        amendTV.getPaint().setAntiAlias(true);//抗锯齿
+
         charterDataUtils = CharterDataUtils.getInstance();
     }
 
@@ -75,13 +79,13 @@ public class CharterSubtitleView extends LinearLayout{
 
         if (charterDataUtils.isShowEmpty) {
             pickupLayout.setVisibility(View.GONE);
-            arrowIV.setVisibility(View.GONE);
+            amendTV.setVisibility(View.GONE);
             return;
         }
 
         if (charterDataUtils.isFirstDay()) {
             pickupLayout.setVisibility(View.VISIBLE);
-            arrowIV.setVisibility(View.GONE);
+            amendTV.setVisibility(View.GONE);
             if (charterDataUtils.flightBean != null) {
                 iconIV.setBackgroundResource(R.drawable.selector_charter_pickup);
                 iconIV.setSelected(charterDataUtils.isSelectedPickUp);
@@ -97,7 +101,7 @@ public class CharterSubtitleView extends LinearLayout{
                 pickupArrowIV.setVisibility(View.GONE);
             }
         } else if( charterDataUtils.isLastDay()) {
-            arrowIV.setVisibility(View.VISIBLE);
+            amendTV.setVisibility(View.VISIBLE);
             pickupLayout.setVisibility(View.VISIBLE);
             if (charterDataUtils.airPortBean != null) {
                 iconIV.setBackgroundResource(R.drawable.selector_charter_pickup);
@@ -114,7 +118,7 @@ public class CharterSubtitleView extends LinearLayout{
                 pickupArrowIV.setVisibility(View.GONE);
             }
         } else {
-            arrowIV.setVisibility(View.VISIBLE);
+            amendTV.setVisibility(View.VISIBLE);
             pickupLayout.setVisibility(View.GONE);
         }
     }
@@ -168,7 +172,7 @@ public class CharterSubtitleView extends LinearLayout{
         }
     }
 
-    @OnClick({R.id.charter_subtitle_day_tv})
+    @OnClick({R.id.charter_subtitle_amend_tv})
     public void selectStartCity() {
         if (charterDataUtils.isFirstDay()) {
             return;

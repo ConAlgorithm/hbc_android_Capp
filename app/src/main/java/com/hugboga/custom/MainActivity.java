@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -72,6 +73,7 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.HomeCustomLayout;
+import com.hugboga.custom.widget.NoScrollViewPager;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -93,10 +95,12 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 @ContentView(R.layout.activity_main)
@@ -115,7 +119,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @ViewInject(R.id.container)
-    private ViewPager mViewPager;
+    private NoScrollViewPager mViewPager;
 
     @ViewInject(R.id.bottom_point_2)
     private TextView bottomPoint2;
@@ -161,6 +165,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
+        mViewPager.setScrollble(false);
 
         //为服务器授权
         grantPhone();
@@ -190,6 +195,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             currentPosition = pagePosition;
             mViewPager.setCurrentItem(currentPosition);
         }
+
+        requesetBattery();
     }
 
     @Override
@@ -197,10 +204,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
         if (currentPosition == 0) {
-            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
-            if (BuildConfig.VERSION_NAME.equals(versionName)) {
+//            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
+//            if (BuildConfig.VERSION_NAME.equals(versionName)) {
                 GiftController.getInstance(this).showGiftDialog();
-            }
+//            }
         }
     }
 
@@ -250,7 +257,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void testPush() {
-        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"J100091049121\",\"type\":\"G1\",\"orderType\":\"1\",\"sound\":\"newOrder.mp3\"}";
+//        String teset  = "{\"action\":\"{\\\"t\\\":\\\"2\\\",\\\"v\\\":\\\"16\\\"}\",\"orderNo\":\"Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
+        String teset  = "{\"orderNo\":\"Z191195516914\",\"subOrderNo\":\"R1Z191195516914\",\"type\":\"G1\",\"orderType\":\"888\",\"sound\":\"newOrder.mp3\"}";
         PushMessage pushMessage = (PushMessage) JsonUtils.fromJson(teset, PushMessage.class);
         pushMessage.title = "";
         pushMessage.message = "您有1个新订单，能收到声音吗,请赶快登录皇包车-司导端APP去接单吧";
@@ -259,8 +267,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void showAdWebView(String url){
         if(null != url) {
-            if (CommonUtils.isLogin(activity)) {
-                url = CommonUtils.getBaseUrl(url) + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
+            if (UserEntity.getUser().isLogin(activity)) {
+                url = CommonUtils.getBaseUrl(url) + "userId=" + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
             }
             Intent intent = new Intent(activity,WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
@@ -312,18 +320,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
         try {
-            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
-            uploadPushToken();
+            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), new TagAliasCallback() {
+                @Override
+                public void gotResult(int code, String alias, Set<String> tags) {
+                    PushUtils.uploadPushAlias(code, alias);
+                }
+            });
+            MiPushClient.setAlias(getApplicationContext(), PhoneInfo.getIMEI(this), "");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void uploadPushToken() {
-        String imei = PhoneInfo.getIMEI(this);
-        RequestPushToken request = new RequestPushToken(this, imei, imei, BuildConfig.VERSION_NAME, imei, PhoneInfo.getSoftwareVersion(this));
-        HttpRequestUtils.request(this, request, this);
-        MiPushClient.setAlias(getApplicationContext(), imei, "");
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
@@ -383,6 +389,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
             EventBus.getDefault().unregister(this);
             ApiReportHelper.getInstance().commitAllReport();
+            ApiReportHelper.getInstance().abort();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -410,7 +417,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (Build.VERSION.SDK_INT >= 23) {
-                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                        boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                        if (!isVerify) {
+                            downloadApk();
+                        }
                     } else {
                         downloadApk();
                     }
@@ -419,7 +429,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (Build.VERSION.SDK_INT >= 23) {
-                        verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                        boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                        if (!isVerify) {
+                            updateDb();
+                        }
                     } else {
                         updateDb();
                     }
@@ -456,13 +469,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         });
     }
 
-    public static void verifyStoragePermissions(Activity activity, int requestCode) {
+    public static boolean verifyStoragePermissions(Activity activity, int requestCode) {
         if (Build.VERSION.SDK_INT >= 23) {
             int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, requestCode);
+                return true;
             }
         }
+        return false;
     }
 
     @Override
@@ -471,7 +486,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        MLog.e(errorInfo == null ? "" : errorInfo.toString());
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
@@ -542,7 +557,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         OrderDetailActivity.Params params = new OrderDetailActivity.Params();
         params.orderType = CommonUtils.getCountInteger(message.orderType);
         params.orderId = message.orderNo;
-
+        if ("888".equals(message.orderType) && !TextUtils.isEmpty(message.subOrderNo)) {
+            params.subOrderId = message.subOrderNo;
+        }
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, params.source);
@@ -564,11 +581,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 int index = Integer.valueOf(action.data.toString());
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
-                break;
-            case SHOW_GIFT_DIALOG:
-                if (currentPosition == 0) {
-                    GiftController.getInstance(this).showGiftDialog();
-                }
                 break;
             default:
                 break;
@@ -981,6 +993,24 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 检测是否有手机白名单设置，如果没有则弹框要求增加
+     */
+    private void requesetBattery() {
+        try {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                    //如果没有系统白名单设置，则弹框要求加入白名单
+                    Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).setData(Uri.parse("package:" + getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 
 

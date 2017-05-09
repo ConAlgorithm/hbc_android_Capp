@@ -28,6 +28,7 @@ import com.hugboga.custom.utils.Config;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class GroupParamBuilder {
     private MostFitBean mostFitBean;
     private PoiBean startPoiBean;
     private int allChildSeatPrice;
+    private SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean;
 
     public GroupParamBuilder() {
         context = MyApplication.getAppContext();
@@ -106,6 +108,11 @@ public class GroupParamBuilder {
 
     public GroupParamBuilder allChildSeatPrice(int allChildSeatPrice) {
         this.allChildSeatPrice = allChildSeatPrice;
+        return this;
+    }
+
+    public GroupParamBuilder travelerInfoBean(SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean) {
+        this.travelerInfoBean = travelerInfoBean;
         return this;
     }
 
@@ -255,11 +262,12 @@ public class GroupParamBuilder {
             groupParentParam.serviceEndCityid = endCityBean.cityId;
         }
 
-        if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
-            groupParentParam.serviceTime = charterDataUtils.chooseDateBean.start_date + " " + charterDataUtils.flightBean.arrivalTime + ":00";
-        } else {
-            groupParentParam.serviceTime = charterDataUtils.chooseDateBean.start_date + " " + CombinationOrderActivity.SERVER_TIME;
+        String serverTime = TextUtils.isEmpty(travelerInfoBean.serverTime) ? CombinationOrderActivity.SERVER_TIME : travelerInfoBean.serverTime + ":00";
+        if (charterDataUtils.travelList != null && charterDataUtils.travelList.size() > 0 &&
+                charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP) {//只接机
+            serverTime = charterDataUtils.flightBean.arrivalTime + ":00";
         }
+        groupParentParam.serviceTime = charterDataUtils.chooseDateBean.start_date + " " + serverTime;
         groupParentParam.serviceEndTime = charterDataUtils.chooseDateBean.end_date + " " + CombinationOrderActivity.SERVER_TIME_END;
         groupParentParam.priceMark = carBean.batchNo;
 
@@ -267,6 +275,8 @@ public class GroupParamBuilder {
             groupParentParam.startAddress = startPoiBean.placeName;
             groupParentParam.startAddressPoi = startPoiBean.placeDetail;
             groupParentParam.startAddressDetail = startPoiBean.location;
+        } else if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
+            groupParentParam.startAddress = charterDataUtils.flightBean.arrAirportName;
         }
         return groupParentParam;
     }
@@ -355,7 +365,13 @@ public class GroupParamBuilder {
         FlightBean flightBean = charterDataUtils.flightBean;
         groupPickupParam.serviceCityId = startCityBean.cityId;
         groupPickupParam.serviceCityName = startCityBean.name;
-        groupPickupParam.serviceTime = flightBean.arrDate + " "+ flightBean.arrivalTime + ":00";
+
+        String serverTime = TextUtils.isEmpty(travelerInfoBean.serverTime) ? flightBean.arrivalTime : travelerInfoBean.serverTime;
+        if (charterDataUtils.travelList != null && charterDataUtils.travelList.size() > 0 &&
+                charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP) {//只接机
+            serverTime = flightBean.arrivalTime + ":00";
+        }
+        groupPickupParam.serviceTime = flightBean.arrDate + " "+ serverTime + ":00";
         groupPickupParam.destAddress = charterDataUtils.pickUpPoiBean.placeName;
         groupPickupParam.destAddressDetail = charterDataUtils.pickUpPoiBean.placeDetail;
         groupPickupParam.destAddressPoi = charterDataUtils.pickUpPoiBean.location;
@@ -419,7 +435,8 @@ public class GroupParamBuilder {
             return;
         }
         CityBean startCityBean = charterDataUtils.getStartCityBean(groupDailyParamIndex + 1);
-        croupDailyParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + CombinationOrderActivity.SERVER_TIME;
+        String serverTime = !TextUtils.isEmpty(travelerInfoBean.serverTime) && orderIndex == 0 ? travelerInfoBean.serverTime + ":00" : CombinationOrderActivity.SERVER_TIME;
+        croupDailyParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + serverTime;
 
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(orderIndex);
         //0 默认只 1 包含接机 2 包含送机 3 接机和送机 必填
@@ -432,7 +449,8 @@ public class GroupParamBuilder {
             croupDailyParam.startAddress = flightBean.arrAirportName;
 
             GroupDailyParam.TravelFlightParam travelFlightParam = new GroupDailyParam.TravelFlightParam();
-            travelFlightParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + flightBean.arrivalTime + ":00";
+            String serverTime2 = TextUtils.isEmpty(travelerInfoBean.serverTime) ? flightBean.arrivalTime : travelerInfoBean.serverTime;
+            travelFlightParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + serverTime2 + ":00";
             travelFlightParam.flightDestCode = flightBean.arrAirportCode;
             travelFlightParam.flightDestName = flightBean.arrAirportName;
             travelFlightParam.flightDestPoi = flightBean.arrLocation;
@@ -447,7 +465,7 @@ public class GroupParamBuilder {
             croupDailyParam.setTravelFlightParam(travelFlightParam, true);
 
             croupDailyParam.serviceTime = travelFlightParam.serviceTime;
-        } else if (index == 0 && startPoiBean != null) {
+        } else if (orderIndex == 0 && startPoiBean != null) {
             croupDailyParam.startAddress = startPoiBean.placeName;
             croupDailyParam.startAddressDetail = startPoiBean.placeDetail;
             croupDailyParam.startAddressPoi = startPoiBean.location;

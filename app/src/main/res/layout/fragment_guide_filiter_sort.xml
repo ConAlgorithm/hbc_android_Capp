@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/guide_filter_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basic_white"
+        android:listSelector="@color/transparent"
+        android:divider="@color/default_dividing_line"
+        android:dividerHeight="@dimen/default_line_height"
+        android:paddingLeft="@dimen/city_list_margin_left">
+    </ListView>
+    <View
+        android:id="@+id/guide_filter_outside_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#70000000"
+        />
+</LinearLayout>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -32,16 +33,15 @@ import com.hugboga.custom.data.bean.combination.GroupParamBuilder;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestBatchPrice;
 import com.hugboga.custom.data.request.RequestCancleTips;
-import com.hugboga.custom.data.request.RequestCars;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestDeduction;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestMostFit;
+import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestOrderGroup;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -54,7 +54,6 @@ import com.hugboga.custom.widget.CombinationOrderCountView;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
-import com.hugboga.custom.widget.OrderPricePopupLayout;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
@@ -76,6 +75,8 @@ import butterknife.ButterKnife;
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
         , CombinationOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
         , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
+
+    public static final String TAG = CombinationOrderActivity.class.getSimpleName();
 
     public static final String SERVER_TIME = "09:00:00";
     public static final String SERVER_TIME_END = "23:59:59";
@@ -99,9 +100,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     OrderExplainView explainView;
     @Bind(R.id.combination_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
-
-    @Bind(R.id.combination_order_price_bottom_view)
-    OrderPricePopupLayout priceBottomLayout;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -146,21 +144,21 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
         descriptionLayout.update(charterDataUtils);
         carTypeView.setOnSelectedCarListener(this);
+        carTypeView.showLuggageExplain();
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setOrderPricePopupLayout(priceBottomLayout);
+        bottomView.getSelectedGuideHintTV().setVisibility(charterDataUtils.guidesDetailData == null ? View.VISIBLE : View.GONE);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
+        travelerInfoView.setTag(TAG);
 
         if (charterDataUtils.guidesDetailData != null) {
             getGuideCars();
         } else {
             requestBatchPrice();
         }
-
-        travelerInfoView.setActivity(this);
 
         carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
 
@@ -263,7 +261,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestBatchPrice) {
             carListBean = ((RequestBatchPrice) _request).getData();
-            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList)) {
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
                 if (charterDataUtils.guidesDetailData != null && guideCarBeanList != null) {
                     ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
                     if (checkDataIsEmpty(carList)) {
@@ -329,6 +327,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestBatchPrice) {
+            String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服，我们会协助您完成预订";
+            checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
+            return;
+        }
         if (request instanceof RequestOrderGroup || request instanceof RequestPayNo) {
             return;
         }
@@ -362,23 +366,19 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
-        boolean isEmpty = false;
-        if (_carList == null || _carList.size() <= 0) {
-            isEmpty = true;
-        } else {
-            isEmpty = false;
-        }
-        emptyLayout.setNoCarVisibility(isEmpty ? View.VISIBLE : View.GONE, charterDataUtils.guidesDetailData != null);
+        return checkDataIsEmpty(_carList, 0, null);
+    }
 
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
+        boolean isEmpty = emptyLayout.setNoCarVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
-
         return isEmpty;
     }
 
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
-        countView.setVisibility(visibility);
+//        countView.setVisibility(visibility);
         travelerInfoView.setVisibility(visibility);
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
@@ -497,6 +497,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.totalDays = charterDataUtils.chooseDateBean.dayNums + "";
         mostFitAvailableBean.orderType = orderType + "";
         mostFitAvailableBean.carModelId = carBean.carId + "";
+        mostFitAvailableBean.isPickupTransfer = charterDataUtils.isPickupTransfer();
         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
         if (null != mostFitBean) {
             couponId = mostFitBean.couponId;
@@ -558,6 +559,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .mostFitBean(mostFitBean)
                 .startPoiBean(travelerInfoBean.poiBean)
                 .allChildSeatPrice(countView.getAdditionalPrice())
+                .travelerInfoBean(travelerInfoBean)
                 .build();
         requestSubmitOrder(requestParams);
     }
@@ -596,7 +598,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , carListBean.distance + ""
                 , charterDataUtils.chooseDateBean.dayNums + ""
                 , orderType + ""
-                , carBean.carId + "");
+                , carBean.carId + ""
+                , charterDataUtils.isPickupTransfer());
         requestData(requestMostFit);
     }
 
@@ -642,12 +645,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
 
     private void getGuideCars() {
-        RequestCars requestCars = new RequestCars(this, charterDataUtils.guidesDetailData.guideId, null, 10, 0);
+        RequestNewCars requestCars = new RequestNewCars(this, 1, charterDataUtils.guidesDetailData.guideId, null, 20, 0);
         HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
-                guideCarBeanList = ((RequestCars)request).getData();
+                guideCarBeanList = ((RequestNewCars)request).getData();
                 if (charterDataUtils.guidesDetailData == null || guideCarBeanList == null) {
                     return;
                 }
@@ -663,37 +666,38 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+                checkDataIsEmpty(null);
+                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
             }
-        },true);
+        }, true);
     }
 
     private void checkGuideCoflict() {
-        OrderUtils.checkGuideCoflict(this, 3, charterDataUtils.getStartCityBean(1).cityId,
-                charterDataUtils.guidesDetailData.guideId, charterDataUtils.getStartServiceTime(),
-                charterDataUtils.getEndServiceTime(), charterDataUtils.getPassCitiesId(),
-                charterDataUtils.chooseDateBean.dayNums, carBean.carType, carBean.carSeat, carBean.special, carBean.carId,
-                new HttpRequestListener() {
-                    @Override
-                    public void onDataRequestSucceed(BaseRequest request) {
-                        RequestGuideConflict mRequest = (RequestGuideConflict) request;
-                        List<String> guideList = mRequest.getData();
-                        if (guideList.size() == 0) {
-                            checkDataIsEmpty(null);
-                        } else {
-                            onSubmit();
-                        }
-                    }
+        RequestCheckGuide.CheckGuideBeanList checkGuideBeanList = charterDataUtils.checkGuideBeanList;
+        if (checkGuideBeanList == null || checkGuideBeanList.guideCheckInfos == null || checkGuideBeanList.guideCheckInfos.size() <= 0) {
+            onSubmit();
+            return;
+        }
+        String serverTime = travelerInfoView.getTravelerInfoBean() != null ? travelerInfoView.getTravelerInfoBean().serverTime : "";
+        checkGuideBeanList.updateFirstDayServiceTime(charterDataUtils.getStartServiceTime(serverTime));
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBeanList);
 
-                    @Override
-                    public void onDataRequestCancel(BaseRequest request) {
-                        System.out.print(request);
-                    }
+        HttpRequestUtils.request(this, requestCheckGuide, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                onSubmit();
+            }
 
-                    @Override
-                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                        System.out.print(request);
-                    }
-                });
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
+            }
+        }, true);
     }
 }

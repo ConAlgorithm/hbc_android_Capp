@@ -119,7 +119,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
         } catch (InvalidDataException e) {
@@ -136,7 +136,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
 
     @Override
     public String getEventSource() {
-        return "定制包车游详情";
+        return "按天包车游详情";
     }
 
     WebChromeClient webChromeClient = new WebChromeClient() {

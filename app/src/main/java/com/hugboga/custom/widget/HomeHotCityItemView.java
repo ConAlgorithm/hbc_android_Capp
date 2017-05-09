@@ -1,13 +1,8 @@
 package com.hugboga.custom.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,18 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CityHomeListActivity;
+import com.hugboga.custom.activity.ChooseCityActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeBean;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static com.hugboga.custom.constants.Constants.PARAMS_DATA;
 
 /**
  * Created by qingcha on 16/10/20.
@@ -51,41 +42,36 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
 
         final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
         int imgWidth = (UIUtils.getScreenWidth() - paddingLeft * 2 - UIUtils.dip2px(8) * 2) / 3;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgWidth, imgWidth);
+        int imgHeigh = (int)((160 / 220.0f) * imgWidth);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgWidth, imgHeigh);
         cityIV.setLayoutParams(params);
     }
 
     @Override
     public void update(Object _data) {
-        final HomeBean.HotCity data = (HomeBean.HotCity) _data;
+        final HomeBeanV2.HotCity data = (HomeBeanV2.HotCity) _data;
         if (data == null) {
             return;
         }
-        if (TextUtils.isEmpty(data.cityHeadPicture)) {
+        if (TextUtils.isEmpty(data.cityPicture)) {
             cityIV.setImageResource(R.mipmap.home_default_route_free_item);
         } else {
-            Tools.showImage(cityIV, data.cityHeadPicture, R.mipmap.home_default_route_free_item);
+            Tools.showImage(cityIV, data.cityPicture, R.mipmap.home_default_route_free_item);
         }
         citynameTV.setText(data.cityName);
-
-        String guideCountStr = String.format("%1$s位司导", "" + data.cityGuideAmount);
-        SpannableString msp = new SpannableString(guideCountStr);
-        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 0, String.valueOf(data.cityGuideAmount).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        guideCountTV.setText(msp);
+        guideCountTV.setText(String.format("%1$s位司导", "" + data.cityGuideAmount));
 
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
-                CityHomeListActivity.Params params = new CityHomeListActivity.Params();
-                Intent intent = new Intent(getContext(), CityHomeListActivity.class);
-                bundle.putSerializable(Constants.PARAMS_SOURCE,"首页目的地栏目");
-                params.cityHomeType=CityHomeListActivity.CityHomeType.CITY;
-                params.titleName=data.cityName;
-                params.id=data.cityId;
-                intent.putExtra(Constants.PARAMS_DATA,params);
+                CityListActivity.Params params = new CityListActivity.Params();
+                params.id = data.cityId;
+                params.titleName = data.cityName;
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                Intent intent = new Intent(getContext(), CityListActivity.class);
+                intent.putExtra(Constants.PARAMS_DATA, params);
+                intent.putExtra(Constants.PARAMS_SOURCE, "国家热门城市");
                 getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页目的地栏目");
             }
         });
     }

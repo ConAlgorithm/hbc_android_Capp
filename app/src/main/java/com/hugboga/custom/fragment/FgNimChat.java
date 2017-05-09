@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -140,7 +141,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
         initRegisterMsgOberserve();
 
-        Unicorn.addUnreadCountChangeListener(listener, true);
+        try{
+            if(Unicorn.isServiceAvailable()){
+                Unicorn.addUnreadCountChangeListener(listener, true);
+            }
+        }catch (Exception e){
+            uploadQYErrorMsg(e);
+        }
+
         loadImList();
     }
 
@@ -161,7 +169,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         adapter = new HbcRecyclerSingleTypeAdpater<>(getActivity(), ImItemView.class);
         recyclerView.setAdapter(adapter);
         ZDefaultDivider divider = recyclerView.getItemDecoration();
-        divider.setItemOffsets(5, 10, 5, 10);
+        divider.setItemOffsets(0, 0, 0, 0);
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
         if (!UserEntity.getUser().isLogin(getActivity())) {
@@ -301,7 +309,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (imObserverHelper != null) {
             imObserverHelper.registerMessageObservers(false);
         }
-        Unicorn.addUnreadCountChangeListener(null, false);
+        try {
+            if(Unicorn.isServiceAvailable()){
+                Unicorn.addUnreadCountChangeListener(null, false);
+            }
+        }catch (Exception e){
+            uploadQYErrorMsg(e);
+        }
         super.onDestroyView();
     }
 
@@ -627,4 +641,12 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         return list;
     }
 
+
+    private void  uploadQYErrorMsg(Exception e){
+        String errorMsg = "七鱼初始化失败";
+        if(e!=null && !TextUtils.isEmpty(e.getMessage())){
+            errorMsg = e.getMessage();
+        }
+        UnicornUtils.uploadQiyuInitError(errorMsg);
+    }
 }

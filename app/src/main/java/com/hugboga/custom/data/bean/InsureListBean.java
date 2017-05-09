@@ -24,6 +24,8 @@ public class InsureListBean implements Parcelable, Serializable {
     public  String  updatetime;//2016-04-18 16:18:03"
     public  String  policyNo; //新的保单号
 
+    public boolean isResubmit = false;//本地字段 是否重试
+
     @Override
     public int describeContents() {
         return 0;

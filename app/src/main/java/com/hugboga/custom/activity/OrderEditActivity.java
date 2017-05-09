@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -102,6 +104,7 @@ public class OrderEditActivity extends BaseActivity {
     private ContactUsersBean contactUsersBean;
     private OrderBean orderBean;
     RequestOrderEdit.Params requestParams;
+    private PoiBean poiBean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -203,17 +206,37 @@ public class OrderEditActivity extends BaseActivity {
             pickUpLocationLayout.setVisibility(View.GONE);
             hotelPhoneLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
-        } else {//包车
+        } else {//包车 OrderDetailTravelerInfoActivity
             pickNameLayout.setVisibility(View.GONE);
             airportNameLayout.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
                 String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
                 upRight.setText(time + "(当地时间)");
             }
-//            if (!TextUtils.isEmpty(orderBean.startAddress)) {
-//                upAddressRight.setText(orderBean.startAddress);
-//            }
-            pickUpLocationLayout.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(orderBean.startAddress)) {
+                String startAddress = orderBean.startAddress;
+                if (!TextUtils.isEmpty(orderBean.startAddressDetail)) {
+                    startAddress = orderBean.startAddress + "\n" + orderBean.startAddressDetail;
+                }
+                upAddressRight.setText(startAddress);
+            }
+            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
+                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
+                if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
+                    pickUpLocationLayout.setVisibility(View.GONE);
+                    pickUpTime.setVisibility(View.VISIBLE);
+                } else if (journeyItem.pickup != null) {//只接机
+                    pickUpLocationLayout.setVisibility(View.GONE);
+                    pickUpTime.setVisibility(View.GONE);
+                } else {//包车
+                    pickUpLocationLayout.setVisibility(View.VISIBLE);
+                    pickUpTime.setVisibility(View.VISIBLE);
+                }
+            } else {//线路
+                pickUpLocationLayout.setVisibility(View.VISIBLE);
+                pickUpTime.setVisibility(View.VISIBLE);
+            }
+
             if (!TextUtils.isEmpty(orderBean.serviceAreaCode)) {
                 hotelPhoneTextCodeClick.setText(CommonUtils.addPhoneCodeSign(orderBean.serviceAreaCode));
             }
@@ -330,7 +353,7 @@ public class OrderEditActivity extends BaseActivity {
                 if (!(action.getData() instanceof PoiBean)) {
                     break;
                 }
-                PoiBean poiBean = (PoiBean) action.getData();
+                poiBean = (PoiBean) action.getData();
                 if (poiBean == null) {
                     break;
                 }
@@ -353,6 +376,18 @@ public class OrderEditActivity extends BaseActivity {
         picker = new TimePicker(activity, TimePicker.HOUR_24);
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
+        if (orderBean.orderType == 3 || orderBean.orderType == 888) {
+            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
+                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
+                if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
+                    Date date = DateUtils.getDateTimeFromStr2(journeyItem.pickup.flightArriveTime);
+                    if (date != null) {
+                        picker.setRangeStart(date.getHours(), date.getMinutes());
+                    }
+                }
+            }
+        }
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
@@ -427,7 +462,10 @@ public class OrderEditActivity extends BaseActivity {
         requestParams.serviceAreaCode = CommonUtils.removePhoneCodeSign(orderBean.serviceAreaCode);//目的地区域
         requestParams.userRemark = TextUtils.isEmpty(mark.getText()) ? "" : mark.getText().toString();//备注
         if (orderBean.orderType == 3 || orderBean.orderType == 5 || orderBean.orderType == 6) {
-            requestParams.startAddress = TextUtils.isEmpty(upAddressRight.getText()) ? "" : upAddressRight.getText().toString();//出发地
+            String startAddress = poiBean == null ? orderBean.startAddress : poiBean.placeName;
+            String startAddressDetail = poiBean == null ? orderBean.startAddressDetail : poiBean.placeDetail;
+            requestParams.startAddress = startAddress;
+            requestParams.startAddressDetail = startAddressDetail;
         }
         if (orderBean.orderType == 1) {
             requestParams.flightBrandSign = TextUtils.isEmpty(pickName.getText()) ? "" : pickName.getText().toString();//接送机接机牌名称
@@ -477,6 +515,16 @@ public class OrderEditActivity extends BaseActivity {
             realUserExJson.append("]");
         }
         return realUserExJson.toString();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (orderBean.orderStatus.code <= 5) {
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
+            }
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
 }

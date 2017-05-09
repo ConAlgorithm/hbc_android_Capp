@@ -4,15 +4,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.epoxy.EpoxyModel;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapsInitializer;
 import com.amap.api.maps2d.model.LatLng;
@@ -52,13 +53,16 @@ import com.hugboga.custom.utils.CharterFragmentAgent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.charter.CharterEmptyView;
 import com.hugboga.custom.widget.charter.CharterItemView;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
 import com.hugboga.custom.widget.charter.CharterSubtitleView;
 import com.hugboga.custom.widget.title.TitleBarCharterSecond;
-import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,6 +73,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/2/21.
@@ -90,6 +95,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Bind(R.id.charter_second_list_container)
     FrameLayout listContainer;
 
+    @Bind(R.id.charter_second_unfold_map_layout)
+    LinearLayout unfoldMapLayout;
+    @Bind(R.id.charter_second_packup_map_layout)
+    FrameLayout packupMapLayout;
+
     private CharterFragmentAgent fragmentAgent;
 
     private CharterSecondStepActivity.Params params;
@@ -103,6 +113,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private int lastSelectedRouteType;
 
     private LayoutInflater mLayoutInflater;
+
+    private boolean isUnfoldMap = false;
 
     public static class Params implements Serializable {
         public CityBean startBean;
@@ -135,7 +147,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     private void initMapView(){
         MapsInitializer.loadWorldGridMap(true);
-        mapView.getLayoutParams().height = (int)((1 / 2.6f) * ScreenUtil.screenWidth);
+        mapView.getLayoutParams().height = getMapHight(false);
         mapView.getaMap().getUiSettings().setZoomControlsEnabled(false);
     }
 
@@ -208,6 +220,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isUnfoldMap) {
+                onUnfoldMap(false);
+               return true;
+            }
             finishActivity();
         }
         return super.onKeyUp(keyCode, event);
@@ -362,9 +378,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.isSelectedPickUp = true;
                 if (charterDataUtils.chooseDateBean.dayNums > 1) {
                     fragmentAgent.showPickupModel();
-                    fragmentAgent.updatePickupModel();
+//                    fragmentAgent.updatePickupModel();
                 }
-                fragmentAgent.updateSubtitleModel();
+//                fragmentAgent.updateSubtitleModel();
+                fragmentAgent.notifyDataSetChanged();
                 updateDrawFences();
                 break;
             case CHOOSE_POI_BACK:
@@ -420,8 +437,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 charterDataUtils.airPortBean = airPortBean;
                 charterDataUtils.isSelectedSend = true;
                 fragmentAgent.showSendModel();
-                fragmentAgent.updateSendModel();
-                fragmentAgent.updateSubtitleModel();
+//                fragmentAgent.updateSendModel();
+//                fragmentAgent.updateSubtitleModel();
+                fragmentAgent.notifyDataSetChanged();
                 updateDrawFences();
                 break;
             case CHARTER_LIST_REFRESH:
@@ -507,7 +525,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
         overridePendingTransition(R.anim.push_bottom_in, 0);
-        MobClickUtils.onEvent(StatisticConstant.R_XINGCHENG);
+        StatisticClickEvent.click(StatisticConstant.R_XINGCHENG, "包车下单");
     }
 
     public boolean checkPickUpFlightBean(FlightBean flightBean) {
@@ -570,7 +588,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
-        AlertDialogUtils.showAlertDialogCancelable(this, "很抱歉，您指定的司导无法服务您选择的接机城市", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(this, String.format("很抱歉，您指定的司导无法服务%1$s城市", flightBean.arrCityName), "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CharterSecondStepActivity.this.finish();
@@ -608,7 +626,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         if (selectedCharterModel == null) {
             return false;
         }
-        return charterDataUtils.checkInfo(selectedCharterModel.getRouteType(), charterDataUtils.currentDay, true);
+        boolean result = charterDataUtils.checkInfo(selectedCharterModel.getRouteType(), charterDataUtils.currentDay, true);
+        if (!result && selectedCharterModel instanceof EpoxyModel) {
+            fragmentAgent.smoothScrollToModel((EpoxyModel) selectedCharterModel);
+        }
+        return result;
     }
 
     public void updateTitleBar() {
@@ -630,6 +652,94 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             this.day = day;
             this.isRefresh = isRefresh;
         }
+    }
+
+    @OnClick({R.id.charter_second_unfold_map_layout})
+    public void onUnfoldMapListener() {//展开地图
+        onUnfoldMap(true);
+    }
+
+    @OnClick({R.id.charter_second_packup_map_layout})
+    public void onPackupMapListener() {//收起地图
+        onUnfoldMap(false);
+    }
+
+    private void onUnfoldMap(boolean isUnfold) {
+        this.isUnfoldMap = isUnfold;
+        if (isUnfold) {
+            unfoldMapLayout.setVisibility(View.GONE);
+            bottomView.setVisibility(View.GONE);
+            final int actionBarSize = UIUtils.getActionBarSize();
+            ObjectAnimator anim = ObjectAnimator.ofFloat(titleBar, "translationY", -actionBarSize);
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    titleBar.setY(0);
+                    titleBar.setVisibility(View.GONE);
+                    packupMapLayout.setVisibility(View.VISIBLE);
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+                    params.topMargin = 0;
+                    mapView.getaMap().moveCamera(CameraUpdateFactory.zoomIn());
+                    updateDrawFences();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float h = (float)valueAnimator.getAnimatedValue();
+                    float topMargin = actionBarSize + h;
+                    if (topMargin >= 0) {
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+                        params.topMargin = (int)topMargin;
+                        mapView.requestLayout();
+                    }
+                }
+            });
+            anim.setDuration(300);
+            anim.start();
+
+            ValueAnimator va = ValueAnimator.ofInt(getMapHight(false), getMapHight(true));
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int h = (Integer)valueAnimator.getAnimatedValue();
+                    mapView.getLayoutParams().height = h;
+                    mapView.requestLayout();
+                }
+            });
+            va.setDuration(500);
+            va.start();
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+            params.height = getMapHight(isUnfold);
+            params.topMargin = UIUtils.getActionBarSize();
+            bottomView.setVisibility(View.VISIBLE);
+            packupMapLayout.setVisibility(View.GONE);
+            unfoldMapLayout.setVisibility(View.VISIBLE);
+            titleBar.setVisibility(View.VISIBLE);
+            updateDrawFences();
+            mapView.getaMap().moveCamera(CameraUpdateFactory.zoomOut());
+        }
+    }
+
+    public int getMapHight(boolean isUnfold) {
+        return isUnfold ? UIUtils.getScreenHeight() : (int)((1 / 2.6f) * UIUtils.getScreenWidth());
     }
 
     @Override

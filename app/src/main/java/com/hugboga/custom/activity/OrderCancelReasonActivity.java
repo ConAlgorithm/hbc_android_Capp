@@ -27,6 +27,7 @@ import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.CancelReasonItemView;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -71,7 +72,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
         initDefaultTitleBar();
         fgTitle.setText("请选择取消原因");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, CancelReasonItemView.class);
         mAdapter.setOnItemClickListener(this);

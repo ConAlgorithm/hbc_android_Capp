@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@color/white"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <include layout="@layout/activity_search_edit_head" />
@@ -13,22 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="140dp"
-            android:layout_height="81dp"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
             android:layout_marginTop="50dip"
-            android:src="@drawable/error_show" />
+            android:background="@drawable/empty_city" />
 
         <TextView
             android:id="@+id/arrival_empty_layout_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:text="@string/empty_text"
-            android:textSize="15sp" />
+            android:gravity="center"
+            android:textSize="13sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginTop="10dip"
+            android:textColor="#a8a8a8"
+            android:text="@string/empty_text" />
     </LinearLayout>
 
     <TextView

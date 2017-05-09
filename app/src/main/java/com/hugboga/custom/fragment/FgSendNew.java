@@ -44,6 +44,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.Tools;
@@ -59,6 +60,7 @@ import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -210,6 +212,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         collectGuideBean = (CollectGuideBean)this.getArguments().getSerializable("collectGuideBean");
         if(null != collectGuideBean){
             initCarFragment(false);
+            if (collectGuideBean.cityId != 0) {
+                List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + collectGuideBean.cityId);
+                if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
+                    airPortBean = airPortList.get(0);
+                    updateAirPort();
+                }
+            }
         }
         confirmJourney.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,21 +311,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                     break;
                 case AIR_PORT_BACK:
                     airPortBean = (AirPort) action.getData();
-                    String airPortName = airPortBean.cityName + " " + airPortBean.airportName;
-                    if (airPortName != null && airPortName.equals(addressTips.getText())) {
-                        return;
-                    }
-                    showCarsLayoutSend.setVisibility(View.GONE);
-                    addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
-                    poiBean = null;
-                    airTitle.setText("");
-                    airDetail.setText("");
-                    infoTips.setVisibility(View.VISIBLE);
-                    airTitle.setVisibility(View.GONE);
-                    airDetail.setVisibility(View.GONE);
-                    timeText.setText("");
-                    bottom.setVisibility(View.GONE);
-                    checkInput();
+                    updateAirPort();
                     break;
                 case CHOOSE_POI_BACK:
                     poiBean = (PoiBean) action.getData();
@@ -436,6 +431,27 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    public void updateAirPort() {
+        if (airPortBean == null) {
+            return;
+        }
+        String airPortName = airPortBean.cityName + " " + airPortBean.airportName;
+        if (airPortName != null && airPortName.equals(addressTips.getText())) {
+            return;
+        }
+        showCarsLayoutSend.setVisibility(View.GONE);
+        addressTips.setText(airPortBean.cityName + " " + airPortBean.airportName);
+        poiBean = null;
+        airTitle.setText("");
+        airDetail.setText("");
+        infoTips.setVisibility(View.VISIBLE);
+        airTitle.setVisibility(View.GONE);
+        airDetail.setVisibility(View.GONE);
+        timeText.setText("");
+        bottom.setVisibility(View.GONE);
+        checkInput();
+    }
+
     @Override
     public String getEventId() {
         return StatisticConstant.LAUNCH_S;
@@ -522,7 +538,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         needBanner = airPortBean.bannerSwitch;
 
         RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity(), mBusinessType,
-                airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime,carIds);
+                airportCode, cityId, startLocation, termLocation, serverDate + " " + serverTime, carIds, collectGuideBean==null ? 0 : collectGuideBean.isQuality);
         requestData(requestCheckPriceForTransfer);
     }
 
@@ -617,6 +633,9 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             case R.id.address_layout:
             case R.id.address_tips://选择机场
                 Intent intent = new Intent(getActivity(),ChooseAirPortActivity.class);
+                if (collectGuideBean != null) {
+                    intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, collectGuideBean.cityId);
+                }
                 getActivity().startActivity(intent);
 
                 break;
@@ -638,6 +657,13 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         final Calendar calendar = Calendar.getInstance();
         picker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
         picker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR)+1);
+        if (!TextUtils.isEmpty(serverDate) && !TextUtils.isEmpty(serverTime)) {
+            try {
+                calendar.setTime(DateUtils.dateTimeFormat2.parse(serverDate + " " + serverTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {

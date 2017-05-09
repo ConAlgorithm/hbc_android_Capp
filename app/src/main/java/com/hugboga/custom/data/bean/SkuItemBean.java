@@ -46,6 +46,7 @@ public class SkuItemBean implements Serializable {
     public ArrayList<String> goodsPics;
     public String keyWords;
     public int saleAmount;
+    public int transactionVolumes;
 
     public static class CharacteristicLables implements Serializable {
         public String lableName;

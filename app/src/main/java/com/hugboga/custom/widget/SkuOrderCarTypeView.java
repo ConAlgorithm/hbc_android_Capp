@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.utils.UIUtils;
@@ -38,6 +40,11 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     LinearLayout moreLayout;
     @Bind(R.id.sku_order_car_type_more_arrow_iv)
     ImageView moreaArrowIV;
+
+    @Bind(R.id.sku_order_car_type_luggage_explain_tv)
+    TextView explainTV;
+    @Bind(R.id.sku_order_car_type_luggage_explain_iv)
+    ImageView explainIV;
 
     private boolean isShow = false;
     private ArrayList<CarBean> carList;
@@ -214,5 +221,16 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
 
     public void setOnSelectedCarListener(OnSelectedCarListener listener) {
         this.listener = listener;
+    }
+
+    //包车游需要显示
+    public void showLuggageExplain() {
+        explainTV.setVisibility(View.VISIBLE);
+        explainIV.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick({R.id.sku_order_car_type_luggage_explain_tv, R.id.sku_order_car_type_luggage_explain_iv})
+    public void intentLuggageInfoActivity() {
+        getContext().startActivity(new Intent(getContext(), LuggageInfoActivity.class));
     }
 }

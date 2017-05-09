@@ -3,12 +3,16 @@ package com.hugboga.custom.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -16,13 +20,19 @@ import com.hugboga.custom.data.bean.CarMaxCapaCityBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
+import com.hugboga.custom.data.request.RequestGuideCrop;
+import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
@@ -36,6 +46,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,12 +89,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
             startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN);
+                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
@@ -106,7 +118,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (guidesDetailData != null) {
-            outState.putSerializable(GuideDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+            outState.putSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
         }
         if (startBean != null) {
             outState.putSerializable(Constants.PARAMS_START_CITY_BEAN, startBean);
@@ -115,9 +127,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private void initView() {
         charterDataUtils = CharterDataUtils.getInstance();
-        if (guidesDetailData != null) {
-            charterDataUtils.guidesDetailData = guidesDetailData;
-        }
 
         titlebar.setTitleBarBackListener(this);
         titlebar.setRightListener(new View.OnClickListener() {
@@ -132,14 +141,21 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (guidesDetailData == null) {
             guideLayout.setVisibility(View.GONE);
         } else {
+            charterDataUtils.guidesDetailData = guidesDetailData;
+            startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
             guideLayout.setVisibility(View.VISIBLE);
             Tools.showImage(avatarIV, guidesDetailData.avatar, R.mipmap.icon_avatar_guide);
             guideTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guidesDetailData.guideName, guidesDetailData.countryName));
+            requestData(new RequestGuideCrop(this, guidesDetailData.guideId));
         }
 
         if (startBean != null) {
             cityTV.setText(startBean.name);
-            requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+            if (guidesDetailData == null) {
+                requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+            } else {
+                getGuideCars();
+            }
         }
 
         setSensorsEvent();
@@ -240,7 +256,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 charterDataUtils.guideCropList = guideServiceCitys.guideCropList;
                 startBean = guideServiceCitys.getSelectedCityBean();
                 cityTV.setText(startBean.name);
-                requestData(new RequestCarMaxCapaCity(this, startBean.cityId, guidesDetailData.getCarIds()));
+                getGuideCars();
                 break;
             case CHOOSE_DATE:
                 ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();
@@ -273,12 +289,27 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+            mHandler.sendEmptyMessageDelayed(1, 200);//FIXME: 17/5/6 临时办法，待优化
             countLayout.setSliderEnabled(true);
             setNextViewEnabled(true);
             isEnabled = true;
+        } else if (_request instanceof RequestGuideCrop) {
+            charterDataUtils.guideCropList = ((RequestGuideCrop) _request).getData();
         }
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
@@ -364,11 +395,42 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         return super.onKeyUp(keyCode, event);
     }
 
+    private void getGuideCars() {
+        if (guidesDetailData == null) {
+            return;
+        }
+        RequestNewCars requestCars = new RequestNewCars(this, 1, guidesDetailData.guideId, null, 20, 0);
+        HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                ArrayList<GuideCarBean> guideCarBeanList = ((RequestNewCars)request).getData();
+                if (guideCarBeanList == null) {
+                    CommonUtils.showToast("很抱歉，该司导暂无符合的车型");
+                    return;
+                }
+                guidesDetailData.guideCars = guideCarBeanList;
+                guidesDetailData.guideCarCount = guideCarBeanList.size();
+                requestData(new RequestCarMaxCapaCity(CharterFirstStepActivity.this, startBean.cityId, guidesDetailData.getCarIds()));
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                CommonUtils.apiErrorShowService(CharterFirstStepActivity.this, errorInfo, request, CharterFirstStepActivity.this.getEventSource());
+            }
+        }, true);
+    }
+
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_is_appoint_guide", guidesDetailData != null ? true : false);// 指定司导下单
             properties.put("hbc_adultNum", countLayout.getAdultValue());// 出行成人数
             properties.put("hbc_childNum", countLayout.getChildValue());// 出行儿童数
@@ -387,7 +449,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();

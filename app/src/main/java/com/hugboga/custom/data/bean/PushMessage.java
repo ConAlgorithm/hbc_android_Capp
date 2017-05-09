@@ -18,6 +18,7 @@ public class PushMessage implements IBaseBean {
     public String url;
     public String orderNo;
     public String orderType;
+    public String subOrderNo;
 
     public String action;
 

@@ -90,7 +90,7 @@ public class WXShareUtils {
     }
     /**
      * 微信分享
-     *@param type (0分享到微信好友,1分享到微信朋友圈)
+     *@param type (1分享到微信好友,2分享到微信朋友圈)
      * @param picUrl
      * @param title
      * @param content

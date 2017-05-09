@@ -21,25 +21,29 @@ import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomePageAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestDestinations;
+import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestHome;
 import com.hugboga.custom.data.request.RequestHotExploration;
-import com.hugboga.custom.data.request.RequestTravelStorys;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.view.annotation.ContentView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +59,8 @@ import butterknife.OnClick;
 @ContentView(R.layout.fg_homepage)
 public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTabClickListener,HomeNetworkErrorModel.ReloadListener {
 
+    private static final int CHOICENESS_GUIDES_COUNT = 40;
+
     /**
      * 热门探索
      */
@@ -64,9 +70,9 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
      */
     public final static int TAB_DESTION = 0b01;
     /**
-     * 司导故事
+     * 精选司导
      */
-    public final static int TAB_TRAVEL_STORY = 0b10;
+    public final static int TAB_GUIDE = 0b10;
 
     @Bind(R.id.home_list_view)
     RecyclerView homeListView;
@@ -80,7 +86,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     HomePageAdapter homePageAdapter;
     HomeBeanV2 homeBean;
 
-    private int tabIndex = TAB_HOTEXPLORE;
+    private int tabIndex = TAB_GUIDE;
 
     HomeSearchTabView homeSearchTabView;
 
@@ -106,7 +112,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     @Override
     protected void initView() {
         homePageAdapter = new HomePageAdapter();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this.getActivity());
         homeListView.setLayoutManager(layoutManager);
         homeListView.setHasFixedSize(true);
         homeListView.setAdapter(homePageAdapter);
@@ -200,8 +206,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 case TAB_DESTION:
                     rquestDestinations();
                     break;
-                case TAB_TRAVEL_STORY:
-                    requestTravelStorys();
+                case TAB_GUIDE:
+                    requestChoicenessGuides();
                     break;
             }
         }
@@ -256,15 +262,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
     }
 
-    private void requestTravelStorys() {
-        HomeBeanV2.TravelStoryAggregation travelStoryAggregation = homeBean.storyAggVo;
-        if (travelStoryAggregation != null && travelStoryAggregation.travelStories != null) {
-            if (travelStoryAggregation.travelStories.size() < travelStoryAggregation.listCount) {
-                RequestTravelStorys request = new RequestTravelStorys(getActivity(), travelStoryAggregation.travelStories.size());
-                HttpRequestUtils.request(getActivity(), request, this, false);
-            } else {
-                return;
-            }
+    private void requestChoicenessGuides() {
+        ArrayList<FilterGuideBean> storyAggVo = homeBean.qualityGuides;
+        if (storyAggVo != null && storyAggVo.size() < CHOICENESS_GUIDES_COUNT) {
+            RequestFilterGuide.Builder builder = new RequestFilterGuide.Builder();
+                builder.isQuality = 1;
+                builder.limit = 10;
+                builder.offset = storyAggVo.size();
+            RequestFilterGuide requestFilterGuide = new RequestFilterGuide(getActivity(), builder);
+            HttpRequestUtils.request(getActivity(), requestFilterGuide, this, false);
         }
     }
 
@@ -278,9 +284,31 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 if (homeBean.headAggVo != null) {
                     addHeader(homeBean.headAggVo);
                 }
-                if (homeBean.hotExplorationAggVo != null) {
-                    homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations,
-                            false,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
+                switch (tabIndex) {
+                    case TAB_GUIDE:
+                        if (homeBean!=null && homeBean.qualityGuides != null) {
+                            homePageAdapter.addGuideModels(homeBean.qualityGuides, true
+                                    ,CHOICENESS_GUIDES_COUNT
+                                    ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
+                        }
+                        break;
+                    case TAB_HOTEXPLORE:
+                        if (homeBean!=null && homeBean.hotExplorationAggVo != null && homeBean.hotExplorationAggVo.hotExplorations != null) {
+                            homePageAdapter.addHotExploations(homeBean.hotExplorationAggVo.hotExplorations, true
+                                    ,homeBean.hotExplorationAggVo.listCount,homeBean.hotExplorationAggVo.getHotExplorationSize());
+                        }
+                        break;
+                    case TAB_DESTION:
+                        if (homeBean!=null && homeBean.destinationAggVo != null) {
+                            if (homeBean.destinationAggVo.hotCities != null) {
+                                homePageAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
+                            }
+                            if(homeBean.destinationAggVo.lineGroupAggVos!=null){
+                                homePageAdapter.addDestionLineGroups(homeBean.destinationAggVo.lineGroupAggVos
+                                        ,homeBean.destinationAggVo.listCount,homeBean.destinationAggVo.getLineGroupAggSize());
+                            }
+                        }
+                        break;
                 }
             }
 
@@ -294,10 +322,10 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             if (destinationAggregation != null && destinationAggregation.lineGroupAggVos != null) {
                 addMoreDestinations(destinationAggregation.lineGroupAggVos);
             }
-        } else if (_request instanceof RequestTravelStorys) {
-            HomeBeanV2.TravelStoryAggregation storyAggregation = ((RequestTravelStorys) _request).getData();
-            if (storyAggregation != null && storyAggregation.travelStories != null) {
-                addMoreTravelStorys(storyAggregation.travelStories);
+        } else if (_request instanceof RequestFilterGuide) {
+            FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
+            if (filterGuideListBean != null && filterGuideListBean.listData != null) {
+                addMoreGuides(filterGuideListBean.listData);
             }
         }
     }
@@ -344,15 +372,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
     }
 
-    private void addMoreTravelStorys(List<HomeBeanV2.TravelStory> stories) {
-        if (homeBean == null || homeBean.storyAggVo == null) {
+    private void addMoreGuides(ArrayList<FilterGuideBean> storyAggVo) {
+        if (homeBean == null || homeBean.qualityGuides == null) {
             return;
         }
-        if (homeBean.storyAggVo.travelStories != null) {
-            homeBean.storyAggVo.travelStories.addAll(stories);
-            if (tabIndex == TAB_TRAVEL_STORY) {
-                homePageAdapter.addStoryModels(stories, false,homeBean.storyAggVo.listCount
-                ,homeBean.storyAggVo.getTravelStoreySize());
+        if (homeBean.qualityGuides != null) {
+            homeBean.qualityGuides.addAll(storyAggVo);
+            if (tabIndex == TAB_GUIDE) {
+                homePageAdapter.addGuideModels(storyAggVo, false, CHOICENESS_GUIDES_COUNT
+                ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
             }
         }
     }
@@ -374,7 +402,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 MobClickUtils.onEvent(StatisticConstant.CLICK_DEST);
                 break;
             case R.id.home_header_story_tab:
-                selectTravelStoryTab();
+                selectGuideTab();
                 MobClickUtils.onEvent(StatisticConstant.CLICK_GSTORY);
                 break;
             default:
@@ -438,18 +466,18 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
     }
 
-    private void selectTravelStoryTab() {
-        if (tabIndex == TAB_TRAVEL_STORY) {
+    private void selectGuideTab() {
+        if (tabIndex == TAB_GUIDE) {
             tabScrollToTop();
             return;
         }
-        tabIndex = TAB_TRAVEL_STORY;
+        tabIndex = TAB_GUIDE;
 
         swtichTabScrollToTop();
-        if (homeBean!=null && homeBean.storyAggVo != null && homeBean.storyAggVo.travelStories != null) {
-            homePageAdapter.addStoryModels(homeBean.storyAggVo.travelStories, true
-                    ,homeBean.storyAggVo.listCount
-                    ,homeBean.storyAggVo.getTravelStoreySize());
+        if (homeBean!=null && homeBean.qualityGuides != null) {
+            homePageAdapter.addGuideModels(homeBean.qualityGuides, true
+                    ,CHOICENESS_GUIDES_COUNT
+                    ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
         }
     }
 
@@ -460,12 +488,18 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         if(distance>0){
             homeListView.smoothScrollBy(0, distance);
         }
+        if(homeBindIcon != null){
+            homeBindIcon.setAlpha(1f);
+        }
     }
 
     private void swtichTabScrollToTop(){
         ((LinearLayoutManager)homeListView.getLayoutManager()).scrollToPositionWithOffset(1,UIUtils.dip2px(88));
         if(homeTitleLayout!=null){
             homeTitleLayout.setAlpha(1.0f);
+        }
+        if(homeBindIcon != null){
+            homeBindIcon.setAlpha(1f);
         }
     }
 

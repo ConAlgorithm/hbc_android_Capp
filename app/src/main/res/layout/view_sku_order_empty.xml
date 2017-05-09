@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
 
     <ImageView
         android:id="@+id/sku_order_empty_iv"
         android:layout_width="150dp"
         android:layout_height="120dp"
-        android:background="@drawable/icon_sku_order_net_error" />
+        android:layout_marginTop="50dip"
+        android:background="@drawable/empty_wifi" />
 
     <TextView
         android:id="@+id/sku_order_empty_hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:text="很抱歉，没有找到可服务的司导，换个日期试试"
         android:textColor="#a8a8a8"
         android:textSize="13sp" />
 
     <TextView
         android:id="@+id/sku_order_empty_refresh_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:gravity="center"
         android:visibility="gone"
+        android:background="@drawable/selector_empty_btn_shape"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="15dp"
         android:text="刷新试试"
-        android:paddingBottom="10dp"
-        android:textColor="#15b8da"
-        android:textSize="13sp" />
-</merge>
+        android:textSize="13sp"
+        android:textColor="#828282"
+        />
+</LinearLayout>

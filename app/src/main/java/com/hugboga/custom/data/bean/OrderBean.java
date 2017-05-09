@@ -46,6 +46,7 @@ public class OrderBean implements IBaseBean{
     public int special;
     public int capOfPerson;
     public int orderIndex;//标识是第几段行程 1开始
+    public int guideCarId;
 
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息
@@ -240,6 +241,14 @@ public class OrderBean implements IBaseBean{
         return payDeadTime;
     }
 
+    public int getTravelerCount() {
+        if (child != null) {
+            return adult + child;
+        } else {
+            return adult;
+        }
+    }
+
     /**
      * 是否评价过
      * */
@@ -338,6 +347,24 @@ public class OrderBean implements IBaseBean{
         return false;
     }
 
+    public int getSubOrderPosition(String subOrderNo) {
+        int subOrderPosition = -1;
+        if (TextUtils.isEmpty(subOrderNo)) {
+         return subOrderPosition;
+        }
+        if (subOrderDetail != null && subOrderDetail.totalCount > 0 && subOrderDetail.subOrderList != null) {
+            int size = subOrderDetail.subOrderList.size();
+            for (int i = 0; i < size; i++) {
+                OrderBean orderBean = subOrderDetail.subOrderList.get(i);
+                if (orderBean != null && subOrderNo.equalsIgnoreCase(orderBean.orderNo)) {
+                    subOrderPosition = i;
+                    break;
+                }
+            }
+        }
+        return subOrderPosition;
+    }
+
     public static class SubOrderDetail implements Serializable{
         public Integer totalCount;              // 子单总数
         public List<OrderBean> subOrderList;    // 子单详情
@@ -362,6 +389,7 @@ public class OrderBean implements IBaseBean{
         public String flightBrandSign;      // 举牌接机姓名
         public String flightNo;             // 航班编号
         public String serviceCityName;      // 服务城市
+        public String flightArriveTime;     // 航班到达时间
     }
 
     public class CTravelDayTransfer implements Serializable{

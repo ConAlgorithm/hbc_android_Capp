@@ -32,7 +32,7 @@ public class TimePicker extends WheelPicker {
     private String hourLabel = "时", minuteLabel = "分";
     private String selectedHour = "", selectedMinute = "";
     private int startHour, startMinute = 0;
-    private int endHour, endMinute = 59;
+    private int endHour, endMinute = 50;
 
     /**
      * 安卓开发应避免使用枚举类（enum），因为相比于静态常量enum会花费两倍以上的内存。
@@ -63,7 +63,7 @@ public class TimePicker extends WheelPicker {
             endHour = 23;
             selectedHour = DateUtils.fillZero(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         }
-        selectedMinute = DateUtils.fillZero(Calendar.getInstance().get(Calendar.MINUTE));
+        selectedMinute = DateUtils.fillZero(getChanceMinute(Calendar.getInstance().get(Calendar.MINUTE)));
     }
 
     /**
@@ -92,7 +92,7 @@ public class TimePicker extends WheelPicker {
             throw new IllegalArgumentException("out of range");
         }
         this.startHour = startHour;
-        this.startMinute = startMinute;
+        this.startMinute = getChanceMinute(startMinute);
     }
 
     /**
@@ -113,7 +113,7 @@ public class TimePicker extends WheelPicker {
             throw new IllegalArgumentException("out of range");
         }
         this.endHour = endHour;
-        this.endMinute = endMinute;
+        this.endMinute = getChanceMinute(endMinute);
     }
 
     /**
@@ -121,7 +121,7 @@ public class TimePicker extends WheelPicker {
      */
     public void setSelectedItem(int hour, int minute) {
         selectedHour = DateUtils.fillZero(hour);
-        selectedMinute = DateUtils.fillZero(minute);
+        selectedMinute = DateUtils.fillZero(getChanceMinute(minute));
     }
 
     /**
@@ -213,20 +213,20 @@ public class TimePicker extends WheelPicker {
                 startMinute = endMinute;
                 endMinute = temp;
             }
-            for (int i = startMinute; i <= endMinute; i++) {
-                minutes.add(DateUtils.fillZero(i));
+            for (int i = startMinute/10; i <= endMinute/10; i++) {
+                minutes.add(DateUtils.fillZero(i * 10));
             }
         } else if (hourInt == startHour) {
             for (int i = startMinute; i <= 59; i++) {
                 minutes.add(DateUtils.fillZero(i));
             }
         } else if (hourInt == endHour) {
-            for (int i = 0; i <= endMinute; i++) {
-                minutes.add(DateUtils.fillZero(i));
+            for (int i = 0; i <= endMinute/10; i++) {
+                minutes.add(DateUtils.fillZero(i*10));
             }
         } else {
-            for (int i = 0; i <= 59; i++) {
-                minutes.add(DateUtils.fillZero(i));
+            for (int i = 0; i < 6; i++) {
+                minutes.add(DateUtils.fillZero(i*10));
             }
         }
         if (minutes.indexOf(selectedMinute) == -1) {
@@ -234,6 +234,14 @@ public class TimePicker extends WheelPicker {
             selectedMinute = minutes.get(0);
         }
         return minutes;
+    }
+
+    public int getChanceMinute(int minute) {
+        int _minute = (minute / 10) * 10;
+        if (_minute < 50 && minute % 10 > 0) {
+            _minute += 10;
+        }
+        return _minute;
     }
 
     @Override

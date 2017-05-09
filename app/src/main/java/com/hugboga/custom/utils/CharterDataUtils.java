@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -39,6 +40,7 @@ public class CharterDataUtils {
 
     public GuidesDetailData guidesDetailData;                   // 指定司导的信息
     public ArrayList<GuideCropBean> guideCropList;              // 司导可服务城市
+    public RequestCheckGuide.CheckGuideBeanList checkGuideBeanList;// 校验司导可服务性所需数据
 
     public FlightBean flightBean;                               // 接机：航班信息
     public PoiBean pickUpPoiBean;                               // 接机：送达地
@@ -307,12 +309,15 @@ public class CharterDataUtils {
         return true;
     }
 
-    public String getStartServiceTime() {
+    public String getStartServiceTime(String serverTime) {
         String result = "";
         if (isSelectedPickUp && flightBean != null) {
             result = chooseDateBean.start_date + " " + flightBean.arrivalTime + ":00";
         } else {
             result = chooseDateBean.start_date + " " + CombinationOrderActivity.SERVER_TIME;
+        }
+        if (!TextUtils.isEmpty(serverTime)) {
+            result = chooseDateBean.start_date + " " + serverTime + ":00";
         }
         return result;
     }
@@ -363,6 +368,7 @@ public class CharterDataUtils {
     public void cleanGuidesDate() {
         guidesDetailData = null;
         guideCropList = null;
+        checkGuideBeanList = null;
     }
 
     public void cleanDayDate(int day) {
@@ -408,6 +414,19 @@ public class CharterDataUtils {
             }
         }
         return result;
+    }
+
+    /*
+    *  组合单是否紧接送机 1:是 2:不是
+    * */
+    public int isPickupTransfer() {
+        boolean isPickup = flightBean != null && pickUpPoiBean != null && isSelectedPickUp;
+        boolean isTransfer = airPortBean != null && sendPoiBean != null && isSelectedSend;
+        if (chooseDateBean.dayNums == 2 && isPickup && isTransfer) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {
@@ -475,7 +494,7 @@ public class CharterDataUtils {
     public void setSensorsConfirmEvent(Context context) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "定制包车游");
+            properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_is_appoint_guide", guidesDetailData == null ? false : true);// 指定司导下单
             properties.put("hbc_adultNum", adultCount);// 出行成人数
             properties.put("hbc_childNum", childCount);// 出行儿童数

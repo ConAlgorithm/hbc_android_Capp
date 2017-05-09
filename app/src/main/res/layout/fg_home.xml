@@ -85,12 +85,12 @@
                 android:layout_marginTop="@dimen/home_view_vertical_space"
                 app:type="2" />
 
-            <com.hugboga.custom.widget.HomeHotCityView
-                android:id="@+id/home_hotcity_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/home_view_vertical_space" />
+            <!--<com.hugboga.custom.widget.HomeHotCityView-->
+                <!--android:id="@+id/home_hotcity_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_marginTop="@dimen/home_view_vertical_space" />-->
 
             <com.hugboga.custom.widget.HomeTravelStoriesView
                 android:id="@+id/home_travel_stories_view"

@@ -9,7 +9,7 @@ import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.data.ActionGuideDetailBean;
-import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.JsonUtils;
 
@@ -28,9 +28,10 @@ public class ActionPageGuideDetail extends ActionPageBase {
         if (bean == null) {
             return;
         }
-        GuideDetailActivity.Params params = new GuideDetailActivity.Params();
+        GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         params.guideId = bean.guideId;
-        Intent intent = new Intent(context, GuideDetailActivity.class);
+        Intent intent = new Intent(context, GuideWebDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
     }

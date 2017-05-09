@@ -14,7 +14,8 @@ public class HomeBeanV2 implements Serializable {
     public HomeHeaderInfo headAggVo; //首页头部信息
     public HotExplorationAggregation hotExplorationAggVo; //热门探索
     public DestinationAggregation destinationAggVo; //目的地
-    public TravelStoryAggregation storyAggVo; // 旅行故事
+    public ArrayList<FilterGuideBean> qualityGuides; //旅行故事
+
 
     /**
      * 首页头部信息
@@ -35,8 +36,9 @@ public class HomeBeanV2 implements Serializable {
     * */
     public static class HeadVideo implements Serializable {
         public String videoName;    // 头部视频名称
-        public String videoUrl;     // 视频地址
+        public String videoUrl;     // 视频地址/网页地址
         public int videoVersion;    // 视频版本
+        public int type;            // 1.视频、2.H5
     }
 
     /**

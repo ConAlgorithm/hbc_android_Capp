@@ -18,7 +18,6 @@ import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.HomeBannerView;
 import com.hugboga.custom.widget.HomeChoicenessRouteView;
 import com.hugboga.custom.widget.HomeCustomLayout;
-import com.hugboga.custom.widget.HomeHotCityView;
 import com.hugboga.custom.widget.HomeScrollView;
 import com.hugboga.custom.widget.HomeSearchView;
 import com.hugboga.custom.widget.HomeTravelStoriesView;
@@ -48,8 +47,8 @@ public class FgHome extends BaseFragment {
     @Bind(R.id.home_choiceness_free_view)
     HomeChoicenessRouteView routeFreeView;
 
-    @Bind(R.id.home_hotcity_view)
-    HomeHotCityView hotCityView;
+//    @Bind(R.id.home_hotcity_view)
+//    HomeHotCityView hotCityView;
 
     @Bind(R.id.home_travel_stories_view)
     HomeTravelStoriesView travelStoriesView;
@@ -106,7 +105,7 @@ public class FgHome extends BaseFragment {
             emptyLayout.setVisibility(View.GONE);
             routeView.setVisibility(View.VISIBLE);
             routeFreeView.setVisibility(View.VISIBLE);
-            hotCityView.setVisibility(View.VISIBLE);
+//            hotCityView.setVisibility(View.VISIBLE);
             travelStoriesView.setVisibility(View.VISIBLE);
             activitiesView.setVisibility(View.VISIBLE);
 
@@ -115,7 +114,7 @@ public class FgHome extends BaseFragment {
             bannerView.update(data);
             routeView.update(data.fixGoods);
             routeFreeView.update(data.recommendGoods);
-            hotCityView.update(data.getHotCityList());
+//            hotCityView.update(data.getHotCityList());
             travelStoriesView.update(data.travelStories);
             activitiesView.update(data.activities);
         }

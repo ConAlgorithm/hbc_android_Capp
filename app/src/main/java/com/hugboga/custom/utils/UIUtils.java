@@ -132,4 +132,13 @@ public final class UIUtils {
         }
         return 0;
     }
+
+    public static int getActionBarSize() {
+        int actionBarHeight = dip2px(55);
+        TypedValue tv = new TypedValue();
+        if (MyApplication.getAppContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, MyApplication.getAppContext().getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
+    }
 }

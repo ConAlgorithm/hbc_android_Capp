@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 import com.huangbaoche.hbcframe.data.bean.IBaseBean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -64,6 +65,16 @@ public class CanServiceGuideBean implements IBaseBean {
         private int orderCounts;
         private double serviceStar;
         private String allocatGno;//用于选择司导时传递给服务端
+        private String commentNum;// 评论数
+        private List<String> skillLabelNames;// 司导评论标签列表
+
+        public String getCommentNum() {
+            return commentNum;
+        }
+
+        public List<String> getSkillLabelNames() {
+            return skillLabelNames;
+        }
 
         public String getAllocatGno() {
             return allocatGno;
@@ -157,12 +168,17 @@ public class CanServiceGuideBean implements IBaseBean {
             this.orderCounts = orderCounts;
         }
 
-        public double getServiceStar() {
-            return serviceStar;
-        }
-
         public void setServiceStar(double serviceStar) {
             this.serviceStar = serviceStar;
+        }
+
+        public double getServiceStar() {
+            try {
+                BigDecimal bigDecimal = new BigDecimal(serviceStar);
+                return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            } catch (Exception e) {
+                return serviceStar;
+            }
         }
     }
 }

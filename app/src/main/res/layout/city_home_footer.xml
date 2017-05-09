@@ -51,24 +51,43 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:paddingBottom="30dp"
             android:orientation="vertical"
-            android:padding="50dp"
-            android:visibility="gone">
+            >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="20dp"
-                android:src="@mipmap/city_filter_empty_icon" />
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="50dip"
+                android:background="@drawable/empty_trip"  />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/city_home_have_no_route"
-                android:textColor="#5d5d5d"
-                android:textSize="@dimen/text_size_large" />
+                android:gravity="center"
+                android:textSize="13sp"
+                android:layout_marginTop="10dip"
+                android:textColor="#a8a8a8"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/city_home_have_no_route"/>
+
+            <TextView
+                android:id="@+id/city_list_filter_footer_charter_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_empty_btn_shape"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginTop="15dp"
+                android:text="按天包车游"
+                android:textSize="13sp"
+                android:textColor="#828282"
+                />
         </LinearLayout>
     </RelativeLayout>
 

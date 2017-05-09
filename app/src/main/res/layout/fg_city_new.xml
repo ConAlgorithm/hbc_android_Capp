@@ -17,21 +17,26 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:background="@color/basic_white"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@color/basic_white">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/search__city_no_result"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:background="@drawable/empty_city"
             android:layout_marginTop="50dip" />
 
         <TextView
             android:id="@+id/empty_layout_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_city_text"
-            android:layout_marginTop="40dip" />
+            android:gravity="center"
+            android:textSize="13sp"
+            android:textColor="#a8a8a8"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/out_of_range_city_text"
+            android:layout_marginTop="10dip" />
     </LinearLayout>
 
 
@@ -87,7 +92,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#edeeef"
                     android:divider="@null"
                     android:dividerHeight="0dp" />
 
@@ -114,7 +118,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/basic_white"
                     android:divider="@null"
                     android:visibility="gone" />
 

@@ -3,21 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_bg">
+
     <include
         android:id="@+id/combination_order_titlebar_layout"
         layout="@layout/include_header" />
+
     <com.hugboga.custom.widget.SkuOrderBottomView
         android:id="@+id/combination_order_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
     <ScrollView
         android:id="@+id/combination_order_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/combination_order_bottom_view"
         android:layout_below="@id/combination_order_titlebar_layout">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,65 +30,57 @@
             <com.hugboga.custom.widget.CombinationOrderDescriptionView
                 android:id="@+id/combination_order_description_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
+
             <com.hugboga.custom.widget.SkuOrderEmptyView
                 android:id="@+id/combination_order_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
+                android:background="#ffffff"
                 android:gravity="center"
-                android:paddingTop="40dp"
+                android:orientation="vertical"
                 android:paddingBottom="40dp"
-                android:orientation="vertical"/>
+                android:paddingTop="40dp"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.SkuOrderCarTypeView
                 android:id="@+id/combination_order_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
-                android:visibility="gone"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.CombinationOrderCountView
                 android:id="@+id/combination_order_count_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.SkuOrderTravelerInfoView
                 android:id="@+id/combination_order_traveler_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.SkuOrderDiscountView
                 android:id="@+id/combination_order_discount_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.OrderExplainView
                 android:id="@+id/combination_order_explain_view"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
-    <com.hugboga.custom.widget.OrderPricePopupLayout
-        android:id="@+id/combination_order_price_bottom_view"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/order_bottom_height"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="91dp">
-    </com.hugboga.custom.widget.OrderPricePopupLayout>
 </RelativeLayout>

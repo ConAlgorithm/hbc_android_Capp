@@ -1,23 +1,36 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FgInsureInfoAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.InsureListBean;
+import com.hugboga.custom.data.bean.InsureSearchBean;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestInsuranceSearch;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
- * Created by qingcha on 16/8/4.
+ * Created by on 16/8/4.
  */
 public class InsureInfoActivity extends BaseActivity {
 
@@ -32,8 +45,18 @@ public class InsureInfoActivity extends BaseActivity {
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
 
+    @Bind(R.id.insure_info_add_layout)
+    RelativeLayout addLayout;
+    @Bind(R.id.insure_info_add_hint_tv)
+    TextView addHintTV;
+    @Bind(R.id.insure_info_add_tv)
+    TextView addTV;
+
     private FgInsureInfoAdapter adapter;
     private OrderBean orderBean;
+
+    public boolean isUpdateOrderDetail = false;
+    public boolean isRefreshInsuranceList = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +77,14 @@ public class InsureInfoActivity extends BaseActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (isRefreshInsuranceList) {
+            requestInsuranceSearch();
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (orderBean != null) {
@@ -63,16 +94,69 @@ public class InsureInfoActivity extends BaseActivity {
 
     private void initView() {
         initDefaultTitleBar();
-        headerTitle.setText(getString(R.string.insure_info_title));
-        if(null != orderBean){
-            List<InsureListBean> list = orderBean.insuranceList;
-            if (list != null && list.size() > 0) {
-                if (adapter == null) {
-                    adapter = new FgInsureInfoAdapter(this);
-                    listView.setAdapter(adapter);
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isUpdateOrderDetail) {
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
                 }
-                adapter.setList(list);
+                finish();
+            }
+        });
+        headerTitle.setText(getString(R.string.insure_info_title));
+        setData(orderBean.insuranceList);
+    }
+
+    public void setData(List<InsureListBean> list) {
+        if (adapter == null) {
+            adapter = new FgInsureInfoAdapter(this);
+            listView.setAdapter(adapter);
+        }
+        adapter.setList(list);
+        final int size = list.size();
+        final int travelerCount = orderBean.getTravelerCount();
+        if (size < travelerCount) {
+            isRefreshInsuranceList = true;
+            addLayout.setVisibility(View.VISIBLE);
+            addHintTV.setText(String.format("还可添加%1$s个投保人","" + (travelerCount - size)));
+        } else {
+            addLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public void requestInsuranceSearch() {
+        if (orderBean == null) {
+            return;
+        }
+        requestData(new RequestInsuranceSearch(this, orderBean.orderNo));
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
+        if (_request instanceof RequestInsuranceSearch) {
+            InsureSearchBean insureSearchBean = ((RequestInsuranceSearch)_request).getData();
+            setData(insureSearchBean.insuranceList);
+        }
+    }
+
+    @OnClick({R.id.insure_info_add_tv})
+    public void addInsure() {
+        Bundle insureBundle = new Bundle();
+        insureBundle.putSerializable("orderBean", orderBean);
+        Intent intent = new Intent(InsureInfoActivity.this, InsureActivity.class);
+        intent.putExtras(insureBundle);
+        InsureInfoActivity.this.startActivity(intent);
+        isUpdateOrderDetail = true;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isUpdateOrderDetail) {
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
             }
         }
+        return super.onKeyUp(keyCode, event);
     }
 }

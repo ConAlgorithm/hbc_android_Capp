@@ -78,7 +78,7 @@ public class ServicerCenterActivity extends BaseActivity {
                 break;
             case R.id.service_center_btn4:
                 //费用说明
-                toWebInfo(UrlLibs.H5_PRICE);
+                toWebInfo(UrlLibs.H5_PRICE_V2_2);
                 break;
             case R.id.service_center_btn5:
                 //常见问题

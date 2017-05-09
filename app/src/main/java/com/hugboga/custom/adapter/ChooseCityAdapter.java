@@ -22,9 +22,6 @@ import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-/**
- * Created by qingcha on 16/7/23.
- */
 public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     private Context mContext;
@@ -32,17 +29,18 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
     private List<CityBean> cityList = new ArrayList<CityBean>();
     private int showType = ShowType.DEFAULT;
 
+    public boolean isSearchPrompt = false;
+
+    public void setSearchPrompt(boolean searchPrompt) {
+        isSearchPrompt = searchPrompt;
+    }
+
     //用来区分UI展示类型
     public static final class ShowType {
         /**
          * 默认：（城市名）
          * */
         public static final int DEFAULT = 0x0001;
-
-        /**
-         * 搜索联想：搜索词高亮（城市名 国家）
-         * */
-        public static final int SEARCH_PROMPT = 0x0002;
 
         /**
          * 显示国家：（城市名 国家）
@@ -123,11 +121,6 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
             case ShowType.DEFAULT:
                 title = cityBean.name;
                 break;
-            case ShowType.SEARCH_PROMPT:
-//                title = getSearchPromptHighlightString(cityBean.name, cityBean.keyWord);//搜索词高亮
-                title = cityBean.name;
-                subTitle = cityBean.placeName;
-                break;
             case ShowType.SHOW_COUNTRY:
                 title = cityBean.name;
                 subTitle = cityBean.placeName;
@@ -137,7 +130,7 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
         holder.subTitleTV.setText(subTitle);
 
         //判断底部的线是否隐藏
-        if (showType == ShowType.SEARCH_PROMPT) {
+        if (isSearchPrompt) {
             holder.bottomLine.setVisibility(View.VISIBLE);
         } else {
             if (position + 1 < cityList.size() && cityList.get(position + 1) != null
@@ -179,7 +172,7 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
         }
         CityBean cityBean = cityList.get(position);
         holder.sectionsTV.setText(getSectionsStr(cityBean));
-        if (showType == ShowType.SEARCH_PROMPT) {
+        if (isSearchPrompt) {
             convertView.setVisibility(View.GONE);
         } else {
             convertView.setVisibility(View.VISIBLE);
@@ -202,7 +195,7 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
 
     private String getSectionsStr(CityBean cityBean) {
         String result = null;
-        if (showType == ShowType.SEARCH_PROMPT) {
+        if (isSearchPrompt) {
             result = mContext.getString(R.string.guess_you_want);
         } else {
             result = cityBean.firstLetter;

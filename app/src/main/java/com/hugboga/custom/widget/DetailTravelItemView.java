@@ -15,6 +15,8 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -52,6 +54,13 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
 
     @Bind(R.id.travel_item_charter_line_iv)
     ImageView travelItemCharterLineIv;
+    @Bind(R.id.travel_item_charter_line_layout)
+    RelativeLayout travelItemCharterLineLayout;
+    @Bind(R.id.travel_item_scope_tv)
+    TextView travelItemScopeTv;
+    @Bind(R.id.travel_item_places_tv)
+    TextView travelItemPlacesTv;
+
     @Bind(R.id.travel_item_line_tv)
     TextView travelItemLineTv;
     @Bind(R.id.travel_item_line_time_tv)
@@ -60,8 +69,6 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
     TextView travelItemLineDistanceTv;
     @Bind(R.id.travel_item_line_tag_layout)
     LinearLayout travelItemLineTagLayout;
-    @Bind(R.id.travel_item_charter_line_layout)
-    RelativeLayout travelItemCharterLineLayout;
 
     @Bind(R.id.travel_item_time_iv)
     ImageView travelItemTimeIv;
@@ -101,6 +108,8 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         travelItemEditTv.setVisibility(View.GONE);
         travelItemEditLineView.setVisibility(View.GONE);
         travelItemDelTv.setVisibility(View.GONE);
+        travelItemScopeTv.setVisibility(View.GONE);
+        travelItemPlacesTv.setVisibility(View.GONE);
 
         parentLayout.setLayoutParams(new LinearLayout.LayoutParams(UIUtils.getScreenWidth(), LayoutParams.WRAP_CONTENT));
     }
@@ -180,7 +189,12 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         } else {
             travelItemPickupTv.setText("接机航班: " + pickup.flightNo);//接机航班：NH956
         }
-        travelItemArrdateTv.setText(String.format("当地时间%1$s %2$s降落", dateStr, pickup.serviceTimeStr));//计划到达时间（当地时间：2017年02月18日 周五 12:40降落）
+        String serviceTime = pickup.serviceTimeStr;
+        Date date = DateUtils.getDateTimeFromStr2(pickup.flightArriveTime);
+        if (date != null) {
+            serviceTime = DateUtils.getTime(date);
+        }
+        travelItemArrdateTv.setText(String.format("当地时间%1$s %2$s降落", dateStr, serviceTime));//计划到达时间（当地时间：2017年02月18日 周五 12:40降落）
     }
 
     public void updateOnlyPickupLayout(OrderBean.CTravelDayPickup pickup) {
@@ -204,11 +218,11 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         travelItemCharterLineLayout.setVisibility(View.VISIBLE);
         travelItemLineTv.setTextColor(getResources().getColor(R.color.default_black));
         if (isOuttown(journey)) {
-            String startAddress = journey.startCityName;
             if (pickup != null) {
-                startAddress = pickup.startAddress;
+                travelItemLineTv.setText(String.format("%1$s出发，游玩至%2$s结束", journey.startCityName, journey.cityName));
+            } else {
+                travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", journey.startCityName, journey.cityName));
             }
-            travelItemLineTv.setText(String.format("%1$s出发，%2$s结束", startAddress, journey.cityName));
         } else {
             if (pickup != null) {
                 travelItemLineTv.setText(String.format("%1$s出发，%2$s", pickup.startAddress, journey.description));

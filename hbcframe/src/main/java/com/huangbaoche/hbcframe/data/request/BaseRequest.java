@@ -20,6 +20,10 @@ import java.util.Map;
 
 public abstract class BaseRequest<T> extends RequestParams implements InterfaceRequest {
 
+    public static final int ERROR_TYPE_DEFAULT = 1;            // toast弹出错误提示
+    public static final int ERROR_TYPE_SHOW_DIALOG = 2;        // dialog弹出错误提示
+    public static final int ERROR_TYPE_IGNORE = 3;             // 传到下层处理
+
     private Context mContext;
 
     private T data;
@@ -43,6 +47,12 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     public String bodyEntity;
 
     public Map<String, List<String>> responseHeaders;
+
+    public int errorType = ERROR_TYPE_DEFAULT;
+
+    public void setErrorType(int errorType) {
+        this.errorType = errorType;
+    }
 
     /**
      * 动态返回相对的路径，如果不为空，注解的path失效
@@ -97,6 +107,23 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
             e.printStackTrace();
         }
 
+    }
+
+    public int getOffset() {
+        int offset = 0;
+        if (map != null && map.containsKey("offset") && map.get("offset") != null) {
+            Object offsetObj = map.get("offset");
+            if (offsetObj instanceof String) {
+                try {
+                    offset = Integer.valueOf((String)offsetObj);
+                } catch(Exception e) {
+                    offset = 0;
+                }
+            } else if (offsetObj instanceof Integer) {
+                offset = (Integer) offsetObj;
+            }
+        }
+        return offset;
     }
 
 }

@@ -22,6 +22,8 @@ public class CarListBean implements IBaseBean {
     public int guideFloatSwitch;
     public boolean supportBanner;
     public String noneCarsReason;
+    public int noneCarsState;
+//    public String noneCarsParam;
 
     public String estTime;
     public String enableLocal;
@@ -33,6 +35,5 @@ public class CarListBean implements IBaseBean {
 
 
     public CarAdditionalServicePrice additionalServicePrice;
-
 
 }

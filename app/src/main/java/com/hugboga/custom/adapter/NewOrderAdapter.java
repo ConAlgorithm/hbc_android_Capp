@@ -22,6 +22,7 @@ import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
 import com.hugboga.custom.activity.GuideDetailActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
@@ -182,7 +183,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     break;
                 case Constants.BUSINESS_TYPE_DAILY://日租 包车游
-                    vh.mTypeStr.setText("定制包车游");
+                    vh.mTypeStr.setText("按天包车游");
                     if (orderBean.isHalfDaily == 1) {//半日包
                         vh.timeTV.setText(orderBean.serviceTime + " 半天");
                     } else {
@@ -231,7 +232,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     }
                     break;
                 case Constants.BUSINESS_TYPE_COMBINATION://组合单
-                    vh.mTypeStr.setText("定制包车游");
+                    vh.mTypeStr.setText("按天包车游");
                     vh.timeTV.setText(orderBean.serviceTime + " 至 " + orderBean.serviceEndTime + " " + orderBean.totalDays + "天");
                     vh.timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
 
@@ -598,13 +599,13 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
                     if(mOrderBean.orderGuideInfo == null || mOrderBean.orderGuideInfo.guideID == null) {
                         return;
                     }
-                    GuideDetailActivity.Params guideDetailParams = new GuideDetailActivity.Params();
+                    GuideWebDetailActivity.Params guideDetailParams = new GuideWebDetailActivity.Params();
                     guideDetailParams.guideId = mOrderBean.orderGuideInfo.guideID;
-                    guideDetailParams.guideCarId = mOrderBean.orderGuideInfo.guideCarId;
-                    guideDetailParams.guideAgencyDriverId = mOrderBean.guideAgencyDriverId;
-                    guideDetailParams.isSelectedService = mOrderBean.guideAgencyType == 3;
+//                    guideDetailParams.guideCarId = mOrderBean.orderGuideInfo.guideCarId;
+//                    guideDetailParams.guideAgencyDriverId = mOrderBean.guideAgencyDriverId;
+//                    guideDetailParams.isSelectedService = mOrderBean.guideAgencyType == 3;
 
-                    intent = new Intent(v.getContext(), GuideDetailActivity.class);
+                    intent = new Intent(v.getContext(), GuideWebDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, guideDetailParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, "订单列表");
                     v.getContext().startActivity(intent);

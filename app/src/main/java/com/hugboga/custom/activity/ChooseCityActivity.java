@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,12 +66,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String KEY_SHOW_TYPE = "key_show_type";
     public static String KEY_FROM = "key_from";
     public static String KEY_FROM_TAG = "from_tag";
+    public static final String KEY_COUNTRY_ID = "key_country_id";
+    public static final String KEY_GROUP_ID = "key_group_id";
 
     public static final String PARAM_TYPE_START = "startAddress";
     public static final String KEY_BUSINESS_TYPE = "key_business_Type";
 
     public static final String GROUP_START = "group_start";     // 组合单开始城市
     public static final String GROUP_OUTTOWN = "group_outtown";     // 组合单开始城市
+    public static final String CITY_LIST = "city_list";
 
     @Bind(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;
@@ -78,6 +82,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     TextView emptyTV;
     @Bind(R.id.choose_city_empty_iv)
     ImageView emptyIV;
+    @Bind(R.id.choose_city_empty_service_tv)
+    TextView emptyServiceTV;
+
     @Bind(R.id.choose_city_listview)
     StickyListHeadersListView mListview;
     @Bind(R.id.choose_city_sidebar_firstletter)
@@ -123,7 +130,6 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private SharedPre sharedPer;
     private DbManager mDbManager;
     public String from = "startAddress";
-    public volatile int cityId = -1;
     public int showType = ShowType.PICK_UP;
     private DialogUtil mDialogUtil;
     private int mBusinessType;
@@ -132,6 +138,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private List<CityBean> hotCityList;
     private List<CityBean> historyList;
 
+    public volatile int cityId = -1;
+    public volatile int countryId = -1;
     public volatile int groupId = -1;
     public volatile String startCityName;
 
@@ -174,6 +182,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         public static final int GROUP_START = 0x0004;
 
         public static final int GROUP_OUTTOWN = 0x0005;
+
+        public static final int CITY_LIST = 0x0007;
 
     }
 
@@ -243,13 +253,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            cityId = bundle.getInt(KEY_CITY_ID, -1);
             from = bundle.getString(KEY_FROM);
             showType = bundle.getInt(KEY_SHOW_TYPE, ShowType.MULTIPLY);
             exceptCityId = (ArrayList<Integer>) bundle.getSerializable(KEY_CITY_EXCEPT_ID_LIST);
             source = bundle.getString("source");
             mBusinessType = bundle.getInt(KEY_BUSINESS_TYPE, -1);
             fromTag = bundle.getString(KEY_FROM_TAG);
+            cityId = bundle.getInt(KEY_CITY_ID, -1);
+            countryId = bundle.getInt(KEY_COUNTRY_ID, -1);
+            groupId = bundle.getInt(KEY_GROUP_ID, -1);
         }
 
         sideBar.setTextView((TextView) findViewById(R.id.choose_city_sidebar_firstletter));
@@ -278,18 +290,18 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
-        editSearch.setHint("想去哪里?");
+        editSearch.setHint("请输入城市名称");
         if ("startAddress".equals(from)) {
-            editSearch.setHint("想去哪里?");
+            editSearch.setHint("请输入城市名称");
         } else if ("end".equals(from)) {
             editSearch.setHint("请输入城市名称");
             tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
         } else if (showType == ShowType.SELECT_CITY) {
             editSearch.setHint("搜索途经城市");
         } else if (mBusinessType == Constants.BUSINESS_TYPE_RENT) {
-            editSearch.setHint("搜索用车城市");
+            editSearch.setHint("请输入城市名称");
         } else if ("lastCity".equals(from) || "nearby".equals(from)) {
-            editSearch.setHint("想去哪里?");
+            editSearch.setHint("请输入城市名称");
         }
 
         sharedPer = new SharedPre(this);
@@ -371,13 +383,35 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             sideBar.setVisibility(GONE);
             mListview.setAreHeadersSticky(false);
 
-            mAdapter.setShowType(ChooseCityAdapter.ShowType.SEARCH_PROMPT);
+            mAdapter.setSearchPrompt(true);
 
-            List<CityBean> dataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), false);
+            List<CityBean> dataList = null;
+            if (showType == ShowType.CITY_LIST) {
+                String sql = "";
+                if (countryId != -1) {
+                    sql = DatabaseManager.getCitysByPlaceIdSql(countryId, editSearch.getText().toString().trim(), false, false);
+                } else if (groupId != -1) {
+                    sql = DatabaseManager.getCitysByGroupIdSql(groupId, editSearch.getText().toString().trim(), false, false);
+                }
+                dataList = DatabaseManager.getCityBeanList(sql);
+            } else {
+                dataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), false);
+            }
             cityList.addAll(dataList);
 
             if (cityList.size() < 10) {
-                List<CityBean> moreDataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), true);
+                List<CityBean> moreDataList = null;
+                if (showType == ShowType.CITY_LIST) {
+                    String sql = "";
+                    if (countryId != -1) {
+                        sql = DatabaseManager.getCitysByPlaceIdSql(countryId, editSearch.getText().toString().trim(), true, false);
+                    } else if (groupId != -1) {
+                        sql = DatabaseManager.getCitysByGroupIdSql(groupId, editSearch.getText().toString().trim(), true, false);
+                    }
+                    moreDataList = DatabaseManager.getCityBeanList(sql);
+                } else {
+                    moreDataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), true);
+                }
                 if (moreDataList.size() > 0) {
                     if (cityList.size() <= 0) {
                         cityList.addAll(moreDataList);
@@ -394,21 +428,30 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         }
                     }
                 } else if (cityList.size() <= 0) {
+                    emptyTV.setVisibility(View.VISIBLE);
+                    emptyIV.setVisibility(View.VISIBLE);
                     if (mBusinessType == Constants.BUSINESS_TYPE_DAILY) {
                         if ("lastCity".equals(from) && s.toString().trim().equals(startCityName)) {
                             emptyTV.setText(getString(R.string.can_not_choose_start_city_text));
+                        } else if (GROUP_OUTTOWN.equalsIgnoreCase(from) ||GROUP_START.equalsIgnoreCase(from) ) {
+                            emptyTV.setText(getString(R.string.out_of_range_city_text2));
                         } else {
                             emptyTV.setText(getString(R.string.out_of_range_city_text));
                         }
+                    } else if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                        emptyTV.setText("很抱歉，没有找到您搜索的城市\n或者该城市暂未开通接机服务\n可联系客服，帮您查找");
+                        emptyServiceTV.setVisibility(View.VISIBLE);
+                        emptyServiceTV.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DialogUtil.showServiceDialog(ChooseCityActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+                            }
+                        });
                     }
                 }
             }
             mAdapter.setData(cityList);
             mListview.setSelection(0);
-            if (cityList == null || cityList.size() <= 0) {
-                emptyTV.setVisibility(View.VISIBLE);
-                emptyIV.setVisibility(View.VISIBLE);
-            }
         }
     }
 
@@ -482,6 +525,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 str = str.substring(0, str.length() - 1);
             cityHeadText.setText(str);
             mAdapter.notifyDataSetChanged();
+        } else if (showType == ShowType.CITY_LIST) {
+            CityListActivity.Params params = new CityListActivity.Params();
+            params.id = cityBean.cityId;
+            params.titleName = cityBean.name;
+            params.cityHomeType = CityListActivity.CityHomeType.CITY;
+            Intent intent = new Intent(this, CityListActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE, "热门城市页");
+            startActivity(intent);
         } else {//包车城市搜索
             saveHistoryDate(cityBean);
             bundle.putSerializable(KEY_CITY, cityBean);
@@ -538,7 +590,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
      * @param cityBean
      */
     public void saveHistoryDate(CityBean cityBean) {
-        if (GROUP_START.equals(from) || GROUP_OUTTOWN.equals(from)) {
+        if (GROUP_START.equals(from) || GROUP_OUTTOWN.equals(from) || CITY_LIST.equals(from)) {
             return;
         }
         if (cityHistory == null) cityHistory = new ArrayList<String>();
@@ -658,12 +710,21 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             switch (msg.what) {
                 case MessageType.ALL_CITY:
                     mDialogUtil.showLoadingDialog();
+                    mAdapter.setSearchPrompt(false);
                     if (showType == ShowType.PICK_UP) {
                         if (tabLayout.isInland()) {//国内城市
                             message.obj = DatabaseManager.getInlandCitySql();
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
                         } else {//国际港澳台
                             message.obj = DatabaseManager.getAbroadCitySql();
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
+                        }
+                    } else if (showType == ShowType.CITY_LIST) {
+                        if (countryId != -1) {
+                            message.obj = DatabaseManager.getCitysByPlaceIdSql(countryId);
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
+                        } else if (groupId != -1) {
+                            message.obj = DatabaseManager.getCitysByGroupIdSql(groupId);
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         }
                     } else {
@@ -675,16 +736,18 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                                 startCityName = cityBean.name;
                             }
                         }
-                        message.obj = DatabaseManager.getAllCitySql(mBusinessType, groupId, cityId, from);
+                        message.obj = DatabaseManager.getAllCitySql(mBusinessType, groupId, cityId, from, countryId);
                         if (showType == ShowType.SELECT_CITY) {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.SELECT_CITY);
+                        } else if (showType == ShowType.MULTIPLY && cityId <= 0) {
+                            mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         } else {
                             mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
                         }
                     }
                     if (showType != ShowType.SELECT_CITY) {
                         onPreExecuteHandler.sendEmptyMessage(MessageType.HOT_CITY);
-                        if (showType != ShowType.GROUP_START || showType != ShowType.GROUP_OUTTOWN) {
+                        if (showType != ShowType.GROUP_START && showType != ShowType.GROUP_OUTTOWN && showType != ShowType.CITY_LIST) {
                             onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
                             onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
                         }
@@ -699,13 +762,19 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         } else {//国际港澳台
                             message.obj = DatabaseManager.getAbroadHotCitySql();
                         }
+                    } else if (showType == ShowType.CITY_LIST) {
+                        if (countryId != -1) {
+                            message.obj = DatabaseManager.getCitysByPlaceIdSql(countryId, null, false, true);
+                        } else if (groupId != -1) {
+                            message.obj = DatabaseManager.getCitysByGroupIdSql(groupId, null, false, true);
+                        }
                     } else {
                         if("lastCity".equals(from) || GROUP_OUTTOWN.equals(from)){
                             message.obj =  CityUtils.requestHotDate(activity, groupId, cityId, from);
                             onPostExecuteHandler.sendMessage(message);
                             break;
                         }else{
-                            message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from);
+                            message.obj = DatabaseManager.getHotDateSql(mBusinessType, groupId, cityId, from, countryId);
                         }
                     }
                     mAsyncHandler.sendMessage(message);
@@ -772,15 +841,24 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MessageType.ALL_CITY:
+                    if (mDialogUtil != null) {
+                        mDialogUtil.dismissLoadingDialog();
+                    }
                     if (msg.obj == null) {
                         break;
                     }
                     cityList = (List<CityBean>) msg.obj;
-                    mAdapter.setData(cityList);
-                    mListview.setSelection(0);
-                    setSectionIndices();
-                    mDialogUtil.dismissLoadingDialog();
-                    emptyLayout.setVisibility(GONE);
+                    if (cityList.size() <= 0) {
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        emptyTV.setVisibility(View.VISIBLE);
+                        emptyIV.setVisibility(View.VISIBLE);
+                        emptyTV.setText("没有可更换的城市，驾车无法到达哦");
+                    } else {
+                        mAdapter.setData(cityList);
+                        mListview.setSelection(0);
+                        setSectionIndices();
+                        emptyLayout.setVisibility(View.GONE);
+                    }
                     break;
                 case MessageType.HOT_CITY:
                     if (msg.obj == null) {
@@ -811,6 +889,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             }
         }
     };
+
+
+
 
     /**
      * 按关键词搜索

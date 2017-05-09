@@ -22,6 +22,9 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
@@ -267,7 +270,12 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             startDesTV.setVisibility(View.VISIBLE);
             startDesTV.setText(orderBean.startAddressDetail);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(20));
+            int showWidth = UIUtils.getScreenWidth() - (getContext().getResources().getDimensionPixelOffset(R.dimen.order_padding_left) * 2 + UIUtils.dip2px(24) + UIUtils.dip2px(3));
+            int stringWidth = UIUtils.getStringWidth(startDesTV, orderBean.startAddressDetail);
+            int lines = (int)Math.ceil(stringWidth / showWidth);
+            int startDesViewWidth = UIUtils.dip2px(20) + lines * UIUtils.dip2px(10);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), startDesViewWidth);
             params.topMargin = UIUtils.dip2px(20);
             params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.travel_item_start_des_tv);
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -306,5 +314,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         Intent intent = new Intent(getContext(), DetailTravelListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, orderBean);
         getContext().startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.R_XINGCHENG, "订单详情");
     }
 }

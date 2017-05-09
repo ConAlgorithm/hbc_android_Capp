@@ -15,12 +15,12 @@
 
         <ProgressBar
             android:id="@+id/message_item_progress"
+            style="@android:style/Widget.ProgressBar.Small"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
-            android:indeterminate="true"
-            android:indeterminateDrawable="@drawable/ysf_progress_small_white" />
+            android:indeterminateDrawable="@drawable/ysf_progress_bar_grey" />
 
         <TextView
             android:id="@+id/ysf_translated_text"

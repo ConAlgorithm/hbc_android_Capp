@@ -106,7 +106,7 @@ public class SplashActivity extends BaseActivity {
             ImageView iv = new ImageView(this);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             iv.setLayoutParams(mParams);
-            iv.setBackgroundResource(pics[i]);
+            iv.setImageResource(pics[i]);
             views.add(iv);
         }
 

@@ -30,6 +30,7 @@ public class EvaluateListActivity extends BaseActivity{
     private String guideId;
     private String listCount;
     private EvaluateListAdapter adapter;
+    private int totalSize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class EvaluateListActivity extends BaseActivity{
         @Override
         public void onRefresh() {
             if (adapter != null) {
-                adapter = null;
+                adapter.setList(null);
             }
             loadData(0);
         }
@@ -95,7 +96,8 @@ public class EvaluateListActivity extends BaseActivity{
     ZListView.OnLoadListener onLoadListener = new ZListView.OnLoadListener() {
         @Override
         public void onLoad() {
-            if (adapter.getCount() > 0) {
+            int count = adapter.getCount();
+            if (count > 0 && count < totalSize) {
                 loadData(adapter == null ? 0 : adapter.getCount());
             }
         }
@@ -107,7 +109,8 @@ public class EvaluateListActivity extends BaseActivity{
         if (_request instanceof RequestCommentsList) {
             RequestCommentsList request = (RequestCommentsList) _request;
             CommentsListData data = request.getData();
-            fgTitle.setText(getString(R.string.evaluate_list_title, data.getListCount()));
+            totalSize = data.getListCount();
+            fgTitle.setText(getString(R.string.evaluate_list_title, "" + totalSize));
             List<EvaluateItemData> list = data.getListData();
             if (list != null) {
                 if (adapter == null) {
@@ -118,7 +121,7 @@ public class EvaluateListActivity extends BaseActivity{
                     adapter.addList(list);
                 }
             }
-            if (list != null && list.size() < Constants.DEFAULT_PAGESIZE) {
+            if (adapter.getCount() >= totalSize) {
                 listView.onLoadCompleteNone();
             } else {
                 listView.onLoadComplete();

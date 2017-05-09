@@ -98,7 +98,7 @@
         android:layout_margin="30dp"
         android:background="@drawable/textbox"
         android:gravity="top"
-        android:hint="其他意见或建议"
+        android:hint="您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦"
         android:minLines="6" />
 
     <Button

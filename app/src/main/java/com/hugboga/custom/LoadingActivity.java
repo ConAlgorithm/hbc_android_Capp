@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -28,6 +29,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ADPictureBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestADPicture;
+import com.hugboga.custom.data.request.RequestAccessKey;
+import com.hugboga.custom.data.request.RequestUpdateDeviceInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
@@ -67,7 +70,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     TextView timeSecond;
     private ErrorHandler errorHandler;
 
-    TextView bottom_txt;
+    ImageView bottom_txt;
     ImageView show_ad;
 
     private ActionBean actionBean;
@@ -159,7 +162,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
    public void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
-        bottom_txt = (TextView) findViewById(R.id.bottom_txt);
+        bottom_txt = (ImageView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);
 //        UpdateResources.checkLocalResource(this);
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
@@ -212,6 +215,10 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
         initView();
+        try {
+            requestKey(UserEntity.getUser().getAccessKey(this).isEmpty());
+        } catch (Exception e) {
+        }
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
@@ -239,7 +246,31 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         dialog.show();
     }
 
+    /**
+     * 请求获取AccessKey
+     */
+    private void requestKey(Boolean isEmpty) {
+        BaseRequest baseRequest = isEmpty ? new RequestAccessKey(this) : new RequestUpdateDeviceInfo(this);
+        HttpRequestUtils.request(this, baseRequest, new HttpRequestListener() {
 
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest _request) {
+                        if (_request instanceof RequestAccessKey) {
+                            UserSession.getUser().setAccessKey(LoadingActivity.this, (String) _request.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                    }
+        }, false);
+    }
 
     Handler handler = new Handler() {
         @Override

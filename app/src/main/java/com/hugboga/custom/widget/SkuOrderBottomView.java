@@ -1,19 +1,12 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,22 +17,20 @@ import butterknife.OnClick;
  */
 public class SkuOrderBottomView extends LinearLayout {
 
-    @Bind(R.id.sku_order_bottom_price_tv)
-    TextView priceTV;
     @Bind(R.id.sku_order_bottom_pay_tv)
     TextView payTV;
-    @Bind(R.id.sku_order_bottom_price_layout)
-    RelativeLayout priceLayout;
 
-    @Bind(R.id.sku_order_bottom_price_detail_arrow_iv)
-    ImageView arrowIV;
+    @Bind(R.id.sku_order_bottom_should_price_tv)
+    TextView shouldPriceTV;
+    @Bind(R.id.sku_order_bottom_total_price_tv)
+    TextView totalPriceTV;
+    @Bind(R.id.sku_order_bottom_discount_price_tv)
+    TextView discountPriceTV;
+
+    @Bind(R.id.sku_order_bottom_selected_guide_hint_tv)
+    TextView selectedGuideHintTV;
 
     public OnSubmitOrderListener listener;
-
-    private int shouldPrice;
-    private int discountPrice;
-
-    private OrderPricePopupLayout orderPricePopupLayout;
 
     public SkuOrderBottomView(Context context) {
         this(context, null);
@@ -52,20 +43,19 @@ public class SkuOrderBottomView extends LinearLayout {
         ButterKnife.bind(view);
     }
 
-    public void setOrderPricePopupLayout(OrderPricePopupLayout orderPricePopupLayout) {
-        this.orderPricePopupLayout = orderPricePopupLayout;
-    }
-
     public void updatePrice(int shouldPrice, int discountPrice) {
-        this.shouldPrice = shouldPrice;
-        this.discountPrice = discountPrice;
-        priceTV.setText(getContext().getString(R.string.sign_rmb) + shouldPrice);
-        orderPricePopupLayout.updatePriceItemView((shouldPrice + discountPrice), discountPrice, shouldPrice);
+        shouldPriceTV.setText(getContext().getString(R.string.sign_rmb) + shouldPrice);
+        totalPriceTV.setText(String.format("总额: ¥%1$s","" + (shouldPrice + discountPrice)));
+        if (discountPrice <= 0) {
+            discountPriceTV.setVisibility(View.GONE);
+        } else {
+            discountPriceTV.setVisibility(View.VISIBLE);
+            discountPriceTV.setText(String.format("已减: ¥%1$s","" + discountPrice));
+        }
     }
 
     @OnClick({R.id.sku_order_bottom_pay_tv})
     public void submitOrder(View view) {
-        dismissPopupWindow();
         if (listener != null) {
             listener.onSubmitOrder();
         }
@@ -79,26 +69,8 @@ public class SkuOrderBottomView extends LinearLayout {
         this.listener = listener;
     }
 
-    public void dismissPopupWindow() {
-        if (orderPricePopupLayout != null) {
-            orderPricePopupLayout.setVisibility(View.GONE);
-        }
-    }
-
-    @OnClick({R.id.sku_order_bottom_price_detail_layout})
-    public void onShowPricePopup() {
-        showPopupWindow((shouldPrice + discountPrice), discountPrice, shouldPrice);
-    }
-
-    public void showPopupWindow(int orderPrice, int discountPrice, int actualPay) {
-        if (orderPricePopupLayout.getVisibility() == View.VISIBLE) {
-            arrowIV.setBackgroundResource(R.mipmap.share_withdraw);
-            orderPricePopupLayout.setVisibility(View.GONE);
-            return;
-        } else {
-            arrowIV.setBackgroundResource(R.mipmap.share_unfold);
-        }
-        orderPricePopupLayout.showPopupWindow(orderPrice, discountPrice, actualPay);
+    public TextView getSelectedGuideHintTV() {
+        return selectedGuideHintTV;
     }
 
 }

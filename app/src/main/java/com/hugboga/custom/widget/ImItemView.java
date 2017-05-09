@@ -41,10 +41,6 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
     public TextView mTime;
     @Bind(R.id.letter_item_message)
     public TextView mMessage;
-    @Bind(R.id.letter_item_orders)
-    public LinearLayout mOrdersLayout;
-    @Bind(R.id.letter_item_listview)
-    public ChildListView mListView;
     @Bind(R.id.footer_service_unread)
     public View serviceUnread;
     @Bind(R.id.letter_item_service_icon_tv)
@@ -90,7 +86,6 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             } else {
                 mImage.setImageResource(R.mipmap.icon_avatar_guide);
             }
-            flushOrder( chatBean);
             flushPoint( chatBean);
         }
     }
@@ -120,21 +115,6 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             } else {
                 mUnReadCount.setVisibility(View.GONE);
             }
-        }
-    }
-
-    /**
-     * 刷新IM订单显示
-     */
-    private void flushOrder(ChatBean chatBean) {
-        List<ChatOrderBean> orders = chatBean.orderInfo;
-        if (orders != null && orders.size() > 0) {
-            mOrdersLayout.setVisibility(View.VISIBLE);
-            LetterOrderAdapter adapter = new LetterOrderAdapter(ImItemView.this.getContext());
-            adapter.setList(orders);
-            mListView.setAdapter(adapter);
-        } else {
-            mOrdersLayout.setVisibility(View.GONE);
         }
     }
 
