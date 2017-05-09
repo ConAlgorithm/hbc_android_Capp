@@ -799,6 +799,8 @@ public class SingleNewActivity extends BaseActivity {
     }
 
     DateTimePicker picker;
+    boolean isFirstEnter = true;
+    String nowDate = "";
     public void showYearMonthDayTimePicker() {
         final Calendar calendar = Calendar.getInstance();
         picker = new DateTimePicker(activity, DateTimePicker.YEAR_MONTH_DAY);
@@ -815,10 +817,16 @@ public class SingleNewActivity extends BaseActivity {
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                String tmpDate = year + "-" + month + "-" + day;
-                String startDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH);
+                String tmpDate = year + "-" + month + "-" + day + "-" + hour + "-" + minute;
+                String startDate = "";
+                if(isFirstEnter){
+                    nowDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.HOUR_OF_DAY) + "-"+calendar.get(Calendar.MINUTE);
+                    isFirstEnter =false;
+                }else{
+                    startDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.HOUR_OF_DAY) + "-"+calendar.get(Calendar.MINUTE);
+                }
 
-                if(DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(startDate))){
+                if(DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(nowDate))){
                     CommonUtils.showToast("不能选择今天之前的时间");
                     return;
                 }
