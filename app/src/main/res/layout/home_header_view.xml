@@ -89,7 +89,7 @@
                     android:layout_alignBottom="@id/place_ammount_text"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
-                    android:src="@mipmap/home_icon_play" />
+                    android:src="@mipmap/home_novice" />
             </RelativeLayout>
 
             <!-- header 选择框 -->
