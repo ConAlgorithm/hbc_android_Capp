@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true">
+    <!--<item android:state_pressed="true">
         <shape>
             <solid android:color="#33000000"></solid>
             <stroke android:width="1dp" android:color="#ffc100"></stroke>
             <corners android:radius="20dp" />
         </shape>
-    </item>
+    </item>-->
     <item>
         <shape>
-            <solid android:color="#ffffff"></solid>
+            <solid android:color="@android:color/transparent"></solid>
             <stroke android:width="1dp" android:color="#ffc100"></stroke>
-            <corners android:radius="20dp" />
+            <corners android:radius="3dp" />
         </shape>
     </item>
 
