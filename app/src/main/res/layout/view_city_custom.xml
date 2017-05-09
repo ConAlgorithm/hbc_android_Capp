@@ -103,7 +103,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/home_chater_title"
-                    android:layout_marginRight="20dp"
                     android:layout_marginTop="6dp"
                     android:drawableRight="@mipmap/order_choice_bottom_arrow"
                     android:text="中文包车接送机"

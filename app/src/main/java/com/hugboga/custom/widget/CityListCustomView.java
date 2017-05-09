@@ -18,6 +18,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -155,6 +156,10 @@ public class CityListCustomView extends LinearLayout {
             }
             if (pickOrSendIsCanService && singleCanService) {
                 bottomVerticalLine.setVisibility(View.VISIBLE);
+                LinearLayout.LayoutParams lp = (LayoutParams) picksendTV.getLayoutParams();
+                lp.setMargins(0,UIUtils.dip2px(6),UIUtils.dip2px(20),0);
+                picksendTV.setLayoutParams(lp);
+
             } else {
                 bottomVerticalLine.setVisibility(View.GONE);
             }
