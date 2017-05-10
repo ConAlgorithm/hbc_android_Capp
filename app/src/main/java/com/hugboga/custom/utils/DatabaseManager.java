@@ -230,7 +230,7 @@ public final class DatabaseManager {
     }
 
     public static String getCitysByPlaceIdSql(int place_id, String _keyword, boolean isNeedMore, boolean ishot) {
-        String sql = "select * from city where place_id=%1$s %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by is_hot, hot_weight desc";
+        String sql = "select * from city where place_id=%1$s %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by %4$s";
         String keywordSql = "";
         if (!TextUtils.isEmpty(_keyword)) {
             if (isNeedMore) {
@@ -243,7 +243,13 @@ public final class DatabaseManager {
         if (ishot) {
             hotCitySql = "and is_hot=1";
         }
-        return String.format(sql, place_id, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql);
+
+        String sortSql = "initial asc";
+        if (ishot) {
+            sortSql = "hot_weight desc";
+        }
+
+        return String.format(sql, place_id, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql, sortSql);
     }
 
     public static String getCitysByGroupIdSql(int place_id) {
@@ -267,8 +273,13 @@ public final class DatabaseManager {
                 hotCitySql = "and is_hot=1";
             }
 
+            String sortSql = "initial asc";
+            if (ishot) {
+                sortSql = "hot_weight desc";
+            }
+
             sqlinfo.setSql(String.format("select * from line_group where group_id=%1$s", place_id));
-            String sql = "select * from city where (%1$s) %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by is_hot desc, hot_weight desc;";
+            String sql = "select * from city where (%1$s) %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by %4$s;";
             try {
                 List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
                 if (modelList != null && modelList.size() > 0) {
@@ -288,7 +299,7 @@ public final class DatabaseManager {
                             } else {
                                 return null;
                             }
-                            return String.format(sql, params, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql);
+                            return String.format(sql, params, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql, sortSql);
                         }
                     }
                 }
