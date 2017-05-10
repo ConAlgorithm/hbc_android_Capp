@@ -93,7 +93,7 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
             avatarHead.setVisibility(View.GONE);
         } else {
             SkuItemBean skuItemBean = hotExplorations.get(position);
-            Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
+            Tools.showImageNotCenterCrop(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
             customCount.setText(skuItemBean.saleAmount + "人已体验");
             bottomTitle.setText(skuItemBean.goodsName);
             guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
