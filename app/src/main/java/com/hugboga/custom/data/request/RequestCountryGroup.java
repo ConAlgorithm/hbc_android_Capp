@@ -45,6 +45,7 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
     public String getHotCityId(int id, int type) {
 
         ArrayMap<Integer, CityBean> arrayMap = new ArrayMap<>();
+        ArrayList<Integer> cityIdList = new ArrayList<>();
         try {
             String hotCitySql = "";
             if (type == 1) {
@@ -57,6 +58,7 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
             for (int i = 0; i < hotCityListSize; i++) {
                 CityBean cityBean = hotCityList.get(i);
                 arrayMap.put(cityBean.cityId, cityBean);
+                cityIdList.add(cityBean.cityId);
             }
             if (hotCityListSize < MAX_CITY_COUNT) {
                 String citySql = "";
@@ -71,6 +73,7 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
                     CityBean cityBean = allCityList.get(i);
                     if (!arrayMap.containsKey(cityBean.cityId)) {
                         arrayMap.put(cityBean.cityId, cityBean);
+                        cityIdList.add(cityBean.cityId);
                     }
                 }
             }
@@ -78,15 +81,13 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
             e.printStackTrace();
         }
 
-        int mapSize = arrayMap.size();
-        int i = 0;
+        int size = cityIdList.size();
         String result = "";
-        for (Integer key : arrayMap.keySet()) {
-            result += key;
-            if (i != mapSize - 1) {
+        for (int i = 0; i < size; i++) {
+            result += cityIdList.get(i);
+            if (i != size - 1) {
                 result += ",";
             }
-            i++;
         }
         return result;
     }
