@@ -1,5 +1,6 @@
 package com.hugboga.custom.utils;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -288,24 +289,26 @@ public class PushUtils {
 
     public static void requestPushToken(final Integer isSuccess, final String pushToken, final String regId, final String desc) {
         Context context = MyApplication.getAppContext();
-        RequestPushToken request = new RequestPushToken(context, pushToken, BuildConfig.VERSION_NAME,
-                PhoneInfo.getIMEI(context), PhoneInfo.getSoftwareVersion(context), isSuccess, regId, desc);
-        HttpRequestUtils.request(context, request, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
+        if(UnicornUtils.isGranted(Manifest.permission.READ_PHONE_STATE,context)){
+            RequestPushToken request = new RequestPushToken(context, pushToken, BuildConfig.VERSION_NAME,
+                    PhoneInfo.getIMEI(context), PhoneInfo.getSoftwareVersion(context), isSuccess, regId, desc);
+            HttpRequestUtils.request(context, request, new HttpRequestListener() {
+                @Override
+                public void onDataRequestSucceed(BaseRequest request) {
 
-            }
+                }
 
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
+                @Override
+                public void onDataRequestCancel(BaseRequest request) {
 
-            }
+                }
 
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                @Override
+                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
 
-            }
-        }, false);
+                }
+            }, false);
+        }
     }
 
     /**
