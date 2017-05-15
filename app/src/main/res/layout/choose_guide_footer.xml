@@ -14,5 +14,9 @@
         android:textColor="@color/basic_black"
         android:text="@string/choose_guide_footer"
         android:layout_height="wrap_content" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:layout_marginTop="2dp"
+        android:background="@color/default_dividing_line" />
 </LinearLayout>

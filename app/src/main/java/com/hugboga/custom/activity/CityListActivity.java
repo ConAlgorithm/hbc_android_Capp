@@ -25,6 +25,7 @@ import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
+import com.hugboga.custom.widget.GiftController;
 
 import java.io.Serializable;
 
@@ -90,6 +91,18 @@ public class CityListActivity extends BaseActivity{
         if (paramsData != null) {
             outState.putSerializable(Constants.PARAMS_DATA, paramsData);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GiftController.getInstance(this).showGiftDialog();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GiftController.getInstance(this).abortion();
     }
 
     protected void initTitleBar() {

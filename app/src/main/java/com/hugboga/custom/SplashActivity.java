@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity {
             ImageView iv = new ImageView(this);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             iv.setLayoutParams(mParams);
-            iv.setBackgroundResource(pics[i]);
+            iv.setImageResource(pics[i]);
             views.add(iv);
         }
 
@@ -123,8 +123,8 @@ public class SplashActivity extends BaseActivity {
         AdPageAdapter aAdapter = new AdPageAdapter(views);
         viewPager.setAdapter(aAdapter);
 
-        mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
-        mIndicator.setViewPager(viewPager);
+        //mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        //mIndicator.setViewPager(viewPager);
 
         enter = (TextView)findViewById(R.id.enter);
         enter.setOnClickListener(new View.OnClickListener() {

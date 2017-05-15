@@ -73,6 +73,33 @@ public class Tools {
     }
 
 
+    public static void showImageNotCenterCrop(final ImageView imageView, String url, final int resId) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+//        imageView.setBackgroundResource(resId);
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .error(resId)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                        if (imageView != null && resId != 0) {
+//                            imageView.setBackgroundResource(0);
+                        imageView.setImageResource(resId);
+//                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        imageView.setBackgroundResource(0);
+                        return false;
+                    }
+                })
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
     public static void showImageHasPlaceHolder(final ImageView imageView, String url, final int placeHolderResId) {
         if (TextUtils.isEmpty(url)) {
             return;

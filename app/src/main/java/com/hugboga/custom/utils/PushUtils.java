@@ -1,5 +1,6 @@
 package com.hugboga.custom.utils;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,12 +19,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PushMessage;
-import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.widget.ZVersionDialog;
 
 import org.xutils.common.Callback;
@@ -36,6 +42,8 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.concurrent.Executor;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ZHZEPHI on 2015/7/30.
@@ -110,8 +118,6 @@ public class PushUtils {
 
     /**
      * 进行通知栏显示
-     * @param context
-     * @param pushMessage
      */
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static void showNotification(PushMessage pushMessage) {
@@ -279,5 +285,93 @@ public class PushUtils {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
         activity.startActivity(i);
+    }
+
+    public static void requestPushToken(final Integer isSuccess, final String pushToken, final String regId, final String desc) {
+        Context context = MyApplication.getAppContext();
+        if(UnicornUtils.isGranted(Manifest.permission.READ_PHONE_STATE,context)){
+            RequestPushToken request = new RequestPushToken(context, pushToken, BuildConfig.VERSION_NAME,
+                    PhoneInfo.getIMEI(context), PhoneInfo.getSoftwareVersion(context), isSuccess, regId, desc);
+            HttpRequestUtils.request(context, request, new HttpRequestListener() {
+                @Override
+                public void onDataRequestSucceed(BaseRequest request) {
+
+                }
+
+                @Override
+                public void onDataRequestCancel(BaseRequest request) {
+
+                }
+
+                @Override
+                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+
+                }
+            }, false);
+        }
+    }
+
+    /**
+     * 上报极光注册结果
+     */
+    public static void uploadPushRegister(String regId) {
+        Integer isSuccess = 0; //失败
+        String desc = ""; //描述
+        if (!TextUtils.isEmpty(regId)) {
+            isSuccess = 1;
+            desc = "极光注册成功";
+        } else {
+            isSuccess = 0;
+            desc = "极光注册失败";
+        }
+        requestPushToken(isSuccess, "", regId, desc);
+    }
+
+    /**
+     * 上报小米注册结果
+     */
+    public static void uploadMiPushRegister(String regId) {
+        Integer isSuccess = 0; //失败
+        String desc = ""; //描述
+        if (!TextUtils.isEmpty(regId)) {
+            isSuccess = 1;
+            desc = "MiPush注册成功";
+        } else {
+            isSuccess = 0;
+            desc = "MiPush注册失败";
+        }
+        requestPushToken(isSuccess, "", regId, desc);
+    }
+
+    /**
+     * 上报设置极光别名结果
+     */
+    public static void uploadPushAlias(int code, String alias) {
+        Integer isSuccess = 0; //失败
+        String desc = ""; //描述
+        if (code == 0) {
+            isSuccess = 1;
+            desc = "极光设置别名成功";
+        } else {
+            isSuccess = 0;
+            desc = "极光设置别名失败,错误码为" + code;
+        }
+        requestPushToken(isSuccess, alias, JPushInterface.getRegistrationID(MyApplication.getAppContext()), desc);
+    }
+
+    /**
+     * 上报设置MiPush别名结果
+     */
+    public static void uploadMiPushAlias(int code, String alias) {
+        Integer isSuccess = 0; //失败
+        String desc = ""; //描述
+        if (code == 0) {
+            isSuccess = 1;
+            desc = "MiPush设置别名成功";
+        } else {
+            isSuccess = 0;
+            desc = "MiPush设置别名失败,错误码为" + code;
+        }
+        requestPushToken(isSuccess, alias, JPushInterface.getRegistrationID(MyApplication.getAppContext()), desc);
     }
 }

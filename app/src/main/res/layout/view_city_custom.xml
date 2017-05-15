@@ -61,7 +61,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_below="@id/city_custom_charter_title_tv"
                 android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                android:text="中文司机兼导游服务，定制每天专属行程"
+                android:text="中文司机兼导游 带你畅游专属行程"
                 android:textColor="@color/common_font_color_gray"
                 android:textSize="12sp" />
 
@@ -103,7 +103,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/home_chater_title"
-                    android:layout_marginRight="20dp"
                     android:layout_marginTop="6dp"
                     android:drawableRight="@mipmap/order_choice_bottom_arrow"
                     android:text="中文包车接送机"

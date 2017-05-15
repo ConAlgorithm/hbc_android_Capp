@@ -55,7 +55,9 @@ public class CityListAdapter extends EpoxyAdapter {
         if (countryGroupBean.hotCities != null && countryGroupBean.hotCities.size() > 0) {
             addModel(new HotCityModel(countryGroupBean.getHotCityList()));
         }
-        addModel(new CityListCustomModel());
+        CityListCustomModel cityListCustom = new CityListCustomModel();
+        cityListCustom.setData(countryGroupBean);
+        addModel(cityListCustom);
         addCityListHotModel(countryGroupBean.shortLines, CityListHotView.TYPE_SHORT);
         addCityListHotModel(countryGroupBean.deepLines, CityListHotView.TYPE_DEEP);
     }

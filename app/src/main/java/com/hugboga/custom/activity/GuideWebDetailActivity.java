@@ -26,6 +26,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CanServiceGuideBean;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -57,8 +58,7 @@ import javax.net.ssl.SSLHandshakeException;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class
-GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
+public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
     public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
 
@@ -83,8 +83,9 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
     public static class Params implements Serializable {
         public String guideId;
-        public boolean canService = true;
-        public boolean canCollect = true;
+        public boolean isChooseGuide = false;
+        public String orderNo;
+        public CanServiceGuideBean.GuidesBean chooseGuide;
     }
 
     @Override
@@ -132,14 +133,19 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                loadUrl();
-                sendRequest();
+                if (!paramsData.isChooseGuide) {
+                    sendRequest();
+                }
                 break;
             case SHOW_GUIDE_DETAIL_BAR:
                 int isShow = (int) action.getData();
                 if (isShow == 1) {
                     titlebar.setVisibility(View.VISIBLE);
-                    bottomView.setVisibility(View.VISIBLE);
+                    if (UserEntity.getUser().isLogin(this)) {
+                        bottomView.setVisibility(View.VISIBLE);
+                    } else {
+                        bottomView.setVisibility(View.GONE);
+                    }
                 } else {
                     titlebar.setVisibility(View.GONE);
                     bottomView.setVisibility(View.GONE);
@@ -149,16 +155,7 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
     }
 
     public void initView() {
-        titleTV.setText("精选司导");
-        if (paramsData.canCollect) {
-            shareIV.setEnabled(false);
-            collectIV.setEnabled(false);
-            shareIV.setVisibility(View.VISIBLE);
-            collectIV.setVisibility(View.VISIBLE);
-        } else {
-            shareIV.setVisibility(View.GONE);
-            collectIV.setVisibility(View.GONE);
-        }
+        titleTV.setText("");
 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
@@ -178,19 +175,30 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
         loadUrl();
 
+        if (paramsData.isChooseGuide) {
+            shareIV.setVisibility(View.GONE);
+            collectIV.setVisibility(View.GONE);
+            bottomView.showChooseGuideView(paramsData);
+        } else {
+            shareIV.setEnabled(false);
+            collectIV.setEnabled(false);
+            shareIV.setVisibility(View.VISIBLE);
+            collectIV.setVisibility(View.VISIBLE);
+        }
         sendRequest();
     }
 
-    public String loadUrl() {
-        String isCanService = "0";
-        if (UserEntity.getUser().isLogin(this)) {
-            isCanService = paramsData.canService ? "1" : "0";
-        }
+    public String getLoadUrl() {
+        String isCanService = !paramsData.isChooseGuide ? "1" : "0";
         String url = UrlLibs.H5_GUIDE_DETAIL + "guideId=" + paramsData.guideId + "&canService=" + isCanService;
+        return url;
+    }
+
+    public void loadUrl() {
+        String url = getLoadUrl();
         if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
         }
-        return url;
     }
 
     @Override
@@ -306,17 +314,20 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestGuideExtinfo) {
             guideExtinfoBean = ((RequestGuideExtinfo) _request).getData();
-            if (paramsData.canService) {
-                bottomView.update(guideExtinfoBean);
-            } else {
-                bottomView.setVisibility(View.GONE);
+            titleTV.setText(guideExtinfoBean.guideName);
+            if (paramsData.isChooseGuide) {
+                return;
             }
             shareIV.setEnabled(true);
             collectIV.setEnabled(true);
-            if (guideExtinfoBean.isCollected != null) {
-                collectIV.setSelected(guideExtinfoBean.isCollected == 1);
+            if (UserEntity.getUser().isLogin(this)) {
+                bottomView.update(guideExtinfoBean);
+                if (guideExtinfoBean.isCollected != null) {
+                    collectIV.setSelected(guideExtinfoBean.isCollected == 1);
+                }
+            } else {
+                bottomView.setVisibility(View.GONE);
             }
-            bottomView.setVisibility(View.VISIBLE);
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;
             collectIV.setSelected(false);
@@ -358,7 +369,7 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
         }
         String title = String.format("去%1$s，推荐你找当地华人司导%2$s开车带你玩！", guideExtinfoBean.cityName, guideExtinfoBean.guideName);
         String desc = TextUtils.isEmpty(guideExtinfoBean.homeDesc) ? "我可以为您规划行程、陪同翻译和向导，让您舒舒服服坐车玩！" : guideExtinfoBean.homeDesc;
-        CommonUtils.shareDialog(this, guideExtinfoBean.avatarUrl, title, desc, loadUrl(),
+        CommonUtils.shareDialog(this, guideExtinfoBean.avatarUrl, title, desc, getLoadUrl(),
                 GuideWebDetailActivity.class.getSimpleName(),
                 new ShareDialog.OnShareListener() {
                     @Override
@@ -366,6 +377,16 @@ GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
                         StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
                     }
                 });
+    }
+
+    @Override
+    public String getEventSource() {
+        return "司导个人页";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_GPROFILE;
     }
 
 }

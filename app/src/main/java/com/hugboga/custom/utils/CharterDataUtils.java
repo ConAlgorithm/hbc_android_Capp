@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -39,6 +40,7 @@ public class CharterDataUtils {
 
     public GuidesDetailData guidesDetailData;                   // 指定司导的信息
     public ArrayList<GuideCropBean> guideCropList;              // 司导可服务城市
+    public RequestCheckGuide.CheckGuideBeanList checkGuideBeanList;// 校验司导可服务性所需数据
 
     public FlightBean flightBean;                               // 接机：航班信息
     public PoiBean pickUpPoiBean;                               // 接机：送达地
@@ -307,12 +309,15 @@ public class CharterDataUtils {
         return true;
     }
 
-    public String getStartServiceTime() {
+    public String getStartServiceTime(String serverTime) {
         String result = "";
         if (isSelectedPickUp && flightBean != null) {
             result = chooseDateBean.start_date + " " + flightBean.arrivalTime + ":00";
         } else {
             result = chooseDateBean.start_date + " " + CombinationOrderActivity.SERVER_TIME;
+        }
+        if (!TextUtils.isEmpty(serverTime)) {
+            result = chooseDateBean.start_date + " " + serverTime + ":00";
         }
         return result;
     }
@@ -363,6 +368,7 @@ public class CharterDataUtils {
     public void cleanGuidesDate() {
         guidesDetailData = null;
         guideCropList = null;
+        checkGuideBeanList = null;
     }
 
     public void cleanDayDate(int day) {

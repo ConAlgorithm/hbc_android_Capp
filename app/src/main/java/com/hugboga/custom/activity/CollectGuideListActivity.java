@@ -137,6 +137,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         params.guideId = filterGuideBean.guideId;
         Intent intent = new Intent(CollectGuideListActivity.this, GuideWebDetailActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
     }

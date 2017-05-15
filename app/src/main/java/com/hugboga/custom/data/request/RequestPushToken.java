@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
@@ -19,15 +20,21 @@ import java.util.TreeMap;
 @HttpRequest(path = UrlLibs.SERVER_IP_PUSH_TOKEN ,builder = NewParamsBuilder.class)
 public class RequestPushToken extends BaseRequest {
 
-    public RequestPushToken(Context context,String pushToken,String realToken,String appVersion,String deviceId,String osVersion) {
+    public RequestPushToken(Context context,String pushToken,String appVersion
+            ,String deviceId,String osVersion,Integer isSuccess, String regId, String desc) {
         super(context);
         map = new TreeMap();
         map.put("pushToken",pushToken);
-        map.put("realToken",realToken);
         map.put("os","1");//android
         map.put("appVersion",appVersion);
         map.put("deviceId",deviceId);
         map.put("osVersion",osVersion);
+        if (UserEntity.getUser().isLogin(context)) {
+            map.put("id",UserEntity.getUser().getUserId(context));
+        }
+        map.put("success",isSuccess);//是否注册成功，1-成功，0-失败
+        map.put("regId",regId);//极光、小米或信鸽返回的标识ID
+        map.put("desc",desc);//注册失败的描述，错误码等
     }
 
     @Override

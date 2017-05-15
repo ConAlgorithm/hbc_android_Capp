@@ -675,6 +675,9 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (!CommonUtils.isLogin(mActivity)) {
+                    return;
+                }
                 GuideOrderWebParamsBean data = JsonUtils.getObject(param, GuideOrderWebParamsBean.class);
                 if (data == null) {
                     return;
@@ -684,17 +687,20 @@ public class WebAgent implements HttpRequestListener {
                 collectBean.name = data.guideName;
                 collectBean.cityName = data.guideCityName;
                 collectBean.isQuality = data.isQuality;
+                collectBean.cityId = CommonUtils.getCountInteger(data.guideCityId);
                 Intent intent = null;
                 switch (data.orderType) {
                     case 1://1：接送机
                         intent = new Intent(mActivity, PickSendActivity.class);
                         intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;
                     case 2://2：单次接送
                         intent = new Intent(mActivity, SingleNewActivity.class);
                         intent.putExtra("collectGuideBean", collectBean);
+                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;

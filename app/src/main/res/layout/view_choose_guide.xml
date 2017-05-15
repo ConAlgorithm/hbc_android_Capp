@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <View
         android:layout_width="match_parent"
@@ -20,8 +21,9 @@
         android:id="@+id/view_guide_item_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="17dp">
+        android:paddingLeft="30dp"
+        android:paddingRight="17dp"
+        >
 
         <TextView
             android:id="@+id/view_guide_item_choose_tv"
@@ -32,8 +34,8 @@
             android:background="@drawable/shape_rounded_yellow_btn"
             android:gravity="center_vertical"
             android:paddingBottom="3dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:paddingTop="3dp"
             android:text="选TA服务"
             android:textColor="#ffffff"
@@ -43,10 +45,12 @@
             android:id="@+id/view_guide_item_car_desc_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/view_guide_item_choose_tv"
             android:singleLine="true"
             android:ellipsize="end"
+            android:textColor="@color/default_black"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:textSize="12sp" />

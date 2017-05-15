@@ -90,7 +90,11 @@ public class HotCityView extends LinearLayout implements HbcViewBehavior{
                     Intent intent = new Intent(getContext(), ChooseCityActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, cityListActivity.getEventSource());
                     intent.putExtra(ChooseCityActivity.KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
-                    intent.putExtra(ChooseCityActivity.KEY_COUNTRY_ID, cityListActivity.paramsData.id);
+                    if (cityListActivity.paramsData.cityHomeType == CityListActivity.CityHomeType.ROUTE) {
+                        intent.putExtra(ChooseCityActivity.KEY_GROUP_ID, cityListActivity.paramsData.id);
+                    } else if (cityListActivity.paramsData.cityHomeType == CityListActivity.CityHomeType.COUNTRY) {
+                        intent.putExtra(ChooseCityActivity.KEY_COUNTRY_ID, cityListActivity.paramsData.id);
+                    }
                     intent.putExtra(ChooseCityActivity.KEY_FROM, ChooseCityActivity.CITY_LIST);
                     intent.putExtra(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.CITY_LIST);
                     getContext().startActivity(intent);

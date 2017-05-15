@@ -75,7 +75,7 @@ public class CollectGuideItemView extends RelativeLayout implements HbcViewBehav
     public void update(Object _data) {
         FilterGuideBean data = (FilterGuideBean) _data;
         serviceTypeTV.getLayoutParams().width = UIUtils.getScreenWidth();
-        Tools.showImage(avatarIV, data.avatar, R.mipmap.icon_avatar_guide);
+        Tools.showImage(avatarIV, data.guideAvatarUrl, R.mipmap.icon_avatar_guide);
 
         nameTV.setText(data.guideName);
 

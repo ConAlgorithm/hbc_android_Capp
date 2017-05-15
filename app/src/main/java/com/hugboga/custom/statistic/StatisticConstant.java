@@ -180,6 +180,8 @@ public class StatisticConstant {
     public static final String CLICK_TRAVELFOUND_SY = "05_click_travelfound_sy";  // 首页点击旅行基金
     public static final String CLICK_TRAVELFOUND_WD = "05_click_travelfound_wd";  // 个人中心点击旅行基金
     public static final String CLICK_TRAVELFOUND_XC = "05_click_travelfound_xc";  // 行程点击旅行基金（送你30元+更多）
+    public static final String LAUNCH_GLIST = "07_launch_Glist";                  // 显示司导列表页
+    public static final String CLICK_CHATG = "07_click_chatG";                    // 点击联系司导
 
     public static final String LAUNCH_KANJIA = "06_launch_kanjia";                // 展示砍价活动
     public static final String CLICK_KANJIA = "06_click_kanjia";                  // 点击砍价

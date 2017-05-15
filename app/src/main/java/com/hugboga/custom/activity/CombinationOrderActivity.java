@@ -33,10 +33,10 @@ import com.hugboga.custom.data.bean.combination.GroupParamBuilder;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestBatchPrice;
 import com.hugboga.custom.data.request.RequestCancleTips;
-import com.hugboga.custom.data.request.RequestCars;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestDeduction;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestMostFit;
+import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestOrderGroup;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -647,12 +647,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
 
     private void getGuideCars() {
-        RequestCars requestCars = new RequestCars(this, charterDataUtils.guidesDetailData.guideId, null, 20, 0);
+        RequestNewCars requestCars = new RequestNewCars(this, 1, charterDataUtils.guidesDetailData.guideId, null, 20, 0);
         HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
-                guideCarBeanList = ((RequestCars)request).getData();
+                guideCarBeanList = ((RequestNewCars)request).getData();
                 if (charterDataUtils.guidesDetailData == null || guideCarBeanList == null) {
                     return;
                 }
@@ -668,37 +668,38 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+                checkDataIsEmpty(null);
+                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
             }
-        },true);
+        }, true);
     }
 
     private void checkGuideCoflict() {
-        OrderUtils.checkGuideCoflict(this, 3, charterDataUtils.getStartCityBean(1).cityId,
-                charterDataUtils.guidesDetailData.guideId, charterDataUtils.getStartServiceTime(),
-                charterDataUtils.getEndServiceTime(), charterDataUtils.getPassCitiesId(),
-                charterDataUtils.chooseDateBean.dayNums, carBean.carType, carBean.carSeat, carBean.special, carBean.carId,
-                new HttpRequestListener() {
-                    @Override
-                    public void onDataRequestSucceed(BaseRequest request) {
-                        RequestGuideConflict mRequest = (RequestGuideConflict) request;
-                        List<String> guideList = mRequest.getData();
-                        if (guideList.size() == 0) {
-                            checkDataIsEmpty(null);
-                        } else {
-                            onSubmit();
-                        }
-                    }
+        RequestCheckGuide.CheckGuideBeanList checkGuideBeanList = charterDataUtils.checkGuideBeanList;
+        if (checkGuideBeanList == null || checkGuideBeanList.guideCheckInfos == null || checkGuideBeanList.guideCheckInfos.size() <= 0) {
+            onSubmit();
+            return;
+        }
+        String serverTime = travelerInfoView.getTravelerInfoBean() != null ? travelerInfoView.getTravelerInfoBean().serverTime : "";
+        checkGuideBeanList.updateFirstDayServiceTime(charterDataUtils.getStartServiceTime(serverTime));
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBeanList);
 
-                    @Override
-                    public void onDataRequestCancel(BaseRequest request) {
-                        System.out.print(request);
-                    }
+        HttpRequestUtils.request(this, requestCheckGuide, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                onSubmit();
+            }
 
-                    @Override
-                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                        System.out.print(request);
-                    }
-                });
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
+            }
+        }, true);
     }
 }

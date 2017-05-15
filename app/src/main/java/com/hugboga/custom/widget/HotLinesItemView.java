@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
@@ -64,9 +65,9 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior{
     public void update(Object _data) {
         final SkuItemBean skuItemBean = (SkuItemBean) _data;
         Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-        customCount.setText(skuItemBean.guideAmount + "位中文司导可服务");
+        customCount.setText(skuItemBean.transactionVolumes + "人已体验");
         bottomTitle.setText(skuItemBean.goodsName);
-        guideCountView.setText(skuItemBean.transactionVolumes + "人已体验");
+        guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
 
         String price = "￥" + skuItemBean.perPrice;
         String count = "/人起";
@@ -85,10 +86,35 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior{
                 intent.putExtra("goodtype",skuItemBean.goodsType);
                 intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
                 intent.putExtra("type", 1);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
+                String source = "首页";
+                if (v.getContext() instanceof CityListActivity) {
+                    CityListActivity cityListActivity = (CityListActivity) v.getContext();
+                    CityListActivity.Params paramsData = cityListActivity.paramsData;
+                    if (paramsData != null) {
+                        switch (paramsData.cityHomeType) {
+                            case CITY:
+                                source = "城市页";
+                                break;
+                            case ROUTE:
+                                source = "国家页";
+                                break;
+                            case COUNTRY:
+                                source = "线路圈页";
+                                break;
+                        }
+                    }
+                }
+                intent.putExtra(Constants.PARAMS_SOURCE, source);
+                if (skuItemBean.goodsClass == 1) {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, source);
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, source);
+                } else {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, source);
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, source);
+                }
                 v.getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
+
+
             }
         });
     }

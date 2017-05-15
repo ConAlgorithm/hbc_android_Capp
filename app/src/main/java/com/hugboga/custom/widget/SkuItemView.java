@@ -66,9 +66,9 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior{
     public void update(Object _data) {
         final SkuItemBean skuItemBean = (SkuItemBean) _data;
         Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-        customCount.setText(skuItemBean.guideAmount + "位中文司导可服务");
+        customCount.setText(skuItemBean.transactionVolumes + "人已体验");
         bottomTitle.setText(skuItemBean.goodsName);
-        guideCountView.setText(skuItemBean.transactionVolumes + "人已体验");
+        guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
 
         String price = "￥" + skuItemBean.perPrice;
         String count = "/人起";
@@ -87,10 +87,15 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior{
                 intent.putExtra("goodtype",skuItemBean.goodsType);
                 intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
                 intent.putExtra("type", 1);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
+                intent.putExtra(Constants.PARAMS_SOURCE, "商品列表页");
                 v.getContext().startActivity(intent);
-                StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
+                if (skuItemBean.goodsClass == 1) {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "商品列表页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, "商品列表页");
+                } else {
+                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "商品列表页");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, "商品列表页");
+                }
             }
         });
     }

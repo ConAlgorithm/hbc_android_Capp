@@ -448,27 +448,12 @@ public class SingleNewActivity extends BaseActivity {
 
             case CHOOSE_START_CITY_BACK://选择城市返回
                 cityBean =  (CityBean)action.getData();
-                useCityTips.setText(cityBean.name);
-                startBean = null;
-                arrivalBean = null;
-                startTips.setVisibility(View.VISIBLE);
-                startTitle.setVisibility(GONE);
-                startDetail.setVisibility(GONE);
-                startTitle.setText("");
-                startDetail.setText("");
-
-                endTips.setVisibility(View.VISIBLE);
-                endTitle.setVisibility(GONE);
-                endDetail.setVisibility(GONE);
-                endTitle.setText("");
-                endDetail.setText("");
-
-                bottom.setVisibility(GONE);
-                if (null == collectGuideBean) {
-                    showCarsLayoutSingle.setVisibility(GONE);
-                }
-                timeText.setText("");
-
+                chooseCityBack(cityBean);
+                break;
+            case CHOOSE_GUIDE_CITY_BACK:
+                ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
+                cityBean = guideServiceCitys.getSelectedCityBean();
+                chooseCityBack(cityBean);
                 break;
             case MAX_LUGGAGE_NUM://最大行李数
                 maxLuuages = (int) action.getData();
@@ -571,6 +556,29 @@ public class SingleNewActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void chooseCityBack(CityBean cityBean) {
+        useCityTips.setText(cityBean.name);
+        startBean = null;
+        arrivalBean = null;
+        startTips.setVisibility(View.VISIBLE);
+        startTitle.setVisibility(GONE);
+        startDetail.setVisibility(GONE);
+        startTitle.setText("");
+        startDetail.setText("");
+
+        endTips.setVisibility(View.VISIBLE);
+        endTitle.setVisibility(GONE);
+        endDetail.setVisibility(GONE);
+        endTitle.setText("");
+        endDetail.setText("");
+
+        bottom.setVisibility(GONE);
+        if (null == collectGuideBean) {
+            showCarsLayoutSingle.setVisibility(GONE);
+        }
+        timeText.setText("");
     }
 
     @Override
@@ -711,10 +719,16 @@ public class SingleNewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.city_layout:
-                intent = new Intent(this, ChooseCityActivity.class);
-                intent.putExtra("source", "下单过程中");
-                intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
-                startActivity(intent);
+                if (collectGuideBean != null) {
+                    intent = new Intent(this, ChooseGuideCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_ID, collectGuideBean.guideId);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(this, ChooseCityActivity.class);
+                    intent.putExtra("source", "下单过程中");
+                    intent.putExtra(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_RENT);
+                    startActivity(intent);
+                }
                 break;
             case R.id.start_tips:
             case R.id.start_title:
@@ -785,6 +799,8 @@ public class SingleNewActivity extends BaseActivity {
     }
 
     DateTimePicker picker;
+    boolean isFirstEnter = true;
+    String nowDate = "";
     public void showYearMonthDayTimePicker() {
         final Calendar calendar = Calendar.getInstance();
         picker = new DateTimePicker(activity, DateTimePicker.YEAR_MONTH_DAY);
@@ -801,10 +817,16 @@ public class SingleNewActivity extends BaseActivity {
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                String tmpDate = year + "-" + month + "-" + day;
-                String startDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH);
+                String tmpDate = year + "-" + month + "-" + day + "-" + hour + "-" + minute;
+                String startDate = "";
+                if(isFirstEnter){
+                    nowDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.HOUR_OF_DAY) + "-"+calendar.get(Calendar.MINUTE);
+                    isFirstEnter =false;
+                }else{
+                    startDate = calendar.get(Calendar.YEAR) +"-"+ (calendar.get(Calendar.MONTH) +1)+"-"+ calendar.get(Calendar.DAY_OF_MONTH)+"-"+calendar.get(Calendar.HOUR_OF_DAY) + "-"+calendar.get(Calendar.MINUTE);
+                }
 
-                if(DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(startDate))){
+                if(DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(nowDate))){
                     CommonUtils.showToast("不能选择今天之前的时间");
                     return;
                 }

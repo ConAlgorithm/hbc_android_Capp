@@ -5,13 +5,13 @@ import android.support.v4.util.ArrayMap;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 
 import org.xutils.db.Selector;
@@ -39,47 +39,55 @@ public class RequestCountryGroup extends BaseRequest<CountryGroupBean> {
         map.put("channelId","18");
         map.put("id", id);//国家/线路圈ID
         map.put("type", type);//类型 1.线路圈 2.国家
-        map.put("hotCityIds", getHotCityId(id));
+        map.put("hotCityIds", getHotCityId(id, CommonUtils.getCountInteger(type)));
     }
 
-    public String getHotCityId(int countryId) {
+    public String getHotCityId(int id, int type) {
 
         ArrayMap<Integer, CityBean> arrayMap = new ArrayMap<>();
-
+        ArrayList<Integer> cityIdList = new ArrayList<>();
         try {
-            Selector hotSelector = DatabaseManager.getHotDateSql(Constants.BUSINESS_TYPE_DAILY, 0, 0, ChooseCityActivity.CITY_LIST, countryId);
-            List<CityBean> hotCityList = (List<CityBean>) hotSelector.findAll();
-            int size = hotCityList.size();
-            for (int i = 0; i < size; i++) {
+            String hotCitySql = "";
+            if (type == 1) {
+                hotCitySql = DatabaseManager.getCitysByGroupIdSql(id, null, false, true);
+            } else {
+                hotCitySql = DatabaseManager.getCitysByPlaceIdSql(id, null, false, true);
+            }
+            List<CityBean> hotCityList = DatabaseManager.getCityBeanList(hotCitySql);
+            int hotCityListSize = hotCityList.size();
+            for (int i = 0; i < hotCityListSize; i++) {
                 CityBean cityBean = hotCityList.get(i);
                 arrayMap.put(cityBean.cityId, cityBean);
+                cityIdList.add(cityBean.cityId);
             }
-
-            int hotCityListSize = hotCityList.size();
             if (hotCityListSize < MAX_CITY_COUNT) {
-                Selector allCitySelector = DatabaseManager.getHotDateSql(Constants.BUSINESS_TYPE_DAILY, 0, 0, ChooseCityActivity.CITY_LIST, countryId);
-                List<CityBean> allCityList = (List<CityBean>) allCitySelector.findAll();
+                String citySql = "";
+                if (type == 1) {
+                    citySql = DatabaseManager.getCitysByGroupIdSql(id, null, false, false);
+                } else {
+                    citySql = DatabaseManager.getCitysByPlaceIdSql(id, null, false, false);
+                }
+                List<CityBean> allCityList = DatabaseManager.getCityBeanList(citySql);
                 int allCityListSize = allCityList.size();
-                for (int i = 0; i < (MAX_CITY_COUNT - hotCityListSize) && i < allCityListSize; i++) {
+                for (int i = 0; i < allCityListSize && arrayMap.size() < MAX_CITY_COUNT; i++) {
                     CityBean cityBean = allCityList.get(i);
                     if (!arrayMap.containsKey(cityBean.cityId)) {
                         arrayMap.put(cityBean.cityId, cityBean);
+                        cityIdList.add(cityBean.cityId);
                     }
                 }
             }
-        } catch (DbException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        int mapSize = arrayMap.size();
-        int i = 0;
+        int size = cityIdList.size();
         String result = "";
-        for (Integer key : arrayMap.keySet()) {
-            result += key;
-            if (i != mapSize - 1) {
+        for (int i = 0; i < size; i++) {
+            result += cityIdList.get(i);
+            if (i != size - 1) {
                 result += ",";
             }
-            i++;
         }
         return result;
     }

@@ -530,7 +530,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
         overridePendingTransition(R.anim.push_bottom_in, 0);
-        MobClickUtils.onEvent(StatisticConstant.R_XINGCHENG);
+        StatisticClickEvent.click(StatisticConstant.R_XINGCHENG, "包车下单");
     }
 
     public boolean checkPickUpFlightBean(FlightBean flightBean) {

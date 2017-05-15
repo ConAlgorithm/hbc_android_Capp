@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -76,6 +77,8 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
         TextView perPrice = (TextView) view.findViewById(R.id.home_hot_search_city_item_per_price);
         TextView customCount = (TextView) view.findViewById(R.id.home_hot_search_city_item_custom_count);
         View containerView = view.findViewById(R.id.home_hot_search_city_layout);
+        RelativeLayout avatarHead = (RelativeLayout) view.findViewById(R.id.home_hot_search_city_icon_layout);
+
 
         int viewWidth = ScreenUtil.screenWidth - ScreenUtil.dip2px(40);
         containerView.getLayoutParams().width = viewWidth;
@@ -87,12 +90,13 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
             bottomLayout.setVisibility(View.GONE);
             bottomTitle.setVisibility(View.GONE);
             guideCountView.setVisibility(View.GONE);
+            avatarHead.setVisibility(View.GONE);
         } else {
             SkuItemBean skuItemBean = hotExplorations.get(position);
-            Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-            customCount.setText(skuItemBean.guideAmount + "位中文司导可服务");
+            Tools.showImageNotCenterCrop(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
+            customCount.setText(skuItemBean.saleAmount + "人已体验");
             bottomTitle.setText(skuItemBean.goodsName);
-            guideCountView.setText(skuItemBean.saleAmount + "人已体验");
+            guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
 
             String price = "￥" + skuItemBean.perPrice;
             String count = "/人起";

@@ -121,15 +121,24 @@ public class CarUtils {
     //根据司导车辆和 报价返回车辆 生成新的车辆信息  单次 接送用
     public static ArrayList<CarBean> getSingleCarBeanList(List<CarBean> carBeans,List<GuideCarBean> guideCars){
         ArrayList<CarBean> list = new ArrayList<>();
-        for(int n = 0;n < carBeans.size();n++) {
-            for (int i = 0; i < guideCars.size(); i++) {
-                if (carBeans.get(n).carType == guideCars.get(i).carType &&
-                        carBeans.get(n).carSeat == guideCars.get(i).carClass) {
+        for(int i = 0; i < guideCars.size(); i++) {
+            for (int n = 0;n < carBeans.size();n++) {
+                if (carBeans.get(n).carId == guideCars.get(i).carModelId) {
                     CarBean carBean = (CarBean)(carBeans.get(n).clone());
                     carBean.carLicenceNo = guideCars.get(i).carLicenceNo;
                     carBean.carLicenceNoCovered = guideCars.get(i).carLicenceNoCovered;
                     carBean.carBrandName = guideCars.get(i).carBrandName;
                     carBean.carName = guideCars.get(i).carName;
+                    carBean.id = guideCars.get(i).guideCarId;
+                    if(!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
+                        carBean.carDesc = guideCars.get(i).carInfo1;
+                    }
+                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo2)) {
+                        carBean.models = guideCars.get(i).carInfo2;
+                    }
+                    if(guideCars.get(i).carPhotosL.size()>0){
+                        carBean.carPictures = guideCars.get(i).carPhotosL;
+                    }
                     list.add(carBean);
                 }
             }
@@ -155,6 +164,10 @@ public class CarUtils {
                 }
                 carBean.capOfLuggage = guideCars.get(i).modelLuggageNum;
                 carBean.capOfPerson = guideCars.get(i).modelGuestNum;
+                if(guideCars.get(i).carPhotosL.size()>0){
+                    carBean.carPictures = guideCars.get(i).carPhotosL;
+                }
+                carBean.id = guideCars.get(i).guideCarId;
                 list.add(carBean);
             }
         return list;

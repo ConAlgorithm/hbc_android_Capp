@@ -236,7 +236,7 @@
     <string name="run_flush">正在刷新&#8230;</string>
     <string name="near_update">最近更新</string>
 
-    <string name="loading_msg">ⓒ 皇包车 2017</string>
+    <string name="loading_msg">皇包车@2015-2017</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_photo">PhotoActivity</string>
 
@@ -398,7 +398,7 @@
     <string name="complete_end_date">请选择结束日期</string>
     <string name="complete_days_info">请完善每天的行程</string>
     <string name="complete_half_start_date">请完善游玩日期</string>
-    <string name="edit_mark_left">备注信息</string>
+    <string name="edit_mark_left">备注</string>
     <string name="edit_mark">如有其他需求，请在这里给司导留言</string>
     <string name="all_cost_info">费用详情</string>
 
@@ -406,7 +406,7 @@
     <string name="air_info">航班信息</string>
     <string name="air_address">送达地</string>
 
-    <string name="input_air_no">请输入航班号(延误免费等)</string>
+    <string name="input_air_no">选航班查机场，延误免费等候</string>
     <string name="input_go_where">送您到哪里去</string>
 
     <string name="air_start_address">出发地</string>
@@ -544,7 +544,7 @@
 
     <string name="evaluate_subtitle_grade">为司导打分</string>
     <string name="evaluate_submit">确认提交</string>
-    <string name="evaluate_et_hint">其它意见或建议</string>
+    <string name="evaluate_et_hint">您对这位司导是否满意呢？说说您的感受吧~对其他小伙伴帮助很大哦</string>
     <string name="evaluate_title">我的评价</string>
     <string name="evaluate_succeed">评价成功!</string>
 
@@ -726,7 +726,7 @@
 
     <string name="no_have_car">该司导车辆信息有变化，暂时无法提供服务</string>
 
-    <string name="now_enter">全新出发</string>
+    <string name="now_enter">即刻出发</string>
 
     <string name="share_evaluate_title">评价成功</string>
     <string name="share_evaluate_description_1">感谢您的评价!</string>
@@ -837,7 +837,7 @@
     <string name="phone_format_incorrect">手机格式不正确，请重新输入</string>
     <string name="alert_submit_success">司导小助手将主动联系您</string>
     <string name="travel_purpose_form_list">行程规划</string>
-    <string name="travel_purpose_form_detail">行程规划详情</string>
+    <string name="travel_purpose_form_detail">行程规划心愿单</string>
 
     <string name="bargain_hint">支付后还可以挑选司导哦~</string>
 </resources>

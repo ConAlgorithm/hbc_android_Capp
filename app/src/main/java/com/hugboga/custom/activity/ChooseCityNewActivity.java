@@ -426,27 +426,35 @@ public class ChooseCityNewActivity extends BaseActivity {
             params.titleName = searchGroupBean.group_name;
         } else if (searchGroupBean.flag == 2) {
             if (searchGroupBean.type == 1) {
-                params.id = searchGroupBean.sub_place_id;
+                params.id = searchGroupBean.group_id;
                 params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.titleName = searchGroupBean.group_name;
             } else if (searchGroupBean.type == 2) {
                 params.id = searchGroupBean.sub_place_id;
                 params.titleName = searchGroupBean.sub_place_name;
                 params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
             } else {
-                params.id = searchGroupBean.sub_place_id;
-                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.id = searchGroupBean.sub_city_id;
+                params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 3) {
             if (searchGroupBean.sub_city_name.equalsIgnoreCase("全境")) {
                 params.id = searchGroupBean.sub_city_id;
                 params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
                 params.titleName = searchGroupBean.sub_place_name;
+            } else if (searchGroupBean.type == 1) {
+                params.id = searchGroupBean.group_id;
+                params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
+                params.titleName = searchGroupBean.group_name;
+            } else if (searchGroupBean.type == 2) {
+                params.id = searchGroupBean.sub_place_id;
+                params.titleName = searchGroupBean.sub_place_name;
+                params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
             } else {
                 params.id = searchGroupBean.sub_city_id;
                 params.cityHomeType = CityListActivity.CityHomeType.CITY;
-                params.titleName = searchGroupBean.sub_place_name;
+                params.titleName = searchGroupBean.sub_city_name;
             }
         } else if (searchGroupBean.flag == 4) {
             params.id = searchGroupBean.spot_id;

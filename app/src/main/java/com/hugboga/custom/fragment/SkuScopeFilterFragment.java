@@ -74,10 +74,10 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
         setDayTypes(dayTypes);
     }
 
-    @OnClick({R.id.sku_filter_scope_outside_layout})
-    public void onOutsideClick() {
-        EventBus.getDefault().post(new EventAction(EventType.FILTER_CLOSE));
-    }
+//    @OnClick({R.id.sku_filter_scope_outside_layout})
+//    public void onOutsideClick() {
+//        EventBus.getDefault().post(new EventAction(EventType.FILTER_CLOSE));
+//    }
 
     @OnClick({R.id.sku_filter_day_one_tv, R.id.sku_filter_day_two_tv, R.id.sku_filter_day_multi_tv})
     public void onSelectDay(View view) {

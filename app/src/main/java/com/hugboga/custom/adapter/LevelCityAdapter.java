@@ -116,7 +116,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
                 }else if(getItem(position).spot_id == -3){
                     viewHolder.name.setText("");
                     viewHolder.cityImg.setVisibility(View.VISIBLE);
-                    viewHolder.cityImg.setImageResource(R.mipmap.custom_car_travel);
+                    viewHolder.cityImg.setImageResource(R.mipmap.search_car);
                 }else {
                     viewHolder.middle_line.setVisibility(middleLineShow ? View.VISIBLE : View.GONE);
                     viewHolder.cityImg.setVisibility(View.GONE);

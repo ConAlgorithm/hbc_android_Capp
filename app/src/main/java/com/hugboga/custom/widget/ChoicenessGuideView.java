@@ -124,6 +124,29 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                 params.guideId = data.guideId;
                 Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
+                String source = "";
+                if (getContext() instanceof MainActivity) {
+                    source = "首页";
+                } else if (getContext() instanceof CityListActivity) {
+                    CityListActivity cityListActivity = (CityListActivity) getContext();
+                    CityListActivity.Params paramsData = cityListActivity.paramsData;
+                    if (paramsData != null) {
+                        switch (paramsData.cityHomeType) {
+                            case CITY:
+                                source = "城市页";
+                                break;
+                            case ROUTE:
+                                source = "国家页";
+                                break;
+                            case COUNTRY:
+                                source = "线路圈页";
+                                break;
+                        }
+                    }
+                } else {
+                    source = "精选司导页";
+                }
+                intent.putExtra(Constants.PARAMS_SOURCE, source);
                 getContext().startActivity(intent);
             }
         });

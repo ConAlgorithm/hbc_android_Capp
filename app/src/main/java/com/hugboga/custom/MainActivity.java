@@ -91,12 +91,14 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener, HttpRequestListener {
@@ -204,10 +206,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onResume();
         DefaultSSLSocketFactory.resetSSLSocketFactory(this);
         if (currentPosition == 0) {
-            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
-            if (BuildConfig.VERSION_NAME.equals(versionName)) {
+//            final String versionName = SharedPre.getString(HomeCustomLayout.PARAMS_LAST_GUIDE_VERSION_NAME, "");
+//            if (BuildConfig.VERSION_NAME.equals(versionName)) {
                 GiftController.getInstance(this).showGiftDialog();
-            }
+//            }
         }
     }
 
@@ -267,8 +269,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void showAdWebView(String url){
         if(null != url) {
-            if (CommonUtils.isLogin(activity)) {
-                url = CommonUtils.getBaseUrl(url) + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
+            if (UserEntity.getUser().isLogin(activity)) {
+                url = CommonUtils.getBaseUrl(url) + "userId=" + UserEntity.getUser().getUserId(activity) + "&t=" + new Random().nextInt(100000);
             }
             Intent intent = new Intent(activity,WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
@@ -320,18 +322,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
         try {
-            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), null);
-            uploadPushToken();
+            JPushInterface.setAlias(MainActivity.this, PhoneInfo.getIMEI(this), new TagAliasCallback() {
+                @Override
+                public void gotResult(int code, String alias, Set<String> tags) {
+                    PushUtils.uploadPushAlias(code, alias);
+                }
+            });
+            MiPushClient.setAlias(getApplicationContext(), PhoneInfo.getIMEI(this), "");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void uploadPushToken() {
-        String imei = PhoneInfo.getIMEI(this);
-        RequestPushToken request = new RequestPushToken(this, imei, imei, BuildConfig.VERSION_NAME, imei, PhoneInfo.getSoftwareVersion(this));
-        HttpRequestUtils.request(this, request, this);
-        MiPushClient.setAlias(getApplicationContext(), imei, "");
     }
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
@@ -391,6 +391,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
             EventBus.getDefault().unregister(this);
             ApiReportHelper.getInstance().commitAllReport();
+            ApiReportHelper.getInstance().abort();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -487,7 +488,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        MLog.e(errorInfo == null ? "" : errorInfo.toString());
+        super.onDataRequestError(errorInfo, request);
     }
 
     @Override
@@ -582,11 +583,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 int index = Integer.valueOf(action.data.toString());
                 if (index >= 0 && index < 4)
                     mViewPager.setCurrentItem(index);
-                break;
-            case SHOW_GIFT_DIALOG:
-                if (currentPosition == 0) {
-                    GiftController.getInstance(this).showGiftDialog();
-                }
                 break;
             default:
                 break;

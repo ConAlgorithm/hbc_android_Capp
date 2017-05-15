@@ -74,7 +74,9 @@ public class ChooseGuideView extends LinearLayout implements HbcViewBehavior{
         final CanServiceGuideBean.GuidesBean data = (CanServiceGuideBean.GuidesBean) _data;
         bottomLayout.getLayoutParams().width = UIUtils.getScreenWidth();
         Tools.showImage(avatarIV, data.getAvatarS(), R.mipmap.icon_avatar_guide);
-        nameTV.setText(data.getGenderName());
+        nameTV.setText(data.getGuideName());
+        nameTV.setMaxWidth(UIUtils.dip2px(200));
+        nameTV.setPadding(0, 0, UIUtils.dip2px(20), 0);
         cityIV.setVisibility(View.GONE);
         cityTV.setVisibility(View.GONE);
         genderIV.setBackgroundResource(data.getGender() == 1 ? R.mipmap.icon_man : R.mipmap.icon_woman);
@@ -83,10 +85,10 @@ public class ChooseGuideView extends LinearLayout implements HbcViewBehavior{
         String level = data.getServiceStar() <= 0 ? "暂无星级" : data.getServiceStar() + "星";
         starTV.setText(level);
         GuideItemUtils.setTag(tagGroup, data.getSkillLabelNames());
-        if (TextUtils.isEmpty(data.getCarName())) {
+        if (TextUtils.isEmpty(data.getCarName()) && TextUtils.isEmpty(data.getCarBrandName())) {
             carDescTV.setText("");
         } else {
-            carDescTV.setText("服务车型: " + data.getCarName());
+            carDescTV.setText("服务车型: " + data.getCarBrandName() + data.getCarName());
         }
         chooseTV.setOnClickListener(new OnClickListener() {
             @Override
@@ -105,6 +107,4 @@ public class ChooseGuideView extends LinearLayout implements HbcViewBehavior{
             }
         });
     }
-
-
 }

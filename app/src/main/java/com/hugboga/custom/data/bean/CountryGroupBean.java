@@ -11,6 +11,9 @@ public class CountryGroupBean implements Serializable{
     public List<HomeBeanV2.HotCity> hotCities;  // 热门城市
     public List<SkuItemBean> shortLines;        // 热门线路列表
     public List<SkuItemBean> deepLines;         // 深度长度
+    public boolean hasAirportService;           // 接机服务
+    public boolean hasSingleService;            // 次租服务
+    public boolean hasDailyService;             // 日租服务
 
     private ArrayList<ArrayList<HomeBeanV2.HotCity>> hotCityList;  // 对数据做拆分,6个一条
 

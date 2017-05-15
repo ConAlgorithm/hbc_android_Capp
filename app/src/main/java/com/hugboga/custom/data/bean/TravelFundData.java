@@ -49,8 +49,8 @@ public class TravelFundData implements Serializable {
         return logs;
     }
 
-    public String getLogsCount() {
-        return String.valueOf(logsCount);
+    public int getLogsCount() {
+        return logsCount;
     }
 
     public String getInvitedUserCount() {

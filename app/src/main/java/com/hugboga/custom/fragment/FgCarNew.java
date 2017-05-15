@@ -391,11 +391,12 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
 
     private  void setCarInfo(){
         String carDesc = "";
-        if (collectGuideBean == null) {
+        /*if (collectGuideBean == null) {
             carDesc = carBean.models;
         } else {
             carDesc = carBean.carBrandName + " " + carBean.carName;
-        }
+        }*/
+        carDesc = carBean.models;
         if(null != carBean.carLicenceNoCovered){
             fgCarIntro.setTextColor(ContextCompat.getColor(this.getActivity(),R.color.basic_red));
             carDesc += "     车牌:"+carBean.carLicenceNoCovered;
@@ -628,7 +629,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PRICE);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_PRICE_V2_2);
                 v.getContext().startActivity(intent);
             }
         });
@@ -689,7 +690,7 @@ public class FgCarNew extends BaseFragment implements ViewPager.OnPageChangeList
             case R.id.man_text:
             case R.id.luggage_text:
             case R.id.childseat_text:
-                if (null == carListBean || null == carListBean.carList) {
+                if (null == carListBean || null == carListBean.carList || carListBean.carList.size() <= 0) {
                     CommonUtils.showToast(R.string.no_price_error);
                     return;
                 }

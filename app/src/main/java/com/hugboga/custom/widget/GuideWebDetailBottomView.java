@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -12,9 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.IMUtil;
 
 import java.text.SimpleDateFormat;
@@ -44,12 +50,17 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
     @Bind(R.id.guide_detail_bottom_contact_layout)
     LinearLayout contactLayout;
 
+    @Bind(R.id.guide_detail_bottom_choose_guide_tv)
+    TextView chooseGuideTv;
+
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
     private SimpleDateFormat dateTimeFormat;
     private volatile long delayedMillis;
     private volatile boolean isStop = false;
 
     private GuideExtinfoBean guideExtinfoBean;
+    private GuideWebDetailActivity.Params params;
+    private ChooseGuideUtils chooseGuideUtils;
 
     public GuideWebDetailBottomView(Context context) {
         this(context, null);
@@ -63,12 +74,33 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         dateTimeFormat = new SimpleDateFormat("HH:mm");
     }
 
+    public void showChooseGuideView(GuideWebDetailActivity.Params params) {
+        this.params = params;
+        setVisibility(View.VISIBLE);
+        hintTv.setVisibility(View.GONE);
+        topLineView.setVisibility(View.GONE);
+        chooseGuideTv.setVisibility(View.VISIBLE);
+        chooseGuideTv.setEnabled(true);
+    }
+
+    @OnClick(R.id.guide_detail_bottom_choose_guide_tv)
+    public void chooseGuide() {
+        if (params == null || params.chooseGuide == null || params.orderNo == null || !UserEntity.getUser().isLogin(getContext())) {
+            return;
+        }
+        if (chooseGuideUtils == null) {
+            chooseGuideUtils = new ChooseGuideUtils((Activity) getContext(), params.orderNo, "司导详情");
+        }
+        chooseGuideUtils.chooseGuide(params.chooseGuide);
+    }
+
     @OnClick(R.id.guide_detail_bottom_contact_layout)
     public void contactGuide() {
-        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined()) {
+        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
             return;
         }
         NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId);
+        StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
     }
 
     @Override
@@ -79,6 +111,9 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         }
         setVisibility(View.VISIBLE);
         guideExtinfoBean = (GuideExtinfoBean) _data;
+
+        chooseGuideTv.setVisibility(View.GONE);
+        chooseGuideTv.setEnabled(false);
 
         if (guideExtinfoBean.accessible == 1) {//是否可联系司导
             hintTv.setVisibility(View.GONE);

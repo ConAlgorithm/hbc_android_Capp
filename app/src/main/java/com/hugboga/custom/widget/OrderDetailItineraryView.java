@@ -22,6 +22,9 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
@@ -311,5 +314,6 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         Intent intent = new Intent(getContext(), DetailTravelListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, orderBean);
         getContext().startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.R_XINGCHENG, "订单详情");
     }
 }

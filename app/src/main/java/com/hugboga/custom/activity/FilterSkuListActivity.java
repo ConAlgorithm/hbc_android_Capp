@@ -19,6 +19,8 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestGoodsFilter;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
@@ -114,7 +116,6 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setPullRefreshEnabled(false);
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, SkuItemView.class);
@@ -140,15 +141,24 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
-        SkuItemBean skuItemBean = listData.get(position);
-        Intent intent = new Intent(FilterSkuListActivity.this, SkuDetailActivity.class);
-        intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
-        intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
-        intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
-        intent.putExtra("goodtype",skuItemBean.goodsType);
-        intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
-        intent.putExtra("type", 1);
-        startActivity(intent);
+        if(mAdapter!= null && mAdapter.getDatas().size() > 0){
+            SkuItemBean skuItemBean = mAdapter.getDatas().get(position);
+            Intent intent = new Intent(FilterSkuListActivity.this, SkuDetailActivity.class);
+            intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
+            intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
+            intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+            intent.putExtra("goodtype",skuItemBean.goodsType);
+            intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
+            intent.putExtra("type", 1);
+            startActivity(intent);
+            if (skuItemBean.goodsClass == 1) {
+                StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, getEventSource());
+            } else {
+                StatisticClickEvent.click(StatisticConstant.CLICK_RT, getEventSource());
+                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, getEventSource());
+            }
+        }
     }
 
     @Subscribe
@@ -178,7 +188,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     @Override
     public void onRefresh() {
-
+        requestGuideList(isThemes, 0, false);
     }
 
     @Override
@@ -264,6 +274,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
             if (hasThemes(_request)) {
                 filterLayout.setThemeList(goodsFilterBean.themes);
             }
+            mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= goodsFilterBean.listCount);
         }
     }

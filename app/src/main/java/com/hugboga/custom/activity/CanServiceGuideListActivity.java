@@ -101,7 +101,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
 
     private void sendRequest(int pageIndex) {
         if (pageIndex == 0 && adapter != null) {
-            adapter = null;
+            adapter.setList(null);
         }
         RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(this, orderNo, Constants.DEFAULT_PAGESIZE, pageIndex);
         HttpRequestUtils.request(this, requestAcceptGuide, this);
@@ -125,7 +125,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
                     adapter.addList(list);
                 }
             }
-            if (list != null && list.size() < Constants.DEFAULT_PAGESIZE) {
+            if (adapter.getCount() >= totalSize) {
                 listView.onLoadCompleteNone();
             } else {
                 listView.onLoadComplete();
@@ -164,9 +164,9 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
     public void intentGuideDetail(CanServiceGuideBean.GuidesBean bean) {
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         params.guideId = bean.getGuideId();
-        params.canService = false;
-        params.canCollect = false;
-//        params.orderNo = orderNo;
+        params.isChooseGuide = true;
+        params.orderNo = orderNo;
+        params.chooseGuide = bean;
         Intent intent = new Intent(this, GuideWebDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

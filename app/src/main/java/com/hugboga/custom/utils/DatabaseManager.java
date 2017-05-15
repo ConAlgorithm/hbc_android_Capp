@@ -1,10 +1,12 @@
 package com.hugboga.custom.utils;
 
+import android.database.Cursor;
 import android.text.TextUtils;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CityBean;
 
 import org.xutils.DbManager;
@@ -223,6 +225,93 @@ public final class DatabaseManager {
         return "select * from city where is_city_code=1 and (place_name<>'中国' and place_name<>'中国大陆') and is_hot=1 order by hot_weight desc";
     }
 
+    public static String getCitysByPlaceIdSql(int place_id) {
+        return getCitysByPlaceIdSql(place_id, null, false, false);
+    }
+
+    public static String getCitysByPlaceIdSql(int place_id, String _keyword, boolean isNeedMore, boolean ishot) {
+        String sql = "select * from city where place_id=%1$s %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by %4$s";
+        String keywordSql = "";
+        if (!TextUtils.isEmpty(_keyword)) {
+            if (isNeedMore) {
+                keywordSql = "and cn_name like '%"+ _keyword + "%'";
+            } else {
+                keywordSql = "and cn_name like '"+ _keyword + "%'";
+            }
+        }
+        String hotCitySql = "";
+        if (ishot) {
+            hotCitySql = "and is_hot=1";
+        }
+
+        String sortSql = "initial asc";
+        if (ishot) {
+            sortSql = "hot_weight desc";
+        }
+
+        return String.format(sql, place_id, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql, sortSql);
+    }
+
+    public static String getCitysByGroupIdSql(int place_id) {
+        return getCitysByGroupIdSql(place_id, null, false, false);
+    }
+
+    public static String getCitysByGroupIdSql(int place_id, String _keyword, boolean isNeedMore, boolean ishot) {
+        try {
+            DbManager mDbManager = getDbManager();
+            SqlInfo sqlinfo = new SqlInfo();
+            String keywordSql = "";
+            if (!TextUtils.isEmpty(_keyword)) {
+                if (isNeedMore) {
+                    keywordSql = "and cn_name like '%"+ _keyword + "%'";
+                } else {
+                    keywordSql = "and cn_name like '"+ _keyword + "%'";
+                }
+            }
+            String hotCitySql = "";
+            if (ishot) {
+                hotCitySql = "and is_hot=1";
+            }
+
+            String sortSql = "initial asc";
+            if (ishot) {
+                sortSql = "hot_weight desc";
+            }
+
+            sqlinfo.setSql(String.format("select * from line_group where group_id=%1$s", place_id));
+            String sql = "select * from city where (%1$s) %2$s %3$s and (city.has_airport=1 or city.is_daily=1 or city.is_single=1 or city.has_goods=1) order by %4$s;";
+            try {
+                List<DbModel> modelList = mDbManager.findDbModelAll(sqlinfo);
+                if (modelList != null && modelList.size() > 0) {
+                    final int listsize = modelList.size();
+                    for (int modelindex = 0; modelindex <listsize; modelindex++) {
+                        DbModel model = modelList.get(modelindex);
+                        if (model != null) {
+                            String subPlaces = model.getString("sub_places");
+                            String subCities = model.getString("sub_cities");//city_id in (1270, 1269) or place_id in(70)
+                            String params = "";
+                            if (!TextUtils.isEmpty(subCities) && !TextUtils.isEmpty(subPlaces)) {
+                                params = String.format("city_id in (%1$s) or place_id in(%2$s)", subCities, subPlaces);
+                            } else if (!TextUtils.isEmpty(subPlaces)) {
+                                params = String.format("place_id in(%1$s)", subPlaces);
+                            } else if (!TextUtils.isEmpty(subCities)) {
+                                params = String.format("city_id in(%1$s)", subCities);
+                            } else {
+                                return null;
+                            }
+                            return String.format(sql, params, TextUtils.isEmpty(keywordSql) ? "" : keywordSql, hotCitySql, sortSql);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     /**
@@ -276,5 +365,46 @@ public final class DatabaseManager {
             e.printStackTrace();
         }
         return resultList;
+    }
+
+    public static List<AirPort> queryAirPortByCityId(String cityId) {
+        DbManager mDbManager = new DBHelper(MyApplication.getAppContext()).getDbManager();
+        List<AirPort> airPorts = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            String sql = "select * from airport where city_id=" + cityId;
+            cursor = mDbManager.execQuery(sql);
+            while (cursor!=null && cursor.moveToNext()){
+                AirPort airPort = new AirPort();
+                airPort.airportId = cursor.getInt(cursor.getColumnIndexOrThrow("airport_id"));
+                airPort.airportCode = cursor.getString(cursor.getColumnIndexOrThrow("airport_code"));
+                airPort.airportName = cursor.getString(cursor.getColumnIndexOrThrow("airport_name"));
+                airPort.areaCode = cursor.getString(cursor.getColumnIndexOrThrow("area_code"));
+                airPort.cityFirstLetter = cursor.getString(cursor.getColumnIndexOrThrow("city_initial"));
+                int bannerswitch = cursor.getInt(cursor.getColumnIndexOrThrow("banner_switch"));
+                airPort.bannerSwitch = bannerswitch==0?false:true;
+                airPort.cityId = cursor.getInt(cursor.getColumnIndexOrThrow("city_id"));
+                airPort.cityName = cursor.getString(cursor.getColumnIndexOrThrow("city_name"));
+                airPort.location = cursor.getString(cursor.getColumnIndexOrThrow("airport_location"));
+                airPort.hotWeight = cursor.getInt(cursor.getColumnIndexOrThrow("hot_weight"));
+                int hot = cursor.getInt(cursor.getColumnIndexOrThrow("is_hot"));
+                airPort.isHot = hot==0?false:true;
+                int visaSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("landing_visa_switch"));
+                airPort.visaSwitch = visaSwitch==0?false:true;
+                int childSwitch = cursor.getInt(cursor.getColumnIndexOrThrow("childseat_switch"));
+                airPort.childSeatSwitch = childSwitch==0?false:true;
+                airPorts.add(airPort);
+            }
+            if(cursor!=null){
+                cursor.close();
+            }
+        } catch (Exception e) {
+
+        }finally {
+            if(cursor!=null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        return airPorts;
     }
 }

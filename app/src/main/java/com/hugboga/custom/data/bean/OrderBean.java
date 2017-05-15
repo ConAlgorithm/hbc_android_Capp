@@ -46,6 +46,7 @@ public class OrderBean implements IBaseBean{
     public int special;
     public int capOfPerson;
     public int orderIndex;//标识是第几段行程 1开始
+    public int guideCarId;
 
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息

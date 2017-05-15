@@ -124,11 +124,16 @@ public class SkuOrderEmptyView extends LinearLayout{
         } else if (_carList == null || _carList.size() <= 0) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
-            if (isAssignGuide) {
-                hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
+            if (TextUtils.isEmpty(noneCarsReason)) {
+                if (isAssignGuide) {
+                    hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
+                } else {
+                    hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
+                }
             } else {
-                hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
+                hintTV.setText(noneCarsReason + "\n请联系客服，我们会协助您完成预订");
             }
+
             isEmpty = true;
             refreshTV.setVisibility(View.VISIBLE);
             refreshTV.setText("联系客服");

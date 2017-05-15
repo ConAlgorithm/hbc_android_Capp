@@ -3,6 +3,7 @@ package com.hugboga.custom.data.net;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -89,27 +90,38 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_UPDATE);
-                                if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
-                                    try {
-                                        Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
-                                        field.setAccessible(true);
-                                        field.set(dialogUtil.getVersionDialog(), false);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                boolean isUpdate = true;
+                                if (Build.VERSION.SDK_INT >= 23) {
+                                    isUpdate = !MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_UPDATE);
                                 }
-                                PushUtils.startDownloadApk(mContext, cvBean.url);
+                                if (isUpdate) {
+                                    if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
+                                        try {
+                                            Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
+                                            field.setAccessible(true);
+                                            field.set(dialogUtil.getVersionDialog(), false);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    PushUtils.startDownloadApk(mContext, cvBean.url);
+                                }
                             }
                         },  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_DB);
-                                //在版本检测后 检测DB
-                                UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
-                                    @Override
-                                    public void onFinished() {}
-                                });
+                                isCheckedVersion = false;
+                                boolean isUpdate = true;
+                                if (Build.VERSION.SDK_INT >= 23) {
+                                    isUpdate = !MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_DB);
+                                }
+                                if (isUpdate) {
+                                    //在版本检测后 检测DB
+                                    UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
+                                        @Override
+                                        public void onFinished() {}
+                                    });
+                                }
                             }
                         });
                     }
@@ -194,7 +206,5 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
         }
 
     }
-
-
 
 }

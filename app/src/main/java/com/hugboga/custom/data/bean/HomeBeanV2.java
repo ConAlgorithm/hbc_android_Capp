@@ -36,8 +36,9 @@ public class HomeBeanV2 implements Serializable {
     * */
     public static class HeadVideo implements Serializable {
         public String videoName;    // 头部视频名称
-        public String videoUrl;     // 视频地址
+        public String videoUrl;     // 视频地址/网页地址
         public int videoVersion;    // 视频版本
+        public int type;            // 1.视频、2.H5
     }
 
     /**
