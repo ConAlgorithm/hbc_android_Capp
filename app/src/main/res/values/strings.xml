@@ -421,15 +421,15 @@
     <string name="choose_by_air_no">按航班号</string>
 
     <string name="choose_fly">起飞城市</string>
-    <string name="choose_arrived">到达城市</string>
+    <string name="choose_arrived">降落城市</string>
     <string name="choose_from_address">请选择</string>
-    <string name="choose_fly_date">起飞日期</string>
+    <string name="choose_fly_date">起飞日期(当地时间)</string>
     <string name="choose_fly_date_tips">请选择日期(当地时间)</string>
-    <string name="choose_bottom_tips">如有中转请选择末趟航班</string>
+    <string name="choose_bottom_tips">* 如有中转请选择末趟航班</string>
     <string name="choose_search">查询</string>
     <string name="choose_search_history">查询历史</string>
-    <string name="choose_clean_all_history">全部清除</string>
-    <string name="choose_input_air_no">请输入航班号,例如CA979</string>
+    <string name="choose_clean_all_history">清除查询记录</string>
+    <string name="choose_input_air_no">请输入航班号,如CA979</string>
     <string name="choose_input_air_no_left">航班号</string>
 
     <string name="can_sit_man">可乘坐</string>

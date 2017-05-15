@@ -68,6 +68,8 @@ public class ChooseAirActivity extends BaseActivity {
             }
         });
         headerTitle.setText("选择航班");
+        headerRightBtn.setVisibility(View.VISIBLE);
+        headerRightBtn.setImageResource(R.mipmap.topbar_service);
     }
 
     @Override
@@ -129,13 +131,13 @@ public class ChooseAirActivity extends BaseActivity {
         if (index == 1) {
             dailyTapLine1.setVisibility(View.GONE);
             dailyTapLine2.setVisibility(View.VISIBLE);
-            dailyTap1.setTextColor(getResources().getColor(R.color.basic_black));
-            dailyTap2.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
+            dailyTap1.setTextColor(getResources().getColor(R.color.common_font_air));
+            dailyTap2.setTextColor(getResources().getColor(R.color.common_font_color_black));
         } else {
             dailyTapLine1.setVisibility(View.VISIBLE);
             dailyTapLine2.setVisibility(View.GONE);
-            dailyTap1.setTextColor(getResources().getColor(R.color.basic_daily_toolbar_color));
-            dailyTap2.setTextColor(getResources().getColor(R.color.basic_black));
+            dailyTap1.setTextColor(getResources().getColor(R.color.common_font_color_black));
+            dailyTap2.setTextColor(getResources().getColor(R.color.common_font_air));
         }
     }
 

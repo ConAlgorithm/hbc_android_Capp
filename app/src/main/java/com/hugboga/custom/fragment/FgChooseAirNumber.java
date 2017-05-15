@@ -128,13 +128,13 @@ public class FgChooseAirNumber extends BaseFragment {
     public void addHistoryItemView(SaveStartEndCity saveStartEndCity) {
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.air_history_item, null);
         TextView historyText = (TextView) view.findViewById(R.id.history_text);
-        ImageView historyDel = (ImageView) view.findViewById(R.id.history_del);
+        //ImageView historyDel = (ImageView) view.findViewById(R.id.history_del);
         historyText.setText(saveStartEndCity.airNo);
         historyText.setTag(saveStartEndCity.id);
-        historyDel.setTag(saveStartEndCity.id);
+        //historyDel.setTag(saveStartEndCity.id);
         view.setTag(saveStartEndCity.id);
         historyText.setOnClickListener(new HistoryTextClick());
-        historyDel.setOnClickListener(new HistoryTextDelClick());
+        //historyDel.setOnClickListener(new HistoryTextDelClick());
         historyLayout.addView(view);
     }
 
@@ -158,7 +158,7 @@ public class FgChooseAirNumber extends BaseFragment {
         }
     }
 
-    private class HistoryTextDelClick implements View.OnClickListener {
+    /*private class HistoryTextDelClick implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -184,7 +184,7 @@ public class FgChooseAirNumber extends BaseFragment {
                 showHistory.setVisibility(View.GONE);
             }
         }
-    }
+    }*/
 
     private void addHistoryData(){
         SaveStartEndCity savedCityBean = new SaveStartEndCity();
@@ -313,11 +313,12 @@ public class FgChooseAirNumber extends BaseFragment {
         String noStr = numberTips.getText().toString();
         String time1Str = addressTips.getText().toString();
         if (!TextUtils.isEmpty(noStr) && !TextUtils.isEmpty(time1Str)) {
+            numberTips.setTextColor(getResources().getColor(R.color.common_font_color_black));
             search.setEnabled(true);
-            search.setBackgroundColor(Color.parseColor("#fad027"));
+            search.setBackgroundColor(Color.parseColor("#ffce00"));
         }else{
             search.setEnabled(true);
-            search.setBackgroundColor(Color.parseColor("#d5dadb"));
+            search.setBackgroundColor(Color.parseColor("#cccccc"));
         }
 
     }

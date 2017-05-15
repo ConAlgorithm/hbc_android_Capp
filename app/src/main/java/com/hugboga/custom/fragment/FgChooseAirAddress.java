@@ -146,13 +146,13 @@ public class FgChooseAirAddress extends BaseFragment {
     public void addHistoryItemView(SaveStartEndCity saveStartEndCity) {
         View view = LayoutInflater.from(this.getContext()).inflate(R.layout.air_history_item, null);
         TextView historyText = (TextView) view.findViewById(R.id.history_text);
-        ImageView historyDel = (ImageView) view.findViewById(R.id.history_del);
+        //ImageView historyDel = (ImageView) view.findViewById(R.id.history_del);
         historyText.setText(saveStartEndCity.startCityName + " - " + saveStartEndCity.endCityName);
         historyText.setTag(saveStartEndCity.id);
-        historyDel.setTag(saveStartEndCity.id);
+        //historyDel.setTag(saveStartEndCity.id);
         view.setTag(saveStartEndCity.id);
         historyText.setOnClickListener(new HistoryTextClick());
-        historyDel.setOnClickListener(new HistoryTextDelClick());
+        //historyDel.setOnClickListener(new HistoryTextDelClick());
         historyLayout.addView(view);
     }
 
@@ -180,7 +180,7 @@ public class FgChooseAirAddress extends BaseFragment {
         }
     }
 
-    private class HistoryTextDelClick implements View.OnClickListener {
+    /*private class HistoryTextDelClick implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -206,7 +206,7 @@ public class FgChooseAirAddress extends BaseFragment {
                 showHistory.setVisibility(View.GONE);
             }
         }
-    }
+    }*/
 
 
     private void addHistoryData() {

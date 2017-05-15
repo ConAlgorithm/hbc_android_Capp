@@ -5,7 +5,10 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/include_header"/>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#cccccc" />
     <LinearLayout
         android:id="@+id/header_center"
         android:orientation="horizontal"
@@ -13,13 +16,14 @@
         android:layout_height="60dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:background="#e0e1e2"
+        android:background="@color/basic_white"
         android:layout_centerVertical="true">
 
         <RelativeLayout
             android:id="@+id/daily_layout_2"
             android:layout_width="100dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/daily_tap_2"
@@ -27,8 +31,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/choose_by_air_no"
-                android:textColor="@color/basic_daily_toolbar_color"
-                android:textSize="15sp" />
+                android:textColor="@color/common_font_color_black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/daily_tap_line2"
@@ -36,7 +40,7 @@
                 android:layout_height="2dip"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/basic_daily_toolbar_color"
+                android:background="@color/common_font_color_black"
                 android:visibility="visible" />
         </RelativeLayout>
 
@@ -48,7 +52,8 @@
         <RelativeLayout
             android:id="@+id/daily_layout_1"
             android:layout_width="100dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/daily_tap_1"
@@ -56,8 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/choose_by_address"
-                android:textColor="@color/basic_black"
-                android:textSize="15sp" />
+                android:textColor="@color/common_font_air"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/daily_tap_line1"
@@ -66,10 +71,14 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:visibility="gone"
-                android:background="@color/basic_daily_toolbar_color" />
+                android:background="@color/common_font_color_black" />
         </RelativeLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#cccccc" />
     <!---->
     <!--<RadioGroup-->
         <!--android:layout_width="match_parent"-->
