@@ -174,5 +174,8 @@
     <color name="common_font_color_black">#151515</color>
     <color name="common_font_color_gray">#A8A8A8</color>
     <color name="common_font_air">#7F7F7F</color>
+    <color name="reserve_calendar_title">#7f7f7f</color>
+    <color name="reserve_calendar_week_color1">#ee4000</color>
+    <color name="reserve_calendar_week_color2">#151515</color>
 
 </resources>
