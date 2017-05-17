@@ -72,11 +72,11 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         final FilterGuideBean data = (FilterGuideBean) _data;
         Tools.showImage(bgIV, data.guideCover, R.drawable.home_guide_dafault);
 
-        if (TextUtils.isEmpty(data.homeDesc) || TextUtils.isEmpty(data.homeDesc.trim())) {
+        if (TextUtils.isEmpty(data.getGuideDesc())) {
             descTV.setVisibility(View.GONE);
         } else {
             descTV.setVisibility(View.VISIBLE);
-            descTV.setText(data.homeDesc.trim());
+            descTV.setText(data.getGuideDesc());
         }
         double serviceStar = data.getServiceStar();
         if (serviceStar <= 0) {

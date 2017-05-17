@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -60,5 +62,13 @@ public class FilterGuideBean implements Serializable{
         } catch (Exception e) {
             return serviceStar;
         }
+    }
+
+    public String getGuideDesc() {
+        String result = "";
+        if (!TextUtils.isEmpty(homeDesc) && !TextUtils.isEmpty(homeDesc.trim())) {
+            result = homeDesc.trim().replace("\n", " ");
+        }
+        return result;
     }
 }
