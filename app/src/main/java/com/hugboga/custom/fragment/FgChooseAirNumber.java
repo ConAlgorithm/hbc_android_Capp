@@ -1,11 +1,13 @@
 package com.hugboga.custom.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
+import com.huangbaoche.hbcframe.widget.recycler.ZGridRecyclerView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
@@ -24,13 +28,19 @@ import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.widget.calendar.CalendarAdapter;
+import com.hugboga.custom.widget.calendar.CalendarCell;
+import com.hugboga.custom.widget.calendar.CalendarUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -62,7 +72,17 @@ public class FgChooseAirNumber extends BaseFragment {
     TextView cleanAllHistory;
     @Bind(R.id.show_history)
     LinearLayout showHistory;
+    @Bind(R.id.calendar)
+    ZGridRecyclerView gridView;
+    @Bind(R.id.reserve_calendar_title)
+    TextView reserve_calendar_title;
+    @Bind(R.id.reserve_calendar_prover)
+    ImageView prover;
+    @Bind(R.id.reserve_calendar_next)
+    ImageView next;
 
+    CalendarAdapter calAdapter;
+    Calendar thisCalendar = Calendar.getInstance(); //日历当前显示日期
     @Override
     public int getContentViewId() {
         return R.layout.fg_choose_air_number;
@@ -96,6 +116,11 @@ public class FgChooseAirNumber extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(calAdapter!= null && calAdapter.getDatas()!= null && calAdapter.getDatas().size()>0){
+            calAdapter.removeAll();
+        }
+        calAdapter.addDatas(CalendarUtils.getCalendarData(thisCalendar));
+        reserve_calendar_title.setText(new SimpleDateFormat("yyyy年M月").format(thisCalendar.getTime()));
         getSaveInfo();
     }
 
@@ -223,9 +248,22 @@ public class FgChooseAirNumber extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         EventBus.getDefault().register(this);
+        gridView.setColumn(7);
+        calAdapter = new CalendarAdapter(getContext());
+        gridView.setAdapter(calAdapter);
+        calAdapter.setOnItemClickListener(onItemClickListener);
         return rootView;
     }
+    ZBaseAdapter.OnItemClickListener onItemClickListener = new ZBaseAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+            CalendarCell cell = calAdapter.getDatas().get(position);
+            calAdapter.setSelectItem(position);
+            calAdapter.notifyDataSetChanged();
+            Log.d("zq","adfa");
+        }
 
+    };
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -233,7 +271,7 @@ public class FgChooseAirNumber extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.search, R.id.clean_all_history,R.id.address_tips})
+    @OnClick({R.id.search, R.id.clean_all_history,R.id.address_tips,R.id.reserve_calendar_prover,R.id.reserve_calendar_next})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search:
@@ -260,10 +298,69 @@ public class FgChooseAirNumber extends BaseFragment {
                 intent.putExtra("chooseDateBean",chooseDateBean);
                 getActivity().startActivity(intent);
                 break;
+            case R.id.reserve_calendar_prover:
+                thisCalendar.add(Calendar.MONTH, -1);
+                checkUpMonth(true);
+                break;
+            case R.id.reserve_calendar_next:
+                thisCalendar.add(Calendar.MONTH, 1);
+                checkDownMonth(true);
+                break;
+        }
+    }
+    @SuppressLint("WrongConstant")
+    private void checkUpMonth(boolean isload) {
+        Calendar startDate = Calendar.getInstance();
+        Integer resultCode = CalendarUtils.isLostMonth(thisCalendar, startDate);
+        switch (resultCode) {
+            case 0:
+                prover.setVisibility(View.INVISIBLE);
+                next.setVisibility(View.VISIBLE);
+                reloadDataOfMonth();
+                break;
+            case 1:
+                prover.setVisibility(View.VISIBLE);
+                next.setVisibility(View.VISIBLE);
+                reloadDataOfMonth();
+                break;
+            case -1:
+                thisCalendar.add(Calendar.MONTH, 1);
+                break;
         }
     }
 
-
+    @SuppressLint("WrongConstant")
+    private void checkDownMonth(boolean isload) {
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        Integer resultCodeN = CalendarUtils.isMastMonth(thisCalendar, endDate);
+        switch (resultCodeN) {
+            case 0:
+                prover.setVisibility(View.VISIBLE);
+                next.setVisibility(View.INVISIBLE);
+                reloadDataOfMonth();
+                break;
+            case 1:
+                prover.setVisibility(View.VISIBLE);
+                next.setVisibility(View.VISIBLE);
+                reloadDataOfMonth();
+                break;
+            case -1:
+                thisCalendar.add(Calendar.MONTH, -1);
+                break;
+        }
+    }
+    /**
+     * 重新加载月份数据
+     */
+    private void reloadDataOfMonth() {
+        reserve_calendar_title.setText(new SimpleDateFormat("yyyy年M月").format(thisCalendar.getTime()));
+        if(calAdapter != null){
+            calAdapter.removeAll();
+            calAdapter.addDatas(CalendarUtils.getCalendarData(thisCalendar));
+//            calAdapter.notifyDataSetChanged();
+        }
+    }
     String noStr= "";
     /**
      * 根据航班查

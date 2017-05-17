@@ -8,7 +8,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#cccccc" />
+        android:background="#eeeeee" />
     <LinearLayout
         android:id="@+id/header_center"
         android:orientation="horizontal"
@@ -78,7 +78,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#cccccc" />
+        android:background="#eeeeee" />
     <!---->
     <!--<RadioGroup-->
         <!--android:layout_width="match_parent"-->
