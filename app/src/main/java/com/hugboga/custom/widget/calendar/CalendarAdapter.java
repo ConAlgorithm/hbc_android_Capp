@@ -57,15 +57,18 @@ public class CalendarAdapter extends ZBaseAdapter<CalendarCell, CalendarVH> {
                 vh.mText.setTextColor(context.getResources().getColor(R.color.text_hint_color));
             }
         }
-        vh.mText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //if(vh.mText.)
-            }
-        });
+        if (position == selectItem) {
+            vh.mText.setBackground(context.getResources().getDrawable(R.drawable.ring_center_full));
+        }
+        else {
+            vh.mText.setBackground(context.getResources().getDrawable(R.drawable.ring_center_none));
+        }
     }
 
-
+    public  void setSelectItem(int selectItem) {
+        this.selectItem = selectItem;
+    }
+    private int  selectItem=-1;
 
     public void setChooseDateStr(String chooseDateStr) {
         this.chooseDateStr = chooseDateStr;

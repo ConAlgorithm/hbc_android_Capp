@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/basic_white"
-    android:clickable="true"
     android:gravity="center">
 
     <RelativeLayout
@@ -18,10 +17,9 @@
             android:id="@+id/calendar_cell_text"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@drawable/ring_cell"
+            android:background="@drawable/ring_center_none"
             android:gravity="center"
             android:textSize="12sp" />
-
 
     </RelativeLayout>
 

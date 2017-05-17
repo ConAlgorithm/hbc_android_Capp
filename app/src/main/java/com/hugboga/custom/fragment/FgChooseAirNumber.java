@@ -258,6 +258,8 @@ public class FgChooseAirNumber extends BaseFragment {
         @Override
         public void onItemClick(View view, int position) {
             CalendarCell cell = calAdapter.getDatas().get(position);
+            calAdapter.setSelectItem(position);
+            calAdapter.notifyDataSetChanged();
             Log.d("zq","adfa");
         }
 

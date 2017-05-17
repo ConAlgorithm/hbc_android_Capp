@@ -26,6 +26,5 @@ public class CalendarVH extends ZBaseViewHolder {
 
     public CalendarVH(View itemView) {
         super(itemView);
-        mText.setOnClickListener(null);
     }
 }
