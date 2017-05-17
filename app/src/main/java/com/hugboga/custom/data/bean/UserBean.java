@@ -33,6 +33,7 @@ public class UserBean implements IBaseBean {
     //public String rimUserId;//融云用户id
     public String nimUserId; //云信账号id
     public boolean mustRestPwd = false;//添加初始密码登陆需要重置密码标记字段
+    public boolean needInitPwd = false;//是否需要设置密码 仅当返回true时需要
 
     public String getGenderStr() {
         switch (gender) {
@@ -93,5 +94,6 @@ public class UserBean implements IBaseBean {
 
         UserEntity.getUser().setGender(context, getGenderStr());
         UserEntity.getUser().setAgeType(context, getAgeStr());
+        UserEntity.getUser().setNeedInitPwd(context, needInitPwd);
     }
 }

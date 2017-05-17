@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 144
+    //current urlErrorCode 145
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -135,6 +135,7 @@ public class UrlLibs {
     public static final String SERVER_IP_CAPTCHA            = SERVER_IP_PUBLIC_UER_CENTER + "captcha?";                      // 发送验证码
     public static final String SERVER_IP_REGISTER           = SERVER_IP_PUBLIC_UER_CENTER + "register?";                     // 注册
     public static final String SERVER_IP_LOGIN              = SERVER_IP_PUBLIC_UER_CENTER + "login?";                        // 登录
+    public static final String SERVER_IP_LOGIN_BYCAPTCHA    = SERVER_IP_PUBLIC_UER_CENTER + "login/bycaptcha?";              //免密登录145
     public static final String SERVER_IP_LOGOUT             = SERVER_IP_PUBLIC_UER_CENTER + "logout?";                       // 退出登录
     public static final String SERVER_IP_INFORMATION        = SERVER_IP_PUBLIC_UER_CENTER + "information?";                  // 获取用户信息
     public static final String SERVER_IP_INFORMATION_UPDATE = SERVER_IP_PUBLIC_UER_CENTER + "information/update?";           // 修改个人信息

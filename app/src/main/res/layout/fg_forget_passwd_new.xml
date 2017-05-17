@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/include_header" />
+    <RelativeLayout
+        android:id="@+id/forget_passwd_mobile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/login_textbox"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/forget_passwd_areacode"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:hint="选择区号"
+            android:paddingLeft="@dimen/basic_margin_large"
+            android:text="+86"
+            android:textColor="#161616"
+            android:textColorHint="@color/change_mobile_hint"
+            android:textSize="@dimen/text_size_large" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/forget_passwd_areacode"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/login_select"/>
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/icon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#dbdbdb" />
+
+        <EditText
+            android:id="@+id/forget_passwd_phone"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/view"
+            android:gravity="center_vertical"
+            android:background="@null"
+            android:hint="手机号"
+            android:inputType="number"
+            android:paddingLeft="@dimen/basic_margin_medium"
+            android:textColor="#161616"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="16dp"/>
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/login_delete" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#dbdbdb" />
+    <RelativeLayout
+        android:id="@+id/forget_passwd_getcode_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/login_textbox"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/forget_getcode_view"
+            android:layout_width="@dimen/change_mobile_getcode_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/forget_passwd_getcode"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/change_mobile_getcode"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:id="@+id/forget_passwd_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="(60s)"
+                android:textColor="#9E9D9C"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/forget_passwd_verity"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/basic_margin_large"
+            android:layout_alignParentLeft="true"
+            android:background="@null"
+            android:hint="验证码"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="16dp"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#dbdbdb" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/login_textbox"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_pwd_visible"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/basic_margin_large"
+            android:src="@mipmap/login_invisible"/>
+
+        <EditText
+            android:id="@+id/forget_passwd_newpass_layout"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/basic_margin_large"
+            android:layout_alignParentLeft="true"
+            android:background="@null"
+            android:hint="新密码,至少6位"
+            android:textColor="@color/change_mobile_text"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="16dp"/>
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/forget_passwd_submit"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/basic_margin_xlarge"
+        android:layout_marginLeft="@dimen/basic_margin_xlarge"
+        android:layout_marginRight="@dimen/basic_margin_xlarge"
+        android:background="@drawable/login2_selector_bg"
+        android:text="登录"
+        android:enabled="false"
+        android:textColor="@color/basic_white"
+        android:textSize="@dimen/text_size_large" />
+</LinearLayout>

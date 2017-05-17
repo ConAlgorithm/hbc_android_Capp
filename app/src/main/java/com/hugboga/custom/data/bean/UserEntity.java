@@ -30,7 +30,7 @@ public class UserEntity {
     private String unionid;
     private int travelFund;//旅游基金
     private int coupons;//优惠卷
-
+    private boolean needInitPwd;//是否需要设置密码 仅当返回true时需要
     public String gender;//性别
     public String ageType;//年龄
 
@@ -208,6 +208,7 @@ public class UserEntity {
         this.ageType = ageType;
     }
 
+
     public String getAgeType(Context activity) {
         if (ageType == null) {
             SharedPre shared = new SharedPre(activity);
@@ -216,6 +217,17 @@ public class UserEntity {
         return ageType;
     }
 
+    public void setNeedInitPwd(Context context, boolean setNeedInitPwd){
+        SharedPre sharedPre = new SharedPre(context);
+        sharedPre.saveBooleanValue(SharedPre.NEEDINITPWD,setNeedInitPwd);
+        this.needInitPwd = setNeedInitPwd;
+    }
+
+    public boolean getNeedInitPwd(Context activity) {
+        SharedPre shared = new SharedPre(activity);
+        needInitPwd = shared.getBooleanValue(SharedPre.NEEDINITPWD);
+        return needInitPwd;
+    }
     public String getLoginPhone(Context activity) {
         if (TextUtils.isEmpty(loginPhone)) {
             SharedPre shared = new SharedPre(activity);
