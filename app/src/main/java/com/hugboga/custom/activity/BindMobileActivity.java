@@ -3,8 +3,11 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,6 +29,8 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
+import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,7 +44,7 @@ import butterknife.OnClick;
 /**
  * Created by on 16/8/6.
  */
-public class BindMobileActivity extends BaseActivity{
+public class BindMobileActivity extends BaseActivity implements TextWatcher{
 
     @Bind(R.id.bind_mobile_areacode)
     TextView areaCodeTextView;
@@ -51,6 +56,10 @@ public class BindMobileActivity extends BaseActivity{
     TextView getCodeBtn;
     @Bind(R.id.bind_mobile_time)
     TextView timeTextView;
+    @Bind(R.id.miaoshu2)
+    TextView miaoshu2;
+    @Bind(R.id.bind_mobile_submit)
+    Button login_submit;
 
     private String areaCode = "";
     private String mobile = "";
@@ -58,6 +67,10 @@ public class BindMobileActivity extends BaseActivity{
     private boolean isAfterProcess = false;
 
     public static int REQUEST_CODE = 0x001;
+    private SharedPre sharedPre;
+
+    public static String KEY_PHONE = "key_phone";
+    public static String KEY_AREA_CODE = "key_area_code";
 
     @Override
     public int getContentViewId() {
@@ -70,6 +83,7 @@ public class BindMobileActivity extends BaseActivity{
         EventBus.getDefault().register(this);
         requestData();
         initView();
+        OrderUtils.genUserAgreeMent(this,miaoshu2);
     }
 
     @Override
@@ -110,6 +124,30 @@ public class BindMobileActivity extends BaseActivity{
             isAfterProcess = bundle.getBoolean("isAfterProcess");
         }
 
+        String areaCode = null;
+        String phone = null;
+        if (getIntent() != null) {
+            areaCode = getIntent().getStringExtra(KEY_AREA_CODE);
+            mobile = getIntent().getStringExtra(KEY_PHONE);
+        }
+        sharedPre = new SharedPre(activity);
+        if (TextUtils.isEmpty(areaCode)) {
+            areaCode = sharedPre.getStringValue(SharedPre.LOGIN_CODE);
+        }
+        if (!TextUtils.isEmpty(areaCode)) {
+            this.areaCode = areaCode;
+            areaCodeTextView.setText("+" + areaCode);
+        } else {
+            this.areaCode = "86";
+        }
+        if (TextUtils.isEmpty(phone)) {
+            phone = sharedPre.getStringValue(SharedPre.LOGIN_PHONE);
+        }
+        if (!TextUtils.isEmpty(phone)) {
+            this.mobile = phone;
+            mobileEditText.setText(phone);
+        }
+
         if(isAfterProcess){
             fgRightTV.setVisibility(View.INVISIBLE);
         }else{
@@ -120,6 +158,10 @@ public class BindMobileActivity extends BaseActivity{
         if (!TextUtils.isEmpty(UserEntity.getUser().getUnionid(this))) {
             setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
+
+        mobileEditText.addTextChangedListener(this);
+        areaCodeTextView.addTextChangedListener(this);
+        verityEditText.addTextChangedListener(this);
     }
 
     @Override
@@ -294,11 +336,11 @@ public class BindMobileActivity extends BaseActivity{
         public void run() {
             if (time > 0) {
                 setBtnVisible(false);
-                timeTextView.setText(String.valueOf(time--) + "秒");
+                timeTextView.setText("("+String.valueOf(time--) + "s)");
                 handler.postDelayed(this, 1000);
             } else {
                 setBtnVisible(true);
-                timeTextView.setText(String.valueOf(59) + "秒");
+                timeTextView.setText("("+String.valueOf(59) + "s)");
             }
 
         }
@@ -312,9 +354,12 @@ public class BindMobileActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.bind_mobile_submit, R.id.bind_mobile_areacode, R.id.bind_mobile_getcode})
+    @OnClick({R.id.bind_mobile_submit, R.id.bind_mobile_areacode, R.id.bind_mobile_getcode,R.id.delete})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.delete:
+                mobileEditText.setText("");
+                break;
             case R.id.bind_mobile_submit:
                 //更换手机号
                 collapseSoftInputMethod(mobileEditText); //隐藏键盘
@@ -355,6 +400,7 @@ public class BindMobileActivity extends BaseActivity{
                 break;
             case R.id.bind_mobile_getcode:
                 //获取验证码
+                login_submit.setEnabled(false);
                 collapseSoftInputMethod(mobileEditText); //隐藏键盘
                 collapseSoftInputMethod(verityEditText);
                 String areaCode1 = areaCodeTextView.getText().toString();
@@ -406,4 +452,28 @@ public class BindMobileActivity extends BaseActivity{
         CommonUtils.showToast(tips);
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        String phone = mobileEditText.getText().toString().trim();
+        String capthca = verityEditText.getText().toString().trim();
+        String areaCode = areaCodeTextView.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
+            login_submit.setEnabled(true);
+            login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        } else {
+            login_submit.setEnabled(false);
+            login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+    }
 }
