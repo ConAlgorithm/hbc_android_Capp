@@ -49,7 +49,7 @@
                 android:background="#ffffff"
                 android:visibility="gone"
                 android:gravity="center"
-                android:paddingTop="40dp"
+                android:paddingTop="60dp"
                 android:paddingBottom="40dp"
                 android:orientation="vertical"/>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/pickup_order_bottom_should_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
+        android:paddingLeft="1dp"
+        android:textColor="#f63408"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/pickup_order_bottom_distance_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pickup_order_bottom_should_price_tv"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:gravity="center"
+        android:textColor="@color/default_black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/pickup_order_bottom_confirm_tv"
+        style="@style/OrderBottomConfirm"
+        android:text="确认行程" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/default_dividing_line" />
+</merge>

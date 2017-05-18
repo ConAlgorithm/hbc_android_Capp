@@ -10,7 +10,7 @@
         android:id="@+id/sku_order_empty_iv"
         android:layout_width="150dp"
         android:layout_height="120dp"
-        android:layout_marginTop="50dip"
+        android:layout_marginTop="30dip"
         android:background="@drawable/empty_wifi" />
 
     <TextView

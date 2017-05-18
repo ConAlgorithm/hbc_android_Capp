@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/titlebar_ps_left_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/titlebar_ps_left_tv"
+            android:layout_width="@dimen/titlebar_icon_height"
+            android:layout_height="@dimen/titlebar_icon_height"
+            android:background="@mipmap/topbar_back"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:textColor="#000000"
+            android:textSize="@dimen/titlebar_right_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/titlebar_ps_right_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/titlebar_ps_right_tv"
+            android:layout_width="@dimen/titlebar_icon_height"
+            android:layout_height="@dimen/titlebar_icon_height"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/topbar_cs"
+            android:gravity="center_vertical"
+            android:textColor="@color/titlebar_text"
+            android:textSize="@dimen/titlebar_right_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/titlebar_ps_pickup_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="40dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:id="@+id/titlebar_ps_pickup_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="4dp"
+                android:text="@string/title_pick"
+                android:textColor="@color/default_black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/titlebar_ps_pickup_line_view"
+                android:layout_width="match_parent"
+                android:layout_alignLeft="@id/titlebar_ps_pickup_tv"
+                android:layout_alignRight="@id/titlebar_ps_pickup_tv"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2.3dp"
+                android:layout_height="2dip"
+                android:background="@color/default_black" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/titlebar_ps_send_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="40dp"
+            android:paddingLeft="12dp">
+
+            <TextView
+                android:id="@+id/titlebar_ps_send_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="4dp"
+                android:text="@string/title_send"
+                android:textColor="@color/default_black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/titlebar_ps_send_line_view"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_alignLeft="@id/titlebar_ps_send_tv"
+                android:layout_alignRight="@id/titlebar_ps_send_tv"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2.3dp"
+                android:background="@color/default_black" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</merge>

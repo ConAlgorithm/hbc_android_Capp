@@ -116,4 +116,9 @@
     <declare-styleable name="CircularProgress">
         <attr name="borderWidth" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="OrderInfoItemView">
+        <attr name="titleText" format="string"/>
+        <attr name="hintText" format="string"/>
+    </declare-styleable>
 </resources>

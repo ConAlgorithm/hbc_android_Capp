@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/order_info_title_tv"
+        style="@style/SkuOrderSubtitleTextView" />
+
+    <LinearLayout
+        android:id="@+id/order_info_desc_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/order_info_title_tv"
+        android:layout_marginRight="22dp"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/order_min_item_hight"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/order_info_desc_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/default_black"
+            android:textColorHint="#cccccc"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/order_info_desc_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="@color/default_black"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/order_info_desc_tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
+            android:textColor="#cccccc"
+            android:textSize="12sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/order_info_desc_layout"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/order_info_desc_layout">
+
+        <ImageView
+            android:id="@+id/order_info_arrow_iv"
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/ente_icon" />
+    </FrameLayout>
+</merge>

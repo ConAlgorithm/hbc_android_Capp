@@ -33,9 +33,10 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.OrderGuideLayout;
+import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.title.TitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -61,21 +62,17 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @Bind(R.id.charter_first_titlebar)
     TitleBar titlebar;
-    @Bind(R.id.charter_first_city_tv)
-    TextView cityTV;
-    @Bind(R.id.charter_first_date_tv)
-    TextView dateTV;
+    @Bind(R.id.charter_first_city_layout)
+    OrderInfoItemView cityLayout;
+    @Bind(R.id.charter_first_date_layout)
+    OrderInfoItemView dateLayout;
     @Bind(R.id.charter_first_count_view)
     CharterFirstCountView countLayout;
     @Bind(R.id.charter_first_bottom_next_tv)
     TextView nextTV;
 
     @Bind(R.id.charter_first_guide_layout)
-    LinearLayout guideLayout;
-    @Bind(R.id.charter_first_guide_avatar_iv)
-    PolygonImageView avatarIV;
-    @Bind(R.id.charter_first_guide_tv)
-    TextView guideTV;
+    OrderGuideLayout guideLayout;
 
     private CityBean startBean;
     private ChooseDateBean chooseDateBean;
@@ -146,13 +143,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             charterDataUtils.guidesDetailData = guidesDetailData;
             startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
             guideLayout.setVisibility(View.VISIBLE);
-            Tools.showImage(avatarIV, guidesDetailData.avatar, R.mipmap.icon_avatar_guide);
-            guideTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guidesDetailData.guideName, guidesDetailData.countryName));
+            guideLayout.setData(guidesDetailData.avatar, guidesDetailData.guideName, guidesDetailData.countryName);
             requestData(new RequestGuideCrop(this, guidesDetailData.guideId));
         }
 
         if (startBean != null) {
-            cityTV.setText(startBean.name);
+            cityLayout.setDesc(startBean.name);
             if (guidesDetailData == null) {
                 requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
             } else {
@@ -250,14 +246,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                     return;
                 }
                 startBean = cityBean;
-                cityTV.setText(cityBean.name);
+                cityLayout.setDesc(cityBean.name);
                 requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
                 break;
             case CHOOSE_GUIDE_CITY_BACK:
                 ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
                 charterDataUtils.guideCropList = guideServiceCitys.guideCropList;
                 startBean = guideServiceCitys.getSelectedCityBean();
-                cityTV.setText(startBean.name);
+                cityLayout.setDesc(startBean.name);
                 getGuideCars();
                 break;
             case CHOOSE_DATE:
@@ -276,7 +272,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 startBean = charterDataUtils.getStartCityBean(1);
                 chooseDateBean = charterDataUtils.chooseDateBean;
                 maxPassengers = charterDataUtils.maxPassengers;
-                cityTV.setText(startBean.name);
+                cityLayout.setDesc(startBean.name);
                 setDateViewText();
                 countLayout.setAdultValue(charterDataUtils.adultCount);
                 countLayout.setChildValue(charterDataUtils.childCount);
@@ -332,7 +328,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             dateStr += " - " + chooseDateBean.showEndDateStr;
         }
         dateStr += String.format("（%1$s天）", chooseDateBean.dayNums);
-        dateTV.setText(dateStr);
+        dateLayout.setDesc(dateStr);
 
         if (isEnabled) {
             setNextViewEnabled(true);
