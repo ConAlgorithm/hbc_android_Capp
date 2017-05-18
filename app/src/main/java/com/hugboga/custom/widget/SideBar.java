@@ -22,7 +22,7 @@ public class SideBar extends View {
     // 26个字母
     private String[] b = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-            "W", "X", "Y", "Z", "#"};
+            "W", "X", "Y", "Z"};
     private int choose = -1;// 选中
 
     private Paint paint = null;
@@ -44,7 +44,7 @@ public class SideBar extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(Common.dpToPx(getResources(), 12));
-        paint.setColor(getResources().getColor(R.color.basic_pick_toolbar_color));
+        paint.setColor(getResources().getColor(R.color.common_font_color_gray));
     }
 
     /**
@@ -90,7 +90,7 @@ public class SideBar extends View {
             case MotionEvent.ACTION_UP:
 //                setBackgroundColor(0x00000000);
                 choose = -1;//
-                paint.setColor(getResources().getColor(R.color.basic_pick_toolbar_color));
+                paint.setColor(getResources().getColor(R.color.common_font_color_gray));
                 invalidate();
                 if (mTextDialog != null) {
                     mTextDialog.setVisibility(View.INVISIBLE);
@@ -108,7 +108,7 @@ public class SideBar extends View {
                             mTextDialog.setVisibility(View.VISIBLE);
                         }
                         choose = c;
-                        paint.setColor(getResources().getColor(R.color.basic_pick_toolbar_color));
+                        paint.setColor(getResources().getColor(R.color.common_font_color_gray));
                         invalidate();
                     }
                 }

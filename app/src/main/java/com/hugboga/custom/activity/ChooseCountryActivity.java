@@ -259,12 +259,15 @@ public class ChooseCountryActivity extends BaseActivity {
         super.onDataRequestSucceed(request);
     }
 
-    @OnClick({R.id.head_btn_left})
+    @OnClick({R.id.head_btn_left,R.id.delete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.head_btn_left:
                 finish();
                 hideInputMethod(searchEditText);
+                break;
+            case R.id.delete:
+                searchEditText.setText("");
                 break;
         }
     }

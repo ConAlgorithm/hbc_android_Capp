@@ -167,7 +167,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
     }
-
+    public void loginCheckOpenId(String code) {
+        RequestLoginCheckOpenId request = new RequestLoginCheckOpenId(activity, code);
+        requestData(request);
+    }
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -175,7 +178,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 if (action.getData() != null && action.getData() instanceof SendAuth.Resp) {
                     SendAuth.Resp resp = (SendAuth.Resp) action.getData();
                     if (!TextUtils.isEmpty(resp.code) && !TextUtils.isEmpty(resp.state) && resp.state.equals("hbc")) {
-                        //loginCheckOpenId(resp.code);
+                        loginCheckOpenId(resp.code);
                     }
                 }
                 break;
@@ -225,7 +228,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         super.onStart();
         this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
-
+    Integer time = 59;
+    Handler handler = new Handler();
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
@@ -239,8 +243,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserEntity.getUser().setLoginPhone(activity, mRequest.mobile);
             UserSession.getUser().setUserToken(activity, user.userToken);
             UserEntity.getUser().setUserName(activity, user.name);
-            UserEntity.getUser().setNimUserId(activity,user.nimUserId);
-            UserEntity.getUser().setNimUserToken(activity,user.nimToken);
+            UserEntity.getUser().setNimUserId(activity, user.nimUserId);
+            UserEntity.getUser().setNimUserToken(activity, user.nimToken);
             UserEntity.getUser().setUnionid(LoginActivity.this, "");
             try {
                 SensorsDataAPI.sharedInstance(this).login(user.userID);
@@ -259,7 +263,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             map.put("head", !TextUtils.isEmpty(user.avatar) ? "是" : "否");
             map.put("nickname", !TextUtils.isEmpty(user.nickname) ? "是" : "否");
             map.put("phone", !TextUtils.isEmpty(user.mobile) ? "是" : "否");
-            MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED,map);
+            MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED, map);
             CommonUtils.showToast("登录成功");
             /*if (user.mustRestPwd && passwordEditText.getText() != null) {
                 final String password = passwordEditText.getText().toString();
@@ -268,14 +272,39 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 startActivity(intent);
             }*/
             finish();
+        } else if (request instanceof RequestLoginCheckOpenId) {
+            RequestLoginCheckOpenId request1 = (RequestLoginCheckOpenId) request;
+            UserBean userBean = request1.getData();
+            UserEntity.getUser().setUnionid(LoginActivity.this, userBean.unionid);
+            if (userBean.isNotRegister == 1) {//未注册，走注册流程
+                Bundle bundle = new Bundle();
+                bundle.putString("unionid", userBean.unionid);
+                bundle.putString("source", getEventSource());
+                Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+                MobClickUtils.onEvent(StatisticConstant.WEIXINBIND_LAUNCH);
+            } else {//注册了，有用户信息
+                userBean.setUserEntity(activity);
+                UserSession.getUser().setUserToken(activity, userBean.userToken);
+                Unicorn.setUserInfo(null);
+                connectIM();
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("bind", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
+                MobClickUtils.onEvent(StatisticConstant.WEIXINREGISTER_SUCCEED, map);
+                CommonUtils.showToast("登录成功");
+                finish();
+            }
         }else if(request instanceof RequestVerity){
             CommonUtils.showToast("验证码已发送");
+            phoneEditText.setText(phone);
             time = 59;
             handler.postDelayed(runnable, 0);
         }
     }
-    Integer time = 59;
-    Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -300,6 +329,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         if(request instanceof RequestVerity){
             verify.setText("获取验证码");
             verify.setTextColor(0xff24B5FF);
+            phoneEditText.setText(phone);
         }else if(request instanceof  RequestLoginBycaptcha){
 
         }
