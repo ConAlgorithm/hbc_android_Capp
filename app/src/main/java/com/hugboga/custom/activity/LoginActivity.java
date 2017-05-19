@@ -366,6 +366,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 intent = new Intent(this, AccountPwdLoginActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_right,
+                        0);
                 break;
             case R.id.login_submit:
                 //登录

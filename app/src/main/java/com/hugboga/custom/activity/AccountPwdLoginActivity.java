@@ -317,4 +317,12 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             passwordVisible.setImageResource(R.mipmap.icon_pwd_visible);
         }
     }
+
+    @Override
+    public void finish() {
+        // TODO Auto-generated method stub
+        super.finish();
+        //关闭窗体动画显示
+        this.overridePendingTransition(R.anim.out_to_right,0);
+    }
 }

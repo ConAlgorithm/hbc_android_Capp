@@ -106,8 +106,8 @@ public class MenuItemAdapter extends BaseAdapter {
                 if (convertView == null) {
                     serviceViewHolder = new ViewHolder();
                     convertView = mInflater.inflate(R.layout.slide_menu_item_service, parent, false);
-                    serviceViewHolder.icon = (ImageView) convertView.findViewById(R.id.slide_menu_item_service_icon);
-                    serviceViewHolder.title = (TextView) convertView.findViewById(R.id.slide_menu_item_service_title);
+                    serviceViewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                    serviceViewHolder.title = (TextView) convertView.findViewById(R.id.title);
                     convertView.setTag(serviceViewHolder);
                 } else {
                     serviceViewHolder = (ViewHolder) convertView.getTag();

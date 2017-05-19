@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,27 +65,29 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Bind(R.id.fg_space_listview)
     ListView listView;
 
+    ImageView set;
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
     private ImageView travelFundHintIV;
-    private ImageView headerBgIV;
+    //private ImageView headerBgIV;
 
     private MenuItemAdapter menuItemAdapter;
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
-                    new LvMenuItem(R.mipmap.personal_icon_safe, "常用投保人"),
-                    new LvMenuItem(R.mipmap.personal_icon_collection, "我收藏的司导"),
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
+                    new LvMenuItem(R.mipmap.personal_icon_policy_holder, "常用投保人"),
+                    new LvMenuItem(R.mipmap.personal_icon_collect, "我收藏的司导"),
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_service, "服务规则"),
-                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境内客服", MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(R.mipmap.personal_icon_call, "联系境外客服", MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_install, "设置")
+                    //new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
+                    //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    new LvMenuItem(R.mipmap.personal_icon_domestic, "境内用户客服热线", MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(R.mipmap.personal_icon_overseas, "境外用户客服专线", MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(R.mipmap.personal_icon_rule, "服务规则")
+                    //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
+                    //new LvMenuItem(R.mipmap.personal_icon_install, "设置")
             ));
 
     @Override
@@ -133,21 +136,23 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
         head_view.setOnClickListener(this);
 
-        headerBgIV = (ImageView) header.findViewById(R.id.nav_header_bg_iv);//头像
+        //headerBgIV = (ImageView) header.findViewById(R.id.nav_header_bg_iv);//头像
         my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
         my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
         tv_nickname.setOnClickListener(this);
+        set = (ImageView) header.findViewById(R.id.set);
+        set.setOnClickListener(this);
         couponTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_tv);//优惠券
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
-        travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
-        if (new SharedPre(getContext()).isShowTravelFundHint()) {
-            travelFundHintIV.setVisibility(View.VISIBLE);
-        } else {
-            travelFundHintIV.setVisibility(View.GONE);
-        }
+        //travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
+        //if (new SharedPre(getContext()).isShowTravelFundHint()) {
+        //    travelFundHintIV.setVisibility(View.VISIBLE);
+        //} else {
+        //    travelFundHintIV.setVisibility(View.GONE);
+        // }
         header.findViewById(R.id.slidemenu_header_coupon_layout).setOnClickListener(this);
         header.findViewById(R.id.slidemenu_header_travelfund_layout).setOnClickListener(this);
         tv_nickname.setOnLongClickListener(new View.OnLongClickListener() {
@@ -180,35 +185,45 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
      */
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
-            my_icon_head.setImageResource(R.mipmap.icon_avatar_user_off);
-            headerBgIV.setImageResource(R.mipmap.personal_bg);
+            my_icon_head.setImageResource(R.mipmap.personal_default_head);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
-            couponTV.setText("");
-            travelFundTV.setText("");
-            couponUnitTV.setText("--");
-            travelFundUnitTV.setText("--");
-            tv_nickname.setTextColor(0xFF999999);
+            couponTV.setText("--");
+            couponTV.setTextColor(0xff898989);
+            couponTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
+            couponUnitTV.setTextColor(0xff898989);
+
+            travelFundTV.setText("--");
+            travelFundTV.setTextColor(0xff898989);
+            travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
+            travelFundUnitTV.setTextColor(0xff898989);
+
+            tv_nickname.setText("点击登录");
+            tv_nickname.setTextColor(0xff898989);
         } else {
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
-                Tools.showImage(my_icon_head, avatar, R.mipmap.icon_avatar_user);
+                Tools.showImage(my_icon_head, avatar, R.mipmap.personal_default_head);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
-                headerBgIV.setImageResource(R.mipmap.personal_bg);
             } else {
-                headerBgIV.setImageResource(R.mipmap.personal_bg);
-                my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
+                my_icon_head.setImageResource(R.mipmap.personal_default_head);
             }
-            tv_nickname.setTextColor(0xFF3c3731);
+            tv_nickname.setTextColor(0xff151515);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(getContext()))) {
                 tv_nickname.setText(UserEntity.getUser().getNickname(getContext()));
             } else {
                 tv_nickname.setText(this.getResources().getString(R.string.person_center_no_nickname));
             }
+
             couponTV.setText("" + UserEntity.getUser().getCoupons(getContext()));
+            couponTV.setTextColor(0xffff6532);
+            couponTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+            couponUnitTV.setTextColor(0xff002914);
+
             travelFundTV.setText("" + UserEntity.getUser().getTravelFund(getContext()));
-            couponUnitTV.setText("张");
-            travelFundUnitTV.setText("元");
+            travelFundTV.setTextColor(0xffffc100);
+            travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+            travelFundUnitTV.setTextColor(0xffffc100);
 
         }
     }
@@ -231,13 +246,13 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     startActivity(intent);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_HD://活动
+            /*case Constants.PERSONAL_CENTER_HD://活动
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
                 Intent intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));
                 startActivity(intent);
                 setSensorsDefaultEvent("活动列表", SensorsConstant.ACTLIST);
-                break;
+                break;*/
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
                 startActivity(intent);
@@ -250,12 +265,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
                 SensorsUtils.setSensorsServiceEvent(getEventSource(), 2);
                 break;
-            case Constants.PERSONAL_CENTER_SETTING://设置
+            /*case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心-设置")) {
                     intent = new Intent(getContext(),SettingActivity.class);
                     startActivity(intent);
                 }
-                break;
+                break;*/
             default:
                 break;
         }
@@ -295,6 +310,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
                     MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
+                }
+                break;
+            case R.id.set:
+                if (isLogin("个人中心-设置")) {
+                    intent = new Intent(getContext(),SettingActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }
