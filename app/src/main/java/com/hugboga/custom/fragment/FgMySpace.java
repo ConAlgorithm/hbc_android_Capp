@@ -64,7 +64,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     @Bind(R.id.fg_space_listview)
     ListView listView;
-
+    /*@Bind(R.id.red_point)*/
+    ImageView redPoint;
     ImageView set;
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
@@ -147,6 +148,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
+        redPoint = (ImageView) header.findViewById(R.id.red_point);
         //travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
         //if (new SharedPre(getContext()).isShowTravelFundHint()) {
         //    travelFundHintIV.setVisibility(View.VISIBLE);
@@ -177,6 +179,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     public void refreshUserInfo() {
         if (UserEntity.getUser().isLogin(getContext())) {
             HttpRequestUtils.request(getContext(), new RequestUserInfo(getContext()), this, false);
+        }else{
+            redPoint.setVisibility(View.GONE);
         }
     }
 
@@ -313,10 +317,10 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 }
                 break;
             case R.id.set:
-                if (isLogin("个人中心-设置")) {
+                //if (isLogin("个人中心-设置")) {
                     intent = new Intent(getContext(),SettingActivity.class);
                     startActivity(intent);
-                }
+                //}
                 break;
         }
     }
@@ -352,10 +356,19 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             UserEntity.getUser().setUserName(getContext(), user.name);
             UserEntity.getUser().setTravelFund(getContext(), user.travelFund);
             UserEntity.getUser().setCoupons(getContext(), user.coupons);
+            UserEntity.getUser().setNeedInitPwd(getContext(),user.needInitPwd);
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
             couponUnitTV.setText("张");
             travelFundUnitTV.setText("元");
+
+            //是否需要设置密码,展示小红点
+            if(user.needInitPwd){
+                redPoint.setVisibility(View.VISIBLE);
+            }else{
+                redPoint.setVisibility(View.GONE);
+            }
+
         }
     }
 

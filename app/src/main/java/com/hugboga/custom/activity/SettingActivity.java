@@ -16,10 +16,12 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogout;
+import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
@@ -71,6 +73,12 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.setting_menu_developer_layout)
     RelativeLayout developerLayout;
 
+    @Bind(R.id.red_point1)
+    ImageView redPoint;
+    @Bind(R.id.setOrChangPwd)
+    TextView setOrChangPwd;
+
+    boolean needInitPwd;
     @Override
     public int getContentViewId() {
         return R.layout.fg_setting;
@@ -80,7 +88,10 @@ public class SettingActivity extends BaseActivity {
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         initHeader();
-
+        if(!UserEntity.getUser().isLogin(this)){
+            settingMenuLayout2.setVisibility(View.GONE);
+            settingExit.setVisibility(View.GONE);
+        }
         if (HbcConfig.IS_DEBUG) {
             developerLayout.setVisibility(View.VISIBLE);
         } else {
@@ -99,10 +110,15 @@ public class SettingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_menu_layout2:
-                //修改密码
 //                startFragment(new FgChangePsw());
-                intent = new Intent(activity,ChangePswActivity.class);
-                startActivity(intent);
+                if(needInitPwd){
+                    intent = new Intent(activity,SetPswActivity.class);
+                    startActivity(intent);
+                }else{
+                    intent = new Intent(activity,ChangePswActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
             case R.id.setting_menu_layout3:
                 //意见反馈
@@ -201,6 +217,16 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshUserInfo();
+    }
+    public void refreshUserInfo() {
+        if (UserEntity.getUser().isLogin(this)) {
+            HttpRequestUtils.request(this, new RequestUserInfo(this), this, false);
+        }
+    }
     private String getCacheSize() {
         String result = "";
         if (cacheSize == null) {
@@ -226,6 +252,27 @@ public class SettingActivity extends BaseActivity {
         return result;
     }
 
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if(request instanceof RequestUserInfo){
+            RequestUserInfo mRequest = (RequestUserInfo) request;
+            UserBean user = mRequest.getData();
+            this.needInitPwd = user.needInitPwd;
+            if (this == null || user == null) {
+                return;
+            }
+            //是否需要设置密码,展示小红点
+                if(user.needInitPwd){
+                    setOrChangPwd.setText("设置密码");
+                    redPoint.setVisibility(View.VISIBLE);
+                }else{
+                    setOrChangPwd.setText("修改密码");
+                    redPoint.setVisibility(View.GONE);
+                }
 
+            UserEntity.getUser().setNeedInitPwd(this,user.needInitPwd);
+        }
+    }
 }
 

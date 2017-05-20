@@ -25,12 +25,19 @@
                 android:padding="@dimen/basic_margin_xlarge">
 
                 <TextView
+                    android:id="@+id/setOrChangPwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改密码"
                     android:textColor="@color/my_info_menu_title"
                     android:textSize="@dimen/text_size_largex" />
-
+                <ImageView
+                    android:id="@+id/red_point1"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_toRightOf="@+id/setOrChangPwd"
+                    android:background="@drawable/red_set_pwd"
+                    android:visibility="gone"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
