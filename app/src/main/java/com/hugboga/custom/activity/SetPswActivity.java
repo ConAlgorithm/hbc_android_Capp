@@ -68,7 +68,15 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                 return false;
             }
         });
-        setPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        setPswAgain.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ivPwdVisible1.setVisibility(View.GONE);
+                ivPwdVisible2.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+       /* setPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -111,12 +119,17 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                     ivPwdVisible2.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
     }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if(setPsw.hasFocus()){
+            setPsw.setSelection(setPsw.getText().toString().length());
+        }
+        if(setPswAgain.hasFocus()){
+            setPswAgain.setSelection(setPswAgain.getText().toString().length());
+        }
     }
 
     @Override
@@ -128,6 +141,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         switch (view.getId()) {
             case R.id.iv_pwd_visible1:
                 if (setPsw != null) {
+                    setPsw.setSelection(setPsw.getText().toString().length());
                     if (isPwd1Visibility) {//密码可见
                         isPwd1Visibility = false;
                         setPsw.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -141,6 +155,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                 break;
             case R.id.iv_pwd_visible2:
                 if (setPswAgain != null) {
+                    setPswAgain.setSelection(setPswAgain.getText().toString().length());
                     if (isPwd2Visibility) {//密码可见
                         isPwd2Visibility = false;
                         setPswAgain.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -172,6 +187,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     }
     @Override
     public void afterTextChanged(Editable editable) {
+
         String set_psw = setPsw.getText().toString().trim();
         String set_psw_again = setPswAgain.getText().toString().trim();
 
@@ -198,7 +214,12 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             setPswAgain.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             ivPwdVisible2.setImageResource(R.mipmap.login_visible);
         }
-
+        if(setPsw.hasFocus()){
+            setPsw.setSelection(setPsw.getText().toString().length());
+        }
+        if(setPswAgain.hasFocus()){
+            setPswAgain.setSelection(setPswAgain.getText().toString().length());
+        }
     }
 
     @Override

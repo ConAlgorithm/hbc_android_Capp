@@ -92,12 +92,30 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                 return false;
             }
         });
-        oldPwdEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        newPwdEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ivPwdVisible1.setVisibility(View.GONE);
+                ivPwdVisible2.setVisibility(View.VISIBLE);
+                ivPwdVisible3.setVisibility(View.GONE);
+                return false;
+            }
+        });
+        rewPwdEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ivPwdVisible1.setVisibility(View.GONE);
+                ivPwdVisible2.setVisibility(View.GONE);
+                ivPwdVisible3.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+        /*oldPwdEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    if(isSoftInputShow()){
+                    //if(isSoftInputShow()){
                         if(isFirstEnter){
                             isFirstEnter = false;
                             ivPwdVisible1.setVisibility(View.GONE);
@@ -107,9 +125,9 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                         }
                         ivPwdVisible2.setVisibility(View.GONE);
                         ivPwdVisible3.setVisibility(View.GONE);
-                    }else{
-                        ivPwdVisible1.setVisibility(View.VISIBLE);
-                    }
+                    //}else{
+                     //   ivPwdVisible1.setVisibility(View.VISIBLE);
+                   // }
                 }else{
                     ivPwdVisible1.setVisibility(View.GONE);
                 }
@@ -121,7 +139,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    if(isSoftInputShow()){
+                    //if(isSoftInputShow()){
                         if(isFirstEnter){
                             isFirstEnter = false;
                             ivPwdVisible2.setVisibility(View.GONE);
@@ -131,9 +149,9 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                         }
                         ivPwdVisible1.setVisibility(View.GONE);
                         ivPwdVisible3.setVisibility(View.GONE);
-                    }else{
-                        ivPwdVisible2.setVisibility(View.VISIBLE);
-                    }
+                    //}else{
+                    //    ivPwdVisible2.setVisibility(View.VISIBLE);
+                    //}
                 }else{
                     ivPwdVisible2.setVisibility(View.GONE);
                 }
@@ -144,7 +162,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    if(isSoftInputShow()){
+                    //if(isSoftInputShow()){
                         if(isFirstEnter){
                             isFirstEnter = false;
                             ivPwdVisible3.setVisibility(View.GONE);
@@ -154,14 +172,14 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                         }
                         ivPwdVisible1.setVisibility(View.GONE);
                         ivPwdVisible2.setVisibility(View.GONE);
-                    }else{
-                        ivPwdVisible3.setVisibility(View.VISIBLE);
-                    }
+                   // }else{
+                   //     ivPwdVisible3.setVisibility(View.VISIBLE);
+                    //}
                 }else{
                     ivPwdVisible3.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -207,6 +225,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                 break;
             case R.id.iv_pwd_visible1:
                 if (oldPwdEditText != null) {
+                    oldPwdEditText.setSelection(oldPwdEditText.getText().toString().length());
                     if (isPwd1Visibility) {//密码可见
                         isPwd1Visibility = false;
                         oldPwdEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -220,6 +239,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                 break;
             case R.id.iv_pwd_visible2:
                 if (newPwdEditText != null) {
+                    newPwdEditText.setSelection(newPwdEditText.getText().toString().length());
                     if (isPwd2Visibility) {//密码可见
                         isPwd2Visibility = false;
                         newPwdEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -233,6 +253,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                 break;
             case R.id.iv_pwd_visible3:
                 if (rewPwdEditText != null) {
+                    rewPwdEditText.setSelection(rewPwdEditText.getText().toString().length());
                     if (isPwd3Visibility) {//密码可见
                         isPwd3Visibility = false;
                         rewPwdEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -263,7 +284,15 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if(oldPwdEditText.hasFocus()){
+            oldPwdEditText.setSelection(oldPwdEditText.getText().toString().length());
+        }
+        if(newPwdEditText.hasFocus()){
+            newPwdEditText.setSelection(newPwdEditText.getText().toString().length());
+        }
+        if(rewPwdEditText.hasFocus()){
+            rewPwdEditText.setSelection(rewPwdEditText.getText().toString().length());
+        }
     }
 
     @Override
@@ -304,6 +333,15 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
             ivPwdVisible3.setImageResource(R.mipmap.login_visible);
         }
 
+        if(oldPwdEditText.hasFocus()){
+            oldPwdEditText.setSelection(oldPwdEditText.getText().toString().length());
+        }
+        if(newPwdEditText.hasFocus()){
+            newPwdEditText.setSelection(newPwdEditText.getText().toString().length());
+        }
+        if(rewPwdEditText.hasFocus()){
+            rewPwdEditText.setSelection(rewPwdEditText.getText().toString().length());
+        }
     }
 
     @Override
