@@ -178,5 +178,6 @@
     <color name="reserve_calendar_week_color1">#ee4000</color>
     <color name="reserve_calendar_week_color2">#151515</color>
     <color name="forget_pwd">#24b5ff</color>
+    <color name="pickerLine">#dddddd</color>
 
 </resources>

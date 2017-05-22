@@ -24,7 +24,7 @@ import cn.qqtheme.framework.widget.WheelView;
 public class SinglePicker<T> extends WheelPicker {
     private List<T> items = new ArrayList<T>();
     private List<String> itemStrings = new ArrayList<String>();
-    private WheelView wheelView;
+    protected WheelView wheelView;
     private OnWheelListener onWheelListener;
     private OnItemPickListener<T> onItemPickListener;
     private int selectedItemIndex = 0;
@@ -122,12 +122,24 @@ public class SinglePicker<T> extends WheelPicker {
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
         wheelView = new WheelView(activity);
-        wheelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, 1.0f));
+        if(fromAgeOrSexPicker()){
+            wheelView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        }else{
+            wheelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, 1.0f));
+        }
+
         wheelView.setTextSize(textSize);
         wheelView.setTextColor(textColorNormal, textColorFocus);
         wheelView.setLineConfig(lineConfig);
         wheelView.setOffset(offset);
         wheelView.setCycleDisable(cycleDisable);
+        if(fromAgeOrSexPicker()){
+            wheelView.setTextFocusSize(22);
+            wheelView.setTextNormalSize(19);
+            wheelView.setTextColor(0xffaaaaaa,0xff151515);
+            lineConfig.setRatio(0f);
+            wheelView.setLineConfig(lineConfig);
+        }
         layout.addView(wheelView);
         TextView labelView = new TextView(activity);
         labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
@@ -184,4 +196,7 @@ public class SinglePicker<T> extends WheelPicker {
 
     }
 
+    protected boolean fromAgeOrSexPicker(){
+        return false;
+    }
 }

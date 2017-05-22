@@ -536,13 +536,13 @@ public class DialogUtil implements DialogUtilInterface {
                 || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
             return showDefaultServiceDialog(_context, source);
         }
-        String title = _title;
+        /*String title = _title;
         if (TextUtils.isEmpty(title)) {
             title = "咨询小助手";
-        }
-        String [] str = {"在线聊天", "境内客服：" + Constants.CALL_NUMBER_IN, "境外客服：" + Constants.CALL_NUMBER_OUT};
+        }*/
+        String [] str = {"在线咨询", "境内用户客服热线", "境外用户客服专线","取消"};
         AlertDialog dialog = new AlertDialog.Builder(_context)
-                .setTitle(title)
+                //.setTitle(title)
                 .setItems(str,new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -551,9 +551,11 @@ public class DialogUtil implements DialogUtilInterface {
                         } else if (which == 1) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
-                        } else {
+                        } else if(which ==2){
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
+                        }else if(which == 3){
+                            dialog.dismiss();
                         }
                         SensorsUtils.setSensorsServiceEvent(sourceType, which);
                     }

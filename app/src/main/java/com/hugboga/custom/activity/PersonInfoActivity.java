@@ -59,6 +59,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.AgePicker;
+import cn.qqtheme.framework.picker.SinglePicker;
 
 /**
  * Created by on 16/8/6.
@@ -196,7 +198,7 @@ public class PersonInfoActivity extends BaseActivity{
             }
         }
     }
-
+    AgePicker agePicker;
     @OnClick({R.id.my_info_menu_layout1, R.id.my_info_menu_layout2, R.id.my_info_menu_layout3, R.id.my_info_menu_layout4, R.id.my_info_menu_layout5, R.id.my_info_menu_realname_layout})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -236,8 +238,8 @@ public class PersonInfoActivity extends BaseActivity{
                 break;
             case R.id.my_info_menu_layout3:
                 //性别
-                final CharSequence[] items3 = getResources().getStringArray(R.array.my_info_sex);
-                final AlertDialog.Builder sexDialog = new AlertDialog.Builder(this);
+                final String[] items3 = getResources().getStringArray(R.array.my_info_sex);
+                /*final AlertDialog.Builder sexDialog = new AlertDialog.Builder(this);
                 sexDialog.setTitle("选择性别");
                 sexDialog.setSingleChoiceItems(items3, getSexInt(items3), new DialogInterface.OnClickListener() {
                     @Override
@@ -251,12 +253,35 @@ public class PersonInfoActivity extends BaseActivity{
                 dialog = sexDialog.create();
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
+                dialog.show();*/
+                agePicker = new AgePicker(PersonInfoActivity.this, items3);
+                agePicker.setTitleText("性别");
+                agePicker.setTitleTextSize(16);
+                agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
+                agePicker.setCancelText("取消");
+                agePicker.setSubmitText("确定");
+                agePicker.setTopLineHeight(0.5f);
+                agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
+                agePicker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
+                agePicker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
+                agePicker.setTopBackgroundColor(getResources().getColor(R.color.allbg_white));
+                agePicker.setLineColor(getResources().getColor(R.color.text_hint_color));
+                agePicker.setOnItemPickListener(
+                        new SinglePicker.OnItemPickListener<String>() {
+                            @Override
+                            public void onItemPicked(int index, String item) {
+                                String agesStr = items3[index].toString();
+                                sexTextView.setText(agesStr);
+                                submitChangeUserInfo(3,String.valueOf(index + 1));
+                            }
+                        }
+                );
+                agePicker.show();
                 break;
             case R.id.my_info_menu_layout4:
                 //年龄
-                final CharSequence[] ages = getResources().getStringArray(R.array.my_info_age);
-                AlertDialog.Builder ageDialogBuild = new AlertDialog.Builder(this);
+                final String[] ages = getResources().getStringArray(R.array.my_info_age);
+                /*AlertDialog.Builder ageDialogBuild = new AlertDialog.Builder(this);
                 ageDialogBuild.setTitle("选择年龄");
                 ageDialogBuild.setSingleChoiceItems(ages, getAgeInt(ages), new DialogInterface.OnClickListener() {
                     @Override
@@ -270,7 +295,30 @@ public class PersonInfoActivity extends BaseActivity{
                 dialog = ageDialogBuild.create();
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
+                dialog.show();*/
+                agePicker = new AgePicker(PersonInfoActivity.this, ages);
+                agePicker.setTitleText("年龄");
+                agePicker.setTitleTextSize(16);
+                agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
+                agePicker.setCancelText("取消");
+                agePicker.setSubmitText("确定");
+                agePicker.setTopLineHeight(0.5f);
+                agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
+                agePicker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
+                agePicker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
+                agePicker.setTopBackgroundColor(getResources().getColor(R.color.allbg_white));
+                agePicker.setLineColor(getResources().getColor(R.color.text_hint_color));
+                agePicker.setOnItemPickListener(
+                        new SinglePicker.OnItemPickListener<String>() {
+                            @Override
+                            public void onItemPicked(int index, String item) {
+                                String agesStr = ages[index].toString();
+                                ageTextView.setText(agesStr);
+                                submitChangeUserInfo(4, String.valueOf(getAgeLevel(index)));
+                            }
+                        }
+                );
+                agePicker.show();
                 break;
             case R.id.my_info_menu_layout5:
                 Intent intent = null;
@@ -343,7 +391,7 @@ public class PersonInfoActivity extends BaseActivity{
         newPic = "new"+cropPic;cropPic = ImageUtils.getPhotoFileName();
         //修改头像
         final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
-        AlertDialog.Builder builder1= new AlertDialog.Builder(this).setTitle("上传头像").setItems(items, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder1= new AlertDialog.Builder(this)/*.setTitle("上传头像")*/.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
