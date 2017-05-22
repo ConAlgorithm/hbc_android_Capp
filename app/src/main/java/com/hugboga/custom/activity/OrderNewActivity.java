@@ -1060,8 +1060,6 @@ public class OrderNewActivity extends BaseActivity {
                         mostFitAvailableBean.useOrderPrice = channelPrice;
                         mostFitAvailableBean.serviceCityId = startCityId4MostFit + "";
                         mostFitAvailableBean.serviceCountryId = areaCode4MostFit;
-                        mostFitAvailableBean.serviceLocalDays = inNum + "";
-                        mostFitAvailableBean.serviceNonlocalDays = outNum + "";
                         mostFitAvailableBean.serviceTime = date4MostFit;
                         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(activity);
                         mostFitAvailableBean.totalDays = (null == dayNums) ? "0" : dayNums + "";

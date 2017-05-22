@@ -28,6 +28,9 @@ public class OrderInfoItemView extends RelativeLayout {
     @Bind(R.id.order_info_desc_tv3)
     TextView descTv3;
 
+    private String titleText;
+    private String hintText;
+
     public OrderInfoItemView(Context context) {
         this(context, null);
     }
@@ -41,9 +44,9 @@ public class OrderInfoItemView extends RelativeLayout {
         setPadding(paddingLeft, 0, paddingLeft, 0);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.OrderInfoItemView);
-        String titleText = typedArray.getString(R.styleable.OrderInfoItemView_titleText);
+        titleText = typedArray.getString(R.styleable.OrderInfoItemView_titleText);
         titleTv.setText(titleText);
-        String hintText = typedArray.getString(R.styleable.OrderInfoItemView_hintText);
+        hintText = typedArray.getString(R.styleable.OrderInfoItemView_hintText);
         descTv1.setHint(hintText);
         typedArray.recycle();
     }
@@ -69,5 +72,15 @@ public class OrderInfoItemView extends RelativeLayout {
         descTv2.setVisibility(View.VISIBLE);
         descTv3.setText(desc3);
         descTv3.setVisibility(View.VISIBLE);
+    }
+
+    public void resetUI() {
+        descTv1.setText("");
+        descTv1.setHint(hintText);
+        descTv1.setPadding(0, 0, 0, 0);
+        descTv2.setText("");
+        descTv2.setVisibility(View.GONE);
+        descTv3.setText("");
+        descTv3.setVisibility(View.GONE);
     }
 }

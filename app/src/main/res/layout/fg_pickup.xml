@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
-                android:id="@+id/pickup_city_layout"
+                android:id="@+id/pickup_flight_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
@@ -81,7 +81,7 @@
             </LinearLayout>
 
             <com.hugboga.custom.widget.OrderInfoItemView
-                android:id="@+id/pickup_date_layout"
+                android:id="@+id/pickup_city_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
@@ -93,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
+                android:layout_marginBottom="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 

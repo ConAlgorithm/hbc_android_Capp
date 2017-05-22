@@ -81,7 +81,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     public static final String TAG = SkuOrderActivity.class.getSimpleName();
 
     public static final String SERVER_TIME = "09:00";
-    public static final int REQUEST_CODE_PICK_CONTACTS = 101;
 
     @Bind(R.id.sku_order_scrollview)
     ScrollView scrollView;
@@ -176,7 +175,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         bottomView.setOnSubmitOrderListener(this);
         emptyLayout.setOnRefreshDataListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
-        travelerInfoView.setTag(TAG);
+        travelerInfoView.setOrderType(orderType);
 
         requestStartDate();
     }
@@ -282,7 +281,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (REQUEST_CODE_PICK_CONTACTS == requestCode) {
+        if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
             Uri result = data.getData();
             String[] contact = PhoneInfo.getPhoneContacts(this, result);
             if (contact == null || contact.length < 2) {
@@ -504,7 +503,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         mostFitAvailableBean.carSeatNum = carBean.seatCategory + "";
         mostFitAvailableBean.carTypeId = carBean.carType + "";
         mostFitAvailableBean.distance = carListBean.distance + "";
-        mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
+        mostFitAvailableBean.expectedCompTime = carBean.expectedCompTime == null ? "" : carBean.expectedCompTime;
         mostFitAvailableBean.limit = 20 + "";
         mostFitAvailableBean.offset = 0 + "";
         String channelPrice = "" + (carBean.price + countView.getAdditionalPrice());
@@ -512,8 +511,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         mostFitAvailableBean.useOrderPrice = channelPrice;
         mostFitAvailableBean.serviceCityId = params.cityBean.cityId + "";
         mostFitAvailableBean.serviceCountryId = params.cityBean.areaCode + "";
-        mostFitAvailableBean.serviceLocalDays = "0";
-        mostFitAvailableBean.serviceNonlocalDays = params.skuItemBean.daysCount + "";
         mostFitAvailableBean.serviceTime = serverDate + " " + "00:00:00";
         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(this);
         mostFitAvailableBean.totalDays = params.skuItemBean.daysCount + "";
@@ -583,7 +580,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     private void requestMostFit(int additionalPrice) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , carBean.price + additionalPrice + ""
-                , carBean.price + ""
+                , carBean.price + additionalPrice + ""
                 , serverDate + " " + "00:00:00"
                 , carBean.carType + ""
                 , carBean.seatCategory + ""
@@ -591,7 +588,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , params.cityBean.areaCode + ""
                 , params.skuItemBean.daysCount + ""
                 , carListBean.distance + ""
-                , params.skuItemBean.daysCount + ""
+                , carBean.expectedCompTime == null ? "" : carBean.expectedCompTime
                 , orderType + ""
                 , carBean.carId + ""
                 , null);
@@ -656,10 +653,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     private OrderBean getSKUOrderByInput() {
         ManLuggageBean manLuggageBean = countView.getManLuggageBean();
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
-        ContactUsersBean contactUsersBean = new ContactUsersBean();
-        contactUsersBean.userName = travelerInfoBean.travelerName;
-        contactUsersBean.userPhone = travelerInfoBean.travelerPhone;
-        contactUsersBean.phoneCode = travelerInfoBean.getAreaCode();
 
         return new OrderUtils().getSKUOrderByInput(""
                 , params.skuItemBean
@@ -671,7 +664,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , manLuggageBean.childs + ""
                 , params.cityBean
                 , OrderUtils.getPassCityStr(params.skuItemBean)
-                , contactUsersBean
+                , travelerInfoBean.getContactUsersBean()
                 , travelerInfoBean.mark
                 , travelerInfoBean.travelerName
                 , travelerInfoBean.poiBean

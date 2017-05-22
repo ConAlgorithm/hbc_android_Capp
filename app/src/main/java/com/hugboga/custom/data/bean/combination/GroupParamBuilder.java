@@ -341,7 +341,7 @@ public class GroupParamBuilder {
     private ContactUserBean getUserExBean(ContactUsersBean contactUsersBean) {
         ContactUserBean userExBean = new ContactUserBean();
         userExBean.name = contactUsersBean.userName;
-        userExBean.areaCode = contactUsersBean.phoneCode;
+        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.phoneCode) ? "86" : "";
         userExBean.mobile = contactUsersBean.userPhone;
         return userExBean;
     }
@@ -352,7 +352,7 @@ public class GroupParamBuilder {
         }
         ContactUserBean userExBean = new ContactUserBean();
         userExBean.name = contactUsersBean.otherName;
-        userExBean.areaCode = contactUsersBean.otherphoneCode;
+        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.otherphoneCode) ? "86" : "";
         userExBean.mobile = contactUsersBean.otherPhone;
         return userExBean;
     }

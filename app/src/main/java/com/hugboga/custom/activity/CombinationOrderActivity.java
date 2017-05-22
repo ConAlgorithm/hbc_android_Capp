@@ -47,15 +47,14 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.CombinationOrderCountView;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
+import com.hugboga.custom.widget.SkuOrderCountView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
@@ -72,14 +71,13 @@ import butterknife.Bind;
  * Created by qingcha on 17/3/4.
  */
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
-        , CombinationOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
+        , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
         , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
 
     public static final String TAG = CombinationOrderActivity.class.getSimpleName();
 
     public static final String SERVER_TIME = "09:00:00";
     public static final String SERVER_TIME_END = "23:59:59";
-    public static final int REQUEST_CODE_PICK_CONTACTS = 101;
 
     @Bind(R.id.combination_order_scrollview)
     ScrollView scrollView;
@@ -88,7 +86,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Bind(R.id.combination_order_car_type_view)
     SkuOrderCarTypeView carTypeView;
     @Bind(R.id.combination_order_count_view)
-    CombinationOrderCountView countView;
+    SkuOrderCountView countView;
     @Bind(R.id.combination_order_traveler_info_view)
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.combination_order_discount_view)
@@ -154,7 +152,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
-        travelerInfoView.setTag(TAG);
+        travelerInfoView.setOrderType(3);
 
         if (charterDataUtils.guidesDetailData != null) {
             getGuideCars();
@@ -239,7 +237,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (REQUEST_CODE_PICK_CONTACTS == requestCode) {
+        if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
             Uri result = data.getData();
             String[] contact = PhoneInfo.getPhoneContacts(this, result);
             if (contact == null || contact.length < 2) {
@@ -410,7 +408,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
-        countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date, null);
+        countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date);
         int additionalPrice = countView.getAdditionalPrice();
         requestMostFit(additionalPrice);
         requestTravelFund(additionalPrice);
@@ -485,15 +483,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.carSeatNum = carBean.seatCategory + "";
         mostFitAvailableBean.carTypeId = carBean.carType + "";
         mostFitAvailableBean.distance = carListBean.distance + "";
-        mostFitAvailableBean.expectedCompTime = (null == carBean.expectedCompTime) ? "" : carBean.expectedCompTime + "";
+        mostFitAvailableBean.expectedCompTime = carBean.expectedCompTime == null ? "" : carBean.expectedCompTime;
         mostFitAvailableBean.limit = 20 + "";
         mostFitAvailableBean.offset = 0 + "";
         mostFitAvailableBean.priceChannel = "" + (carBean.price + countView.getAdditionalPrice());
         mostFitAvailableBean.useOrderPrice = "" + carBean.price;
         mostFitAvailableBean.serviceCityId = startCityBean.cityId + "";
         mostFitAvailableBean.serviceCountryId = startCityBean.areaCode + "";
-        mostFitAvailableBean.serviceLocalDays = "0";
-        mostFitAvailableBean.serviceNonlocalDays = charterDataUtils.chooseDateBean.dayNums + "";
         mostFitAvailableBean.serviceTime = charterDataUtils.chooseDateBean.start_date + " " + SERVER_TIME;
         mostFitAvailableBean.userId = UserEntity.getUser().getUserId(this);
         mostFitAvailableBean.totalDays = charterDataUtils.chooseDateBean.dayNums + "";
@@ -544,16 +540,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 charterDataUtils.guidesDetailData != null, carBean.carDesc, countView.getTotalPeople() + "");
 
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
-        ContactUsersBean contactUsersBean = new ContactUsersBean();
-        contactUsersBean.userName = travelerInfoBean.travelerName;
-        contactUsersBean.userPhone = travelerInfoBean.travelerPhone;
-        contactUsersBean.phoneCode = travelerInfoBean.getAreaCode();
 
         GroupParamBuilder groupParamBuilder = new GroupParamBuilder();
         String requestParams = groupParamBuilder.charterDataUtils(charterDataUtils)
                 .carBean(carBean)
                 .manLuggageBean(countView.getManLuggageBean())
-                .contactUsersBean(contactUsersBean)
+                .contactUsersBean(travelerInfoBean.getContactUsersBean())
                 .mark(travelerInfoBean.mark)
                 .isCheckedTravelFund(discountView.isCheckedTravelFund())
                 .travelFund(CommonUtils.getCountDouble(deductionBean.deduction))
@@ -590,7 +582,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private void requestMostFit(int additionalPrice) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , carBean.price + additionalPrice + ""
-                , carBean.price + ""
+                , carBean.price + additionalPrice + ""
                 , charterDataUtils.chooseDateBean.start_date + " " + SERVER_TIME
                 , carBean.carType + ""
                 , carBean.seatCategory + ""
@@ -598,7 +590,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , startCityBean.areaCode + ""
                 , charterDataUtils.chooseDateBean.dayNums + ""
                 , carListBean.distance + ""
-                , charterDataUtils.chooseDateBean.dayNums + ""
+                , carBean.expectedCompTime == null ? "" : carBean.expectedCompTime
                 , orderType + ""
                 , carBean.carId + ""
                 , charterDataUtils.isPickupTransfer());

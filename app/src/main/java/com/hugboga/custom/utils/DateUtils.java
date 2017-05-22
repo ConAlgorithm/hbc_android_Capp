@@ -796,7 +796,7 @@ public class DateUtils {
             return dateSimpleDateFormatMMdd.format(date);
         }catch (Exception e){
             e.printStackTrace();
-            return null;
+            return dateStr;
         }
     }
 
@@ -821,7 +821,7 @@ public class DateUtils {
             Date date = dateDateFormat.parse(dateStr);
             return dateSimpleDateFormat.format(date.getTime());
         } catch (Exception e) {
-            return "";
+            return dateStr;
         }
     }
 

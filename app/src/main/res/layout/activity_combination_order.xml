@@ -52,7 +52,7 @@
                 android:background="#ffffff"
                 android:visibility="gone" />
 
-            <com.hugboga.custom.widget.CombinationOrderCountView
+            <com.hugboga.custom.widget.SkuOrderCountView
                 android:id="@+id/combination_order_count_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

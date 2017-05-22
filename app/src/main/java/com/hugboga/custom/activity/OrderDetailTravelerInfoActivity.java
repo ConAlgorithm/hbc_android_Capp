@@ -2,8 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -88,8 +86,8 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     @Bind(R.id.sku_order_traveler_info_mark_et)
     EditText markET;
-    @Bind(R.id.sku_order_traveler_info_mark_line_view)
-    View markLineView;
+    @Bind(R.id.sku_order_traveler_info_start_address_line_view)
+    View addressLineView;
 
     private TimePicker picker;
     String serverTime = "09:00";
@@ -187,20 +185,20 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
                 addressLayout.setVisibility(View.GONE);
                 timeLayout.setVisibility(View.VISIBLE);
-                markLineView.setVisibility(View.GONE);
+                addressLineView.setVisibility(View.GONE);
             } else if (journeyItem.pickup != null) {//只接机
                 addressLayout.setVisibility(View.GONE);
                 timeLayout.setVisibility(View.GONE);
-                markLineView.setVisibility(View.GONE);
+                addressLineView.setVisibility(View.GONE);
             } else {//包车
                 addressLayout.setVisibility(View.VISIBLE);
                 timeLayout.setVisibility(View.VISIBLE);
-                markLineView.setVisibility(View.VISIBLE);
+                addressLineView.setVisibility(View.VISIBLE);
             }
         } else {//线路
             addressLayout.setVisibility(View.VISIBLE);
             timeLayout.setVisibility(View.VISIBLE);
-            markLineView.setVisibility(View.VISIBLE);
+            addressLineView.setVisibility(View.VISIBLE);
         }
 
         contactUsersBean = new ContactUsersBean();
@@ -307,7 +305,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             addPermission(permissionsList, Manifest.permission.READ_CONTACTS);
             addPermission(permissionsList, Manifest.permission.WRITE_CONTACTS);
             if (permissionsList.size() > 0) {
-                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]), SkuOrderActivity.REQUEST_CODE_PICK_CONTACTS);
+                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]), 101);
                 return;
             }
         }

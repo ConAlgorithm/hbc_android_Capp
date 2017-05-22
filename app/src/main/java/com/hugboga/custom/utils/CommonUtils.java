@@ -332,6 +332,9 @@ public final class CommonUtils {
         }
         result = phoneCode.replaceAll(" ", "");
         result = result.replace("+", "");
+        if (TextUtils.isEmpty(result)) {
+            result = "86";
+        }
         return result;
     }
 

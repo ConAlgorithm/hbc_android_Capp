@@ -404,7 +404,7 @@ public class ChooseCityHeaderView extends LinearLayout{
             addPermission(getContext(), permissionsList, Manifest.permission.ACCESS_COARSE_LOCATION);
             addPermission(getContext(), permissionsList, Manifest.permission.ACCESS_FINE_LOCATION);
             if (permissionsList.size() > 0 && null != chooseCityActivity) {
-                requestPermissions(chooseCityActivity, permissionsList.toArray(new String[permissionsList.size()]), SkuOrderActivity.REQUEST_CODE_PICK_CONTACTS);
+                requestPermissions(chooseCityActivity, permissionsList.toArray(new String[permissionsList.size()]), 101);
             }
         }
     }
