@@ -803,7 +803,10 @@ public class OrderUtils {
     public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
         genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef, null);
     }
-
+    //用户协议
+    public static void genUserAgreeMent(final Activity activity, TextView textView) {
+        genCLickSpan(activity,textView,activity.getString(R.string.user_info_tip),activity.getString(R.string.user_info_tip1),UrlLibs.H5_PROTOCOL,0xffa8a8a8, null);
+    }
     //常用卡支付协议
     public static void genCreditAgreeMent(final Activity activity, TextView textView) {
         genCLickSpan(activity,textView,activity.getString(R.string.common_card_payment_protocol),activity.getString(R.string.common_card_payment_protocol),UrlLibs.H5_CREDIT_CARD_ARGEEMENT,0xff393838, null);

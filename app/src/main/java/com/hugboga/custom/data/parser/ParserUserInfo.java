@@ -26,6 +26,7 @@ public class ParserUserInfo extends ImplParser {
         userBean.weakPasswordMsg = jsonObj.optString("weakPasswordMsg");
         userBean.travelFund = jsonObj.optInt("travelFund", 0);
         userBean.coupons = jsonObj.optInt("coupons", 0);
+        userBean.needInitPwd = jsonObj.optBoolean("needInitPwd",false);
         return userBean;
     }
 }

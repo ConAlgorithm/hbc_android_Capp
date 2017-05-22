@@ -18,8 +18,10 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.widget.DialogUtil;
@@ -272,5 +274,28 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             map.put(Constants.PARAMS_SOURCE, getIntentSource());
         }
         return map;
+    }
+
+    public static void setSensorsUserEvent() {
+        try {
+            UserEntity userEntity = UserEntity.getUser();
+            Context context = MyApplication.getAppContext();
+            if (!userEntity.isLogin(context)) {
+                return;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_id", userEntity.getUserId(context));
+            properties.put("hbc_gender", userEntity.getGender(context));
+            properties.put("hbc_age", userEntity.getAgeType(context));
+            properties.put("hbc_phone", userEntity.getPhone(context));
+            properties.put("hbc_realname", userEntity.getUserName(context));
+            // 设定用户属性
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).profileSet(properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

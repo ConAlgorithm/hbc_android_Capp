@@ -70,6 +70,8 @@ public class WheelView extends ScrollView {
     private OnWheelListener onWheelListener;
 
     private int textSize = TEXT_SIZE;
+    private int textFocusSize = 0;
+    private int textNormalSize = 0;
     private int textColorNormal = TEXT_COLOR_NORMAL;
     private int textColorFocus = TEXT_COLOR_FOCUS;
     private boolean isUserScroll = false;//是否用户手动滚动
@@ -109,6 +111,22 @@ public class WheelView extends ScrollView {
     private void startScrollerTask() {
         initialY = getScrollY();
         postDelayed(scrollerTask, DELAY);
+    }
+
+    public int getTextFocusSize() {
+        return textFocusSize;
+    }
+
+    public void setTextFocusSize(int textFocusSize) {
+        this.textFocusSize = textFocusSize;
+    }
+
+    public int getTextNormalSize() {
+        return textNormalSize;
+    }
+
+    public void setTextNormalSize(int textNormalSize) {
+        this.textNormalSize = textNormalSize;
     }
 
     private void initData() {
@@ -178,8 +196,15 @@ public class WheelView extends ScrollView {
             // 2015/12/15 可设置颜色
             if (position == i) {
                 itemView.setTextColor(textColorFocus);
+                if(textFocusSize != 0){
+                    itemView.setTextSize(textFocusSize);
+                }
             } else {
                 itemView.setTextColor(textColorNormal);
+                if(textNormalSize != 0){
+                    itemView.setTextSize(textNormalSize);
+                }
+
             }
         }
     }
@@ -565,11 +590,11 @@ public class WheelView extends ScrollView {
             this.thick = thick;
         }
 
-        protected int getWidth() {
+        public int getWidth() {
             return width;
         }
 
-        protected void setWidth(int width) {
+        public void setWidth(int width) {
             this.width = width;
         }
 

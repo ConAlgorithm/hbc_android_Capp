@@ -1,6 +1,7 @@
 package cn.qqtheme.framework.popup;
 
 import android.app.Activity;
+import android.app.VoiceInteractor;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
@@ -10,6 +11,7 @@ import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,7 +29,7 @@ import cn.qqtheme.framework.util.ConvertUtils;
 public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
     protected boolean topLineVisible = true;
     protected int topLineColor = 0xFFDDDDDD;
-    protected int topLineHeight = 1;//dp
+    protected float topLineHeight = 1;//dp
     protected int topBackgroundColor = 0xFFFED631;
     protected int topHeight = 46;//dp
     protected boolean cancelVisible = true;
@@ -60,7 +62,7 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
     /**
      * 设置顶部标题栏下划线高度，单位为dp
      */
-    public void setTopLineHeight(int topLineHeight) {
+    public void setTopLineHeight(float topLineHeight) {
         this.topLineHeight = topLineHeight;
     }
 
@@ -219,6 +221,9 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
             lineView.setBackgroundColor(topLineColor);
             rootLayout.addView(lineView);
         }
+        if(fromAgeOrSexPicker()){
+            rootLayout.addView(makeBlankView());
+        }
         rootLayout.addView(makeCenterView(), new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f));
         View footerView = makeFooterView();
         if (footerView != null) {
@@ -227,6 +232,34 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         return rootLayout;
     }
 
+    @Nullable
+    protected View makeBlankView() {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout view = new LinearLayout(activity);
+        view.setLayoutParams(lp);//设置布局参数
+        view.setOrientation(LinearLayout.VERTICAL);// 设置子View的Linearlayout// 为垂直方向布局
+        //定义子View中两个元素的布局
+        ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams vlp2 = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView tv1 = new TextView(activity);
+        TextView tv2 = new TextView(activity);
+        tv1.setLayoutParams(vlp);//设置TextView的布局
+        tv2.setLayoutParams(vlp2);
+        tv1.setText("20后:");
+        tv2.setText("10后");
+        tv1.setTextColor(Color.WHITE);
+        tv2.setTextColor(Color.WHITE);
+        view.addView(tv1);//将TextView 添加到子View 中
+        view.addView(tv2);//将TextView 添加到子View 中
+        view.setBackgroundColor(Color.WHITE);
+        return view;
+    }
     @Nullable
     protected View makeHeaderView() {
         RelativeLayout topButtonLayout = new RelativeLayout(activity);
@@ -320,5 +353,7 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
     protected void onCancel() {
 
     }
-
+    protected boolean fromAgeOrSexPicker(){
+        return false;
+    }
 }

@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 144
+    //current urlErrorCode 146
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -135,11 +135,13 @@ public class UrlLibs {
     public static final String SERVER_IP_CAPTCHA            = SERVER_IP_PUBLIC_UER_CENTER + "captcha?";                      // 发送验证码
     public static final String SERVER_IP_REGISTER           = SERVER_IP_PUBLIC_UER_CENTER + "register?";                     // 注册
     public static final String SERVER_IP_LOGIN              = SERVER_IP_PUBLIC_UER_CENTER + "login?";                        // 登录
+    public static final String SERVER_IP_LOGIN_BYCAPTCHA    = SERVER_IP_PUBLIC_UER_CENTER + "login/bycaptcha?";              //免密登录145
     public static final String SERVER_IP_LOGOUT             = SERVER_IP_PUBLIC_UER_CENTER + "logout?";                       // 退出登录
     public static final String SERVER_IP_INFORMATION        = SERVER_IP_PUBLIC_UER_CENTER + "information?";                  // 获取用户信息
     public static final String SERVER_IP_INFORMATION_UPDATE = SERVER_IP_PUBLIC_UER_CENTER + "information/update?";           // 修改个人信息
     public static final String SERVER_IP_PASSWORD_RESET     = SERVER_IP_PUBLIC_UER_CENTER + "password/reset?";               // 重置密码
     public static final String SERVER_IP_PASSWORD_UPDATE    = SERVER_IP_PUBLIC_UER_CENTER + "password/update?";              // 修改密码
+    public static final String SERVER_IP_PASSWORD_SET       = SERVER_IP_PUBLIC_UER_CENTER + "password/init?";                //设置初始密码146
     public static final String SERVER_IP_MOBILE_UPDATE      = SERVER_IP_PUBLIC_UER_CENTER + "mobile/update?";                // 修改手机号 ???? 未使用
     public static final String SERVER_IP_FEEDBACK_SAVE      = SERVER_IP_PUBLIC_UER_CENTER + "feedback/save?";                // 意见反馈
     public static final String GET_ACCESS_TOKEN             = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/unionid?";   // 微信登录校验openid是否已注册

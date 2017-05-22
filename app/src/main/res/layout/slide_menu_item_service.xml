@@ -2,25 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@drawable/click_item_bg"
-    android:gravity="center_vertical"
-    android:padding="12dip">
+    android:background="@drawable/click_item_bg">
 
     <ImageView
-        android:id="@+id/slide_menu_item_service_icon"
-        android:layout_marginLeft="30dip"
-        android:layout_marginTop="3dp"
-        android:layout_width="18dp"
-        android:layout_height="18dp" />
+        android:id="@+id/icon"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"/>
 
     <TextView
-        android:id="@+id/slide_menu_item_service_title"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/slide_menu_item_service_icon"
-        android:layout_marginLeft="12dip"
+        android:layout_toRightOf="@id/icon"
+        android:layout_marginLeft="10dip"
         android:layout_centerVertical="true"
-        android:textColor="#404040"
-        android:textSize="15dp" />
+        android:textColor="#151515"
+        android:textSize="14sp"
+        android:gravity="center_vertical"/>
 
+    <ImageView
+        android:id="@+id/enter"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:src="@mipmap/personal_next"
+        android:gravity="center_vertical"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="12dp"
+        android:background="@color/default_bg"/>
 </RelativeLayout>

@@ -6,9 +6,12 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -51,10 +54,12 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
     TextView timeTextView; //验证码倒计时
     @Bind(R.id.forget_passwd_submit)
     Button forget_passwd_submit; //验证码倒计时
-
+    @Bind(R.id.iv_pwd_visible)
+    ImageView passwordVisible;
+    boolean isPwdVisibility = false;
     @Override
     public int getContentViewId() {
-        return R.layout.fg_forget_passwd;
+        return R.layout.fg_forget_passwd_new;
     }
 
     @Override
@@ -77,7 +82,7 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
 
     private void initView() {
         initDefaultTitleBar();
-        fgTitle.setText("忘记密码");
+        fgTitle.setText("重置密码");
 
         Bundle bundle = getIntent().getExtras();
         String keyFrom = null;
@@ -156,6 +161,14 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
             forget_passwd_submit.setEnabled(false);
             forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
+
+        if (!isPwdVisibility) {
+            passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            passwordVisible.setImageResource(R.mipmap.login_invisible);
+        } else {
+            passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            passwordVisible.setImageResource(R.mipmap.login_visible);
+        }
     }
 
     @Override
@@ -182,11 +195,11 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         public void run() {
             if (time > 0) {
                 setBtnVisible(false);
-                timeTextView.setText(String.valueOf(time--) + "秒");
+                timeTextView.setText("("+ String.valueOf(time--) + "s)");
                 handler.postDelayed(this, 1000);
             } else {
                 setBtnVisible(true);
-                timeTextView.setText(String.valueOf(59) + "秒");
+                timeTextView.setText("("+String.valueOf(59) + "s)");
             }
 
         }
@@ -200,7 +213,7 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         super.onDataRequestError(errorInfo, request);
     }
 
-    @OnClick({R.id.forget_passwd_submit, R.id.forget_passwd_getcode, R.id.forget_passwd_areacode})
+    @OnClick({R.id.forget_passwd_submit, R.id.forget_passwd_getcode, R.id.forget_passwd_areacode,R.id.iv_pwd_visible,R.id.delete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.forget_passwd_submit:
@@ -269,6 +282,22 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 Intent intent = new Intent(ForgetPasswdActivity.this, ChooseCountryActivity.class);
                 intent.putExtra(KEY_FROM, "forgetPasswd");
                 startActivity(intent);
+                break;
+            case R.id.iv_pwd_visible:
+                if (passwordEditText != null) {
+                    if (isPwdVisibility) {//密码可见
+                        isPwdVisibility = false;
+                        passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        passwordVisible.setImageResource(R.mipmap.login_invisible);
+                    } else {//密码不可见
+                        isPwdVisibility = true;
+                        passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        passwordVisible.setImageResource(R.mipmap.login_visible);
+                    }
+                }
+                break;
+            case R.id.delete:
+                phoneEditText.setText("");
                 break;
             default:
                 break;

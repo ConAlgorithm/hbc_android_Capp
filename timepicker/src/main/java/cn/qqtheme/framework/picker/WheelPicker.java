@@ -115,5 +115,7 @@ public abstract class WheelPicker extends ConfirmPopup<View> {
         }
         return contentView;
     }
-
+    protected boolean fromAgeOrSexPicker(){
+        return false;
+    }
 }

@@ -50,8 +50,10 @@
     <!-- Basic name -->
     <string name="call_info_tip">如有问题，请拨打客服电话 4006 1000 66</string>用户协议
     <string name="register_info_tip">注册即表示我同意"皇包车"的用户协议</string>
+    <string name="user_info_tip">且代表您已同意《皇包车用户协议》</string>
+    <string name="user_info_tip1">皇包车用户协议</string>
     <string name="register_info_tip_protocol">用户协议</string>
-    <string name="login_country_search_hint">搜索国家名或国别名代码</string>
+    <string name="login_country_search_hint">搜索国际或区号</string>
 
     <!-- 按钮 -->
     <string name="dialog_btn_search">搜索</string>

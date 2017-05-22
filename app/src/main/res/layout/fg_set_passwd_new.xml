@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/include_header" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white">
+
+        <RelativeLayout
+            android:id="@+id/set_psw_layout"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/allbg_white"
+            android:layout_marginTop="1dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/set_psw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:background="@null"
+                android:hint="请设置您的密码,至少6位"
+                android:text=""
+                android:textColor="#161616"
+                android:textColorHint="#cccccc"
+                android:textSize="14sp"/>
+            <ImageView
+                android:id="@+id/iv_pwd_visible1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/basic_margin_large"
+                android:src="@mipmap/login_invisible"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="12dp"
+            android:layout_below="@+id/set_psw_layout"
+            android:background="#dbdbdb" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/allbg_white"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/view"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/set_psw_again"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:background="@null"
+                android:hint="请再次输入确认"
+                android:textColorHint="#cccccc"
+                android:text=""
+                android:textColor="#161616"
+                android:textSize="14sp"/>
+            <ImageView
+                android:id="@+id/iv_pwd_visible2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/basic_margin_large"
+                android:src="@mipmap/login_invisible"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <Button
+        android:id="@+id/login_submit"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/basic_margin_xlarge"
+        android:layout_marginLeft="@dimen/basic_margin_xlarge"
+        android:layout_marginRight="@dimen/basic_margin_xlarge"
+        android:background="@drawable/login2_selector_bg"
+        android:text="设置密码"
+        android:enabled="false"
+        android:textColor="@color/basic_white"
+        android:textSize="@dimen/text_size_large" />
+</LinearLayout>

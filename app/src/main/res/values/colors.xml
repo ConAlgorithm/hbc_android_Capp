@@ -78,8 +78,8 @@
     <color name="change_mobile_line">#D7D7D7</color>
     <color name="change_mobile_hint">#c7c7c7</color>
     <color name="change_mobile_getcode">#398bd0</color>
-    <color name="login_unready">#c2bfb1</color>
-    <color name="login_ready">#2c2c2c</color>
+    <color name="login_unready">#cccccc</color>
+    <color name="login_ready">#ffce00</color>
 
     <!-- Callback color -->
     <color name="call_back_bg">#f9f9f9</color>
@@ -177,5 +177,7 @@
     <color name="reserve_calendar_title">#7f7f7f</color>
     <color name="reserve_calendar_week_color1">#ee4000</color>
     <color name="reserve_calendar_week_color2">#151515</color>
+    <color name="forget_pwd">#24b5ff</color>
+    <color name="pickerLine">#dddddd</color>
 
 </resources>
