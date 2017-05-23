@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="3dp"
     android:orientation="vertical">
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:id="@+id/order_travel_item_start_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="1dp"
             android:layout_marginTop="1.5dp"
             android:layout_toRightOf="@id/order_travel_item_start_iv"
             android:ellipsize="end"
@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/order_travel_item_start_tv"
             android:layout_below="@id/order_travel_item_start_tv"
+            android:paddingBottom="2dp"
             android:paddingTop="2dp"
             android:text="2017年2月15日 星期二"
             android:textColor="#808080"
@@ -55,8 +56,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingTop="2dp">
+        android:clipToPadding="false">
 
         <View
             android:layout_width="1dp"
@@ -76,7 +76,7 @@
             android:id="@+id/order_travel_item_end_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="1dp"
             android:layout_marginTop="1.5dp"
             android:layout_toRightOf="@id/order_travel_item_end_iv"
             android:ellipsize="end"

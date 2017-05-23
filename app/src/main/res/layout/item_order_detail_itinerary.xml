@@ -10,7 +10,8 @@
     <ImageView
         android:id="@+id/item_itinerary_iv"
         android:layout_marginLeft="-2dp"
-        android:layout_marginTop="1dp"
+        android:background="@mipmap/trip_icon_car"
+        android:layout_gravity="center_vertical"
         android:layout_width="20dp"
         android:layout_height="20dp"/>
 
@@ -18,6 +19,7 @@
         android:id="@+id/item_itinerary_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="3dp"
         android:textColor="#333333"
         android:textSize="14sp" />
