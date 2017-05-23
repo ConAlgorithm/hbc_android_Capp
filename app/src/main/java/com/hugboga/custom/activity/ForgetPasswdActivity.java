@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,6 +114,28 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
+
+        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                passwordVisible.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+        verityEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                passwordVisible.setVisibility(View.GONE);
+                return false;
+            }
+        });
+        phoneEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                passwordVisible.setVisibility(View.GONE);
+                return false;
+            }
+        });
     }
 
     @Subscribe
@@ -139,6 +162,15 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if(phoneEditText.hasFocus()){
+            phoneEditText.setSelection(phoneEditText.getText().toString().length());
+        }
+        if(passwordEditText.hasFocus()){
+            passwordEditText.setSelection(passwordEditText.getText().toString().length());
+        }
+        if(verityEditText.hasFocus()){
+            verityEditText.setSelection(verityEditText.getText().toString().length());
+        }
 
     }
 
@@ -168,6 +200,16 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         } else {
             passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             passwordVisible.setImageResource(R.mipmap.login_visible);
+        }
+
+        if(phoneEditText.hasFocus()){
+            phoneEditText.setSelection(phoneEditText.getText().toString().length());
+        }
+        if(passwordEditText.hasFocus()){
+            passwordEditText.setSelection(passwordEditText.getText().toString().length());
+        }
+        if(verityEditText.hasFocus()){
+            verityEditText.setSelection(verityEditText.getText().toString().length());
         }
     }
 

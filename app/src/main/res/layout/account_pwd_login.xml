@@ -83,7 +83,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/basic_margin_large"
-            android:src="@mipmap/login_invisible"/>
+            android:src="@mipmap/login_invisible"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/login_password"
@@ -97,7 +98,8 @@
             android:hint="密码"
             android:textColor="@color/change_mobile_text"
             android:textColorHint="@color/text_hint_color"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            />
 
     </RelativeLayout>
     <View
