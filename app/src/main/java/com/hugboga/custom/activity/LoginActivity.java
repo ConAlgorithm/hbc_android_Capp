@@ -331,6 +331,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             verify.setTextColor(0xff24B5FF);
             phoneEditText.setText(phone);
         }else if(request instanceof  RequestLoginBycaptcha){
+            CommonUtils.showToast("验证码错误，请重新输入");
 
         }
         super.onDataRequestError(errorInfo, request);
@@ -393,11 +394,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 areaCode1 = areaCode1.substring(1);
                 String phone1 = phoneEditText.getText().toString();
                 if(TextUtils.isEmpty(phone1)){
-                    CommonUtils.showToast("手机号不能为空");
+                    CommonUtils.showToast("请输入手机号");
                     return;
                 }
                 if(!phone1.startsWith("1") || phone1.length() != 11){
-                    CommonUtils.showToast("手机号输入有误");
+                    CommonUtils.showToast("请输入正确的国内手机号，11位数字");
                     return;
                 }
                 RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone1,4);

@@ -61,30 +61,35 @@ public class FlightAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_flight, null, false);
             holder.title = (TextView) convertView.findViewById(R.id.item_flight_title);
-            holder.time = (TextView) convertView.findViewById(R.id.item_flight_time);
-            holder.address = (TextView) convertView.findViewById(R.id.item_flight_address);
+            holder.fromtime = (TextView) convertView.findViewById(R.id.from_city_time);
+            holder.fromaddress = (TextView) convertView.findViewById(R.id.from_city);
+            holder.endtime = (TextView) convertView.findViewById(R.id.end_city_time);
+            holder.endaddress = (TextView) convertView.findViewById(R.id.end_city);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         FlightBean bean = mList.get(position);
 
-        holder.title.setText(bean.company + " " + bean.flightNo);
-        holder.time.setText(bean.depTime + " - " + bean.arrivalTime);
-        String address = "";
-        if (bean.depAirport != null) address = bean.depAirport.airportName;
+        holder.title.setText(bean.company + "  " + bean.flightNo);
+        holder.fromtime.setText(bean.depTime);
+        holder.endtime.setText(bean.arrivalTime);
+        if (bean.depAirport != null){
+            holder.fromaddress.setText(bean.depAirport.airportName);
+        }
 
         if (bean.arrivalAirport != null) {
-            address += " - ";
-            address += bean.arrivalAirport.airportName;
+            holder.endaddress.setText(bean.arrivalAirport.airportName);
         }
-        holder.address.setText(address);
         return convertView;
     }
 
     class ViewHolder {
         public TextView title;
-        public TextView time;
-        public TextView address;
+        public TextView fromtime;
+        public TextView fromaddress;
+        public TextView endtime;
+        public TextView endaddress;
+
     }
 }

@@ -25,6 +25,7 @@ public class DateUtils {
 
     public static SimpleDateFormat dateWeekFormat = new SimpleDateFormat("yyyy-MM-dd 周E HH:mm");
     public static SimpleDateFormat dateWeekFormat2 = new SimpleDateFormat("yyyy-MM-dd 周E");
+    public static SimpleDateFormat dateWeekFormat2Only = new SimpleDateFormat("yyyy年MM月dd日 周E");
     public static SimpleDateFormat dateWeekFormatOnly = new SimpleDateFormat("yyyy年MM月dd日 EE");
     public static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static SimpleDateFormat dateTimeFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");

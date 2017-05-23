@@ -18,6 +18,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgChooseAirAddress;
 import com.hugboga.custom.fragment.FgChooseAirNumber;
+import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,6 +71,12 @@ public class ChooseAirActivity extends BaseActivity {
         headerTitle.setText("选择航班");
         headerRightBtn.setVisibility(View.VISIBLE);
         headerRightBtn.setImageResource(R.mipmap.topbar_cs);
+        headerRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogUtil.getInstance(activity).showCallDialog();
+            }
+        });
     }
 
     @Override
@@ -143,13 +150,10 @@ public class ChooseAirActivity extends BaseActivity {
 
     private int pickOrSend = 1; //1接机 2送机
 
-    @OnClick({R.id.header_left_btn, R.id.header_title, R.id.daily_layout_1, R.id.daily_layout_2})
+    @OnClick({R.id.daily_layout_1, R.id.daily_layout_2})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.header_left_btn:
-                break;
-            case R.id.header_title:
-                break;
+
             case R.id.daily_layout_1:
                 hideSoftInput();
                 selectTap(0);

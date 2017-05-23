@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
+import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
+import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.activity.DatePickerActivity;
@@ -31,6 +34,7 @@ import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -40,18 +44,18 @@ import butterknife.OnClick;
 /**
  * Created  on 16/5/13.
  */
-public class FgChooseAirAddress extends BaseFragment {
+public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayClickListener{
 
     @Bind(R.id.from_city)
     TextView fromCity;
     @Bind(R.id.end_city)
     TextView endCity;
-    @Bind(R.id.address_left)
+    /*@Bind(R.id.address_left)
     TextView addressLeft;
     @Bind(R.id.address_tips)
     TextView addressTips;
     @Bind(R.id.rl_address)
-    LinearLayout rlAddress;
+    LinearLayout rlAddress;*/
     @Bind(R.id.search)
     Button search;
     @Bind(R.id.history_layout)
@@ -66,7 +70,9 @@ public class FgChooseAirAddress extends BaseFragment {
     LinearLayout startLayout;
     @Bind(R.id.end_layout)
     LinearLayout endLayout;
-
+    @Bind(R.id.view_month)
+    MonthSwitchView mMonthPagerView;
+    String dateFormat="";
     @Override
     public int getContentViewId() {
         return R.layout.fg_choose_air_address;
@@ -101,9 +107,25 @@ public class FgChooseAirAddress extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         EventBus.getDefault().register(this);
+        updateData();
         return rootView;
     }
+    private void updateData() {
+        Calendar beginDate= Calendar.getInstance();
+        int year = beginDate.get(Calendar.YEAR);
+        int month = beginDate.get(Calendar.MONTH)+1;
+        int day = beginDate.get(Calendar.DAY_OF_MONTH);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        int endYear = endDate.get(Calendar.YEAR);
+        int endMonth = endDate.get(Calendar.MONTH)+1;
+        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
 
+        mMonthPagerView.setData(new CalendarDay(year, month, day), new CalendarDay(endYear, endMonth, endDay));
+        mMonthPagerView.setOnDayClickListener(this);
+        mMonthPagerView.setSelectDay(new CalendarDay(year, month, day));
+        dateFormat = new CalendarDay(year, month, day).getDayString();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -154,6 +176,12 @@ public class FgChooseAirAddress extends BaseFragment {
         historyText.setOnClickListener(new HistoryTextClick());
         //historyDel.setOnClickListener(new HistoryTextDelClick());
         historyLayout.addView(view);
+    }
+
+    @Override
+    public void onDayClick(CalendarDay calendarDay) {
+        dateFormat = calendarDay.getDayString();
+        checkNextBtnStatus();
     }
 
     private class HistoryTextClick implements View.OnClickListener {
@@ -267,7 +295,7 @@ public class FgChooseAirAddress extends BaseFragment {
 //        checkNextBtnStatus();
 //    }
 
-    @OnClick({R.id.start_layout,R.id.end_layout,R.id.end_city_tips, R.id.from_city_tips, R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange, R.id.address_tips, R.id.rl_address})
+    @OnClick({R.id.start_layout,R.id.end_layout,R.id.end_city_tips, R.id.from_city_tips, R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange})
     public void onClick(View view) {
 //        FgChooseCity city = new FgChooseCity();
         Intent intent = new Intent(getActivity(), ChooseCityActivity.class);
@@ -318,7 +346,7 @@ public class FgChooseAirAddress extends BaseFragment {
             case R.id.exchange:
                 exChangeCity();
                 break;
-            case R.id.address_tips:
+            /*case R.id.address_tips:
             case R.id.rl_address:
 //                showDaySelect(addressTips);
                 intent = new Intent(getActivity(),DatePickerActivity.class);
@@ -326,6 +354,8 @@ public class FgChooseAirAddress extends BaseFragment {
                 intent.putExtra("title","请选择出发日期");
                 intent.putExtra("chooseDateBean",chooseDateBean);
                 getActivity().startActivity(intent);
+                break;*/
+            default:
                 break;
         }
     }
@@ -337,12 +367,12 @@ public class FgChooseAirAddress extends BaseFragment {
 
         switch (action.getType()) {
             case CHOOSE_DATE:
-                chooseDateBean = (ChooseDateBean) action.getData();
+                /*chooseDateBean = (ChooseDateBean) action.getData();
                 if (chooseDateBean.type == 3) {
                     time2Str = chooseDateBean.halfDateStr;
                     addressTips.setText(time2Str);
                     checkNextBtnStatus();
-                }
+                }*/
                 break;
             case CHOOSE_START_CITY_BACK:
                 city =  (CityBean)action.getData();
@@ -376,8 +406,8 @@ public class FgChooseAirAddress extends BaseFragment {
     private void checkNextBtnStatus() {
         String from = fromCity.getText().toString();
         String to = endCity.getText().toString();
-        String time1Str = addressTips.getText().toString();
-        if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to) && !TextUtils.isEmpty(time1Str)) {
+        //String time1Str = addressTips.getText().toString();
+        if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to) && !TextUtils.isEmpty(dateFormat)) {
             search.setEnabled(true);
             search.setBackgroundColor(Color.parseColor("#fad027"));
         } else {
@@ -398,7 +428,7 @@ public class FgChooseAirAddress extends BaseFragment {
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_FROM, cityFromId);
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TO, cityToId);
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 2);
-        bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time2Str);
+        bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, dateFormat);
         bundle.putInt("mBusinessType",1);
 //        fragment.setArguments(bundle);
 //        startFragment(fragment);

@@ -2,4 +2,7 @@
 <resources><declare-styleable name="ZGridRecyclerView">
     <attr name="column_num" format="integer" />
 </declare-styleable>
+    <declare-styleable name="ForegroundImageView">
+        <attr name="android:foreground"/>
+    </declare-styleable>
 </resources>

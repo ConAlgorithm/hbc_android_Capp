@@ -111,7 +111,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
-        refreshUserInfo();
     }
 
     @Override
@@ -128,6 +127,12 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 refreshContent();
                 break;
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        refreshUserInfo();
     }
 
     @Override
@@ -180,7 +185,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         if (UserEntity.getUser().isLogin(getContext())) {
             HttpRequestUtils.request(getContext(), new RequestUserInfo(getContext()), this, false);
         }else{
-            redPoint.setVisibility(View.GONE);
+            if(redPoint!= null){
+                redPoint.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -228,7 +235,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundTV.setTextColor(0xffffc100);
             travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
             travelFundUnitTV.setTextColor(0xffffc100);
-
+            refreshUserInfo();
         }
     }
 
