@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/order_desc_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="11dp"
+        android:paddingBottom="5dp"
+        android:text="接机"
+        android:textColor="@color/default_black"
+        android:textSize="15sp"
+        />
+    <include layout="@layout/item_order_detail_itinerary_sub"/>
+    <include layout="@layout/view_order_detail_location"/>
+    <include layout="@layout/item_order_detail_itinerary"/>
+</merge>

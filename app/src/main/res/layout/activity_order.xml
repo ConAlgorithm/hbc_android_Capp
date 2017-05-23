@@ -26,6 +26,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.hugboga.custom.widget.OrderDescriptionView
+                android:id="@+id/order_desc_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:paddingBottom="12dp"
+                android:paddingLeft="@dimen/order_padding_left"
+                android:paddingRight="@dimen/order_padding_left" />
+
             <com.hugboga.custom.widget.SkuOrderCountView
                 android:id="@+id/order_count_view"
                 android:layout_width="match_parent"

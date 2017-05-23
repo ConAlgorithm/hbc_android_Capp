@@ -199,12 +199,12 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
     private LinearLayout addSubItemView(int iconId, String title, String subTitle) {//带副标题
         LinearLayout itemView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary_sub, null, false);
 
-        ImageView iconIV = (ImageView) itemView.findViewById(R.id.item_itinerary_iv);
+        ImageView iconIV = (ImageView) itemView.findViewById(R.id.item_itinerary_sub_iv);
         iconIV.setBackgroundResource(iconId);
-        TextView titleTV = (TextView) itemView.findViewById(R.id.item_itinerary_title_tv);
+        TextView titleTV = (TextView) itemView.findViewById(R.id.item_itinerary_sub_title_tv);
         titleTV.setText(title);
 
-        TextView describeTV = (TextView) itemView.findViewById(R.id.item_itinerary_describe_tv);
+        TextView describeTV = (TextView) itemView.findViewById(R.id.item_itinerary_sub_describe_tv);
         if (TextUtils.isEmpty(subTitle)) {
             describeTV.setVisibility(View.GONE);
         } else {

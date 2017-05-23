@@ -14,29 +14,27 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/item_itinerary_iv"
+            android:id="@+id/item_itinerary_sub_iv"
             android:layout_marginLeft="-2dp"
-            android:layout_marginTop="1dp"
+            android:background="@mipmap/trip_icon_time"
             android:layout_width="20dp"
             android:layout_height="20dp"/>
 
         <TextView
-            android:id="@+id/item_itinerary_title_tv"
+            android:id="@+id/item_itinerary_sub_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:text="213231323"
             android:textColor="#333333"
             android:textSize="14sp" />
     </LinearLayout>
     <TextView
-        android:id="@+id/item_itinerary_describe_tv"
+        android:id="@+id/item_itinerary_sub_describe_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="21dp"
+        android:layout_marginLeft="21.4dp"
         android:lineSpacingExtra="2dp"
         android:textSize="13sp"
-        android:text="213231323"
         android:textColor="#999999"
         />
 </LinearLayout>

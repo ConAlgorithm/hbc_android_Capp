@@ -33,8 +33,6 @@ import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
-import com.hugboga.custom.data.request.RequestSubmitDaily;
-import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
@@ -45,6 +43,7 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.OrderDescriptionView;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCountView;
@@ -65,8 +64,12 @@ import butterknife.Bind;
 public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.DiscountOnClickListener,
         SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderTravelerInfoView.OnSwitchPickOrSendListener{
 
+    @Bind(R.id.order_scrollview)
+    ScrollView scrollView;
     @Bind(R.id.order_bottom_view)
     SkuOrderBottomView bottomView;
+    @Bind(R.id.order_desc_view)
+    OrderDescriptionView descriptionView;
     @Bind(R.id.order_count_view)
     SkuOrderCountView countView;
     @Bind(R.id.order_traveler_info_view)
@@ -75,8 +78,6 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     SkuOrderDiscountView discountView;
     @Bind(R.id.order_explain_view)
     OrderExplainView explainView;
-    @Bind(R.id.order_scrollview)
-    ScrollView scrollview;
 
     private OrderActivity.Params params;
     private String serverDate;
@@ -136,7 +137,12 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
 
     private void initView() {
         initTitleBar();
-//        descriptionView.update(params.skuItemBean);
+
+        if (params.orderType == 1) {
+            descriptionView.setPickData(params);
+            serverDate = params.flightBean.arrDate + " " + params.flightBean.arrivalTime + ":00";
+        }
+
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         countView.update(params.carBean, params.carListBean, params.flightBean.arrDate);
@@ -146,14 +152,12 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         travelerInfoView.setCarListBean(params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
 
-        if (params.orderType == 1) {
-            serverDate = params.flightBean.arrDate + " " + params.flightBean.arrivalTime + ":00";
-        }
-
         int additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
         requestMostFit(additionalPrice);
         requestTravelFund(additionalPrice);
         requestCancleTips();
+
+        scrollToTop();
     }
 
     public void initTitleBar() {
@@ -291,6 +295,16 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
         sensorsActualPrice = actualPrice;
+    }
+
+    /* 滚动到顶部 */
+    private void scrollToTop() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        });
     }
 
     /* 进入优惠券列表 */
