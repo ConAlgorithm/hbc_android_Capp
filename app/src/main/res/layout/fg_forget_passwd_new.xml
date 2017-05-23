@@ -139,7 +139,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/basic_margin_large"
-            android:src="@mipmap/login_invisible"/>
+            android:src="@mipmap/login_invisible"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/forget_passwd_newpass_layout"

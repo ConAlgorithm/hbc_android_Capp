@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +42,8 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static com.hugboga.custom.R.id.view;
 
 /**
  * Created by zhangqiang on 17/5/17.
@@ -115,8 +118,22 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 finish();
             }
         });
-
+        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                passwordVisible.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+        phoneEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                passwordVisible.setVisibility(View.GONE);
+                return false;
+            }
+        });
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -287,7 +304,12 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if(phoneEditText.hasFocus()){
+            phoneEditText.setSelection(phoneEditText.getText().toString().length());
+        }
+        if(passwordEditText.hasFocus()){
+            passwordEditText.setSelection(passwordEditText.getText().toString().length());
+        }
     }
 
     @Override
@@ -311,10 +333,16 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 
         if (!isPwdVisibility) {
             passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            passwordVisible.setImageResource(R.mipmap.icon_pwd_invisible);
+            passwordVisible.setImageResource(R.mipmap.login_invisible);
         } else {
             passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            passwordVisible.setImageResource(R.mipmap.icon_pwd_visible);
+            passwordVisible.setImageResource(R.mipmap.login_visible);
+        }
+        if(phoneEditText.hasFocus()){
+            phoneEditText.setSelection(phoneEditText.getText().toString().length());
+        }
+        if(passwordEditText.hasFocus()){
+            passwordEditText.setSelection(passwordEditText.getText().toString().length());
         }
     }
 
