@@ -188,10 +188,10 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 &&!TextUtils.isEmpty(password)  &&!TextUtils.isEmpty(verity_EditText)
                 && Pattern.matches("[\\w]{4,16}", password)) {
             forget_passwd_submit.setEnabled(true);
-            forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+            //forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
         }else{
             forget_passwd_submit.setEnabled(false);
-            forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            //forget_passwd_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
 
         if (!isPwdVisibility) {

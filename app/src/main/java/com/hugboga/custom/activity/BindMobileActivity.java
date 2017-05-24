@@ -470,10 +470,10 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
 
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
-            login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+            //login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
         } else {
             login_submit.setEnabled(false);
-            login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
     }
 }

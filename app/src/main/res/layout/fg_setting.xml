@@ -33,11 +33,13 @@
                     android:textSize="15sp" />
                 <ImageView
                     android:id="@+id/red_point1"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_toRightOf="@+id/setOrChangPwd"
+                    android:layout_marginLeft="-3dp"
                     android:background="@drawable/red_set_pwd"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
