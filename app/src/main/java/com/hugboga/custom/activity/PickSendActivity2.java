@@ -3,10 +3,12 @@ package com.hugboga.custom.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.fragment.FgPickup;
 import com.hugboga.custom.fragment.FgSend;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
 
@@ -41,7 +43,32 @@ public class PickSendActivity2 extends BaseActivity implements TitleBarPickSend.
 
     @Override
     public void onBack() {
+        if (!isShowSaveDialog()) {
+            finish();
+        }
+    }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isShowSaveDialog()) {
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    public boolean isShowSaveDialog() {
+        boolean isShowDialog = false;
+        if (currentFragment instanceof FgPickup) {
+            isShowDialog = !((FgPickup) currentFragment).isFlightBeanNull();
+        } else if (currentFragment instanceof FgSend) {
+            isShowDialog = !((FgSend) currentFragment).isAirPortNull();
+        }
+        if (isShowDialog) {
+            OrderUtils.showSaveDialog(this);
+        }
+        return isShowDialog;
     }
 
     @Override

@@ -28,11 +28,11 @@ import com.hugboga.custom.data.request.RequestGuideCrop;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -40,8 +40,6 @@ import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.title.TitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
-
-import net.grobas.view.PolygonImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -360,18 +358,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isShowSaveDialog() {
         if (startBean != null || chooseDateBean != null) {
-            AlertDialogUtils.showAlertDialogCancelable(this, "订单未填写完，要离开吗？", "取消", "离开", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    CharterFirstStepActivity.this.finish();
-                    dialog.dismiss();
-                }
-            });
+            OrderUtils.showSaveDialog(this);
             return true;
         } else {
             return false;
