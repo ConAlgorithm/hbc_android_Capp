@@ -30,7 +30,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <EditText
                 android:id="@+id/country_search"
@@ -54,7 +56,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="12dp"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/login_delete" />
+                android:src="@mipmap/login_delete"
+                android:visibility="gone"/>
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"

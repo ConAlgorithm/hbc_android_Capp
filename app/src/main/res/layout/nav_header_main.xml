@@ -133,15 +133,26 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:drawableLeft="@mipmap/personal_icon_coupon"
-                android:drawablePadding="5dp"
-                android:text="优惠券"
-                android:textColor="#898989"
-                android:textSize="12sp" />
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/coupon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="优惠券"
+                    android:textColor="#898989"
+                    android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/icon_coupon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_toLeftOf="@+id/coupon"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/personal_icon_coupon" />
+            </RelativeLayout>
 
 
         </LinearLayout>
@@ -203,17 +214,27 @@
                         android:textSize="13sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/jijin_layout"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
-                    android:drawableLeft="@mipmap/personal_icon_fund"
-                    android:drawablePadding="5dp"
-                    android:text="旅游基金"
-                    android:textColor="#898989"
-                    android:textSize="12sp" />
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/fund"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="旅游基金"
+                        android:textColor="#898989"
+                        android:textSize="12sp" />
+                    <ImageView
+                        android:id="@+id/icon_fund"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_toLeftOf="@+id/fund"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/personal_icon_fund" />
+                </RelativeLayout>
             </RelativeLayout>
 
         </RelativeLayout>

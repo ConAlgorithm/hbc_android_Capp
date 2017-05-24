@@ -79,6 +79,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     Button login_submit;
     @Bind(R.id.miaoshu2)
     TextView miaoshu2;
+    @Bind(R.id.delete)
+    ImageView delete;
 
 
 
@@ -131,6 +133,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             this.phone = phone;
             phoneEditText.setText(phone);
         }
+        if(phone.length() >0){
+            delete.setVisibility(View.VISIBLE);
+        }else{
+            delete.setVisibility(View.GONE);
+        }
         phoneEditText.addTextChangedListener(this);
         areaCodeTextView.addTextChangedListener(this);
         loginPassword.addTextChangedListener(this);
@@ -159,6 +166,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         String phone = phoneEditText.getText().toString().trim();
         String capthca = loginPassword.getText().toString().trim();
 
+        if(phone.length() >0){
+            delete.setVisibility(View.VISIBLE);
+        }else{
+            delete.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));

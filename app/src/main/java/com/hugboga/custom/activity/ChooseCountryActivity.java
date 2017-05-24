@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ import butterknife.OnClick;
  * Created on 16/8/4.
  */
 
-public class ChooseCountryActivity extends BaseActivity {
+public class ChooseCountryActivity extends BaseActivity{
     public static final String KEY_COUNTRY_CODE = "KEY_COUNTRY_CODE";
     public static final String KEY_COUNTRY_NAME = "KEY_COUNTRY_NAME";
 
@@ -54,6 +55,8 @@ public class ChooseCountryActivity extends BaseActivity {
     ListView sortListView;
     @Bind(R.id.country_search)
     EditText searchEditText;
+    @Bind(R.id.delete)
+    ImageView delete;
 //    @ViewInject(R.id.head_btn_left)
 //    ImageView head_btn_leftl;
 
@@ -137,6 +140,13 @@ public class ChooseCountryActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 //改变值后，筛选数据
+                if(searchEditText!= null){
+                    if(searchEditText.getText().toString().length() >0){
+                        delete.setVisibility(View.VISIBLE);
+                    }else{
+                        delete.setVisibility(View.GONE);
+                    }
+                }
                 filterData(searchEditText.getText().toString());
             }
         });
@@ -271,4 +281,5 @@ public class ChooseCountryActivity extends BaseActivity {
                 break;
         }
     }
+
 }

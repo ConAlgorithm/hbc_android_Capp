@@ -39,7 +39,9 @@
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/login_textbox"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:id="@+id/bind_mobile_areacode"
@@ -91,7 +93,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/login_delete" />
+                android:src="@mipmap/login_delete"
+                android:visibility="gone"/>
         </RelativeLayout>
         <View
             android:id="@+id/view1"
@@ -106,7 +109,9 @@
             android:layout_below="@+id/view1"
             android:background="@drawable/login_textbox"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <RelativeLayout
                 android:id="@+id/bind_mobile_getcode_view"
