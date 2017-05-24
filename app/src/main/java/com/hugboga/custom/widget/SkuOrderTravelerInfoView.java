@@ -376,24 +376,6 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         }
     }
 
-    public TravelerInfoBean getTravelerInfoBean() {
-        travelerInfoBean.travelerName = getText(contactsET, false);
-        travelerInfoBean.travelerPhone = getText(phoneET, true);
-        travelerInfoBean.mark = getText(markET, false);
-        travelerInfoBean.wechatNo = getText(wechatET, false);
-        if (travelerInfoBean.isOther) {
-            travelerInfoBean.otherName = getText(otherContactsET, false);
-            travelerInfoBean.otherPhone = getText(otherPhoneET, true);
-        }
-        if (travelerInfoBean.isPickup) {
-            travelerInfoBean.pickName = getText(checkinET, false);
-        } else {
-            travelerInfoBean.pickName = "";
-        }
-        travelerInfoBean.sendFlight = getText(flightET, false);
-        return travelerInfoBean;
-    }
-
     private String getText(EditText editText, boolean isRemoveAllBlank) {
         String result = editText.getText() != null ? editText.getText().toString() : "";
         if (!TextUtils.isEmpty(result)) {
@@ -462,6 +444,24 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
 
     public void setOnSwitchPickOrSendListener(OnSwitchPickOrSendListener listener) {
         this.onSwitchPickOrSendListener = listener;
+    }
+
+    public TravelerInfoBean getTravelerInfoBean() {
+        travelerInfoBean.travelerName = getText(contactsET, false);
+        travelerInfoBean.travelerPhone = getText(phoneET, true);
+        travelerInfoBean.mark = getText(markET, false);
+        travelerInfoBean.wechatNo = getText(wechatET, false);
+        if (travelerInfoBean.isOther) {
+            travelerInfoBean.otherName = getText(otherContactsET, false);
+            travelerInfoBean.otherPhone = getText(otherPhoneET, true);
+        }
+        if (travelerInfoBean.isPickup) {
+            travelerInfoBean.pickName = getText(checkinET, false);
+        } else {
+            travelerInfoBean.pickName = "";
+        }
+        travelerInfoBean.sendFlight = getText(flightET, false);
+        return travelerInfoBean;
     }
 
     public static class TravelerInfoBean implements Serializable {

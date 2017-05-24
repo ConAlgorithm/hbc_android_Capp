@@ -18,22 +18,22 @@ import butterknife.OnClick;
  * Created by qingcha on 17/5/18.
  */
 
-public class PickupOrderBottomView extends RelativeLayout {
+public class OrderBottomView extends RelativeLayout {
 
-    @Bind(R.id.pickup_order_bottom_should_price_tv)
+    @Bind(R.id.order_bottom_should_price_tv)
     TextView shouldPriceTV;
-    @Bind(R.id.pickup_order_bottom_distance_tv)
+    @Bind(R.id.order_bottom_distance_tv)
     TextView distanceTV;
 
     private OnConfirmListener listener;
 
-    public PickupOrderBottomView(Context context) {
+    public OrderBottomView(Context context) {
         this(context, null);
     }
 
-    public PickupOrderBottomView(Context context, AttributeSet attrs) {
+    public OrderBottomView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_pickup_order_bottom, this);
+        View view = inflate(context, R.layout.view_order_bottom, this);
         ButterKnife.bind(view);
         setBackgroundColor(0xFFFFFFFF);
     }
@@ -48,7 +48,7 @@ public class PickupOrderBottomView extends RelativeLayout {
         }
     }
 
-    @OnClick(R.id.pickup_order_bottom_confirm_tv)
+    @OnClick(R.id.order_bottom_confirm_tv)
     public void onConfirm() {
         if (listener != null) {
             listener.onConfirm();

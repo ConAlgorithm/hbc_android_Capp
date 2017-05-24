@@ -2,19 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/default_bg">
+
+    <com.hugboga.custom.widget.title.TitleBar
+        android:id="@+id/single_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:right_icon="@mipmap/topbar_cs"
+        app:title_res="@string/custom_single" />
 
     <com.hugboga.custom.widget.OrderBottomView
-        android:id="@+id/send_bottom_view"
+        android:id="@+id/single_bottom_view"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="@dimen/order_bottom_height"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/send_bottom_view">
+        android:layout_above="@id/single_bottom_view"
+        android:layout_below="@id/single_titlebar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,29 +31,33 @@
             android:orientation="vertical">
 
             <com.hugboga.custom.widget.OrderGuideLayout
-                android:id="@+id/send_guide_layout"
-                android:visibility="gone"
+                android:id="@+id/single_guide_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+
+            <com.hugboga.custom.widget.OrderInfoItemView
+                android:id="@+id/single_city_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/order_margin_vertical"
+                app:hintText="请选择用车城市"
+                app:titleText="用车地点" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_line_height"
+                android:background="@color/default_dividing_line"
+                android:paddingLeft="@dimen/order_padding_left" />
+
+            <com.hugboga.custom.widget.SendAddressView
+                android:id="@+id/single_address_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
-                android:id="@+id/send_airport_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="送您到哪个机场"
-                app:titleText="送达机场" />
-
-            <com.hugboga.custom.widget.OrderInfoItemView
-                android:id="@+id/send_poi_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="您从哪里出发"
-                app:titleText="出发地点" />
-
-            <com.hugboga.custom.widget.OrderInfoItemView
-                android:id="@+id/send_time_layout"
+                android:id="@+id/single_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
@@ -52,25 +65,24 @@
                 app:titleText="出发时间" />
 
             <com.hugboga.custom.widget.SkuOrderCarTypeView
-                android:id="@+id/send_car_type_view"
+                android:id="@+id/single_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:layout_marginBottom="@dimen/order_margin_vertical"
+                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 
             <com.hugboga.custom.widget.SkuOrderEmptyView
-                android:id="@+id/send_empty_layout"
+                android:id="@+id/single_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="40dp" />
+                android:paddingBottom="40dp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

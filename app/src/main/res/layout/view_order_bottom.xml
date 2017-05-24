@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/pickup_order_bottom_should_price_tv"
+        android:id="@+id/order_bottom_should_price_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
@@ -13,17 +13,17 @@
         android:textSize="19sp" />
 
     <TextView
-        android:id="@+id/pickup_order_bottom_distance_tv"
+        android:id="@+id/order_bottom_distance_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pickup_order_bottom_should_price_tv"
+        android:layout_below="@id/order_bottom_should_price_tv"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
         android:gravity="center"
         android:textColor="@color/default_black"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/pickup_order_bottom_confirm_tv"
+        android:id="@+id/order_bottom_confirm_tv"
         style="@style/OrderBottomConfirm"
         android:text="确认行程" />
 

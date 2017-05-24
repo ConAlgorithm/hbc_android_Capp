@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.hugboga.custom.R;
 import com.hugboga.custom.fragment.FgPickup;
 import com.hugboga.custom.fragment.FgSend;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
 
 import butterknife.Bind;
@@ -45,7 +46,7 @@ public class PickSendActivity2 extends BaseActivity implements TitleBarPickSend.
 
     @Override
     public void onCustomerService() {
-
+        DialogUtil.getInstance(PickSendActivity2.this).showServiceDialog(PickSendActivity2.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     @Override

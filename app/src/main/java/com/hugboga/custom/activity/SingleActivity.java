@@ -1,34 +1,32 @@
-package com.hugboga.custom.fragment;
+package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseAirPortActivity;
-import com.hugboga.custom.activity.OrderActivity;
-import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
+import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
+import com.hugboga.custom.widget.SendAddressView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
+import com.hugboga.custom.widget.title.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,66 +35,57 @@ import java.text.ParseException;
 import java.util.Calendar;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
-import static com.hugboga.custom.utils.CommonUtils.showToast;
-
 /**
- * Created by qingcha on 17/5/18.
+ * Created by qingcha on 17/5/23.
  */
-public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelectedCarListener, OrderBottomView.OnConfirmListener{
+public class SingleActivity extends BaseActivity implements SendAddressView.OnAddressClickListener
+        , SkuOrderCarTypeView.OnSelectedCarListener, OrderBottomView.OnConfirmListener{
 
-    public static final String TAG = FgSend.class.getSimpleName();
-    private static final int ORDER_TYPE = 2;
+    public static final String TAG = SingleActivity.class.getSimpleName();
+    private static final int ORDER_TYPE = 4;
 
-    @Bind(R.id.send_bottom_view)
+    @Bind(R.id.single_titlebar)
+    TitleBar titlebar;
+    @Bind(R.id.single_bottom_view)
     OrderBottomView bottomView;
-
-    @Bind(R.id.send_guide_layout)
+    @Bind(R.id.single_guide_layout)
     OrderGuideLayout guideLayout;
-
-    @Bind(R.id.send_airport_layout)
-    OrderInfoItemView airportLayout;
-    @Bind(R.id.send_poi_layout)
-    OrderInfoItemView startPoiLayout;
-    @Bind(R.id.send_time_layout)
+    @Bind(R.id.single_city_layout)
+    OrderInfoItemView cityLayout;
+    @Bind(R.id.single_address_layout)
+    SendAddressView addressLayout;
+    @Bind(R.id.single_time_layout)
     OrderInfoItemView timeLayout;
-
-    @Bind(R.id.send_car_type_view)
+    @Bind(R.id.single_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.send_empty_layout)
+    @Bind(R.id.single_empty_layout)
     SkuOrderEmptyView emptyLayout;
 
     private DateTimePicker dateTimePicker;
 
-    private AirPort airPortBean;
-    private PoiBean poiBean;
-    private String serverDate;
-    private String serverTime;
     private CarListBean carListBean;
     private CarBean carBean;
+    private CityBean cityBean;
+    private PoiBean startPoiBean, endPoiBean;
+    private String serverDate;
+    private String serverTime;
 
     private CollectGuideBean collectGuideBean;
     private String carIds = null;
 
     @Override
     public int getContentViewId() {
-        return R.layout.fg_send;
+        return R.layout.activity_single;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+        initView();
     }
 
     @Override
@@ -105,45 +94,32 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    protected void initView() {
+    private void initView() {
         carTypeView.setOnSelectedCarListener(this);
         bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        addressLayout.setOnAddressClickListener(this);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @OnClick({R.id.send_airport_layout, R.id.send_poi_layout, R.id.send_time_layout})
+    @OnClick({R.id.single_city_layout, R.id.single_time_layout})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
-            case R.id.send_airport_layout:
-                intent = new Intent(getActivity(),ChooseAirPortActivity.class);
+            case R.id.single_city_layout:
                 if (collectGuideBean != null) {
-                    intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, collectGuideBean.cityId);
-                }
-                getActivity().startActivity(intent);
-                break;
-            case R.id.send_poi_layout:
-                if (airPortBean == null) {
-                    CommonUtils.showToast("请先选择机场");
+                    intent = new Intent(this, ChooseGuideCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_ID, collectGuideBean.guideId);
+                    startActivity(intent);
                 } else {
-                    intent = new Intent(getActivity(), PoiSearchActivity.class);
-                    intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
-                    intent.putExtra(PoiSearchActivity.KEY_CITY_ID, airPortBean.cityId);
-                    intent.putExtra(PoiSearchActivity.KEY_LOCATION, airPortBean.location);
-                    intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, ORDER_TYPE);
-                    getActivity().startActivity(intent);
+                    intent = new Intent(this, ChooseCityActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(KEY_BUSINESS_TYPE, ORDER_TYPE);
+                    startActivity(intent);
                 }
                 break;
-            case R.id.send_time_layout:
-                if (airPortBean == null) {
-                    CommonUtils.showToast("请先选择机场");
+            case R.id.single_time_layout:
+                if (cityBean == null) {
+                    CommonUtils.showToast("请先选择城市");
                 } else {
                     showTimePicker();
                 }
@@ -154,28 +130,45 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case AIR_PORT_BACK:
-                AirPort _airPortBean = (AirPort) action.getData();
-                if (_airPortBean == null || (airPortBean != null && TextUtils.equals(_airPortBean.airportName, airPortBean.airportName))) {
+            case CHOOSE_START_CITY_BACK://选择城市返回
+            case CHOOSE_GUIDE_CITY_BACK://指定司导选城市返回
+                CityBean _cityBean = null;
+                if (action.getType() == EventType.CHOOSE_START_CITY_BACK) {
+                    _cityBean = (CityBean) action.getData();
+                } else {
+                    ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
+                    _cityBean = guideServiceCitys.getSelectedCityBean();
+                }
+                if (_cityBean == null || (cityBean != null && cityBean.cityId == _cityBean.cityId)) {
                     break;
                 }
-                airPortBean = _airPortBean;
-                airportLayout.setDesc(airPortBean.airportName);
+                cityBean = _cityBean;
+                cityLayout.setDesc(_cityBean.name);
 
                 emptyLayout.setVisibility(View.GONE);
                 carTypeView.setVisibility(View.GONE);
                 bottomView.setVisibility(View.GONE);
-                startPoiLayout.resetUI();
-                poiBean = null;
+                addressLayout.resetUI();
+                startPoiBean = null;
+                endPoiBean = null;
                 break;
             case CHOOSE_POI_BACK:
-                PoiBean _poiBean = (PoiBean) action.getData();
-                if (_poiBean == null || _poiBean.mBusinessType != ORDER_TYPE || (poiBean != null && TextUtils.equals(_poiBean.placeName, poiBean.placeName))) {
-                    break;
+                PoiBean poiBean = (PoiBean) action.getData();
+                if ("from".equals(poiBean.type)) {
+                    if (poiBean == null || (startPoiBean != null && TextUtils.equals(poiBean.placeName, startPoiBean.placeName))) {
+                        break;
+                    }
+                    startPoiBean = poiBean;
+                    addressLayout.setStartAddress(startPoiBean.placeName, startPoiBean.placeDetail);
+                    requestCarPriceList();
+                } else if ("to".equals(poiBean.type)) {
+                    if (poiBean == null || (endPoiBean != null && TextUtils.equals(poiBean.placeName, endPoiBean.placeName))) {
+                        break;
+                    }
+                    endPoiBean = poiBean;
+                    addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
+                    requestCarPriceList();
                 }
-                poiBean = _poiBean;
-                startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
-                requestCarPriceList();
                 break;
         }
     }
@@ -183,7 +176,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     public void showTimePicker() {
         final Calendar calendar = Calendar.getInstance();
         if (dateTimePicker == null) {
-            dateTimePicker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+            dateTimePicker = new DateTimePicker(this, DateTimePicker.YEAR_MONTH_DAY);
             dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
             dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
                 @Override
@@ -195,8 +188,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                         CommonUtils.showToast("不能选择今天之前的时间");
                         return;
                     }
-
-                    if (DateUtils.getDistanceDays(startDate, tmpDate) > 180) {
+                    if (DateUtils.getDistanceDays(startDate,tmpDate) > 180) {
                         CommonUtils.showToast(R.string.time_out_180);
                     } else {
                         serverDate = tmpDate;
@@ -208,6 +200,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 }
             });
         }
+
         if (!TextUtils.isEmpty(serverDate) && !TextUtils.isEmpty(serverTime)) {
             try {
                 calendar.setTime(DateUtils.dateTimeFormat2.parse(serverDate + " " + serverTime));
@@ -221,25 +214,24 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     private void requestCarPriceList() {
-        if (airPortBean == null || poiBean == null || TextUtils.isEmpty(serverDate) || TextUtils.isEmpty(serverTime)) {
+        if (cityBean == null || startPoiBean == null || endPoiBean == null || TextUtils.isEmpty(serverDate) || TextUtils.isEmpty(serverTime)) {
             return;
         }
-        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity()
+        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(this
                 , ORDER_TYPE
-                , airPortBean.airportCode
-                , airPortBean.cityId
-                , poiBean.location
-                , airPortBean.location
+                , cityBean.cityId
+                , startPoiBean.location
+                , endPoiBean.location
                 , serverDate + " " + serverTime
                 , carIds
                 , collectGuideBean == null ? 0 : collectGuideBean.isQuality);
-        requestData(requestCheckPriceForTransfer);
+        requestData(requestCheckPriceForSingle);
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        if (request instanceof RequestCheckPriceForTransfer) {
+        if (request instanceof RequestCheckPriceForSingle) {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
             if (carListBean.carList.size() > 0) {
@@ -256,6 +248,30 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     @Override
+    public void onStartAddressClick() {
+        intentPoiSearch("from");
+    }
+
+    @Override
+    public void onEndAddressClick() {
+        intentPoiSearch("to");
+    }
+
+    private void intentPoiSearch(String keyFrom) {
+        if (cityBean == null) {
+            CommonUtils.showToast("请先选择城市");
+        } else {
+            Intent intent = new Intent(activity,PoiSearchActivity.class);
+            intent.putExtra(KEY_FROM, keyFrom);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            intent.putExtra(PoiSearchActivity.KEY_CITY_ID, cityBean.cityId);
+            intent.putExtra(PoiSearchActivity.KEY_LOCATION, cityBean.location);
+            intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, ORDER_TYPE);
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public void onSelectedCar(CarBean _carBean) {
         this.carBean = _carBean;
         bottomView.setData(carListBean, _carBean);
@@ -268,19 +284,19 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Override
     public void onConfirm() {
-        if (!CommonUtils.isLogin(getContext())) {
+        if (!CommonUtils.isLogin(this)) {
             return;
         }
         OrderActivity.Params params = new OrderActivity.Params();
-        params.airPortBean = airPortBean;
-        params.startPoiBean = poiBean;
+        params.startPoiBean = startPoiBean;
+        params.endPoiBean = endPoiBean;
         params.carListBean = carListBean;
         params.carBean = carBean;
-        params.cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+        params.cityBean = cityBean;
         params.orderType = ORDER_TYPE;
         params.serverDate = serverDate;
         params.serverTime = serverTime;
-        Intent intent = new Intent(getContext(), OrderActivity.class);
+        Intent intent = new Intent(this, OrderActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
@@ -288,6 +304,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Override
     public String getEventSource() {
-        return "送机下单";
+        return "单次接送下单";
     }
 }

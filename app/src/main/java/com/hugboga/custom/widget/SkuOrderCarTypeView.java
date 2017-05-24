@@ -52,6 +52,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private CarBean oldCarBean;
 
     private boolean isSelectedGuide = false;
+    private int orderType;
 
     public SkuOrderCarTypeView(Context context) {
         this(context, null);
@@ -65,6 +66,10 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
 
     public void setIsSelectedGuide(boolean isSelectedGuide) {
         this.isSelectedGuide = isSelectedGuide;
+    }
+
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
     }
 
     @Override
@@ -122,6 +127,9 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         for (int i = size; i < childCount; i++) {
             containerLayot.getChildAt(i).setVisibility(View.GONE);
         }
+        if (orderType == 1 || orderType == 2 || orderType == 4) {
+            moreLayout.callOnClick();
+        }
     }
 
     @OnClick({R.id.sku_order_car_type_more_layout})
@@ -170,7 +178,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             if (isSelectedGuide && !TextUtils.isEmpty(carList.get(i).carLicenceNoCovered)) {
                 carDes += "  车牌:" + carList.get(i).carLicenceNoCovered;
             }
-            showDescriptionTV(itemView, i == view.getId() ? carDes : "", size, i);
+            showDescriptionTV(itemView, carDes, size, i);//i == view.getId() ? carDes : ""
         }
         CarBean carBean = carList.get(view.getId());
         if (listener != null && this.oldCarBean != carBean && carBean != null) {
@@ -185,7 +193,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         View lineView2 = itemView.findViewById(R.id.sku_order_car_type_bottom_line_view2);
         boolean isEmpty = TextUtils.isEmpty(description);
 
-        if (i == size - 1) {//size <= DEFAULT_SHOW_COUNT &&
+        if (i == size - 1) {
             lineView.setVisibility(isEmpty ? View.GONE : View.INVISIBLE);
             lineView2.setVisibility(isEmpty ? View.INVISIBLE : View.GONE);
         } else {

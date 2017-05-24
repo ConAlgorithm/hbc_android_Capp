@@ -397,6 +397,7 @@
     <RelativeLayout
         android:id="@+id/sku_order_traveler_info_checkin_layout"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
 

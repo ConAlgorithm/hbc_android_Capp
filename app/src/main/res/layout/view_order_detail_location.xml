@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="3dp"
@@ -42,15 +43,19 @@
             android:textSize="11sp"
             android:visibility="visible" />
 
-        <View
+        <com.hugboga.custom.widget.DashView
             android:id="@+id/order_travel_item_start_line_view"
-            android:layout_width="1dp"
+            android:layout_width="2dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/order_travel_item_start_des_tv"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="7.5dp"
             android:layout_marginTop="20dp"
-            android:background="#c0c0c0" />
+            app:dashOrientation="1"
+            app:dashWidth="2dp"
+            app:lineColor="#c0c0c0"
+            app:lineHeight="1dp"
+            app:lineWidth="2dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -58,12 +63,16 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false">
 
-        <View
-            android:layout_width="1dp"
+        <com.hugboga.custom.widget.DashView
+            android:layout_width="2dp"
             android:layout_height="20dp"
             android:layout_marginLeft="7.5dp"
             android:layout_marginTop="-9dp"
-            android:background="#c0c0c0" />
+            app:dashOrientation="1"
+            app:dashWidth="2dp"
+            app:lineColor="#c0c0c0"
+            app:lineHeight="1dp"
+            app:lineWidth="2dp" />
 
         <ImageView
             android:id="@+id/order_travel_item_end_iv"
