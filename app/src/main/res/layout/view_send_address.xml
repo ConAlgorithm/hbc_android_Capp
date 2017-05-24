@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingLeft="@dimen/order_padding_left">
+
+
+    <RelativeLayout
+        android:id="@+id/send_start_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingRight="@dimen/order_padding_left"
+        android:paddingTop="12dp">
+
+        <ImageView
+            android:id="@+id/send_start_address_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="-1dp"
+            android:background="@mipmap/trip_icon_place" />
+
+        <ImageView
+            android:id="@+id/send_start_address_arrow_iv"
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/ente_icon" />
+
+        <TextView
+            android:id="@+id/send_start_address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/send_start_address_arrow_iv"
+            android:layout_toRightOf="@id/send_start_address_iv"
+            android:gravity="center_vertical"
+            android:paddingTop="1dp"
+            android:hint="您从哪里出发"
+            android:textColor="@color/default_black"
+            android:textColorHint="#cccccc"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/send_start_address_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/send_start_address_tv"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@id/send_start_address_arrow_iv"
+            android:layout_toRightOf="@id/send_start_address_iv"
+            android:gravity="center_vertical"
+            android:textColor="#cccccc"
+            android:textSize="12sp" />
+
+        <com.hugboga.custom.widget.DashView
+            android:id="@+id/send_start_address_dash_view"
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/send_start_address_desc_tv"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="-12dp"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="20dp"
+            app:dashOrientation="1"
+            app:dashWidth="2dp"
+            app:lineColor="#c0c0c0"
+            app:lineHeight="1dp"
+            app:lineWidth="2dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/send_end_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/send_start_address_layout"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingRight="@dimen/order_padding_left"
+        android:paddingTop="12dp">
+
+        <View
+            android:id="@+id/send_middle_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="-17dp"
+            android:layout_marginTop="-12.5dp"
+            android:background="@color/default_dividing_line" />
+
+        <com.hugboga.custom.widget.DashView
+            android:layout_width="2dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginTop="-15dp"
+            app:dashOrientation="1"
+            app:dashWidth="2dp"
+            app:lineColor="#c0c0c0"
+            app:lineHeight="1dp"
+            app:lineWidth="2dp" />
+
+        <ImageView
+            android:id="@+id/send_end_address_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="-1dp"
+            android:background="@mipmap/trip_icon_place" />
+
+        <ImageView
+            android:id="@+id/send_end_address_arrow_iv"
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/ente_icon" />
+
+        <TextView
+            android:id="@+id/send_end_address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/send_end_address_arrow_iv"
+            android:layout_toRightOf="@id/send_end_address_iv"
+            android:gravity="center_vertical"
+            android:hint="送您到哪里去"
+            android:paddingTop="1dp"
+            android:textColor="@color/default_black"
+            android:textColorHint="#cccccc"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/send_end_address_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/send_end_address_tv"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@id/send_end_address_arrow_iv"
+            android:layout_toRightOf="@id/send_end_address_iv"
+            android:gravity="center_vertical"
+            android:textColor="#cccccc"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

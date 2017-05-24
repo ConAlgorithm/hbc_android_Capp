@@ -57,16 +57,30 @@ public class OrderDescriptionView extends LinearLayout {
         flightTV.setVisibility(View.GONE);
     }
 
-    public void setPickData(OrderActivity.Params params) {
-        titleTV.setText("接机");
+    public void setData(OrderActivity.Params params) {
+        switch (params.orderType) {
+            case 1:
+                titleTV.setText("接机");
 
-        FlightBean flightBean = params.flightBean;
-        setTime(flightBean.arrDate, flightBean.arrivalTime);
-        flightTV.setVisibility(View.VISIBLE);
-        flightTV.setText(String.format("航班: %1$s %2$s-%3$s",flightBean.flightNo, flightBean.depCityName, flightBean.arrCityName));
+                FlightBean flightBean = params.flightBean;
+                flightTV.setVisibility(View.VISIBLE);
+                flightTV.setText(String.format("航班: %1$s %2$s-%3$s", flightBean.flightNo, flightBean.depCityName, flightBean.arrCityName));
 
-        setAddress(flightBean.arrAirportName, null, params.poiBean.placeName, params.poiBean.placeDetail);
+                setAddress(flightBean.arrAirportName, null, params.endPoiBean.placeName, params.endPoiBean.placeDetail);
+                break;
+            case 2:
+                titleTV.setText("送机");
 
+                setAddress(params.startPoiBean.placeName, params.startPoiBean.placeDetail, params.airPortBean.airportName, null);
+                break;
+            case 4:
+                titleTV.setText("单次接送");
+
+                setAddress(params.startPoiBean.placeName, params.startPoiBean.placeDetail, params.endPoiBean.placeName, params.endPoiBean.placeDetail);
+                break;
+        }
+
+        setTime(params.serverDate, params.serverTime);
         carDescTV.setText(params.carBean.carDesc);
     }
 
@@ -85,7 +99,7 @@ public class OrderDescriptionView extends LinearLayout {
             int lines = (int)Math.ceil(stringWidth / showWidth);
             int startDesViewWidth = UIUtils.dip2px(20) + lines * UIUtils.dip2px(10);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), startDesViewWidth);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), startDesViewWidth);
             params.topMargin = UIUtils.dip2px(20);
             params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.travel_item_start_des_tv);
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -94,7 +108,7 @@ public class OrderDescriptionView extends LinearLayout {
         } else {
             startDesTV.setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(5));
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), UIUtils.dip2px(5));
             params.topMargin = UIUtils.dip2px(20);
             params.leftMargin = UIUtils.dip2px(7.5f);
             startLineView.setLayoutParams(params);

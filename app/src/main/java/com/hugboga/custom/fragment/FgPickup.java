@@ -23,12 +23,13 @@ import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
-import com.hugboga.custom.widget.PickupOrderBottomView;
+import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 
@@ -42,12 +43,13 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 17/5/17.
  */
-public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSelectedCarListener, PickupOrderBottomView.OnConfirmListener {
+public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSelectedCarListener, OrderBottomView.OnConfirmListener {
 
     public static final String TAG = FgPickup.class.getSimpleName();
+    private static final int ORDER_TYPE = 1;
 
     @Bind(R.id.pickup_bottom_view)
-    PickupOrderBottomView bottomView;
+    OrderBottomView bottomView;
     @Bind(R.id.pickup_guide_layout)
     OrderGuideLayout guideLayout;
     @Bind(R.id.pickup_flight_layout)
@@ -68,8 +70,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private CarListBean carListBean;
     private CarBean carBean;
 
-    String carIds = null;
     CollectGuideBean collectGuideBean;
+    String carIds = null;
 
     @Override
     public int getContentViewId() {
@@ -93,13 +95,13 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
     }
 
     @Override
     protected void initView() {
         carTypeView.setOnSelectedCarListener(this);
         bottomView.setOnConfirmListener(this);
+        carTypeView.setOrderType(ORDER_TYPE);
     }
 
     @Override
@@ -124,7 +126,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                     intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
                     intent.putExtra(PoiSearchActivity.KEY_CITY_ID, flightBean.arrCityId);
                     intent.putExtra(PoiSearchActivity.KEY_LOCATION, flightBean.arrLocation);
-                    intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, 1);
+                    intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, ORDER_TYPE);
                     getActivity().startActivity(intent);
                 }
                 break;
@@ -136,10 +138,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         switch (action.getType()) {
             case AIR_NO://接机航班
                 FlightBean _flightBean = (FlightBean) action.getData();
-                if (mBusinessType == Constants.BUSINESS_TYPE_SEND || _flightBean == null) {
-                    break;
-                }
-                if (flightBean == _flightBean || (flightBean != null && TextUtils.equals(_flightBean.flightNo, flightBean.flightNo))) {
+                if (_flightBean == null || (flightBean != null && TextUtils.equals(_flightBean.flightNo, flightBean.flightNo))) {
                     break;
                 }
                 flightBean = _flightBean;
@@ -154,17 +153,23 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 carTypeView.setVisibility(View.GONE);
                 bottomView.setVisibility(View.GONE);
                 cityLayout.resetUI();
+                poiBean = null;
                 break;
             case CHOOSE_POI_BACK:
-                poiBean = (PoiBean) action.getData();
+                PoiBean _poiBean = (PoiBean) action.getData();
+                if (_poiBean == null || _poiBean.mBusinessType != ORDER_TYPE || (poiBean != null && TextUtils.equals(_poiBean.placeName, poiBean.placeName))) {
+                    break;
+                }
+                poiBean = _poiBean;
                 cityLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
                 requestCarPriceList();
                 break;
         }
     }
 
-    protected void requestCarPriceList() {
-        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1
+    private void requestCarPriceList() {
+        RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity()
+                , ORDER_TYPE
                 , flightBean.arrAirportCode
                 , flightBean.arrCityId
                 , flightBean.arrLocation
@@ -195,11 +200,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     @Override
-    public String getEventSource() {
-        return "接机下单";
-    }
-
-    @Override
     public void onSelectedCar(CarBean _carBean) {
         this.carBean = _carBean;
         bottomView.setData(carListBean, _carBean);
@@ -215,16 +215,28 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         if (!CommonUtils.isLogin(getContext())) {
             return;
         }
-        carBean.expectedCompTime = carListBean.estTime;
         OrderActivity.Params params = new OrderActivity.Params();
         params.flightBean = flightBean;
-        params.poiBean = poiBean;
+        params.endPoiBean = poiBean;
         params.carListBean = carListBean;
         params.carBean = carBean;
         params.cityBean = DBHelper.findCityById("" + flightBean.arrCityId);
-        params.orderType = 1;
+        params.orderType = ORDER_TYPE;
+        params.serverDate = flightBean.arrDate;
+        params.serverTime = flightBean.arrivalTime;
         Intent intent = new Intent(getContext(), OrderActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "接机下单";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_J;
     }
 }

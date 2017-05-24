@@ -275,7 +275,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             int lines = (int)Math.ceil(stringWidth / showWidth);
             int startDesViewWidth = UIUtils.dip2px(20) + lines * UIUtils.dip2px(10);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), startDesViewWidth);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), startDesViewWidth);
             params.topMargin = UIUtils.dip2px(20);
             params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.travel_item_start_des_tv);
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -284,7 +284,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         } else {
             startDesTV.setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(1), UIUtils.dip2px(5));
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), UIUtils.dip2px(5));
             params.topMargin = UIUtils.dip2px(20);
             params.leftMargin = UIUtils.dip2px(7.5f);
             startLineView.setLayoutParams(params);

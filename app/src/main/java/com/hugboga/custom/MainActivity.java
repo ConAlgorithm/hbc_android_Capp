@@ -42,6 +42,7 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.PickSendActivity2;
+import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
@@ -648,6 +649,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //                startActivity(new Intent(this, PickSendActivity2.class));
                 break;
             case R.id.tab_text_3:
+//                startActivity(new Intent(this, SingleActivity.class));
                 mViewPager.setCurrentItem(2);
                 break;
             case R.id.tab_text_4:

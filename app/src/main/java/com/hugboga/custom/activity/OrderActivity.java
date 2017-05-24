@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
@@ -34,6 +35,8 @@ import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitPick;
+import com.hugboga.custom.data.request.RequestSubmitRent;
+import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -90,15 +93,17 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private CouponBean couponBean;
     private String couponId;
 
-    private int sensorsActualPrice = 0;
-
     public static class Params implements Serializable {
-        public FlightBean flightBean;
-        public PoiBean poiBean;
+        public FlightBean flightBean; // 接机航班信息
+        public AirPort airPortBean;   // 送机机场信息
+        public PoiBean startPoiBean;  // 送机出发地, 单次出发地
+        public PoiBean endPoiBean;    // 接机送达地, 单次送达地
+        public int orderType;
         public CarListBean carListBean;
         public CarBean carBean;
-        public int orderType;
         public CityBean cityBean;
+        public String serverDate;
+        public String serverTime;
     }
 
     @Override
@@ -138,14 +143,13 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private void initView() {
         initTitleBar();
 
-        if (params.orderType == 1) {
-            descriptionView.setPickData(params);
-            serverDate = params.flightBean.arrDate + " " + params.flightBean.arrivalTime + ":00";
-        }
+        params.carBean.expectedCompTime = params.carListBean.estTime;//历史遗留
+        serverDate = params.serverDate + " " + params.serverTime + ":00";
 
+        descriptionView.setData(params);
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
-        countView.update(params.carBean, params.carListBean, params.flightBean.arrDate);
+        countView.update(params.carBean, params.carListBean, params.serverDate);
         bottomView.setOnSubmitOrderListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(params.orderType);
@@ -191,10 +195,6 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 } else if (areaCodeBean.viewId == R.id.sku_order_traveler_info_other_code_tv) {
                     travelerInfoView.setOtherAreaCode(areaCodeBean.getCode());
                 }
-                break;
-            case CHOOSE_POI_BACK:
-                PoiBean poiBean = (PoiBean) action.getData();
-                travelerInfoView.setPlace(poiBean);
                 break;
             case CHOOSE_POI:
                 Bundle bundle = new Bundle();
@@ -294,7 +294,6 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 break;
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
-        sensorsActualPrice = actualPrice;
     }
 
     /* 滚动到顶部 */
@@ -414,12 +413,22 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     * 提交订单
     * */
     private void requestSubmitOrder() {
+        RequestSubmitBase requestSubmitBase = null;
         switch (params.orderType) {
             case 1:
-                RequestSubmitPick requestSubmitPick = new RequestSubmitPick(activity, getPickOrderByInput());
-                requestData(requestSubmitPick);
+                orderBean = getPickOrderByInput();
+                requestSubmitBase = new RequestSubmitPick(this, orderBean);
+                break;
+            case 2:
+                orderBean = getSendOrderByInput();
+                requestSubmitBase = new RequestSubmitSend(this, orderBean);
+                break;
+            case 4:
+                orderBean = getSingleOrderByInput();
+                requestSubmitBase = new RequestSubmitRent(this, orderBean);
                 break;
         }
+        requestData(requestSubmitBase);
     }
 
     private OrderBean getPickOrderByInput() {
@@ -427,7 +436,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         ManLuggageBean manLuggageBean = countView.getManLuggageBean();
         StatisticClickEvent.pickClick(StatisticConstant.SUBMITORDER_J, getIntentSource(), params.carBean.carDesc + "", travelerInfoBean.isCheckin, countView.getTotalPeople());
         return new OrderUtils().getPickOrderByInput(params.flightBean
-                , params.poiBean
+                , params.endPoiBean
                 , params.carBean
                 , travelerInfoBean.pickName
                 , params.carListBean
@@ -440,7 +449,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , travelerInfoBean.travelerName
                 , ""
                 , travelerInfoBean.mark
-                , params.flightBean.arrivalTime
+                , params.serverTime
                 , manLuggageBean.childSeats + ""
                 , manLuggageBean.luggages + ""
                 , travelerInfoBean.getContactUsersBean()
@@ -451,6 +460,69 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , "" //TODO 指定司导下单
                 , manLuggageBean
                 , travelerInfoBean.isCheckin);
+    }
+
+    private OrderBean getSendOrderByInput() {
+        SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
+        ManLuggageBean manLuggageBean = countView.getManLuggageBean();
+        StatisticClickEvent.sendClick(StatisticConstant.SUBMITORDER_S, getIntentSource(), params.carBean.carDesc + "", travelerInfoBean.isCheckin, countView.getTotalPeople());
+        return new OrderUtils().getSendOrderByInput(params.startPoiBean
+                , params.carBean
+                , travelerInfoBean.travelerName
+                , travelerInfoBean.isCheckin
+                , travelerInfoBean.sendFlight
+                , params.airPortBean
+                , params.carListBean
+                , params.serverDate
+                , discountView.isCheckedTravelFund()
+                , manLuggageBean.mans + ""
+                , manLuggageBean.childs + ""
+                , ""
+                , ""
+                , travelerInfoBean.mark
+                , params.serverTime
+                , manLuggageBean.childSeats + ""
+                , manLuggageBean.luggages + ""
+                , travelerInfoBean.getContactUsersBean()
+                , deductionBean != null ? CommonUtils.getCountInteger(deductionBean.deduction) + "" : "0"
+                , couponBean
+                , mostFitBean
+                , "" //TODO 指定司导下单
+                , manLuggageBean);
+    }
+
+    private OrderBean getSingleOrderByInput() {
+        SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
+        ManLuggageBean manLuggageBean = countView.getManLuggageBean();
+        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_C, getIntentSource(), params.carBean.carDesc + "", countView.getTotalPeople(), travelerInfoBean.isOther);
+
+        return new OrderUtils().getSingleOrderByInput(manLuggageBean.mans + ""
+                , params.carBean
+                , manLuggageBean.childs + ""
+                , params.cityBean.cityId + ""
+                , params.cityBean.cityId + ""
+                , null
+                , params.serverTime
+                , params.cityBean.name
+                , params.serverDate
+                , params.startPoiBean
+                , params.endPoiBean
+                , params.carListBean.distance + ""
+                , ""
+                , ""
+                , params.carListBean
+                , manLuggageBean
+                , travelerInfoBean.travelerName
+                , ""
+                , manLuggageBean.mans + ""
+                , manLuggageBean.childSeats + ""
+                , manLuggageBean.luggages + ""
+                , travelerInfoBean.getContactUsersBean()
+                , discountView.isCheckedTravelFund()
+                , deductionBean != null ? CommonUtils.getCountInteger(deductionBean.deduction) + "" : "0"
+                , couponBean
+                , mostFitBean
+                , "");//TODO 指定司导下单
     }
 
     @Override

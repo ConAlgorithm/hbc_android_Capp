@@ -326,7 +326,7 @@ public class SingleNewActivity extends BaseActivity {
         startLocation = startBean.location;
         termLocation = arrivalBean.location;
 
-        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(activity, 4, airportCode, cityId,
+        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(activity, 4, cityId,
                 startLocation, termLocation, serverDate + " " + serverTime, carIds, collectGuideBean == null ? 0 : collectGuideBean.isQuality);
         requestData(requestCheckPriceForSingle);
     }

@@ -417,7 +417,10 @@
             android:name=".activity.UnicornServiceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
+        <activity
+            android:name=".activity.SingleActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.GiftDialogActivity"
             android:launchMode="singleTop"
