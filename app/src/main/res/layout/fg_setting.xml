@@ -22,15 +22,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_item_bg"
-                android:padding="@dimen/basic_margin_xlarge">
+                android:padding="@dimen/default_margin_mxlarge">
 
                 <TextView
                     android:id="@+id/setOrChangPwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改密码"
-                    android:textColor="@color/my_info_menu_title"
-                    android:textSize="@dimen/text_size_largex" />
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
                 <ImageView
                     android:id="@+id/red_point1"
                     android:layout_width="10dp"
@@ -52,14 +52,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/basic_margin_medium"
                 android:background="@drawable/click_item_bg"
-                android:padding="@dimen/basic_margin_xlarge">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="清除缓存"
-                    android:textColor="@color/my_info_menu_title"
-                    android:textSize="@dimen/text_size_largex" />
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
                 <ImageView
                     android:id="@+id/setting_clear_cache_arrow"
                     android:layout_width="wrap_content"
@@ -85,14 +85,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_item_bg"
-                android:padding="@dimen/basic_margin_xlarge">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="意见反馈"
-                    android:textColor="@color/my_info_menu_title"
-                    android:textSize="@dimen/text_size_largex" />
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -106,15 +106,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_item_bg"
-                android:padding="@dimen/basic_margin_xlarge">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="关于我们"
-                    android:textColor="@color/my_info_menu_title"
-                    android:textSize="@dimen/text_size_largex" />
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/setting_about_arrow"
@@ -141,15 +141,15 @@
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
                 android:background="@drawable/click_item_bg"
-                android:padding="@dimen/basic_margin_xlarge">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="开发者选项"
-                    android:textColor="@color/my_info_menu_title"
-                    android:textSize="@dimen/text_size_largex" />
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/setting_developer_arrow"
@@ -165,14 +165,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="9dp"
                 android:textSize="@dimen/text_size_large"
-                android:layout_marginLeft="@dimen/basic_margin_large"
-                android:layout_marginRight="@dimen/basic_margin_large"
-                android:layout_marginTop="20dip"
-                android:background="@drawable/shape_rectangle_orange"
+                android:layout_marginLeft="@dimen/default_margin_mxlarge"
+                android:layout_marginRight="@dimen/default_margin_mxlarge"
+                android:layout_marginTop="30dp"
+                android:background="@color/login_ready"
                 android:text="退出登录"
-                android:textColor="@color/basic_daily_color" />
+                android:textColor="@color/basic_white"/>
 
         </LinearLayout>
     </ScrollView>

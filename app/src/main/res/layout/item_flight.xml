@@ -1,26 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="95dp"
     android:orientation="vertical"
-    android:padding="10dip">
+    android:background="@color/allbg_white">
 
     <TextView
         android:id="@+id/item_flight_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="中国国航 CA1231" />
-
-    <TextView
-        android:id="@+id/item_flight_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="中国国航 CA1231"
-        android:textSize="18sp" />
+        android:textColor="@color/common_font_color_black"
+        android:textSize="14sp"/>
 
-    <TextView
-        android:id="@+id/item_flight_address"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="北京-台北" />
-</LinearLayout>
+        android:background="@color/basic_white"
+        android:layout_below="@+id/item_flight_title"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/start_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="72dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/from_city_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_fly"
+                android:textColor="@color/common_font_color_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/from_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="beijing"
+                android:maxLines="1"
+                android:textColor="@color/common_font_air"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/exchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@mipmap/pickup_choice_btn_arrow" />
+
+        <LinearLayout
+            android:id="@+id/end_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/end_city_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_arrived"
+                android:textColor="@color/common_font_color_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/end_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="taiwan"
+                android:maxLines="1"
+                android:textColor="@color/login_ready"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/default_bg"/>
+</RelativeLayout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/allbg_white">
     <include layout="@layout/include_header" />
     <RelativeLayout
         android:id="@+id/forget_passwd_mobile_layout"
@@ -12,11 +13,11 @@
 
         <TextView
             android:id="@+id/forget_passwd_areacode"
-            android:layout_width="50dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:hint="选择区号"
-            android:paddingLeft="@dimen/basic_margin_large"
+            android:paddingLeft="22dp"
             android:text="+86"
             android:textColor="#161616"
             android:textColorHint="@color/change_mobile_hint"
@@ -56,10 +57,11 @@
 
         <ImageView
             android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="8dp"
+            android:padding="15dp"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:src="@mipmap/login_delete" />
@@ -67,8 +69,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
         android:background="#dbdbdb" />
     <RelativeLayout
         android:id="@+id/forget_passwd_getcode_layout"
@@ -82,6 +84,7 @@
             android:layout_width="@dimen/change_mobile_getcode_width"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
             android:layout_centerVertical="true"
             android:gravity="center">
 
@@ -110,7 +113,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/basic_margin_large"
+            android:layout_marginLeft="22dp"
             android:layout_alignParentLeft="true"
             android:background="@null"
             android:hint="验证码"
@@ -122,8 +125,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
         android:background="#dbdbdb" />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -138,7 +141,7 @@
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/basic_margin_large"
+            android:layout_marginRight="22dp"
             android:src="@mipmap/login_invisible"
             android:visibility="gone"/>
 
@@ -148,7 +151,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/basic_margin_large"
+            android:layout_marginLeft="22dp"
             android:layout_alignParentLeft="true"
             android:background="@null"
             android:hint="新密码,至少6位"
@@ -157,14 +160,20 @@
             android:textSize="16dp"/>
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:background="#dbdbdb" />
     <Button
         android:id="@+id/forget_passwd_submit"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:gravity="center"
-        android:layout_marginTop="@dimen/basic_margin_xlarge"
-        android:layout_marginLeft="@dimen/basic_margin_xlarge"
-        android:layout_marginRight="@dimen/basic_margin_xlarge"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
         android:background="@drawable/login2_selector_bg"
         android:text="登录"
         android:enabled="false"

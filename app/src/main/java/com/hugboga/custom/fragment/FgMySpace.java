@@ -111,7 +111,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
-        refreshUserInfo();
     }
 
     @Override
@@ -125,9 +124,16 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         switch (action.getType()) {
             case CLICK_USER_LOOUT:
             case CLICK_USER_LOGIN:
+            case SETTING_BACK:
                 refreshContent();
                 break;
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        refreshUserInfo();
     }
 
     @Override
@@ -180,7 +186,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         if (UserEntity.getUser().isLogin(getContext())) {
             HttpRequestUtils.request(getContext(), new RequestUserInfo(getContext()), this, false);
         }else{
-            redPoint.setVisibility(View.GONE);
+            if(redPoint!= null){
+                redPoint.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -210,7 +218,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 Tools.showImage(my_icon_head, avatar, R.mipmap.personal_default_head);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
             } else {
-                my_icon_head.setImageResource(R.mipmap.personal_default_head);
+                my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             }
             tv_nickname.setTextColor(0xff151515);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(getContext()))) {
@@ -228,7 +236,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundTV.setTextColor(0xffffc100);
             travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
             travelFundUnitTV.setTextColor(0xffffc100);
-
+            refreshUserInfo();
         }
     }
 

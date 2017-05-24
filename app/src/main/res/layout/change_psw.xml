@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:hint="原密码"
                 android:text=""
@@ -37,7 +37,7 @@
                 android:gravity="center_vertical"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/basic_margin_large"
+                android:layout_marginRight="20dp"
                 android:src="@mipmap/login_invisible"
                 android:visibility="gone"/>
         </RelativeLayout>
@@ -45,7 +45,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="20dp"
             android:layout_below="@+id/old_psw_layout"
             android:background="#dbdbdb" />
         <RelativeLayout
@@ -64,7 +64,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:hint="新密码(6-16位数字、字母)"
                 android:textColorHint="#cccccc"
@@ -78,7 +78,7 @@
                 android:gravity="center_vertical"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/basic_margin_large"
+                android:layout_marginRight="20dp"
                 android:src="@mipmap/login_invisible"
                 android:visibility="gone"/>
         </RelativeLayout>
@@ -86,7 +86,7 @@
             android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="20dp"
             android:layout_below="@+id/pwd_new_layout"
             android:background="#dbdbdb" />
         <RelativeLayout
@@ -104,7 +104,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:hint="确认新密码"
                 android:textColorHint="#cccccc"
@@ -118,7 +118,7 @@
                 android:gravity="center_vertical"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/basic_margin_large"
+                android:layout_marginRight="20dp"
                 android:src="@mipmap/login_invisible"
                 android:visibility="gone"/>
         </RelativeLayout>
@@ -128,9 +128,9 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:gravity="center"
-        android:layout_marginTop="@dimen/basic_margin_xlarge"
-        android:layout_marginLeft="@dimen/basic_margin_xlarge"
-        android:layout_marginRight="@dimen/basic_margin_xlarge"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/login2_selector_bg"
         android:text="修改密码"
         android:enabled="false"

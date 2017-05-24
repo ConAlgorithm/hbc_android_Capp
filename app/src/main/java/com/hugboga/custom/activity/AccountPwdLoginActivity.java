@@ -139,7 +139,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         super.onNewIntent(intent);
         initView(intent);
     }
-    @OnClick({R.id.header_left_btn,R.id.change_mobile_areacode,R.id.iv_pwd_visible,R.id.change_mobile_diepwd,R.id.login_submit,R.id.login_phone})
+    @OnClick({R.id.header_left_btn,R.id.change_mobile_areacode,R.id.iv_pwd_visible,R.id.change_mobile_diepwd,R.id.login_submit,R.id.login_phone,R.id.delete})
     public void onClick(View view) {
         Intent intent = null;
         HashMap<String, String> map = new HashMap<String, String>();
@@ -351,6 +351,6 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         // TODO Auto-generated method stub
         super.finish();
         //关闭窗体动画显示
-        this.overridePendingTransition(R.anim.out_to_right,0);
+        //this.overridePendingTransition(R.anim.out_to_right,0);
     }
 }

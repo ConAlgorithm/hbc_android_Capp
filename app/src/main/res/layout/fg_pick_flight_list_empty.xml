@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:background="@color/default_bg">
 
     <ImageView
         android:layout_width="150dp"
@@ -20,21 +21,22 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/flight_empty_no_city"
-        android:textColor="#a8a8a8"
-        android:layout_marginTop="10dip" />
+        android:textColor="#b9bdc6"
+        android:layout_marginTop="16sp" />
 
     <TextView
         android:id="@+id/flight_empty_service_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_empty_btn_shape"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
+        android:drawableRight="@mipmap/order_arrow_service"
+        android:drawablePadding="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_marginTop="15dp"
         android:text="联系客服"
-        android:textSize="13sp"
-        android:textColor="#828282"
+        android:textSize="16sp"
+        android:textColor="@color/default_yellow"
         />
 </LinearLayout>

@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.FlightAdapter;
@@ -24,6 +26,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.db.Selector;
@@ -52,14 +55,22 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
     @Bind(R.id.flight_info)
     TextView flightInfo;
-    @Bind(R.id.header_left_btn)
+    @Bind(R.id.fromto)
+    TextView fromto;
+    @Bind(R.id.number_flite)
+    TextView numberflite;
+    @Bind(R.id.loading_layout)
+    RelativeLayout loading;
+    @Bind(R.id.showall)
+    TextView showall;
+    /*@Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
     ImageView headerRightBtn;
     @Bind(R.id.header_title)
     TextView headerTitle;
     @Bind(R.id.header_right_txt)
-    TextView headerRightTxt;
+    TextView headerRightTxt;*/
     @Bind(R.id.flight_list)
     ListView flightList;
 
@@ -70,6 +81,8 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     private String flightDate;
     private int flightFromCityId;
     private int flightToCityId;
+    private String flightFromCity;
+    private String flightToCity;
     private DbManager mDbManager;
     private String source = "";
 
@@ -84,14 +97,14 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     }
 
     public void initHeader() {
-        headerTitle.setText(getString(R.string.title_pick_flight_list));
+        //headerTitle.setText(getString(R.string.title_pick_flight_list));
         source = getIntent().getStringExtra("source");
-        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+        /*headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
     }
 
     public void initView() {
@@ -108,6 +121,15 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         flightFromCityId = getIntent().getIntExtra(KEY_FLIGHT_FROM, -1);
         flightToCityId = getIntent().getIntExtra(KEY_FLIGHT_TO, -1);
         flightType = getIntent().getIntExtra(KEY_FLIGHT_TYPE, -1);
+
+        if(flightType == 2){
+            flightFromCity = DBHelper.findCityById(String.valueOf(flightFromCityId)).name;
+            flightToCity = DBHelper.findCityById(String.valueOf(flightToCityId)).name;
+            fromto.setText(flightFromCity+"-"+flightToCity);
+        }else{
+            fromto.setText(flightNo);
+        }
+
     }
 
     @Override
@@ -126,7 +148,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
     protected Callback.Cancelable requestData() {
         try {
-            String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
+            String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2Only);
             flightInfo.setVisibility(View.VISIBLE);
             flightInfo.setText(tFlightDate);
         } catch (ParseException e) {
@@ -138,13 +160,15 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         } else {
             request = new RequestFlightByCity(activity, flightFromCityId, flightToCityId, flightDate);
         }
-        requestData(request);
+        requestData(request,false);
+        loading.setVisibility(View.VISIBLE);
         return null;
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
+        loading.setVisibility(View.GONE);
         if (request instanceof RequestFlightByNo) {
             RequestFlightByNo mParser = (RequestFlightByNo) request;
             mListDate = mParser.getData();
@@ -157,7 +181,14 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
             addAirportInfo(mListDate);
             count = mListDate.size();
         }
-        try {
+        if(count == 0){
+            numberflite.setVisibility(View.GONE);
+        }else{
+            numberflite.setVisibility(View.VISIBLE);
+            numberflite.setText("共"+count+"趟"+" "+"请确认您的航班");
+            showall.setVisibility(View.VISIBLE);
+        }
+        /*try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
             if (count != 0) {
                 flightInfo.setText(tFlightDate + " (共" + count + "趟航班)");
@@ -166,8 +197,16 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
             }
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
         inflateContent();
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        loading.setVisibility(View.GONE);
+        numberflite.setVisibility(View.GONE);
+        showall.setVisibility(View.GONE);
     }
 
     protected void inflateContent() {

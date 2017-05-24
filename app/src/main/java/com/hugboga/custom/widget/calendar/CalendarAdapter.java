@@ -35,6 +35,7 @@ public class CalendarAdapter extends ZBaseAdapter<CalendarCell, CalendarVH> {
         if(cell.getType() == 0){
             vh.mText.setTextColor(context.getResources().getColor(R.color.reserve_calendar_title));
             vh.mText.setText(cell.getName());
+            vh.mText.setEnabled(false);
         }else if(cell.getType() == 2){
             vh.mText.setText(cell.getName());
             if(cell.calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || cell.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
@@ -55,10 +56,15 @@ public class CalendarAdapter extends ZBaseAdapter<CalendarCell, CalendarVH> {
             endDate.add(Calendar.DAY_OF_MONTH,-1);
             if(CalendarUtils.isAfterEndDate(cell.calendar,endDate)){
                 vh.mText.setTextColor(context.getResources().getColor(R.color.text_hint_color));
+                vh.mText.setEnabled(false);
             }
         }
         if (position == selectItem) {
-            vh.mText.setBackground(context.getResources().getDrawable(R.drawable.ring_center_full));
+            if(cell.getType() == 0 || !cell.isenable()){
+                vh.mText.setBackground(context.getResources().getDrawable(R.drawable.ring_center_none));
+            }else{
+                vh.mText.setBackground(context.getResources().getDrawable(R.drawable.ring_center_full));
+            }
         }
         else {
             vh.mText.setBackground(context.getResources().getDrawable(R.drawable.ring_center_none));

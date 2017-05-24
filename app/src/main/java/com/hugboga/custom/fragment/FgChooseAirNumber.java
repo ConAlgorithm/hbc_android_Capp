@@ -7,40 +7,30 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
-import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;
-import com.huangbaoche.hbcframe.widget.recycler.ZGridRecyclerView;
+import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
+import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
+import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
-import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
-import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.widget.calendar.CalendarAdapter;
-import com.hugboga.custom.widget.calendar.CalendarCell;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -50,7 +40,7 @@ import butterknife.OnClick;
 /**
  * Created  on 16/5/13.
  */
-public class FgChooseAirNumber extends BaseFragment {
+public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayClickListener{
 
     @Bind(R.id.number_left)
     TextView numberLeft;
@@ -60,10 +50,10 @@ public class FgChooseAirNumber extends BaseFragment {
     LinearLayout rlNumber;
     @Bind(R.id.address_left)
     TextView addressLeft;
-    @Bind(R.id.address_tips)
+    /*@Bind(R.id.address_tips)
     TextView addressTips;
     @Bind(R.id.rl_address)
-    LinearLayout rlAddress;
+    LinearLayout rlAddress;*/
     @Bind(R.id.search)
     Button search;
     @Bind(R.id.history_layout)
@@ -72,17 +62,20 @@ public class FgChooseAirNumber extends BaseFragment {
     TextView cleanAllHistory;
     @Bind(R.id.show_history)
     LinearLayout showHistory;
-    @Bind(R.id.calendar)
-    ZGridRecyclerView gridView;
-    @Bind(R.id.reserve_calendar_title)
+    /*@Bind(R.id.calendar)
+    ZGridRecyclerView gridView;*/
+    /*@Bind(R.id.reserve_calendar_title)
     TextView reserve_calendar_title;
     @Bind(R.id.reserve_calendar_prover)
     ImageView prover;
     @Bind(R.id.reserve_calendar_next)
-    ImageView next;
+    ImageView next;*/
+    @Bind(R.id.view_month)
+    MonthSwitchView mMonthPagerView;
 
-    CalendarAdapter calAdapter;
+    //CalendarAdapter calAdapter;
     Calendar thisCalendar = Calendar.getInstance(); //日历当前显示日期
+    String dateFormat="";
     @Override
     public int getContentViewId() {
         return R.layout.fg_choose_air_number;
@@ -116,11 +109,11 @@ public class FgChooseAirNumber extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(calAdapter!= null && calAdapter.getDatas()!= null && calAdapter.getDatas().size()>0){
+        /*if(calAdapter!= null && calAdapter.getDatas()!= null && calAdapter.getDatas().size()>0){
             calAdapter.removeAll();
         }
-        calAdapter.addDatas(CalendarUtils.getCalendarData(thisCalendar));
-        reserve_calendar_title.setText(new SimpleDateFormat("yyyy年M月").format(thisCalendar.getTime()));
+        calAdapter.addDatas(CalendarUtils.getCalendarData(thisCalendar));*/
+        //reserve_calendar_title.setText(new SimpleDateFormat("yyyy年M月").format(thisCalendar.getTime()));
         getSaveInfo();
     }
 
@@ -161,6 +154,13 @@ public class FgChooseAirNumber extends BaseFragment {
         historyText.setOnClickListener(new HistoryTextClick());
         //historyDel.setOnClickListener(new HistoryTextDelClick());
         historyLayout.addView(view);
+    }
+
+    @Override
+    public void onDayClick(CalendarDay calendarDay) {
+        dateFormat = calendarDay.getDayString();
+        checkNextBtnStatus();
+        //CommonUtils.showToast(calendarDay.getDayString());
     }
 
     private class HistoryTextClick implements View.OnClickListener {
@@ -247,31 +247,49 @@ public class FgChooseAirNumber extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        EventBus.getDefault().register(this);
-        gridView.setColumn(7);
+        //EventBus.getDefault().register(this);
+        /*gridView.setColumn(7);
         calAdapter = new CalendarAdapter(getContext());
         gridView.setAdapter(calAdapter);
-        calAdapter.setOnItemClickListener(onItemClickListener);
+        calAdapter.setOnItemClickListener(onItemClickListener);*/
+        updateData();
         return rootView;
     }
-    ZBaseAdapter.OnItemClickListener onItemClickListener = new ZBaseAdapter.OnItemClickListener() {
+    /*ZBaseAdapter.OnItemClickListener onItemClickListener = new ZBaseAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
             CalendarCell cell = calAdapter.getDatas().get(position);
+            dateFormat= new SimpleDateFormat("yyyy-MM-dd").format(thisCalendar.getTime());
             calAdapter.setSelectItem(position);
             calAdapter.notifyDataSetChanged();
             Log.d("zq","adfa");
         }
 
-    };
+    };*/
+    private void updateData() {
+        Calendar beginDate= Calendar.getInstance();
+        int year = beginDate.get(Calendar.YEAR);
+        int month = beginDate.get(Calendar.MONTH)+1;
+        int day = beginDate.get(Calendar.DAY_OF_MONTH);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        int endYear = endDate.get(Calendar.YEAR);
+        int endMonth = endDate.get(Calendar.MONTH)+1;
+        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
+
+        mMonthPagerView.setData(new CalendarDay(year, month, day), new CalendarDay(endYear, endMonth, endDay));
+        mMonthPagerView.setOnDayClickListener(this);
+        mMonthPagerView.setSelectDay(new CalendarDay(year, month, day));
+        dateFormat = new CalendarDay(year, month, day).getDayString();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.search, R.id.clean_all_history,R.id.address_tips,R.id.reserve_calendar_prover,R.id.reserve_calendar_next})
+    @OnClick({R.id.search, R.id.clean_all_history,/*R.id.address_tips,R.id.reserve_calendar_prover,R.id.reserve_calendar_next*/})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search:
@@ -290,7 +308,7 @@ public class FgChooseAirNumber extends BaseFragment {
                     showHistory.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.address_tips:
+            /*case R.id.address_tips:
 //                showDaySelect(addressTips);
                 Intent intent = new Intent(getActivity(),DatePickerActivity.class);
                 intent.putExtra("type",3);
@@ -305,7 +323,7 @@ public class FgChooseAirNumber extends BaseFragment {
             case R.id.reserve_calendar_next:
                 thisCalendar.add(Calendar.MONTH, 1);
                 checkDownMonth(true);
-                break;
+                break;*/
         }
     }
     @SuppressLint("WrongConstant")
@@ -314,13 +332,13 @@ public class FgChooseAirNumber extends BaseFragment {
         Integer resultCode = CalendarUtils.isLostMonth(thisCalendar, startDate);
         switch (resultCode) {
             case 0:
-                prover.setVisibility(View.INVISIBLE);
-                next.setVisibility(View.VISIBLE);
+                //prover.setVisibility(View.INVISIBLE);
+                //next.setVisibility(View.VISIBLE);
                 reloadDataOfMonth();
                 break;
             case 1:
-                prover.setVisibility(View.VISIBLE);
-                next.setVisibility(View.VISIBLE);
+                //prover.setVisibility(View.VISIBLE);
+                //next.setVisibility(View.VISIBLE);
                 reloadDataOfMonth();
                 break;
             case -1:
@@ -336,13 +354,13 @@ public class FgChooseAirNumber extends BaseFragment {
         Integer resultCodeN = CalendarUtils.isMastMonth(thisCalendar, endDate);
         switch (resultCodeN) {
             case 0:
-                prover.setVisibility(View.VISIBLE);
-                next.setVisibility(View.INVISIBLE);
+                //prover.setVisibility(View.VISIBLE);
+                //next.setVisibility(View.INVISIBLE);
                 reloadDataOfMonth();
                 break;
             case 1:
-                prover.setVisibility(View.VISIBLE);
-                next.setVisibility(View.VISIBLE);
+                //prover.setVisibility(View.VISIBLE);
+                //next.setVisibility(View.VISIBLE);
                 reloadDataOfMonth();
                 break;
             case -1:
@@ -354,12 +372,12 @@ public class FgChooseAirNumber extends BaseFragment {
      * 重新加载月份数据
      */
     private void reloadDataOfMonth() {
-        reserve_calendar_title.setText(new SimpleDateFormat("yyyy年M月").format(thisCalendar.getTime()));
-        if(calAdapter != null){
+        //reserve_calendar_title.setText(new SimpleDateFormat("yyyy年M月").format(thisCalendar.getTime()));
+        /*if(calAdapter != null){
             calAdapter.removeAll();
             calAdapter.addDatas(CalendarUtils.getCalendarData(thisCalendar));
 //            calAdapter.notifyDataSetChanged();
-        }
+        }*/
     }
     String noStr= "";
     /**
@@ -367,19 +385,19 @@ public class FgChooseAirNumber extends BaseFragment {
      */
     private void startFlightByNo() {
         noStr = numberTips.getText().toString();
-        String time1Str = addressTips.getText().toString();
+        //String time1Str = addressTips.getText().toString();
         if (TextUtils.isEmpty(noStr)) {
             CommonUtils.showToast("请填写航班号");
             return;
         }
-        if (TextUtils.isEmpty(time1Str)) {
+        if (TextUtils.isEmpty(dateFormat)) {
             CommonUtils.showToast("请选择航班时间");
             return;
         }
         noStr = noStr.replaceAll(" ", "");
         Bundle bundle = new Bundle();
         bundle.putString(PickFlightListActivity.KEY_FLIGHT_NO, noStr.toUpperCase());
-        bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, time1Str);
+        bundle.putString(PickFlightListActivity.KEY_FLIGHT_DATE, dateFormat);
         bundle.putInt(PickFlightListActivity.KEY_FLIGHT_TYPE, 1);
         bundle.putString("source",source);
         bundle.putInt("mBusinessType",1);
@@ -388,7 +406,7 @@ public class FgChooseAirNumber extends BaseFragment {
         getActivity().startActivity(intent);
     }
 
-    ChooseDateBean chooseDateBean;
+    /*ChooseDateBean chooseDateBean;
     @Subscribe
     public void onEventMainThread(final EventAction action) {
 
@@ -397,19 +415,19 @@ public class FgChooseAirNumber extends BaseFragment {
                 chooseDateBean = (ChooseDateBean) action.getData();
                 if (chooseDateBean.type == 3) {
                     String serverDate = chooseDateBean.halfDateStr;
-                    addressTips.setText(serverDate);
+                    //addressTips.setText(serverDate);
                     checkNextBtnStatus();
                 }
                 break;
         }
-    }
+    }*/
 
 
 
     private void checkNextBtnStatus(){
         String noStr = numberTips.getText().toString();
-        String time1Str = addressTips.getText().toString();
-        if (!TextUtils.isEmpty(noStr) && !TextUtils.isEmpty(time1Str)) {
+        //String time1Str = addressTips.getText().toString();
+        if (!TextUtils.isEmpty(noStr) && !TextUtils.isEmpty(dateFormat)) {
             numberTips.setTextColor(getResources().getColor(R.color.common_font_color_black));
             search.setEnabled(true);
             search.setBackgroundColor(Color.parseColor("#ffce00"));

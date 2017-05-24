@@ -11,30 +11,37 @@
         android:layout_height="110dp"
         android:background="@mipmap/login_background">
 
-        <ImageView
-            android:id="@+id/set"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:scaleType="centerCrop"
-            android:background="@mipmap/personal_set" />
-        <ImageView
-            android:id="@+id/red_point"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/red_set_pwd"
-            android:visibility="gone"/>
+        <RelativeLayout
+            android:id="@+id/set_layout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/set"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/personal_set" />
+
+            <ImageView
+                android:id="@+id/red_point"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/red_set_pwd" />
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/ll_login_click_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/set"
+            android:layout_below="@+id/set_layout"
+            android:layout_marginTop="-10dp"
             android:orientation="horizontal">
 
 
@@ -43,7 +50,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:src="@mipmap/personal_default_head"
                 app:poly_border="false"
                 app:poly_border_color="@android:color/white"
@@ -58,18 +65,19 @@
                 android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/my_icon_head"
                 android:text="@string/person_center_nickname"
-                android:layout_centerVertical="true"
                 android:textColor="#898989"
-                android:layout_marginLeft="30dp"
                 android:textSize="18sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/personal_title_next" />
         </RelativeLayout>
@@ -80,14 +88,15 @@
         android:id="@+id/above_bottom"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/default_bg"
-        android:layout_below="@+id/denglu_title"/>
+        android:layout_below="@+id/denglu_title"
+        android:background="@color/default_bg" />
+
     <LinearLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_below="@+id/above_bottom"
         android:layout_alignParentBottom="true"
+        android:layout_below="@+id/above_bottom"
         android:background="#ffffff"
         android:orientation="horizontal">
 
@@ -98,6 +107,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,9 +119,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--"
-                    android:textStyle="bold"
                     android:textColor="#898989"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/slidemenu_header_coupon_unit_tv"
@@ -122,13 +132,14 @@
                     android:textColor="#898989"
                     android:textSize="13sp" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="优惠券"
                 android:drawableLeft="@mipmap/personal_icon_coupon"
                 android:drawablePadding="5dp"
+                android:text="优惠券"
                 android:textColor="#898989"
                 android:textSize="12sp" />
 
@@ -147,23 +158,25 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
             <TextView
                 android:id="@+id/travel_fund_hint_iv"
                 android:layout_width="57dp"
                 android:layout_height="18dp"
-                android:gravity="center"
-                android:text="邀请就送"
-                android:textSize="10dp"
-                android:textColor="@color/basic_white"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="2dp"
-                android:background="@mipmap/personal_invite" />
+                android:background="@mipmap/personal_invite"
+                android:gravity="center"
+                android:text="邀请就送"
+                android:textColor="@color/basic_white"
+                android:textSize="10dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
+
                 <LinearLayout
                     android:id="@+id/jijin_layout"
                     android:layout_width="wrap_content"
@@ -189,15 +202,16 @@
                         android:textColor="#898989"
                         android:textSize="13sp" />
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_below="@+id/jijin_layout"
-                    android:text="旅游基金"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
                     android:drawableLeft="@mipmap/personal_icon_fund"
                     android:drawablePadding="5dp"
+                    android:text="旅游基金"
                     android:textColor="#898989"
                     android:textSize="12sp" />
             </RelativeLayout>
