@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
+import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.Map;
@@ -35,6 +36,11 @@ public class PasswordInitSet extends BaseRequest {
     @Override
     public ImplParser getParser() {
         return null;
+    }
+
+    @Override
+    public HttpMethod getHttpMethod() {
+        return HttpMethod.POST;
     }
 
     @Override

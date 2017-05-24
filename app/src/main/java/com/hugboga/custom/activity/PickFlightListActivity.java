@@ -61,6 +61,8 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     TextView numberflite;
     @Bind(R.id.loading_layout)
     RelativeLayout loading;
+    @Bind(R.id.showall)
+    TextView showall;
     /*@Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
@@ -184,6 +186,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }else{
             numberflite.setVisibility(View.VISIBLE);
             numberflite.setText("共"+count+"趟"+" "+"请确认您的航班");
+            showall.setVisibility(View.VISIBLE);
         }
         /*try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
@@ -203,6 +206,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         super.onDataRequestError(errorInfo, request);
         loading.setVisibility(View.GONE);
         numberflite.setVisibility(View.GONE);
+        showall.setVisibility(View.GONE);
     }
 
     protected void inflateContent() {

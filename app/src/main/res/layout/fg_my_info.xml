@@ -13,16 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/basic_white"
-        android:paddingLeft="@dimen/basic_margin_xlarge"
-        android:paddingRight="@dimen/basic_margin_xlarge">
+        android:paddingLeft="@dimen/default_margin_mxlarge"
+        android:paddingRight="@dimen/default_margin_mxlarge">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="头像"
-            android:textColor="@color/my_info_menu_title"
-            android:textSize="17sp" />
+            android:textColor="@color/common_font_color_black"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/my_info_menu_arrow1"
@@ -54,19 +54,19 @@
     <RelativeLayout
         android:id="@+id/my_info_menu_layout2"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="46dp"
         android:layout_marginTop="12dp"
         android:background="@color/basic_white"
-        android:paddingLeft="@dimen/basic_margin_xlarge"
-        android:paddingRight="@dimen/basic_margin_xlarge">
+        android:paddingLeft="@dimen/default_margin_mxlarge"
+        android:paddingRight="@dimen/default_margin_mxlarge">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"
-            android:textColor="@color/my_info_menu_title"
+            android:textColor="@color/common_font_color_black"
             android:layout_centerVertical="true"
-            android:textSize="17sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/my_info_menu_arrow2"
@@ -87,29 +87,30 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:hint="请填写"
-            android:textColorHint="#999999"
-            android:textColor="#333333"
-            android:textSize="16sp"/>
+            android:textColorHint="#898989"
+            android:textColor="#898989"
+            android:textSize="14sp"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#44999999"/>
+        android:background="#44999999"
+        android:layout_marginLeft="20dp"/>
     <RelativeLayout
         android:id="@+id/my_info_menu_realname_layout"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="46dp"
         android:background="@color/basic_white"
-        android:paddingLeft="@dimen/basic_margin_xlarge"
-        android:paddingRight="@dimen/basic_margin_xlarge">
+        android:paddingLeft="@dimen/default_margin_mxlarge"
+        android:paddingRight="@dimen/default_margin_mxlarge">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="真实姓名"
-            android:textColor="@color/my_info_menu_title"
+            android:textColor="@color/common_font_color_black"
             android:layout_centerVertical="true"
-            android:textSize="17sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/my_info_realname_arrow"
@@ -130,29 +131,30 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:hint="请填写"
-            android:textColorHint="#999999"
-            android:textColor="#333333"
-            android:textSize="16sp"/>
+            android:textColorHint="#898989"
+            android:textColor="#898989"
+            android:textSize="14sp"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#44999999"/>
+        android:background="#44999999"
+        android:layout_marginLeft="20dp"/>
     <RelativeLayout
         android:id="@+id/my_info_menu_layout3"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="46dp"
         android:background="@color/basic_white"
-        android:paddingLeft="@dimen/basic_margin_xlarge"
-        android:paddingRight="@dimen/basic_margin_xlarge">
+        android:paddingLeft="@dimen/default_margin_mxlarge"
+        android:paddingRight="@dimen/default_margin_mxlarge">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="性别"
             android:layout_centerVertical="true"
-            android:textColor="@color/my_info_menu_title"
-            android:textSize="17sp" />
+            android:textColor="@color/common_font_color_black"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/my_info_menu_arrow3"
@@ -171,29 +173,30 @@
             android:gravity="center"
             android:layout_marginRight="15dp"
             android:hint="请选择"
-            android:textColorHint="#999999"
-            android:textColor="#333333"
-            android:textSize="16sp"/>
+            android:textColorHint="#898989"
+            android:textColor="#898989"
+            android:textSize="14sp"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#44999999" />
+        android:background="#44999999"
+        android:layout_marginLeft="20dp"/>
     <RelativeLayout
         android:id="@+id/my_info_menu_layout4"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="46dp"
         android:background="@color/basic_white"
-        android:paddingLeft="@dimen/basic_margin_xlarge"
-        android:paddingRight="@dimen/basic_margin_xlarge">
+        android:paddingLeft="@dimen/default_margin_mxlarge"
+        android:paddingRight="@dimen/default_margin_mxlarge">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="年龄"
             android:layout_centerVertical="true"
-            android:textColor="@color/my_info_menu_title"
-            android:textSize="17sp"  />
+            android:textColor="@color/common_font_color_black"
+            android:textSize="14sp"  />
 
         <ImageView
             android:id="@+id/my_info_menu_arrow4"
@@ -211,29 +214,30 @@
             android:layout_toLeftOf="@+id/my_info_menu_arrow4"
             android:layout_marginRight="15dp"
             android:hint="请选择"
-            android:textColorHint="#999999"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:textColorHint="#898989"
+            android:textColor="#898989"
+            android:textSize="14sp" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#44999999" />
+        android:background="#44999999"
+        android:layout_marginLeft="20dp"/>
     <RelativeLayout
         android:id="@+id/my_info_menu_layout5"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="46dp"
         android:background="@color/basic_white"
-        android:paddingLeft="@dimen/basic_margin_xlarge"
-        android:paddingRight="@dimen/basic_margin_xlarge">
+        android:paddingLeft="@dimen/default_margin_mxlarge"
+        android:paddingRight="@dimen/default_margin_mxlarge">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手机号"
             android:layout_centerVertical="true"
-            android:textColor="@color/my_info_menu_title"
-            android:textSize="17sp"  />
+            android:textColor="@color/common_font_color_black"
+            android:textSize="14sp"  />
 
         <ImageView
             android:id="@+id/my_info_menu_arrow5"
@@ -251,9 +255,9 @@
             android:layout_toLeftOf="@+id/my_info_menu_arrow5"
             android:layout_marginRight="15dp"
             android:hint="未绑定"
-            android:textColorHint="#999999"
-            android:textColor="#333333"
-            android:textSize="16sp"/>
+            android:textColorHint="#898989"
+            android:textColor="#898989"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
 

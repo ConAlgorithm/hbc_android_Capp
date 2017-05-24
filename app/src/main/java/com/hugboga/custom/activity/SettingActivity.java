@@ -212,6 +212,7 @@ public class SettingActivity extends BaseActivity {
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
                 finish();
             }
         });

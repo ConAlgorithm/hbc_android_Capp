@@ -124,6 +124,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         switch (action.getType()) {
             case CLICK_USER_LOOUT:
             case CLICK_USER_LOGIN:
+            case SETTING_BACK:
                 refreshContent();
                 break;
         }
@@ -217,7 +218,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 Tools.showImage(my_icon_head, avatar, R.mipmap.personal_default_head);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
             } else {
-                my_icon_head.setImageResource(R.mipmap.personal_default_head);
+                my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             }
             tv_nickname.setTextColor(0xff151515);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(getContext()))) {

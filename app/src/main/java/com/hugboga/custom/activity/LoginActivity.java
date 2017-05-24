@@ -161,10 +161,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
-            login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+            //login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
         } else {
             login_submit.setEnabled(false);
-            login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
     }
     public void loginCheckOpenId(String code) {
@@ -367,8 +367,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 intent = new Intent(this, AccountPwdLoginActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
-                overridePendingTransition(R.anim.enter_from_right,
-                        0);
+                /*overridePendingTransition(R.anim.enter_from_right,
+                        0);*/
                 break;
             case R.id.login_submit:
                 //登录
@@ -392,16 +392,16 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     return;
                 }
                 areaCode1 = areaCode1.substring(1);
-                String phone1 = phoneEditText.getText().toString();
-                if(TextUtils.isEmpty(phone1)){
+                phone = phoneEditText.getText().toString();
+                if(TextUtils.isEmpty(phone)){
                     CommonUtils.showToast("请输入手机号");
                     return;
                 }
-                if(!phone1.startsWith("1") || phone1.length() != 11){
+                if(!phone.startsWith("1") || phone.length() != 11){
                     CommonUtils.showToast("请输入正确的国内手机号，11位数字");
                     return;
                 }
-                RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone1,4);
+                RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone,4);
                 requestData(requestVerity);
             case R.id.delete:
                 phoneEditText.setText("");
