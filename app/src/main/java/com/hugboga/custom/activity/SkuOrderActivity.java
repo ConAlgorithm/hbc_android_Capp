@@ -218,18 +218,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
 
     private void showSaveDialog() {
         hideSoftInput();
-        AlertDialogUtils.showAlertDialog(SkuOrderActivity.this, getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                finish();
-            }
-        }, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        OrderUtils.showSaveDialog(this);
     }
 
     @Subscribe

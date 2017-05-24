@@ -41,8 +41,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
-import static com.hugboga.custom.utils.CommonUtils.showToast;
-
 /**
  * Created by qingcha on 17/5/18.
  */
@@ -116,6 +114,10 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    public boolean isAirPortNull() {
+        return airPortBean == null;
     }
 
     @OnClick({R.id.send_airport_layout, R.id.send_poi_layout, R.id.send_time_layout})

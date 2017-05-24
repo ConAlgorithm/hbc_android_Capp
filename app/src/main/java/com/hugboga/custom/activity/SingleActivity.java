@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -17,9 +18,10 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
-import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
@@ -42,7 +44,7 @@ import cn.qqtheme.framework.picker.DateTimePicker;
  * Created by qingcha on 17/5/23.
  */
 public class SingleActivity extends BaseActivity implements SendAddressView.OnAddressClickListener
-        , SkuOrderCarTypeView.OnSelectedCarListener, OrderBottomView.OnConfirmListener{
+        , SkuOrderCarTypeView.OnSelectedCarListener, OrderBottomView.OnConfirmListener, TitleBar.OnTitleBarBackListener{
 
     public static final String TAG = SingleActivity.class.getSimpleName();
     private static final int ORDER_TYPE = 4;
@@ -95,6 +97,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     private void initView() {
+        titlebar.setTitleBarBackListener(this);
+        titlebar.setRightListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+            }
+        });
+
         carTypeView.setOnSelectedCarListener(this);
         bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
@@ -305,5 +315,29 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     @Override
     public String getEventSource() {
         return "单次接送下单";
+    }
+
+    @Override
+    public boolean onTitleBarBack() {
+        return isShowSaveDialog();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isShowSaveDialog()) {
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private boolean isShowSaveDialog() {
+        if (cityBean != null) {
+            OrderUtils.showSaveDialog(this);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -110,6 +110,10 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         ButterKnife.unbind(this);
     }
 
+    public boolean isFlightBeanNull() {
+        return flightBean == null;
+    }
+
     @OnClick({R.id.pickup_flight_layout, R.id.pickup_city_layout})
     public void onClick(View view) {
         Intent intent;

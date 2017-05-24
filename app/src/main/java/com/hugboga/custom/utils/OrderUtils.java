@@ -2,6 +2,7 @@ package com.hugboga.custom.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.AirPort;
@@ -876,5 +878,19 @@ public class OrderUtils {
         return passCity;
     }
 
+    public static void showSaveDialog(final Activity activity) {
+        AlertDialogUtils.showAlertDialog(activity, MyApplication.getAppContext().getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                activity.finish();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+    }
 
 }
