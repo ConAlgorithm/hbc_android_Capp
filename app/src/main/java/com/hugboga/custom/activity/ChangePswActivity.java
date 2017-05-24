@@ -303,10 +303,10 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
 
         if(oldPwd.length() > 6 && newPwd.length() >6 && reNewPwd.length() >6){
             changePasswdSubmit.setEnabled(true);
-            changePasswdSubmit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+            //changePasswdSubmit.setBackgroundColor(getResources().getColor(R.color.login_ready));
         }else{
             changePasswdSubmit.setEnabled(false);
-            changePasswdSubmit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            //changePasswdSubmit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
 
         if (!isPwd1Visibility) {

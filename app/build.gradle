@@ -54,7 +54,7 @@ android {
         targetSdkVersion 23
         //version start
         versionCode 101940
-        versionName "4.0.0"
+        versionName "4.1.0"
         //version end
         signingConfig signingConfigs.hbcSign
         multiDexEnabled true

@@ -194,10 +194,10 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         if(set_psw.length() > 6 && set_psw_again.length() >6){
             loginSubmit.setEnabled(true);
             loginSubmit.setText("提交");
-            loginSubmit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+            //loginSubmit.setBackgroundColor(getResources().getColor(R.color.login_ready));
         }else{
             loginSubmit.setEnabled(false);
-            loginSubmit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            //loginSubmit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
 
         if (!isPwd1Visibility) {

@@ -9,7 +9,7 @@
         android:id="@+id/denglu_title"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="@mipmap/login_background">
+        android:background="@mipmap/personal_background">
 
         <RelativeLayout
             android:id="@+id/set_layout"
@@ -28,10 +28,10 @@
 
             <ImageView
                 android:id="@+id/red_point"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/red_set_pwd" />
         </RelativeLayout>
 
@@ -147,11 +147,11 @@
         </LinearLayout>
 
         <View
-            android:layout_width="1px"
+            android:layout_width="2px"
             android:layout_height="match_parent"
             android:layout_marginBottom="12dip"
             android:layout_marginTop="12dip"
-            android:background="#898989" />
+            android:background="@color/default_bg" />
 
         <RelativeLayout
             android:id="@+id/slidemenu_header_travelfund_layout"

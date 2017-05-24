@@ -325,10 +325,10 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 && !TextUtils.isEmpty(password)
                 && Pattern.matches("[\\w]{4,16}", password)) {
             loginButton.setEnabled(true);
-            loginButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
+            //loginButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
         } else {
             loginButton.setEnabled(false);
-            loginButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            //loginButton.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
 
         if (!isPwdVisibility) {
