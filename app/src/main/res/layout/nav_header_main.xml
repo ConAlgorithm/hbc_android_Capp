@@ -137,13 +137,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_centerInParent="true"
                 android:gravity="center">
                 <ImageView
                     android:id="@+id/icon_coupon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_centerVertical="true"
+                    android:layout_marginTop="2dp"
                     android:src="@mipmap/personal_icon_coupon" />
                 <TextView
                     android:id="@+id/coupon"
@@ -151,9 +150,8 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/icon_coupon"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center"
                     android:text="优惠券"
-                    android:textColor="#898989"
+                    android:textColor="#7f7f7f"
                     android:textSize="14sp" />
 
             </RelativeLayout>
@@ -219,17 +217,17 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/fund_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/jijin_layout"
                     android:layout_marginTop="5dp"
-                    android:layout_centerInParent="true"
                     android:gravity="center">
                     <ImageView
                         android:id="@+id/icon_fund"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:layout_centerVertical="true"
+                        android:layout_marginTop="2dp"
                         android:src="@mipmap/personal_icon_fund" />
                     <TextView
                         android:id="@+id/fund"
@@ -237,9 +235,8 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/icon_fund"
                         android:layout_marginLeft="5dp"
-                        android:gravity="center"
                         android:text="旅游基金"
-                        android:textColor="#898989"
+                        android:textColor="#7f7f7f"
                         android:textSize="14sp" />
 
                 </RelativeLayout>
