@@ -6,11 +6,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.fragment.FgPickup;
 import com.hugboga.custom.fragment.FgSend;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
+
+import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +29,12 @@ public class PickSendActivity2 extends BaseActivity implements TitleBarPickSend.
 
     private Fragment currentFragment;
 
+    private PickSendActivity2.Params params;
+
+    public static class Params implements Serializable {
+        public GuidesDetailData guidesDetailData;
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_pick_send;
@@ -33,7 +43,23 @@ public class PickSendActivity2 extends BaseActivity implements TitleBarPickSend.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            params = (PickSendActivity2.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                params = (PickSendActivity2.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+            }
+        }
         initView();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (params != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, params);
+        }
     }
 
     public void initView() {
@@ -93,6 +119,12 @@ public class PickSendActivity2 extends BaseActivity implements TitleBarPickSend.
             } else if (FgSend.TAG.equals(tag)) {
                 fragment = new FgSend();
             }
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.PARAMS_DATA, params);
+            bundle.putString(Constants.PARAMS_SOURCE, getIntentSource());
+            fragment.setArguments(bundle);
+
             ft.add(R.id.pick_send_container_layout, fragment, tag);
         } else {
             ft.show(fragment);

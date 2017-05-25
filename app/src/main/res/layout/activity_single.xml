@@ -20,6 +20,7 @@
         android:visibility="gone" />
 
     <ScrollView
+        android:id="@+id/single_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/single_bottom_view"

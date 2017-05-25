@@ -29,7 +29,9 @@ import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.PickSendActivity2;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
+import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
@@ -689,6 +691,17 @@ public class WebAgent implements HttpRequestListener {
                 collectBean.isQuality = data.isQuality;
                 collectBean.cityId = CommonUtils.getCountInteger(data.guideCityId);
                 Intent intent = null;
+
+
+                GuidesDetailData guidesDetailData = new GuidesDetailData();
+                guidesDetailData.guideId = data.guideId;
+                guidesDetailData.guideName = data.guideName;
+                guidesDetailData.avatar = data.guideAvatar;
+                guidesDetailData.countryName = data.guideCountryName;
+                guidesDetailData.cityId = CommonUtils.getCountInteger(data.guideCityId);
+                guidesDetailData.cityName = data.guideCityName;
+                guidesDetailData.isQuality = data.isQuality;
+
                 switch (data.orderType) {
                     case 1://1：接送机
                         intent = new Intent(mActivity, PickSendActivity.class);
@@ -696,6 +709,12 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
+//                          intent = new Intent(mActivity, PickSendActivity2.class);
+//                          PickSendActivity2.Params params = new PickSendActivity2.Params();
+//                          params.guidesDetailData = guidesDetailData;
+//                          intent.putExtra(Constants.PARAMS_DATA, params);
+//                          intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+//                          mActivity.startActivity(intent);
                         break;
                     case 2://2：单次接送
                         intent = new Intent(mActivity, SingleNewActivity.class);
@@ -703,16 +722,14 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
+//                        intent = new Intent(mActivity, SingleActivity.class);
+//                        SingleActivity.Params params2 = new SingleActivity.Params();
+//                        params2.guidesDetailData = guidesDetailData;
+//                        intent.putExtra(Constants.PARAMS_DATA, params2);
+//                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+//                        mActivity.startActivity(intent);
                         break;
                     case 3://3：包车
-                        GuidesDetailData guidesDetailData = new GuidesDetailData();
-                        guidesDetailData.guideId = data.guideId;
-                        guidesDetailData.guideName = data.guideName;
-                        guidesDetailData.avatar = data.guideAvatar;
-                        guidesDetailData.countryName = data.guideCountryName;
-                        guidesDetailData.cityId = CommonUtils.getCountInteger(data.guideCityId);
-                        guidesDetailData.cityName = data.guideCityName;
-                        guidesDetailData.isQuality = data.isQuality;
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);
                         intent.putExtra(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

@@ -109,7 +109,7 @@ public class RequestSubmitBase extends BaseRequest<OrderInfoBean> {
             map.put("orderGoodsType", orderBean.orderGoodsType);
             map.put("goodNo", orderBean.goodsNo);
         }
-
+        errorType = ERROR_TYPE_IGNORE;
     }
 
 

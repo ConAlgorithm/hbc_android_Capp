@@ -12,6 +12,7 @@
         android:layout_alignParentBottom="true" />
 
     <ScrollView
+        android:id="@+id/pickup_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/pickup_bottom_view">
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
                 app:hintText="通过航班查机场，延误免费等待"
-                app:titleText="接机航班" />
+                app:titleText="接机机场" />
 
             <LinearLayout
                 android:id="@+id/pickup_start_time_layout"

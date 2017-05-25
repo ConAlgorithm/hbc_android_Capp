@@ -43,7 +43,6 @@ public class CityFilterTypeFragment extends BaseFragment implements AbsListView.
         return rootView;
     }
 
-
     @Override
     protected void initView() {
         adapter = new CityFilterTagAdapter(CityFilterTagAdapter.getTypeDatas());

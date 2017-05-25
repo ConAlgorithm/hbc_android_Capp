@@ -41,6 +41,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
     RecyclerView mRecyclerView;
 
     public String guideId;
+    public String sourceTag;
     private HbcRecyclerSingleTypeAdpater<GuideCropBean> mAdapter;
     private ArrayList<GuideCropBean> guideCropList;
 
@@ -54,10 +55,12 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             guideId = savedInstanceState.getString(Constants.PARAMS_ID);
+            sourceTag = savedInstanceState.getString(Constants.PARAMS_TAG);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 guideId = bundle.getString(Constants.PARAMS_ID);
+                sourceTag = bundle.getString(Constants.PARAMS_TAG);
             }
         }
 
@@ -82,12 +85,14 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.PARAMS_ID, guideId);
+        outState.putString(Constants.PARAMS_TAG, sourceTag);
     }
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
         if (itemData instanceof GuideCropBean) {
             GuideServiceCitys guideServiceCitys = new GuideServiceCitys(guideCropList, position);
+            guideServiceCitys.sourceTag = sourceTag;
             EventBus.getDefault().post(new EventAction(EventType.CHOOSE_GUIDE_CITY_BACK, guideServiceCitys));
             finish();
         }
@@ -105,6 +110,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
     public static class GuideServiceCitys implements Serializable {
         public ArrayList<GuideCropBean> guideCropList;
         public int selectedIndex;
+        public String sourceTag;
 
         public GuideServiceCitys(ArrayList<GuideCropBean> guideCropList, int selectedIndex) {
             this.guideCropList = guideCropList;

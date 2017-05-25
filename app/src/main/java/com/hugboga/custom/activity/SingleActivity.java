@@ -1,23 +1,35 @@
 package com.hugboga.custom.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
+import com.hugboga.custom.data.request.RequestNewCars;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
@@ -33,7 +45,9 @@ import com.hugboga.custom.widget.title.TitleBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -65,6 +79,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     SkuOrderCarTypeView carTypeView;
     @Bind(R.id.single_empty_layout)
     SkuOrderEmptyView emptyLayout;
+    @Bind(R.id.single_scrollview)
+    ScrollView scrollView;
 
     private DateTimePicker dateTimePicker;
 
@@ -75,8 +91,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private String serverDate;
     private String serverTime;
 
-    private CollectGuideBean collectGuideBean;
-    private String carIds = null;
+    private GuidesDetailData guidesDetailData;
+    private ArrayList<GuideCarBean> guideCarBeanList;
+
+    private SingleActivity.Params params;
+
+    public static class Params implements Serializable {
+        public GuidesDetailData guidesDetailData;
+    }
 
     @Override
     public int getContentViewId() {
@@ -86,6 +108,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            params = (SingleActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                params = (SingleActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+            }
+        }
         EventBus.getDefault().register(this);
         initView();
     }
@@ -96,19 +126,54 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (params != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, params);
+        }
+    }
+
     private void initView() {
         titlebar.setTitleBarBackListener(this);
         titlebar.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                showServiceDialog();
             }
         });
+
+        if (params != null && params.guidesDetailData != null) {
+            guidesDetailData = params.guidesDetailData;
+            guideLayout.setData(guidesDetailData);
+        }
 
         carTypeView.setOnSelectedCarListener(this);
         bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
         addressLayout.setOnAddressClickListener(this);
+
+        emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
+            @Override
+            public void onClickServices() {
+                showServiceDialog();
+            }
+        });
+        emptyLayout.setOnRefreshDataListener(new SkuOrderEmptyView.OnRefreshDataListener() {
+            @Override
+            public void onRefresh() {
+                scrollToTop();
+                getCars();
+            }
+        });
+        emptyLayout.setonClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
+            @Override
+            public void onClickCharter() {
+                Intent intent = new Intent(SingleActivity.this, CharterFirstStepActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                SingleActivity.this.startActivity(intent);
+            }
+        });
     }
 
     @OnClick({R.id.single_city_layout, R.id.single_time_layout})
@@ -116,12 +181,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         Intent intent;
         switch (view.getId()) {
             case R.id.single_city_layout:
-                if (collectGuideBean != null) {
+                if (guidesDetailData != null) {
                     intent = new Intent(this, ChooseGuideCityActivity.class);
-                    intent.putExtra(Constants.PARAMS_ID, collectGuideBean.guideId);
+                    intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
+                    intent.putExtra(Constants.PARAMS_TAG, TAG);
                     startActivity(intent);
                 } else {
                     intent = new Intent(this, ChooseCityActivity.class);
+                    intent.putExtra(ChooseCityActivity.KEY_FROM_TAG, TAG);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(KEY_BUSINESS_TYPE, ORDER_TYPE);
                     startActivity(intent);
@@ -145,8 +212,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 CityBean _cityBean = null;
                 if (action.getType() == EventType.CHOOSE_START_CITY_BACK) {
                     _cityBean = (CityBean) action.getData();
+                    if (!SingleActivity.TAG.equals(_cityBean.fromTag)) {
+                        break;
+                    }
                 } else {
                     ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
+                    if (!SingleActivity.TAG.equals(guideServiceCitys.sourceTag)) {
+                        break;
+                    }
                     _cityBean = guideServiceCitys.getSelectedCityBean();
                 }
                 if (_cityBean == null || (cityBean != null && cityBean.cityId == _cityBean.cityId)) {
@@ -170,17 +243,24 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     }
                     startPoiBean = poiBean;
                     addressLayout.setStartAddress(startPoiBean.placeName, startPoiBean.placeDetail);
-                    requestCarPriceList();
+                    getCars();
                 } else if ("to".equals(poiBean.type)) {
                     if (poiBean == null || (endPoiBean != null && TextUtils.equals(poiBean.placeName, endPoiBean.placeName))) {
                         break;
                     }
                     endPoiBean = poiBean;
                     addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
-                    requestCarPriceList();
+                    getCars();
                 }
                 break;
+            case ORDER_REFRESH://价格或数量变更 刷新
+                scrollToTop();
+                getCars();
         }
+    }
+
+    public void showServiceDialog() {
+        DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     public void showTimePicker() {
@@ -204,7 +284,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                         serverDate = tmpDate;
                         serverTime = hour + ":" + minute;
                         timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
-                        requestCarPriceList();
+                        getCars();
                         dateTimePicker.dismiss();
                     }
                 }
@@ -223,37 +303,36 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         dateTimePicker.show();
     }
 
-    private void requestCarPriceList() {
-        if (cityBean == null || startPoiBean == null || endPoiBean == null || TextUtils.isEmpty(serverDate) || TextUtils.isEmpty(serverTime)) {
-            return;
-        }
-        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(this
-                , ORDER_TYPE
-                , cityBean.cityId
-                , startPoiBean.location
-                , endPoiBean.location
-                , serverDate + " " + serverTime
-                , carIds
-                , collectGuideBean == null ? 0 : collectGuideBean.isQuality);
-        requestData(requestCheckPriceForSingle);
-    }
-
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestCheckPriceForSingle) {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
-            if (carListBean.carList.size() > 0) {
-                bottomView.setVisibility(View.VISIBLE);
-                emptyLayout.setVisibility(View.GONE);
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
+                if (guidesDetailData != null && guideCarBeanList != null) {
+                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
+                    if (checkDataIsEmpty(carList)) {
+                        return;
+                    }
+                    carListBean.carList = carList;
+                }
                 carTypeView.update(carListBean);
-                carTypeView.setVisibility(View.VISIBLE);
-            } else {
-                bottomView.setVisibility(View.GONE);
-                emptyLayout.setVisibility(View.VISIBLE);
-                carTypeView.setVisibility(View.GONE);
             }
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestCheckPriceForSingle) {
+            String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
+            return;
+        } else {
+            emptyLayout.setErrorVisibility(View.VISIBLE);
+            setItemVisibility(View.GONE);
         }
     }
 
@@ -293,26 +372,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     @Override
-    public void onConfirm() {
-        if (!CommonUtils.isLogin(this)) {
-            return;
-        }
-        OrderActivity.Params params = new OrderActivity.Params();
-        params.startPoiBean = startPoiBean;
-        params.endPoiBean = endPoiBean;
-        params.carListBean = carListBean;
-        params.carBean = carBean;
-        params.cityBean = cityBean;
-        params.orderType = ORDER_TYPE;
-        params.serverDate = serverDate;
-        params.serverTime = serverTime;
-        Intent intent = new Intent(this, OrderActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        intent.putExtra(Constants.PARAMS_DATA, params);
-        startActivity(intent);
-    }
-
-    @Override
     public String getEventSource() {
         return "单次接送下单";
     }
@@ -340,4 +399,141 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             return false;
         }
     }
+
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
+        return checkDataIsEmpty(_carList, 0, null);
+    }
+
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, guidesDetailData != null);
+        int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
+        setItemVisibility(itemVisibility);
+        return isEmpty;
+    }
+
+    private void setItemVisibility(int visibility) {
+        carTypeView.setVisibility(visibility);
+        bottomView.setVisibility(visibility);
+    }
+
+    /* 滚动到顶部 */
+    private void scrollToTop() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        });
+    }
+
+    private void getCars() {
+        if (cityBean == null || startPoiBean == null || endPoiBean == null || TextUtils.isEmpty(serverDate) || TextUtils.isEmpty(serverTime)) {
+            return;
+        }
+        if (guidesDetailData != null) {
+            getGuideCars();
+        } else {
+            requestCarPriceList();
+        }
+    }
+
+    private void requestCarPriceList() {
+        RequestCheckPriceForSingle requestCheckPriceForSingle = new RequestCheckPriceForSingle(this
+                , ORDER_TYPE
+                , cityBean.cityId
+                , startPoiBean.location
+                , endPoiBean.location
+                , serverDate + " " + serverTime
+                , guidesDetailData == null ? "" : guidesDetailData.getCarIds()
+                , guidesDetailData == null ? 0 : guidesDetailData.isQuality);
+        requestData(requestCheckPriceForSingle);
+    }
+
+    @Override
+    public void onConfirm() {
+        if (!CommonUtils.isLogin(this)) {
+            return;
+        }
+        if (guidesDetailData != null) {
+            checkGuideCoflict();
+        } else {
+            initOrderActivity();
+        }
+    }
+
+    public void initOrderActivity() {
+        OrderActivity.Params orderParams = new OrderActivity.Params();
+        orderParams.startPoiBean = startPoiBean;
+        orderParams.endPoiBean = endPoiBean;
+        orderParams.carListBean = carListBean;
+        orderParams.carBean = carBean;
+        orderParams.cityBean = cityBean;
+        orderParams.orderType = ORDER_TYPE;
+        orderParams.serverDate = serverDate;
+        orderParams.serverTime = serverTime;
+        if (guidesDetailData != null) {
+            orderParams.guidesDetailData = guidesDetailData;
+        }
+        Intent intent = new Intent(this, OrderActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(Constants.PARAMS_DATA, orderParams);
+        startActivity(intent);
+    }
+
+    private void getGuideCars() {
+        RequestNewCars requestCars = new RequestNewCars(this, ORDER_TYPE, guidesDetailData.guideId, null);
+        HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                guideCarBeanList = ((RequestNewCars) request).getData();
+                if (guideCarBeanList == null || guideCarBeanList.size() <= 0) {
+                    checkDataIsEmpty(null);
+                    return;
+                }
+                guidesDetailData.guideCars = guideCarBeanList;
+                guidesDetailData.guideCarCount = guideCarBeanList.size();
+                requestCarPriceList();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+            }
+        }, true);
+    }
+
+    private void checkGuideCoflict() {
+        RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+        checkGuideBean.startTime = serverDate + " " + serverTime + ":00";
+        checkGuideBean.endTime = serverDate + " " + Constants.SERVER_TIME_END;
+        checkGuideBean.cityId = cityBean.cityId;
+        checkGuideBean.guideId = guidesDetailData.guideId;
+        checkGuideBean.orderType = ORDER_TYPE;
+
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBean);
+        HttpRequestUtils.request(this, requestCheckGuide, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                initOrderActivity();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource());
+            }
+        }, true);
+    }
+
 }

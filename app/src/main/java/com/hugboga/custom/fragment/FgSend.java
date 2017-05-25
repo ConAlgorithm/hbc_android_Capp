@@ -1,29 +1,44 @@
 package com.hugboga.custom.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.OrderActivity;
+import com.hugboga.custom.activity.PickSendActivity2;
 import com.hugboga.custom.activity.PoiSearchActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
-import com.hugboga.custom.data.bean.CollectGuideBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.data.request.RequestNewCars;
+import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
@@ -34,7 +49,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,6 +84,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Bind(R.id.send_empty_layout)
     SkuOrderEmptyView emptyLayout;
 
+    @Bind(R.id.send_scrollview)
+    ScrollView scrollView;
+
     private DateTimePicker dateTimePicker;
 
     private AirPort airPortBean;
@@ -76,8 +96,10 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private CarListBean carListBean;
     private CarBean carBean;
 
-    private CollectGuideBean collectGuideBean;
-    private String carIds = null;
+    private GuidesDetailData guidesDetailData;
+    private ArrayList<GuideCarBean> guideCarBeanList;
+
+    private PickSendActivity2.Params params;
 
     @Override
     public int getContentViewId() {
@@ -87,6 +109,14 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            params = (PickSendActivity2.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+        } else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                params = (PickSendActivity2.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+            }
+        }
         EventBus.getDefault().register(this);
     }
 
@@ -98,6 +128,14 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (params != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, params);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -105,9 +143,31 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Override
     protected void initView() {
+        if (params != null && params.guidesDetailData != null) {
+            guidesDetailData = params.guidesDetailData;
+            List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + guidesDetailData.cityId);
+            if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
+                airPortBean = airPortList.get(0);
+                airportLayout.setDesc(airPortBean.airportName);
+            }
+            guideLayout.setData(guidesDetailData);
+        }
         carTypeView.setOnSelectedCarListener(this);
         bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
+            @Override
+            public void onClickServices() {
+                DialogUtil.getInstance((Activity) getContext()).showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+            }
+        });
+        emptyLayout.setOnRefreshDataListener(new SkuOrderEmptyView.OnRefreshDataListener() {
+            @Override
+            public void onRefresh() {
+                scrollToTop();
+                getCars();
+            }
+        });
     }
 
     @Override
@@ -126,8 +186,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         switch (view.getId()) {
             case R.id.send_airport_layout:
                 intent = new Intent(getActivity(),ChooseAirPortActivity.class);
-                if (collectGuideBean != null) {
-                    intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, collectGuideBean.cityId);
+                if (guidesDetailData != null) {
+                    intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, guidesDetailData.cityId);
                 }
                 getActivity().startActivity(intent);
                 break;
@@ -177,7 +237,11 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 }
                 poiBean = _poiBean;
                 startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
-                requestCarPriceList();
+                getCars();
+                break;
+            case ORDER_REFRESH://价格或数量变更 刷新
+                scrollToTop();
+                getCars();
                 break;
         }
     }
@@ -204,7 +268,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                         serverDate = tmpDate;
                         serverTime = hour + ":" + minute;
                         timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
-                        requestCarPriceList();
+                        getCars();
                         dateTimePicker.dismiss();
                     }
                 }
@@ -222,20 +286,30 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         dateTimePicker.show();
     }
 
-    private void requestCarPriceList() {
-        if (airPortBean == null || poiBean == null || TextUtils.isEmpty(serverDate) || TextUtils.isEmpty(serverTime)) {
-            return;
-        }
-        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity()
-                , ORDER_TYPE
-                , airPortBean.airportCode
-                , airPortBean.cityId
-                , poiBean.location
-                , airPortBean.location
-                , serverDate + " " + serverTime
-                , carIds
-                , collectGuideBean == null ? 0 : collectGuideBean.isQuality);
-        requestData(requestCheckPriceForTransfer);
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
+        return checkDataIsEmpty(_carList, 0, null);
+    }
+
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, guidesDetailData != null);
+        int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
+        setItemVisibility(itemVisibility);
+        return isEmpty;
+    }
+
+    private void setItemVisibility(int visibility) {
+        carTypeView.setVisibility(visibility);
+        bottomView.setVisibility(visibility);
+    }
+
+    /* 滚动到顶部 */
+    private void scrollToTop() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, 0);
+            }
+        });
     }
 
     @Override
@@ -244,16 +318,30 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         if (request instanceof RequestCheckPriceForTransfer) {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
             carListBean = (CarListBean) requestCheckPrice.getData();
-            if (carListBean.carList.size() > 0) {
-                bottomView.setVisibility(View.VISIBLE);
-                emptyLayout.setVisibility(View.GONE);
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
+                if (guidesDetailData != null && guideCarBeanList != null) {
+                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
+                    if (checkDataIsEmpty(carList)) {
+                        return;
+                    }
+                    carListBean.carList = carList;
+                }
                 carTypeView.update(carListBean);
-                carTypeView.setVisibility(View.VISIBLE);
-            } else {
-                bottomView.setVisibility(View.GONE);
-                emptyLayout.setVisibility(View.VISIBLE);
-                carTypeView.setVisibility(View.GONE);
             }
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestCheckPriceForTransfer) {
+            String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
+            return;
+        } else {
+            emptyLayout.setErrorVisibility(View.VISIBLE);
+            setItemVisibility(View.GONE);
         }
     }
 
@@ -268,24 +356,115 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     }
 
+    private void getCars() {
+        if (airPortBean == null || poiBean == null || TextUtils.isEmpty(serverDate) || TextUtils.isEmpty(serverTime)) {
+            return;
+        }
+        if (guidesDetailData != null) {
+            getGuideCars();
+        } else {
+            requestCarPriceList();
+        }
+    }
+
+    private void requestCarPriceList() {
+        RequestCheckPriceForTransfer requestCheckPriceForTransfer = new RequestCheckPriceForTransfer(getActivity()
+                , ORDER_TYPE
+                , airPortBean.airportCode
+                , airPortBean.cityId
+                , poiBean.location
+                , airPortBean.location
+                , serverDate + " " + serverTime
+                , guidesDetailData == null ? "" : guidesDetailData.getCarIds()
+                , guidesDetailData == null ? 0 : guidesDetailData.isQuality);
+        requestData(requestCheckPriceForTransfer);
+    }
+
+    private void getGuideCars() {
+        RequestNewCars requestCars = new RequestNewCars(getContext(), ORDER_TYPE, guidesDetailData.guideId, null);
+        HttpRequestUtils.request(getContext(), requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                guideCarBeanList = ((RequestNewCars) request).getData();
+                if (guideCarBeanList == null || guideCarBeanList.size() <= 0) {
+                    checkDataIsEmpty(null);
+                    return;
+                }
+                guidesDetailData.guideCars = guideCarBeanList;
+                guidesDetailData.guideCarCount = guideCarBeanList.size();
+                requestCarPriceList();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+            }
+        }, true);
+    }
+
     @Override
     public void onConfirm() {
         if (!CommonUtils.isLogin(getContext())) {
             return;
         }
-        OrderActivity.Params params = new OrderActivity.Params();
-        params.airPortBean = airPortBean;
-        params.startPoiBean = poiBean;
-        params.carListBean = carListBean;
-        params.carBean = carBean;
-        params.cityBean = DBHelper.findCityById("" + airPortBean.cityId);
-        params.orderType = ORDER_TYPE;
-        params.serverDate = serverDate;
-        params.serverTime = serverTime;
+        if (guidesDetailData != null) {
+            checkGuideCoflict();
+        } else {
+            initOrderActivity();
+        }
+    }
+
+    public void initOrderActivity() {
+        OrderActivity.Params orderParams = new OrderActivity.Params();
+        orderParams.airPortBean = airPortBean;
+        orderParams.startPoiBean = poiBean;
+        orderParams.carListBean = carListBean;
+        orderParams.carBean = carBean;
+        orderParams.cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+        orderParams.orderType = ORDER_TYPE;
+        orderParams.serverDate = serverDate;
+        orderParams.serverTime = serverTime;
+        if (guidesDetailData != null) {
+            orderParams.guidesDetailData = guidesDetailData;
+        }
         Intent intent = new Intent(getContext(), OrderActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_DATA, orderParams);
         startActivity(intent);
+    }
+
+    private void checkGuideCoflict() {
+        RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+        checkGuideBean.startTime = serverDate + " " + serverTime + ":00";
+        checkGuideBean.endTime = serverDate + " " + Constants.SERVER_TIME_END;
+        checkGuideBean.cityId = airPortBean.cityId;
+        checkGuideBean.guideId = guidesDetailData.guideId;
+        checkGuideBean.orderType = ORDER_TYPE;
+
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(getContext(), checkGuideBean);
+        HttpRequestUtils.request(getContext(), requestCheckGuide, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                initOrderActivity();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource());
+            }
+        }, true);
     }
 
     @Override

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -30,7 +28,6 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
@@ -143,7 +140,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 AlertDialogUtils.showAlertDialog(mContext, content, "刷新", "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EventBus.getDefault().post(new EventAction(EventType.SKU_ORDER_REFRESH));
+                        EventBus.getDefault().post(new EventAction(EventType.ORDER_REFRESH));
                         dialog.dismiss();
                     }
                 }, new DialogInterface.OnClickListener() {
