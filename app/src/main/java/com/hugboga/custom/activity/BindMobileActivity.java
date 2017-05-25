@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -60,7 +61,8 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
     TextView miaoshu2;
     @Bind(R.id.bind_mobile_submit)
     Button login_submit;
-
+    @Bind(R.id.delete)
+    ImageView delete;
     private String areaCode = "";
     private String mobile = "";
     private String unionid = "";
@@ -142,6 +144,13 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         }
         if (TextUtils.isEmpty(phone)) {
             phone = sharedPre.getStringValue(SharedPre.LOGIN_PHONE);
+        }
+        if(phone!= null){
+            if(phone.length() >0){
+                delete.setVisibility(View.VISIBLE);
+            }else{
+                delete.setVisibility(View.GONE);
+            }
         }
         if (!TextUtils.isEmpty(phone)) {
             this.mobile = phone;
@@ -467,7 +476,11 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         String phone = mobileEditText.getText().toString().trim();
         String capthca = verityEditText.getText().toString().trim();
         String areaCode = areaCodeTextView.getText().toString().trim();
-
+        if(phone.length() >0){
+            delete.setVisibility(View.VISIBLE);
+        }else{
+            delete.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));

@@ -57,6 +57,8 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
     Button forget_passwd_submit; //验证码倒计时
     @Bind(R.id.iv_pwd_visible)
     ImageView passwordVisible;
+    @Bind(R.id.delete)
+            ImageView delete;
     boolean isPwdVisibility = false;
     @Override
     public int getContentViewId() {
@@ -111,6 +113,14 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 phoneEditText.setText(phone);
             }
         }
+        if(phoneEditText!=null){
+            if(phoneEditText.getText().toString().length() >0){
+                delete.setVisibility(View.VISIBLE);
+            }else{
+                delete.setVisibility(View.GONE);
+            }
+        }
+
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
@@ -184,6 +194,11 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         String phone = phoneEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
         String verity_EditText = verityEditText.getText().toString();
+        if(phone.length() >0){
+            delete.setVisibility(View.VISIBLE);
+        }else{
+            delete.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(phone)
                 &&!TextUtils.isEmpty(password)  &&!TextUtils.isEmpty(verity_EditText)
                 && Pattern.matches("[\\w]{4,16}", password)) {

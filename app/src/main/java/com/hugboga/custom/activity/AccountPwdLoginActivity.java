@@ -65,6 +65,8 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     TextView fgTitle;
     @Bind(R.id.login_submit)
     Button loginButton;
+    @Bind(R.id.delete)
+            ImageView delete;
     boolean isPwdVisibility = false;
     String phone;
     String areaCode;
@@ -107,6 +109,13 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         if (!TextUtils.isEmpty(phone)) {
             this.phone = phone;
             phoneEditText.setText(phone);
+        }
+        if(phone!= null){
+            if(phone.length() >0){
+                delete.setVisibility(View.VISIBLE);
+            }else{
+                delete.setVisibility(View.GONE);
+            }
         }
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
@@ -321,6 +330,12 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     public void afterTextChanged(Editable editable) {
         String phone = phoneEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
+
+        if(phone.length() >0){
+            delete.setVisibility(View.VISIBLE);
+        }else{
+            delete.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(phone)
                 && !TextUtils.isEmpty(password)
                 && Pattern.matches("[\\w]{4,16}", password)) {
