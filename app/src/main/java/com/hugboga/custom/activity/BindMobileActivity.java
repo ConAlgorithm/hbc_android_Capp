@@ -145,10 +145,12 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         if (TextUtils.isEmpty(phone)) {
             phone = sharedPre.getStringValue(SharedPre.LOGIN_PHONE);
         }
-        if(phone.length() >0){
-            delete.setVisibility(View.VISIBLE);
-        }else{
-            delete.setVisibility(View.GONE);
+        if(phone!= null){
+            if(phone.length() >0){
+                delete.setVisibility(View.VISIBLE);
+            }else{
+                delete.setVisibility(View.GONE);
+            }
         }
         if (!TextUtils.isEmpty(phone)) {
             this.mobile = phone;

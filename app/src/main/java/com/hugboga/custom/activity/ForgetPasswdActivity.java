@@ -113,11 +113,14 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 phoneEditText.setText(phone);
             }
         }
-        if(phoneEditText.getText().toString().length() >0){
-            delete.setVisibility(View.VISIBLE);
-        }else{
-            delete.setVisibility(View.GONE);
+        if(phoneEditText!=null){
+            if(phoneEditText.getText().toString().length() >0){
+                delete.setVisibility(View.VISIBLE);
+            }else{
+                delete.setVisibility(View.GONE);
+            }
         }
+
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
