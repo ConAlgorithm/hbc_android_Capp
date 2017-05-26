@@ -116,11 +116,12 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         if(phoneEditText!=null){
             if(phoneEditText.getText().toString().length() >0){
                 delete.setVisibility(View.VISIBLE);
+                getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
             }else{
                 delete.setVisibility(View.GONE);
+                getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
             }
         }
-
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
@@ -196,8 +197,10 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         String verity_EditText = verityEditText.getText().toString();
         if(phone.length() >0){
             delete.setVisibility(View.VISIBLE);
+            getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
         }else{
             delete.setVisibility(View.GONE);
+            getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
         }
         if (!TextUtils.isEmpty(phone)
                 &&!TextUtils.isEmpty(password)  &&!TextUtils.isEmpty(verity_EditText)

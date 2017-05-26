@@ -140,6 +140,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 delete.setVisibility(View.GONE);
             }
         }
+        if(phoneEditText!=null){
+            if(phoneEditText.getText().toString().length() >0){
+                verify.setTextColor(getResources().getColor(R.color.forget_pwd));
+            }else{
+                verify.setTextColor(getResources().getColor(R.color.common_font_color_gray));
+            }
+        }
         phoneEditText.addTextChangedListener(this);
         areaCodeTextView.addTextChangedListener(this);
         loginPassword.addTextChangedListener(this);
@@ -170,8 +177,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
         if(phone.length() >0){
             delete.setVisibility(View.VISIBLE);
+            verify.setTextColor(getResources().getColor(R.color.forget_pwd));
         }else{
             delete.setVisibility(View.GONE);
+            verify.setTextColor(getResources().getColor(R.color.common_font_color_gray));
         }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
