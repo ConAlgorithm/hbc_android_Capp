@@ -148,10 +148,25 @@ public  class ErrorHandler implements HttpRequestListener{
             return null;
         }
         String errorStr = request.getUrlErrorCode();
-        if (!TextUtils.isEmpty(errorInfo.errorCode)) {
+        int errorCode = getServerErrorCode(errorInfo, request);
+        if (errorCode != -1) {
+            errorStr += " - " + errorCode;
+        } else if (errorCode == -1 && !TextUtils.isEmpty(errorInfo.errorCode)) {
             errorStr += " - " + errorInfo.errorCode;
         }
         return errorStr;
+    }
+
+    public static int getServerErrorCode(ExceptionInfo errorInfo, BaseRequest request) {
+        if (errorInfo == null || request == null || request.errorType != BaseRequest.ERROR_TYPE_IGNORE) {
+            return -1;
+        }
+        switch (errorInfo.state) {
+            case ExceptionErrorCode.ERROR_CODE_SERVER:
+                ServerException serverException = (ServerException) errorInfo.exception;
+                return serverException.getCode();
+        }
+        return -1;
     }
 
     public void showAlertDialog(Context context,String title,String content,String okText,DialogInterface.OnClickListener onClick){

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -21,6 +22,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.FlightBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
@@ -104,6 +106,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         public CityBean cityBean;
         public String serverDate;
         public String serverTime;
+        public GuidesDetailData guidesDetailData;
     }
 
     @Override
@@ -215,6 +218,9 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 }
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
+                break;
+            case ORDER_REFRESH:
+                finish();
                 break;
         }
     }
@@ -408,7 +414,6 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         requestData(requestCancleTips);
     }
 
-
     /*
     * 提交订单
     * */
@@ -457,7 +462,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , deductionBean != null ? CommonUtils.getCountInteger(deductionBean.deduction) + "" : "0"
                 , couponBean
                 , mostFitBean
-                , "" //TODO 指定司导下单
+                , params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
                 , manLuggageBean
                 , travelerInfoBean.isCheckin);
     }
@@ -487,7 +492,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , deductionBean != null ? CommonUtils.getCountInteger(deductionBean.deduction) + "" : "0"
                 , couponBean
                 , mostFitBean
-                , "" //TODO 指定司导下单
+                , params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
                 , manLuggageBean);
     }
 
@@ -522,7 +527,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , deductionBean != null ? CommonUtils.getCountInteger(deductionBean.deduction) + "" : "0"
                 , couponBean
                 , mostFitBean
-                , "");//TODO 指定司导下单
+                , params.guidesDetailData != null ? params.guidesDetailData.guideId : "");
     }
 
     @Override
@@ -611,6 +616,14 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 cancleTips += str + "\n";
             }
             explainView.setCancleTips(cancleTips);
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        if (request instanceof RequestSubmitBase) {
+            CommonUtils.apiErrorShowService(OrderActivity.this, errorInfo, request, OrderActivity.this.getEventSource());
         }
     }
 

@@ -375,9 +375,10 @@
 
         <EditText
             android:id="@+id/sku_order_traveler_info_flight_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:background="#00000000"
             android:layout_toRightOf="@id/sku_order_traveler_info_flight_hint_tv"
             android:hint="告诉司导航班号，出行省心"
@@ -432,10 +433,11 @@
             android:textSize="14sp" />
         <EditText
             android:id="@+id/sku_order_traveler_info_checkin_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
+            android:gravity="center_vertical"
             android:visibility="gone"
             android:layout_toLeftOf="@id/sku_order_traveler_info_checkin_price_tv"
             android:layout_toRightOf="@id/sku_order_traveler_info_checkin_hint_tv"
@@ -563,8 +565,9 @@
 
         <EditText
             android:id="@+id/sku_order_traveler_info_wechat_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_centerVertical="true"
             android:background="#00000000"
             android:layout_toRightOf="@id/sku_order_traveler_info_wechat_hint_tv"
@@ -601,7 +604,7 @@
         <EditText
             android:id="@+id/sku_order_traveler_info_mark_et"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/sku_order_traveler_info_mark_hint_tv"

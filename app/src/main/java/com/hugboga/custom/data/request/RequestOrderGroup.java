@@ -28,6 +28,7 @@ public class RequestOrderGroup extends BaseRequest<OrderInfoBean> {
         super(context);
         map = new HashMap<String, Object>();
         this.bodyEntity = _bodyEntity;
+        errorType = ERROR_TYPE_IGNORE;
     }
 
     @Override

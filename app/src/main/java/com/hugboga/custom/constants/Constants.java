@@ -35,11 +35,13 @@ public final class Constants {
     public static final int PAY_STATE_WECHAT = 2;//微信
     public static final int PAY_STATE_BANK = 3;//银行
 
+    public static final String SERVER_TIME_END = "23:59:59";
 
     public static final String PARAMS_DATA = "data";
     public static final String PARAMS_ID = "id";
     public static final String PARAMS_ACTION = "action";
     public static final String PARAMS_TYPE = "type";
+    public static final String PARAMS_TAG = "tag";
     public static final String PARAMS_SOURCE = "source";
     public static final String PARAMS_SOURCE_DETAIL = "source_detail";
     public static final String PARAMS_ORDER_NO = "orderNo";

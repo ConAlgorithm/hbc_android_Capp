@@ -18,9 +18,19 @@ import java.util.HashMap;
 
 @HttpRequest(path = UrlLibs.API_GUIDE_AVAILABLE_CHECK, builder = NewParamsBuilder.class)
 public class RequestCheckGuide extends BaseRequest {
+
     public RequestCheckGuide(Context context, CheckGuideBeanList checkGuideBeanList) {
         super(context);
         map = new HashMap<String, Object>();
+        bodyEntity = JsonUtils.toJson(checkGuideBeanList);
+        errorType = ERROR_TYPE_IGNORE;
+    }
+
+    public RequestCheckGuide(Context context, CheckGuideBean checkGuideBean) {
+        super(context);
+        map = new HashMap<String, Object>();
+        CheckGuideBeanList checkGuideBeanList = new CheckGuideBeanList();
+        checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
         bodyEntity = JsonUtils.toJson(checkGuideBeanList);
         errorType = ERROR_TYPE_IGNORE;
     }

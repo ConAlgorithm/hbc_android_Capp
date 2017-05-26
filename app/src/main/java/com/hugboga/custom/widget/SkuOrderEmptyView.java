@@ -24,8 +24,6 @@ import butterknife.OnClick;
  */
 public class SkuOrderEmptyView extends LinearLayout{
 
-    public static final int API_ERROR_STATE = -2000;//非用户操作的异常状态码，前端定义，status!=200
-
     @Bind(R.id.sku_order_empty_iv)
     ImageView emptyIV;
     @Bind(R.id.sku_order_empty_hint_tv)
@@ -35,6 +33,7 @@ public class SkuOrderEmptyView extends LinearLayout{
 
     private OnRefreshDataListener onRefreshDataListener;
     private OnClickServicesListener onClickServicesListener;
+    private OnClickCharterListener onClickCharterListener;
     private int type;
 
     public SkuOrderEmptyView(Context context) {
@@ -46,40 +45,6 @@ public class SkuOrderEmptyView extends LinearLayout{
         View view  = inflate(context, R.layout.view_sku_order_empty, this);
         ButterKnife.bind(view);
 
-        refreshTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        refreshTV.getPaint().setAntiAlias(true);
-    }
-
-    //线路
-    public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
-        boolean isEmpty = false;
-        if (noneCarsState == 6) {
-            setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.empty_time);
-            refreshTV.setVisibility(View.GONE);
-            hintTV.setText(noneCarsReason);
-            isEmpty = true;
-            if (TextUtils.isEmpty(noneCarsReason)) {
-                hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
-            }
-        } else if (noneCarsState == API_ERROR_STATE) {
-            setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.empty_car);
-            hintTV.setText(noneCarsReason);
-            isEmpty = true;
-            refreshTV.setVisibility(View.VISIBLE);
-            refreshTV.setText("联系客服");
-            type = 2;
-        } else if (_carList == null || _carList.size() <= 0) {
-            setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.empty_car);
-            hintTV.setText("很抱歉，没有找到可服务的司导，换个日期试试");
-            isEmpty = true;
-            refreshTV.setVisibility(View.GONE);
-        } else {
-            setVisibility(View.GONE);
-        }
-        return isEmpty;
     }
 
     public void setErrorVisibility(int visibility) {
@@ -95,12 +60,13 @@ public class SkuOrderEmptyView extends LinearLayout{
         }
     }
 
-    //组合单
-    public boolean setNoCarVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide) {
+    public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide) {
         boolean isEmpty = false;
         // noneCarsState == 202 当地时间已过了 服务开始时间
         // noneCarsState == 6 服务开始时间 在当地时间之后，但小于提前预订期
-        if (noneCarsState == 202 || noneCarsState == 6) {
+        // noneCarsState == 301 很抱歉，您选择的地点暂时无法通过驾车的方式到达
+        // noneCarsState == 302 您预订的行程太远啦，包车压力好大…建议按天包车，去试试定制包车游
+        if (noneCarsState == 202 || noneCarsState == 6 || noneCarsState == 301) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_time);
             refreshTV.setVisibility(View.GONE);
@@ -111,16 +77,18 @@ public class SkuOrderEmptyView extends LinearLayout{
                     hintTV.setText("当地时间已过了您预订的服务时间，想服务但做不到啊…");
                 } else if (noneCarsState == 6) {
                     hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
+                } else if (noneCarsState == 301) {
+                    hintTV.setText("很抱歉，您选择的地点暂时无法通过驾车的方式到达");
                 }
             }
-        } else if (noneCarsState == API_ERROR_STATE) {
+        } else if (noneCarsState == 302) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
-            hintTV.setText(noneCarsReason);
+            hintTV.setText("您预订的行程太远啦，包车压力好大…建议按天包车，去试试按天包车游");
             isEmpty = true;
             refreshTV.setVisibility(View.VISIBLE);
-            refreshTV.setText("联系客服");
-            type = 2;
+            refreshTV.setText("按天包车游");
+            type = 3;
         } else if (_carList == null || _carList.size() <= 0) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
@@ -144,8 +112,8 @@ public class SkuOrderEmptyView extends LinearLayout{
         return isEmpty;
     }
 
-    @OnClick({R.id.sku_order_empty_refresh_tv})
-    public void refreshData() {
+    @OnClick(R.id.sku_order_empty_refresh_tv)
+    public void onClick(View view) {
         if (type == 1) {
             if (onRefreshDataListener != null) {
                 this.onRefreshDataListener.onRefresh();
@@ -153,6 +121,10 @@ public class SkuOrderEmptyView extends LinearLayout{
         } else if (type == 2) {
             if (onClickServicesListener != null) {
                 this.onClickServicesListener.onClickServices();
+            }
+        } else if (type == 3) {
+            if (onClickCharterListener != null) {
+                this.onClickCharterListener.onClickCharter();
             }
         }
 
@@ -174,4 +146,11 @@ public class SkuOrderEmptyView extends LinearLayout{
         this.onClickServicesListener = onClickServicesListener;
     }
 
+    public interface OnClickCharterListener {
+        public void onClickCharter();
+    }
+
+    public void setonClickCharterListener(OnClickCharterListener onClickCharterListener) {
+        this.onClickCharterListener = onClickCharterListener;
+    }
 }

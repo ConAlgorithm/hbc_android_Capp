@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.GoodsBookDateBean;
@@ -44,7 +42,6 @@ import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -76,7 +73,8 @@ import butterknife.Bind;
  */
 public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDateView.OnSelectedDateListener
         , SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
-        , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener{
+        , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
+        , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
 
     public static final String TAG = SkuOrderActivity.class.getSimpleName();
 
@@ -174,6 +172,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
         emptyLayout.setOnRefreshDataListener(this);
+        emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(orderType);
 
@@ -202,7 +201,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
+                showServiceDialog();
             }
         });
     }
@@ -219,6 +218,10 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     private void showSaveDialog() {
         hideSoftInput();
         OrderUtils.showSaveDialog(this);
+    }
+
+    public void showServiceDialog() {
+        DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
     }
 
     @Subscribe
@@ -258,7 +261,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
                 break;
-            case SKU_ORDER_REFRESH://价格或数量变更 刷新
+            case ORDER_REFRESH://价格或数量变更 刷新
                 onRefresh();
                 break;
         }
@@ -357,13 +360,13 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestPriceSku) {
+        if (request instanceof RequestPriceSku || request instanceof RequestSubmitBase) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n我们会协助您完成预订";
-            checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             return;
         }
-        if (request instanceof RequestSubmitBase || request instanceof RequestPayNo) {
+        if (request instanceof RequestPayNo) {
             return;
         }
         emptyLayout.setErrorVisibility(View.VISIBLE);
@@ -371,7 +374,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
-        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason);
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, false);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
 
@@ -405,6 +408,11 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         } else {
             requestPriceSku(serverDate);
         }
+    }
+
+    @Override
+    public void onClickServices() {
+        showServiceDialog();
     }
 
     /* 选择日期 */

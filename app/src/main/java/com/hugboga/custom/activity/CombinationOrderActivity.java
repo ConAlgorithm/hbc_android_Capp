@@ -19,7 +19,6 @@ import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
@@ -225,7 +224,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
                 break;
-            case SKU_ORDER_REFRESH://价格或数量变更 刷新
+            case ORDER_REFRESH://价格或数量变更 刷新
                 onRefresh();
                 break;
         }
@@ -327,18 +326,19 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestBatchPrice) {
+        if (request instanceof RequestBatchPrice || request instanceof RequestOrderGroup) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)\n请联系客服，我们会协助您完成预订";
-            checkDataIsEmpty(null, SkuOrderEmptyView.API_ERROR_STATE, String.format(errorMessage, errorCode));
+            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             return;
         }
-        if (request instanceof RequestOrderGroup || request instanceof RequestPayNo) {
+        if (request instanceof RequestPayNo) {
             return;
         }
         emptyLayout.setErrorVisibility(View.VISIBLE);
         setItemVisibility(View.GONE);
     }
+
     /*
     * 后续页面需要的统计参数
     * */
@@ -370,7 +370,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
-        boolean isEmpty = emptyLayout.setNoCarVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
         return isEmpty;
@@ -378,7 +378,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
-//        countView.setVisibility(visibility);
+        countView.setVisibility(visibility);
         travelerInfoView.setVisibility(visibility);
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
@@ -639,13 +639,14 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
 
     private void getGuideCars() {
-        RequestNewCars requestCars = new RequestNewCars(this, 1, charterDataUtils.guidesDetailData.guideId, null, 20, 0);
+        RequestNewCars requestCars = new RequestNewCars(this, 1, charterDataUtils.guidesDetailData.guideId, null);
         HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
-                guideCarBeanList = ((RequestNewCars)request).getData();
-                if (charterDataUtils.guidesDetailData == null || guideCarBeanList == null) {
+                guideCarBeanList = ((RequestNewCars) request).getData();
+                if (charterDataUtils.guidesDetailData == null || guideCarBeanList == null || guideCarBeanList.size() <= 0) {
+                    checkDataIsEmpty(null);
                     return;
                 }
                 charterDataUtils.guidesDetailData.guideCars = guideCarBeanList;
@@ -660,8 +661,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                checkDataIsEmpty(null);
-                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
+                checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
             }
         }, true);
     }

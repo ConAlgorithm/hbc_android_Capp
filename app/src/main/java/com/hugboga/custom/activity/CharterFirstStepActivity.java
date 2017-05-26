@@ -141,7 +141,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             charterDataUtils.guidesDetailData = guidesDetailData;
             startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
             guideLayout.setVisibility(View.VISIBLE);
-            guideLayout.setData(guidesDetailData.avatar, guidesDetailData.guideName, guidesDetailData.countryName);
+            guideLayout.setData(guidesDetailData);
             requestData(new RequestGuideCrop(this, guidesDetailData.guideId));
         }
 
@@ -240,7 +240,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (action.getType()) {
             case CHOOSE_START_CITY_BACK:
                 CityBean cityBean = (CityBean) action.getData();
-                if (cityBean == null || startBean == cityBean || !CharterFirstStepActivity.TAG.endsWith(cityBean.fromTag)) {
+                if (cityBean == null || startBean == cityBean || !CharterFirstStepActivity.TAG.equals(cityBean.fromTag)) {
                     return;
                 }
                 startBean = cityBean;
@@ -384,7 +384,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (guidesDetailData == null) {
             return;
         }
-        RequestNewCars requestCars = new RequestNewCars(this, 1, guidesDetailData.guideId, null, 20, 0);
+        RequestNewCars requestCars = new RequestNewCars(this, 1, guidesDetailData.guideId, null);
         HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
