@@ -31,6 +31,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -98,6 +99,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
+        public String cityId;
     }
 
     @Override
@@ -143,9 +145,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             }
         });
 
-        if (params != null && params.guidesDetailData != null) {
-            guidesDetailData = params.guidesDetailData;
-            guideLayout.setData(guidesDetailData);
+        if (params != null) {
+            if (params.guidesDetailData != null) {
+                guidesDetailData = params.guidesDetailData;
+                guideLayout.setData(guidesDetailData);
+            }
+            if (!TextUtils.isEmpty(params.cityId)) {
+                setCityBean(DBHelper.findCityById(params.cityId));
+            }
         }
 
         carTypeView.setOnSelectedCarListener(this);
@@ -204,6 +211,23 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         }
     }
 
+    public boolean setCityBean(CityBean _cityBean) {
+        boolean isBreak = false;
+        if (_cityBean == null || (cityBean != null && cityBean.cityId == _cityBean.cityId)) {
+            isBreak = true;
+        }
+        cityBean = _cityBean;
+        cityLayout.setDesc(_cityBean.name);
+
+        emptyLayout.setVisibility(View.GONE);
+        carTypeView.setVisibility(View.GONE);
+        bottomView.setVisibility(View.GONE);
+        addressLayout.resetUI();
+        startPoiBean = null;
+        endPoiBean = null;
+        return isBreak;
+    }
+
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -222,18 +246,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     }
                     _cityBean = guideServiceCitys.getSelectedCityBean();
                 }
-                if (_cityBean == null || (cityBean != null && cityBean.cityId == _cityBean.cityId)) {
-                    break;
-                }
-                cityBean = _cityBean;
-                cityLayout.setDesc(_cityBean.name);
-
-                emptyLayout.setVisibility(View.GONE);
-                carTypeView.setVisibility(View.GONE);
-                bottomView.setVisibility(View.GONE);
-                addressLayout.resetUI();
-                startPoiBean = null;
-                endPoiBean = null;
+                setCityBean(_cityBean);
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean poiBean = (PoiBean) action.getData();

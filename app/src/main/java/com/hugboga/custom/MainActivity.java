@@ -41,8 +41,6 @@ import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.PickSendActivity2;
-import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
@@ -74,7 +72,6 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
-import com.hugboga.custom.widget.HomeCustomLayout;
 import com.hugboga.custom.widget.NoScrollViewPager;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
@@ -646,10 +643,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
-//                startActivity(new Intent(this, PickSendActivity2.class));
                 break;
             case R.id.tab_text_3:
-//                startActivity(new Intent(this, SingleActivity.class));
                 mViewPager.setCurrentItem(2);
                 break;
             case R.id.tab_text_4:

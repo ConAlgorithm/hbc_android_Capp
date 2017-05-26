@@ -6,7 +6,6 @@ import android.webkit.WebView;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BargainActivity;
 import com.hugboga.custom.activity.DailyWebInfoActivity;
-import com.hugboga.custom.activity.GuideDetailActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;

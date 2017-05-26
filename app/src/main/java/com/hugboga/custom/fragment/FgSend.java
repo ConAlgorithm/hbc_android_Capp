@@ -17,7 +17,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.OrderActivity;
-import com.hugboga.custom.activity.PickSendActivity2;
+import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
@@ -99,7 +99,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
 
-    private PickSendActivity2.Params params;
+    private PickSendActivity.Params params;
 
     @Override
     public int getContentViewId() {
@@ -110,11 +110,11 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            params = (PickSendActivity2.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
+            params = (PickSendActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getArguments();
             if (bundle != null) {
-                params = (PickSendActivity2.Params) bundle.getSerializable(Constants.PARAMS_DATA);
+                params = (PickSendActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
         EventBus.getDefault().register(this);

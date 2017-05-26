@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityHomeBean;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -29,7 +29,6 @@ import java.util.Map;
 import static com.hugboga.custom.R.id.cityHome_toolbar_custom_car;
 import static com.hugboga.custom.R.id.cityHome_toolbar_home_pick_send_airport;
 import static com.hugboga.custom.R.id.cityHome_toolbar_single_send;
-import static com.hugboga.custom.R.id.swipe;
 
 /**
  * Created by wbj on 2016/10/17.
@@ -264,16 +263,18 @@ public class CityHomeHeader extends LinearLayout implements HbcViewBehavior,View
      * */
     private void goPickSend(){
         Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra("source","首页");
+        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
         getContext().startActivity(intent);
     }
 
     private void goSingle(){
-        Intent intent = new Intent(getContext(),SingleNewActivity.class);
+        Intent intent = new Intent(getContext(),SingleActivity.class);
         if (cityHomeBean != null && cityHomeBean.cityContent != null) {
-            intent.putExtra(Constants.PARAMS_CITY_ID, "" + cityHomeBean.cityContent.cityId);
+            SingleActivity.Params singleParams = new SingleActivity.Params();
+            singleParams.cityId = "" + cityHomeBean.cityContent.cityId;
+            intent.putExtra(Constants.PARAMS_DATA, singleParams);
         }
-        intent.putExtra("source","首页");
+        intent.putExtra(Constants.PARAMS_SOURCE, "首页");
         getContext().startActivity(intent);
     }
 

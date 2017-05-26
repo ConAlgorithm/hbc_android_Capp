@@ -272,12 +272,12 @@ public class ChooseCityNewActivity extends BaseActivity {
 
                 if (groupList2.get(position).spot_id == -1) {
                     Intent intent = new Intent(activity, PickSendActivity.class);
-                    intent.putExtra("source",getIntentSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -2) {
-                    Intent intent = new Intent(activity, SingleNewActivity.class);
-                    intent.putExtra("source",getIntentSource());
+                    Intent intent = new Intent(activity, SingleActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                     startActivity(intent);
 
                 } else if (groupList2.get(position).spot_id == -3) {
