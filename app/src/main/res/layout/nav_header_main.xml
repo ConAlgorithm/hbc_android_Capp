@@ -11,18 +11,18 @@
         android:layout_height="110dp"
         android:background="@mipmap/personal_background">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/set_layout"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_alignParentRight="true">
 
             <ImageView
                 android:id="@+id/set"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/personal_set" />
 
@@ -31,17 +31,17 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="42dp"
                 android:background="@drawable/red_set_pwd" />
-        </RelativeLayout>
+        </FrameLayout>
 
 
         <RelativeLayout
             android:id="@+id/ll_login_click_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/set_layout"
-            android:layout_marginTop="-10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
 
