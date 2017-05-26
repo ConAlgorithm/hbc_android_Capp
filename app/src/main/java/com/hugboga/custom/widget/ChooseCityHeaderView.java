@@ -48,41 +48,43 @@ public class ChooseCityHeaderView extends LinearLayout{
 
     private ChooseCityActivity chooseCityActivity;
 
-    private LinearLayout lociationTitleView;
-    private LinearLayout historyTitleView;
+    //private LinearLayout lociationTitleView;
+    public LinearLayout historyTitleView;
     private LinearLayout hotCityTitleView;
-
-    private TextView lociationTV;
+    private boolean isPickUp = false;
+    //private TextView lociationTV;
     private TagGroup historyLayout;
     private TagGroup hotCityLayout;
 
     private int tagWidth;
     private int tagHight;
-
     private CityBean locationCityBean;
     private List<CityBean> historyList;
     private List<CityBean> hotCityList;
 
-
     public ChooseCityHeaderView(Context context) {
+        super(context);
+    }
+
+    public ChooseCityHeaderView(Context context , final boolean isPickUp) {
         super(context, null);
         this.chooseCityActivity = (ChooseCityActivity) context;
 
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(0xFFEBEBEB);
 
-        final int paddingLeft = UIUtils.dip2px(15);
-        final int paddingRight = UIUtils.dip2px(30);
+        final int paddingLeft = UIUtils.dip2px(12);
+        final int paddingRight = UIUtils.dip2px(25);
         setPadding(paddingLeft, 0, paddingRight, UIUtils.dip2px(13));
-        tagWidth = (UIUtils.getScreenWidth() - paddingLeft - paddingRight - UIUtils.dip2px(10) * 2) / 3;
-        tagHight = UIUtils.dip2px(40);
+        tagWidth = (UIUtils.getScreenWidth() - paddingLeft - paddingRight - UIUtils.dip2px(10) * 2) / 4;
+        tagHight = UIUtils.dip2px(30);
 
-        lociationTitleView = getSubTitleLayout(R.mipmap.icon_search_location, getContext().getString(R.string.choose_city_subtitle_location));
-        lociationTV = getTagView("定位失败");
-        this.addView(lociationTV);
-        lociationTitleView.setVisibility(View.GONE);
-        lociationTV.setVisibility(View.GONE);
-        lociationTV.setOnClickListener(new OnClickListener() {
+        //lociationTitleView = getSubTitleLayout(R.mipmap.icon_search_location, getContext().getString(R.string.choose_city_subtitle_location));
+        //lociationTV = getTagView("定位失败");
+        //this.addView(lociationTV);
+        //lociationTitleView.setVisibility(View.GONE);
+        //lociationTV.setVisibility(View.GONE);
+        /*lociationTV.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (locationCityBean == null) {
@@ -91,15 +93,28 @@ public class ChooseCityHeaderView extends LinearLayout{
                     chooseCityActivity.onItemClick(locationCityBean);
                 }
             }
-        });
-
-        historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, getContext().getString(R.string.choose_city_subtitle_history));
+        });*/
+        this.isPickUp = isPickUp;
+        if(isPickUp){
+            historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, "定位/历史");
+        }else{
+            historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, "历史足迹");
+        }
         historyLayout = getTagGroup();
         historyTitleView.setVisibility(View.GONE);
         historyLayout.setVisibility(View.GONE);
         historyLayout.setOnTagItemClickListener(new TagGroup.OnTagItemClickListener() {
             @Override
             public void onTagClick(View view, int position) {
+                //第一个是当前定位
+                if(isPickUp && position == 0){
+                    if (locationCityBean == null) {
+                        initLocation(position);
+                    } else {
+                        chooseCityActivity.onItemClick(locationCityBean);
+                    }
+                    return;
+                }
                 if (historyList != null && position < historyList.size()) {
                     chooseCityActivity.onItemClick(historyList.get(position));
                 }
@@ -121,7 +136,11 @@ public class ChooseCityHeaderView extends LinearLayout{
     }
 
     public void setLociationData(CityBean cityBean, boolean isPickUp) {
-        if (cityBean == null && !isPickUp) {
+        if(isPickUp){
+            this.isPickUp = true;
+            locationCityBean = cityBean;
+        }
+        /*if (cityBean == null && !isPickUp) {
             lociationTitleView.setVisibility(View.GONE);
             lociationTV.setVisibility(View.GONE);
         } else {
@@ -135,7 +154,7 @@ public class ChooseCityHeaderView extends LinearLayout{
                 lociationTV.setTextColor(0xFF333333);
                 lociationTV.setText(locationCityBean.name);
             }
-        }
+        }*/
     }
 
     public void setHistoryData(List<CityBean> cityList) {
@@ -151,13 +170,37 @@ public class ChooseCityHeaderView extends LinearLayout{
             ArrayList<View> viewList = new ArrayList<View>(tagSize);
             for (int i = 0; i < tagSize; i++) {
                 CityBean cityBean = cityList.get(i);
-                if (i < historyLayout.getChildCount()) {
-                    TextView tagView = (TextView) historyLayout.getChildAt(i);
-                    tagView.setText(cityBean.name);
-                    tagView.setVisibility(View.VISIBLE);
-                } else {
-                    viewList.add(getTagView(cityBean.name));
+                if(isPickUp ){
+                    if(i==0 && cityBean == null){
+                        String cityName = "定位失败";
+
+                        if (i < historyLayout.getChildCount()) {
+                            TextView tagView = (TextView) historyLayout.getChildAt(i);
+                            tagView.setText(cityName);
+                            tagView.setVisibility(View.VISIBLE);
+                        } else {
+                            viewList.add(getTagViewForNotLocation(cityName));
+                        }
+                    }else {
+                        if (i < historyLayout.getChildCount()) {
+                            TextView tagView = (TextView) historyLayout.getChildAt(i);
+                            tagView.setText(cityBean.name);
+                            tagView.setVisibility(View.VISIBLE);
+                        } else {
+                            viewList.add(getTagView(cityBean.name));
+                        }
+                    }
+
+                }else{
+                    if (i < historyLayout.getChildCount()) {
+                        TextView tagView = (TextView) historyLayout.getChildAt(i);
+                        tagView.setText(cityBean.name);
+                        tagView.setVisibility(View.VISIBLE);
+                    } else {
+                        viewList.add(getTagView(cityBean.name));
+                    }
                 }
+
             }
             for (int j = tagSize; j < historyLayout.getChildCount(); j++) {
                 historyLayout.getChildAt(j).setVisibility(View.GONE);
@@ -231,15 +274,32 @@ public class ChooseCityHeaderView extends LinearLayout{
         TextView tagTV = new TextView(getContext());
         tagTV.setMaxLines(2);
         tagTV.setEllipsize(TextUtils.TruncateAt.END);
-        tagTV.setPadding(UIUtils.dip2px(3), 0, UIUtils.dip2px(3), 0);
+        tagTV.setPadding(UIUtils.dip2px(2), 0, UIUtils.dip2px(2), 0);
         tagTV.setGravity(Gravity.CENTER);
         tagTV.setBackgroundResource(R.drawable.shape_rounded_white_btn);
-        tagTV.setTextColor(0xFF333333);
-        tagTV.setTextSize(15);
+        tagTV.setTextColor(0xFF7F7F7F);
+        tagTV.setTextSize(10);
         tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
         return tagTV;
     }
 
+    private TextView getTagViewForNotLocation() {
+        TextView tagTV = new TextView(getContext());
+        tagTV.setMaxLines(2);
+        tagTV.setEllipsize(TextUtils.TruncateAt.END);
+        tagTV.setPadding(UIUtils.dip2px(2), 0, UIUtils.dip2px(2), 0);
+        tagTV.setGravity(Gravity.CENTER);
+        tagTV.setBackgroundResource(R.drawable.shape_rounded_red_btn);
+        tagTV.setTextColor(0xFFFF2525);
+        tagTV.setTextSize(10);
+        tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
+        return tagTV;
+    }
+    private TextView getTagViewForNotLocation(String title){
+        TextView tagTV = getTagViewForNotLocation();
+        tagTV.setText(title);
+        return tagTV;
+    }
     private TextView getTagView(String title) {
         TextView tagTV = getTagView();
         tagTV.setText(title);
@@ -248,9 +308,9 @@ public class ChooseCityHeaderView extends LinearLayout{
 
     private TagGroup getTagGroup() {
         TagGroup tagGroup = new TagGroup(getContext());
-        tagGroup.setVerticalSpacing(UIUtils.dip2px(10));
-        tagGroup.setHorizontalSpacing(UIUtils.dip2px(10));
-        tagGroup.setPadding(0,0,0,UIUtils.dip2px(10));
+        tagGroup.setVerticalSpacing(UIUtils.dip2px(5));
+        tagGroup.setHorizontalSpacing(UIUtils.dip2px(5));
+        tagGroup.setPadding(0,0,0,UIUtils.dip2px(5));
         addView(tagGroup);
         return tagGroup;
     }
@@ -259,10 +319,13 @@ public class ChooseCityHeaderView extends LinearLayout{
         if (locationCityBean != null) {
             return;
         }
-        if (lociationTV != null) {
+        if(isPickUp && historyLayout.getChildCount() > 0){
+            ((TextView) historyLayout.getChildAt(0)).setText("重新获取中");
+        }
+        /*if (lociationTV != null) {
             lociationTV.setText("重新获取中");
             lociationTV.setTextColor(0xFFf7c216);
-        }
+        }*/
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -283,7 +346,7 @@ public class ChooseCityHeaderView extends LinearLayout{
 
     LocationManager locationManager;
     LocationListener locationListener;
-    public void initLocation() {
+    public void initLocation(int position) {
         if(!LocationUtils.gpsIsOpen(getContext())){
             AlertDialog dialog = AlertDialogUtils.showAlertDialog(getContext(), "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
                 @Override
@@ -306,10 +369,13 @@ public class ChooseCityHeaderView extends LinearLayout{
             public void onLocationChanged(Location location) {
                 LocationUtils.saveLocationInfo(getContext(), location.getLatitude()+"",location.getLongitude()+"");
                 if (!TextUtils.isEmpty(location.getLatitude()+"") && locationCityBean == null) {
-                    if (lociationTV != null) {
+                    if(isPickUp && historyLayout.getChildCount() > 0){
+                        ((TextView) historyLayout.getChildAt(0)).setText("重新获取中");
+                    }
+                    /*if (lociationTV != null) {
                         lociationTV.setText("重新获取中");
                         lociationTV.setTextColor(0xFFf7c216);
-                    }
+                    }*/
                     RequestUploadLocation requestUploadLocation = new RequestUploadLocation(getContext());
                     HttpRequestUtils.request(getContext(), requestUploadLocation, new HttpRequestListener() {
                         @Override
@@ -325,10 +391,14 @@ public class ChooseCityHeaderView extends LinearLayout{
                             locationCityBean = new CityBean();
                             locationCityBean.cityId = CommonUtils.getCountInteger(cityId);
                             locationCityBean.name = cityName;
-                            if (lociationTV != null) {
+
+                            if(isPickUp && historyLayout.getChildCount() > 0){
+                                ((TextView) historyLayout.getChildAt(0)).setText(cityName);
+                            }
+                            /*if (lociationTV != null) {
                                 lociationTV.setText(cityName);
                                 lociationTV.setTextColor(0xFF333333);
-                            }
+                            }*/
                         }
 
                         @Override
@@ -338,9 +408,13 @@ public class ChooseCityHeaderView extends LinearLayout{
 
                         @Override
                         public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                            if (lociationTV != null) {
+                            /*if (lociationTV != null) {
                                 lociationTV.setText("定位失败");
                                 lociationTV.setTextColor(0xFFf7c216);
+                                checkGpsOpen();
+                            }*/
+                            if(isPickUp && historyLayout.getChildCount() > 0){
+                                ((TextView) historyLayout.getChildAt(0)).setText("定位失败");
                                 checkGpsOpen();
                             }
                         }

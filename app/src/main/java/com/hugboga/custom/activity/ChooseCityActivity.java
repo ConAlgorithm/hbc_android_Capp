@@ -94,8 +94,16 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     ChooseCityTabLayout tabLayout;
     @Bind(R.id.head_search)
     EditText editSearch;
-    @Bind(R.id.head_text_right)
-    TextView searchTV;
+    @Bind(R.id.choose_city_tab_inland_line)
+    View inlandLineView;
+    @Bind(R.id.choose_city_tab_foreign_line)
+    View foreignLineView;
+    @Bind(R.id.choose_city_tab_inland_tv)
+    TextView inlandTV;
+    @Bind(R.id.choose_city_tab_foreign_tv)
+    TextView foreignTV;
+//    @Bind(R.id.head_text_right)
+//    TextView searchTV;
 
     @Bind(R.id.choose_city_head_layout)
     View chooseCityHeadLayout;
@@ -136,6 +144,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     private List<CityBean> hotCityList;
     private List<CityBean> historyList;
+    private List<CityBean> locationAndHistory = new ArrayList<CityBean>();
 
     public volatile int cityId = -1;
     public volatile int countryId = -1;
@@ -223,7 +232,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    hideInputMethod(searchTV);
+                    //hideInputMethod(searchTV);
                     finish();
                     overridePendingTransition(R.anim.push_buttom_out,0);
                 }
@@ -237,15 +246,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    hideInputMethod(searchTV);
+                    //hideInputMethod(searchTV);
                     finish();
                 }
             });
         }
 
 
-        searchTV.setText(getString(R.string.dialog_btn_cancel));
-        searchTV.setVisibility(GONE);
+        //searchTV.setText(getString(R.string.dialog_btn_cancel));
+        //searchTV.setVisibility(GONE);
         headerLeftBtn.setVisibility(View.VISIBLE);
 
         mDialogUtil = DialogUtil.getInstance(this);
@@ -274,7 +283,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             chooseCityHeadLayout.setVisibility(View.VISIBLE);
             chooseBtn.setVisibility(View.VISIBLE);
         } else {
-            headerView = new ChooseCityHeaderView(ChooseCityActivity.this);
+            boolean isPickUp = showType == ShowType.PICK_UP? true:false;
+            headerView = new ChooseCityHeaderView(ChooseCityActivity.this,isPickUp);
             headerView.setBackgroundColor(getResources().getColor(R.color.allbg_white));
             headerRootView = new FrameLayout(this);
             headerRootView.addView(headerView);
@@ -295,9 +305,15 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         editSearch.setHint("请输入城市名称");
         if ("startAddress".equals(from)) {
             editSearch.setHint("请输入城市名称");
+            if(ShowType.PICK_UP == showType){
+                tabLayout.setInland(true);
+            }
         } else if ("end".equals(from)) {
             editSearch.setHint("请输入城市名称");
-            tabLayout.findViewById(R.id.choose_city_tab_foreign_layout).performClick();
+            if(ShowType.PICK_UP == showType){
+                tabLayout.setInland(false);
+            }
+            //tabLayout.findViewById(R.id.choose_city_tab_foreign_layout);
         } else if (showType == ShowType.SELECT_CITY) {
             editSearch.setHint("搜索途经城市");
         } else if (mBusinessType == Constants.BUSINESS_TYPE_RENT) {
@@ -308,11 +324,26 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         sharedPer = new SharedPre(this);
         mDbManager = new DBHelper(this).getDbManager();
-
+        if(ShowType.PICK_UP == showType){
+            resetTab();
+        }
         doInBackground();
         requestData();
     }
 
+    private void resetTab(){
+        if(tabLayout.isInland()){
+            inlandLineView.setVisibility(View.VISIBLE);
+            foreignLineView.setVisibility(View.GONE);
+            inlandTV.setTextColor(getResources().getColor(R.color.common_font_color_black));
+            foreignTV.setTextColor(getResources().getColor(R.color.common_font_air));
+        }else{
+            inlandLineView.setVisibility(View.GONE);
+            foreignLineView.setVisibility(View.VISIBLE);
+            inlandTV.setTextColor(getResources().getColor(R.color.common_font_air));
+            foreignTV.setTextColor(getResources().getColor(R.color.common_font_color_black));
+        }
+    }
     private void requestData() {
         processSelectedData();
         onPreExecuteHandler.sendEmptyMessage(MessageType.ALL_CITY);
@@ -350,12 +381,16 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     @Override
     public void afterTextChanged(Editable s) {
         emptyTV.setVisibility(GONE);
-        emptyIV.setVisibility(GONE);
+        if(editSearch!=null && editSearch.getText().length()>0){
+            headSearchClean.setVisibility(View.VISIBLE);
+        }else if(editSearch==null || editSearch.getText().length() == 0){
+            headSearchClean.setVisibility(View.GONE);
+        }
         if (TextUtils.isEmpty(s) || TextUtils.isEmpty(s.toString().trim())) {
             mListview.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
-            searchTV.setVisibility(GONE);
-            headerLeftBtn.setVisibility(View.VISIBLE);
+            //searchTV.setVisibility(GONE);
+            //headerLeftBtn.setVisibility(View.VISIBLE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
                 headerRootView.addView(headerView, UIUtils.getScreenWidth(), FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -373,8 +408,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             params.topMargin = -UIUtils.dip2px(32);
             mListview.setLayoutParams(params);
 
-            searchTV.setVisibility(View.VISIBLE);
-            headerLeftBtn.setVisibility(View.GONE);
+            //searchTV.setVisibility(View.VISIBLE);
+            //headerLeftBtn.setVisibility(View.GONE);
             if (showType != ShowType.SELECT_CITY) {
                 headerRootView.removeAllViews();
                 if (showType == ShowType.PICK_UP) {
@@ -457,7 +492,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         }
     }
 
-    @OnClick({R.id.city_choose_btn, R.id.head_search_clean, R.id.head_text_right, R.id.header_left_btn})
+    @OnClick({R.id.city_choose_btn, R.id.head_search_clean, /*R.id.head_text_right,*/ R.id.header_left_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.city_choose_btn:
@@ -476,7 +511,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 hideInputMethod(editSearch);
                 finish();
                 break;
-            case R.id.head_text_right:
+            /*case R.id.head_text_right:
                 String keyword = editSearch.getText().toString().trim();
                 if (TextUtils.isEmpty(keyword)) {
                     CommonUtils.showToast("请输入搜索内容");
@@ -486,7 +521,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                 searchTV.setVisibility(GONE);
                 headerLeftBtn.setVisibility(View.VISIBLE);
                 collapseSoftInputMethod(editSearch);
-                break;
+                break;*/
         }
     }
 
@@ -598,8 +633,14 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         if (cityHistory == null) cityHistory = new ArrayList<String>();
         cityHistory.remove(String.valueOf(cityBean.cityId));//排重
         cityHistory.add(0, String.valueOf(cityBean.cityId));
-        for (int i = cityHistory.size() - 1; i > 2; i--) {
-            cityHistory.remove(i);
+        if(showType == ShowType.PICK_UP){
+            for (int i = cityHistory.size() - 1; i > 2; i--) {
+                cityHistory.remove(i);
+            }
+        }else{
+            for (int i = cityHistory.size() - 1; i > 3; i--) {
+                cityHistory.remove(i);
+            }
         }
         sharedPer.saveStringValue(mBusinessType + SharedPre.RESOURCES_CITY_HISTORY, TextUtils.join(",", cityHistory));
     }
@@ -750,7 +791,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (showType != ShowType.SELECT_CITY) {
                         onPreExecuteHandler.sendEmptyMessage(MessageType.HOT_CITY);
                         if (showType != ShowType.GROUP_START && showType != ShowType.GROUP_OUTTOWN && showType != ShowType.CITY_LIST) {
-                            onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
+                            if(showType != ShowType.PICK_UP){
+                                onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
+                            }
                             onPreExecuteHandler.sendEmptyMessage(MessageType.LOCATION);
                         }
                     }
@@ -877,16 +920,44 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (msg.obj == null) {
                         break;
                     }
-                    historyList = (List<CityBean>) msg.obj;
-                    headerView.setHistoryData(historyList);
-                    setSectionIndices();
+                    if(showType == ShowType.PICK_UP){
+                        historyList = (List<CityBean>) msg.obj;
+                        if(locationAndHistory.size() >0){
+                            //locationAndHistory.clear();
+                            locationAndHistory.addAll(historyList);
+                            headerView.setHistoryData(locationAndHistory);
+                        }
+                        setSectionIndices();
+                    }else{
+                        historyList = (List<CityBean>) msg.obj;
+                        headerView.setHistoryData(historyList);
+                        setSectionIndices();
+                    }
+
                     break;
                 case MessageType.LOCATION:
                     CityBean cityBean = null;
                     if (msg.obj instanceof CityBean) {
                         cityBean = (CityBean) msg.obj;
                     }
-                    headerView.setLociationData(cityBean, showType == ShowType.PICK_UP);
+
+                    if(showType == ShowType.PICK_UP) {
+                        headerView.setLociationData(cityBean, showType == ShowType.PICK_UP);
+                        //locationAndHistory = new ArrayList<CityBean>();
+                        if (locationAndHistory != null) {
+                            locationAndHistory.clear();
+                        }
+                        locationAndHistory.add(0, cityBean);
+                        headerView.setHistoryData(locationAndHistory);
+
+                        if (showType != ShowType.GROUP_START && showType != ShowType.GROUP_OUTTOWN && showType != ShowType.CITY_LIST) {
+                            onPreExecuteHandler.sendEmptyMessage(MessageType.SEARCH_HISTORY);
+                        }
+                        setSectionIndices();
+                    }else{
+                        headerView.setLociationData(cityBean, showType == ShowType.PICK_UP);
+                    }
+
                     break;
             }
         }

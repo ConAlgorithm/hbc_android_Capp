@@ -1,9 +1,11 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,8 +63,6 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     TextView numberflite;
     @Bind(R.id.loading_layout)
     RelativeLayout loading;
-    @Bind(R.id.showall)
-    TextView showall;
     /*@Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
@@ -73,7 +73,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     TextView headerRightTxt;*/
     @Bind(R.id.flight_list)
     ListView flightList;
-
+    private LinearLayout footerLayout;
     private FlightAdapter mAdapter;
     private ArrayList<FlightBean> mListDate;
     private int flightType = 1;//1:按航班查询，2按城市查询
@@ -114,6 +114,11 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         listView.setAdapter(mAdapter);
         View emptyView = findViewById(R.id.flight_empty_layout);
         listView.setEmptyView(emptyView);
+
+        footerLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.flight_show_all, null);
+        footerLayout.setVisibility(View.GONE);
+        listView.addFooterView(footerLayout);
+
         listView.setOnItemClickListener(this);
         emptyView.setVisibility(View.GONE);
         flightNo = getIntent().getStringExtra(KEY_FLIGHT_NO);
@@ -186,7 +191,10 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }else{
             numberflite.setVisibility(View.VISIBLE);
             numberflite.setText("共"+count+"趟"+" "+"请确认您的航班");
-            showall.setVisibility(View.VISIBLE);
+            if(footerLayout!=null){
+                footerLayout.setVisibility(View.VISIBLE);
+            }
+
         }
         /*try {
             String tFlightDate = DateUtils.getWeekStrByDate(flightDate, DateUtils.dateDateFormat, DateUtils.dateWeekFormat2);
@@ -206,7 +214,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         super.onDataRequestError(errorInfo, request);
         loading.setVisibility(View.GONE);
         numberflite.setVisibility(View.GONE);
-        showall.setVisibility(View.GONE);
+        footerLayout.setVisibility(View.GONE);
     }
 
     protected void inflateContent() {
