@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -228,6 +229,9 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         super.onDataRequestSucceed(request);
         if(request instanceof PasswordInitSet){
             CommonUtils.showToast("密码设置成功");
+            Intent intent = new Intent();
+            intent.putExtra("needInitPwd",false);
+            setResult(SettingActivity.RESULT_OK, intent);
             finish();
         }
     }

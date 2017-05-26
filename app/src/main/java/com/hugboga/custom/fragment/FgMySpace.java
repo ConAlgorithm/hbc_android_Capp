@@ -237,8 +237,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundTV.setTextColor(0xffffc100);
             travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
             travelFundUnitTV.setTextColor(0xffffc100);
-            refreshUserInfo();
         }
+        refreshUserInfo();
     }
 
     @Override
@@ -328,6 +328,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case R.id.set_layout:
                 //if (isLogin("个人中心-设置")) {
                     intent = new Intent(getContext(),SettingActivity.class);
+                    intent.putExtra("needInitPwd",UserEntity.getUser().getNeedInitPwd(getContext()));
                     startActivity(intent);
                 //}
                 break;

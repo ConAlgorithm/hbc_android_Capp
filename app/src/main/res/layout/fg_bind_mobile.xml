@@ -178,7 +178,7 @@
             android:enabled="false"
             android:textColor="@color/basic_white"
             android:textSize="@dimen/text_size_large" />
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bind_mobile_submit"
@@ -207,7 +207,7 @@
                 android:text="@string/user_info_tip"
                 android:textColor="#a8a8a8"
                 android:textSize="@dimen/text_size_medium" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
     </LinearLayout>
 

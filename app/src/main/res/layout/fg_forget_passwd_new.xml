@@ -182,7 +182,7 @@
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
         android:background="@drawable/login2_selector_bg"
-        android:text="登录"
+        android:text="确定"
         android:enabled="false"
         android:textColor="@color/basic_white"
         android:textSize="@dimen/text_size_large" />

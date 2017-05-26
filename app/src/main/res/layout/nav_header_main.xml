@@ -32,7 +32,8 @@
                 android:layout_height="8dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="42dp"
-                android:background="@drawable/red_set_pwd" />
+                android:background="@drawable/red_set_pwd"
+                android:visibility="gone"/>
         </FrameLayout>
 
 
