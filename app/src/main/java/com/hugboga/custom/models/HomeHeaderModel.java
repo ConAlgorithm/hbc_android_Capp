@@ -6,13 +6,10 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.SuperscriptSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
@@ -20,13 +17,12 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.MediaPlayerActivity;
 import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.TravelPurposeFormActivity;
 import com.hugboga.custom.activity.TravelPurposeFormListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -43,8 +39,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.nineoldandroids.view.ViewHelper;
-
-import org.xutils.http.annotation.HttpRequest;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -227,7 +221,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 intentActivity(v.getContext(),PickSendActivity.class, StatisticConstant.LAUNCH_J);
                 break;
             case R.id.home_single_layout:
-                intentActivity(v.getContext(),SingleNewActivity.class, StatisticConstant.LAUNCH_C);
+                intentActivity(v.getContext(),SingleActivity.class, StatisticConstant.LAUNCH_C);
                 break;
             case R.id.home_help:
                 if (CommonUtils.isLogin(v.getContext())){

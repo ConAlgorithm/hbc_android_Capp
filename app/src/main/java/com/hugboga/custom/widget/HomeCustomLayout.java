@@ -14,7 +14,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.activity.SingleNewActivity;
+import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -72,7 +72,7 @@ public class HomeCustomLayout extends LinearLayout{
                 intentActivity(PickSendActivity.class, StatisticConstant.LAUNCH_J);
                 break;
             case R.id.home_custom_single_layout://单次接送
-                intentActivity(SingleNewActivity.class, StatisticConstant.LAUNCH_C);
+                intentActivity(SingleActivity.class, StatisticConstant.LAUNCH_C);
                 break;
             case R.id.home_custom_travelfund_layout:
                 if (!UserEntity.getUser().isLogin(getContext())) {

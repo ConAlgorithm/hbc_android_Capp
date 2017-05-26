@@ -29,10 +29,8 @@ import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.activity.PickSendActivity2;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
 import com.hugboga.custom.activity.SingleActivity;
-import com.hugboga.custom.activity.SingleNewActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -382,7 +380,6 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 Intent intent = new Intent(mActivity, PickSendActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_DAIRY);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
             }
@@ -397,7 +394,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(mActivity, SingleNewActivity.class);
+                Intent intent = new Intent(mActivity, SingleActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 mActivity.startActivity(intent);
             }
@@ -684,15 +681,6 @@ public class WebAgent implements HttpRequestListener {
                 if (data == null) {
                     return;
                 }
-                CollectGuideBean collectBean = new CollectGuideBean();
-                collectBean.guideId = data.guideId;
-                collectBean.name = data.guideName;
-                collectBean.cityName = data.guideCityName;
-                collectBean.isQuality = data.isQuality;
-                collectBean.cityId = CommonUtils.getCountInteger(data.guideCityId);
-                Intent intent = null;
-
-
                 GuidesDetailData guidesDetailData = new GuidesDetailData();
                 guidesDetailData.guideId = data.guideId;
                 guidesDetailData.guideName = data.guideName;
@@ -702,32 +690,23 @@ public class WebAgent implements HttpRequestListener {
                 guidesDetailData.cityName = data.guideCityName;
                 guidesDetailData.isQuality = data.isQuality;
 
+                Intent intent = null;
                 switch (data.orderType) {
                     case 1://1：接送机
                         intent = new Intent(mActivity, PickSendActivity.class);
-                        intent.putExtra("collectGuideBean", collectBean);
-                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
+                        PickSendActivity.Params params = new PickSendActivity.Params();
+                        params.guidesDetailData = guidesDetailData;
+                        intent.putExtra(Constants.PARAMS_DATA, params);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
-//                          intent = new Intent(mActivity, PickSendActivity2.class);
-//                          PickSendActivity2.Params params = new PickSendActivity2.Params();
-//                          params.guidesDetailData = guidesDetailData;
-//                          intent.putExtra(Constants.PARAMS_DATA, params);
-//                          intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-//                          mActivity.startActivity(intent);
                         break;
                     case 2://2：单次接送
-                        intent = new Intent(mActivity, SingleNewActivity.class);
-                        intent.putExtra("collectGuideBean", collectBean);
-                        intent.putExtra(Constants.PARAMS_CITY_ID, data.guideCityId);
+                        intent = new Intent(mActivity, SingleActivity.class);
+                        SingleActivity.Params singleParams = new SingleActivity.Params();
+                        singleParams.guidesDetailData = guidesDetailData;
+                        intent.putExtra(Constants.PARAMS_DATA, singleParams);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
-//                        intent = new Intent(mActivity, SingleActivity.class);
-//                        SingleActivity.Params params2 = new SingleActivity.Params();
-//                        params2.guidesDetailData = guidesDetailData;
-//                        intent.putExtra(Constants.PARAMS_DATA, params2);
-//                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-//                        mActivity.startActivity(intent);
                         break;
                     case 3://3：包车
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);

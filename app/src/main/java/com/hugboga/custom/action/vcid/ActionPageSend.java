@@ -19,7 +19,9 @@ public class ActionPageSend extends ActionPageBase {
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
         Intent intent = new Intent(context, PickSendActivity.class);
-        intent.putExtra(Constants.PARAMS_TYPE, 1);
+        PickSendActivity.Params params = new PickSendActivity.Params();
+        params.type = 1;
+        intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
         context.startActivity(intent);
     }

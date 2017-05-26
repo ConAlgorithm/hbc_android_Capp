@@ -21,7 +21,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
-import com.hugboga.custom.activity.GuideDetailActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
