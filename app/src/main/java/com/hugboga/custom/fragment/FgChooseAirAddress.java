@@ -409,10 +409,8 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
         //String time1Str = addressTips.getText().toString();
         if (!TextUtils.isEmpty(from) && !TextUtils.isEmpty(to) && !TextUtils.isEmpty(dateFormat)) {
             search.setEnabled(true);
-            search.setBackgroundColor(Color.parseColor("#fad027"));
         } else {
             search.setEnabled(false);
-            search.setBackgroundColor(Color.parseColor("#d5dadb"));
         }
 
     }

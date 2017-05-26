@@ -180,12 +180,11 @@
 
             <Button
                 android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_width="350dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:background="#cccccc"
+                android:background="@drawable/login2_selector_bg"
                 android:enabled="false"
                 android:gravity="center"
                 android:text="@string/choose_search"

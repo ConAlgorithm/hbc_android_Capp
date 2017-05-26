@@ -430,10 +430,8 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         if (!TextUtils.isEmpty(noStr) && !TextUtils.isEmpty(dateFormat)) {
             numberTips.setTextColor(getResources().getColor(R.color.common_font_color_black));
             search.setEnabled(true);
-            search.setBackgroundColor(Color.parseColor("#ffce00"));
         }else{
-            search.setEnabled(true);
-            search.setBackgroundColor(Color.parseColor("#cccccc"));
+            search.setEnabled(false);
         }
 
     }
