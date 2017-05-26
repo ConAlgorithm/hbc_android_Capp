@@ -57,8 +57,6 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
     TextView getCodeBtn;
     @Bind(R.id.bind_mobile_time)
     TextView timeTextView;
-    @Bind(R.id.miaoshu2)
-    TextView miaoshu2;
     @Bind(R.id.bind_mobile_submit)
     Button login_submit;
     @Bind(R.id.delete)
@@ -85,7 +83,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         EventBus.getDefault().register(this);
         requestData();
         initView();
-        OrderUtils.genUserAgreeMent(this,miaoshu2);
+        //OrderUtils.genUserAgreeMent(this,miaoshu2);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -66,7 +67,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     ListView listView;
     /*@Bind(R.id.red_point)*/
     ImageView redPoint;
-    ImageView set;
+    FrameLayout set;
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
@@ -148,7 +149,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
         tv_nickname.setOnClickListener(this);
-        set = (ImageView) header.findViewById(R.id.set);
+        set = (FrameLayout) header.findViewById(R.id.set_layout);
         set.setOnClickListener(this);
         couponTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_tv);//优惠券
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
@@ -236,8 +237,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundTV.setTextColor(0xffffc100);
             travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
             travelFundUnitTV.setTextColor(0xffffc100);
-            refreshUserInfo();
         }
+        refreshUserInfo();
     }
 
     @Override
@@ -324,9 +325,10 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
                 }
                 break;
-            case R.id.set:
+            case R.id.set_layout:
                 //if (isLogin("个人中心-设置")) {
                     intent = new Intent(getContext(),SettingActivity.class);
+                    intent.putExtra("needInitPwd",UserEntity.getUser().getNeedInitPwd(getContext()));
                     startActivity(intent);
                 //}
                 break;

@@ -140,6 +140,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 delete.setVisibility(View.GONE);
             }
         }
+        if(phoneEditText!=null){
+            if(phoneEditText.getText().toString().length() >0){
+                verify.setTextColor(getResources().getColor(R.color.forget_pwd));
+            }else{
+                verify.setTextColor(getResources().getColor(R.color.common_font_color_gray));
+            }
+        }
         phoneEditText.addTextChangedListener(this);
         areaCodeTextView.addTextChangedListener(this);
         loginPassword.addTextChangedListener(this);
@@ -155,7 +162,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     }
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        if(phoneEditText.hasFocus()){
+            phoneEditText.setSelection(phoneEditText.getText().toString().length());
+        }
     }
 
     @Override
@@ -170,8 +179,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
         if(phone.length() >0){
             delete.setVisibility(View.VISIBLE);
+            verify.setTextColor(getResources().getColor(R.color.forget_pwd));
         }else{
             delete.setVisibility(View.GONE);
+            verify.setTextColor(getResources().getColor(R.color.common_font_color_gray));
         }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
@@ -179,6 +190,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         } else {
             login_submit.setEnabled(false);
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+
+        if(phoneEditText.hasFocus()){
+            phoneEditText.setSelection(phoneEditText.getText().toString().length());
         }
     }
     public void loginCheckOpenId(String code) {
@@ -236,7 +251,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onStop() {
         super.onStop();
-        hideInputMethod(phoneEditText);
+        hideInputMethod(areaCodeTextView);
         this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
@@ -329,12 +344,14 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 if(verify!= null){
                     verify.setText("   ("+String.valueOf(time--) + "s)");
                     verify.setTextColor(0xffa8a8a8);
+                    verify.setEnabled(false);
                 }
                 handler.postDelayed(this, 1000);
             } else {
                 if(verify!= null){
                     verify.setText("获取验证码");
                     verify.setTextColor(0xff24B5FF);
+                    verify.setEnabled(true);
                 }
             }
 
@@ -349,7 +366,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             verify.setTextColor(0xff24B5FF);
             phoneEditText.setText(phone);
         }else if(request instanceof  RequestLoginBycaptcha){
-            CommonUtils.showToast("验证码错误，请重新输入");
+            //CommonUtils.showToast("验证码错误，请重新输入");
 
         }
         super.onDataRequestError(errorInfo, request);
@@ -421,6 +438,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 }
                 RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone,4);
                 requestData(requestVerity);
+                break;
             case R.id.delete:
                 phoneEditText.setText("");
                 break;

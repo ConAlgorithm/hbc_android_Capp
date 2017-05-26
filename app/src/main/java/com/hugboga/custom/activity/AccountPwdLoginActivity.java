@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -36,6 +37,7 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -83,6 +85,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         initView(getIntent());
+        EventBus.getDefault().register(this);
     }
     private void initView(Intent intent) {
         fgTitle.setText("账号密码登录");
@@ -202,7 +205,21 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 break;
         }
     }
-
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CHOOSE_COUNTRY_BACK:
+                if (!(action.getData() instanceof AreaCodeBean)) {
+                    break;
+                }
+                AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
+                if (areaCodeBean == null) {
+                    break;
+                }
+                areaCodeTextView.setText("+" + areaCodeBean.getCode());
+                break;
+        }
+    }
     /**
      * 进行登录
      */
@@ -252,6 +269,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -368,4 +386,5 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         //关闭窗体动画显示
         //this.overridePendingTransition(R.anim.out_to_right,0);
     }
+
 }

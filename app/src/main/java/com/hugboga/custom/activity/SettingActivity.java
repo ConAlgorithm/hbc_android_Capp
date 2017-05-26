@@ -79,6 +79,8 @@ public class SettingActivity extends BaseActivity {
     TextView setOrChangPwd;
 
     boolean needInitPwd;
+    public static int REQUEST_CODE = 0x100;
+    public  static int RESULT_OK = 0x001;
     @Override
     public int getContentViewId() {
         return R.layout.fg_setting;
@@ -88,6 +90,8 @@ public class SettingActivity extends BaseActivity {
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         initHeader();
+        needInitPwd = getIntent().getBooleanExtra("needInitPwd",false);
+        setState(needInitPwd);
         if(!UserEntity.getUser().isLogin(this)){
             settingMenuLayout2.setVisibility(View.GONE);
             settingExit.setVisibility(View.GONE);
@@ -98,7 +102,17 @@ public class SettingActivity extends BaseActivity {
             developerLayout.setVisibility(View.GONE);
         }
     }
+    private void setState(boolean needInitPwd){
+        if(needInitPwd){
+            setOrChangPwd.setText("设置密码");
+            redPoint.setVisibility(View.VISIBLE);
+        }else{
+            setOrChangPwd.setText("修改密码");
+            redPoint.setVisibility(View.GONE);
+        }
 
+        UserEntity.getUser().setNeedInitPwd(this,needInitPwd);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -113,7 +127,7 @@ public class SettingActivity extends BaseActivity {
 //                startFragment(new FgChangePsw());
                 if(needInitPwd){
                     intent = new Intent(activity,SetPswActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,REQUEST_CODE);
                 }else{
                     intent = new Intent(activity,ChangePswActivity.class);
                     startActivity(intent);
@@ -202,7 +216,20 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            case 1:
+                if(requestCode == REQUEST_CODE){
+                    boolean needInitPwd = data.getBooleanExtra("needInitPwd",false);
+                    setState(needInitPwd);
+                }
+                break;
+            default:
+                break;
+        }
+    }
     protected void initHeader() {
         newVersionTextView.setText("v" + BuildConfig.VERSION_NAME);
         headerTitle.setText("设置");
@@ -218,16 +245,7 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        refreshUserInfo();
-    }
-    public void refreshUserInfo() {
-        if (UserEntity.getUser().isLogin(this)) {
-            HttpRequestUtils.request(this, new RequestUserInfo(this), this, false);
-        }
-    }
+
     private String getCacheSize() {
         String result = "";
         if (cacheSize == null) {
@@ -253,27 +271,5 @@ public class SettingActivity extends BaseActivity {
         return result;
     }
 
-    @Override
-    public void onDataRequestSucceed(BaseRequest request) {
-        super.onDataRequestSucceed(request);
-        if(request instanceof RequestUserInfo){
-            RequestUserInfo mRequest = (RequestUserInfo) request;
-            UserBean user = mRequest.getData();
-            this.needInitPwd = user.needInitPwd;
-            if (this == null || user == null) {
-                return;
-            }
-            //是否需要设置密码,展示小红点
-                if(user.needInitPwd){
-                    setOrChangPwd.setText("设置密码");
-                    redPoint.setVisibility(View.VISIBLE);
-                }else{
-                    setOrChangPwd.setText("修改密码");
-                    redPoint.setVisibility(View.GONE);
-                }
-
-            UserEntity.getUser().setNeedInitPwd(this,user.needInitPwd);
-        }
-    }
 }
 

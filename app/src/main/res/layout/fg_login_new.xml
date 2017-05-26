@@ -133,6 +133,7 @@
             android:layout_alignParentLeft="true"
             android:background="@null"
             android:hint="验证码"
+            android:inputType="number"
             android:textColor="@color/change_mobile_text"
             android:textColorHint="@color/text_hint_color"
             android:textSize="16dp"/>
