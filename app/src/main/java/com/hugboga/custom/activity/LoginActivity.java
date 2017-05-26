@@ -432,10 +432,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     CommonUtils.showToast("请输入手机号");
                     return;
                 }
-                if(!phone.startsWith("1") || phone.length() != 11){
-                    CommonUtils.showToast("请输入正确的国内手机号，11位数字");
-                    return;
+                if(areaCode1.equals("86")){
+                    if(!phone.startsWith("1") || phone.length() != 11){
+                        CommonUtils.showToast("请输入正确的国内手机号，11位数字");
+                        return;
+                    }
                 }
+
                 RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone,4);
                 requestData(requestVerity);
                 break;

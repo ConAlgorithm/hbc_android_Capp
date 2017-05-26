@@ -306,6 +306,12 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                     showTip("密码必须是4-16位数字或字母");
                     return;
                 }
+                if(areaCode.equals("86")){
+                    if(!phone.startsWith("1") || phone.length() != 11){
+                        CommonUtils.showToast("请输入正确的国内手机号，11位数字");
+                        return;
+                    }
+                }
                 RequestForgetPwd requestForgetPwd = new RequestForgetPwd(this, areaCode,phone,password, verity);
                 requestData(requestForgetPwd);
                 MobClickUtils.onEvent(StatisticConstant.PASSWORD_RESET);
