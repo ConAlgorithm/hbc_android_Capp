@@ -357,6 +357,39 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/sku_order_traveler_info_sendmessage_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+        <TextView
+            android:id="@+id/sku_order_traveler_info_sendmessage_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:gravity="center_vertical"
+            android:minWidth="80dp"
+            android:text="预订后短信通知乘车人"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+        <com.sevenheaven.iosswitch.ShSwitchView
+            android:id="@+id/sku_order_traveler_info_sendmessage_switch_view"
+            android:layout_width="58dip"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:layout_centerVertical="true"
+            app:tintColor="@color/default_yellow"
+            app:shadowSpace="7dip"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/sku_order_traveler_info_flight_layout"
         android:visibility="gone"
         android:layout_width="match_parent"
@@ -586,6 +619,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/sku_order_traveler_info_mark_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
@@ -604,13 +638,13 @@
         <EditText
             android:id="@+id/sku_order_traveler_info_mark_et"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/sku_order_traveler_info_mark_hint_tv"
             android:background="#00000000"
             android:gravity="center_vertical"
-            android:hint="如有其他需求，请在这里给司导留言"
+            android:hint="可在这里给司导留言"
             android:maxLength="500"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"

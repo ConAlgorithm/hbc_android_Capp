@@ -60,6 +60,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         map.put("flightArriveTimeL", params.flightArriveTimeL);
         map.put("flightAirportBuiding", params.flightAirportBuiding);
         map.put("realSendSms", params.realSendSms);
+        map.put("userWechat", params.userWechat);
     }
 
     @Override
@@ -105,6 +106,7 @@ public class RequestOrderEdit extends BaseRequest<GuidesDetailData> {
         public String flightFlyTimeL;//送机起飞时间
         public String flightArriveTimeL;//送机到达时间
         public String flightAirportBuiding;//送机航站楼
+        public String userWechat;
         public String userEx;
         public String realUserEx;
         public String isRealUser;//有乘车人 必须传入为2 没有1

@@ -361,7 +361,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     public int getHotelTotalPrice() {
-        return hotelTotalPrice = carListBean.hotelPrice * roomCount;
+        return hotelTotalPrice = carListBean == null ? 0 :carListBean.hotelPrice * roomCount;
     }
 
     public int getAdditionalPrice() {

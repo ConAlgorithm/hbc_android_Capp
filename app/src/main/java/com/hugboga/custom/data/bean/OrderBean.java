@@ -59,6 +59,7 @@ public class OrderBean implements IBaseBean{
     public ArrayList<OrderContactBean> userList;      // 乘车人
     public ArrayList<OrderContactBean> realUserList;  // 联系人
     public String luggageNum;                         // luggageNumber 行李数
+    public String userWechat;                         // 用户微信号
 
     public String goodsNo;          // goodNo 商品ID
     public String orderNo;          // 订单编号
@@ -418,6 +419,8 @@ public class OrderBean implements IBaseBean{
         public String description;         // description:"",
         public String stayCityInfo;        // 住宿信息
         public String remark;              // 人工填写的备注
+        public String scenicDesc;          // 景点
+        public String scopeDesc;           // 游玩范围
 
         public String serviceTimeStr;      // 服务时间 07：00
         public String startAddress;        // 出发地址

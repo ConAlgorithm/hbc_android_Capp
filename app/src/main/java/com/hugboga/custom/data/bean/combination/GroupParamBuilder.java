@@ -43,7 +43,6 @@ public class GroupParamBuilder {
     private CarBean carBean;
     private ManLuggageBean manLuggageBean;
     private ContactUsersBean contactUsersBean;
-    private String mark;
     private boolean isCheckedTravelFund;
     private double travelFund;
     private CouponBean couponBean;
@@ -73,11 +72,6 @@ public class GroupParamBuilder {
 
     public GroupParamBuilder contactUsersBean(ContactUsersBean contactUsersBean) {
         this.contactUsersBean = contactUsersBean;
-        return this;
-    }
-
-    public GroupParamBuilder mark(String mark) {
-        this.mark = mark;
         return this;
     }
 
@@ -219,7 +213,10 @@ public class GroupParamBuilder {
             realUserExInfo.add(getRealUserExBean(contactUsersBean));
             groupParentParam.realUserExInfo = realUserExInfo;
         }
-        groupParentParam.userRemark = mark;
+        if (travelerInfoBean != null) {
+            groupParentParam.userRemark = travelerInfoBean.mark;
+            groupParentParam.userWechat = travelerInfoBean.wechatNo;
+        }
         groupParentParam.priceChannel = Double.valueOf(carBean.price) + allChildSeatPrice;
         if (isCheckedTravelFund) {
             groupParentParam.travelFund = travelFund;
@@ -341,7 +338,7 @@ public class GroupParamBuilder {
     private ContactUserBean getUserExBean(ContactUsersBean contactUsersBean) {
         ContactUserBean userExBean = new ContactUserBean();
         userExBean.name = contactUsersBean.userName;
-        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.phoneCode) ? "86" : "";
+        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.phoneCode) ? "86" : contactUsersBean.phoneCode;
         userExBean.mobile = contactUsersBean.userPhone;
         return userExBean;
     }
@@ -352,7 +349,7 @@ public class GroupParamBuilder {
         }
         ContactUserBean userExBean = new ContactUserBean();
         userExBean.name = contactUsersBean.otherName;
-        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.otherphoneCode) ? "86" : "";
+        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.otherphoneCode) ? "86" : contactUsersBean.otherphoneCode;
         userExBean.mobile = contactUsersBean.otherPhone;
         return userExBean;
     }
@@ -360,7 +357,6 @@ public class GroupParamBuilder {
     private GroupPickupParam getGroupPickupParam(CityRouteBean.CityRouteScope cityRouteScope) {
         GroupPickupParam groupPickupParam = new GroupPickupParam();
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(0);
-        CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
         CityBean startCityBean = charterDataUtils.getStartCityBean(1);
         FlightBean flightBean = charterDataUtils.flightBean;
         groupPickupParam.serviceCityId = startCityBean.cityId;
@@ -500,7 +496,10 @@ public class GroupParamBuilder {
         croupDailyParam.totalDays = index - groupDailyParamIndex + 1;
         croupDailyParam.serviceCityId = startCityBean.cityId;
         croupDailyParam.serviceCityName = startCityBean.name;
-        croupDailyParam.userRemark = mark;
+        if (travelerInfoBean != null) {
+            croupDailyParam.userRemark = travelerInfoBean.mark;
+            croupDailyParam.userWechat = travelerInfoBean.wechatNo;
+        }
 
         croupDailyParam.serviceEndTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, index) + " " + CombinationOrderActivity.SERVER_TIME_END;
         if (croupDailyParam.servicePassDetailList != null && croupDailyParam.servicePassDetailList.size() == 1 && cityRouteScope.routeType == CityRouteBean.RouteType.HALFDAY) {
@@ -525,7 +524,12 @@ public class GroupParamBuilder {
         } else {
             servicePassDetail.cityId = startCityBean.cityId;
             servicePassDetail.cityName = startCityBean.name;
+            if (cityRouteScope.isOpeanFence()) {
+                servicePassDetail.scenicDesc = cityRouteScope.routePlaces;
+                servicePassDetail.scopeDesc = cityRouteScope.routeScope;
+            }
         }
+
         servicePassDetail.days = 1; //后端要求写死
         servicePassDetail.cityType = RequestBatchPrice.getTourType(cityRouteScope.routeType);
         if (index == 0 && charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {

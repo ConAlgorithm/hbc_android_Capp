@@ -401,7 +401,7 @@
     <string name="complete_days_info">请完善每天的行程</string>
     <string name="complete_half_start_date">请完善游玩日期</string>
     <string name="edit_mark_left">备注</string>
-    <string name="edit_mark">如有其他需求，请在这里给司导留言</string>
+    <string name="edit_mark">可在这里给司导留言</string>
     <string name="all_cost_info">费用详情</string>
 
     <string name="noraml_question">常见问题</string>

@@ -32,6 +32,7 @@ public class GroupDailyParam implements Serializable{
     public List<ServicePassDetail> servicePassDetailList;  // 行程信息
     public Integer totalDays;                              // 订单天数
     public String userRemark;                              // 客人备注
+    public String userWechat;                              // 客人微信号
     public int halfDaily;                                  // 是否半日包车 0:不是半日包车 1:是半日包车
 //    public Double priceHotel;                              // 酒店总费用
 //    public Integer hotelRoom;                              // 房间数
@@ -66,6 +67,8 @@ public class GroupDailyParam implements Serializable{
         public String distance;
         public String airportCode;     // 包含接送机的时候机场三字节码
         public Integer complexType;    // 1 接机 2送机
+        public String scenicDesc;      // 景点
+        public String scopeDesc;       // 游玩范围
     }
 
     public static class TravelRaiders implements Serializable{

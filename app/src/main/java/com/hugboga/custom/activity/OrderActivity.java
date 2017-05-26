@@ -464,7 +464,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , mostFitBean
                 , params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
                 , manLuggageBean
-                , travelerInfoBean.isCheckin);
+                , travelerInfoBean.isCheckin
+                , travelerInfoBean.wechatNo);
     }
 
     private OrderBean getSendOrderByInput() {
@@ -493,7 +494,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , couponBean
                 , mostFitBean
                 , params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
-                , manLuggageBean);
+                , manLuggageBean
+                , travelerInfoBean.wechatNo);
     }
 
     private OrderBean getSingleOrderByInput() {
@@ -519,7 +521,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , manLuggageBean
                 , travelerInfoBean.travelerName
                 , ""
-                , manLuggageBean.mans + ""
+                , travelerInfoBean.mark
                 , manLuggageBean.childSeats + ""
                 , manLuggageBean.luggages + ""
                 , travelerInfoBean.getContactUsersBean()
@@ -527,7 +529,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , deductionBean != null ? CommonUtils.getCountInteger(deductionBean.deduction) + "" : "0"
                 , couponBean
                 , mostFitBean
-                , params.guidesDetailData != null ? params.guidesDetailData.guideId : "");
+                , params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
+                , travelerInfoBean.wechatNo);
     }
 
     @Override

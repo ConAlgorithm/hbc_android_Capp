@@ -411,4 +411,13 @@ public final class CommonUtils {
             }
         });
     }
+
+    public static boolean checkInlandPhoneNumber(String code, String phone) {
+        if (("+86".equals(code) || "86".equals(code)) && phone != null && phone.length() == 11 && phone.startsWith("1")) {
+            return true;
+        } else {
+            CommonUtils.showToast("请输入正确的国内手机号");
+            return false;
+        }
+    }
 }

@@ -335,8 +335,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (request instanceof RequestPayNo) {
             return;
         }
-        emptyLayout.setErrorVisibility(View.VISIBLE);
-        setItemVisibility(View.GONE);
+        if (emptyLayout != null) {
+            emptyLayout.setErrorVisibility(View.VISIBLE);
+            setItemVisibility(View.GONE);
+        }
     }
 
     /*
@@ -546,7 +548,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .carBean(carBean)
                 .manLuggageBean(countView.getManLuggageBean())
                 .contactUsersBean(travelerInfoBean.getContactUsersBean())
-                .mark(travelerInfoBean.mark)
                 .isCheckedTravelFund(discountView.isCheckedTravelFund())
                 .travelFund(CommonUtils.getCountDouble(deductionBean.deduction))
                 .couponBean(couponBean)
