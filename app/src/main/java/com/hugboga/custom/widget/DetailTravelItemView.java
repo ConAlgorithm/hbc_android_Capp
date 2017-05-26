@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -60,6 +61,11 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
     TextView travelItemScopeTv;
     @Bind(R.id.travel_item_places_tv)
     TextView travelItemPlacesTv;
+
+    @Bind(R.id.travel_item_scope_tv2)
+    TextView travelItemScopeTv2;
+    @Bind(R.id.travel_item_places_tv2)
+    TextView travelItemPlacesTv2;
 
     @Bind(R.id.travel_item_line_tv)
     TextView travelItemLineTv;
@@ -134,7 +140,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemStartLayout.setVisibility(View.GONE);
             travelItemEndLayout.setVisibility(View.GONE);
             updatePickupLayout(data.pickup, false, startDate);
-            updateLineLayout(data.journey, data.pickup);
+            updateLineLayout(data.journey, data.pickup, null);
         } else if (data.pickup != null && data.journey == null) {//只接机
             title = data.pickup.serviceCityName;
             travelItemLineTagLayout.setVisibility(View.GONE);
@@ -153,7 +159,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemTimeLayout.setVisibility(View.VISIBLE);
             travelItemTimeHintTv.setVisibility(View.GONE);
             travelItemTimeTv.setText("游玩结束送机: " + data.transfer.destAddress);
-            updateLineLayout(data.journey, null);
+            updateLineLayout(data.journey, null, data.transfer);
         } else if (data.transfer != null && data.journey == null) {//只送机
             title = data.transfer.serviceCityName;
             travelItemCharterLineLayout.setVisibility(View.GONE);
@@ -161,6 +167,8 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemPickupLayout.setVisibility(View.GONE);
             travelItemTimeLayout.setVisibility(View.VISIBLE);
             travelItemTimeHintTv.setVisibility(View.GONE);
+            travelItemScopeTv2.setVisibility(View.GONE);
+            travelItemPlacesTv2.setVisibility(View.GONE);
             if (TextUtils.isEmpty(data.transfer.serviceTimeStr)) {
                 travelItemTimeTv.setText("只送机");
             } else {
@@ -177,7 +185,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             } else {//包车
                 title = data.journey.cityName;
             }
-            updateLineLayout(data.journey, null);
+            updateLineLayout(data.journey, null, null);
         }
         travelItemTitleTv.setText(String.format("第%1$s天: %2$s", "" + data.day, title));//标题
     }
@@ -213,10 +221,14 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         travelItemEndDesTv.setVisibility(View.VISIBLE);
     }
 
-    public void updateLineLayout(OrderBean.CJourneyInfo journey, OrderBean.CTravelDayPickup pickup) {
+    public void updateLineLayout(OrderBean.CJourneyInfo journey, OrderBean.CTravelDayPickup pickup, OrderBean.CTravelDayTransfer transfer) {
         travelItemLineTagLayout.setVisibility(View.VISIBLE);
         travelItemCharterLineLayout.setVisibility(View.VISIBLE);
         travelItemLineTv.setTextColor(getResources().getColor(R.color.default_black));
+        travelItemScopeTv.setVisibility(View.GONE);
+        travelItemPlacesTv.setVisibility(View.GONE);
+        travelItemScopeTv2.setVisibility(View.GONE);
+        travelItemPlacesTv2.setVisibility(View.GONE);
         if (isOuttown(journey)) {
             if (pickup != null) {
                 travelItemLineTv.setText(String.format("%1$s出发，游玩至%2$s结束", journey.startCityName, journey.cityName));
@@ -229,6 +241,19 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             } else {
                 travelItemLineTv.setText(journey.description);
             }
+        }
+        boolean isSend = transfer != null;
+
+        TextView scopeTV = isSend ? travelItemScopeTv2: travelItemScopeTv;
+        TextView placesTV = isSend ? travelItemPlacesTv2: travelItemPlacesTv;
+        if (!TextUtils.isEmpty(journey.scopeDesc)) {
+            String scope = journey.type == 2 ? "周边范围：" : "市内范围：";
+            scopeTV.setText(scope + journey.scopeDesc);
+            scopeTV.setVisibility(View.VISIBLE);
+        }
+        if (!TextUtils.isEmpty(journey.scenicDesc)) {
+            placesTV.setText("推荐景点：" + journey.scenicDesc);
+            placesTV.setVisibility(View.VISIBLE);
         }
         travelItemLineTimeTv.setText(journey.getLabelTime());
         travelItemLineDistanceTv.setText(journey.getLabelKilometre());

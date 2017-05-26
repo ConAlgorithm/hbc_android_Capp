@@ -289,7 +289,7 @@ public class OrderUtils {
                                          String serverTime, String childseatNum, String luggageNum,
                                          ContactUsersBean contactUsersBean, boolean dreamLeftIscheck,
                                          String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
-                                         String guideCollectId, ManLuggageBean manLuggageBean, boolean isCheckIn) {
+                                         String guideCollectId, ManLuggageBean manLuggageBean, boolean isCheckIn, String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.flight = flightBean.flightNo;
         orderBean.flightBean = flightBean;
@@ -340,6 +340,7 @@ public class OrderUtils {
         orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
         orderBean.isCheckin = isCheckIn ? "1" : "0";
+        orderBean.userWechat = userWechat;
 
         orderBean.carId = carBean.carId;
         orderBean.guideCarId = carBean.id;
@@ -426,7 +427,7 @@ public class OrderUtils {
                                            ContactUsersBean contactUsersBean ,
                                            boolean dreamLeftIscheck,String travelFund,
                                            CouponBean couponBean,MostFitBean mostFitBean,
-                                           String guideCollectId ) {
+                                           String guideCollectId,String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carBean.carDesc;
@@ -464,6 +465,7 @@ public class OrderUtils {
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.stayCityListStr = passCities;
         orderBean.userRemark = userRemark;//mark.getText().toString();
+        orderBean.userWechat = userWechat;
 
         orderBean.serviceDepartTime = serverTime;
 
@@ -539,7 +541,7 @@ public class OrderUtils {
                                          String serverTime,String childseatNum,String luggageNum,
                                          ContactUsersBean contactUsersBean,
                                          String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
-                                         String guideCollectId,ManLuggageBean manLuggageBean) {
+                                         String guideCollectId,ManLuggageBean manLuggageBean,String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
@@ -578,6 +580,7 @@ public class OrderUtils {
         orderBean.realUserName = contactUsersBean.otherName;
         orderBean.realAreaCode = CommonUtils.removePhoneCodeSign(contactUsersBean.otherphoneCode);
         orderBean.realMobile = contactUsersBean.otherPhone;
+        orderBean.userWechat = userWechat;
 
         orderBean.carId = carBean.carId;
         orderBean.guideCarId = carBean.id;
@@ -664,7 +667,7 @@ public class OrderUtils {
                                         String userRemark, String userName, PoiBean poiBean,
                                         boolean dreamLeftischeck,
                                         String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
-                                        CarListBean carListBean, ManLuggageBean manLuggageBean, int hotelRoom , double priceHotel, int orderType, String luggageNum){
+                                        CarListBean carListBean, ManLuggageBean manLuggageBean, int hotelRoom , double priceHotel, int orderType, String luggageNum, String userWechat){
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -704,6 +707,7 @@ public class OrderUtils {
         orderBean.carId = carBean.carId;
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
+        orderBean.userWechat = userWechat;
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";

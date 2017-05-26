@@ -112,11 +112,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         Intent intent = null;
         switch (v.getId()) {
             case R.id.order_detail_info_layout://出行人信息
-                if (orderBean.orderType == 3 || orderBean.orderType == 888 || orderBean.orderType == 5 || orderBean.orderType == 6) {
-                    intent = new Intent(getContext(), OrderDetailTravelerInfoActivity.class);
-                } else {
-                    intent = new Intent(getContext(), OrderEditActivity.class);
-                }
+                intent = new Intent(getContext(), OrderDetailTravelerInfoActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
                 break;

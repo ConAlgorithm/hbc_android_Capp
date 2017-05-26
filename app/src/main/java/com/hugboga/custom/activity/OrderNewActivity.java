@@ -1352,7 +1352,7 @@ public class OrderNewActivity extends BaseActivity {
                 carBean, adultNum, childrenNum,
                 startBean, getPassCityStr(),
                 contactUsersBean, mark.getText().toString(), manName.getText().toString(), poiBean, dreamLeft.isChecked(),
-                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 5,luggageNum);
+                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 5,luggageNum,"");
 
     }
 
@@ -1365,7 +1365,7 @@ public class OrderNewActivity extends BaseActivity {
                 carBean, adultNum, childrenNum,
                 startBean, getPassCityStr(),
                 contactUsersBean, mark.getText().toString(), manName.getText().toString(), poiBean, dreamLeft.isChecked(),
-                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 6,luggageNum);
+                travelFund, couponBean, mostFitBean, carListBean, manLuggageBean, hourseNum, hotelPrice, 6,luggageNum,"");
 
     }
 
@@ -1419,7 +1419,7 @@ public class OrderNewActivity extends BaseActivity {
                 serverTime, childseatNum, luggageNum,
                 contactUsersBean, dreamLeft.isChecked(),
                 travelFund, couponBean, mostFitBean,
-                guideCollectId, manLuggageBean, isCheckIn);
+                guideCollectId, manLuggageBean, isCheckIn,"");
     }
 
 
@@ -1440,7 +1440,7 @@ public class OrderNewActivity extends BaseActivity {
                 contactUsersBean,
                 dreamLeft.isChecked(), travelFund,
                 couponBean, mostFitBean,
-                guideCollectId);
+                guideCollectId,"");
     }
 
     private OrderBean getSendOrderByInput() {
@@ -1456,7 +1456,7 @@ public class OrderNewActivity extends BaseActivity {
                 serverTime, childseatNum, luggageNum,
                 contactUsersBean,
                 travelFund, couponBean, mostFitBean,
-                guideCollectId, manLuggageBean);
+                guideCollectId, manLuggageBean,"");
     }
 
     private OrderBean getOrderByInput() {

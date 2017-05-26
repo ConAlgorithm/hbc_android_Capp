@@ -369,8 +369,10 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         if (request instanceof RequestPayNo) {
             return;
         }
-        emptyLayout.setErrorVisibility(View.VISIBLE);
-        setItemVisibility(View.GONE);
+        if (emptyLayout != null) {
+            emptyLayout.setErrorVisibility(View.VISIBLE);
+            setItemVisibility(View.GONE);
+        }
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
@@ -674,7 +676,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 , manLuggageBean.roomCount
                 , countView.getHotelTotalPrice()
                 , orderType
-                , manLuggageBean.luggages + "");
+                , manLuggageBean.luggages + ""
+                , travelerInfoBean.wechatNo);
     }
 
     /*

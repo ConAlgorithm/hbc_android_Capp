@@ -98,6 +98,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     @Bind(R.id.sku_order_traveler_info_checkin_price_tv)
     TextView checkinPriceTV;
 
+    @Bind(R.id.sku_order_traveler_info_sendmessage_layout)
+    RelativeLayout sendMessageLayout;
+    @Bind(R.id.sku_order_traveler_info_sendmessage_switch_view)
+    ShSwitchView sendMessageSwitchView;
+
     @Bind(R.id.sku_order_traveler_info_start_time_layout)
     RelativeLayout timeLayout;
     @Bind(R.id.sku_order_traveler_info_start_time_tv)
@@ -191,9 +196,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         if (travelerInfoBean.isOther) {
             otherContactsLayout.setVisibility(View.VISIBLE);
             otherPhoneLayout.setVisibility(View.VISIBLE);
+            sendMessageLayout.setVisibility(View.VISIBLE);
         } else {
             otherContactsLayout.setVisibility(View.GONE);
             otherPhoneLayout.setVisibility(View.GONE);
+            sendMessageLayout.setVisibility(View.GONE);
         }
         CommonUtils.hideSoftInput((Activity) getContext());
     }
@@ -276,6 +283,12 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             contactsChooseIV.setVisibility(View.VISIBLE);
             contactsChooseTV.setVisibility(View.VISIBLE);
             checkinET.setVisibility(View.GONE);
+            sendMessageSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
+                @Override
+                public void onSwitchStateChange(boolean b) {
+                    travelerInfoBean.isSendMessage = b;
+                }
+            });
             if (orderType == 1) {//接机
                 checkinLayout.setVisibility(View.VISIBLE);
                 checkinHintTV.setText("举牌接机");
@@ -397,6 +410,9 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             CommonUtils.showToast("请填写联系人手机号!");
             return false;
         }
+        if (!CommonUtils.checkInlandPhoneNumber(infoBean.areaCode, infoBean.travelerPhone)) {
+            return false;
+        }
         if (infoBean.isOther) {
             if (TextUtils.isEmpty(infoBean.otherName)) {
                 CommonUtils.showToast("请填写乘车人姓名!");
@@ -404,6 +420,9 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             }
             if (TextUtils.isEmpty(infoBean.otherPhone)) {
                 CommonUtils.showToast("请填写乘车人电话!");
+                return false;
+            }
+            if (!CommonUtils.checkInlandPhoneNumber(infoBean.otherAreaCode, infoBean.otherPhone)) {
                 return false;
             }
         }
@@ -487,6 +506,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         public String pickName;
         public boolean isPickup = false;
         public boolean isCheckin = false;
+        public boolean isSendMessage = false;
         public String sendFlight;//送机航班
         public String otherName;
         public String otherPhone;
@@ -500,6 +520,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             contactUsersBean.phoneCode = CommonUtils.removePhoneCodeSign(areaCode);
             if (isOther) {
                 contactUsersBean.isForOther = isOther;
+                contactUsersBean.isSendMessage = isSendMessage;
                 contactUsersBean.otherName = otherName;
                 contactUsersBean.otherPhone = otherPhone;
                 contactUsersBean.otherphoneCode = CommonUtils.removePhoneCodeSign(otherAreaCode);

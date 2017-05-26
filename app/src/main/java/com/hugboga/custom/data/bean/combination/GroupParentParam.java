@@ -42,6 +42,7 @@ public class GroupParentParam implements Serializable {
     public String coupPriceInfo;                // 券价格
     public Double priceActual;                  // 暂时存券支付的时候的价格 使用券 必填
     public Integer totalDays;                   // 订单天数 必填
+    public String userWechat;                   // 用户微信号
 
     public Integer serviceCityId;               // 服务城市Id 必填
     public String serviceCityName;              // 服务城市名 必填

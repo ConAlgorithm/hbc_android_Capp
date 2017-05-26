@@ -47,6 +47,7 @@ public class ParserOrder extends ImplParser {
         orderbean.userList = gson.fromJson(jsonObj.optString("userList"), new TypeToken<List<OrderContactBean>>(){}.getType());
         orderbean.realUserList = gson.fromJson(jsonObj.optString("realUserList"), new TypeToken<List<OrderContactBean>>(){}.getType());
         orderbean.luggageNum = jsonObj.optString("luggageNumber");
+        orderbean.userWechat = jsonObj.optString("userWechat");
 
         orderbean.goodsNo = jsonObj.optString("goodNo");
         orderbean.orderNo = jsonObj.optString("orderNo");
