@@ -68,22 +68,24 @@ public class SkuOrderEmptyView extends LinearLayout{
         // noneCarsState == 302 您预订的行程太远啦，包车压力好大…建议按天包车，去试试定制包车游
         if (noneCarsState == 202 || noneCarsState == 6 || noneCarsState == 301) {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.empty_time);
             refreshTV.setVisibility(View.GONE);
             hintTV.setText(noneCarsReason);
             isEmpty = true;
             if (TextUtils.isEmpty(noneCarsReason)) {
                 if (noneCarsState == 202) {
+                    emptyIV.setBackgroundResource(R.drawable.empty_time);
                     hintTV.setText("当地时间已过了您预订的服务时间，想服务但做不到啊…");
                 } else if (noneCarsState == 6) {
+                    emptyIV.setBackgroundResource(R.drawable.empty_time);
                     hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
                 } else if (noneCarsState == 301) {
+                    emptyIV.setBackgroundResource(R.drawable.empty_trip);
                     hintTV.setText("很抱歉，您选择的地点暂时无法通过驾车的方式到达");
                 }
             }
         } else if (noneCarsState == 302) {
             setVisibility(View.VISIBLE);
-            emptyIV.setBackgroundResource(R.drawable.empty_car);
+            emptyIV.setBackgroundResource(R.drawable.empty_trip);
             hintTV.setText("您预订的行程太远啦，包车压力好大…建议按天包车，去试试按天包车游");
             isEmpty = true;
             refreshTV.setVisibility(View.VISIBLE);
