@@ -448,7 +448,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private void checkGuideCoflict() {
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
         checkGuideBean.startTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-        checkGuideBean.endTime = flightBean.arrDate + " " + Constants.SERVER_TIME_END;
+        checkGuideBean.endTime = DateUtils.getDifferenceTime2(checkGuideBean.startTime, CommonUtils.getCountInteger(carListBean.estTime) * 60 * 1000);;
         checkGuideBean.cityId = flightBean.arrCityId;
         checkGuideBean.guideId = guidesDetailData.guideId;
         checkGuideBean.orderType = ORDER_TYPE;

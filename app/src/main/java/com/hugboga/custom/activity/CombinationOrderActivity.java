@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -228,6 +229,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 onRefresh();
                 break;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        travelerInfoView.onRequestPermissionsResult(requestCode);
     }
 
     @Override
@@ -668,14 +675,15 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private void checkGuideCoflict() {
-        RequestCheckGuide.CheckGuideBeanList checkGuideBeanList = charterDataUtils.checkGuideBeanList;
-        if (checkGuideBeanList == null || checkGuideBeanList.guideCheckInfos == null || checkGuideBeanList.guideCheckInfos.size() <= 0) {
-            onSubmit();
-            return;
-        }
         String serverTime = travelerInfoView.getTravelerInfoBean() != null ? travelerInfoView.getTravelerInfoBean().serverTime : "";
-        checkGuideBeanList.updateFirstDayServiceTime(charterDataUtils.getStartServiceTime(serverTime));
-        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBeanList);
+        RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+        checkGuideBean.startTime = charterDataUtils.getStartServiceTime(serverTime);
+        checkGuideBean.endTime = charterDataUtils.getEndServiceTime();
+        checkGuideBean.cityId = charterDataUtils.getStartCityBean(0).cityId;
+        checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
+        checkGuideBean.orderType = 3;
+
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBean);
 
         HttpRequestUtils.request(this, requestCheckGuide, new HttpRequestListener() {
             @Override

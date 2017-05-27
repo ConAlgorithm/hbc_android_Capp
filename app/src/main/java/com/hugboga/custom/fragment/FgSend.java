@@ -454,7 +454,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private void checkGuideCoflict() {
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
         checkGuideBean.startTime = serverDate + " " + serverTime + ":00";
-        checkGuideBean.endTime = serverDate + " " + Constants.SERVER_TIME_END;
+        checkGuideBean.endTime = DateUtils.getDifferenceTime2(checkGuideBean.startTime, CommonUtils.getCountInteger(carListBean.estTime) * 60 * 1000);
         checkGuideBean.cityId = airPortBean.cityId;
         checkGuideBean.guideId = guidesDetailData.guideId;
         checkGuideBean.orderType = ORDER_TYPE;

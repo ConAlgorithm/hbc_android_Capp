@@ -791,6 +791,16 @@ public class DateUtils {
         }
     }
 
+    public static String getDifferenceTime2(String time, int differenceTime) {
+        try {
+            Date date = dateTimeFormat.parse(time);
+            return dateTimeFormat.format(date.getTime() +  differenceTime);
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String orderChooseDateTransform(String dateStr) {
         try {
             Date date = dateDateFormat.parse(dateStr);

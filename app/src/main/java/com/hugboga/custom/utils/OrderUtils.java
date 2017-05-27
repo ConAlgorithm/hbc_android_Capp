@@ -546,7 +546,6 @@ public class OrderUtils {
         orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
         orderBean.urgentFlag = carBean.urgentFlag;
-        orderBean.expectedCompTime = carBean.expectedCompTime;
         if(!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }

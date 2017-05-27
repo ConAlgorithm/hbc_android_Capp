@@ -15,5 +15,7 @@ public class GroupQuotesBean implements Serializable{
     public int serviceType;
     public double transferDistance;
     public double transferEstTime;
+    public double pickupDistance;
+    public double pickupEstTime;
     public CarAdditionalServicePrice additionalServicePrice;
 }
