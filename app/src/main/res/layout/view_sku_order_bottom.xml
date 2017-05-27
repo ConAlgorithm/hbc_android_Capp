@@ -40,7 +40,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:text="¥0"
-                android:textColor="#f63408"
+                android:textColor="@color/default_price_red"
                 android:textSize="17sp" />
         </LinearLayout>
 

@@ -150,10 +150,11 @@ public class SkuOrderDiscountView extends LinearLayout{
         }
         boolean isTravelFund = currentType == TYPE_TRAVEL_FUND && !isInvalidTravelFund;
         boolean isCoupon = currentType == TYPE_COUPON && !isInvalidCoupon;
+        int priceColor = getContext().getResources().getColor(R.color.default_price_red);
         travelFundChooseIV.setSelected(isTravelFund);
-        travelFundCountTV.setTextColor(isTravelFund ? 0xFFF63308 : 0xFFA8A8A8);
+        travelFundCountTV.setTextColor(isTravelFund ? priceColor : 0xFFA8A8A8);
         couponChooseIV.setSelected(isCoupon);
-        couponCountTV.setTextColor(isCoupon ? 0xFFF63308 : 0xFFA8A8A8);
+        couponCountTV.setTextColor(isCoupon ? priceColor : 0xFFA8A8A8);
 
         if (currentType == TYPE_INVALID || isTravelFund || isCoupon) {
             oldType = currentType;

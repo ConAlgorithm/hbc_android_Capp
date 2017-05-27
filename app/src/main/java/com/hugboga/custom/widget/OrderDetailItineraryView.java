@@ -242,7 +242,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
         TextView textView = new TextView(getContext());
         textView.setPadding(UIUtils.dip2px(1), 0, 0, 0);
-        textView.setTextColor(0xFF1CBADC);
+        textView.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
         textView.setTextSize(12);
         textView.setText("行李标准");
         luggageItemLayout.addView(textView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

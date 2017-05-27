@@ -745,7 +745,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
                         android:gravity="center"
-                        android:textColor="#F63308"
+                        android:textColor="@color/default_price_red"
                         android:textSize="14sp" />
                 </RelativeLayout>
 
@@ -792,7 +792,7 @@
                         android:minEms="4"
                         android:paddingRight="15dp"
                         android:text="@string/free_huangbaoche"
-                        android:textColor="#f63308"
+                        android:textColor="@color/default_price_red"
                         android:textSize="12sp" />
                 </RelativeLayout>
                 <RelativeLayout

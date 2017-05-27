@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -47,6 +48,8 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
 
     @Bind(R.id.sku_order_count_luggage_count_tv)
     TextView luggageCountTV;
+    @Bind(R.id.sku_order_count_luggage_explain_tv)
+    TextView luggageExplainTV;
 
     @Bind(R.id.sku_order_count_hint_layout)
     LinearLayout hintLayout;
@@ -91,6 +94,9 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         super(context, attrs);
         View view = inflate(context, R.layout.view_sku_order_count, this);
         ButterKnife.bind(view);
+
+        luggageExplainTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        luggageExplainTV.getPaint().setAntiAlias(true);
 
         adultCountView.setOnCountChangeListener(this);
         childCountView.setOnCountChangeListener(this);

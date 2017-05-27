@@ -97,7 +97,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingBottom="1dp"
-            android:textColor="#F63308"
+            android:textColor="@color/default_price_red"
             android:textSize="15sp" />
     </RelativeLayout>
 </merge>

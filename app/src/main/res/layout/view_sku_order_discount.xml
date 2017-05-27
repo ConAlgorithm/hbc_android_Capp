@@ -50,7 +50,7 @@
             android:gravity="center|right"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/sku_order_discount_arrow_iv"
-            android:textColor="#f63308"
+            android:textColor="@color/default_price_red"
             android:textSize="14sp" />
 
         <View
@@ -149,7 +149,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="33dp"
             android:text="免费赠送"
-            android:textColor="#f63308"
+            android:textColor="@color/default_price_red"
             android:textSize="14sp" />
     </RelativeLayout>
 

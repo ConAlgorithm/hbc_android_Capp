@@ -12,7 +12,7 @@
         android:layout_centerVertical="true"
         android:textSize="20sp"
         android:text="¥0"
-        android:textColor="#f63408"/>
+        android:textColor="@color/default_price_red"/>
     <TextView
         android:id="@+id/order_detail_pay_tv"
         android:text="@string/order_detail_pay"

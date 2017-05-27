@@ -97,7 +97,7 @@ public class CharterSubtitleView extends LinearLayout{
                 iconIV.setBackgroundResource(R.mipmap.trip_icon_come);
                 leftTV.setText("从机场出发");
                 rightTV.setText("请添加航班号");
-                rightTV.setTextColor(0xFF19B9DA);
+                rightTV.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
                 pickupArrowIV.setVisibility(View.GONE);
             }
         } else if( charterDataUtils.isLastDay()) {
@@ -114,7 +114,7 @@ public class CharterSubtitleView extends LinearLayout{
                 iconIV.setBackgroundResource(R.mipmap.trip_icon_go);
                 leftTV.setText("如需送机");
                 rightTV.setText("请选择送机机场");
-                rightTV.setTextColor(0xFF19B9DA);
+                rightTV.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
                 pickupArrowIV.setVisibility(View.GONE);
             }
         } else {

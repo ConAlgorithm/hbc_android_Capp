@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/sku_order_padding_left"
-        android:textColor="#f63308"
+        android:textColor="@color/default_price_red"
         android:textSize="14sp"
         android:layout_marginTop="1dp"
         android:layout_alignParentRight="true"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:textColor="#2dd1b5"
+        android:textColor="#09D3AF"
         android:textSize="12sp"
         />
     <TextView

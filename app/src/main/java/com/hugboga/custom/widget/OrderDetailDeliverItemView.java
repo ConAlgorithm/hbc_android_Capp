@@ -155,7 +155,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         }
 
         if (deliverInfoBean.isCanChoose()) {//是否可挑选司导
-            subtitleIV.setTextColor(0xFFF63308);
+            subtitleIV.setTextColor(getContext().getResources().getColor(R.color.default_price_red));
             RequestAcceptGuide requestAcceptGuide = new RequestAcceptGuide(getContext(), orderNo, 10, 0);
             HttpRequestUtils.request(getContext(), requestAcceptGuide, this, false);
             avatarLayout.setVisibility(View.VISIBLE);

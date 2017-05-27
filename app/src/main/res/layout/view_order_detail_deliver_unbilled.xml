@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="24234实打实大声道"
-            android:textColor="#F63308"
+            android:textColor="@color/default_price_red"
             android:textSize="14sp" />
     </LinearLayout>
 </merge>

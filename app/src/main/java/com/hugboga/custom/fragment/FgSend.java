@@ -148,7 +148,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + guidesDetailData.cityId);
             if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
                 airPortBean = airPortList.get(0);
-                airportLayout.setDesc(airPortBean.airportName);
+                airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
             }
             guideLayout.setData(guidesDetailData);
         }
@@ -222,7 +222,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     break;
                 }
                 airPortBean = _airPortBean;
-                airportLayout.setDesc(airPortBean.airportName);
+                airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
 
                 emptyLayout.setVisibility(View.GONE);
                 carTypeView.setVisibility(View.GONE);

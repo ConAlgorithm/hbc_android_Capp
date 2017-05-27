@@ -9,7 +9,7 @@
         android:layout_marginTop="7dp"
         android:gravity="center"
         android:paddingLeft="1dp"
-        android:textColor="#f63408"
+        android:textColor="@color/default_price_red"
         android:textSize="19sp" />
 
     <TextView

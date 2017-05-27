@@ -26,7 +26,7 @@
             android:layout_marginLeft="1dp"
             android:gravity="center_vertical"
             android:text="行李标准说明"
-            android:textColor="#15b8da"
+            android:textColor="@color/default_highlight_blue"
             android:textSize="12sp" />
 
         <ImageView
