@@ -245,7 +245,12 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             CommonUtils.showToast("密码必须是4-16位数字或字母");
             return;
         }
-
+        if(areaCode.equals("86")){
+            if(!phone.startsWith("1") || phone.length() != 11){
+                CommonUtils.showToast("请输入正确的国内手机号，11位数字");
+                return;
+            }
+        }
         RequestLogin request = new RequestLogin(activity, areaCode, phone, password);
         requestData(request);
 
