@@ -660,4 +660,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         return eventPayBean;
     }
 
+    @Override
+    public String getEventSource() {
+        return "确认订单";
+    }
 }

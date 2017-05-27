@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,7 +26,7 @@ import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestNewCars;
-import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -42,9 +41,13 @@ import com.hugboga.custom.widget.SendAddressView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.title.TitleBar;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -181,6 +184,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 SingleActivity.this.startActivity(intent);
             }
         });
+        setSensorsEvent();
     }
 
     @OnClick({R.id.single_city_layout, R.id.single_time_layout})
@@ -385,11 +389,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     @Override
-    public String getEventSource() {
-        return "单次接送下单";
-    }
-
-    @Override
     public boolean onTitleBarBack() {
         return isShowSaveDialog();
     }
@@ -475,6 +474,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     public void initOrderActivity() {
+        setSensorsConfirmEvent();
         OrderActivity.Params orderParams = new OrderActivity.Params();
         orderParams.startPoiBean = startPoiBean;
         orderParams.endPoiBean = endPoiBean;
@@ -547,6 +547,50 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource());
             }
         }, true);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "单次接送下单";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_C;
+    }
+
+    //神策统计_初始页浏览
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "单次");
+            properties.put("hbc_refer", source);
+            SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            int total = carBean.price;
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "单次接送");
+            properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单
+            properties.put("hbc_car_type", carBean.desc);//车型选择
+            properties.put("hbc_price_total", total);//费用总计
+            properties.put("hbc_distance", carListBean.distance);// 全程公里数
+            properties.put("hbc_geton_time", serverDate + " " + serverTime);// 出发时间
+            properties.put("hbc_geton_location", startPoiBean.placeName);// 出发地
+            properties.put("hbc_dest_location", endPoiBean.placeName);// 送达地
+            properties.put("hbc_service_city", cityBean.name);// 用车城市
+            SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

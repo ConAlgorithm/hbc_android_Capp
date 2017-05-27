@@ -32,6 +32,8 @@ import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestNewCars;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -44,14 +46,20 @@ import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -168,6 +176,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 getCars();
             }
         });
+
+        setUmengEvent();
+        setSensorsEvent();
     }
 
     @Override
@@ -421,6 +432,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     public void initOrderActivity() {
+        setSensorsConfirmEvent();
         OrderActivity.Params orderParams = new OrderActivity.Params();
         orderParams.airPortBean = airPortBean;
         orderParams.startPoiBean = poiBean;
@@ -470,5 +482,48 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Override
     public String getEventSource() {
         return "送机下单";
+    }
+
+    @Override
+    public String getEventId() {
+        return StatisticConstant.LAUNCH_S;
+    }
+
+    private void setUmengEvent() {
+        Map map = new HashMap();
+        map.put(Constants.PARAMS_SOURCE, source);
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_S, map);
+    }
+
+    //神策统计_初始页浏览
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "送机");
+            properties.put("hbc_refer", source);
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
+        } catch (InvalidDataException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_确认行程
+    private void setSensorsConfirmEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_sku_type", "送机");
+            properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单
+            properties.put("hbc_car_type", carBean.desc);//车型选择
+            properties.put("hbc_price_total", carBean.price);//费用总计
+            properties.put("hbc_distance", carListBean.distance);// 全程公里数
+            properties.put("hbc_airport", airPortBean.airportName);// 机场
+            properties.put("hbc_geton_time", serverDate + " " + serverTime);// 出发时间
+            properties.put("hbc_geton_location", poiBean.placeName);// 出发地
+            SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
