@@ -308,13 +308,15 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
-        if (_request instanceof RequestCarMaxCapaCity) {
-            setNextViewEnabled(false);
-            countLayout.setAdultValue(0);
-            countLayout.setChildValue(0);
-            countLayout.setSliderEnabled(false);
-            countLayout.setHintViewVisibility(View.GONE);
-            isEnabled = false;
+        if (!isFinishing() && _request instanceof RequestCarMaxCapaCity) {
+            if (countLayout != null) {
+                setNextViewEnabled(false);
+                countLayout.setAdultValue(0);
+                countLayout.setChildValue(0);
+                countLayout.setSliderEnabled(false);
+                countLayout.setHintViewVisibility(View.GONE);
+                isEnabled = false;
+            }
         }
     }
 
