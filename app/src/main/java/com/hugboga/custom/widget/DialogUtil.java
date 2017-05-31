@@ -467,52 +467,23 @@ public class DialogUtil implements DialogUtilInterface {
     }
 
     public void showCallDialog(final String... source) {
-//        String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
-//        AlertDialog dialog = new AlertDialog.Builder(getRootActivity(mContext))
-//                .setTitle("联系客服")
-//                .setItems(str, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        if (which == 0) {
-//                            if (source != null && source.length == 3) {
-//                                HashMap<String, String> map = new HashMap<String, String>();
-//                                map.put("source", source[0]);
-//                                MobclickAgent.onEvent(getRootActivity(mContext), source[1], map);
-//                            }
-//                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_IN);
-//                        } else {
-//                            if (source != null && source.length == 3) {
-//                                HashMap<String, String> map = new HashMap<String, String>();
-//                                map.put("source", source[0]);
-//                                MobclickAgent.onEvent(getRootActivity(mContext), source[2], map);
-//                            }
-//                            PhoneInfo.CallDial(mContext, Constants.CALL_NUMBER_OUT);
-//                        }
-//                    }
-//                }).create();
-//        dialog.setCancelable(true);
-//        dialog.setCanceledOnTouchOutside(true);
-//        dialog.show();
         showDefaultServiceDialog(mContext, "联系客服", source != null && source.length > 0 ? source[0] : "");
     }
 
-    public static AlertDialog showCallDialogTitle(final Context _context, final String _title) {
-        String title = _title;
-        if (TextUtils.isEmpty(title)) {
-            title = "咨询小助手";
-        }
-        String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT};
+    public static AlertDialog showCallDialogTitle(final Context _context) {
+        String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT, "取消"};
         AlertDialog dialog = new AlertDialog.Builder(_context)
-                .setTitle(title)
                 .setItems(str, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_IN);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
-                        } else {
+                        } else if (which == 1) {
                             PhoneInfo.CallDial(_context, Constants.CALL_NUMBER_OUT);
                             StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
+                        } else {
+                            dialog.dismiss();
                         }
                     }
                 }).create();

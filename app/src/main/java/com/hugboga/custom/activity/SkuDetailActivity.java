@@ -296,7 +296,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
                     StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
                 }
-                DialogUtil.showCallDialogTitle(this, "");
+                DialogUtil.showCallDialogTitle(this);
                 break;
             case R.id.sku_detail_bottom_online_layout://在线咨询
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){

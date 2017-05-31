@@ -31,6 +31,7 @@ import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -124,13 +125,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         charterDataUtils = CharterDataUtils.getInstance();
 
         titlebar.setTitleBarBackListener(this);
-        titlebar.setRightListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogUtil.showServiceDialog(CharterFirstStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-            }
-        });
-
         countLayout.setOnOutRangeListener(this);
 
         if (guidesDetailData == null) {
@@ -173,6 +167,18 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             startActivity(intent);
         }
         overridePendingTransition(R.anim.push_bottom_in, 0);
+    }
+
+    @OnClick({R.id.charter_first_bottom_service_layout, R.id.charter_first_bottom_online_layout})
+    public void onService(View view) {
+        switch (view.getId()) {
+            case R.id.charter_first_bottom_service_layout:
+                DialogUtil.showCallDialogTitle(this);
+                break;
+            case R.id.charter_first_bottom_online_layout:
+                UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
+                break;
+        }
     }
 
     @OnClick({R.id.charter_first_date_layout})

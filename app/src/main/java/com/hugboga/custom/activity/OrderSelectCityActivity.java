@@ -1033,7 +1033,7 @@ public class OrderSelectCityActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.select_city_bottom_service_layout:
-                DialogUtil.showCallDialogTitle(this, "");
+                DialogUtil.showCallDialogTitle(this);
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "自定义包车游");
                 break;
             case R.id.select_city_bottom_online_layout:

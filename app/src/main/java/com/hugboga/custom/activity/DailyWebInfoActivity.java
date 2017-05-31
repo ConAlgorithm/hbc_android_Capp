@@ -388,7 +388,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
                 startActivity(intent);
                 break;
             case R.id.sku_detail_bottom_service_layout:
-                DialogUtil.showCallDialogTitle(this, "");
+                DialogUtil.showCallDialogTitle(this);
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "自定义包车游");
                 break;
             case R.id.sku_detail_bottom_online_layout:

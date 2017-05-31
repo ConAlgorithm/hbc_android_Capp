@@ -417,7 +417,7 @@ public final class CommonUtils {
             if (phone != null && phone.length() == 11 && phone.startsWith("1")) {
                 return true;
             } else {
-                CommonUtils.showToast("请输入正确的国内手机号");
+                CommonUtils.showToast("手机号输入有误");
                 return false;
             }
         } else {
