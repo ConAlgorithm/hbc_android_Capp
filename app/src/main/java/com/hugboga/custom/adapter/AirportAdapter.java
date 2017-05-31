@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
 
@@ -56,6 +57,8 @@ public class AirportAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_sortlist_city, null);
             viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
             viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+            viewHolder.lineView = view.findViewById(R.id.line_view);
+            viewHolder.yellowLineView = view.findViewById(R.id.line_yellow_view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -64,8 +67,26 @@ public class AirportAdapter extends BaseAdapter {
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
         if (model.isFirst) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
-            viewHolder.tvLetter.setText(model.cityFirstLetter);
+            if ("热门机场".equals(model.cityFirstLetter) || "搜索历史".equals(model.cityFirstLetter)) {
+                viewHolder.lineView.setVisibility(View.VISIBLE);
+                viewHolder.yellowLineView.setVisibility(View.VISIBLE);
+                viewHolder.tvLetter.setText(model.cityFirstLetter);
+                viewHolder.tvLetter.setTextSize(13);
+                viewHolder.tvLetter.setTextColor(0xFF7F7F7F);
+                viewHolder.tvLetter.setBackgroundColor(0x00000000);
+                viewHolder.tvLetter.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(12), 0, UIUtils.dip2px(6));
+            } else {
+                viewHolder.lineView.setVisibility(View.GONE);
+                viewHolder.yellowLineView.setVisibility(View.GONE);
+                viewHolder.tvLetter.setText("  " + model.cityFirstLetter);
+                viewHolder.tvLetter.setTextColor(mContext.getResources().getColor(R.color.default_yellow));
+                viewHolder.tvLetter.setTextSize(15);
+                viewHolder.tvLetter.setBackgroundColor(0xFFF7F7F7);
+                viewHolder.tvLetter.setPadding(UIUtils.dip2px(12), UIUtils.dip2px(6), 0, UIUtils.dip2px(6));
+            }
         } else {
+            viewHolder.lineView.setVisibility(View.GONE);
+            viewHolder.yellowLineView.setVisibility(View.GONE);
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
 
@@ -79,6 +100,8 @@ public class AirportAdapter extends BaseAdapter {
     final static class ViewHolder {
         TextView tvLetter;
         TextView tvTitle;
+        View lineView;
+        View yellowLineView;
     }
 
 

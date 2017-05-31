@@ -165,7 +165,7 @@ public class ChooseCityAdapter extends BaseAdapter implements StickyListHeadersA
             holder = new HeaderViewHolder();
             convertView = inflater.inflate(R.layout.item_choosecity_sections, parent, false);
             holder.sectionsTV = (TextView) convertView.findViewById(R.id.item_choosecity_sections_tv);
-            holder.sectionsTV.setTextColor(Color.parseColor("#FDCE02"));
+            holder.sectionsTV.setTextColor(mContext.getResources().getColor(R.color.default_yellow));
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
