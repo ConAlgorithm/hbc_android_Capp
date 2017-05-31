@@ -49,7 +49,7 @@ public class OrderDetailStateView extends RelativeLayout implements HbcViewBehav
         OrderBean orderBean = (OrderBean) _data;
         switch (orderBean.orderStatus) {
             case INITSTATE://1:未付款
-                setTypePayment(0xFFF66363, "等待支付", R.mipmap.order_state_unpaid, orderBean.getPayDeadTime());
+                setTypePayment(0xFFFF3B3B, "等待支付", R.mipmap.order_state_unpaid, orderBean.getPayDeadTime());
                 break;
             case PAYSUCCESS://2:已付款
                 setStyleSingle(0xFF83E06B, "预订成功", R.mipmap.order_state_success);
@@ -78,7 +78,7 @@ public class OrderDetailStateView extends RelativeLayout implements HbcViewBehav
                 setStyleSingle(0xFFDBDBDB, "已退款", R.mipmap.order_state_refund);
                 break;
             case COMPLAINT://订单已冻结(10:客诉处理中)
-                setStyleSingle(0xFFF66363, "纠纷处理中", R.mipmap.order_state_complaint);
+                setStyleSingle(0xFFFF3B3B, "纠纷处理中", R.mipmap.order_state_complaint);
                 break;
         }
     }
