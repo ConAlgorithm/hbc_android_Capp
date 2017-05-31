@@ -36,7 +36,7 @@
         android:layout_below="@id/charter_subtitle_day_tv"
         android:gravity="center_vertical"
         android:text="*从以下玩法中选择一个"
-        android:textColor="#f9b906"
+        android:textColor="@color/default_yellow"
         android:textSize="11sp" />
 
     <LinearLayout
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请添加航班号"
-            android:textColor="#19b9da"
+            android:textColor="@color/default_highlight_blue"
             android:textSize="11sp" />
         <ImageView
             android:id="@+id/charter_subtitle_pickup_arrow_iv"

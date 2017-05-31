@@ -142,10 +142,13 @@
     <color name="default_btn_selected_bg">#d2c429</color>
     <color name="default_btn_selected_gray_bg">#99E2E2E2</color>
 
-    <color name="default_yellow">#ffce00</color>
-    <color name="default_black">#161616</color>
+    <color name="default_yellow">#ffc100</color>
+    <color name="default_btn_yellow">#ffce00</color>
+    <color name="default_btn_pressed_yellow">#f6ba00</color>
+    <color name="default_black">#151515</color>
     <color name="default_highlight_blue">#24BCFF</color>
     <color name="default_price_red">#FF2525</color>
+    <color name="default_highlight_green">#09D3AF</color>
 
     <color name="custom_header_text">#85B100</color>
     <color name="custom_selected">#A8D324</color>

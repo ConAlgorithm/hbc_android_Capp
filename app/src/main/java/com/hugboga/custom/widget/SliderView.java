@@ -34,7 +34,7 @@ public class SliderView extends RelativeLayout {
     // Indicate if user touched this view the last time
     public boolean isLastTouch = false;
 
-    private int backgroundColor = Color.parseColor("#f9c326");
+    private int backgroundColor = getResources().getColor(R.color.default_yellow);
     private Ball   ball;
     private Bitmap bitmap;
     private int max = 100;
@@ -60,7 +60,7 @@ public class SliderView extends RelativeLayout {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         if (enabled) {
-            backgroundColor = Color.parseColor("#f9c326");
+            backgroundColor = getResources().getColor(R.color.default_yellow);
         } else {
             backgroundColor = disabledBackgroundColor;
         }
@@ -307,7 +307,7 @@ public class SliderView extends RelativeLayout {
 
         public void resetTextColor() {
             if (SliderView.this.isEnabled()) {
-                setTextColor(0xFF000000);
+                setTextColor(getResources().getColor(R.color.default_black));
             } else {
                 setTextColor(0xFFcccccc);
             }

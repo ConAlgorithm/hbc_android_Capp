@@ -66,7 +66,7 @@
                 android:paddingTop="1dp"
                 android:paddingBottom="1dp"
                 android:text="10小时"
-                android:textColor="#37cca2"
+                android:textColor="@color/default_highlight_green"
                 android:textSize="11sp" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:paddingTop="1dp"
                 android:paddingBottom="1dp"
                 android:text="150公里"
-                android:textColor="#37cca2"
+                android:textColor="@color/default_highlight_green"
                 android:textSize="11sp" />
         </LinearLayout>
 

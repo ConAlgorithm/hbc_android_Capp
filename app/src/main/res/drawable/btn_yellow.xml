@@ -2,12 +2,12 @@
 
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#cdad28" />
+            <solid android:color="@color/default_btn_pressed_yellow" />
         </shape>
     </item>
     <item>
         <shape>
-            <solid android:color="@color/default_yellow" />
+            <solid android:color="@color/default_btn_yellow" />
         </shape>
     </item>
 

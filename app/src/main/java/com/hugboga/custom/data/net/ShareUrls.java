@@ -56,7 +56,7 @@ public final class ShareUrls {
         params.put("avatar", TextUtils.isEmpty(avatar) ? "" : avatar);
         params.put("name", CommonUtils.getEncodedString(name));
         params.put("qcode", qcode);//邀请码
-        params.put("title", CommonUtils.getEncodedString("我已经领了！你也快来领皇包车600元大礼包吧，出国就用皇包车。"));//二次分享标题
+        params.put("title", CommonUtils.getEncodedString("送你皇包车600元大礼包！体验超省心境外旅行"));//二次分享标题
         params.put("description", CommonUtils.getEncodedString(description));//二次分享描述
         return getUri(SHARE_THIRTY_COUPON, params, false);
     }
