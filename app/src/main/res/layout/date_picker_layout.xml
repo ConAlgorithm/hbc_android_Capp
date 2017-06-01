@@ -10,13 +10,15 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/date_picker_title_tv"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textColor="#7f7f7f"
             android:gravity="center"
+            android:textColor="#7f7f7f"
             android:textSize="15sp" />
+
         <LinearLayout
             android:id="@+id/week_layout"
             android:layout_width="match_parent"
@@ -30,58 +32,66 @@
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="12sp"
-                android:layout_weight="1" />
+                android:textSize="12sp" />
 
             <TextView
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="12sp"
-                android:layout_weight="1" />
+                android:textSize="12sp" />
 
             <TextView
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="12sp"
-                android:layout_weight="1" />
+                android:textSize="12sp" />
 
             <TextView
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="14sp"
-                android:layout_weight="1" />
+                android:textSize="14sp" />
 
             <TextView
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="12sp"
-                android:layout_weight="1" />
+                android:textSize="12sp" />
 
             <TextView
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="12sp"
-                android:layout_weight="1" />
+                android:textSize="12sp" />
 
             <TextView
                 style="@style/CalendarCell.DayHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="#7f7f7f"
-                android:textSize="12sp"
-                android:layout_weight="1" />
+                android:textSize="12sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/dash_month"
+            android:layerType="software" />
 
         <com.squareup.timessquare.CalendarPickerView
             android:id="@+id/calendar_view"
@@ -89,11 +99,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            android:fadingEdge="none"
-            android:overScrollMode="never"
             android:divider="@null"
             android:dividerHeight="0dp"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
+            android:paddingBottom="16dp"
             android:scrollbarStyle="outsideOverlay"
             app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
             app:tsquare_dividerColor="@color/transparent" />
@@ -109,17 +119,17 @@
     <TextView
         android:id="@+id/show_tips"
         android:layout_width="wrap_content"
-        android:background="@drawable/shape_date_picker_gray"
-        android:textColor="@color/basic_white"
-        android:textSize="12sp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="请选择开始日期"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/shape_date_picker_gray"
         android:gravity="center"
+        android:paddingBottom="8dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:layout_marginBottom="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content" />
+        android:text="请选择开始日期"
+        android:textColor="@color/basic_white"
+        android:textSize="12sp" />
 </RelativeLayout>

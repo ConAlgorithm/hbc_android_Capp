@@ -613,35 +613,34 @@ public class CalendarPickerView extends ListView {
 
     if (date != null) {
       // Select a new cell.
-      if (selectedCells.size() == 0 || !selectedCells.get(0).equals(cell)) {
-        selectedCells.add(cell);
-        cell.setSelected(true);
-      }
+      selectedCells.add(cell);
+      cell.setSelected(true);
       selectedCals.add(newlySelectedCal);
 
       if (selectionMode == SelectionMode.RANGE && selectedCells.size() > 1) {
-        // Select all days in between start and end.
-        Date start = selectedCells.get(0).getDate();
-        Date end = selectedCells.get(1).getDate();
-        selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST);
-        selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.LAST);
+        if (selectedCells.get(0).equals(selectedCells.get(1))) {
+          selectedCells.get(0).setRangeState(RangeState.START_END);
+        } else {
+          // Select all days in between start and end.
+          Date start = selectedCells.get(0).getDate();
+          Date end = selectedCells.get(1).getDate();
+          selectedCells.get(0).setRangeState(MonthCellDescriptor.RangeState.FIRST);
+          selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.LAST);
 
-        if(end.before(start)){
-          selectedCells.get(0).setRangeState(RangeState.NONE);
-          selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.NONE);
-        }
-
-
-
-        for (List<List<MonthCellDescriptor>> month : cells) {
-          for (List<MonthCellDescriptor> week : month) {
-            for (MonthCellDescriptor singleCell : week) {
-              if (singleCell.getDate().after(start)
-                  && singleCell.getDate().before(end)
-                  && singleCell.isSelectable()) {
-                singleCell.setSelected(true);
-                singleCell.setRangeState(MonthCellDescriptor.RangeState.MIDDLE);
-                selectedCells.add(singleCell);
+          if(end.before(start)){
+            selectedCells.get(0).setRangeState(RangeState.NONE);
+            selectedCells.get(1).setRangeState(MonthCellDescriptor.RangeState.NONE);
+          }
+          for (List<List<MonthCellDescriptor>> month : cells) {
+            for (List<MonthCellDescriptor> week : month) {
+              for (MonthCellDescriptor singleCell : week) {
+                if (singleCell.getDate().after(start)
+                        && singleCell.getDate().before(end)
+                        && singleCell.isSelectable()) {
+                  singleCell.setSelected(true);
+                  singleCell.setRangeState(MonthCellDescriptor.RangeState.MIDDLE);
+                  selectedCells.add(singleCell);
+                }
               }
             }
           }
@@ -807,7 +806,7 @@ public class CalendarPickerView extends ListView {
       } else {
         monthView.setDecorators(decorators);
       }
-      monthView.init(months.get(position), cells.get(position), displayOnly, titleTypeface, dateTypeface, minCal, maxCal);
+      monthView.init(position, months.get(position), cells.get(position), displayOnly, titleTypeface, dateTypeface, minCal, maxCal);
       return monthView;
     }
   }

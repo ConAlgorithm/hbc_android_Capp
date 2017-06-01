@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class MonthView extends LinearLayout {
   private List<CalendarCellDecorator> decorators;
   private boolean isRtl;
   private Locale locale;
+  View line;
 
   public static MonthView create(ViewGroup parent, LayoutInflater inflater,
       DateFormat weekdayNameFormat, Listener listener, Calendar today, int dividerColor,
@@ -43,7 +45,7 @@ public class MonthView extends LinearLayout {
     view.setDividerColor(dividerColor);
 //    view.setDayTextColor(dayTextColorResId);
 //    view.setTitleTextColor(titleTextColor);
-    view.setTitleTextColor(0xFFF9B800);
+    view.setTitleTextColor(0xFFFFC100);
     view.setDisplayHeader(displayHeader);
     view.setHeaderTextColor(headerTextColor);
 
@@ -101,15 +103,21 @@ public class MonthView extends LinearLayout {
     super.onFinishInflate();
     title = (TextView) findViewById(R.id.title);
     grid = (CalendarGridView) findViewById(R.id.calendar_grid);
+    line = findViewById(R.id.line);
   }
 
-  public void init(MonthDescriptor month, List<List<MonthCellDescriptor>> cells,
+  public void init(int position, MonthDescriptor month, List<List<MonthCellDescriptor>> cells,
       boolean displayOnly, Typeface titleTypeface, Typeface dateTypeface, Calendar minCal, Calendar maxCal) {
     Logr.d("Initializing MonthView (%d) for %s", System.identityHashCode(this), month);
     long start = System.currentTimeMillis();
     title.setText(String.format("%1$s年%2$s月", month.getYear(), "" + (month.getMonth() + 1)));//month.getLabel()
     title.setTextSize(13);
     NumberFormat numberFormatter = NumberFormat.getInstance(locale);
+    if (position == 0) {
+      line.setVisibility(View.GONE);
+    } else {
+      line.setVisibility(View.VISIBLE);
+    }
 
     final int numRows = cells.size();
     grid.setNumRows(numRows);
@@ -128,7 +136,7 @@ public class MonthView extends LinearLayout {
           } else if (!CalendarPickerView.betweenDates(cell.getDate(), minCal, maxCal)) {
             dayOfMonthTextView.setTextColor(0xFFD7D7D7);
           } else if((c ==0 || c == week.size() -1 )){
-            dayOfMonthTextView.setTextColor(0xFFF66363);
+            dayOfMonthTextView.setTextColor(0xFFFF2525);
           } else {
             dayOfMonthTextView.setTextColor(0xFF161616);
           }
