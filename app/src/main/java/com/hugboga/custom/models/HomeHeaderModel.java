@@ -2,13 +2,20 @@ package com.hugboga.custom.models;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
@@ -39,6 +46,12 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.nineoldandroids.view.ViewHelper;
+import com.viewpagerindicator.CirclePageIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,37 +59,69 @@ import butterknife.ButterKnife;
 /**
  * Created by SPW on 2017/3/9.
  */
-public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClickListener{
+public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClickListener {
 
+    Context context;
+    private Timer timer = new Timer(); //为了方便取消定时轮播，将 Timer 设为全局
+    private static final int UPTATE_VIEWPAGER = 0;
+    //设置当前 第几个图片 被选中
+    private int autoCurrIndex = 0;
 
     HomeBeanV2.HomeHeaderInfo homeHeaderInfo;
+    ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings;
     HomeSearchTabView.HomeTabClickListener homeTabClickListener;
 
     private HomeSearchTabView tabView;
     private View animateServiceView;
     private View animateBaseLineView;
     private View animateServiceInnerView;
+    //定时轮播图片，需要在主线程里面修改 UI
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPTATE_VIEWPAGER:
+                    if (msg.arg1 != 0) {
+                        if (homeHeaderHolder.mViewPager != null) {
+                            homeHeaderHolder.mViewPager.setCurrentItem(msg.arg1);
+                        }
+                    } else {
+                        //false 当从末页调到首页是，不显示翻页动画效果，
+                        if (homeHeaderHolder.mViewPager != null) {
+                            homeHeaderHolder.mViewPager.setCurrentItem(msg.arg1, false);
+                        }
+                    }
+                    break;
+            }
+        }
+    };
 
-    public HomeHeaderModel(HomeBeanV2.HomeHeaderInfo homeHeaderInfo,HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
+    public HomeHeaderModel(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
+        this.context = context;
         this.homeHeaderInfo = homeHeaderInfo;
+        this.activityPageSettings = activityPageSettings;
         this.homeTabClickListener = homeTabClickListener;
 
     }
 
-    public void setHomeHeaderInfo(HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
+    public void setHomeHeaderInfo(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
+        this.context = context;
         this.homeHeaderInfo = homeHeaderInfo;
     }
 
+    public void setHomeActivityPageSetting(ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings){
+        this.activityPageSettings = activityPageSettings;
+    }
     @Override
     protected HomeHeaderHolder createNewHolder() {
         return new HomeHeaderHolder();
     }
 
     HomeHeaderHolder homeHeaderHolder;
+
     @Override
     public void bind(EpoxyHolder holder) {
         super.bind(holder);
-        if(holder==null){
+        if (holder == null) {
             return;
         }
         homeHeaderHolder = (HomeHeaderHolder) holder;
@@ -84,13 +129,36 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     }
 
 
-    public void update(){
-        if(homeHeaderHolder==null){
+    public void update() {
+        if (homeHeaderHolder == null) {
             return;
         }
-        if(homeHeaderInfo.dynamicPic!=null){
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
-            Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
+        if(activityPageSettings !=null){
+            //构建滑动页
+            List<String> views = new ArrayList<String>();
+
+            for (int i = 0; i < activityPageSettings.size(); i++) {
+                //Tools.showImageHasPlaceHolder(iv, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
+                views.add(activityPageSettings.get(i).getPicture());
+            }
+
+            HomePageAdapter aAdapter = new HomePageAdapter(context,views);
+            //首页轮播图
+            homeHeaderHolder.mViewPager.setAdapter(aAdapter);
+            homeHeaderHolder.mIndicator.setViewPager(homeHeaderHolder.mViewPager);
+            if (activityPageSettings.size() <= 1) {
+                homeHeaderHolder.mIndicator.setVisibility(View.GONE);
+            } else {
+                homeHeaderHolder.mIndicator.setVisibility(View.VISIBLE);
+            }
+            homeHeaderHolder.mViewPager.setCurrentItem(0);
+            startShowHomePic();
+        }
+
+
+        if (homeHeaderInfo.dynamicPic != null) {
+            //homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
+            //Tools.showImageHasPlaceHolder(homeHeaderHolder.headerImage, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
             setPlaceAmmountText(homeHeaderHolder.placeAmmout);
             setGuideAmmountText(homeHeaderHolder.gideAmmountText);
             homeHeaderHolder.chaterView.setOnClickListener(this);
@@ -98,8 +166,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             homeHeaderHolder.singleView.setOnClickListener(this);
             homeHeaderHolder.homeHelp.setOnClickListener(this);
             homeHeaderHolder.homeVideoPage.setOnClickListener(this);
-        }else{
-            homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
+        } else {
+            //homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
         }
 
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
@@ -107,126 +175,205 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         animateServiceView = homeHeaderHolder.serviceLayout;
         animateBaseLineView = homeHeaderHolder.homeHelp;
         animateServiceInnerView = homeHeaderHolder.serviceInnerLayout;
-        homeHeaderHolder.homeHeaderSearch.setOnClickListener(this);
+        //homeHeaderHolder.homeHeaderSearch.setOnClickListener(this);
     }
 
-    public void locationTab(int index){
-        if(tabView!=null){
+    public class HomePageAdapter extends PagerAdapter {
+
+        private List<String> views;
+        Context mContext;
+        private ViewGroup.LayoutParams itemParams;
+
+        public HomePageAdapter(Context mContext, List<String> views) {
+            this.mContext = mContext;
+            this.views = views;
+            itemParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ((ViewGroup) container.getParent()).removeView((View)object);
+        }
+
+        /* (non-Javadoc)
+         * @see android.support.v4.view.PagerAdapter#getCount()
+         */
+        @Override
+        public int getCount() {
+            if (views != null) {
+                return views.size();
+            }
+            return 0;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            String view = views.get(position);
+            ImageView itemView = new ImageView(mContext);
+            itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (!TextUtils.isEmpty(view)) {
+                Tools.showImage(itemView, view, R.mipmap.home_banner);
+            } else {
+                itemView.setImageResource(R.mipmap.home_banner);
+            }
+            itemView.setLayoutParams(itemParams);
+            itemView.getLayoutParams().height = (211 * ScreenUtil.screenWidth)/360;
+            container.addView(itemView, 0);
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            return itemView;
+        }
+
+        /* (non-Javadoc)
+         * @see android.support.v4.view.PagerAdapter#isViewFromObject(android.view.View, java.lang.Object)
+         */
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return (arg0 == arg1);
+        }
+
+    }
+
+    private  void startShowHomePic(){
+        // 设置自动轮播图片，5s后执行，周期是5s
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = UPTATE_VIEWPAGER;
+                if (autoCurrIndex == activityPageSettings.size() - 1) {
+                    autoCurrIndex = -1;
+                }
+                message.arg1 = autoCurrIndex + 1;
+                autoCurrIndex += 1;
+                mHandler.sendMessage(message);
+            }
+        }, 5000, 5000);
+    }
+    public void locationTab(int index) {
+        if (tabView != null) {
             tabView.tabIndex(index);
         }
     }
 
-    public void animateServiceView(int destAnimationWidth){
-        if(animateServiceView==null){
+    public void animateServiceView(int destAnimationWidth) {
+        if (animateServiceView == null) {
             return;
         }
         int viewMaxHeight = animateServiceView.getMeasuredHeight();
         int viewMinHeight = UIUtils.dip2px(36);
-        float finalScaleY = viewMinHeight/(float)viewMaxHeight;
+        float finalScaleY = viewMinHeight / (float) viewMaxHeight;
 
         int viewMaxWidth = animateServiceView.getMeasuredWidth();
         int viewMinWidth = destAnimationWidth;
-        float finalScaleX = viewMinWidth/((float)viewMaxWidth);
+        float finalScaleX = viewMinWidth / ((float) viewMaxWidth);
 
         int max = UIUtils.statusBarHeight + UIUtils.dip2px(48) + viewMaxHeight;
         int min = UIUtils.statusBarHeight + UIUtils.dip2px(42);
 
         int animateViewTop = getServiceViewTop() - UIUtils.dip2px(8);
 
-        ViewHelper.setPivotX(animateServiceView,(float)(viewMaxWidth/2));
-        ViewHelper.setPivotY(animateServiceView,(float)(viewMaxHeight));
-        if(animateViewTop>max){
-            ViewHelper.setScaleX(animateServiceView,1.0f);
-            ViewHelper.setScaleY(animateServiceView,1.0f);
-            ViewHelper.setAlpha(animateServiceInnerView,1f);
-            ViewHelper.setAlpha(animateServiceView,1f);
-        }else if(animateViewTop<min){
-            ViewHelper.setScaleX(animateServiceView,finalScaleX);
-            ViewHelper.setScaleY(animateServiceView,finalScaleY);
-            ViewHelper.setAlpha(animateServiceInnerView,0f);
-            ViewHelper.setAlpha(animateServiceView,0f);
-        }else{
-            float scaleX = 1.0f-(1.0f-finalScaleX)*((max-animateViewTop)/((float)(max-min)));
-            float scaleY = 1.0f-(1.0f-finalScaleY)*((max-animateViewTop)/((float)(max-min)));
-            ViewHelper.setScaleX(animateServiceView,scaleX);
-            ViewHelper.setScaleY(animateServiceView,scaleY);
-            float alphaInner = 1.0f-2.5f*((max-animateViewTop)/((float)(max-min)));
-            float alphaOuter = 1.0f-0.4f*((max-animateViewTop)/((float)(max-min)));
-            if(alphaInner<0f){
+        ViewHelper.setPivotX(animateServiceView, (float) (viewMaxWidth / 2));
+        ViewHelper.setPivotY(animateServiceView, (float) (viewMaxHeight));
+        if (animateViewTop > max) {
+            ViewHelper.setScaleX(animateServiceView, 1.0f);
+            ViewHelper.setScaleY(animateServiceView, 1.0f);
+            ViewHelper.setAlpha(animateServiceInnerView, 1f);
+            ViewHelper.setAlpha(animateServiceView, 1f);
+        } else if (animateViewTop < min) {
+            ViewHelper.setScaleX(animateServiceView, finalScaleX);
+            ViewHelper.setScaleY(animateServiceView, finalScaleY);
+            ViewHelper.setAlpha(animateServiceInnerView, 0f);
+            ViewHelper.setAlpha(animateServiceView, 0f);
+        } else {
+            float scaleX = 1.0f - (1.0f - finalScaleX) * ((max - animateViewTop) / ((float) (max - min)));
+            float scaleY = 1.0f - (1.0f - finalScaleY) * ((max - animateViewTop) / ((float) (max - min)));
+            ViewHelper.setScaleX(animateServiceView, scaleX);
+            ViewHelper.setScaleY(animateServiceView, scaleY);
+            float alphaInner = 1.0f - 2.5f * ((max - animateViewTop) / ((float) (max - min)));
+            float alphaOuter = 1.0f - 0.4f * ((max - animateViewTop) / ((float) (max - min)));
+            if (alphaInner < 0f) {
                 alphaInner = 0;
             }
-            ViewHelper.setAlpha(animateServiceInnerView,alphaInner);
-            ViewHelper.setAlpha(animateServiceView,alphaOuter);
+            ViewHelper.setAlpha(animateServiceInnerView, alphaInner);
+            ViewHelper.setAlpha(animateServiceView, alphaOuter);
             //Log.i("anim","scaleX:" + scaleX + " scaleY:" + scaleY);
         }
     }
 
-    private int getServiceViewTop(){
-        if(animateBaseLineView!=null){
+    private int getServiceViewTop() {
+        if (animateBaseLineView != null) {
             return UIUtils.getViewTop(animateBaseLineView);
         }
         return 0;
     }
 
-    public int getTabViewTop(){
-        if(tabView!=null){
-            return  UIUtils.getViewTop(tabView);
+    public int getTabViewTop() {
+        if (tabView != null) {
+            return UIUtils.getViewTop(tabView);
         }
         return 0;
     }
 
 
-
-    private void setPlaceAmmountText(TextView textView){
-        String countryStr = homeHeaderInfo.countryNum+"+";
-        String cityStr = homeHeaderInfo.cityNum+"+";
+    private void setPlaceAmmountText(TextView textView) {
+        String countryStr = homeHeaderInfo.countryNum + "+";
+        String cityStr = homeHeaderInfo.cityNum + "+";
         String firstString = "开车带你玩遍" + countryStr;
-        String country="国家、";
+        String country = "国家、";
         String city = "城市";
         String showStr = firstString + country + cityStr + city;
         int cityNumber = firstString.length() + country.length() + cityStr.length();
         SpannableString spannableString = new SpannableString(showStr);
         //spannableString.setSpan(new ForegroundColorSpan(0xffffff),0,countryStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new SuperscriptSpan(),firstString.length()-1,firstString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new  AbsoluteSizeSpan(25),firstString.length()-1,firstString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new SuperscriptSpan(), firstString.length() - 1, firstString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(25), firstString.length() - 1, firstString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         //spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),countryStr.length()+5,countryStr.length()+cityStr.length()+5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new SuperscriptSpan(),cityNumber-1,cityNumber, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new  AbsoluteSizeSpan(25),cityNumber-1,cityNumber, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new SuperscriptSpan(), cityNumber - 1, cityNumber, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new AbsoluteSizeSpan(25), cityNumber - 1, cityNumber, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         textView.setText(spannableString);
     }
 
-    private void setGuideAmmountText(TextView textView){
-        String guideAmmountStr = homeHeaderInfo.guideNum+"万";
-        String showStr = guideAmmountStr+"华人导游";
+    private void setGuideAmmountText(TextView textView) {
+        String guideAmmountStr = homeHeaderInfo.guideNum + "万";
+        String showStr = guideAmmountStr + "华人导游";
         //SpannableString spannableString = new SpannableString(showStr);
         //spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),0,guideAmmountStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(showStr);
-        textView.setShadowLayer(0.5f,0.5f,0.5f,0x9a000b34);
+        textView.setShadowLayer(0.5f, 0.5f, 0.5f, 0x9a000b34);
     }
 
     @Override
     protected int getDefaultLayout() {
-        return R.layout.home_header_view;
+        return R.layout.home_header_view_new;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.home_chater:
-                intentActivity(v.getContext(),CharterFirstStepActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
+                intentActivity(v.getContext(), CharterFirstStepActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
                 break;
             case R.id.home_picksend_layout:
-                intentActivity(v.getContext(),PickSendActivity.class, StatisticConstant.LAUNCH_J);
+                intentActivity(v.getContext(), PickSendActivity.class, StatisticConstant.LAUNCH_J);
                 break;
             case R.id.home_single_layout:
-                intentActivity(v.getContext(),SingleActivity.class, StatisticConstant.LAUNCH_C);
+                intentActivity(v.getContext(), SingleActivity.class, StatisticConstant.LAUNCH_C);
                 break;
             case R.id.home_help:
-                if (CommonUtils.isLogin(v.getContext())){
+                //if (CommonUtils.isLogin(v.getContext())) {
                     gotoTravelPurposeForm(v);
-                }
+                //}
+                Intent intentProPre = null;
+                intentProPre = new Intent(context, TravelPurposeFormActivity.class);
+
+                context.startActivity(intentProPre);
                 MobClickUtils.onEvent(StatisticConstant.YI_XIANG);
                 break;
             case R.id.home_video_page:
@@ -245,28 +392,28 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                     v.getContext().startActivity(intent);
                 }
                 break;
-            case R.id.home_header_search:
+            /*case R.id.home_header_search:
                 Intent intentSearch = new Intent(v.getContext(), ChooseCityNewActivity.class);
                 intentSearch.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
                 intentSearch.putExtra("isHomeIn", true);
                 intentSearch.putExtra("source", "首页搜索框");
                 v.getContext().startActivity(intentSearch);
                 StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
-                break;
+                break;*/
         }
     }
 
-    private void gotoTravelPurposeForm(final View view){
+    private void gotoTravelPurposeForm(final View view) {
         RequestHasCreatedTravelForm requestHasCreate = new RequestHasCreatedTravelForm(view.getContext(), UserEntity.getUser().getUserId(view.getContext()));
         HttpRequestUtils.request(view.getContext(), requestHasCreate, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 Intent intent = null;
                 RequestHasCreatedTravelForm.HasWork hasWork = ((RequestHasCreatedTravelForm) request).getData();
-                if (hasWork.getHasWorkorder()){
+                if (hasWork.getHasWorkorder()) {
                     intent = new Intent(view.getContext(), TravelPurposeFormListActivity.class);
-                }else {
-                    intent = new Intent(view.getContext(),TravelPurposeFormActivity.class);
+                } else {
+                    intent = new Intent(view.getContext(), TravelPurposeFormActivity.class);
                 }
                 view.getContext().startActivity(intent);
             }
@@ -285,7 +432,9 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
 
         View itemView;
         @Bind(R.id.home_header_image)
-        ImageView headerImage;
+        ViewPager mViewPager;
+        @Bind(R.id.indicator)
+        CirclePageIndicator mIndicator;
         @Bind(R.id.place_ammount_text)
         TextView placeAmmout;
         @Bind(R.id.guide_ammount_text)
@@ -306,8 +455,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         View serviceLayout;
         @Bind(R.id.home_search_service_inner_layout)
         View serviceInnerLayout;
-        @Bind(R.id.home_header_search)
-        View homeHeaderSearch;//首页搜索
+        /*@Bind(R.id.home_header_search)
+        View homeHeaderSearch;//首页搜索*/
 
         @Override
         protected void bindView(View itemView) {
