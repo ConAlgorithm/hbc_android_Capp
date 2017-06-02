@@ -24,14 +24,14 @@
             <com.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
-                android:layout_height="20dip"
+                android:layout_height="25dip"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginBottom="57dp"
                 android:background="#00000000"
                 res:centered="true"
-                res:fillColor="#FFFFFF"
-                res:pageColor="#efefef"
-                res:radius="4dip" />
+                res:fillColor="#FFFFFFFF"
+                res:pageColor="#A3FFFFFF"
+                res:radius="3dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"

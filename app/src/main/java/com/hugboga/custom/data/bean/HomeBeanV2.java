@@ -1,6 +1,8 @@
 package com.hugboga.custom.data.bean;
 
 
+import com.hugboga.custom.action.data.ActionBean;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,8 @@ public class HomeBeanV2 implements Serializable {
         public String cityDesc;//城市描述
         public int guideNum; //司导数
         public String guideDesc; //司导描述
+        public String guideIntroUrl;//华人司导
+        public String beginnerTipUrl;//新手必读
     }
 
     /*
@@ -154,21 +158,13 @@ public class HomeBeanV2 implements Serializable {
     }
 
     public static class ActivityPageSetting implements Serializable {
-        int startSettingId = 0;
-        String activityName = "";
-        String picture = "";
-        String urlAddress = "";
-        int requestType = 0;
-        int needLogin = 0;
-        ActivityPageSettingPushScheme pushScheme = null;
-
-        public class ActivityPageSettingPushScheme implements Serializable{
-            String t = "";
-            String u = "";
-            String v = "";
-            String f = "";
-            String d = "";
-        }
+        public int startSettingId = 0;
+        public String activityName = "";
+        public String picture = "";
+        public String urlAddress = "";
+        public int requestType = 0;//（1，h5；2，native）
+        public int needLogin = 0;
+        public ActionBean pushScheme = null;
 
         public String getPicture() {
             return picture;

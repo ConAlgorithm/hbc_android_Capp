@@ -25,6 +25,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.MediaPlayerActivity;
@@ -135,11 +137,11 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         }
         if(activityPageSettings !=null){
             //构建滑动页
-            List<String> views = new ArrayList<String>();
+            List<HomeBeanV2.ActivityPageSetting> views = new ArrayList<HomeBeanV2.ActivityPageSetting>();
 
             for (int i = 0; i < activityPageSettings.size(); i++) {
                 //Tools.showImageHasPlaceHolder(iv, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
-                views.add(activityPageSettings.get(i).getPicture());
+                views.add(activityPageSettings.get(i));
             }
 
             HomePageAdapter aAdapter = new HomePageAdapter(context,views);
@@ -166,6 +168,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             homeHeaderHolder.singleView.setOnClickListener(this);
             homeHeaderHolder.homeHelp.setOnClickListener(this);
             homeHeaderHolder.homeVideoPage.setOnClickListener(this);
+            homeHeaderHolder.huarenGuild.setOnClickListener(this);
         } else {
             //homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
         }
@@ -180,11 +183,11 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
 
     public class HomePageAdapter extends PagerAdapter {
 
-        private List<String> views;
+        private List<HomeBeanV2.ActivityPageSetting> views;
         Context mContext;
         private ViewGroup.LayoutParams itemParams;
 
-        public HomePageAdapter(Context mContext, List<String> views) {
+        public HomePageAdapter(Context mContext, List<HomeBeanV2.ActivityPageSetting> views) {
             this.mContext = mContext;
             this.views = views;
             itemParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -208,11 +211,11 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            String view = views.get(position);
+            final HomeBeanV2.ActivityPageSetting view = views.get(position);
             ImageView itemView = new ImageView(mContext);
             itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if (!TextUtils.isEmpty(view)) {
-                Tools.showImage(itemView, view, R.mipmap.home_banner);
+            if (!TextUtils.isEmpty(view.getPicture())) {
+                Tools.showImage(itemView, view.getPicture(), R.mipmap.home_banner);
             } else {
                 itemView.setImageResource(R.mipmap.home_banner);
             }
@@ -223,6 +226,15 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
 
                 @Override
                 public void onClick(View v) {
+                    if(view.requestType == 1){
+                        Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                        intent.putExtra(WebInfoActivity.WEB_URL, view.urlAddress);
+                        v.getContext().startActivity(intent);
+                    }else if(view.requestType == 2){
+                        ActionController actionFactory = ActionController.getInstance();
+                        actionFactory.doAction(context, view.pushScheme);
+                    }
+
                 }
             });
             return itemView;
@@ -400,6 +412,11 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 v.getContext().startActivity(intentSearch);
                 StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
                 break;*/
+            case R.id.huaren_guild_layout:
+                intent = new Intent(v.getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, homeHeaderInfo.guideIntroUrl);
+                v.getContext().startActivity(intent);
+                break;
         }
     }
 
@@ -455,6 +472,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         View serviceLayout;
         @Bind(R.id.home_search_service_inner_layout)
         View serviceInnerLayout;
+        @Bind(R.id.huaren_guild_layout)
+        View huarenGuild;
         /*@Bind(R.id.home_header_search)
         View homeHeaderSearch;//首页搜索*/
 
