@@ -30,10 +30,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.WXpayBean;
-import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestCreditCardPay;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestQueryCreditCard;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -47,9 +45,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.wxapi.WXPay;
-import com.hugboga.custom.yilianapi.YiLianPay;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
@@ -68,7 +64,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -408,7 +403,8 @@ public class ChoosePaymentActivity extends BaseActivity {
                         mHandler.sendEmptyMessage(1);
                     } else {
                         SharedPre sharedPre = new SharedPre(ChoosePaymentActivity.this);
-                        sharedPre.saveStringValue(SharedPre.PAY_WECHAT_DATA, requestParams.orderId);
+                        sharedPre.saveStringValue(SharedPre.PAY_WECHAT_ORDER_ID, requestParams.orderId);
+                        sharedPre.saveIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE, requestParams.orderType);
                         WXPay.pay(this, bean);
                     }
                 }

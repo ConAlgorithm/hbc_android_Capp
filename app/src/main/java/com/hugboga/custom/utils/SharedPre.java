@@ -47,7 +47,8 @@ public class SharedPre {
 	public static String COUPONS = "coupons";
 	public static String NEEDINITPWD = "needInitPwd";
 	public static String TRAVEL_FUND_HINT = "travelFundHint";
-	public static String PAY_WECHAT_DATA = "pay_wechat_data";
+	public static String PAY_WECHAT_ORDER_ID = "pay_wechat_order_id";
+	public static String PAY_WECHAT_ORDER_TYPE = "pay_wechat_order_type";
 	public static String GENDER ="gender";
 	public static String AGETYPE ="ageType";
 	public static String APP_LAUNCH_COUNT ="appLaunchCount";
