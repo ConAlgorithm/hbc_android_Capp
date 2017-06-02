@@ -688,6 +688,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
                 }
             }
         });
+        picker.setLineColor(0xffaaaaaa);
         picker.show();
     }
 

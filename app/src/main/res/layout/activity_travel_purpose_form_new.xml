@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/travel_purpose_btn"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wishbanner" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/basic_white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/register_mobile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/purpose_form_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:minEms="4"
+                        android:text="手机号"
+                        android:textColor="@color/default_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/areacode"
+                        android:layout_width="@dimen/change_mobile_areacode_width"
+                        android:layout_height="match_parent"
+                        android:drawableRight="@mipmap/home_major_arrow"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:hint="选择区号"
+                        android:paddingRight="12dp"
+                        android:singleLine="true"
+                        android:text="+86"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="@color/default_black"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/basic_margin_medium"
+                        android:layout_marginTop="@dimen/basic_margin_medium"
+                        android:background="@color/change_mobile_line" />
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/remark_tv"
+                        android:background="@null"
+                        android:hint="请填写手机号"
+                        android:inputType="phone"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:padding="16dp"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#cccccc"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/allbg_gray" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        android:id="@+id/name_tv"
+                        android:layout_width="@dimen/purpose_form_width"
+                        android:layout_height="wrap_content"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:text="称呼"
+                        android:textColor="@color/default_black"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/user_name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/name_tv"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:hint="我们怎么称呼您?"
+                        android:maxLength="50"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:singleLine="true"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#cccccc"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/allbg_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/purpose_place_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        android:id="@+id/purpose_place"
+                        android:layout_width="@dimen/purpose_form_width"
+                        android:layout_height="wrap_content"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:text="目的地"
+                        android:textColor="@color/default_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/purpose_place"
+                        android:hint="想去哪玩?"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#cccccc"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="@dimen/basic_margin_large"
+                        android:src="@mipmap/ente_icon" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/allbg_gray" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        android:id="@+id/travel_date"
+                        android:layout_width="@dimen/purpose_form_width"
+                        android:layout_height="wrap_content"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:text="旅行日期"
+                        android:textColor="@color/default_black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/travel_date"
+                        android:hint="大概什么时候去玩?"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#cccccc"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/allbg_gray" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        android:id="@+id/remark_tv"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:text="备注信息"
+                        android:textColor="@color/default_black"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/remark"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/remark_tv"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:hint="选填,200字内"
+                        android:maxLength="200"
+                        android:minEms="4"
+                        android:padding="@dimen/basic_margin_large"
+                        android:singleLine="true"
+                        android:textColor="@color/basic_black"
+                        android:textColorHint="#cccccc"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/submit_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/shape_rounded_gray_btn"
+                    android:gravity="center"
+                    android:text="提交"
+                    android:textColor="@color/allbg_white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="13dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/travel_purpose_tip"
+                    android:textColor="#ababab"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/travel_purpose_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="25dp"
+                android:text="@string/travel_purpose_connect"
+                android:textColor="#000000"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
