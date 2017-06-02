@@ -295,7 +295,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
                 String.valueOf(cityBean.cityId),cityBean.name,tripTimeStr,
                 remark.getText().toString(),areaCodeStr,phone.getText().toString(),
-                userName.getText().toString().toString());
+                userName.getText().toString().toString(), null,null,null);
         requestData(requestTravelPurposeForm);
         MobClickUtils.onEvent(StatisticConstant.YI_XIANG_SUCCEED);
     }
