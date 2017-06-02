@@ -41,7 +41,7 @@ public class PayResultActivity extends BaseActivity{
         }
 
         fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
-        fgPayResult.initView(params.payResult, params.orderId);
+        fgPayResult.initView(params.payResult, params.orderId, params.orderType);
     }
 
     @Override

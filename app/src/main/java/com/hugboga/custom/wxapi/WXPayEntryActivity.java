@@ -25,6 +25,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     private boolean isPaySucceed = false;
     private String orderId;
+    private int orderType;
 
     @Override
     public int getContentViewId() {
@@ -37,7 +38,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
 
         SharedPre sharedPre = new SharedPre(WXPayEntryActivity.this);
-        orderId = sharedPre.getStringValue(SharedPre.PAY_WECHAT_DATA);
+        orderId = sharedPre.getStringValue(SharedPre.PAY_WECHAT_ORDER_ID);
+        orderType = sharedPre.getIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE);
 
         api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
         api.handleIntent(getIntent(), this);
@@ -65,7 +67,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             isPaySucceed = resp.errCode == BaseResp.ErrCode.ERR_OK;
-            fgPayResult.initView(isPaySucceed, orderId);
+            fgPayResult.initView(isPaySucceed, orderId, orderType);
         }
     }
 

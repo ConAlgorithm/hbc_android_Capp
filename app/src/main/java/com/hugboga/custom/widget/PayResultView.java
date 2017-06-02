@@ -28,9 +28,11 @@ import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PaySucceedBean;
+import com.hugboga.custom.data.bean.PickupCouponOpenBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPaySucceed;
+import com.hugboga.custom.data.request.RequestPickupCouponOpen;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -125,7 +127,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         }
     }
 
-    public void initView(boolean _isPaySucceed, String _orderId) {
+    public void initView(boolean _isPaySucceed, String _orderId, int orderType) {
         this.isPaySucceed = _isPaySucceed;
         this.orderId = _orderId;
 
@@ -145,6 +147,9 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         if (isPaySucceed) {
             RequestPaySucceed request = new RequestPaySucceed(getContext(), orderId);
             HttpRequestUtils.request(getContext(), request, this);
+            if (orderType == 1) {
+                HttpRequestUtils.request(getContext(), new RequestPickupCouponOpen(getContext()), this, false);
+            }
         }
     }
 
@@ -213,6 +218,12 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             }
             bargainLayout.setVisibility(paySucceedBean.getBargainStatus() ? View.VISIBLE : View.GONE);
             lineTV.setText(paySucceedBean.getGoodMsg());
+        } else if (_request instanceof RequestPickupCouponOpen) {
+            PickupCouponOpenBean pickupCouponOpenBean = ((RequestPickupCouponOpen)_request).getData();
+            if (pickupCouponOpenBean != null && pickupCouponOpenBean.isOpen) {
+                PickupCouponDialog dialog = new PickupCouponDialog(getContext());
+                dialog.show();
+            }
         }
     }
 

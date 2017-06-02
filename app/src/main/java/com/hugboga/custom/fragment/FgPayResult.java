@@ -43,9 +43,9 @@ public class FgPayResult extends BaseFragment{
         fgLeftBtn.setLayoutParams(titleLeftBtnParams);
     }
 
-    public void initView(boolean _isPaySucceed, String _orderId) {
+    public void initView(boolean _isPaySucceed, String _orderId, int orderType) {
         this.isPaySucceed = _isPaySucceed;
-        payResultView.initView(_isPaySucceed, _orderId);
+        payResultView.initView(_isPaySucceed, _orderId, orderType);
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {

@@ -33,7 +33,7 @@ public class RequestPickupCouponOpen extends BaseRequest<PickupCouponOpenBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_PICKUP_COUPON_OPEN, HomeBeanV2.class);
+        return new HbcParser(UrlLibs.API_PICKUP_COUPON_OPEN, PickupCouponOpenBean.class);
     }
 
     @Override
