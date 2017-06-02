@@ -1,5 +1,7 @@
 package com.hugboga.custom.adapter;
 
+import android.content.Context;
+
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
@@ -13,6 +15,7 @@ import com.hugboga.custom.models.HotExplorationModel;
 import com.hugboga.custom.models.TravelStoryModel;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,12 +25,13 @@ public class HomePageAdapter extends EpoxyAdapter {
 
     public HomeHeaderModel homeHeaderModel;
 
-    public void showHeader(HomeBeanV2.HomeHeaderInfo homeHeaderInfo, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
+    public void showHeader(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
         if(homeHeaderModel!=null){
-            homeHeaderModel.setHomeHeaderInfo(homeHeaderInfo);
+            homeHeaderModel.setHomeHeaderInfo(context,homeHeaderInfo);
+            homeHeaderModel.setHomeActivityPageSetting(activityPageSettings);
             homeHeaderModel.update();
         }else{
-            homeHeaderModel = new HomeHeaderModel(homeHeaderInfo, homeTabClickListener);
+            homeHeaderModel = new HomeHeaderModel(context,homeHeaderInfo, activityPageSettings,homeTabClickListener);
             addModel(homeHeaderModel);
         }
     }

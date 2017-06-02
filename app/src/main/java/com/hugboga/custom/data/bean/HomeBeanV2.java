@@ -15,6 +15,7 @@ public class HomeBeanV2 implements Serializable {
     public HotExplorationAggregation hotExplorationAggVo; //热门探索
     public DestinationAggregation destinationAggVo; //目的地
     public ArrayList<FilterGuideBean> qualityGuides; //旅行故事
+    public ArrayList<ActivityPageSetting> activityList;//首页活动页,轮播图使用
 
 
     /**
@@ -152,5 +153,29 @@ public class HomeBeanV2 implements Serializable {
         public String guidePic;                 //司导头像
     }
 
+    public static class ActivityPageSetting implements Serializable {
+        int startSettingId = 0;
+        String activityName = "";
+        String picture = "";
+        String urlAddress = "";
+        int requestType = 0;
+        int needLogin = 0;
+        ActivityPageSettingPushScheme pushScheme = null;
 
+        public class ActivityPageSettingPushScheme implements Serializable{
+            String t = "";
+            String u = "";
+            String v = "";
+            String f = "";
+            String d = "";
+        }
+
+        public String getPicture() {
+            return picture;
+        }
+
+        public void setPicture(String picture) {
+            this.picture = picture;
+        }
+    }
 }

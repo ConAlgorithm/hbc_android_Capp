@@ -1,5 +1,6 @@
 package com.hugboga.custom.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -79,7 +81,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     View homeTitleLayout;
     @Bind(R.id.home_logo_icon)
     View homeBindIcon;
-
+    @Bind(R.id.search_icon_layout)
+    RelativeLayout searchTitle;
     HomePageAdapter homePageAdapter;
     HomeBeanV2 homeBean;
 
@@ -116,7 +119,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         homeListView.setLayoutManager(layoutManager);
         homeListView.setHasFixedSize(true);
         homeListView.setAdapter(homePageAdapter);
-        homePageAdapter.showHeader(new HomeBeanV2.HomeHeaderInfo(),this);
+        homePageAdapter.showHeader(getContext(),new HomeBeanV2.HomeHeaderInfo(),new ArrayList<HomeBeanV2.ActivityPageSetting>(),this);
         setListViewScrollerListener();
         addTabView();
     }
@@ -133,7 +136,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(newState==RecyclerView.SCROLL_STATE_IDLE){
-                    handleScrollerIdleEvent(); //滑动停止后判断头部显示状态
+                    //handleScrollerIdleEvent(); //滑动停止后判断头部显示状态
                 }
             }
 
@@ -147,7 +150,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
                 handleScrollerTabEvent();//是否需要浮层显示tab
 
-                handleScrollerServiceViewEvent();//头部动画处理
+                //handleScrollerServiceViewEvent();//头部动画处理
 
             }
         });
@@ -173,13 +176,26 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                     if(alpha>1.0f){
                         alpha = 1.0f;
                     }
+                    homeTitleLayout.setVisibility(View.VISIBLE);
                     homeTitleLayout.setAlpha(alpha);
                 }else{
                     homeTitleLayout.setAlpha(0);
+                    if(titleBarLayoutDis>255 && titleBarLayoutDis <500){
+                        float alpha = (titleBarLayoutDis-255)/(float)255*1.15f;
+                        if(alpha>1.0f){
+                            alpha = 1.0f;
+                        }
+                        searchTitle.setAlpha(alpha);
+                    }else{
+                        searchTitle.setAlpha(1.0f);
+                    }
+                    searchTitle.setVisibility(View.VISIBLE);
+                    homeTitleLayout.setVisibility(View.GONE);
                 }
                 if(titleBarLayoutDis<125){
                     float alpha = (125-titleBarLayoutDis)/(float)125;
                     homeBindIcon.setAlpha(alpha);
+                    searchTitle.setVisibility(View.GONE);
                 }else{
                     homeBindIcon.setAlpha(0);
                 }
@@ -281,9 +297,14 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             homeBean = ((RequestHome) _request).getData();
             if (homeBean != null) {
                 homePageAdapter.removeAfterHeader();
-                if (homeBean.headAggVo != null) {
-                    addHeader(homeBean.headAggVo);
+                if (homeBean.headAggVo != null ) {
+                    if(homeBean.activityList !=null){
+                        addHeader(getContext(),homeBean.activityList,homeBean.headAggVo);
+                    }else{
+                        addHeader(getContext(),null,homeBean.headAggVo);
+                    }
                 }
+
                 switch (tabIndex) {
                     case TAB_GUIDE:
                         if (homeBean!=null && homeBean.qualityGuides != null) {
@@ -342,8 +363,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     }
 
 
-    private void addHeader(HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
-        homePageAdapter.showHeader(homeHeaderInfo, this);
+    private void addHeader(Context context, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
+        homePageAdapter.showHeader(context,homeHeaderInfo, activityPageSettings,this);
     }
 
     private void addMoreHotExplorations(List<HomeBeanV2.HotExploration> hotExplorations) {
@@ -410,10 +431,11 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
     }
 
-    @OnClick({R.id.home_search_icon,R.id.home_title_layout})
+    @OnClick({R.id.home_search_icon,R.id.home_title_layout,R.id.search_icon_layout})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.home_search_icon:
+            case R.id.search_icon_layout:
                 goChooseCity();
                 break;
             case R.id.home_title_layout:
