@@ -26,10 +26,13 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,8 +63,8 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     TextView cityName;//目的地
     @Bind(R.id.start_date)
     TextView startDate;//出发日期
-    @Bind(R.id.uncertain_check)
-    CheckBox unCertainCheck;//是否确定日期
+    //@Bind(R.id.uncertain_check)
+    //CheckBox unCertainCheck;//是否确定日期
     @Bind(R.id.remark)
     EditText remark;//备注信息
     @Bind(R.id.user_name)
@@ -72,8 +75,9 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     EditText phone;//电话
     @Bind(R.id.submit_btn)
     Button submitBtn;//提交按钮
-
-    CityBean cityBean;
+    @Bind(R.id.travel_purpose_connect)
+            TextView purposeConnect;
+    //CityBean cityBean;
     AreaCodeBean areaCodeBean;
     DateTimePicker picker;
     String tripTimeStr ;
@@ -99,16 +103,24 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_travel_purpose_form;
+        return R.layout.activity_travel_purpose_form_new;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        OrderUtils.genUserTravelPurposeForm(this,purposeConnect,new OrderUtils.MyCLickSpan.OnSpanClickListener(){
+            @Override
+            public void onSpanClick(View view) {
+                onCustomerService();
+            }
+        });
         init();
     }
-
+    public void onCustomerService() {
+        DialogUtil.getInstance(TravelPurposeFormActivity.this).showDefaultServiceDialog(TravelPurposeFormActivity.this, getEventSource());
+    }
     public void init(){
         title.setText(getString(R.string.travel_purpose_title));
         headerLeft.setVisibility(View.VISIBLE);
@@ -130,7 +142,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             phone.setText(SharedPre.getString(SharedPre.PHONE,null).trim());
         }
         //时间不确定
-        unCertainCheck.setChecked(false);
+        /*unCertainCheck.setChecked(false);
         unCertainCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -141,7 +153,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                     startDate.setTextColor(getResources().getColor(R.color.basic_black));
                 }
             }
-        });
+        });*/
         //初始button
         setButtonStatus(submitBtn,checkContent());
     }
@@ -151,14 +163,16 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.purpose_place_layout:
-                Intent intent = new Intent(this,ChooseCityActivity.class);
+                /*Intent intent = new Intent(this,ChooseCityActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(KEY_FROM, "purpose");
                 bundle.putInt(KEY_BUSINESS_TYPE, Constants.BUSINESS_TYPE_DAILY);
                 bundle.putString(ChooseCityActivity.KEY_FROM_TAG, CharterFirstStepActivity.TAG);
                 intent.putExtras(bundle);
                 intent.putExtra("fromInterCity",true);
-                startActivity(intent);
+                startActivity(intent);*/
+                goChooseCity();
+
                 break;
             case R.id.start_date:
                 gotoSelectDate();
@@ -175,14 +189,20 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 break;
         }
     }
-
+    private void goChooseCity() {
+        Intent intent = new Intent(this, ChooseCityNewActivity.class);
+        intent.putExtra("isFromTravelPurposeForm",true);
+        startActivity(intent);
+    }
     @Subscribe
     public void onEventMainThread(EventAction action){
         switch (action.getType()){
             case PURPOSER_CITY:           //选择城市
-                if (action.getData() instanceof CityBean) {
+                /*if (action.getData() instanceof CityBean) {
                     cityBean = (CityBean) action.getData();
                     cityName.setText(cityBean.name);
+                }else */if(action.getData() instanceof String){
+                    cityName.setText((String)action.getData());
                 }
                 setButtonStatus(submitBtn,checkContent());
                 break;
@@ -202,21 +222,21 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
      * @return
      */
     public Boolean checkContent(){
-        if (TextUtils.isEmpty(cityName.getText().toString().trim())){
+        /*if (TextUtils.isEmpty(cityName.getText().toString().trim())){
             return false;
         }else if (TextUtils.isEmpty(userName.getText().toString().trim())){
             return false;
-        }else if (TextUtils.isEmpty(areaCode.getText().toString().trim())){
+        }else */if (TextUtils.isEmpty(areaCode.getText().toString().trim())){
             return false;
         }else if (TextUtils.isEmpty(phone.getText().toString().trim())) {
             return false;
-        }else if (TextUtils.isEmpty(startDate.getText().toString().trim())){
+        }/*else if (TextUtils.isEmpty(startDate.getText().toString().trim())){
             if (unCertainCheck.isChecked()){
                 return true;
             }else {
                 return false;
             }
-        } else {
+        }*/ else {
             return true;
         }
     }
@@ -242,14 +262,14 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
      */
     public void gotoSelectDate(){
         final Calendar calendar = Calendar.getInstance();
-        picker = new DateTimePicker(this,DateTimePicker.ONLY_YEAR_MONTH_DAY);
+        picker = new DateTimePicker(this,DateTimePicker.ONLY_YEAR_MONTH_DAY,true);
         //设置控件头部属性
         picker.setTitleText("请选择旅行日期");
         picker.setTitleTextSize(18);
         picker.setTitleTextColor(getResources().getColor(R.color.basic_black));
         picker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
         picker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
-        picker.setTopBackgroundColor(getResources().getColor(R.color.text_color_grey));
+        picker.setTopBackgroundColor(getResources().getColor(R.color.date_title_bg));
         picker.setLineColor(getResources().getColor(R.color.text_hint_color));
         picker.useMaxRatioLine();
 
@@ -259,7 +279,13 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                String tempDate = year + "年" + month + "月";
+                String tempDate="";
+                if(month.equals("待定")){
+                    tempDate = year + "年" + "待定";
+                }else {
+                    tempDate = year + "年" + month + "月";
+                }
+
                 String currentDate = calendar.get(Calendar.YEAR)+"年"+(calendar.get(Calendar.MONTH)+1)+"月";
                 if(DateUtils.getDateByStr2(tempDate).before(DateUtils.getDateByStr2(currentDate))){
                     CommonUtils.showToast("不能选择今天之前的时间");
@@ -270,6 +296,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
                 setButtonStatus(submitBtn, checkContent());
             }
         });
+        picker.setLineColor(0xffaaaaaa);
         picker.show();
     }
 
@@ -286,14 +313,14 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         }
 
         //判断不确定按钮是否已经选中
-        if (unCertainCheck.isChecked()){
+        /*if (unCertainCheck.isChecked()){
             tripTimeStr = "待定";
-        } else {
+        } else */{
             tripTimeStr = startDate.getText().toString();
         }
         RequestTravelPurposeForm requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
                 UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
-                String.valueOf(cityBean.cityId),cityBean.name,tripTimeStr,
+                "","",tripTimeStr,
                 remark.getText().toString(),areaCodeStr,phone.getText().toString(),
                 userName.getText().toString().toString(), null,null,null);
         requestData(requestTravelPurposeForm);
@@ -303,14 +330,16 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        AlertDialogUtils.showAlertDialog(this, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
+        CommonUtils.showToast("提交成功");
+        //finish();
+        /*AlertDialogUtils.showAlertDialog(this, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(TravelPurposeFormActivity.this, TravelPurposeFormListActivity.class);
                 TravelPurposeFormActivity.this.startActivity(intent);
                 TravelPurposeFormActivity.this.finish();
             }
-        });
+        });*/
     }
 
     @Override

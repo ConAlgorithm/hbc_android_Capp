@@ -820,6 +820,10 @@ public class OrderUtils {
     public static void genUserAgreeMent(final Activity activity, TextView textView) {
         genCLickSpan(activity,textView,activity.getString(R.string.user_info_tip),activity.getString(R.string.user_info_tip1),UrlLibs.H5_PROTOCOL,0xffa8a8a8, null);
     }
+    //联系意向单定制师
+    public static void genUserTravelPurposeForm(final Activity activity, TextView textView,MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity,textView,activity.getString(R.string.travel_purpose_connect),activity.getString(R.string.travel_purpose_connect1),"",0xff000000, listener);
+    }
     //常用卡支付协议
     public static void genCreditAgreeMent(final Activity activity, TextView textView) {
         genCLickSpan(activity,textView,activity.getString(R.string.common_card_payment_protocol),activity.getString(R.string.common_card_payment_protocol),UrlLibs.H5_CREDIT_CARD_ARGEEMENT,0xff393838, null);

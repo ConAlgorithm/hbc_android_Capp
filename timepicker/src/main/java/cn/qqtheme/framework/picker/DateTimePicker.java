@@ -53,6 +53,7 @@ public class DateTimePicker extends WheelPicker {
 
     private ArrayList<String> years = new ArrayList<String>();
     private ArrayList<String> months = new ArrayList<String>();
+    private ArrayList<String> monthsForTrip = new ArrayList<String>();
     private ArrayList<String> days = new ArrayList<String>();
     private String yearLabel = "年", monthLabel = "月", dayLabel = "日";
     private int selectedYearIndex = 0, selectedMonthIndex = 0, selectedDayIndex = 0;
@@ -60,7 +61,7 @@ public class DateTimePicker extends WheelPicker {
     private String selectedHour = "", selectedMinute = "";
     private OnDateTimePickListener onDateTimePickListener;
     private int mode;
-
+    boolean isForTravelPurposeForm = false;
 
     @IntDef(flag = false, value = {YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY, HOUR_OF_DAY, HOUR, ONLY_YEAR_MONTH_DAY})    @Retention(RetentionPolicy.SOURCE)
     public @interface Mode {
@@ -82,10 +83,31 @@ public class DateTimePicker extends WheelPicker {
         selectedHour = DateUtils.fillZero(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         selectedMinute = DateUtils.fillZero(Calendar.getInstance().get(Calendar.MINUTE));
     }
-
+    public DateTimePicker(Activity activity, @Mode int mode,boolean isForTravelPurposeForm) {
+        super(activity);
+        this.isForTravelPurposeForm = isForTravelPurposeForm;
+        textSize = 16;//年月日时分，比较宽，设置字体小一点才能显示完整
+        this.mode = mode;
+        for (int i = 2000; i <= 2050; i++) {
+            years.add(String.valueOf(i));
+        }
+        for (int i = 1; i <= 12; i++) {
+            months.add(DateUtils.fillZero(i));
+        }
+        for (int i = 1; i <= 31; i++) {
+            days.add(DateUtils.fillZero(i));
+        }
+        selectedHour = DateUtils.fillZero(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        selectedMinute = DateUtils.fillZero(Calendar.getInstance().get(Calendar.MINUTE));
+    }
     @NonNull
     @Override
     protected View makeCenterView() {
+        textColorFocus = 0xff151515;
+        textColorNormal = 0xffaaaaaa;
+        if(lineConfig!= null){
+            lineConfig.setColor(textColorNormal);
+        }
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
@@ -214,9 +236,21 @@ public class DateTimePicker extends WheelPicker {
             monthTextView.setText(monthLabel);
         }
         if (selectedMonthIndex == 0) {
-            monthView.setItems(months);
+            if(isForTravelPurposeForm){
+                monthsForTrip = months;
+                monthsForTrip.add(0,"待定");
+                monthView.setItems(monthsForTrip);
+            }else {
+                monthView.setItems(months);
+            }
         } else {
-            monthView.setItems(months, selectedMonthIndex);
+            if(isForTravelPurposeForm){
+                monthsForTrip = months;
+                monthsForTrip.add(0,"待定");
+                monthView.setItems(monthsForTrip, selectedMonthIndex);
+            }else {
+                monthView.setItems(months, selectedMonthIndex);
+            }
         }
         monthView.setOnWheelListener(new WheelView.OnWheelListener() {
             @Override
@@ -225,15 +259,19 @@ public class DateTimePicker extends WheelPicker {
                 if (mode != YEAR_MONTH) {
                     //年月日或年月模式下，需要根据年份及月份动态计算天数
                     days.clear();
-                    int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(years.get(selectedYearIndex)), DateUtils.trimZero(item));
-                    for (int i = 1; i <= maxDays; i++) {
-                        days.add(DateUtils.fillZero(i));
+                    if(isForTravelPurposeForm && index == 0){
+                        //do nothing
+                    }else {
+                        int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(years.get(selectedYearIndex)), DateUtils.trimZero(item));
+                        for (int i = 1; i <= maxDays; i++) {
+                            days.add(DateUtils.fillZero(i));
+                        }
+                        if (selectedDayIndex >= maxDays) {
+                            //年或月变动时，保持之前选择的日不动：如果之前选择的日是之前年月的最大日，则日自动为该年月的最大日
+                            selectedDayIndex = days.size() - 1;
+                        }
+                        dayView.setItems(days, selectedDayIndex);
                     }
-                    if (selectedDayIndex >= maxDays) {
-                        //年或月变动时，保持之前选择的日不动：如果之前选择的日是之前年月的最大日，则日自动为该年月的最大日
-                        selectedDayIndex = days.size() - 1;
-                    }
-                    dayView.setItems(days, selectedDayIndex);
                 }
             }
         });
@@ -293,7 +331,10 @@ public class DateTimePicker extends WheelPicker {
         }
         String year = getSelectedYear();
         String month = getSelectedMonth();
-        String day = getSelectedDay();
+        String day = "";
+        if(!isForTravelPurposeForm){
+            day = getSelectedDay();
+        }
         switch (mode) {
             case YEAR_MONTH:
                 ((OnYearMonthPickListener) onDateTimePickListener).onDateTimePicked(year, month, selectedHour, selectedMinute);

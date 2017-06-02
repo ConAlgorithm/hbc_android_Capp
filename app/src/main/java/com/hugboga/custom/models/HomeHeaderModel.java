@@ -367,9 +367,9 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 intentActivity(v.getContext(), SingleActivity.class, StatisticConstant.LAUNCH_C);
                 break;
             case R.id.home_help:
-                //if (CommonUtils.isLogin(v.getContext())) {
+                /*if (CommonUtils.isLogin(v.getContext())) {
                     gotoTravelPurposeForm(v);
-                //}
+                }*/
                 Intent intentProPre = null;
                 intentProPre = new Intent(context, TravelPurposeFormActivity.class);
 

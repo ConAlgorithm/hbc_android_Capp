@@ -841,6 +841,7 @@ public class SingleNewActivity extends BaseActivity {
                 }
             }
         });
+        picker.setLineColor(0xffaaaaaa);
         picker.show();
     }
 
