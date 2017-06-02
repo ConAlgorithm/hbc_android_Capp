@@ -842,4 +842,7 @@
     <string name="travel_purpose_form_detail">行程规划心愿单</string>
 
     <string name="bargain_hint">支付后还可以挑选司导哦~</string>
+
+    <string name="seckills_check_hint1">很抱歉，秒杀活动每人仅限参与一次。送您{%1$s}，出行依然优惠！（该礼包仅可领取一次）~</string>
+    <string name="seckills_check_hint2">很抱歉，本场限量秒杀接机已抢光。送您{%1$s}，出行依然优惠！（该礼包仅可领取一次）~</string>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/seckill_background" />
+    <ImageView
+        android:layout_width="26dp"
+        android:layout_height="18dp"
+        android:background="@mipmap/seckill_rocket"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="35dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="您已进入秒杀通道\n请尽快提交订单完成支付"/>
+</RelativeLayout>

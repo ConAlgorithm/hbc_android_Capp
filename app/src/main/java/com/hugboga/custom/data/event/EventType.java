@@ -88,6 +88,8 @@ public enum EventType {
     SHOW_GIFT_DIALOG,//显示未登录领卷
 
     ORDER_REFRESH,//下单 数据刷新
+    ORDER_SECKILLS_ERROR,//下单 秒杀异常
+    ORDER_SECKILLS_REFRESH,
 
     CHARTER_LIST_REFRESH,//包车选行程刷新
     CHARTER_FIRST_REFRESH,//刷新包车第一步页面

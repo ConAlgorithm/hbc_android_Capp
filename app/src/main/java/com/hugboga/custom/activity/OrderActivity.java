@@ -1,11 +1,13 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -31,18 +33,22 @@ import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitPick;
+import com.hugboga.custom.data.request.RequestSubmitPickOrder;
+import com.hugboga.custom.data.request.RequestSubmitPickSeckills;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
@@ -71,6 +77,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
 
     @Bind(R.id.order_scrollview)
     ScrollView scrollView;
+    @Bind(R.id.order_seckills_layout)
+    FrameLayout seckillsLayout;
     @Bind(R.id.order_bottom_view)
     SkuOrderBottomView bottomView;
     @Bind(R.id.order_desc_view)
@@ -150,7 +158,6 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         serverDate = params.serverDate + " " + params.serverTime + ":00";
 
         descriptionView.setData(params);
-        discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         countView.update(params.carBean, params.carListBean, params.serverDate);
         bottomView.setOnSubmitOrderListener(this);
@@ -158,10 +165,16 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         travelerInfoView.setOrderType(params.orderType);
         travelerInfoView.setCarListBean(params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
-
+        discountView.setDiscountOnClickListener(this);
         int additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
-        requestMostFit(additionalPrice);
-        requestTravelFund(additionalPrice);
+        if (params.carListBean.isSeckills) {
+            discountView.setVisibility(View.GONE);
+            seckillsLayout.setVisibility(View.VISIBLE);
+            bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
+        } else {
+            requestMostFit(additionalPrice);
+            requestTravelFund(additionalPrice);
+        }
         requestCancleTips();
 
         scrollToTop();
@@ -222,7 +235,27 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             case ORDER_REFRESH:
                 finish();
                 break;
+            case ORDER_SECKILLS_ERROR:
+                String errorMessage = (String) action.getData();
+                showCheckSeckillsDialog(errorMessage);
+                break;
         }
+    }
+
+    private void showCheckSeckillsDialog(String content) {
+        AlertDialogUtils.showAlertDialog(this, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_SECKILLS_REFRESH));
+                OrderActivity.this.finish();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -250,20 +283,29 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     @Override
     public void onAdditionalPriceChange(int price) {
         int additionalPrice = price + travelerInfoView.getAdditionalPrice();
-        requestMostFit(additionalPrice);
-        requestTravelFund(additionalPrice);
+        if (params.carListBean.isSeckills) {
+            bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
+        } else {
+            requestMostFit(additionalPrice);
+            requestTravelFund(additionalPrice);
+        }
     }
 
     @Override
     public void onSwitchPickOrSend(boolean isSelect, int _additionalPrice) {
         if (params.carListBean.additionalServicePrice != null) {
-            CarAdditionalServicePrice additionalServicePrice = params.carListBean.additionalServicePrice;
-            boolean isPickup = params.orderType == 1 && CommonUtils.getCountInteger(additionalServicePrice.pickupSignPrice) > 0;
-            boolean isSend = params.orderType == 2 && CommonUtils.getCountInteger(additionalServicePrice.checkInPrice) > 0;
-            if (isPickup || isSend) {
+            if (params.carListBean.isSeckills) {
                 int additionalPrice = _additionalPrice + countView.getAdditionalPrice();
-                requestMostFit(additionalPrice);
-                requestTravelFund(additionalPrice);
+                bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
+            } else{
+                CarAdditionalServicePrice additionalServicePrice = params.carListBean.additionalServicePrice;
+                boolean isPickup = params.orderType == 1 && CommonUtils.getCountInteger(additionalServicePrice.pickupSignPrice) > 0;
+                boolean isSend = params.orderType == 2 && CommonUtils.getCountInteger(additionalServicePrice.checkInPrice) > 0;
+                if (isPickup || isSend) {
+                    int additionalPrice = _additionalPrice + countView.getAdditionalPrice();
+                    requestMostFit(additionalPrice);
+                    requestTravelFund(additionalPrice);
+                }
             }
         }
     }
@@ -422,7 +464,11 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         switch (params.orderType) {
             case 1:
                 orderBean = getPickOrderByInput();
-                requestSubmitBase = new RequestSubmitPick(this, orderBean);
+                if (params.carListBean.isSeckills) {
+                    requestSubmitBase = new RequestSubmitPickSeckills(this, orderBean);
+                } else {
+                    requestSubmitBase = new RequestSubmitPickOrder(this, orderBean);
+                }
                 break;
             case 2:
                 orderBean = getSendOrderByInput();

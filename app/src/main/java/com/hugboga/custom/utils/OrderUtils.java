@@ -408,7 +408,15 @@ public class OrderUtils {
                 "" + (carBean.price + pickupPrice + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean))
                 : "" + (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean) + getSeat2PriceTotal(carListBean,manLuggageBean));
 
-
+        if (carListBean.isSeckills) {
+            orderBean.isSeckills = true;
+            orderBean.priceTicket = orderBean.orderPrice;
+            orderBean.priceActual = carBean.seckillingPrice + "";
+            orderBean.priceChannel = carBean.seckillingPrice + "";
+            orderBean.orderPrice = carBean.seckillingPrice;
+            orderBean.timeLimitedSaleNo = carListBean.timeLimitedSaleNo;
+            orderBean.timeLimitedSaleScheduleNo = carListBean.timeLimitedSaleScheduleNo;
+        }
         return orderBean;
     }
 

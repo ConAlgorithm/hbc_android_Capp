@@ -46,7 +46,7 @@ import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitLine;
-import com.hugboga.custom.data.request.RequestSubmitPick;
+import com.hugboga.custom.data.request.RequestSubmitPickOrder;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -1264,7 +1264,7 @@ public class OrderNewActivity extends BaseActivity {
         if (UserEntity.getUser().isLogin(activity)) {
             switch (type) {
                 case 1:
-                    RequestSubmitPick requestSubmitPick = new RequestSubmitPick(activity, getOrderByInput());
+                    RequestSubmitPickOrder requestSubmitPick = new RequestSubmitPickOrder(activity, getOrderByInput());
                     requestData(requestSubmitPick);
                     break;
                 case 2:

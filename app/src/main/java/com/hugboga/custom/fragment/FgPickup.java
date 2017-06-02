@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
 import com.hugboga.custom.data.request.RequestGuideCrop;
 import com.hugboga.custom.data.request.RequestNewCars;
+import com.hugboga.custom.data.request.RequestSeckillsPickupPrice;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -75,6 +77,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     public static final String TAG = FgPickup.class.getSimpleName();
     private static final int ORDER_TYPE = 1;
 
+    @Bind(R.id.pickup_seckills_layout)
+    RelativeLayout seckillsLayout;
     @Bind(R.id.pickup_bottom_view)
     OrderBottomView bottomView;
     @Bind(R.id.pickup_guide_layout)
@@ -148,10 +152,14 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     @Override
     protected void initView() {
-        if (params != null && params.guidesDetailData != null) {
-            guidesDetailData = params.guidesDetailData;
-            guideLayout.setData(guidesDetailData);
-            requestData(new RequestGuideCrop(getContext(), guidesDetailData.guideId));
+        if (params != null) {
+            if (params.guidesDetailData != null) {
+                guidesDetailData = params.guidesDetailData;
+                guideLayout.setData(guidesDetailData);
+                requestData(new RequestGuideCrop(getContext(), guidesDetailData.guideId));
+            } else if (params.isSeckills) {
+                seckillsLayout.setVisibility(View.VISIBLE);
+            }
         }
         carTypeView.setOnSelectedCarListener(this);
         bottomView.setOnConfirmListener(this);
@@ -248,6 +256,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 scrollToTop();
                 getCars();
                 break;
+            case ORDER_SECKILLS_REFRESH:
+                refreshData();
+                break;
         }
     }
 
@@ -256,17 +267,15 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         super.onDataRequestSucceed(request);
         if (request instanceof RequestCheckPriceForPickup) {
             RequestCheckPrice requestCheckPrice = (RequestCheckPrice) request;
-            carListBean = (CarListBean) requestCheckPrice.getData();
-            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
-                if (guidesDetailData != null && guideCarBeanList != null) {
-                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
-                    if (checkDataIsEmpty(carList)) {
-                        return;
-                    }
-                    carListBean.carList = carList;
-                }
-                carTypeView.update(carListBean);
-            }
+            CarListBean _carListBean = (CarListBean) requestCheckPrice.getData();
+            setCarListBean(_carListBean);
+        } else if (request instanceof RequestSeckillsPickupPrice) {
+            RequestSeckillsPickupPrice requestSeckillsPickupPrice = (RequestSeckillsPickupPrice) request;
+            CarListBean _carListBean = (CarListBean) requestSeckillsPickupPrice.getData();
+            _carListBean.isSeckills = true;
+            _carListBean.timeLimitedSaleNo = params.timeLimitedSaleNo;
+            _carListBean.timeLimitedSaleScheduleNo = params.timeLimitedSaleScheduleNo;
+            setCarListBean(_carListBean);
         } else if (request instanceof RequestGuideCrop) {
             guideCropList = ((RequestGuideCrop) request).getData();
         }
@@ -275,11 +284,13 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestCheckPriceForPickup) {
+        if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForPickup) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
-            return;
+        } else if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestSeckillsPickupPrice) {
+            String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request);
+            showCheckSeckillsDialog(errorMessage);
         } else {
             emptyLayout.setErrorVisibility(View.VISIBLE);
             setItemVisibility(View.GONE);
@@ -295,6 +306,44 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     @Override
     public void onClickHideMoreCar(boolean isShow) {
 
+    }
+
+    private void showCheckSeckillsDialog(String content) {
+        AlertDialogUtils.showAlertDialog(getContext(), content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                refreshData();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void refreshData() {
+        seckillsLayout.setVisibility(View.GONE);
+        if (params != null) {
+            params.isSeckills = false;
+        }
+        requestCarPriceList();
+        scrollToTop();
+    }
+
+    public void setCarListBean(CarListBean carListBean) {
+        this.carListBean = carListBean;
+        if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
+            if (guidesDetailData != null && guideCarBeanList != null) {
+                ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
+                if (checkDataIsEmpty(carList)) {
+                    return;
+                }
+                carListBean.carList = carList;
+            }
+            carTypeView.update(carListBean);
+        }
     }
 
     public boolean checkPickUpFlightBean(FlightBean _flightBean) {
@@ -367,6 +416,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         }
         if (guidesDetailData != null) {
             getGuideCars();
+        } else if (params != null && params.isSeckills) {
+            requestSeckillsPickupPrice();
         } else {
             requestCarPriceList();
         }
@@ -383,6 +434,20 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 , guidesDetailData == null ? "" : guidesDetailData.getCarIds()
                 , guidesDetailData == null ? 0 : guidesDetailData.isQuality);
         requestData(requestCheckPriceForPickup);
+    }
+
+    private void requestSeckillsPickupPrice() {
+        RequestSeckillsPickupPrice.Builder builder = new RequestSeckillsPickupPrice.Builder();
+        builder.timeLimitedSaleNo = params.timeLimitedSaleNo;
+        builder.timeLimitedSaleScheduleNo = params.timeLimitedSaleScheduleNo;
+        builder.airportCode = flightBean.arrAirportCode;
+        builder.serviceDate = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
+        builder.startLocation = flightBean.arrLocation;
+        builder.endLocation = poiBean.location;
+        builder.endAddress = poiBean.placeName;
+        builder.endDetailAddress = poiBean.placeDetail;
+        RequestSeckillsPickupPrice requestSeckillsPickupPrice = new RequestSeckillsPickupPrice(getActivity(), builder);
+        requestData(requestSeckillsPickupPrice);
     }
 
     private void getGuideCars() {
@@ -408,7 +473,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
+                    checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                }
             }
         }, true);
     }

@@ -11,7 +11,6 @@ import org.xutils.http.annotation.HttpRequest;
 /**
  * Created by admin on 2016/3/22.
  */
-@HttpRequest(path = UrlLibs.SERVER_IP_SUBMIT_PICKUP, builder = NewParamsBuilder.class)
 public class RequestSubmitPick extends RequestSubmitBase {
     public RequestSubmitPick(Context context, OrderBean orderBean) {
         super(context, orderBean);
@@ -31,6 +30,11 @@ public class RequestSubmitPick extends RequestSubmitBase {
         map.put("priceFlightBrandSign",orderBean.priceFlightBrandSign);
         map.put("isFlightSign",orderBean.isFlightSign);
 
+        if (orderBean.isSeckills) {
+            map.put("limitedSaleNo",orderBean.timeLimitedSaleNo);
+            map.put("limitedSaleScheduleNo",orderBean.timeLimitedSaleScheduleNo);
+            map.put("priceTicket",orderBean.priceTicket);
+        }
 
         if (orderBean.flightBean != null) {
             map.put("flightNo", orderBean.flightBean.flightNo);
@@ -46,10 +50,5 @@ public class RequestSubmitPick extends RequestSubmitBase {
             map.put("flightDeptCityName",orderBean.flightBean.depCityName);// 起飞机场城市名
             map.put("flightDestCityName",orderBean.flightBean.arrCityName);// 降落机场城市名
         }
-    }
-
-    @Override
-    public String getUrlErrorCode() {
-        return "40083";
     }
 }

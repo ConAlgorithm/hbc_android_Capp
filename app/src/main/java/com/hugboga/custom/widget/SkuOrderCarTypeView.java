@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -96,7 +97,17 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             itemView.setId(i);
             itemView.setVisibility(i < DEFAULT_SHOW_COUNT ? View.VISIBLE : View.GONE);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == 0);
-            ((TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv)).setText(getContext().getString(R.string.sign_rmb) + carBean.price);
+            TextView priceTV = (TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv);
+            TextView originalPriceTV = (TextView) itemView.findViewById(R.id.sku_order_car_type_original_price_tv);
+            if (carListBean.isSeckills) {
+                priceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.seckillingPrice);
+                originalPriceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.price);
+                originalPriceTV.getPaint().setAntiAlias(true);
+                originalPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+            } else {
+                priceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.price);
+                originalPriceTV.setText("");
+            }
             String title = carBean.carDesc;
             List<String> serviceTags = carBean.serviceTags;
             if (serviceTags != null && serviceTags.size() >= 1 && serviceTags.get(0) != null) {

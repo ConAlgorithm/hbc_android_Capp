@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 146
+    //current urlErrorCode 150
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -159,6 +159,7 @@ public class UrlLibs {
     public static final String TRAVELFUND_INVITATION_LOGS   = "ucenter/v1.1/c/travelFund/logs/invitation";              // 查询通过邀请用户获得的基金流水
 
     public static final String SERVER_IP_SUBMIT_PICKUP      = "trade/v1.3/c/order/pickup?";                             // 提交订单 接机
+    public static final String SERVER_IP_SUBMIT_PICKUP2     = "trade/v1.4/c/order/pickup?";                             // 提交订单 秒杀接机150
     public static final String SERVER_IP_SUBMIT_TRANSFER    = "trade/v1.3/c/order/transfer?";                           // 提交订单 送机下单
     public static final String SERVER_IP_SUBMIT_SINGLE      = "trade/v1.3/c/order/single?";                             // 提交订单 单次用车
     public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.4/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
@@ -216,6 +217,7 @@ public class UrlLibs {
     public static final String API_COUPONS_AVAILABLE        = "marketing/v1.1/c/coupons/available";                     // 获取可用优惠券
     public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
     public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
+    public static final String API_PICKUP_COUPON_OPEN       = "marketing/v1.0/c/coupons/pickupCouponOpen";              // 接机支付成功 绑定送机包车券 开关 149
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
@@ -280,4 +282,6 @@ public class UrlLibs {
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
     public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
 
+    public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
+    public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
 }

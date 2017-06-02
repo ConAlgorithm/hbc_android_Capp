@@ -23,6 +23,7 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
     public static final int ERROR_TYPE_DEFAULT = 1;            // toast弹出错误提示
     public static final int ERROR_TYPE_SHOW_DIALOG = 2;        // dialog弹出错误提示
     public static final int ERROR_TYPE_IGNORE = 3;             // 传到下层处理
+    public static final int ERROR_TYPE_PROCESSED = 4;          // 已处理
 
     private Context mContext;
 
