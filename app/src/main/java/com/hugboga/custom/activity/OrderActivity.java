@@ -640,6 +640,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
+                requestParams.orderType = params.orderType;
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -649,11 +650,12 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             RequestPayNo mParser = (RequestPayNo) _request;
             if (mParser.payType == Constants.PAY_STATE_ALIPAY) {
                 if ("travelFundPay".equals(mParser.getData()) || "couppay".equals(mParser.getData())) {
-                    PayResultActivity.Params params = new PayResultActivity.Params();
-                    params.payResult = true;
-                    params.orderId =  orderInfoBean.getOrderno();
+                    PayResultActivity.Params payParams = new PayResultActivity.Params();
+                    payParams.payResult = true;
+                    payParams.orderId =  orderInfoBean.getOrderno();
+                    payParams.orderType = params.orderType;
                     Intent intent = new Intent(this, PayResultActivity.class);
-                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra(Constants.PARAMS_DATA, payParams);
                     startActivity(intent);
                     SensorsUtils.setSensorsPayResultEvent(getChoosePaymentStatisticParams(), "支付宝", true);
                 }

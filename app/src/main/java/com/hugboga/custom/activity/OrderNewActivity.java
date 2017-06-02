@@ -1168,6 +1168,7 @@ public class OrderNewActivity extends BaseActivity {
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = eventPayBean;
+                requestParams.orderType = CommonUtils.getCountInteger(orderType);
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -1180,6 +1181,7 @@ public class OrderNewActivity extends BaseActivity {
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
                     params.orderId =  orderInfoBean.getOrderno();
+                    params.orderType = CommonUtils.getCountInteger(orderType);
                     Intent intent = new Intent(OrderNewActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);

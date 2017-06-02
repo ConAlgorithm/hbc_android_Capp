@@ -20,6 +20,7 @@ public class PayResultActivity extends BaseActivity{
     public static class Params implements Serializable {
         public boolean payResult;//支付结果 1.支付成功，2.支付失败
         public String orderId;
+        public int orderType;
     }
 
     @Override

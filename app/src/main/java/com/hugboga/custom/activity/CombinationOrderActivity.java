@@ -303,6 +303,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
+                requestParams.orderType = orderType;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
                 Intent intent = new Intent(this, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
@@ -319,6 +320,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
                     params.orderId =  orderInfoBean.getOrderno();
+                    params.orderType = orderType;
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);

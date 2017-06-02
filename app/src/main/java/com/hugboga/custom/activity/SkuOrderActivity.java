@@ -336,6 +336,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 requestParams.source = source;
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
+                requestParams.orderType = orderType;
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -348,6 +349,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
                     params.orderId =  orderInfoBean.getOrderno();
+                    params.orderType = orderType;
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
