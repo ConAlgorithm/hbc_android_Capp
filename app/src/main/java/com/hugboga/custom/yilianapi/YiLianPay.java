@@ -83,16 +83,18 @@ public class YiLianPay {
     private Context payContext;
     private Activity payActivtiy;
     private String orderNo;//订单号
+    private int orderType;
     private String actualPrice;//实际支付金额
     private String coupId;//劵id
     private String cardId;//卡id
     YiLianPayBean yiLianPayBean;
 
-    public YiLianPay(Context context, Activity activity, YiLianPayBean yiLianPayBean,String orderNo){
+    public YiLianPay(Context context, Activity activity, YiLianPayBean yiLianPayBean,String orderNo,int orderType){
         this.payContext = context;
         this.payActivtiy = activity;
         this.yiLianPayBean = yiLianPayBean;
         this.orderNo = orderNo;
+        this.orderType = orderType;
     }
 
     public void pay(){
@@ -174,6 +176,7 @@ public class YiLianPay {
                                 Intent intent = new Intent(payContext, PayResultActivity.class);
                                 PayResultActivity.Params params1 = new PayResultActivity.Params();
                                 params1.orderId = orderNo;
+                                params1.orderType = orderType;
 
                                 JSONObject obj = new JSONObject(result);
                                 String code = obj.getString("respCode");

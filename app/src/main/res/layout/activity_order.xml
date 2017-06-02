@@ -26,6 +26,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <FrameLayout
+                android:id="@+id/order_seckills_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/sku_order_margin_vertical"
+                android:visibility="gone">
+                <include layout="@layout/view_order_seckill" />
+            </FrameLayout>
+
             <com.hugboga.custom.widget.OrderDescriptionView
                 android:id="@+id/order_desc_view"
                 android:layout_width="match_parent"

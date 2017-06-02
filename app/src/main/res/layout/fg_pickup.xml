@@ -7,9 +7,9 @@
     <com.hugboga.custom.widget.OrderBottomView
         android:id="@+id/pickup_bottom_view"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="@dimen/order_bottom_height"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
     <ScrollView
         android:id="@+id/pickup_scrollview"
@@ -22,11 +22,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <include
+                android:id="@+id/pickup_seckills_layout"
+                android:visibility="gone"
+                layout="@layout/view_order_seckill" />
+
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/pickup_guide_layout"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/pickup_flight_layout"
@@ -42,9 +47,9 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:visibility="gone"
                 android:paddingLeft="@dimen/order_padding_left"
-                android:paddingRight="@dimen/order_padding_left">
+                android:paddingRight="@dimen/order_padding_left"
+                android:visibility="gone">
 
                 <View
                     android:layout_width="match_parent"
@@ -58,10 +63,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="12dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="2dp">
+
                     <TextView
                         android:id="@+id/pickup_start_time_tv"
                         android:layout_width="wrap_content"
@@ -69,15 +75,16 @@
                         android:gravity="center_vertical"
                         android:text="23123123123"
                         android:textColor="@color/default_black"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
                         android:layout_marginLeft="4dp"
+                        android:gravity="center_vertical"
                         android:text="免费等待90分钟"
                         android:textColor="#cccccc"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -93,8 +100,8 @@
                 android:id="@+id/pickup_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:layout_marginBottom="@dimen/order_margin_vertical"
+                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 
@@ -102,12 +109,12 @@
                 android:id="@+id/pickup_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="40dp" />
+                android:paddingBottom="40dp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

@@ -61,6 +61,7 @@ public class ParserCheckPrice extends ImplParser {
 
                 bean.capOfPerson = jsonObj.optInt("capOfPerson", 0);
                 bean.price = jsonObj.optInt("price", 0);
+                bean.seckillingPrice = jsonObj.optInt("seckillingPrice", 0);
                 bean.localPrice = jsonObj.optInt("localPrice", 0);
 
                 bean.carId = jsonObj.optInt("carId");

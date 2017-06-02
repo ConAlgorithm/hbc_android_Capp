@@ -225,6 +225,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
                 PayResultActivity.Params params1 = new PayResultActivity.Params();
                 params1.orderId = params.orderId;
                 params1.payResult = true;
+                params1.orderType = params.orderType;
 //                bundle.putSerializable("result", (Serializable) action.getData());
 //                startActivity(resultIntent);
                 break;
@@ -405,7 +406,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     }
 
     public void gotoPayYiLian(YiLianPayBean yiLianPayBean){
-        YiLianPay yiLianPay = new YiLianPay(this,this,yiLianPayBean,params.orderId);
+        YiLianPay yiLianPay = new YiLianPay(this,this,yiLianPayBean,params.orderId,params.orderType);
         yiLianPay.pay();
     }
 }

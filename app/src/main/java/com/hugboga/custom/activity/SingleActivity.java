@@ -343,7 +343,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request instanceof RequestCheckPriceForSingle) {
+        if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForSingle) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
@@ -517,7 +517,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
+                    checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                }
             }
         }, true);
     }

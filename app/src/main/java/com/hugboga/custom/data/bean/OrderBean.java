@@ -48,6 +48,11 @@ public class OrderBean implements IBaseBean{
     public int orderIndex;//标识是第几段行程 1开始
     public int guideCarId;
 
+    public boolean isSeckills = false;       // 是否是秒杀
+    public String timeLimitedSaleNo;         // 秒杀活动编号
+    public String timeLimitedSaleScheduleNo; // 秒杀活动场次编号
+    public int priceTicket;               // 秒杀原价
+
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息
     public String startAddressPoi;                    // 起始位置

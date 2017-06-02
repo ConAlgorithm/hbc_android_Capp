@@ -150,6 +150,9 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                     }
                 });
                 return true;
+            case 800020://下单接口 秒杀验证异常
+                EventBus.getDefault().post(new EventAction(EventType.ORDER_SECKILLS_ERROR, content));
+                return true;
         }
         return false;
     }

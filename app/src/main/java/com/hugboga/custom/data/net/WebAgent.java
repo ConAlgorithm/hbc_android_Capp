@@ -35,8 +35,8 @@ import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.ActivityBuyNowBean;
 import com.hugboga.custom.data.bean.CityBean;
-import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ShareBean;
@@ -44,8 +44,10 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestActivityBuyNow;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
@@ -729,4 +731,80 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
+    /**
+     *  接机秒杀入口
+     *  timeLimitedSaleNo 秒杀活动编号
+     *  timeLimitedSaleScheduleNo 秒杀活动场次编号
+     * */
+    @JavascriptInterface
+    public void pushToActivityPickup(final String timeLimitedSaleNo, final String timeLimitedSaleScheduleNo) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!CommonUtils.isLogin(mActivity)) {
+                   return;
+                }
+                RequestActivityBuyNow requestCars = new RequestActivityBuyNow(mActivity, timeLimitedSaleNo, timeLimitedSaleScheduleNo);
+                HttpRequestUtils.request(mActivity, requestCars, new HttpRequestListener() {
+                    @Override
+                    public void onDataRequestSucceed(BaseRequest request) {
+                        ApiReportHelper.getInstance().addReport(request);
+                        ActivityBuyNowBean bean = ((RequestActivityBuyNow) request).getData();
+                        switch (bean.buyNowStatus) {
+                            case 101://无效活动编号
+                                CommonUtils.showToast("无效的活动编号");
+                                break;
+                            case 102://无效活动场次编号
+                                CommonUtils.showToast("无效的活动场次编号");
+                                break;
+                            case 201://用户已参与，发券
+                                showCheckSeckillsDialog(mActivity.getResources().getString(R.string.seckills_check_hint1, bean.couponName));
+                                break;
+                            case 202://用户未参与，有库存
+                                Intent intent = new Intent(mActivity, PickSendActivity.class);
+                                if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
+                                    PickSendActivity.Params params = new PickSendActivity.Params();
+                                    params.isSeckills = true;
+                                    params.timeLimitedSaleNo = timeLimitedSaleNo;
+                                    params.timeLimitedSaleScheduleNo = timeLimitedSaleScheduleNo;
+                                    intent.putExtra(Constants.PARAMS_DATA, params);
+                                }
+                                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                                mActivity.startActivity(intent);
+                                break;
+                            case 203://用户未参与，无库存，发券
+                                showCheckSeckillsDialog(mActivity.getResources().getString(R.string.seckills_check_hint2, bean.couponName));
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onDataRequestCancel(BaseRequest request) {
+
+                    }
+
+                    @Override
+                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                    }
+                }, true);
+            }
+        });
+    }
+
+    private void showCheckSeckillsDialog(String content) {
+        AlertDialogUtils.showAlertDialog(mActivity, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(mActivity, PickSendActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                mActivity.startActivity(intent);
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+    }
 }

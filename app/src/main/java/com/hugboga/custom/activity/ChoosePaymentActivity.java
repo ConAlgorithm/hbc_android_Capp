@@ -122,6 +122,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         public String source;
         public boolean needShowAlert;
         public EventPayBean eventPayBean;
+        public int orderType;
 
         public String getShouldPay() {
             return String.valueOf(Math.round(shouldPay));
@@ -471,6 +472,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             PayResultActivity.Params params = new PayResultActivity.Params();
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
             params.orderId = requestParams.orderId;
+            params.orderType = requestParams.orderType;
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);

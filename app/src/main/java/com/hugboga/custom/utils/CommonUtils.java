@@ -397,6 +397,9 @@ public final class CommonUtils {
     }
 
     public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source) {
+        if (request.errorType == BaseRequest.ERROR_TYPE_PROCESSED) {
+            return;
+        }
         String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request) + "\n请联系客服，我们会协助您完成预订";
         AlertDialogUtils.showAlertDialog(context, errorMessage, "知道了", "联系客服", new DialogInterface.OnClickListener() {
             @Override

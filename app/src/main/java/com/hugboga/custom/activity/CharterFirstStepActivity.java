@@ -1,9 +1,11 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarMaxCapaCityBean;
@@ -20,12 +23,15 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.data.request.RequestGuideCrop;
 import com.hugboga.custom.data.request.RequestNewCars;
+import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -364,11 +370,81 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isShowSaveDialog() {
         if (startBean != null || chooseDateBean != null) {
-            OrderUtils.showSaveDialog(this);
+            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, "皇包车定制师可以主动联系您帮您预订\n您确定要离开吗？", "联系我", "离开", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String cityName = startBean != null ? startBean.name : "";
+                    String cityId = startBean != null ? "" + startBean.cityId : "";
+                    String startDate = chooseDateBean != null ? chooseDateBean.start_date : "";
+                    String days = chooseDateBean != null ? "" + chooseDateBean.dayNums : "";
+                    int adultNum = countLayout.getAdultValue();
+                    int childNum = countLayout.getChildValue();
+                    if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
+                            && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
+                        showIntentionDialog(String.format("定制师会通过您的手机号%1$s联系您", UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
+                    } else {
+//                        Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
+//                        startActivity(intent);
+                        //FIXME zhangqiang
+                    }
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    CharterFirstStepActivity.this.finish();
+                }
+            });
             return true;
         } else {
             return false;
         }
+    }
+
+    public void showIntentionDialog(String content) {
+        AlertDialogUtils.showAlertDialog(activity, content, "好", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestTravelPurposeForm();
+                dialog.dismiss();
+                CharterFirstStepActivity.this.finish();
+            }
+        });
+    }
+
+    public void requestTravelPurposeForm() {
+        UserEntity userEntity = UserEntity.getUser();
+        RequestTravelPurposeForm requestTravelPurposeForm = new RequestTravelPurposeForm(this
+                , userEntity.getUserId(this)
+                , userEntity.getUserName(this)
+                ,""
+                ,""
+                , startBean != null ? "" + startBean.cityId : ""
+                , startBean != null ? startBean.name : ""
+                , chooseDateBean != null ? chooseDateBean.start_date : ""
+                , ""
+                , userEntity.getAreaCode(this)
+                , userEntity.getPhone(this)
+                , userEntity.getUserName(this)
+                , chooseDateBean != null ? chooseDateBean.dayNums : 0
+                , countLayout.getAdultValue()
+                , countLayout.getChildValue());
+        HttpRequestUtils.request(this, requestTravelPurposeForm, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            }
+        }, false);
     }
 
     @Override

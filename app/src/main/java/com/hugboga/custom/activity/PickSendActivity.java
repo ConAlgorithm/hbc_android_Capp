@@ -1,10 +1,12 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -33,6 +35,10 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
         public Integer type;
+
+        public String timeLimitedSaleNo;         // 秒杀活动编号
+        public String timeLimitedSaleScheduleNo; // 秒杀活动场次编号
+        public boolean isSeckills = false;       // 是否进入秒杀通道
     }
 
     @Override
@@ -83,6 +89,8 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             if (isShowSaveDialog()) {
                 return true;
+            } else if (params != null && params.isSeckills) {
+                startActivity(new Intent(this, MainActivity.class));
             }
         }
         return super.onKeyUp(keyCode, event);

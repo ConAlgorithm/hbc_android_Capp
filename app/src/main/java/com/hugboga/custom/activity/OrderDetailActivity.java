@@ -207,6 +207,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     PayResultActivity.Params params = new PayResultActivity.Params();
                     params.payResult = true;
                     params.orderId = orderBean.orderNo;
+                    params.orderType = orderBean.orderType;
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
@@ -269,6 +270,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     requestParams.source = source;
                     requestParams.couponId = couponId;
                     requestParams.eventPayBean = eventPayBean;
+                    requestParams.orderType = orderBean.orderType;
                     intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, requestParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
