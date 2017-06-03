@@ -14,6 +14,7 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,6 +75,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     HomeSearchTabView.HomeTabClickListener homeTabClickListener;
 
     private HomeSearchTabView tabView;
+    private FrameLayout fastYudingLayout;
+    private FrameLayout homeOtherService;
     private View animateServiceView;
     private View animateBaseLineView;
     private View animateServiceInnerView;
@@ -175,6 +178,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
 
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
         tabView = homeHeaderHolder.homeSearchTabView;
+        fastYudingLayout = homeHeaderHolder.fastYudingLayout;
+        homeOtherService = homeHeaderHolder.homeOtherService;
         animateServiceView = homeHeaderHolder.serviceLayout;
         animateBaseLineView = homeHeaderHolder.homeHelp;
         animateServiceInnerView = homeHeaderHolder.serviceInnerLayout;
@@ -331,7 +336,31 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         return 0;
     }
 
+    public int getOtherServiceViewTop() {
+        if (homeOtherService != null) {
+            return UIUtils.getViewTop(homeOtherService);
+        }
+        return 0;
+    }
+    public int getOtherServiceViewHeight() {
+        if (homeOtherService != null) {
+            return homeOtherService.getHeight();
+        }
+        return 0;
+    }
+    public int getFastYudingViewTop() {
+        if (fastYudingLayout != null) {
+            return UIUtils.getViewTop(fastYudingLayout);
+        }
+        return 0;
+    }
 
+    public int getServiceLayout(){
+        if(homeHeaderHolder.serviceLayout != null){
+            return homeHeaderHolder.serviceLayout.getHeight();
+        }
+        return 0;
+    }
     private void setPlaceAmmountText(TextView textView) {
         String countryStr = homeHeaderInfo.countryNum + "+";
         String cityStr = homeHeaderInfo.cityNum + "+";
@@ -474,6 +503,10 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         View serviceInnerLayout;
         @Bind(R.id.huaren_guild_layout)
         View huarenGuild;
+        @Bind(R.id.home_other_service)
+        FrameLayout homeOtherService;
+        @Bind(R.id.fast_yuding_layout)
+        FrameLayout fastYudingLayout;
         /*@Bind(R.id.home_header_search)
         View homeHeaderSearch;//首页搜索*/
 
