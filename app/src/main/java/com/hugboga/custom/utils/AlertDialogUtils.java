@@ -78,6 +78,20 @@ public class AlertDialogUtils {
         return dialog;
     }
 
+    public static AlertDialog showAlertDialog(Context context, String title, String content, String okText, String cancleText, String neutralText,
+                                              DialogInterface.OnClickListener okClick, DialogInterface.OnClickListener cancleClick
+                                                ,DialogInterface.OnClickListener neutralClick) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.setMessage(content);
+        dialog.setTitle(title);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, okText, okClick);
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, cancleText, cancleClick);
+        dialog.setButton(DialogInterface.BUTTON_NEUTRAL, neutralText, neutralClick);
+        dialog.show();
+        return dialog;
+    }
+
     public static void showAlertDialog(Context context,String title,String content,String okText,DialogInterface.OnClickListener onClick){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog dialog = builder.create();

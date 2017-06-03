@@ -368,7 +368,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isShowSaveDialog() {
         if (startBean != null || chooseDateBean != null) {
-            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, "提示", "皇包车定制师可以主动联系您帮您预订，您确定要离开吗？", "联系我", "离开", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, "提示", "皇包车定制师可以主动联系您帮您预订，您确定要离开吗？", "联系我", "离开", "取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
@@ -392,6 +392,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     CharterFirstStepActivity.this.finish();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
                 }
             });
             return true;

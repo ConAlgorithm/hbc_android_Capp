@@ -234,7 +234,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //hideInputMethod(searchTV);
+                    hideSoftInput();
                     finish();
                     overridePendingTransition(R.anim.push_buttom_out,0);
                 }
@@ -248,7 +248,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //hideInputMethod(searchTV);
+                    hideSoftInput();
                     finish();
                 }
             });
@@ -350,6 +350,14 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     private void requestData() {
         processSelectedData();
         onPreExecuteHandler.sendEmptyMessage(MessageType.ALL_CITY);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            hideSoftInput();
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
