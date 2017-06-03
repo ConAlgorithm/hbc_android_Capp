@@ -92,6 +92,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     SideBar sideBar;
     @Bind(R.id.choose_city_tab_layout)
     ChooseCityTabLayout tabLayout;
+    @Bind(R.id.choose_city_tab_below)
+    View chooseCityTabBelow;
     @Bind(R.id.head_search)
     EditText editSearch;
     @Bind(R.id.choose_city_tab_inland_line)
@@ -292,6 +294,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             if (showType == ShowType.PICK_UP) {
                 tabLayout.setVisibility(View.VISIBLE);
                 tabLayout.setOnChangeListener(this);
+                chooseCityTabBelow.setVisibility(View.VISIBLE);
             }
         }
 

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/coupon_bg">
+
+        <TextView
+            android:id="@+id/coupon_batch_name"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="14dp"
+            android:text="单笔订单满10000元可用此券抵扣1000元"
+            android:textColor="@color/common_font_color_black"
+            android:textSize="@dimen/text_size_large" />
+
+        <TextView
+            android:id="@+id/coupon_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="9dp"
+            android:text="1000"
+            android:textColor="@color/all_bg_yellow"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/coupon_item_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/coupon_batch_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:text="单笔订单满10000元可用此券抵扣1000元"
+            android:textColor="#898989"
+            android:textSize="@dimen/text_size_medium" />
+
+        <com.hugboga.custom.widget.DashView
+            android:id="@+id/coupon_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="4dp"
+            app:dashOrientation="0"
+            app:dashWidth="2dp"
+            app:lineColor="#dbdbdb"
+            app:lineHeight="1dp"
+            app:lineWidth="2dp" />
+
+        <TextView
+            android:id="@+id/coupon_item_date_between"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:text="有效期：2015.05.05 至 2015.05.20"
+            android:textColor="#cccccc"
+            android:textSize="@dimen/text_size_smallx" />
+
+        <ImageView
+            android:id="@+id/coupon_item_selected"
+            android:layout_width="18dp"
+            android:layout_height="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="0.5dp"
+            android:layout_marginRight="0.5dp"
+            android:src="@mipmap/order_choice_sel" />
+        <TextView
+            android:id="@+id/coupon_invalid"
+            android:layout_width="42dp"
+            android:layout_height="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="16dp"
+            android:text="已使用"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:textColor="#cacaca"
+            android:textSize="10dp"
+            android:background="@mipmap/coupon_invalid"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -180,14 +180,14 @@
 
             <Button
                 android:id="@+id/search"
-                android:layout_width="350dp"
+                android:layout_width="330dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/login2_selector_bg"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="@string/choose_search"
+                android:text="查询航班"
                 android:textColor="@color/basic_white"
                 android:textSize="16sp" />
 

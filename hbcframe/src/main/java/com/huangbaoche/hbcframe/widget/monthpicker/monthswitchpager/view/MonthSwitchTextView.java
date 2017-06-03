@@ -58,14 +58,22 @@ public class MonthSwitchTextView extends RelativeLayout {
 
   private void updateView() {
     if (mPosition == 0) {
-      mIconLeft.setVisibility(View.GONE);
+      //mIconLeft.setVisibility(View.GONE);
+      mIconLeft.setImageResource(R.mipmap.calendar_arrow_left);
+      mIconLeft.setEnabled(false);
     } else {
-      mIconLeft.setVisibility(View.VISIBLE);
+      //mIconLeft.setVisibility(View.VISIBLE);
+      mIconLeft.setImageResource(R.mipmap.calendar_click_arrow_left);
+      mIconLeft.setEnabled(true);
     }
     if (mPosition == mCount - 1) {
-      mIconRight.setVisibility(View.GONE);
+      //mIconRight.setVisibility(View.GONE);
+      mIconRight.setImageResource(R.mipmap.calendar_arrow_right);
+      mIconRight.setEnabled(false);
     } else {
-      mIconRight.setVisibility(View.VISIBLE);
+      //mIconRight.setVisibility(View.VISIBLE);
+      mIconRight.setImageResource(R.mipmap.calendar_click_arrow_right);
+      mIconRight.setEnabled(true);
     }
     updateText();
   }

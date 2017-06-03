@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +110,26 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
         initView();
         requestData();
+        carNumberEditText.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(carNumberEditText.getText().toString().trim().length() >0){
+                    couponBtnPay.setBackgroundColor(getResources().getColor(R.color.all_bg_yellow));
+                }else {
+                    couponBtnPay.setBackgroundColor(getResources().getColor(R.color.login_unready));
+                }
+            }
 
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+        });
         setSensorsDefaultEvent("优惠券", SensorsConstant.COUPON);
     }
 
@@ -127,7 +148,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void initView() {
-        headerTitle.setText("优惠券");
+        headerTitle.setText("我的优惠券");
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

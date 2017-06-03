@@ -172,33 +172,31 @@ public class MonthView extends View {
         mPaintNormal.setColor(mTextSelectColor);
         canvas.drawText(content, x, y, mPaintNormal);
       } else {
-        mPaintNormal.setColor(mTextNormalColor);
-        canvas.drawText(content, x, y, mPaintNormal);
-      }
-      if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-        mPaintNormal.setColor(mTextSundaySaturdayColor);
-        canvas.drawText(content, x, y, mPaintNormal);
-      }
 
-      Calendar endDate = Calendar.getInstance();
-      endDate.add(Calendar.MONTH, 6);
-      endDate.add(Calendar.DAY_OF_MONTH,-1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        endDate.add(Calendar.DAY_OF_MONTH,-1);
 
-      int endDateY = endDate.get(Calendar.YEAR);
-      int endDateM = endDate.get(Calendar.MONTH);
-      int endDateD = endDate.get(Calendar.DAY_OF_MONTH);
+        int endDateY = endDate.get(Calendar.YEAR);
+        int endDateM = endDate.get(Calendar.MONTH);
+        int endDateD = endDate.get(Calendar.DAY_OF_MONTH);
 
-      int year = calendar.get(Calendar.YEAR);
-      int month = calendar.get(Calendar.MONTH);
-      int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-      if(!DayUtils.isEnable(calendar) || DayUtils.isAfterEndDate(calendar,endDate)){
-        mPaintNormal.setColor(mTextNotClickColor);
-        canvas.drawText(content, x, y, mPaintNormal);
-      }
-      if(DayUtils.isToday(calendar)){
-        mPaintNormal.setColor(mTextNormalColor);
-        canvas.drawText(content, x, y, mPaintNormal);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+          if(DayUtils.isToday(calendar)){
+            mPaintNormal.setColor(mTextNormalColor);
+            canvas.drawText(content, x, y, mPaintNormal);
+          }else if(!DayUtils.isEnable(calendar) || DayUtils.isAfterEndDate(calendar,endDate)){
+            mPaintNormal.setColor(mTextNotClickColor);
+            canvas.drawText(content, x, y, mPaintNormal);
+          }else if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            mPaintNormal.setColor(mTextSundaySaturdayColor);
+            canvas.drawText(content, x, y, mPaintNormal);
+          }else{
+            mPaintNormal.setColor(mTextNormalColor);
+            canvas.drawText(content, x, y, mPaintNormal);
+          }
       }
 
       if (weekDay == 7) rowNum++;
