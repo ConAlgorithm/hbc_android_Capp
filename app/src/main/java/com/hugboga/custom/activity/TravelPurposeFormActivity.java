@@ -177,6 +177,10 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         });*/
         //初始button
         setButtonStatus(submitBtn,checkContent());
+        if(isFromOrder){
+            cityName.setText(getCityName);
+            startDate.setText(getStartDate);
+        }
     }
 
 
@@ -340,7 +344,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             tripTimeStr = startDate.getText().toString();
         }
         RequestTravelPurposeForm requestTravelPurposeForm;
-        if(isFromOrder){
+        if(!isFromOrder){
             requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
                     UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
                     0,"",tripTimeStr,
