@@ -358,6 +358,8 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             setItemEnabled(timeLayout, timeTV, timeTV.getText() != null ? timeTV.getText().toString() : "");
 
             setItemEnabled(addressLayout, timeTV, addressTV.getText() != null ? addressTV.getText().toString() : "");
+
+            timeLayout.setEnabled(false);
             if (TextUtils.isEmpty(addressTV.getText() != null ? addressTV.getText().toString() : "")) {
                 addressLayout.setVisibility(LinearLayout.GONE);
                 addressLineView.setVisibility(View.GONE);
