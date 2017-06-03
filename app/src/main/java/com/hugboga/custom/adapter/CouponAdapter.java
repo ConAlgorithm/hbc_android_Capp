@@ -1,7 +1,10 @@
 package com.hugboga.custom.adapter;
 
 import android.app.Activity;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,7 +44,18 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder = (ViewHolder) convertView.getTag();
         }
         CouponBean couponBean = getItem(position);
-        holder.mPrice.setText(couponBean.price);
+
+        SpannableString spannableString = new SpannableString(couponBean.price);
+        if(couponBean.price.endsWith("折")){
+            //spannableString.setSpan(new ForegroundColorSpan(0xffffff),0,countryStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //spannableString.setSpan(new SubscriptSpan(), couponBean.price.length() - 3, couponBean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(50), couponBean.price.length() - 3, couponBean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }else if(couponBean.price.endsWith("元")){
+            //spannableString.setSpan(new SubscriptSpan(), couponBean.price.length() - 1, couponBean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(50), couponBean.price.length() - 1, couponBean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
+        holder.mPrice.setText(spannableString);
         holder.mContent.setText(couponBean.batchName);
         if (couponBean.endDate.equals("0")) {
             holder.mDateBettow.setText("长期有效");

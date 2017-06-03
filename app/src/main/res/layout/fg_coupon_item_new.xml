@@ -32,7 +32,7 @@
             android:layout_marginTop="9dp"
             android:text="1000"
             android:textColor="@color/all_bg_yellow"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/coupon_item_content"
