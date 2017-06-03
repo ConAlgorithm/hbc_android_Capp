@@ -254,12 +254,12 @@ public class CirclePageIndicator extends View implements PageIndicator {
             }
             // Only paint fill if not completely transparent
             if (mPaintPageFill.getAlpha() > 0) {
-                canvas.drawCircle(dX, dY, pageFillRadius, mPaintPageFill);
+                canvas.drawCircle(dX, dY+1, pageFillRadius, mPaintPageFill);
             }
 
             // Only paint stroke if a stroke width was non-zero
             if (pageFillRadius != mRadius) {
-                canvas.drawCircle(dX, dY, mRadius, mPaintStroke);
+                canvas.drawCircle(dX, dY+1, mRadius, mPaintStroke);
             }
         }
 
@@ -275,7 +275,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             dX = shortOffset;
             dY = longOffset + cx;
         }
-        canvas.drawCircle(dX, dY, mRadius, mPaintFill);
+        canvas.drawCircle(dX, dY+1, mRadius, mPaintFill);
     }
 
     public boolean onTouchEvent(android.view.MotionEvent ev) {
