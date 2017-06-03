@@ -161,9 +161,17 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         if (/*homeBean != null && homeBean.headAggVo!=null &&*/ homeSearchTabView!=null) {
             if(homePageAdapter.homeHeaderModel!=null){
                 int scrollY = Math.abs(homePageAdapter.homeHeaderModel.getTabViewTop());
+                int scrollYFastYudingViewHeight = homePageAdapter.homeHeaderModel.getFastYudingViewTop();
+                //int scrollYOtherServiceViewHeight = Math.abs(homePageAdapter.homeHeaderModel.getOtherServiceViewHeight());
+                int scrollYOtherServiceViewTop = homePageAdapter.homeHeaderModel.getOtherServiceViewTop();
+                //int serviceHeight = Math.abs(homePageAdapter.homeHeaderModel.getServiceLayout());
+
                 int statusBarHeight = UIUtils.getStatusBarHeight();
                 int titleBarHeight = UIUtils.dip2px(48);
-                if (scrollY >= statusBarHeight + titleBarHeight) {
+                int totalTitle = statusBarHeight + titleBarHeight;
+                int fastYudingViewHeight = UIUtils.dip2px(39);
+
+                if (scrollY >= totalTitle) {
                     tabParentContainer.setVisibility(View.GONE);
                     homePageAdapter.homeHeaderModel.locationTab(tabIndex);
                 } else {
@@ -171,34 +179,43 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                     homeSearchTabView.tabIndex(tabIndex);
                 }
                 int titleBarLayoutDis = scrollY-statusBarHeight-titleBarHeight;
-                if(titleBarLayoutDis<255){
-                    float alpha = (255-titleBarLayoutDis)/(float)255*1.15f;
+                if(scrollYOtherServiceViewTop<totalTitle){
+                    homeTitleLayout.setVisibility(View.VISIBLE);
+                    float alpha = (float)(totalTitle-scrollYOtherServiceViewTop)/(float)totalTitle*1.0f;
                     if(alpha>1.0f){
                         alpha = 1.0f;
                     }
-                    homeTitleLayout.setVisibility(View.VISIBLE);
                     homeTitleLayout.setAlpha(alpha);
                 }else{
                     homeTitleLayout.setAlpha(0);
-                    if(titleBarLayoutDis>255 && titleBarLayoutDis <500){
-                        float alpha = (titleBarLayoutDis-255)/(float)255*1.15f;
-                        if(alpha>1.0f){
-                            alpha = 1.0f;
-                        }
-                        searchTitle.setAlpha(alpha);
-                    }else{
-                        searchTitle.setAlpha(1.0f);
-                    }
-                    searchTitle.setVisibility(View.VISIBLE);
                     homeTitleLayout.setVisibility(View.GONE);
                 }
-                if(titleBarLayoutDis<125){
+
+                //int disSearchTitle = serviceHeight+scrollYOtherServiceViewHeight+fastYudingViewHeight;
+                if(scrollYFastYudingViewHeight < totalTitle){
+                    float alpha = (float)scrollYFastYudingViewHeight/(float)totalTitle*1.0f;
+                    if(alpha < 0){
+                        alpha = 0;
+                        searchTitle.setVisibility(View.GONE);
+                    }
+                    if(alpha>=0){
+                        searchTitle.setVisibility(View.VISIBLE);
+                    }
+                    if(alpha>1.0f){
+                        alpha = 1.0f;
+                    }
+                    searchTitle.setAlpha(alpha);
+                }else{
+                    searchTitle.setAlpha(1.0f);
+                }
+
+                /*if(titleBarLayoutDis<125){
                     float alpha = (125-titleBarLayoutDis)/(float)125;
                     homeBindIcon.setAlpha(alpha);
-                    searchTitle.setVisibility(View.GONE);
+                    //searchTitle.setVisibility(View.GONE);
                 }else{
                     homeBindIcon.setAlpha(0);
-                }
+                }*/
             }
         }
 
@@ -510,19 +527,24 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         if(distance>0){
             homeListView.smoothScrollBy(0, distance);
         }
-        if(homeBindIcon != null){
-            homeBindIcon.setAlpha(1f);
+        if(homeTitleLayout != null){
+            homeTitleLayout.setVisibility(View.VISIBLE);
+            homeTitleLayout.setAlpha(1.0f);
         }
+        /*if(homeBindIcon != null){
+            homeBindIcon.setAlpha(1f);
+        }*/
     }
 
     private void swtichTabScrollToTop(){
         ((LinearLayoutManager)homeListView.getLayoutManager()).scrollToPositionWithOffset(1,UIUtils.dip2px(88));
         if(homeTitleLayout!=null){
+            homeTitleLayout.setVisibility(View.VISIBLE);
             homeTitleLayout.setAlpha(1.0f);
         }
-        if(homeBindIcon != null){
+        /*if(homeBindIcon != null){
             homeBindIcon.setAlpha(1f);
-        }
+        }*/
     }
 
     /**

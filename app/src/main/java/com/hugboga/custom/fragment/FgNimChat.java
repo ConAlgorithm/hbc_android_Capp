@@ -487,6 +487,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 if (imListBean.offset == 0) {
                                     adapter.clearData();
                                 }
+                                for(ChatBean chatBean:imListBean.resultBean){
+                                    chatBean.setImCount(0);
+                                    chatBean.setLastMsg("");
+                                }
                                 adapter.addData(imListBean.resultBean);
                                 computeTotalUnreadCount(adapter.getDatas());
                                 return;

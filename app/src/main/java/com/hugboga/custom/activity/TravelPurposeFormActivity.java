@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
@@ -83,6 +84,16 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     String tripTimeStr ;
     String areaCodeStr = "86";
 
+    String getCityName = "";
+    int getCityId = 0;
+    String getStartDate = "";
+    int getDays = 0;
+    int getAdultNum = 0;
+    int getChildNum = 0;
+    boolean isFromOrder = false;
+
+
+
     //EditText变化监听
     TextWatcher watcher = new TextWatcher() {
         @Override
@@ -110,6 +121,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        initIntent();
         OrderUtils.genUserTravelPurposeForm(this,purposeConnect,new OrderUtils.MyCLickSpan.OnSpanClickListener(){
             @Override
             public void onSpanClick(View view) {
@@ -117,6 +129,15 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             }
         });
         init();
+    }
+    private void initIntent(){
+        getCityName = getIntent().getStringExtra("cityName");
+        getCityId = getIntent().getIntExtra("cityId",0);
+        getStartDate = getIntent().getStringExtra("startDate");
+        getDays = getIntent().getIntExtra("days",0);
+        getAdultNum = getIntent().getIntExtra("adultNum",0);
+        getChildNum = getIntent().getIntExtra("childNum",0);
+        isFromOrder = getIntent().getBooleanExtra("isFromOrder",false);
     }
     public void onCustomerService() {
         DialogUtil.getInstance(TravelPurposeFormActivity.this).showDefaultServiceDialog(TravelPurposeFormActivity.this, getEventSource());
@@ -318,11 +339,22 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         } else */{
             tripTimeStr = startDate.getText().toString();
         }
-        RequestTravelPurposeForm requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
+        RequestTravelPurposeForm requestTravelPurposeForm;
+        if(isFromOrder){
+            requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
+                    UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
+                    0,"",tripTimeStr,
+                    remark.getText().toString(),areaCodeStr,phone.getText().toString(),
+                    userName.getText().toString().toString(), null,null,null);
+        }else{
+            requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
                 UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
-                "","",tripTimeStr,
+                getCityId,getCityName,getStartDate,
                 remark.getText().toString(),areaCodeStr,phone.getText().toString(),
-                userName.getText().toString().toString(), null,null,null);
+                userName.getText().toString().toString(), getDays,getAdultNum,getChildNum);
+
+        }
+
         requestData(requestTravelPurposeForm);
         MobClickUtils.onEvent(StatisticConstant.YI_XIANG_SUCCEED);
     }
@@ -330,16 +362,18 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        CommonUtils.showToast("提交成功");
-        //finish();
-        /*AlertDialogUtils.showAlertDialog(this, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(TravelPurposeFormActivity.this, TravelPurposeFormListActivity.class);
-                TravelPurposeFormActivity.this.startActivity(intent);
-                TravelPurposeFormActivity.this.finish();
+                if(isFromOrder){
+                    Intent intent = new Intent(TravelPurposeFormActivity.this, MainActivity.class);
+                    TravelPurposeFormActivity.this.startActivity(intent);
+                    finish();
+                }else {
+                    finish();
+                }
             }
-        });*/
+        });
     }
 
     @Override

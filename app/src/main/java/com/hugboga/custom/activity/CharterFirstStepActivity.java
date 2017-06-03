@@ -372,18 +372,24 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String cityName = startBean != null ? startBean.name : "";
-                    String cityId = startBean != null ? "" + startBean.cityId : "";
+                    int cityId = startBean != null ? startBean.cityId : 0;
                     String startDate = chooseDateBean != null ? chooseDateBean.start_date : "";
-                    String days = chooseDateBean != null ? "" + chooseDateBean.dayNums : "";
+                    int days = chooseDateBean != null ?chooseDateBean.dayNums : 0;
                     int adultNum = countLayout.getAdultValue();
                     int childNum = countLayout.getChildValue();
                     if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
                             && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
                         showIntentionDialog(String.format("定制师会通过您的手机号%1$s联系您", UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
                     } else {
-//                        Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
-//                        startActivity(intent);
-                        //FIXME zhangqiang
+                        Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
+                        intent.putExtra("cityName",cityName);
+                        intent.putExtra("cityId",cityId);
+                        intent.putExtra("startDate",startDate);
+                        intent.putExtra("days",days);
+                        intent.putExtra("adultNum",adultNum);
+                        intent.putExtra("childNum",childNum);
+                        intent.putExtra("isFromOrder",true);
+                        startActivity(intent);
                     }
                     dialog.dismiss();
                 }
@@ -418,7 +424,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 , userEntity.getUserName(this)
                 ,""
                 ,""
-                , startBean != null ? "" + startBean.cityId : ""
+                , startBean != null ? startBean.cityId : 0
                 , startBean != null ? startBean.name : ""
                 , chooseDateBean != null ? chooseDateBean.start_date : ""
                 , ""

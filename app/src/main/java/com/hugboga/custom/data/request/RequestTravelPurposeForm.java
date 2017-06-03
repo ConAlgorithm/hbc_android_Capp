@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class RequestTravelPurposeForm extends BaseRequest{
 
     public RequestTravelPurposeForm(Context context,String opUserId,String opUserName,String workChannel,String workChannelName,
-                                    String toCityId,String toCity,String tripTimeStr,String userRemark,String userAreaCode,
+                                    Integer toCityId,String toCity,String tripTimeStr,String userRemark,String userAreaCode,
                                     String userMobile,String userName, Integer tripDayNum, Integer adultNum, Integer childNum) {
         super(context);
         map = new HashMap<>();
