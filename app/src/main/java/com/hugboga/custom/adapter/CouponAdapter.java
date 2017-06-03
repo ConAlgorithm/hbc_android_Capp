@@ -41,9 +41,6 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
             holder = (ViewHolder) convertView.getTag();
         }
         CouponBean couponBean = getItem(position);
-        if(position == 1){
-            couponBean.couponStatus = 98;
-        }
         holder.mPrice.setText(couponBean.price);
         holder.mContent.setText(couponBean.batchName);
         if (couponBean.endDate.equals("0")) {

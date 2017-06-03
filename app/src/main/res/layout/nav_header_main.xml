@@ -68,8 +68,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
+                android:paddingRight="25dp"
                 android:layout_toRightOf="@+id/my_icon_head"
-                android:text="@string/person_center_nickname"
+                android:text="点击登录"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#898989"
                 android:textSize="18sp" />
 
