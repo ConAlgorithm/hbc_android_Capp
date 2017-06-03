@@ -571,7 +571,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
             case CLICK_USER_LOGIN:
-                if (actionBean != null) {
+                if (actionBean != null && !"1".equals(actionBean.vcid) ) {
                     ActionController actionFactory = ActionController.getInstance();
                     actionFactory.doAction(this, actionBean);
                     actionBean = null;

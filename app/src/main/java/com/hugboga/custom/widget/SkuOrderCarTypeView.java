@@ -123,11 +123,11 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemViewOnClick(v);
+                    itemViewOnClick(v, false);
                 }
             });
         }
-        itemViewOnClick(containerLayot.getChildAt(0));
+        itemViewOnClick(containerLayot.getChildAt(0), true);
         isShow = false;
         moreaArrowIV.setBackgroundResource(R.mipmap.icon_black_arrow);
         if (size <= DEFAULT_SHOW_COUNT) {
@@ -174,7 +174,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         }
     }
 
-    private void itemViewOnClick(View view) {
+    private void itemViewOnClick(View view, boolean isCallOnClick) {
         if (carList == null || view == null) {
             return;
         }
@@ -194,6 +194,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         CarBean carBean = carList.get(view.getId());
         if (listener != null && this.oldCarBean != carBean && carBean != null) {
             this.oldCarBean = carBean;
+            carBean.isCallOnClick = isCallOnClick;
             listener.onSelectedCar(carBean);
         }
     }

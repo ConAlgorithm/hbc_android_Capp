@@ -289,11 +289,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
                     travelerInfoBean.isSendMessage = b;
                 }
             });
-            if (orderType == 1) {//接机
+            if (orderType == 1 && additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.pickupSignPrice)) {//接机
                 checkinLayout.setVisibility(View.VISIBLE);
                 checkinHintTV.setText("举牌接机");
                 checkinET.setHint("接机牌姓名");
-            } else if (orderType == 2) {//送机
+            } else if (orderType == 2 && additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.checkInPrice)) {//送机
                 checkinLayout.setVisibility(View.VISIBLE);
                 checkinHintTV.setText("协助登机Check in");
                 flightLayout.setVisibility(View.VISIBLE);

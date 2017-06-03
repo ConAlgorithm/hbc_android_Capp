@@ -427,4 +427,11 @@ public final class CommonUtils {
             return true;
         }
     }
+
+    public static String doubleTrans(double num){
+        if (num % 1.0 == 0) {
+            return String.valueOf((long)num);
+        }
+        return String.valueOf(num);
+    }
 }

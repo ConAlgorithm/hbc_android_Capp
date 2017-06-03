@@ -120,7 +120,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
             if (priceInfo.isRefund == 1) {//全部退款
                 addBillView(refundItemLayout, "全部行程", "" + (int)priceInfo.refundPrice);
-                setRefundPriceLayout((int)priceInfo.refundPrice, (int)priceInfo.cancelFee, priceInfo.payGatewayName);
+                setRefundPriceLayout((int)priceInfo.cancelFee, priceInfo.payGatewayName);
             } else {
                 List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
                 int size = subOrderList.size();
@@ -132,7 +132,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                     allRefundPrice += (int)childPriceInfo.refundPrice;
                     allCancelFee += (int)childPriceInfo.cancelFee;
                 }
-                setRefundPriceLayout(allRefundPrice, allCancelFee, priceInfo.payGatewayName);
+                setRefundPriceLayout(allCancelFee, priceInfo.payGatewayName);
             }
 
         } else if (priceInfo.isRefund == 1) {//已经退款
@@ -140,15 +140,15 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             refundItemLayout.removeAllViews();
 
             addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice, false);//退款金额
-            setRefundPriceLayout((int) priceInfo.refundPrice, (int) priceInfo.cancelFee, priceInfo.payGatewayName);
+            setRefundPriceLayout((int) priceInfo.cancelFee, priceInfo.payGatewayName);
         } else {
             refundLayout.setVisibility(View.GONE);
         }
     }
 
-    private void setRefundPriceLayout(int refundPrice, int cancelFee, String payGatewayName) {
+    private void setRefundPriceLayout(int cancelFee, String payGatewayName) {
         String description = null;
-        if (refundPrice <= 0) {//退款金额为0
+        if (cancelFee <= 0) {//退款金额为0
             description = getContext().getString(R.string.order_detail_refund_pattern_payment, payGatewayName);
         } else {
             addGroupView(refundItemLayout, R.string.order_detail_cost_withhold, "" + cancelFee, false);//订单退改扣款

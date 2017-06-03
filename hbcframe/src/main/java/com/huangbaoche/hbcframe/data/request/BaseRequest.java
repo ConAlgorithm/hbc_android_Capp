@@ -55,6 +55,8 @@ public abstract class BaseRequest<T> extends RequestParams implements InterfaceR
         this.errorType = errorType;
     }
 
+    public String tag;
+
     /**
      * 动态返回相对的路径，如果不为空，注解的path失效
      * @return

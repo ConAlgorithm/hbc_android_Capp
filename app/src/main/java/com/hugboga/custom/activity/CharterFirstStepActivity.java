@@ -368,27 +368,21 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isShowSaveDialog() {
         if (startBean != null || chooseDateBean != null) {
-            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, "皇包车定制师可以主动联系您帮您预订\n您确定要离开吗？", "联系我", "离开", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, "提示", "皇包车定制师可以主动联系您帮您预订，您确定要离开吗？", "联系我", "离开", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String cityName = startBean != null ? startBean.name : "";
-                    int cityId = startBean != null ? startBean.cityId : 0;
-                    String startDate = chooseDateBean != null ? chooseDateBean.start_date : "";
-                    int days = chooseDateBean != null ?chooseDateBean.dayNums : 0;
-                    int adultNum = countLayout.getAdultValue();
-                    int childNum = countLayout.getChildValue();
                     if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
                             && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
                         showIntentionDialog(String.format("定制师会通过您的手机号%1$s联系您", UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
                     } else {
                         Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
-                        intent.putExtra("cityName",cityName);
-                        intent.putExtra("cityId",cityId);
-                        intent.putExtra("startDate",startDate);
-                        intent.putExtra("days",days);
-                        intent.putExtra("adultNum",adultNum);
-                        intent.putExtra("childNum",childNum);
-                        intent.putExtra("isFromOrder",true);
+                        intent.putExtra("cityName", startBean != null ? startBean.name : "");
+                        intent.putExtra("cityId", startBean != null ? startBean.cityId : 0);
+                        intent.putExtra("startDate", chooseDateBean != null ? chooseDateBean.start_date : "");
+                        intent.putExtra("days", chooseDateBean != null ?chooseDateBean.dayNums : 0);
+                        intent.putExtra("adultNum", countLayout.getAdultValue());
+                        intent.putExtra("childNum", countLayout.getChildValue());
+                        intent.putExtra("isFromOrder", true);
                         startActivity(intent);
                     }
                     dialog.dismiss();
@@ -407,7 +401,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     public void showIntentionDialog(String content) {
-        AlertDialogUtils.showAlertDialog(activity, content, "好", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, "提示", content, "好", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 requestTravelPurposeForm();
@@ -422,8 +416,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         RequestTravelPurposeForm requestTravelPurposeForm = new RequestTravelPurposeForm(this
                 , userEntity.getUserId(this)
                 , userEntity.getUserName(this)
-                ,""
-                ,""
+                , ""
+                , ""
                 , startBean != null ? startBean.cityId : 0
                 , startBean != null ? startBean.name : ""
                 , chooseDateBean != null ? chooseDateBean.start_date : ""

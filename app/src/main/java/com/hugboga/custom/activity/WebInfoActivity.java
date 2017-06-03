@@ -258,8 +258,12 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         if (!TextUtils.isEmpty(url) && url.contains("userId=") && isLogin != UserEntity.getUser().isLogin(this)) {
             isLogin = UserEntity.getUser().isLogin(this);
             url = CommonUtils.replaceUrlValue(url, "userId", UserEntity.getUser().getUserId(this));
-            webView.loadUrl(url);
+            Intent intent = new Intent(this, WebInfoActivity.class);
+            intent.putExtra(WebInfoActivity.WEB_URL, url);
+            startActivity(intent);
+            finish();
         }
+        loadUrl();
     }
 
     public void initHeader() {
@@ -312,9 +316,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initHeader();
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
-        if (!TextUtils.isEmpty(url)) {
-            webView.loadUrl(url);
-        }
+        loadUrl();
         MLog.e("url=" + url);
 
         SensorsUtils.setSensorsShowUpWebView(webView);
@@ -323,5 +325,19 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     @Override
     public String getEventSource() {
         return TextUtils.isEmpty(title) ? "web页面" : title;
+    }
+
+    public void loadUrl() {
+        if (!TextUtils.isEmpty(url)) {
+            if (url.contains("h5/cactivity/seckill") && !url.contains("&userId=") && UserEntity.getUser().isLogin(this)) {
+                url = url + "&userId=" + UserEntity.getUser().getUserId(this);
+                Intent intent = new Intent(this, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                startActivity(intent);
+                finish();
+            } else {
+                webView.loadUrl(url);
+            }
+        }
     }
 }

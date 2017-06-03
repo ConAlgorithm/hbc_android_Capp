@@ -52,12 +52,14 @@ public  class ErrorHandler implements HttpRequestListener{
                 // errState = "网络不可用";
                 if (mDialogUtil != null)
                     mDialogUtil.showSettingDialog();
+                    request.errorType = BaseRequest.ERROR_TYPE_PROCESSED;
                 return;
             case ExceptionErrorCode.ERROR_CODE_NET_TIMEOUT:
                  errState = "数据加载超时";
                 errorInfo.exception = null;
                 if (mDialogUtil != null)
                     mDialogUtil.showOvertimeDialog(request, mListener);
+                    request.errorType = BaseRequest.ERROR_TYPE_PROCESSED;
                 return;
             case ExceptionErrorCode.ERROR_CODE_SERVER:
                 errState = "服务器返回错误";

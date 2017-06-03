@@ -71,6 +71,8 @@ public class CarBean implements IBaseBean ,Cloneable{
 
     public ArrayList<GroupQuotesBean> quotes;
 
+    public boolean isCallOnClick = false;
+
     @Override
     public Object clone() {
         try {
