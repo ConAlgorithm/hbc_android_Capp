@@ -49,6 +49,7 @@ import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
@@ -97,6 +98,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     OrderExplainView explainView;
     @Bind(R.id.combination_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
+    @Bind(R.id.combination_order_progress_view)
+    CircularProgress progressView;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -112,6 +115,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private CharterDataUtils charterDataUtils;
     private CityBean startCityBean;
     private ArrayList<GuideCarBean> guideCarBeanList;
+
+    private int requestCouponTag = 0;
+    private int requestCancleTipsTag = 0;
+    private int requestSucceedCount = 0;
 
     @Override
     public int getContentViewId() {
@@ -279,12 +286,27 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             }
             scrollToTop();
         } else if (_request instanceof RequestMostFit) {
-            mostFitBean = ((RequestMostFit) _request).getData();
+            RequestMostFit requestMostFit = (RequestMostFit) _request;
+            if (!TextUtils.equals(requestMostFit.tag, "" + requestCouponTag)) {
+                return;
+            }
+            onLoadSucceed();
+            mostFitBean = requestMostFit.getData();
             discountView.setMostFitBean(mostFitBean);
         } else if (_request instanceof RequestDeduction) {
-            deductionBean = ((RequestDeduction) _request).getData();
+            RequestDeduction requestDeduction = (RequestDeduction) _request;
+            if (!TextUtils.equals(requestDeduction.tag, "" + requestCouponTag)) {
+                return;
+            }
+            onLoadSucceed();
+            deductionBean = requestDeduction.getData();
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestCancleTips) {
+            RequestCancleTips requestCancleTips = (RequestCancleTips) _request;
+            if (!TextUtils.equals(requestCancleTips.tag, "" + requestCancleTipsTag)) {
+                return;
+            }
+            onLoadSucceed();
             String cancleTips = "";
             List<String> datas = (List<String>) _request.getData();
             for (String str : datas) {
@@ -346,6 +368,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         }
         if (emptyLayout != null) {
             emptyLayout.setErrorVisibility(View.VISIBLE);
+            progressView.setVisibility(View.GONE);
             setItemVisibility(View.GONE);
         }
     }
@@ -383,6 +406,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
         boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
+        if (isEmpty) {
+            progressView.setVisibility(View.GONE);
+        }
         setItemVisibility(itemVisibility);
         return isEmpty;
     }
@@ -411,6 +437,27 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         });
     }
 
+    public void onBottomLoading(boolean isLoading) {
+        if (isLoading) {
+            bottomView.onLoading();
+            progressView.setVisibility(View.VISIBLE);
+            discountView.setVisibility(View.GONE);
+            explainView.setVisibility(View.GONE);
+        } else {
+            bottomView.onSucceed();
+            progressView.setVisibility(View.GONE);
+            discountView.setVisibility(View.VISIBLE);
+            explainView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void onLoadSucceed() {
+        requestSucceedCount--;
+        if (requestSucceedCount == 0) {
+            onBottomLoading(false);
+        }
+    }
+
     @Override
     public void onRefresh() {
         requestBatchPrice();
@@ -421,9 +468,14 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         this.carBean = carBean;
         countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date);
         int additionalPrice = countView.getAdditionalPrice();
-        requestMostFit(additionalPrice);
-        requestTravelFund(additionalPrice);
-        requestCancleTips();
+
+        requestSucceedCount = 3;
+        onBottomLoading(!carBean.isCallOnClick);
+        requestCouponTag++;
+        requestCancleTipsTag ++;
+        requestMostFit(additionalPrice, requestCouponTag);
+        requestTravelFund(additionalPrice, requestCouponTag);
+        requestCancleTips(requestCancleTipsTag);
     }
 
     /* 是否点击更多车型 */
@@ -448,8 +500,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     /* 儿童座椅价格发生改变 */
     @Override
     public void onAdditionalPriceChange(int price) {
-        requestMostFit(price);
-        requestTravelFund(price);
+        requestSucceedCount = 2;
+        onBottomLoading(true);
+        requestCouponTag++;
+        requestMostFit(price, requestCouponTag);
+        requestTravelFund(price, requestCouponTag);
     }
 
     /* 选择优惠方式 */
@@ -589,7 +644,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 获取优惠券
      * @params additionalPrice 儿童座椅 + 酒店价格
      * */
-    private void requestMostFit(int additionalPrice) {
+    private void requestMostFit(int additionalPrice, int requestTag) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , carBean.price + additionalPrice + ""
                 , carBean.price + additionalPrice + ""
@@ -604,16 +659,18 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , orderType + ""
                 , carBean.carId + ""
                 , charterDataUtils.isPickupTransfer());
-        requestData(requestMostFit);
+        requestMostFit.tag = "" + requestTag;
+        requestData(requestMostFit, false);
     }
 
     /*
     * 获取旅游基金
     * @params additionalPrice 儿童座椅 + 酒店价格
     * */
-    private void requestTravelFund(int additionalPrice) {
+    private void requestTravelFund(int additionalPrice, int requestTag) {
         RequestDeduction requestDeduction = new RequestDeduction(this, carBean.price + additionalPrice + "");
-        requestData(requestDeduction);
+        requestDeduction.tag = "" + requestTag;
+        requestData(requestDeduction, false);
     }
 
     /*
@@ -627,7 +684,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     /*
     * 获取退改规则
     * */
-    private void requestCancleTips() {
+    private void requestCancleTips(int requestTag) {
         RequestCancleTips requestCancleTips = new RequestCancleTips(this
                 , carBean
                 , startCityBean.cityId + ""
@@ -639,7 +696,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 , ""
                 , ""
                 , 3 + "");//orderType + ""
-        requestData(requestCancleTips);
+        requestCancleTips.tag = "" + requestTag;
+        requestData(requestCancleTips, false);
     }
 
     @Override

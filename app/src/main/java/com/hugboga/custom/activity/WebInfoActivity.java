@@ -313,6 +313,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
         if (!TextUtils.isEmpty(url)) {
+            if (url.contains("h5/cactivity/seckill") && UserEntity.getUser().isLogin(this)) {
+                url = url + "&userId=" + UserEntity.getUser().getUserId(this);
+            }
             webView.loadUrl(url);
         }
         MLog.e("url=" + url);

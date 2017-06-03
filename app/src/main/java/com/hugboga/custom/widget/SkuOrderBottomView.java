@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,9 @@ public class SkuOrderBottomView extends LinearLayout {
     @Bind(R.id.sku_order_bottom_selected_guide_hint_tv)
     TextView selectedGuideHintTV;
 
+    @Bind(R.id.sku_order_bottom_progress_layout)
+    FrameLayout progressLayout;
+
     public OnSubmitOrderListener listener;
 
     public SkuOrderBottomView(Context context) {
@@ -52,6 +56,16 @@ public class SkuOrderBottomView extends LinearLayout {
             discountPriceTV.setVisibility(View.VISIBLE);
             discountPriceTV.setText(String.format("已减: ¥%1$s","" + discountPrice));
         }
+    }
+
+    public void onLoading() {
+        payTV.setEnabled(false);
+        progressLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void onSucceed() {
+        payTV.setEnabled(true);
+        progressLayout.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.sku_order_bottom_pay_tv})

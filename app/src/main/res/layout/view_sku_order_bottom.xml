@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/sku_order_bottom_selected_guide_hint_tv"
@@ -23,16 +24,18 @@
             android:id="@+id/sku_order_bottom_should_price_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:layout_marginTop="7dp"
             android:gravity="center"
-            android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:text="需付:"
                 android:textColor="@color/default_black"
-                android:text="需付:" />
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/sku_order_bottom_should_price_tv"
                 android:layout_width="wrap_content"
@@ -46,21 +49,21 @@
 
         <TextView
             android:id="@+id/sku_order_bottom_total_price_tv"
-            android:layout_below="@id/sku_order_bottom_should_price_layout"
-            android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/sku_order_bottom_should_price_layout"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:gravity="center"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/sku_order_bottom_discount_price_tv"
-            android:layout_toRightOf="@id/sku_order_bottom_total_price_tv"
-            android:layout_below="@id/sku_order_bottom_should_price_layout"
-            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/sku_order_bottom_should_price_layout"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/sku_order_bottom_total_price_tv"
             android:gravity="center"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
@@ -69,6 +72,22 @@
             android:id="@+id/sku_order_bottom_pay_tv"
             style="@style/OrderBottomConfirm"
             android:text="去支付" />
+
+        <FrameLayout
+            android:id="@+id/sku_order_bottom_progress_layout"
+            android:layout_toLeftOf="@id/sku_order_bottom_pay_tv"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:paddingRight="80dp"
+            android:background="#ffffff">
+            <com.hugboga.custom.widget.CircularProgress
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                app:borderWidth="1.5dp" />
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
