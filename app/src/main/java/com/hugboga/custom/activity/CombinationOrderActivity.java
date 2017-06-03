@@ -263,6 +263,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                    phone = phone.replace(" ", "");
                 }
                 travelerInfoView.setTravelerPhone(phone);
             }

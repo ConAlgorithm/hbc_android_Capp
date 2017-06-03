@@ -71,15 +71,19 @@ public class SkuOrderEmptyView extends LinearLayout{
             refreshTV.setVisibility(View.GONE);
             hintTV.setText(noneCarsReason);
             isEmpty = true;
+            if (noneCarsState == 202) {
+                emptyIV.setBackgroundResource(R.drawable.empty_time);
+            } else if (noneCarsState == 6) {
+                emptyIV.setBackgroundResource(R.drawable.empty_time);
+            } else if (noneCarsState == 301) {
+                emptyIV.setBackgroundResource(R.drawable.empty_trip);
+            }
             if (TextUtils.isEmpty(noneCarsReason)) {
                 if (noneCarsState == 202) {
-                    emptyIV.setBackgroundResource(R.drawable.empty_time);
                     hintTV.setText("当地时间已过了您预订的服务时间，想服务但做不到啊…");
                 } else if (noneCarsState == 6) {
-                    emptyIV.setBackgroundResource(R.drawable.empty_time);
                     hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
                 } else if (noneCarsState == 301) {
-                    emptyIV.setBackgroundResource(R.drawable.empty_trip);
                     hintTV.setText("很抱歉，您选择的地点暂时无法通过驾车的方式到达");
                 }
             }
@@ -94,15 +98,15 @@ public class SkuOrderEmptyView extends LinearLayout{
         } else if (_carList == null || _carList.size() <= 0) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
-            if (TextUtils.isEmpty(noneCarsReason)) {
+//            if (TextUtils.isEmpty(noneCarsReason)) {
                 if (isAssignGuide) {
                     hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
                 } else {
                     hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
                 }
-            } else {
-                hintTV.setText(noneCarsReason + "\n请联系客服，我们会协助您完成预订");
-            }
+//            } else {
+//                hintTV.setText(noneCarsReason + "\n请联系客服，我们会协助您完成预订");
+//            }
 
             isEmpty = true;
             refreshTV.setVisibility(View.VISIBLE);

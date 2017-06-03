@@ -61,8 +61,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:background="@mipmap/icon_call" />
 
                 <TextView
@@ -95,8 +95,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:background="@mipmap/icon_im" />
 
                 <TextView
@@ -112,7 +112,7 @@
             <TextView
                 android:id="@+id/goto_order"
                 style="@style/OrderBottomConfirm"
-                android:text="现在预订" />
+                android:text="立即预订" />
 
             <View
                 android:layout_width="match_parent"

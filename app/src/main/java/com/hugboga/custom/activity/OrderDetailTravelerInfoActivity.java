@@ -203,9 +203,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (orderBean.orderStatus.code <= 5) {
-                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
-                }
+                hideSoftInput();
                 finish();
             }
         });
@@ -556,6 +554,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                    phone = phone.replace(" ", "");
                 }
                 if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
                     phoneET.setText(phone);
@@ -606,11 +605,11 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     private void sendRequest() {
         if (TextUtils.isEmpty(contactsET.getText())) {
-            CommonUtils.showToast("请输入联系人姓名");
+            CommonUtils.showToast("请填写联系人姓名");
             return;
         }
         if (TextUtils.isEmpty(phoneET.getText())) {
-            CommonUtils.showToast("请输入联系人手机号");
+            CommonUtils.showToast("请填写联系人手机号");
             return;
         }
         if (!CommonUtils.checkInlandPhoneNumber(codeTV.getText().toString(), phoneET.getText().toString())) {
@@ -618,11 +617,11 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         }
         if (contactUsersBean.isForOther) {
             if (TextUtils.isEmpty(otherContactsET.getText())) {
-                CommonUtils.showToast("请输入乘车人姓名");
+                CommonUtils.showToast("请填写乘车人姓名");
                 return;
             }
             if (TextUtils.isEmpty(otherPhoneET.getText())) {
-                CommonUtils.showToast("请输入乘车人手机号");
+                CommonUtils.showToast("请填写乘车人手机号");
                 return;
             }
             if (!CommonUtils.checkInlandPhoneNumber(otherCodeTV.getText().toString(), otherPhoneET.getText().toString())) {
@@ -630,7 +629,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             }
         }
         if (checkinLayout.getVisibility() == View.VISIBLE && TextUtils.isEmpty(checkinET.getText())) {
-            CommonUtils.showToast("请输入接机牌姓名");
+            CommonUtils.showToast("请填写接机牌姓名");
             return;
         }
         mDialogUtil.showLoadingDialog();
@@ -689,15 +688,5 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             realUserExJson.append("]");
         }
         return realUserExJson.toString();
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if (orderBean.orderStatus.code <= 5) {
-                EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
-            }
-        }
-        return super.onKeyUp(keyCode, event);
     }
 }

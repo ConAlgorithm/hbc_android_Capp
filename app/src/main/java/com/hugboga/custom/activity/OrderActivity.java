@@ -161,9 +161,10 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         countView.setOnCountChangeListener(this);
         countView.update(params.carBean, params.carListBean, params.serverDate);
         bottomView.setOnSubmitOrderListener(this);
+        bottomView.getSelectedGuideHintTV().setVisibility(params.guidesDetailData == null ? View.VISIBLE : View.GONE);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
-        travelerInfoView.setOrderType(params.orderType);
         travelerInfoView.setCarListBean(params.carListBean);
+        travelerInfoView.setOrderType(params.orderType);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
         discountView.setDiscountOnClickListener(this);
         int additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
@@ -608,6 +609,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                    phone = phone.replace(" ", "");
                 }
                 if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
                     travelerInfoView.setTravelerPhone(phone);

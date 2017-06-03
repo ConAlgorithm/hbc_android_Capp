@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,12 +42,8 @@ public class OrderBottomView extends RelativeLayout {
     public void setData(CarListBean carListBean, CarBean carBean) {
         int price = carListBean.isSeckills ? carBean.seckillingPrice : carBean.price;
         shouldPriceTV.setText(getContext().getResources().getString(R.string.sign_rmb) + price);
-        if (carListBean.distance > 0 && carListBean.interval > 0) {
-            distanceTV.setVisibility(View.VISIBLE);
-            distanceTV.setText("全程预估: " + carListBean.distance + "公里/" + carListBean.interval + "分钟");
-        } else {
-            distanceTV.setVisibility(View.GONE);
-        }
+        distanceTV.setVisibility(View.VISIBLE);
+        distanceTV.setText("全程预估: " + CommonUtils.doubleTrans(carListBean.distance) + "公里/" + carListBean.interval + "分钟");
     }
 
     @OnClick(R.id.order_bottom_confirm_tv)

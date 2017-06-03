@@ -215,9 +215,16 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     private void setFlightBean(FlightBean _flightBean) {
-        if (_flightBean == null || (flightBean != null && TextUtils.equals(_flightBean.flightNo, flightBean.flightNo))) {
+        if (_flightBean == null) {
             return;
         }
+        boolean checkFlightBean = flightBean != null
+                && TextUtils.equals(_flightBean.flightNo, flightBean.flightNo)
+                && TextUtils.equals(_flightBean.arrDate, flightBean.arrDate);
+        if (checkFlightBean) {
+            return;
+        }
+
         flightBean = _flightBean;
         String desc1 = flightBean.flightNo + " " + flightBean.depCityName + "-" + flightBean.arrCityName;
         String desc2 = "当地时间" + DateUtils.getPointStrFromDate2(flightBean.arrDate) + flightBean.arrivalTime + "降落";
