@@ -87,10 +87,15 @@
     <com.hugboga.custom.widget.ChooseCityTabLayout
         android:id="@+id/choose_city_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="40dp"
         android:visibility="gone"
         android:orientation="horizontal"/>
-
+    <View
+        android:id="@+id/choose_city_tab_below"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:visibility="gone"
+        android:background="#dbdbdb"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
