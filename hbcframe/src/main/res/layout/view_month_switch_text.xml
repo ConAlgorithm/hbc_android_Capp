@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="60dp"
-  android:background="@android:color/white"
-  android:gravity="center_vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@android:color/white"
+    android:gravity="center_vertical">
 
-  <TextView
-      android:id="@android:id/text1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerInParent="true"
-      tools:text="Exten Alens"
-      android:textSize="15sp"
-      android:textColor="#7f7f7f"
-      />
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#ffc100"
+        android:textSize="15sp"
+        tools:text="Exten Alens" />
 
-  <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.ForegroundImageView
-    android:id="@android:id/icon1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-      android:layout_centerVertical="true"
-      android:layout_toLeftOf="@android:id/text1"
-      android:layout_marginRight="20dp"
-    android:background="@null"
-    android:contentDescription="@null"
-    android:src="@mipmap/calendar_arrow_left"
-    />
+    <RelativeLayout
+        android:id="@+id/icon1_layout"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@android:id/text1"
+        android:gravity="center">
+
+        <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.ForegroundImageView
+            android:id="@android:id/icon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:src="@mipmap/calendar_arrow_left" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/icon2_layout"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@android:id/text1"
+        android:gravity="center">
+
+        <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.ForegroundImageView
+            android:id="@android:id/icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:src="@mipmap/calendar_arrow_right" />
+    </RelativeLayout>
 
 
-  <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.ForegroundImageView
-    android:id="@android:id/icon2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-      android:layout_centerVertical="true"
-      android:layout_toRightOf="@android:id/text1"
-      android:layout_marginLeft="20dp"
-    android:background="@null"
-    android:contentDescription="@null"
-    android:src="@mipmap/calendar_arrow_right"
-    />
-  <View
-      android:id="@+id/line_view2"
-      android:layout_width="match_parent"
-      android:layout_height="1dp"
-      android:layout_alignParentBottom="true"
-      android:layout_marginBottom="10dp"
-      android:background="#eeeeee" />
+    <View
+        android:id="@+id/line_view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:background="#eeeeee" />
 
 </RelativeLayout>
