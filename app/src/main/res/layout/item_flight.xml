@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="95dp"
     android:orientation="vertical"
-    android:background="@color/allbg_white">
+    android:background="@color/allbg_white"
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:id="@+id/item_flight_title"
@@ -28,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="true"
             android:gravity="center"
             android:minHeight="72dp"
             android:orientation="vertical">
@@ -68,7 +68,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="true"
             android:gravity="center"
             android:orientation="vertical">
 

@@ -34,11 +34,11 @@
                 res:radius="3dp" />
 
             <FrameLayout
-                android:layout_width="match_parent"
+                android:id="@+id/home_help_layout"
+                android:layout_width="200dp"
                 android:layout_height="33dp"
-                android:layout_gravity="bottom"
+                android:layout_gravity="bottom|right"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@mipmap/home_button_trip">
 
@@ -224,7 +224,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="15dp"
             android:layout_below="@+id/home_service_layout"
             android:background="@color/allbg_white">
 
@@ -237,8 +236,7 @@
                 <RelativeLayout
                     android:id="@+id/home_other_service_title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_height="64dp">
 
                     <TextView
                         android:id="@+id/guide_ammount_text"
@@ -268,12 +266,12 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_marginBottom="15dp">
 
                     <RelativeLayout
                         android:id="@+id/huaren_guild_layout"
-                        android:layout_width="166dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="165dp"
+                        android:layout_height="80dp"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="10dp"
                         android:background="@mipmap/home_picture_a">
@@ -292,8 +290,8 @@
 
                     <RelativeLayout
                         android:id="@+id/home_video_page"
-                        android:layout_width="166dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="165dp"
+                        android:layout_height="80dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
                         android:background="@mipmap/home_picture_b">
