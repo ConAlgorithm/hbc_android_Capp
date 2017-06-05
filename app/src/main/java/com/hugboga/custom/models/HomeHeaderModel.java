@@ -47,6 +47,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
+import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.nineoldandroids.view.ViewHelper;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -159,7 +160,32 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             homeHeaderHolder.mViewPager.setCurrentItem(0);
             startShowHomePic();
         }
+        if(!NetworkUtil.isNetAvailable(context)){
+            if(activityPageSettings.size() == 0){
+                activityPageSettings = new  ArrayList<HomeBeanV2.ActivityPageSetting>();
+                HomeBeanV2.ActivityPageSetting activityPageSetting = new HomeBeanV2.ActivityPageSetting();
+                activityPageSettings.add(activityPageSetting);
+            }
+            //构建滑动页
+            List<HomeBeanV2.ActivityPageSetting> views = new ArrayList<HomeBeanV2.ActivityPageSetting>();
 
+            for (int i = 0; i < activityPageSettings.size(); i++) {
+                //Tools.showImageHasPlaceHolder(iv, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
+                views.add(activityPageSettings.get(i));
+            }
+
+            HomePageAdapter aAdapter = new HomePageAdapter(context,views);
+            //首页轮播图
+            homeHeaderHolder.mViewPager.setAdapter(aAdapter);
+            homeHeaderHolder.mIndicator.setViewPager(homeHeaderHolder.mViewPager);
+            if (activityPageSettings.size() <= 1) {
+                homeHeaderHolder.mIndicator.setVisibility(View.GONE);
+            } else {
+                homeHeaderHolder.mIndicator.setVisibility(View.VISIBLE);
+            }
+            homeHeaderHolder.mViewPager.setCurrentItem(0);
+            startShowHomePic();
+        }
 
         if (homeHeaderInfo.dynamicPic != null) {
             //homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
@@ -221,9 +247,9 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             ImageView itemView = new ImageView(mContext);
             itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (!TextUtils.isEmpty(view.getPicture())) {
-                Tools.showImage(itemView, view.getPicture(), R.mipmap.home_banner);
+                Tools.showImage(itemView, view.getPicture(), R.mipmap.empty_home_banner);
             } else {
-                itemView.setImageResource(R.mipmap.home_banner);
+                itemView.setImageResource(R.mipmap.empty_home_banner);
             }
             itemView.setLayoutParams(itemParams);
             itemView.getLayoutParams().height = (211 * ScreenUtil.screenWidth)/360;
