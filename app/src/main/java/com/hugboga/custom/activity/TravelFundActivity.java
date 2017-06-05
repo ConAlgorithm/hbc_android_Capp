@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.ShareUrls;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetInvitationCode;
@@ -54,6 +56,9 @@ public class TravelFundActivity extends BaseActivity {
 
     @Bind(R.id.tracel_fund_header)
     RelativeLayout titlerBar;
+
+    @Bind(R.id.header_left_btn)
+    ImageView headerLeftBtn;
 
     private String invitationCode;
     private TravelFundData travelFundData;
@@ -110,6 +115,20 @@ public class TravelFundActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+        finish();
     }
 
     private void sendRequest() {

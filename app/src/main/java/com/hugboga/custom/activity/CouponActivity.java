@@ -152,6 +152,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
                 finish();
             }
         });
@@ -160,7 +161,12 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+        finish();
+    }
 
     ZListView.OnRefreshListener onRefreshListener = new ZListView.OnRefreshListener() {
         @Override
