@@ -213,7 +213,7 @@
                 android:background="#dbdbdb" />
             <TextView
                 android:id="@+id/other_login"
-                android:layout_width="60dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -233,7 +233,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/other_layout"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="6dp">
             <RelativeLayout
                 android:id="@+id/wechat_denglu"
                 android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                     android:layout_width="60dp"
                     android:layout_height="16dp"
                     android:layout_below="@id/wechat_icon"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="4dp"
                     android:text="微信登录"
                     android:textColor="#a8a8a8"
                     android:textSize="13dp"
@@ -277,7 +277,7 @@
                     android:layout_width="100dp"
                     android:layout_height="16dp"
                     android:layout_below="@id/shouji_icon"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="4dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30dp"
                     android:text="账号密码登录"
