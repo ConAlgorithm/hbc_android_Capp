@@ -245,6 +245,10 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     }
 
     public void setOrderType(int orderType) {
+        setOrderType(orderType, null);
+    }
+
+    public void setOrderType(int orderType, CarListBean carListBean) {
         this.orderType = orderType;
         if (orderType == 3) {//组合单
             CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
@@ -289,6 +293,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
                     travelerInfoBean.isSendMessage = b;
                 }
             });
+            setCarListBean(carListBean);
             if (orderType == 1 && additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.pickupSignPrice)) {//接机
                 checkinLayout.setVisibility(View.VISIBLE);
                 checkinHintTV.setText("举牌接机");
@@ -301,7 +306,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         }
     }
 
-    public void setCarListBean(CarListBean carListBean) {
+    private void setCarListBean(CarListBean carListBean) {
         if (carListBean == null || carListBean.additionalServicePrice == null) {
             return;
         }

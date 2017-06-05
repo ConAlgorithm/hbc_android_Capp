@@ -179,6 +179,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         homeHeaderHolder.homeSearchTabView.setHomeTabClickListener(homeTabClickListener);
         tabView = homeHeaderHolder.homeSearchTabView;
         fastYudingLayout = homeHeaderHolder.fastYudingLayout;
+        fastYudingLayout.setOnClickListener(this);
         homeOtherService = homeHeaderHolder.homeOtherService;
         animateServiceView = homeHeaderHolder.serviceLayout;
         animateBaseLineView = homeHeaderHolder.homeHelp;
@@ -260,14 +261,16 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Message message = new Message();
-                message.what = UPTATE_VIEWPAGER;
-                if (autoCurrIndex == activityPageSettings.size() - 1) {
-                    autoCurrIndex = -1;
+                if(activityPageSettings != null){
+                    Message message = new Message();
+                    message.what = UPTATE_VIEWPAGER;
+                    if (autoCurrIndex == activityPageSettings.size() - 1) {
+                        autoCurrIndex = -1;
+                    }
+                    message.arg1 = autoCurrIndex + 1;
+                    autoCurrIndex += 1;
+                    mHandler.sendMessage(message);
                 }
-                message.arg1 = autoCurrIndex + 1;
-                autoCurrIndex += 1;
-                mHandler.sendMessage(message);
             }
         }, 5000, 5000);
     }
@@ -382,8 +385,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     }
 
     private void setGuideAmmountText(TextView textView) {
-        String guideAmmountStr = homeHeaderInfo.guideNum + "万";
-        String showStr = guideAmmountStr + "华人导游";
+        String showStr = homeHeaderInfo.guideNum + "万" + homeHeaderInfo.guideDesc;
         //SpannableString spannableString = new SpannableString(showStr);
         //spannableString.setSpan(new ForegroundColorSpan(0xffFFC110),0,guideAmmountStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(showStr);
@@ -407,7 +409,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             case R.id.home_single_layout:
                 intentActivity(v.getContext(), SingleActivity.class, StatisticConstant.LAUNCH_C);
                 break;
-            case R.id.home_help:
+            case R.id.home_help_layout:
                 /*if (CommonUtils.isLogin(v.getContext())) {
                     gotoTravelPurposeForm(v);
                 }*/
@@ -493,7 +495,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         View pickSendView; //接送机
         @Bind(R.id.home_single_layout)
         View singleView; //单次接送
-        @Bind(R.id.home_help)
+        @Bind(R.id.home_help_layout)
         View homeHelp;
         @Bind(R.id.home_header_tab_layout)
         HomeSearchTabView homeSearchTabView;

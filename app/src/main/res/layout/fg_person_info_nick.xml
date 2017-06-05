@@ -2,12 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
+    <TextView
+        android:id="@+id/person_info_nick_title"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginLeft="10dp"
+        android:text="填写昵称"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/common_font_color_gray2"
+        android:maxLines="1"
+        android:maxLength="15" />
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/person_info_nick_title"
+        android:background="@color/common_font_color_gray2"/>
     <EditText
         android:id="@+id/person_info_nick_text"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:lines="1"
+        android:layout_below="@+id/view"
+        android:background="@null"
+        android:singleLine="true"
         android:maxLength="50" />
 
 </RelativeLayout>

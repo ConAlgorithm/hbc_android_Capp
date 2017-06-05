@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="添加航班号，延误免费等待"
+                app:hintText="通过航班查机场，延误免费等待"
                 app:titleText="接机机场" />
 
             <LinearLayout

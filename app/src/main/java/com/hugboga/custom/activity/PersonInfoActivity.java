@@ -212,7 +212,7 @@ public class PersonInfoActivity extends BaseActivity{
                 final EditText inputServer = (EditText) rl.findViewById(R.id.person_info_nick_text);
                 inputServer.setText(nickNameTextView.getText().toString());
                 inputServer.setSelection(inputServer.getText().length());
-                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl).setTitle("填写昵称").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl)/*.setTitle("填写昵称")*/.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -342,7 +342,9 @@ public class PersonInfoActivity extends BaseActivity{
                 final EditText editText = (EditText) layout.findViewById(R.id.person_info_nick_text);
                 editText.setText(realNameTextView.getText().toString());
                 editText.setSelection(editText.getText().length());
-                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout).setTitle("填写真实姓名").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                final TextView title = (TextView) layout.findViewById(R.id.person_info_nick_title);
+                title.setText("填写真实姓名");
+                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout)/*.setTitle("填写真实姓名")*/.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

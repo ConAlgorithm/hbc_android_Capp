@@ -163,8 +163,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         bottomView.setOnSubmitOrderListener(this);
         bottomView.getSelectedGuideHintTV().setVisibility(params.guidesDetailData == null ? View.VISIBLE : View.GONE);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
-        travelerInfoView.setCarListBean(params.carListBean);
-        travelerInfoView.setOrderType(params.orderType);
+        travelerInfoView.setOrderType(params.orderType, params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
         discountView.setDiscountOnClickListener(this);
         int additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
@@ -486,7 +485,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private OrderBean getPickOrderByInput() {
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
         ManLuggageBean manLuggageBean = countView.getManLuggageBean();
-        StatisticClickEvent.pickClick(StatisticConstant.SUBMITORDER_J, getIntentSource(), params.carBean.carDesc + "", travelerInfoBean.isCheckin, countView.getTotalPeople());
+        StatisticClickEvent.pickClick(StatisticConstant.SUBMITORDER_J, getIntentSource(), params.carBean.carDesc + "", travelerInfoBean.isPickup, countView.getTotalPeople());
         return new OrderUtils().getPickOrderByInput(params.flightBean
                 , params.endPoiBean
                 , params.carBean
@@ -511,7 +510,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 , mostFitBean
                 , params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
                 , manLuggageBean
-                , travelerInfoBean.isCheckin
+                , travelerInfoBean.isPickup
                 , travelerInfoBean.wechatNo);
     }
 
