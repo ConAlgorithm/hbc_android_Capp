@@ -220,15 +220,19 @@ public class DateTimePicker extends WheelPicker {
                     selectedYearIndex = index;
                     //需要根据年份及月份动态计算天数
                     days.clear();
-                    int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(item), DateUtils.trimZero(months.get(selectedMonthIndex)));
-                    for (int i = 1; i <= maxDays; i++) {
-                        days.add(DateUtils.fillZero(i));
+                    if(isForTravelPurposeForm ){
+                        //do nothing
+                    }else {
+                        int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(item), DateUtils.trimZero(months.get(selectedMonthIndex)));
+                        for (int i = 1; i <= maxDays; i++) {
+                            days.add(DateUtils.fillZero(i));
+                        }
+                        if (selectedDayIndex >= maxDays) {
+                            //年或月变动时，保持之前选择的日不动：如果之前选择的日是之前年月的最大日，则日自动为该年月的最大日
+                            selectedDayIndex = days.size() - 1;
+                        }
+                        dayView.setItems(days, selectedDayIndex);
                     }
-                    if (selectedDayIndex >= maxDays) {
-                        //年或月变动时，保持之前选择的日不动：如果之前选择的日是之前年月的最大日，则日自动为该年月的最大日
-                        selectedDayIndex = days.size() - 1;
-                    }
-                    dayView.setItems(days, selectedDayIndex);
                 }
             });
         }
@@ -259,7 +263,7 @@ public class DateTimePicker extends WheelPicker {
                 if (mode != YEAR_MONTH) {
                     //年月日或年月模式下，需要根据年份及月份动态计算天数
                     days.clear();
-                    if(isForTravelPurposeForm && index == 0){
+                    if(isForTravelPurposeForm ){
                         //do nothing
                     }else {
                         int maxDays = DateUtils.calculateDaysInMonth(DateUtils.trimZero(years.get(selectedYearIndex)), DateUtils.trimZero(item));
@@ -404,7 +408,7 @@ public class DateTimePicker extends WheelPicker {
      */
     public void setSelectedItem(int year, int month, int day, int hour, int minute) {
         selectedYearIndex = findItemIndex(years, year);
-        selectedMonthIndex = findItemIndex(months, month);
+        selectedMonthIndex = findItemIndex(months, month) +1;
         selectedDayIndex = findItemIndex(days, day);
         selectedHour = DateUtils.fillZero(hour);
         int _minute = (minute / 10) * 10;
