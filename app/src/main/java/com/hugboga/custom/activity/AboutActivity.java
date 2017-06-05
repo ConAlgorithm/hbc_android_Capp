@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -74,9 +75,9 @@ public class AboutActivity extends BaseActivity {
             }
         });
         headerTitle.setText(activity.getString(R.string.about_title));
-        versionTV.setText(activity.getString(R.string.about_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+        versionTV.setText(activity.getString(R.string.about_version, BuildConfig.VERSION_NAME, "" + BuildConfig.VERSION_CODE));
 
-        if ("10007".equals(ChannelUtils.getChannel(this))) {
+        if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
             aboutUpdateLayout.setVisibility(View.GONE);
         }
     }

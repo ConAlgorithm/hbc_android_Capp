@@ -414,31 +414,36 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             cvBean = requestCheckVersion.getData();
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
             dialogUtil = DialogUtil.getInstance(this);
-            dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (Build.VERSION.SDK_INT >= 23) {
-                        boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
-                        if (!isVerify) {
+            if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
+                dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url);
+            } else {
+                dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Build.VERSION.SDK_INT >= 23) {
+                            boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_UPDATE);
+                            if (!isVerify) {
+                                downloadApk();
+                            }
+                        } else {
                             downloadApk();
                         }
-                    } else {
-                        downloadApk();
                     }
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (Build.VERSION.SDK_INT >= 23) {
-                        boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
-                        if (!isVerify) {
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Build.VERSION.SDK_INT >= 23) {
+                            boolean isVerify = verifyStoragePermissions(activity, REQUEST_EXTERNAL_STORAGE_DB);
+                            if (!isVerify) {
+                                updateDb();
+                            }
+                        } else {
                             updateDb();
                         }
-                    } else {
-                        updateDb();
                     }
-                }
-            });
+                });
+            }
+
         }
     }
 

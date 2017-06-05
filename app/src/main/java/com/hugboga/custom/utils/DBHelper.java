@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CityBean;
@@ -29,8 +30,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //The Android's default system path of your application database.
-    public static String DB_PATH = "/data/data/com.hugboga.custom/databases/";
-
     public static String DB_NAME = "hbc_v3.3.0_118.db";
     public static String DB_TMP = ".tmp";
 
@@ -48,6 +47,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.myContext = context;
+    }
+
+    public static String getDBPath() {
+        return String.format("/data/data/%1$s/databases/", BuildConfig.APPLICATION_ID);
     }
 
     /*public DbUtils getDbUtils() {
@@ -92,7 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * 删除老数据库
      */
     public void deleteOldDb() {
-        File fileDir = new File(DB_PATH);
+        File fileDir = new File(getDBPath());
         if (fileDir.exists() && fileDir.isDirectory()) {
             File[] files = fileDir.listFiles();
             for (File file : files) {
@@ -147,7 +150,7 @@ public class DBHelper extends SQLiteOpenHelper {
         InputStream myInput = myContext.getAssets().open(DB_NAME);
 
         // Path to the just created empty db
-        String outFileName = DB_PATH + DB_NAME;
+        String outFileName = getDBPath() + DB_NAME;
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(outFileName);
@@ -197,7 +200,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void openDataBase() throws SQLException {
 
         //Open the database
-        String myPath = DB_PATH + DB_NAME;
+        String myPath = getDBPath() + DB_NAME;
         myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 
     }

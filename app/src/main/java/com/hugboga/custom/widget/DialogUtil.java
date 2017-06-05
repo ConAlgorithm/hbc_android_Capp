@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
@@ -29,6 +30,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UnicornUtils;
 
@@ -430,6 +432,37 @@ public class DialogUtil implements DialogUtilInterface {
             versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新", negativeClick);
         }
         versionDialog.setButton(DialogInterface.BUTTON_POSITIVE, "前去更新", positiveClick);
+        if (!versionDialog.isShowing()) {
+            versionDialog.show();
+        }
+    }
+
+    public void showUpdateDialog(boolean hasUpdate, boolean force, String content, final String url) {
+        if (TextUtils.isEmpty(url)||!hasUpdate) {
+            return;
+        }
+        //新版本推送
+        if (content == null) {
+            versionDialog = new Builder(mContext).create();
+        } else {
+            versionDialog = new AlertDialog.Builder(mContext).setItems(content.split("#"), null).create();
+        }
+        versionDialog.setTitle("发现新版本");
+        versionDialog.setCancelable(false);
+        if (!force) {
+            versionDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "稍后更新", new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    versionDialog.dismiss();
+                }
+            });
+        }
+        versionDialog.setButton(DialogInterface.BUTTON_POSITIVE, "去google play更新", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CommonUtils.launchAppDetail(BuildConfig.APPLICATION_ID, "com.android.vending");
+            }
+        });
         if (!versionDialog.isShowing()) {
             versionDialog.show();
         }

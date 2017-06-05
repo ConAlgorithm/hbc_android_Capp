@@ -52,13 +52,12 @@ import java.util.ArrayList;
 
 public class UnicornUtils {
 
-    private static final String APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
-    private static final long GROUP_ID = 128411;
-    private static  String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
+    private static String UNICORN_APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
+    private static String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
 
     public static void initUnicorn() {
         try {
-            if(!Unicorn.init(MyApplication.getAppContext(), APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize())){
+            if(!Unicorn.init(MyApplication.getAppContext(), UNICORN_APPKEY, getDefaultOptions(), new UnicornImageLoaderRealize())){
                 HLog.e("七鱼初始化失败");
                 uploadQiyuInitError("");
             }

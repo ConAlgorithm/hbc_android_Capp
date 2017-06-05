@@ -12,8 +12,10 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -84,43 +86,47 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         final CheckVersionBean cvBean = requestCheckVersion.getData();
                         UserEntity.getUser().setIsNewVersion(mContext, cvBean.hasAppUpdate);//是否有新版本
                         final DialogUtil dialogUtil = DialogUtil.getInstance(mContext);
-                        dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                boolean isUpdate = true;
-                                if (Build.VERSION.SDK_INT >= 23) {
-                                    isUpdate = !MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_UPDATE);
-                                }
-                                if (isUpdate) {
-                                    if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
-                                        try {
-                                            Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
-                                            field.setAccessible(true);
-                                            field.set(dialogUtil.getVersionDialog(), false);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
+                        if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
+                            dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url);
+                        } else {
+                            dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    boolean isUpdate = true;
+                                    if (Build.VERSION.SDK_INT >= 23) {
+                                        isUpdate = !MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_UPDATE);
                                     }
-                                    PushUtils.startDownloadApk(mContext, cvBean.url);
+                                    if (isUpdate) {
+                                        if (cvBean.force && dialogUtil.getVersionDialog()!= null) {
+                                            try {
+                                                Field field = dialogUtil.getVersionDialog().getClass().getSuperclass().getDeclaredField("mShowing");
+                                                field.setAccessible(true);
+                                                field.set(dialogUtil.getVersionDialog(), false);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        PushUtils.startDownloadApk(mContext, cvBean.url);
+                                    }
                                 }
-                            }
-                        },  new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                isCheckedVersion = false;
-                                boolean isUpdate = true;
-                                if (Build.VERSION.SDK_INT >= 23) {
-                                    isUpdate = !MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_DB);
+                            },  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    isCheckedVersion = false;
+                                    boolean isUpdate = true;
+                                    if (Build.VERSION.SDK_INT >= 23) {
+                                        isUpdate = !MainActivity.verifyStoragePermissions(mContext, MainActivity.REQUEST_EXTERNAL_STORAGE_DB);
+                                    }
+                                    if (isUpdate) {
+                                        //在版本检测后 检测DB
+                                        UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
+                                            @Override
+                                            public void onFinished() {}
+                                        });
+                                    }
                                 }
-                                if (isUpdate) {
-                                    //在版本检测后 检测DB
-                                    UpdateResources.checkRemoteDB(mContext, cvBean.dbDownloadLink, cvBean.dbVersion, new ServerCodeHandler.CheckVersionCallBack() {
-                                        @Override
-                                        public void onFinished() {}
-                                    });
-                                }
-                            }
-                        });
+                            });
+                        }
                     }
 
                     @Override

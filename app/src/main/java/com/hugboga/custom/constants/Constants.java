@@ -53,6 +53,8 @@ public final class Constants {
     public static final int DEFAULT_PAGESIZE = 20;
     public static final String REQUEST_SOURCE = "c";
 
+    public static final String CHANNEL_GOOGLE_PLAY = "10007";
+
     public static final String[][] TaiCityNames = {{"曼谷", UrlLibs.H5_TAI_MANGU},
             {"普吉", UrlLibs.H5_TAI_PUJIDAO},
             {"清迈", UrlLibs.H5_TAI_QINGMAI},
