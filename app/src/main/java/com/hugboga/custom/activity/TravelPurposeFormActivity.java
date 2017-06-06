@@ -2,11 +2,15 @@ package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -75,6 +79,8 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     TextView areaCode;//区号
     @Bind(R.id.phone)
     EditText phone;//电话
+    @Bind(R.id.phone_id)
+    TextView phoneId;
     @Bind(R.id.submit_btn)
     Button submitBtn;//提交按钮
     @Bind(R.id.travel_purpose_connect)
@@ -167,6 +173,9 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         //添加监听
         userName.addTextChangedListener(watcher);
         phone.addTextChangedListener(watcher);
+        SpannableString spannableString = new SpannableString("*手机号");
+        spannableString.setSpan(new ForegroundColorSpan(Color.RED), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        phoneId.setText(spannableString);
         remark.addTextChangedListener(watcher);
         //手机号初始化
         if (!TextUtils.isEmpty(SharedPre.getString(SharedPre.CODE,null)) && !TextUtils.isEmpty(SharedPre.getString(SharedPre.PHONE,null))){
@@ -306,9 +315,12 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         picker.setTitleTextColor(getResources().getColor(R.color.basic_black));
         picker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
         picker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
+        picker.setPressedTextColor(getResources().getColor(R.color.default_yellow));
         picker.setTopBackgroundColor(getResources().getColor(R.color.date_title_bg));
         picker.setLineColor(getResources().getColor(R.color.text_hint_color));
         picker.useMaxRatioLine();
+        picker.setCancelText("取消");
+        picker.setSubmitText("确定");
 
         picker.setRange(calendar.get(Calendar.YEAR),calendar.get(Calendar.YEAR)+1);
         picker.setSelectedItem(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH),

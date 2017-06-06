@@ -35,11 +35,12 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/phone_id"
                         android:layout_width="@dimen/purpose_form_width"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="15dp"
                         android:minEms="4"
-                        android:text="手机号"
+                        android:text="*手机号"
                         android:textColor="@color/default_black"
                         android:textSize="14sp" />
 
@@ -227,7 +228,7 @@
                         android:layout_toRightOf="@+id/remark_tv"
                         android:background="@null"
                         android:ellipsize="end"
-                        android:hint="选填,200字内"
+                        android:hint="选填, 200字内"
                         android:maxLength="200"
                         android:minEms="4"
                         android:padding="@dimen/basic_margin_large"
