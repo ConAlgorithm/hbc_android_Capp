@@ -161,7 +161,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         countView.setOnCountChangeListener(this);
         countView.update(params.carBean, params.carListBean, params.serverDate);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.getSelectedGuideHintTV().setVisibility(params.guidesDetailData == null ? View.VISIBLE : View.GONE);
+        bottomView.getSelectedGuideHintTV().setVisibility(View.GONE);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(params.orderType, params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);

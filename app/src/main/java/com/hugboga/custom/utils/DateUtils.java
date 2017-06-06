@@ -42,6 +42,7 @@ public class DateUtils {
     public static DecimalFormat decimalFormat = new DecimalFormat("00");
     public static SimpleDateFormat dateWeekFormat3=new SimpleDateFormat("yyyy年MM月dd日 周E");
     public static SimpleDateFormat dateYearMonth = new SimpleDateFormat("yyyy年MM月");
+    public static SimpleDateFormat dateWeekFormat4 = new SimpleDateFormat("yyyy年MM月dd日 周E HH:mm");
 
     public static String getNowDatetime() {
         return dateTimeFormat.format(Calendar.getInstance().getTime());
@@ -365,6 +366,20 @@ public class DateUtils {
         symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
         dateWeekFormat.setDateFormatSymbols(symbols);
         return dateWeekFormat.format(calendar.getTime());
+    }
+
+    public static String getWeekStrFromDate2(String dateStr) {
+        try {
+            Date date = dateTimeFormat.parse(dateStr);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            DateFormatSymbols symbols = dateWeekFormat4.getDateFormatSymbols();
+            symbols.setShortWeekdays(new String[]{"", "日", "一", "二", "三", "四", "五", "六"});
+            dateWeekFormat4.setDateFormatSymbols(symbols);
+            return dateWeekFormat4.format(calendar.getTime());
+        } catch (Exception e) {
+            return dateStr;
+        }
     }
 
     /**

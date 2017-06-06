@@ -742,7 +742,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
         checkGuideBean.startTime = charterDataUtils.getStartServiceTime(serverTime);
         checkGuideBean.endTime = charterDataUtils.getEndServiceTime();
-        checkGuideBean.cityId = charterDataUtils.getStartCityBean(0).cityId;
+        checkGuideBean.cityId = charterDataUtils.getStartCityBean(1).cityId;
         checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
         checkGuideBean.orderType = 3;
 
