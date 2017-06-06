@@ -73,6 +73,10 @@ public class CarBean implements IBaseBean ,Cloneable{
 
     public boolean isCallOnClick = false;
 
+    public boolean isSpecialCar() {
+        return special == 1;
+    }
+
     @Override
     public Object clone() {
         try {

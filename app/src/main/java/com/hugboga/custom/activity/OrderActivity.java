@@ -161,7 +161,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         countView.setOnCountChangeListener(this);
         countView.update(params.carBean, params.carListBean, params.serverDate);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.getSelectedGuideHintTV().setVisibility(params.guidesDetailData == null ? View.VISIBLE : View.GONE);
+        bottomView.getSelectedGuideHintTV().setVisibility(View.GONE);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(params.orderType, params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
@@ -642,6 +642,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
                 requestParams.orderType = params.orderType;
+                requestParams.isOrder = true;
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

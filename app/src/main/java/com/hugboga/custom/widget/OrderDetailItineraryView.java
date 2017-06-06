@@ -120,10 +120,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             if (!TextUtils.isEmpty(orderBean.flightDeptCityName) && !TextUtils.isEmpty(orderBean.flightDestCityName)) {
                 flight += getContext().getString(R.string.separator, orderBean.flightDeptCityName, orderBean.flightDestCityName);
             }
-            String startDate = DateUtils.getStrWeekFormat3(orderBean.serviceTime);
-            if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
-                startDate += " " + orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
-            }
+            String startDate = DateUtils.getWeekStrFromDate2(orderBean.serviceTime);
             if (TextUtils.isEmpty(flight)) {
                 addItemView(R.mipmap.trip_icon_time, startDate);
             } else {

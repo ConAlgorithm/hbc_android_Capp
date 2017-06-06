@@ -218,8 +218,6 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             }
         });
 
-        travelerInfoTitleTV.setVisibility(View.GONE);
-
         if (!TextUtils.isEmpty(orderBean.serviceStartTime)) {
             String time = orderBean.serviceStartTime.substring(0, orderBean.serviceStartTime.lastIndexOf(":00"));
             timeTV.setText(time + "(当地时间)");

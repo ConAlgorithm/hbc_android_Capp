@@ -167,8 +167,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             requestBatchPrice();
         }
 
-        carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
-
         StatisticClickEvent.dailyClick(StatisticConstant.LAUNCH_R2, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
                 charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
     }
@@ -328,6 +326,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 requestParams.needShowAlert = true;
                 requestParams.orderType = orderType;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
+                requestParams.isOrder = true;
                 Intent intent = new Intent(this, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -742,7 +741,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
         checkGuideBean.startTime = charterDataUtils.getStartServiceTime(serverTime);
         checkGuideBean.endTime = charterDataUtils.getEndServiceTime();
-        checkGuideBean.cityId = charterDataUtils.getStartCityBean(0).cityId;
+        checkGuideBean.cityId = charterDataUtils.getStartCityBean(1).cityId;
         checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
         checkGuideBean.orderType = 3;
 
