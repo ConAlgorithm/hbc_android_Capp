@@ -312,6 +312,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
                 bundle.putString("source", getEventSource());
+                bundle.putString("key_phone",userBean.mobile);
+                bundle.putString("key_area_code",userBean.areaCode);
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
