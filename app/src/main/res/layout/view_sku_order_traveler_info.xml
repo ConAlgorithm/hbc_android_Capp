@@ -431,10 +431,22 @@
     <RelativeLayout
         android:id="@+id/sku_order_traveler_info_checkin_layout"
         android:layout_width="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:visibility="gone"
         android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
-
+        android:paddingLeft="@dimen/sku_order_padding_left">
+        <TextView
+            android:id="@+id/sku_order_traveler_info_checkin_star_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="-10dp"
+            android:paddingTop="3dp"
+            android:visibility="gone"
+            android:text="*"
+            android:textColor="@color/default_price_red"
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/sku_order_traveler_info_checkin_hint_tv"
             android:layout_width="wrap_content"
