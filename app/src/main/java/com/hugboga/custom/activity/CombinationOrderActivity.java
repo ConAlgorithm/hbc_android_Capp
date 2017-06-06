@@ -167,8 +167,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             requestBatchPrice();
         }
 
-        carTypeView.setIsSelectedGuide(charterDataUtils.guidesDetailData != null);
-
         StatisticClickEvent.dailyClick(StatisticConstant.LAUNCH_R2, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
                 charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
     }

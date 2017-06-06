@@ -161,8 +161,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             guideLayout.setData(guidesDetailData);
         }
         carTypeView.setOnSelectedCarListener(this);
-        bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        bottomView.setOnConfirmListener(this);
         emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
             @Override
             public void onClickServices() {

@@ -162,8 +162,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             }
         }
         carTypeView.setOnSelectedCarListener(this);
-        bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        bottomView.setOnConfirmListener(this);
         emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
             @Override
             public void onClickServices() {

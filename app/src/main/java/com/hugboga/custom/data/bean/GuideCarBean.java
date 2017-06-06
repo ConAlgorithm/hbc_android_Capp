@@ -27,4 +27,8 @@ public class GuideCarBean implements Serializable{
     public int special;
     public int isInOrder;//#是不是本次服务，1是，0否
     public ArrayList<String> carPhotosL;
+
+    public boolean isSpecialCar() {
+        return special == 1;
+    }
 }
