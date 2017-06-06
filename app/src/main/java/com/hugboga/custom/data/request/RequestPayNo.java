@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -32,7 +33,7 @@ public class RequestPayNo extends BaseRequest<Object> {
      * payType 1 支付宝 ，2 微信
      * couponID 优惠券<br/>
      */
-    public RequestPayNo(Context context, String orderId, double payPrice, int payType, String couponID){
+    public RequestPayNo(Context context, String orderId, double payPrice, int _payType, String couponID){
         super(context);
         map =new HashMap<String,Object>();
         map.put("appId", Config.getImei());
@@ -40,8 +41,13 @@ public class RequestPayNo extends BaseRequest<Object> {
         map.put("orderNo",orderId);
         map.put("actualPrice",payPrice);
         map.put("coupId", couponID);
-        map.put("payType", payType);
-        this.payType = payType;
+
+        if (_payType == Constants.PAY_STATE_WECHAT && Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {
+            map.put("payType", 3);
+        } else {
+            map.put("payType", _payType);
+        }
+        this.payType = _payType;
     }
 
     @Override
