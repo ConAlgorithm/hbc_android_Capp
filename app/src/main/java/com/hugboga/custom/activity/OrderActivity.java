@@ -642,6 +642,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
                 requestParams.orderType = params.orderType;
+                requestParams.isOrder = true;
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

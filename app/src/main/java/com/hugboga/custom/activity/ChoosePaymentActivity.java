@@ -118,6 +118,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         public boolean needShowAlert;
         public EventPayBean eventPayBean;
         public int orderType;
+        public boolean isOrder;//是否是在下单过程中进入
 
         public String getShouldPay() {
             return String.valueOf(Math.round(shouldPay));
@@ -168,21 +169,29 @@ public class ChoosePaymentActivity extends BaseActivity {
     private void initView() {
         initDefaultTitleBar();
         fgTitle.setText(getString(R.string.choose_payment_title));
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        fgTitle.setLayoutParams(params);
-        fgLeftBtn.setVisibility(View.GONE);
-        fgRightTV.setVisibility(View.GONE);
-        TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
-        rightTV.setText("查看订单");
-        rightTV.setVisibility(View.VISIBLE);
-        rightTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backWarn();
-            }
-        });
-
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        titleParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        fgTitle.setLayoutParams(titleParams);
+        if (requestParams.isOrder) {
+            fgLeftBtn.setVisibility(View.GONE);
+            TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
+            rightTV.setText("查看订单");
+            rightTV.setVisibility(View.VISIBLE);
+            rightTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backWarn();
+                }
+            });
+        } else {
+            fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            fgRightTV.setVisibility(View.GONE);
+        }
         priceTV.setText(requestParams.getShouldPay());
         // 将该app注册到微信
         IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
@@ -541,8 +550,10 @@ public class ChoosePaymentActivity extends BaseActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             try {
-                if (!isShowingAlipay) {
+                if (!isShowingAlipay && requestParams.isOrder) {
                     backWarn();
+                } else {
+                    return super.onKeyUp(keyCode, event);
                 }
             } catch (Exception e) {
 

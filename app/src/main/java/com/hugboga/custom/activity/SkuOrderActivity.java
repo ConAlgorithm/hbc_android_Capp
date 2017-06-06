@@ -355,6 +355,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 requestParams.needShowAlert = true;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
                 requestParams.orderType = orderType;
+                requestParams.isOrder = true;
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

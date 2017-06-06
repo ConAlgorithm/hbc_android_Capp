@@ -328,6 +328,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 requestParams.needShowAlert = true;
                 requestParams.orderType = orderType;
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
+                requestParams.isOrder = true;
                 Intent intent = new Intent(this, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
