@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="中文包车游世界"
+        android:text="华人司导开车带你玩"
         android:textColor="#cdcdcd"
         android:textSize="12sp"
         />

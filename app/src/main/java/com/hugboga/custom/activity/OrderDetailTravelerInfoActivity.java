@@ -115,6 +115,8 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     ShSwitchView checkinSwitchView;
     @Bind(R.id.sku_order_traveler_info_checkin_price_tv)
     TextView checkinPriceTV;
+    @Bind(R.id.sku_order_traveler_info_checkin_star_tv)
+    TextView checkinStarTV;
 
     @Bind(R.id.sku_order_traveler_info_start_time_layout)
     RelativeLayout timeLayout;
@@ -266,6 +268,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 checkinPriceTV.setVisibility(View.GONE);
                 checkinET.setVisibility(View.VISIBLE);
                 checkinET.setText(orderBean.flightBrandSign);
+                checkinStarTV.setVisibility(View.VISIBLE);
             } else if (orderBean.orderType == 2) {//送机
                 flightLayout.setVisibility(View.VISIBLE);
                 flightET.setText(orderBean.flightNo);
@@ -350,6 +353,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             otherContactsStarTV.setVisibility(View.INVISIBLE);
             otherPhoneStarTV.setVisibility(View.INVISIBLE);
 
+            checkinStarTV.setVisibility(View.GONE);
             setItemEnabled(flightLayout, flightET, orderBean.flightNo);
             setItemEnabled(checkinLayout, checkinET, orderBean.flightBrandSign);
             setItemEnabled(wechatLayout, wechatET, orderBean.userWechat);
