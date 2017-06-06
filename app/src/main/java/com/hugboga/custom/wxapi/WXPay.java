@@ -3,6 +3,7 @@ package com.hugboga.custom.wxapi;
 import android.content.Context;
 import android.content.Intent;
 
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -14,7 +15,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
  */
 public class WXPay {
     public static void pay(Context context,WXpayBean bean){
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(context, Constants.WX_APP_ID);
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(context, BuildConfig.WX_APP_ID);
 //// 将该app注册到微信
 //        msgApi.registerApp(Constants.WX_APP_ID);
 

@@ -65,10 +65,6 @@ public final class Constants {
     public static final String CALL_NUMBER_IN = "400-610-0009";//R.string.domestic_phone
     public static final String CALL_NUMBER_OUT = "+861059715436";//R.string.overseas_phone
     /**
-     * 微信
-     **/
-    public static final String WX_APP_ID = "wx89138279bb15267f";
-    /**
      * title
      */
     public static HashMap<Integer, Integer> TitleMap = new HashMap<Integer, Integer>();

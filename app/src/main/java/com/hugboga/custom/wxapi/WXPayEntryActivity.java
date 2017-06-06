@@ -2,9 +2,11 @@ package com.hugboga.custom.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
@@ -41,7 +43,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         orderId = sharedPre.getStringValue(SharedPre.PAY_WECHAT_ORDER_ID);
         orderType = sharedPre.getIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE);
 
-        api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
+        api = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
         api.handleIntent(getIntent(), this);
     }
 

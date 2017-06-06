@@ -23,6 +23,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
@@ -185,8 +186,8 @@ public class ChoosePaymentActivity extends BaseActivity {
 
         priceTV.setText(requestParams.getShouldPay());
         // 将该app注册到微信
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID);
-        msgApi.registerApp(Constants.WX_APP_ID);
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
+        msgApi.registerApp(BuildConfig.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(this);
 
         setCreditCardStatusRequest();//信用卡初始化

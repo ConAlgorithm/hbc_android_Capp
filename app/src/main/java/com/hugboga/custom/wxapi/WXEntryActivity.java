@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
@@ -31,7 +32,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        api = WXAPIFactory.createWXAPI(this, Constants.WX_APP_ID, false);
+        api = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID, false);
         api.handleIntent(getIntent(), this);
         super.onCreate(savedInstanceState);
     }

@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -350,8 +351,8 @@ public class LoginNewActivity extends BaseActivity implements TextWatcher {
                     return;
                }
                 StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN,getIntentSource());
-                wxapi = WXAPIFactory.createWXAPI(this.activity, Constants.WX_APP_ID);
-                wxapi.registerApp(Constants.WX_APP_ID);
+                wxapi = WXAPIFactory.createWXAPI(this.activity, BuildConfig.WX_APP_ID);
+                wxapi.registerApp(BuildConfig.WX_APP_ID);
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "hbc";
