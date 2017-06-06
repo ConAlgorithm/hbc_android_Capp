@@ -24,6 +24,7 @@ import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -113,6 +114,14 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     };
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(isFromOrder){
+            EventBus.getDefault().post(new EventAction(EventType.FROM_PURPOSER));
+        }
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.activity_travel_purpose_form_new;
     }
@@ -148,6 +157,9 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         headerLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isFromOrder){
+                    EventBus.getDefault().post(new EventAction(EventType.FROM_PURPOSER));
+                }
                 finish();
             }
         });
@@ -347,13 +359,13 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         if(!isFromOrder){
             requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
                     UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
-                    0,"",tripTimeStr,
+                    null,cityName.getText().toString().trim(),tripTimeStr,
                     remark.getText().toString(),areaCodeStr,phone.getText().toString(),
                     userName.getText().toString().toString(), null,null,null);
         }else{
             requestTravelPurposeForm = new RequestTravelPurposeForm(this, UserEntity.getUser().getUserId(this),
                 UserEntity.getUser().getUserName(this),UserEntity.getUser().getAreaCode(this),UserEntity.getUser().getPhone(this),
-                getCityId,getCityName,getStartDate,
+                null,cityName.getText().toString().trim(),tripTimeStr,
                 remark.getText().toString(),areaCodeStr,phone.getText().toString(),
                 userName.getText().toString().toString(), getDays,getAdultNum,getChildNum);
 

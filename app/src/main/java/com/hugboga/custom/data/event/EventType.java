@@ -95,6 +95,7 @@ public enum EventType {
     CHARTER_FIRST_REFRESH,//刷新包车第一步页面
 
     PURPOSER_CITY,//填写意向单
+    FROM_PURPOSER,//从意向单返回主页
     YILIAN_PAY,//易联支付
 
     GUIDE_FILTER_CITY,
