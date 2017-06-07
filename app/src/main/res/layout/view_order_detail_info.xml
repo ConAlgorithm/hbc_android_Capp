@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="添加投保人资料，保单即可生效"
+            android:text="添加投保人护照，保单即可生效"
             android:textColor="#cccccc"
             android:textSize="14sp" />
 
