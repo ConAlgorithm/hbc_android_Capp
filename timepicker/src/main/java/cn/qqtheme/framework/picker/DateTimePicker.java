@@ -251,7 +251,7 @@ public class DateTimePicker extends WheelPicker {
             if(isForTravelPurposeForm){
                 monthsForTrip = months;
                 monthsForTrip.add(0,"待定");
-                monthView.setItems(monthsForTrip, selectedMonthIndex);
+                monthView.setItems(monthsForTrip, selectedMonthIndex+1);
             }else {
                 monthView.setItems(months, selectedMonthIndex);
             }
@@ -408,7 +408,7 @@ public class DateTimePicker extends WheelPicker {
      */
     public void setSelectedItem(int year, int month, int day, int hour, int minute) {
         selectedYearIndex = findItemIndex(years, year);
-        selectedMonthIndex = findItemIndex(months, month) +1;
+        selectedMonthIndex = findItemIndex(months, month);
         selectedDayIndex = findItemIndex(days, day);
         selectedHour = DateUtils.fillZero(hour);
         int _minute = (minute / 10) * 10;

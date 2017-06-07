@@ -46,6 +46,7 @@ import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
@@ -81,25 +82,6 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     private View animateServiceView;
     private View animateBaseLineView;
     private View animateServiceInnerView;
-    //定时轮播图片，需要在主线程里面修改 UI
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case UPTATE_VIEWPAGER:
-                    if (msg.arg1 != 0) {
-                        if (homeHeaderHolder.mViewPager != null) {
-                            homeHeaderHolder.mViewPager.setCurrentItem(msg.arg1);
-                        }
-                    } else {
-                        //false 当从末页调到首页是，不显示翻页动画效果，
-                        if (homeHeaderHolder.mViewPager != null) {
-                            homeHeaderHolder.mViewPager.setCurrentItem(msg.arg1, false);
-                        }
-                    }
-                    break;
-            }
-        }
-    };
 
     public HomeHeaderModel(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
         this.context = context;
@@ -131,61 +113,36 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             return;
         }
         homeHeaderHolder = (HomeHeaderHolder) holder;
-        update();
+        init();
+    }
+    private void init(){
+
+        if (activityPageSettings.size() == 0) {
+            activityPageSettings = new ArrayList<HomeBeanV2.ActivityPageSetting>();
+            HomeBeanV2.ActivityPageSetting activityPageSetting = new HomeBeanV2.ActivityPageSetting();
+            activityPageSettings.add(activityPageSetting);
+        }
+
+        homeHeaderHolder.activitiesView.update(activityPageSettings);
+
+        tabView = homeHeaderHolder.homeSearchTabView;
+        fastYudingLayout = homeHeaderHolder.fastYudingLayout;
+        setFastYudingWidth(fastYudingLayout);
+        homeOtherService = homeHeaderHolder.homeOtherService;
     }
 
+    private void setFastYudingWidth(FrameLayout fastYudingLayout){
+        final ViewGroup.LayoutParams lp = fastYudingLayout.getLayoutParams();
+        lp.width = (UIUtils.getScreenWidth() - UIUtils.dip2px(20))/2;
+        fastYudingLayout.setLayoutParams(lp);
+    }
 
     public void update() {
         if (homeHeaderHolder == null) {
             return;
         }
-        if(activityPageSettings !=null){
-            //构建滑动页
-            List<HomeBeanV2.ActivityPageSetting> views = new ArrayList<HomeBeanV2.ActivityPageSetting>();
 
-            for (int i = 0; i < activityPageSettings.size(); i++) {
-                //Tools.showImageHasPlaceHolder(iv, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
-                views.add(activityPageSettings.get(i));
-            }
-
-            HomePageAdapter aAdapter = new HomePageAdapter(context,views);
-            //首页轮播图
-            homeHeaderHolder.mViewPager.setAdapter(aAdapter);
-            homeHeaderHolder.mIndicator.setViewPager(homeHeaderHolder.mViewPager);
-            if (activityPageSettings.size() <= 1) {
-                homeHeaderHolder.mIndicator.setVisibility(View.GONE);
-            } else {
-                homeHeaderHolder.mIndicator.setVisibility(View.VISIBLE);
-            }
-            homeHeaderHolder.mViewPager.setCurrentItem(0);
-            startShowHomePic();
-        }
-        if(!NetworkUtil.isNetAvailable(context)){
-            if(activityPageSettings.size() == 0){
-                activityPageSettings = new  ArrayList<HomeBeanV2.ActivityPageSetting>();
-                HomeBeanV2.ActivityPageSetting activityPageSetting = new HomeBeanV2.ActivityPageSetting();
-                activityPageSettings.add(activityPageSetting);
-            }
-            //构建滑动页
-            List<HomeBeanV2.ActivityPageSetting> views = new ArrayList<HomeBeanV2.ActivityPageSetting>();
-
-            for (int i = 0; i < activityPageSettings.size(); i++) {
-                //Tools.showImageHasPlaceHolder(iv, homeHeaderInfo.dynamicPic.videoUrl,R.mipmap.home_banner);
-                views.add(activityPageSettings.get(i));
-            }
-
-            HomePageAdapter aAdapter = new HomePageAdapter(context,views);
-            //首页轮播图
-            homeHeaderHolder.mViewPager.setAdapter(aAdapter);
-            homeHeaderHolder.mIndicator.setViewPager(homeHeaderHolder.mViewPager);
-            if (activityPageSettings.size() <= 1) {
-                homeHeaderHolder.mIndicator.setVisibility(View.GONE);
-            } else {
-                homeHeaderHolder.mIndicator.setVisibility(View.VISIBLE);
-            }
-            homeHeaderHolder.mViewPager.setCurrentItem(0);
-            startShowHomePic();
-        }
+        homeHeaderHolder.activitiesView.update(activityPageSettings);
 
         if (homeHeaderInfo.dynamicPic != null) {
             //homeHeaderHolder.headerImage.getLayoutParams().height = ScreenUtil.screenWidth * (900 - ScreenUtil.statusbarheight) / 750;
@@ -213,93 +170,6 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         //homeHeaderHolder.homeHeaderSearch.setOnClickListener(this);
     }
 
-    public class HomePageAdapter extends PagerAdapter {
-
-        private List<HomeBeanV2.ActivityPageSetting> views;
-        Context mContext;
-        private ViewGroup.LayoutParams itemParams;
-
-        public HomePageAdapter(Context mContext, List<HomeBeanV2.ActivityPageSetting> views) {
-            this.mContext = mContext;
-            this.views = views;
-            itemParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewGroup) container.getParent()).removeView((View)object);
-        }
-
-        /* (non-Javadoc)
-         * @see android.support.v4.view.PagerAdapter#getCount()
-         */
-        @Override
-        public int getCount() {
-            if (views != null) {
-                return views.size();
-            }
-            return 0;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            final HomeBeanV2.ActivityPageSetting view = views.get(position);
-            ImageView itemView = new ImageView(mContext);
-            itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if (!TextUtils.isEmpty(view.getPicture())) {
-                Tools.showImage(itemView, view.getPicture(), R.mipmap.empty_home_banner);
-            } else {
-                itemView.setImageResource(R.mipmap.empty_home_banner);
-            }
-            itemView.setLayoutParams(itemParams);
-            itemView.getLayoutParams().height = (211 * ScreenUtil.screenWidth)/360;
-            container.addView(itemView, 0);
-            itemView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    if(view.requestType == 1){
-                        Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, view.urlAddress);
-                        v.getContext().startActivity(intent);
-                    }else if(view.requestType == 2){
-                        ActionController actionFactory = ActionController.getInstance();
-                        actionFactory.doAction(context, view.pushScheme);
-                    }
-
-                }
-            });
-            return itemView;
-        }
-
-        /* (non-Javadoc)
-         * @see android.support.v4.view.PagerAdapter#isViewFromObject(android.view.View, java.lang.Object)
-         */
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return (arg0 == arg1);
-        }
-
-    }
-
-    private  void startShowHomePic(){
-        // 设置自动轮播图片，5s后执行，周期是5s
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(activityPageSettings != null){
-                    Message message = new Message();
-                    message.what = UPTATE_VIEWPAGER;
-                    if (autoCurrIndex == activityPageSettings.size() - 1) {
-                        autoCurrIndex = -1;
-                    }
-                    message.arg1 = autoCurrIndex + 1;
-                    autoCurrIndex += 1;
-                    mHandler.sendMessage(message);
-                }
-            }
-        }, 5000, 5000);
-    }
     public void locationTab(int index) {
         if (tabView != null) {
             tabView.tabIndex(index);
@@ -537,7 +407,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         FrameLayout fastYudingLayout;
         /*@Bind(R.id.home_header_search)
         View homeHeaderSearch;//首页搜索*/
-
+        @Bind(R.id.home_activities_view)
+        HomeActivitiesView activitiesView;
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;

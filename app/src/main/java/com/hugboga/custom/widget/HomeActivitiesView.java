@@ -19,6 +19,7 @@ import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBean;
+import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -47,15 +48,15 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
     /**
      * banner默认自动切换的时间
      */
-    private static final int BANNER_SWITCH_TIME_DEFAULT = 2000;
+    private static final int BANNER_SWITCH_TIME_DEFAULT = 5000;
 
-    @Bind(R.id.home_activities_viewpager)
+    @Bind(R.id.home_header_image)
     LoopViewPager mViewPager;
-    @Bind(R.id.home_activities_indicator)
+    @Bind(R.id.indicator)
     CirclePageIndicator mIndicator;
 
     private int cutIndex;
-    private ArrayList<HomeBean.ActivePage> activitiesList;
+    private ArrayList<HomeBeanV2.ActivityPageSetting> activitiesList;
     private HomeBannerAdapter mAdapter;
     private Runnable cutRunnable;
     private Handler cutHandler;
@@ -70,13 +71,13 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
         View view = inflate(context, R.layout.view_home_activities, this);
         ButterKnife.bind(this, view);
 
-        final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
-        int pagerWidth = UIUtils.getScreenWidth() - paddingLeft * 2;
-        int pagerHeight = (int)(pagerWidth * BANNER_RATIO_DEFAULT);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(pagerWidth, pagerHeight);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        params.addRule(RelativeLayout.BELOW, R.id.home_activities_title_tv);
-        mViewPager.setLayoutParams(params);
+        //final int paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        //int pagerWidth = UIUtils.getScreenWidth() - paddingLeft * 2;
+        //int pagerHeight = (int)(pagerWidth * BANNER_RATIO_DEFAULT);
+        //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(pagerWidth, pagerHeight);
+        //params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        //params.addRule(RelativeLayout.BELOW, R.id.home_activities_title_tv);
+        //mViewPager.setLayoutParams(params);
         mViewPager.setScanScroll(true);
         mViewPager.setBoundaryCaching(true);
         mViewPager.setScrolDuration(400);
@@ -84,7 +85,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
 
     @Override
     public void update(Object _data) {
-        activitiesList = (ArrayList<HomeBean.ActivePage>) _data;
+        activitiesList = (ArrayList<HomeBeanV2.ActivityPageSetting>) _data;
         if (activitiesList == null || activitiesList.size() <= 0) {
             this.setVisibility(View.GONE);
             return;
@@ -99,6 +100,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             mIndicator.setVisibility(View.GONE);
             mViewPager.setScanScroll(false);
         } else {
+            mIndicator.setVisibility(VISIBLE);
             mIndicator.setViewPager(mViewPager);
             mViewPager.setScanScroll(true);
             mIndicator.setOnPageChangeListener(new BannerCutListener());
@@ -191,14 +193,13 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
         return BANNER_SWITCH_TIME_DEFAULT;
     }
 
-
     public static class HomeBannerAdapter extends PagerAdapter {
 
         private Context mContext;
-        private ArrayList<HomeBean.ActivePage> itemList;
+        private ArrayList<HomeBeanV2.ActivityPageSetting> itemList;
         private ViewGroup.LayoutParams itemParams;
 
-        public HomeBannerAdapter(Context mContext, ArrayList<HomeBean.ActivePage> _itemParams) {
+        public HomeBannerAdapter(Context mContext, ArrayList<HomeBeanV2.ActivityPageSetting> _itemParams) {
             this.mContext = mContext;
             this.itemList = _itemParams;
             itemParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -209,13 +210,13 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             if (itemList == null) {
                 return super.instantiateItem(container, position);
             }
-            final HomeBean.ActivePage itemData = itemList.get(position);
+            final HomeBeanV2.ActivityPageSetting itemData = itemList.get(position);
             ImageView itemView = new ImageView(mContext);
             itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (itemData != null && !TextUtils.isEmpty(itemData.picture)) {
-                Tools.showImage(itemView, itemData.picture, R.mipmap.home_default_route_item);
+                Tools.showImage(itemView, itemData.picture, R.mipmap.empty_home_banner);
             } else {
-                itemView.setImageResource(R.mipmap.home_default_route_item);
+                itemView.setImageResource(R.mipmap.empty_home_banner);
             }
             itemView.setLayoutParams(itemParams);
             container.addView(itemView, 0);
@@ -223,28 +224,25 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!UserEntity.getUser().isLogin(mContext)) {
+                    /*if (!UserEntity.getUser().isLogin(mContext)) {
                             CommonUtils.showToast(R.string.login_hint);
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         intent.putExtra(Constants.PARAMS_SOURCE, "首页-活动");
                         mContext.startActivity(intent);
                         return;
-                    }
+                    }*/
                     if (itemData == null) {
                         return;
                     }
-                    EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_ACTIVITY, "首页活动详情展示");
-                    if (TextUtils.isEmpty(itemData.urlAddress) && itemData.actionBean != null) {
+                    //EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
+                    //StatisticClickEvent.click(StatisticConstant.LAUNCH_ACTIVITY, "首页活动详情展示");
+                    if(itemData.requestType == 1){
+                        Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                        intent.putExtra(WebInfoActivity.WEB_URL, itemData.urlAddress);
+                        v.getContext().startActivity(intent);
+                    }else if(itemData.requestType == 2){
                         ActionController actionFactory = ActionController.getInstance();
-                        actionFactory.doAction(mContext, itemData.actionBean);
-                    } else if (!TextUtils.isEmpty(itemData.urlAddress)) {
-                        String urlAddress = CommonUtils.getBaseUrl(itemData.urlAddress);
-                        urlAddress = urlAddress + "userId="+ UserEntity.getUser().getUserId(mContext)+"&t=" + new Random().nextInt(100000);
-                        Intent intent = new Intent(mContext, WebInfoActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, urlAddress);
-                        mContext.startActivity(intent);
-                        StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "首页");
+                        actionFactory.doAction(mContext, itemData.pushScheme);
                     }
                 }
             });
