@@ -113,11 +113,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         carNumberEditText.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable editable) {
-                if(carNumberEditText.getText().toString().trim().length() >0){
-                    couponBtnPay.setBackgroundColor(getResources().getColor(R.color.all_bg_yellow));
-                }else {
-                    couponBtnPay.setBackgroundColor(getResources().getColor(R.color.login_unready));
-                }
+                setCouponBtnPay();
             }
 
             @Override
@@ -152,6 +148,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
                 finish();
             }
         });
@@ -159,8 +156,25 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
+        setCouponBtnPay();
     }
-
+    private void setCouponBtnPay(){
+        if(carNumberEditText!= null && couponBtnPay != null){
+            if(carNumberEditText.getText().toString().trim().length() >0){
+                couponBtnPay.setEnabled(true);
+                couponBtnPay.setBackgroundColor(getResources().getColor(R.color.all_bg_yellow));
+            }else {
+                couponBtnPay.setEnabled(false);
+                couponBtnPay.setBackgroundColor(getResources().getColor(R.color.login_unready));
+            }
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+        finish();
+    }
 
     ZListView.OnRefreshListener onRefreshListener = new ZListView.OnRefreshListener() {
         @Override

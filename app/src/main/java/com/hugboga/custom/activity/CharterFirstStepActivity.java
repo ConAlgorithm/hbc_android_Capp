@@ -284,6 +284,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 countLayout.setChildValue(charterDataUtils.childCount);
                 countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
                 break;
+            case FROM_PURPOSER:
+                finish();
         }
     }
 

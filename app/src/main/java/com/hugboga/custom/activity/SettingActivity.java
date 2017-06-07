@@ -245,6 +245,12 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+        finish();
+    }
 
     private String getCacheSize() {
         String result = "";

@@ -12,9 +12,6 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
 import com.huangbaoche.hbcframe.widget.monthpicker.util.DayUtils;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.huangbaoche.hbcframe.R;
 
 import java.text.SimpleDateFormat;
@@ -24,14 +21,15 @@ import java.util.Calendar;
 /**
  * Created by tudou on 15-5-18.
  */
-public class MonthSwitchTextView extends RelativeLayout {
+public class MonthSwitchTextView extends RelativeLayout implements View.OnClickListener{
 
   private final static String TAG = "MonthSwitchTextView";
 
-  @Bind(android.R.id.icon1) ForegroundImageView mIconLeft;
-  @Bind(android.R.id.icon2) ForegroundImageView mIconRight;
-  @Bind(android.R.id.text1) TextView mTextTitle;
-
+  ForegroundImageView mIconLeft;
+  ForegroundImageView mIconRight;
+  TextView mTextTitle;
+    RelativeLayout mLeftLayout;
+    RelativeLayout mRightLayout;
   private int mPosition;
   private CalendarDay mFirstDay;
   private int mCount;
@@ -53,27 +51,33 @@ public class MonthSwitchTextView extends RelativeLayout {
 
   private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
     LayoutInflater.from(context).inflate(R.layout.view_month_switch_text, this);
-    ButterKnife.bind(this);
+      mIconLeft = (ForegroundImageView) findViewById(android.R.id.icon1);
+      mIconRight = (ForegroundImageView) findViewById(android.R.id.icon2);
+      mTextTitle = (TextView) findViewById(android.R.id.text1);
+      mLeftLayout = (RelativeLayout) findViewById(R.id.icon1_layout);
+      mLeftLayout.setOnClickListener(this);
+      mRightLayout = (RelativeLayout) findViewById(R.id.icon2_layout);
+      mRightLayout.setOnClickListener(this);
   }
 
   private void updateView() {
     if (mPosition == 0) {
       //mIconLeft.setVisibility(View.GONE);
       mIconLeft.setImageResource(R.mipmap.calendar_arrow_left);
-      mIconLeft.setEnabled(false);
+        mLeftLayout.setEnabled(false);
     } else {
       //mIconLeft.setVisibility(View.VISIBLE);
       mIconLeft.setImageResource(R.mipmap.calendar_click_arrow_left);
-      mIconLeft.setEnabled(true);
+        mLeftLayout.setEnabled(true);
     }
     if (mPosition == mCount - 1) {
       //mIconRight.setVisibility(View.GONE);
       mIconRight.setImageResource(R.mipmap.calendar_arrow_right);
-      mIconRight.setEnabled(false);
+        mRightLayout.setEnabled(false);
     } else {
       //mIconRight.setVisibility(View.VISIBLE);
       mIconRight.setImageResource(R.mipmap.calendar_click_arrow_right);
-      mIconRight.setEnabled(true);
+        mRightLayout.setEnabled(true);
     }
     updateText();
   }
@@ -82,22 +86,24 @@ public class MonthSwitchTextView extends RelativeLayout {
     updateView();
   }
 
-  @OnClick({
-      android.R.id.icon1, android.R.id.icon2
-  }) @SuppressWarnings("unused")
   public void onClick(View view) {
-    switch (view.getId()) {
-      case android.R.id.icon1:
+    //switch (view.getId()) {
+      //case R.id.icon1_layout:
+      if(view.getId() == R.id.icon1_layout){
         mPosition--;
         update();
         mMonthRecyclerView.scrollToPosition(mPosition);
-        break;
-      case android.R.id.icon2:
-        mPosition++;
-        update();
-        mMonthRecyclerView.scrollToPosition(mPosition);
-        break;
-    }
+      }else if(view.getId() == R.id.icon2_layout){
+          mPosition++;
+          update();
+          mMonthRecyclerView.scrollToPosition(mPosition);
+      }
+
+        //break;
+      //case R.id.icon2_layout:
+
+        //break;
+    //}
   }
 
   public void setPosition(int position) {

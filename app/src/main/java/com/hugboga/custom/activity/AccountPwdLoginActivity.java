@@ -217,6 +217,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                     break;
                 }
                 areaCodeTextView.setText("+" + areaCodeBean.getCode());
+                areaCode = "+" + areaCodeBean.getCode();
                 break;
         }
     }

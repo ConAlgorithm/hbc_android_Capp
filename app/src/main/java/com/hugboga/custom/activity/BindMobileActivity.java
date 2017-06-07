@@ -81,7 +81,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         EventBus.getDefault().register(this);
-        requestData();
+        //requestData();
         initView();
         //OrderUtils.genUserAgreeMent(this,miaoshu2);
     }
@@ -124,35 +124,33 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
             isAfterProcess = bundle.getBoolean("isAfterProcess");
         }
 
-        String areaCode = null;
-        String phone = null;
+        //String areaCode = null;
+        //String phone = null;
         if (getIntent() != null) {
             areaCode = getIntent().getStringExtra(KEY_AREA_CODE);
             mobile = getIntent().getStringExtra(KEY_PHONE);
         }
-        sharedPre = new SharedPre(activity);
+        /*sharedPre = new SharedPre(activity);
         if (TextUtils.isEmpty(areaCode)) {
             areaCode = sharedPre.getStringValue(SharedPre.LOGIN_CODE);
-        }
+        }*/
         if (!TextUtils.isEmpty(areaCode)) {
-            this.areaCode = areaCode;
             areaCodeTextView.setText("+" + areaCode);
         } else {
             this.areaCode = "86";
         }
-        if (TextUtils.isEmpty(phone)) {
+        /*if (TextUtils.isEmpty(phone)) {
             phone = sharedPre.getStringValue(SharedPre.LOGIN_PHONE);
-        }
-        if(phone!= null){
-            if(phone.length() >0){
+        }*/
+        if(mobile!= null){
+            if(mobile.length() >0){
                 delete.setVisibility(View.VISIBLE);
             }else{
                 delete.setVisibility(View.GONE);
             }
         }
-        if (!TextUtils.isEmpty(phone)) {
-            this.mobile = phone;
-            mobileEditText.setText(phone);
+        if (!TextUtils.isEmpty(mobile)) {
+            mobileEditText.setText(mobile);
         }
 
         if(isAfterProcess){

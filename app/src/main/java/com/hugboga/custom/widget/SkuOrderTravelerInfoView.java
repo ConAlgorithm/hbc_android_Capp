@@ -97,6 +97,8 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     ShSwitchView checkinSwitchView;
     @Bind(R.id.sku_order_traveler_info_checkin_price_tv)
     TextView checkinPriceTV;
+    @Bind(R.id.sku_order_traveler_info_checkin_star_tv)
+    TextView checkinStarTV;
 
     @Bind(R.id.sku_order_traveler_info_sendmessage_layout)
     RelativeLayout sendMessageLayout;
@@ -443,6 +445,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         if (orderType == 1) {//接机
             travelerInfoBean.isPickup = isSelect;
             checkinET.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+            checkinStarTV.setVisibility(isSelect ? View.VISIBLE : View.GONE);
         } else if (orderType == 2) {//送机
             travelerInfoBean.isCheckin = isSelect;
         }

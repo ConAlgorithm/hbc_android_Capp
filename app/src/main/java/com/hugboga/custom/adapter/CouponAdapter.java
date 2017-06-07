@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.adapter.BaseAdapter;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,7 +57,9 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
 
         }
         holder.mPrice.setText(spannableString);
-        holder.mContent.setText(couponBean.batchName);
+        setBatchNameWidth(couponBean.price,holder.mPrice,holder.couponBatchName);
+        holder.mContent.setText(couponBean.applyRule);
+        holder.couponBatchName.setText(couponBean.batchName);
         if (couponBean.endDate.equals("0")) {
             holder.mDateBettow.setText("长期有效");
         } else {
@@ -126,6 +129,12 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
         return convertView;
     }
 
+    private void setBatchNameWidth(String text,TextView mPrice,TextView couponBatchName){
+        float priceWidth = mPrice.getPaint().measureText(text);
+        final ViewGroup.LayoutParams lp = couponBatchName.getLayoutParams();
+        lp.width = UIUtils.getScreenWidth()- (int)priceWidth - UIUtils.dip2px(60);
+        couponBatchName.setLayoutParams(lp);
+    }
     class ViewHolder {
         /*@ViewInject(R.id.coupon_item_bg)
         View mLayout;

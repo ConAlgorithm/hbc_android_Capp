@@ -105,7 +105,7 @@
                     android:layout_below="@id/home_chater_title"
                     android:layout_marginTop="6dp"
                     android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                    android:text="中文包车接送机"
+                    android:text="中文专车接送机"
                     android:textColor="@color/common_font_color_gray"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -140,7 +140,7 @@
                     android:layout_below="@id/home_chater_title"
                     android:layout_marginTop="6dp"
                     android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                    android:text="点到点中文包车"
+                    android:text="点到点中文专车"
                     android:textColor="@color/common_font_color_gray"
                     android:textSize="12sp" />
             </LinearLayout>

@@ -31,7 +31,8 @@
                 android:text=""
                 android:textColor="#161616"
                 android:textColorHint="#cccccc"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:maxLength="16"/>
             <ImageView
                 android:id="@+id/iv_pwd_visible1"
                 android:layout_width="wrap_content"
@@ -74,7 +75,8 @@
                 android:textColorHint="#cccccc"
                 android:text=""
                 android:textColor="#161616"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:maxLength="16"/>
             <ImageView
                 android:id="@+id/iv_pwd_visible2"
                 android:layout_width="wrap_content"
@@ -116,7 +118,8 @@
                 android:textColorHint="#cccccc"
                 android:text=""
                 android:textColor="#161616"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:maxLength="16"/>
             <ImageView
                 android:id="@+id/iv_pwd_visible3"
                 android:layout_width="wrap_content"

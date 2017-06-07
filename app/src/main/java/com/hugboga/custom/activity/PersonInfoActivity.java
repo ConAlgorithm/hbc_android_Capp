@@ -331,6 +331,8 @@ public class PersonInfoActivity extends BaseActivity{
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isAfterProcess",true);
                     bundle.putString("source", getEventSource());
+                    bundle.putString("key_phone",userBean.mobile);
+                    bundle.putString("key_area_code",userBean.areaCode);
                     intent = new Intent(PersonInfoActivity.this, BindMobileActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);

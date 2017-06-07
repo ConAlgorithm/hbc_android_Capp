@@ -162,8 +162,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         }
 
         carTypeView.setOnSelectedCarListener(this);
-        bottomView.setOnConfirmListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        bottomView.setOnConfirmListener(this);
         addressLayout.setOnAddressClickListener(this);
 
         emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {

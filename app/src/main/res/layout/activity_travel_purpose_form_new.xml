@@ -207,7 +207,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp">
 
                     <TextView
@@ -231,7 +231,6 @@
                         android:maxLength="200"
                         android:minEms="4"
                         android:padding="@dimen/basic_margin_large"
-                        android:singleLine="true"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#cccccc"
                         android:textSize="14sp" />

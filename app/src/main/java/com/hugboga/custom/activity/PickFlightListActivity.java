@@ -63,6 +63,8 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     TextView numberflite;
     @Bind(R.id.loading_layout)
     RelativeLayout loading;
+    @Bind(R.id.view)
+    View view;
     /*@Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
     @Bind(R.id.header_right_btn)
@@ -134,6 +136,12 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }else{
             fromto.setText(flightNo);
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
