@@ -29,7 +29,11 @@ public class EventPayResult extends EventBase{
         }
         switch (eventPayBean.orderType) {
             case 1:
-                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_J : StatisticConstant.LAUNCH_PAYFAILED_J;
+                if (eventPayBean.isSeckills) {
+                    result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_J_MS : StatisticConstant.LAUNCH_PAYFAILED_J_MS;
+                } else {
+                    result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_J : StatisticConstant.LAUNCH_PAYFAILED_J;
+                }
                 break;
             case 2:
                 result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_S : StatisticConstant.LAUNCH_PAYFAILED_S;

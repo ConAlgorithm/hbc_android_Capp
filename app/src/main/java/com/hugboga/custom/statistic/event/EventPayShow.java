@@ -1,7 +1,5 @@
 package com.hugboga.custom.statistic.event;
 
-import android.text.TextUtils;
-
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 
@@ -27,7 +25,11 @@ public class EventPayShow extends EventBase{
         }
         switch (eventPayBean.orderType) {
             case 1:
-                result = StatisticConstant.LAUNCH_PAYJ;
+                if (eventPayBean.isSeckills) {
+                    result = StatisticConstant.LAUNCH_PAYJ_MS;
+                } else {
+                    result = StatisticConstant.LAUNCH_PAYJ;
+                }
                 break;
             case 2:
                 result = StatisticConstant.LAUNCH_PAYS;

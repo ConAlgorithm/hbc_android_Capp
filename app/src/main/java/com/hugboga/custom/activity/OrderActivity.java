@@ -44,6 +44,7 @@ import com.hugboga.custom.data.request.RequestSubmitPickOrder;
 import com.hugboga.custom.data.request.RequestSubmitPickSeckills;
 import com.hugboga.custom.data.request.RequestSubmitRent;
 import com.hugboga.custom.data.request.RequestSubmitSend;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -65,7 +66,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -153,6 +156,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
 
     private void initView() {
         initTitleBar();
+
+        MobClickUtils.onEvent(getEventId(), getEventMap());
 
         params.carBean.expectedCompTime = params.carListBean.estTime;//历史遗留
         serverDate = params.serverDate + " " + params.serverTime + ":00";
@@ -485,7 +490,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private OrderBean getPickOrderByInput() {
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
         ManLuggageBean manLuggageBean = countView.getManLuggageBean();
-        StatisticClickEvent.pickClick(StatisticConstant.SUBMITORDER_J, getIntentSource(), params.carBean.carDesc + "", travelerInfoBean.isPickup, countView.getTotalPeople());
+        String eventId = params.carListBean.isSeckills ? StatisticConstant.SUBMITORDER_J_MS : StatisticConstant.SUBMITORDER_J;
+        StatisticClickEvent.pickClick(eventId, getIntentSource(), params.carBean.carDesc + "", travelerInfoBean.isPickup, countView.getTotalPeople());
         return new OrderUtils().getPickOrderByInput(params.flightBean
                 , params.endPoiBean
                 , params.carBean
@@ -688,7 +694,9 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         eventPayBean.guideCollectId = "";
         eventPayBean.paysource = "下单过程中";
         eventPayBean.orderType = params.orderType;
-
+        if (params.carListBean != null) {
+            eventPayBean.isSeckills = params.carListBean.isSeckills;
+        }
         if (params.carBean != null) {
             eventPayBean.carType = params.carBean.carDesc;
             eventPayBean.seatCategory = params.carBean.seatCategory;
@@ -713,5 +721,36 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     @Override
     public String getEventSource() {
         return "确认订单";
+    }
+
+    @Override
+    public String getEventId() {
+        if (params != null) {
+            switch (params.orderType) {
+                case 1:
+                    if (params.carListBean != null && params.carListBean.isSeckills) {
+                        return StatisticConstant.LAUNCH_J2_MS;
+                    } else {
+                        return StatisticConstant.LAUNCH_J2;
+                    }
+                case 2:
+                    return StatisticConstant.LAUNCH_S2;
+                case 3:
+                    return StatisticConstant.LAUNCH_C2;
+            }
+        }
+        return super.getEventId();
+    }
+
+    @Override
+    public Map getEventMap() {
+        HashMap map = new HashMap();
+        if (!TextUtils.isEmpty(getIntentSource())) {
+            map.put(Constants.PARAMS_SOURCE, getIntentSource());
+        }
+        if (params != null && params.carBean != null) {
+            map.put("carstyle", params.carBean.carDesc);
+        }
+        return map;
     }
 }

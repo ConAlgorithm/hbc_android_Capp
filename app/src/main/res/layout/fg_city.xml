@@ -88,9 +88,14 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/fg_city_bottom_line_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_line_height"
         android:background="@color/default_dividing_line" />
+
+    <include
+        android:id="@+id/fg_city_header"
+        layout="@layout/include_header" />
 
     <include layout="@layout/include_choose_city_head" />
 
