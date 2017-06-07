@@ -525,7 +525,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         intent.putExtra(Constants.PARAMS_SOURCE,source);
         intent.putExtras(bundle);
         startActivity(intent);
-        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,source,carBean.desc+"",checkInChecked,(manLuggageBean.mans + manLuggageBean.childs));
+        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S,source,carBean.desc+"");
         setSensorsConfirmEvent();
     }
 

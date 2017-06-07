@@ -671,7 +671,7 @@ public class SingleNewActivity extends BaseActivity {
         intent.putExtras(bundle);
         startActivity(intent);
 
-        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,source,carBean.desc+"",(manLuggageBean.mans + manLuggageBean.childs));
+        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C,source,carBean.desc+"");
         setSensorsConfirmEvent();
     }
 

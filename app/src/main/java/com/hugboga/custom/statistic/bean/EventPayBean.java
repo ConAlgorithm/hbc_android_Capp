@@ -31,6 +31,7 @@ public class EventPayBean implements Serializable{
     public double travelFundPrice;
     public boolean isSelectedGuide;
     public int days;
+    public boolean isSeckills;//是否是秒杀
 
     public void transform(OrderBean orderBean) {
         if (orderBean == null) {

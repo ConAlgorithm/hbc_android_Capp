@@ -27,6 +27,7 @@ import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -478,7 +479,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     public void initOrderActivity() {
-        setSensorsConfirmEvent();
         OrderActivity.Params orderParams = new OrderActivity.Params();
         orderParams.startPoiBean = startPoiBean;
         orderParams.endPoiBean = endPoiBean;
@@ -495,6 +495,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, orderParams);
         startActivity(intent);
+
+        setSensorsConfirmEvent();
+        StatisticClickEvent.singleSkuClick(StatisticConstant.CONFIRM_C, source, carBean.desc + "");
     }
 
     private void getGuideCars() {
