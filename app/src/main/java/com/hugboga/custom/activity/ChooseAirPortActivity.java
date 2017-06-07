@@ -65,6 +65,14 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
 
 
     public AirportAdapter adapter;
+
+    @Bind(R.id.activity_head_layout)
+    RelativeLayout headLayout;
+    @Bind(R.id.fg_city_bottom_line_view)
+    View bottomLineView;
+    @Bind(R.id.fg_city_header)
+    View cityHeaderLayout;
+
     @Bind(R.id.head_left_layout)
     RelativeLayout headerLeftLayout;
     @Bind(R.id.head_search)
@@ -144,6 +152,21 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         sortListView.setAdapter(adapter);
         sideBar.setVisibility(View.VISIBLE);
         initSideBar();
+
+        if (groupId != 0 || cityId != 0) {
+            headLayout.setVisibility(View.GONE);
+            bottomLineView.setVisibility(View.GONE);
+            cityHeaderLayout.setVisibility(View.VISIBLE);
+            ((TextView) cityHeaderLayout.findViewById(R.id.header_title)).setText("请选择机场");
+            cityHeaderLayout.findViewById(R.id.header_left_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        } else {
+            cityHeaderLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -165,8 +188,6 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     }
 
     protected Callback.Cancelable requestData() {
-        groupId = getIntent().getIntExtra(KEY_GROUPID, 0);
-        cityId = getIntent().getIntExtra(KEY_CITY_ID, 0);
         if (groupId != 0) {
             queryAirPortByGroupId(null);
         } else if (cityId != 0) {
@@ -221,6 +242,8 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        groupId = getIntent().getIntExtra(KEY_GROUPID, 0);
+        cityId = getIntent().getIntExtra(KEY_CITY_ID, 0);
         initView();
         initHeader();
         inflateContent();
