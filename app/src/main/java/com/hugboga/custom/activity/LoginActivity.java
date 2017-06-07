@@ -406,6 +406,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 startActivity(intent);
                 /*overridePendingTransition(R.anim.enter_from_right,
                         0);*/
+                StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
                 break;
             case R.id.login_submit:
                 //登录
@@ -477,7 +478,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha,3,1);
         requestData(request);
 
-        StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
+        StatisticClickEvent.click(StatisticConstant.LOGIN_CODE,getIntentSource());
     }
     @Override
     public String getEventId() {

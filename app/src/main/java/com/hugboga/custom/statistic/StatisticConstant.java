@@ -12,6 +12,7 @@ public class StatisticConstant {
     public static final String REGIST_SUCCEED = "00_regist_succeed";                // 0注册成功
     public static final String LOGIN_LAUNCH = "00_login_launch";                    // 0登录页展示
     public static final String LOGIN_PHONE = "00_login_phone";                      // 0点击手机登录
+    public static final String LOGIN_CODE = "00_login_code";                        // 0点击手机验证码登录
     public static final String LOGIN_WEIXIN = "00_login_weixin";                    // 0点击微信登录
     public static final String LOGIN_CLOSE = "00_login_close";                      // 0放弃登录
     public static final String LOGIN_SUCCEED = "00_login_succeed";                  // 0手机登录成功
