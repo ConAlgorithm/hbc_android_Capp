@@ -144,7 +144,7 @@ android {
                 flavor.buildConfigField('String', 'SHARE_APPID','"wx1354271c597184ee"')
                 flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"00"')
 
-                flavor.buildConfigField('String', 'WX_APP_ID', '"wx89138279bb15267f"')
+                flavor.buildConfigField('String', 'WX_APP_ID', '"wxc5e385ba83a4f64e"')
                 flavor.manifestPlaceholders(JPUSH_KEY: "be9b3f0366947883c7cbc337", APP_CHANNEL: ""+flavor.name, AMAP_KEY: "c106e6b2b66ce872680891131ae7701b")
 
 //                flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
