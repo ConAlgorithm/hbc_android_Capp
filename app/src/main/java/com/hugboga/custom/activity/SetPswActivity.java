@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,10 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.request.PasswordInitSet;
+import com.hugboga.custom.data.request.RequestAfterSetPwd;
+import com.hugboga.custom.data.request.RequestSetPwd;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -47,6 +51,14 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     boolean isPwd1Visibility = false;
     boolean isPwd2Visibility = false;
     boolean isFirstEnter = true;
+
+    private boolean isAfterProcess = false;
+    private String areaCode;
+    private String mobile;
+    private String unionid;
+    private UserBean userBean;
+    boolean isFromWeChat;
+    boolean isFromSetting;
     @Override
     public int getContentViewId() {
         return R.layout.fg_set_passwd_new;
@@ -55,6 +67,16 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            areaCode = bundle.getString("areaCode");
+            mobile = bundle.getString("mobile");
+            unionid = bundle.getString("unionid");
+            userBean = (UserBean) bundle.getSerializable("userBean");
+            isAfterProcess = bundle.getBoolean("isAfterProcess");
+        }
+        isFromWeChat = getIntent().getBooleanExtra("isFromWeChat",false);
+        isFromSetting = getIntent().getBooleanExtra("isFromSetting",false);
         hideInputMethod(setPsw);
         hideInputMethod(setPswAgain);
         initHeader();
@@ -77,50 +99,6 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                 return false;
             }
         });
-       /* setPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                        if(isSoftInputShow()){
-                            if(isFirstEnter){
-                                isFirstEnter = false;
-                                ivPwdVisible1.setVisibility(View.GONE);
-                            }else {
-                            ivPwdVisible1.setVisibility(View.VISIBLE);
-                        }
-                            ivPwdVisible2.setVisibility(View.GONE);
-                        }else{
-                            ivPwdVisible1.setVisibility(View.GONE);
-                        }
-
-                }else{
-                    ivPwdVisible1.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        setPswAgain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    if(isSoftInputShow()){
-                        if(isFirstEnter){
-                            isFirstEnter = false;
-                            ivPwdVisible2.setVisibility(View.GONE);
-                        }else{
-                            ivPwdVisible2.setVisibility(View.VISIBLE);
-                        }
-                        ivPwdVisible1.setVisibility(View.GONE);
-                    }else{
-                        ivPwdVisible2.setVisibility(View.GONE);
-                    }
-                }else{
-                    ivPwdVisible2.setVisibility(View.GONE);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -171,10 +149,20 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             case R.id.login_submit:
                 String set_psw = setPsw.getText().toString().trim();
                 String set_psw_again = setPswAgain.getText().toString().trim();
-                if(!TextUtils.isEmpty(set_psw) && !TextUtils.isEmpty(set_psw_again) && !TextUtils.equals(set_psw,set_psw_again)){
+                if (!TextUtils.isEmpty(set_psw) && !TextUtils.isEmpty(set_psw_again) && !TextUtils.equals(set_psw, set_psw_again)) {
                     CommonUtils.showToast("两次密码不一致");
                 }
-                setPwd(setPswAgain.getText().toString().trim());
+
+                if (isAfterProcess) {
+                    RequestAfterSetPwd requestAfterSetPwd = new RequestAfterSetPwd(this, areaCode, mobile, setPswAgain.getText().toString().trim());
+                    requestData(requestAfterSetPwd);
+                } else if (isFromWeChat) {
+                    RequestSetPwd requestSetPwd = new RequestSetPwd(this, areaCode, mobile, setPswAgain.getText().toString().trim(), unionid);
+                    requestData(requestSetPwd);
+                } else if (isFromSetting) {
+                    setPwd(setPswAgain.getText().toString().trim());
+                }
+
                 break;
             default:
                 break;
@@ -240,11 +228,23 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
         headerTitle.setText("设置密码");
-        headerLeftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        if(!isFromWeChat){
+            headerLeftBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }else{
+            headerLeftBtn.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if( isFromWeChat && keyCode==KeyEvent.KEYCODE_BACK){
+            return true;//不执行父类点击事件
+        }
+        return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
     }
 }

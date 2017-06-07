@@ -328,15 +328,18 @@ public class PersonInfoActivity extends BaseActivity{
                     startActivity(intent);
                 }else {
                     //绑定手机号
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("isAfterProcess",true);
-                    bundle.putString("source", getEventSource());
-                    bundle.putString("key_phone",userBean.mobile);
-                    bundle.putString("key_area_code",userBean.areaCode);
-                    intent = new Intent(PersonInfoActivity.this, BindMobileActivity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    MobClickUtils.onEvent(StatisticConstant.BIND_TRIGGER);
+                    if(userBean != null){
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("isAfterProcess",true);
+                        bundle.putString("source", getEventSource());
+                        bundle.putString("key_phone",userBean.mobile);
+                        bundle.putString("key_area_code",userBean.areaCode);
+                        intent = new Intent(PersonInfoActivity.this, BindMobileActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        MobClickUtils.onEvent(StatisticConstant.BIND_TRIGGER);
+                    }
+
                 }
                 break;
             case R.id.my_info_menu_realname_layout://真实姓名
