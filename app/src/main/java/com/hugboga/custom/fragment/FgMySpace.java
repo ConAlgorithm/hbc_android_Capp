@@ -76,7 +76,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     //private ImageView headerBgIV;
 
     private MenuItemAdapter menuItemAdapter;
-
+    private String mobile;
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
@@ -329,6 +329,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 //if (isLogin("个人中心-设置")) {
                     intent = new Intent(getContext(),SettingActivity.class);
                     intent.putExtra("needInitPwd",UserEntity.getUser().getNeedInitPwd(getContext()));
+                if(TextUtils.isEmpty(this.mobile)){
+                    intent.putExtra("isMobileBinded",false);
+                }
                     startActivity(intent);
                 //}
                 break;
@@ -367,6 +370,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             UserEntity.getUser().setTravelFund(getContext(), user.travelFund);
             UserEntity.getUser().setCoupons(getContext(), user.coupons);
             UserEntity.getUser().setNeedInitPwd(getContext(),user.needInitPwd);
+            this.mobile = user.mobile;
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
             couponUnitTV.setText("张");

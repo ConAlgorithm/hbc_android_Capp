@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -286,8 +287,9 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                     EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
-                Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
+                Intent intent = new Intent(BindMobileActivity.this, SetPswActivity.class);
                 intent.putExtras(bundle);
+                intent.putExtra("isFromWeChat",true);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
                 finish();
                 HashMap<String,String> map = new HashMap<String,String>();
@@ -313,7 +315,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
             bundle.putString("areaCode",areaCode);
             bundle.putString("mobile",mobile);
             bundle.putBoolean("isAfterProcess",isAfterProcess);
-            Intent intent = new Intent(BindMobileActivity.this, SetPasswordActivity.class);
+            Intent intent = new Intent(BindMobileActivity.this, SetPswActivity.class);
             intent.putExtras(bundle);
             finish();
             BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
@@ -484,5 +486,13 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
             login_submit.setEnabled(false);
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if( !isAfterProcess && keyCode==KeyEvent.KEYCODE_BACK){
+            return true;//不执行父类点击事件
+        }
+        return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
     }
 }
