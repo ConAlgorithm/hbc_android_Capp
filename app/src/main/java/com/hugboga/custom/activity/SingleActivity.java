@@ -288,6 +288,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         final Calendar calendar = Calendar.getInstance();
         if (dateTimePicker == null) {
             dateTimePicker = new DateTimePicker(this, DateTimePicker.YEAR_MONTH_DAY);
+            dateTimePicker.setTitleText("请选择出发时间");
             dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
             dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
                 @Override

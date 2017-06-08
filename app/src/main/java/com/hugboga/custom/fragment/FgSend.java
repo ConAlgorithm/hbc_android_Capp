@@ -262,6 +262,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         final Calendar calendar = Calendar.getInstance();
         if (dateTimePicker == null) {
             dateTimePicker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+            dateTimePicker.setTitleText("请选择出发时间");
             dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
             dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
                 @Override
