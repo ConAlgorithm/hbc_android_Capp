@@ -149,6 +149,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         emptyWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                emptyWifi.setVisibility(View.GONE);
                 requestData();
             }
         });

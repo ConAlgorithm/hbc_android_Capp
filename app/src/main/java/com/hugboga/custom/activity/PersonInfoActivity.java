@@ -140,9 +140,20 @@ public class PersonInfoActivity extends BaseActivity{
         if (!TextUtils.isEmpty(userBean.name)) {
             realNameTextView.setText(userBean.name);
         }
-
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+                finish();
+            }
+        });
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+        finish();
+    }
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {

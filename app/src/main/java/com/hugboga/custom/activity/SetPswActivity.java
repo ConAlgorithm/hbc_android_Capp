@@ -18,10 +18,15 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.PasswordInitSet;
 import com.hugboga.custom.data.request.RequestAfterSetPwd;
 import com.hugboga.custom.data.request.RequestSetPwd;
 import com.hugboga.custom.utils.CommonUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -220,6 +225,38 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             Intent intent = new Intent();
             intent.putExtra("needInitPwd",false);
             setResult(SettingActivity.RESULT_OK, intent);
+            finish();
+        } else  if (request instanceof RequestSetPwd) {
+            RequestSetPwd requestSetPwd = (RequestSetPwd) request;
+//            UserBean userBean = requestSetPwd.getData();
+            Bundle bundle = new Bundle();
+            if(userBean != null){
+                bundle.putSerializable("userBean",userBean);
+//                UserEntity.getUser().setNickname(getActivity(), userBean.nickname);
+//                UserEntity.getUser().setAvatar(getActivity(), userBean.avatar);
+//                userBean.setUserEntity(getActivity());
+//                UserSession.getUser().setUserToken(getActivity(), userBean.userToken);
+//                IMUtil.getInstance().connect();
+//                EventBus.getDefault().post(
+//                        new EventAction(EventType.CLICK_USER_LOGIN));
+            }
+            CommonUtils.showToast("密码设置成功");
+            //UserEntity.getUser().setWeakPassword(this, false);
+//            bundle.putString(KEY_FRAGMENT_NAME, FgSetPassword.class.getSimpleName());
+//            finishForResult(bundle);
+            Intent intent = new Intent();
+            intent.putExtras(bundle);
+            setResult(BindMobileActivity.REQUEST_CODE, intent);
+            EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+            finish();
+        }else if(request instanceof RequestAfterSetPwd){
+            RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
+            CommonUtils.showToast("密码设置成功");
+            //UserEntity.getUser().setWeakPassword(this, false);
+//            Bundle bundle = new Bundle();
+//            bundle.putString(KEY_FRAGMENT_NAME, SetPasswordActivity.class.getSimpleName());
+//            finishForResult(bundle);
+            setResult(BindMobileActivity.REQUEST_CODE);
             finish();
         }
     }
