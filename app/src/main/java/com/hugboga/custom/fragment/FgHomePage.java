@@ -181,11 +181,11 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 int titleBarLayoutDis = scrollY-statusBarHeight-titleBarHeight;
                 if(scrollYOtherServiceViewTop<totalTitle){
                     homeTitleLayout.setVisibility(View.VISIBLE);
-                    float alpha = (float)(totalTitle-scrollYOtherServiceViewTop)/(float)totalTitle*1.0f;
+                    /*float alpha = (float)(totalTitle-scrollYOtherServiceViewTop)/(float)totalTitle*1.0f;
                     if(alpha>1.0f){
                         alpha = 1.0f;
-                    }
-                    homeTitleLayout.setAlpha(alpha);
+                    }*/
+                    homeTitleLayout.setAlpha(1.0f);
                 }else{
                     homeTitleLayout.setAlpha(0);
                     homeTitleLayout.setVisibility(View.GONE);
@@ -193,7 +193,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
                 //int disSearchTitle = serviceHeight+scrollYOtherServiceViewHeight+fastYudingViewHeight;
                 if(scrollYFastYudingViewHeight < totalTitle){
-                    float alpha = (float)scrollYFastYudingViewHeight/(float)totalTitle*1.0f;
+                    /*float alpha = (float)scrollYFastYudingViewHeight/(float)totalTitle*1.0f;
                     if(alpha < 0){
                         alpha = 0;
                         searchTitle.setVisibility(View.GONE);
@@ -203,10 +203,12 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                     }
                     if(alpha>1.0f){
                         alpha = 1.0f;
-                    }
-                    searchTitle.setAlpha(alpha);
+                    }*/
+                    searchTitle.setAlpha(0);
+                    searchTitle.setVisibility(View.GONE);
                 }else{
                     searchTitle.setAlpha(1.0f);
+                    searchTitle.setVisibility(View.VISIBLE);
                 }
 
                 /*if(titleBarLayoutDis<125){
