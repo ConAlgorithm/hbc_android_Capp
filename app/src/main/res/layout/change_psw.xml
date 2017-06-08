@@ -144,5 +144,6 @@
         android:text="修改密码"
         android:enabled="false"
         android:textColor="@color/basic_white"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_large"
+        style="?android:attr/borderlessButtonStyle"/>
 </LinearLayout>
