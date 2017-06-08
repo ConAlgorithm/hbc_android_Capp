@@ -768,11 +768,10 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     if (showType == ShowType.PICK_UP) {
                         if (tabLayout.isInland()) {//国内城市
                             message.obj = DatabaseManager.getInlandCitySql();
-                            mAdapter.setShowType(ChooseCityAdapter.ShowType.DEFAULT);
                         } else {//国际港澳台
                             message.obj = DatabaseManager.getAbroadCitySql();
-                            mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                         }
+                        mAdapter.setShowType(ChooseCityAdapter.ShowType.SHOW_COUNTRY);
                     } else if (showType == ShowType.CITY_LIST) {
                         if (countryId != -1) {
                             message.obj = DatabaseManager.getCitysByPlaceIdSql(countryId);
