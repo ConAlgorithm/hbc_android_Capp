@@ -107,9 +107,7 @@ public class CarUtils {
 //                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo1)) {
 //                        carBean.carDesc = guideCars.get(i).carInfo1;
 //                    }
-                    if (!TextUtils.isEmpty(guideCars.get(i).carInfo2) && !guideCars.get(i).isSpecialCar()) {
-                        carBean.models = guideCars.get(i).carInfo2;
-                    }
+                    carBean.models = guideCars.get(i).carBrandName + " " + guideCars.get(i).carName;
                     carBean.id = guideCars.get(i).guideCarId;
                     list.add(carBean);
                 }
