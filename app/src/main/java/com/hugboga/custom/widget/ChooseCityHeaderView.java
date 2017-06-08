@@ -299,7 +299,7 @@ public class ChooseCityHeaderView extends LinearLayout{
         tagTV.setPadding(UIUtils.dip2px(2), 0, UIUtils.dip2px(2), 0);
         tagTV.setBackgroundResource(R.drawable.shape_rounded_white_btn);
         //Drawable image = ContextCompat.getDrawable(MyApplication.getAppContext(),R.mipmap.trip_icon_place);
-        Drawable image = getResources().getDrawable(R.mipmap.trip_icon_place);
+        Drawable image = getResources().getDrawable(R.mipmap.trip_icon_place2);
         image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
         //tagTV.setCompoundDrawables(image,null,null,null);
         SpannableString spannable = new SpannableString("[smile]");
