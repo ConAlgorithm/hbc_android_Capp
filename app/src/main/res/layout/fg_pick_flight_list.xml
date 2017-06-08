@@ -100,5 +100,33 @@
         <include
             android:id="@+id/flight_empty_layout"
             layout="@layout/fg_pick_flight_list_empty" />
+        <LinearLayout
+            android:id="@+id/empty_wifi_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"
+            android:background="@color/default_bg"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/empty_wifi"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="50dip"
+                android:background="@drawable/empty_wifi" />
+
+            <TextView
+                android:id="@+id/guide_list_empty_hint_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="似乎与网络断开，点击屏幕重试"
+                android:textColor="#a8a8a8"
+                android:textSize="13sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

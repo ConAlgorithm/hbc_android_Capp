@@ -189,7 +189,8 @@
                 android:gravity="center"
                 android:text="查询航班"
                 android:textColor="@color/basic_white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <TextView
                 android:layout_width="match_parent"
