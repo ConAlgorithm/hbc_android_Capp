@@ -415,7 +415,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
-        countView.setVisibility(visibility);
+//        countView.setVisibility(visibility);//包车下单不要出行人数
         travelerInfoView.setVisibility(visibility);
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
