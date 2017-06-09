@@ -94,6 +94,8 @@ public class BargainActivity extends BaseActivity {
     TextView multipleTv;
     @Bind(R.id.countdown_parent_layout)
     RelativeLayout countdownParentLayout;
+    @Bind(R.id.people_num_tv)
+    TextView peopleNumTv;
 
     private BarginBean barginBean;
 
@@ -185,6 +187,9 @@ public class BargainActivity extends BaseActivity {
                         bottom.setOnClickListener(null);
                     }
                 }
+                peopleNumTv.setText(String.format("（共%1$s人）", bargainTotal));
+            } else {
+                peopleNumTv.setText("");
             }
             setTimerData(barginBean, barginBean.isStart);
         }
