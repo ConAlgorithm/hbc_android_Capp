@@ -70,7 +70,6 @@ public class UrlLibs {
 
     public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
-    public static String H5_RULES = H5_HOST+"/cinfos/rules.html ";//  砍价活动规则
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
     public static String H5_ADDFEE_J = H5_HOST+"/cinfos/addfee_j.html";//  接机—后付费用说明
     public static String H5_ADDFEE_R = H5_HOST+"/cinfos/addfee_r.html";//  日租—后付费用说明
@@ -97,6 +96,7 @@ public class UrlLibs {
     public static String H5_CREDIT_CARD_ARGEEMENT =H5_HOST + "/cinfos/pay_agreement.html ";//常用信用卡协议
 
     public static String H5_GUIDE_DETAIL = BuildConfig.SHARE_BASE_URL_3 + "/h5/gactivity/guideIndex2/index.html?";
+    public static String H5_RULES = BuildConfig.SHARE_BASE_URL_3+"/h5/cactivity/bargainNew/bargainInfo.html";//  砍价活动规则
 
 
     public static HashMap<Integer, String> OverPriceMap = new HashMap<Integer, String>();
@@ -178,7 +178,7 @@ public class UrlLibs {
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
     public static final String ACCEPT_GUIDE_LIST            = "trade/v1.0/c/order/acceptGuide";                         // 表态愿意接单的导游列表
-    public static final String CREATEBARGAIN                = "trade/v1.0/c/createBargain?";                            // 砍价分享
+    public static final String CREATEBARGAIN                = "trade/v1.1/c/createBargain?";                            // 砍价分享
     public static final String CANCEL_REASON                = "trade/v1.0/c/order/cancelReason";                        // 取消订单原因接口
     public static final String ORDER_LIST_ALL               = "trade/v1.4/c/order/list/all";                            // 订单列表 全部 114
     public static final String ORDER_LIST_UNPAY             = "trade/v1.4/c/order/list/unpay";                          // 订单列表 待支付 115
