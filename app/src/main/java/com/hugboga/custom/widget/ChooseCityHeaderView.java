@@ -38,6 +38,7 @@ import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -300,7 +301,7 @@ public class ChooseCityHeaderView extends LinearLayout{
         tagTV.setBackgroundResource(R.drawable.shape_rounded_white_btn);
         //Drawable image = ContextCompat.getDrawable(MyApplication.getAppContext(),R.mipmap.trip_icon_place);
         Drawable image = getResources().getDrawable(R.mipmap.trip_icon_place2);
-        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+        image.setBounds(0, 0, image.getIntrinsicWidth()-UIUtils.dip2px(1.5f), image.getIntrinsicHeight()-UIUtils.dip2px(1.5f));
         //tagTV.setCompoundDrawables(image,null,null,null);
         SpannableString spannable = new SpannableString("[smile]");
         ImageSpan span = new ImageSpan(image, ImageSpan.ALIGN_BASELINE);
@@ -308,7 +309,7 @@ public class ChooseCityHeaderView extends LinearLayout{
         tagTV.setTextColor(0xFF7F7F7F);
         tagTV.setTextSize(12);
         tagTV.setText(spannable);
-        tagTV.append(text);
+        tagTV.append(" " + text);
         tagTV.setGravity(Gravity.CENTER);
         tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
         return tagTV;
@@ -418,9 +419,7 @@ public class ChooseCityHeaderView extends LinearLayout{
                             String countryName = ((RequestUploadLocation) request).getData().countryName;
                             LocationUtils.saveLocationCity(getContext(), cityId, cityName, countryId, countryName);
 
-                            locationCityBean = new CityBean();
-                            locationCityBean.cityId = CommonUtils.getCountInteger(cityId);
-                            locationCityBean.name = cityName;
+                            locationCityBean = DBHelper.findCityById(cityId);
 
                             if(isPickUp && historyLayout.getChildCount() > 0){
                                 ((TextView) historyLayout.getChildAt(0)).setText(cityName);

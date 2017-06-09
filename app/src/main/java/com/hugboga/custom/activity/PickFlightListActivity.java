@@ -25,6 +25,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,6 +64,10 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     TextView numberflite;
     @Bind(R.id.loading_layout)
     RelativeLayout loading;
+    @Bind(R.id.flight_empty_layout)
+    View emptyView;
+    @Bind(R.id.empty_wifi_layout)
+    View emptyWifi;
     @Bind(R.id.view)
     View view;
     /*@Bind(R.id.header_left_btn)
@@ -114,7 +119,6 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         ListView listView = (ListView) findViewById(R.id.flight_list);
         mAdapter = new FlightAdapter(activity);
         listView.setAdapter(mAdapter);
-        View emptyView = findViewById(R.id.flight_empty_layout);
         listView.setEmptyView(emptyView);
 
         footerLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.flight_show_all, null);
@@ -142,7 +146,13 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
                 finish();
             }
         });
-
+        emptyWifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emptyWifi.setVisibility(View.GONE);
+                requestData();
+            }
+        });
     }
 
     @Override
@@ -173,8 +183,8 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         } else {
             request = new RequestFlightByCity(activity, flightFromCityId, flightToCityId, flightDate);
         }
-        requestData(request,false);
         loading.setVisibility(View.VISIBLE);
+        requestData(request,false);
         return null;
     }
 
@@ -223,6 +233,10 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         loading.setVisibility(View.GONE);
         numberflite.setVisibility(View.GONE);
         footerLayout.setVisibility(View.GONE);
+        if(!NetworkUtil.isNetAvailable(this)){
+            emptyWifi.setVisibility(View.VISIBLE);
+            return;
+        }
     }
 
     protected void inflateContent() {

@@ -876,9 +876,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                     String cityName = sharedPer.getStringValue("cityName");
                     if (showType == ShowType.PICK_UP) {
                         if (!TextUtils.isEmpty(cityId) && !TextUtils.isEmpty(cityName)) {
-                            CityBean locationCityBean = new CityBean();
-                            locationCityBean.cityId = CommonUtils.getCountInteger(cityId);
-                            locationCityBean.name = cityName;
+                            CityBean locationCityBean = DBHelper.findCityById(cityId);
                             message.obj = locationCityBean;
                         }
                         onPostExecuteHandler.sendMessage(message);
