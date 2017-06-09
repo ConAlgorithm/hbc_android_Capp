@@ -27,6 +27,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BarginBean;
 import com.hugboga.custom.data.bean.BarginWebchatList;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestBargin;
@@ -463,6 +464,7 @@ public class BargainActivity extends BaseActivity {
                 if (barginBean.isStart == 0) {
                     barginBean.isStart = 1;
                     genView(barginBean);
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderNo));
                 }
             }
         });
