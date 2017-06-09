@@ -354,11 +354,16 @@ public class BargainActivity extends BaseActivity {
     EditText nameEdit;
     private void showAddName(){
         popupView = LayoutInflater.from(activity).inflate(R.layout.bargain_add_name_layout,null);
-        popupWindow = new PopupWindow(popupView,
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        popupWindow = new PopupWindow(popupView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
         nameEdit = (EditText)popupView.findViewById(R.id.real_name);
+        popupView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
         popupView.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
