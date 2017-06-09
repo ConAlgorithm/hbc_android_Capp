@@ -171,7 +171,7 @@ public class BargainActivity extends BaseActivity {
             userName = barginBean.userName;
             shareTitle = String.format(getString(R.string.share_bargin_title),barginBean.cnstr);
             bargainTotal = barginBean.bargainTotal;
-            cuteMoneyTv.setText(barginBean.bargainAmount);
+            cuteMoneyTv.setText("" + barginBean.bargainVirtualAmount);
             multipleTv.setText(String.format("(%1$s倍)", barginBean.multiple <= 1 ? "X1" : "已上浮" + barginBean.multiple));
 
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
@@ -289,7 +289,7 @@ public class BargainActivity extends BaseActivity {
                 name = (TextView) view.findViewById(R.id.name);
                 time = (TextView) view.findViewById(R.id.time);
                 money = (TextView) view.findViewById(R.id.money);
-                Tools.showImage(head, barginWebchat.wechatPic);
+                Tools.showImage(head, barginWebchat.wechatPic, R.mipmap.icon_avatar_user);
                 name.setText(barginWebchat.wechatNickname);
                 time.setText(barginWebchat.bargTime);
                 money.setText("-" + barginWebchat.bargAmount + "元");
