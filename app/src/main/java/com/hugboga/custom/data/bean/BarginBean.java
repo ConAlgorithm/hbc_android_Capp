@@ -8,8 +8,8 @@ import java.util.List;
 
 public class BarginBean implements IBaseBean{
     public String bargainAmount;        //砍价总金额
-    public Double bargainActualAmount;  //实际砍价总金额
-    public Double bargainVirtualAmount; //加价砍价总金额
+    public double bargainActualAmount;  //实际砍价总金额
+    public double bargainVirtualAmount; //加价砍价总金额
     public int bargainTotal;        //砍价总个数
     public int seconds;             //砍价剩余时间   总秒数
     public String serviceCityName;  //服务城市名称

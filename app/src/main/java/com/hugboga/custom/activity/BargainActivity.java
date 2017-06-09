@@ -10,6 +10,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -98,6 +99,7 @@ public class BargainActivity extends BaseActivity {
     TextView peopleNumTv;
 
     private BarginBean barginBean;
+    private double orderBargainAmount;
 
     @Override
     public int getContentViewId() {
@@ -320,6 +322,7 @@ public class BargainActivity extends BaseActivity {
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onRefreshOrder();
                 finish();
             }
         });
@@ -344,6 +347,8 @@ public class BargainActivity extends BaseActivity {
 
         setHintText(cuteHintTv1, "砍价人数达到15人以上，总金额X1.5");
         setHintText(cuteHintTv2, "砍价人数达到30人以上，总金额X2.0");
+
+        orderBargainAmount = getIntent().getDoubleExtra("bargainAmount", 0);
     }
 
     private void setHintText(TextView textView, String hint) {
@@ -481,4 +486,17 @@ public class BargainActivity extends BaseActivity {
         shareDialog.show();
     }
 
+    public void onRefreshOrder() {
+        if (barginBean != null && barginBean.bargainVirtualAmount != orderBargainAmount) {
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderNo));
+        }
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            onRefreshOrder();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }

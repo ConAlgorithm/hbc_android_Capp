@@ -35,6 +35,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
     CountdownView countdownView;
 
     private String orderNo;
+    private double bargainAmount;
 
     public OrderDetailBargainEntr(Context context) {
         this(context, null);
@@ -54,6 +55,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
         }
         OrderBean orderBean = (OrderBean) _data;
         this.orderNo = orderBean.orderNo;
+        this.bargainAmount = orderBean.bargainAmount;
         if (orderBean.isShowBargain != 1) {
             setVisibility(View.GONE);
         } else {
@@ -101,6 +103,7 @@ public class OrderDetailBargainEntr extends RelativeLayout implements HbcViewBeh
         Intent intent = new Intent(getContext(), BargainActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.order_detail_title_default));
         intent.putExtra("orderNo", orderNo);
+        intent.putExtra("bargainAmount", bargainAmount);
         getContext().startActivity(intent);
     }
 }
