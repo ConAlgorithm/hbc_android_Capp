@@ -72,7 +72,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
-    private ImageView travelFundHintIV;
+    //private ImageView travelFundHintIV;
     //private ImageView headerBgIV;
 
     private MenuItemAdapter menuItemAdapter;
@@ -313,11 +313,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
                 if (isLogin("个人中心-旅游基金")) {
-                    SharedPre sharedPre= new SharedPre(getContext());
+                    /*SharedPre sharedPre= new SharedPre(getContext());
                     if (sharedPre.isShowTravelFundHint()) {
                         sharedPre.setTravelFundHintIsShow(false);
                         travelFundHintIV.setVisibility(View.GONE);
-                    }
+                    }*/
                     intent = new Intent(getContext(), TravelFundActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);

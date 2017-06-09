@@ -65,7 +65,7 @@ public class SharedPre {
 		this.ctx = ctx;
 	}
 
-	public void setTravelFundHintIsShow(boolean isShow) {
+	/*public void setTravelFundHintIsShow(boolean isShow) {
 		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharePre.edit();
 		editor.putBoolean(TRAVEL_FUND_HINT, isShow);
@@ -75,7 +75,7 @@ public class SharedPre {
 	public boolean isShowTravelFundHint() {
 		SharedPreferences sharePre = ctx.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
 		return sharePre.getBoolean(TRAVEL_FUND_HINT, false);
-	}
+	}*/
 
 	/**
 	 * Set int value into SharePreference

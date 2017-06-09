@@ -294,10 +294,10 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 //         }
 
         if (PhoneInfo.isNewVersion(LoadingActivity.this)) {
-            new SharedPre(this).setTravelFundHintIsShow(true);
+            //new SharedPre(this).setTravelFundHintIsShow(true);
             intent = new Intent(LoadingActivity.this, SplashActivity.class);
         } else {
-            new SharedPre(this).setTravelFundHintIsShow(false);
+            //new SharedPre(this).setTravelFundHintIsShow(false);
             intent = new Intent(LoadingActivity.this, MainActivity.class);
         }
         if (actionBean != null) {
