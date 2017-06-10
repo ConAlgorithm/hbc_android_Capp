@@ -123,7 +123,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
         footerLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.flight_show_all, null);
         footerLayout.setVisibility(View.GONE);
-        listView.addFooterView(footerLayout);
+        listView.addFooterView(footerLayout,null,false);
 
         listView.setOnItemClickListener(this);
         emptyView.setVisibility(View.GONE);
