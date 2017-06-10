@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -338,7 +339,9 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     }
 
     public void intentPickContactsCheckPermisson(int requestCode) {
-        if (requestPermisson(requestCode)) {
+        if (Build.VERSION.SDK_INT >= 23 && requestPermisson(requestCode)) {
+            intentPickContacts(requestCode);
+        } else {
             intentPickContacts(requestCode);
         }
     }

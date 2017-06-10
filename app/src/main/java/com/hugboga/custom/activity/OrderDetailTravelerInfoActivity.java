@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -401,9 +402,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         if (isShow) {
             otherContactsLayout.setVisibility(View.VISIBLE);
             otherPhoneLayout.setVisibility(View.VISIBLE);
-            if (orderBean.orderStatus.code == 1) {
+//            if (orderBean.orderStatus.code == 1) {
                 sendMessageLayout.setVisibility(View.VISIBLE);
-            }
+//            }
         } else {
             otherContactsLayout.setVisibility(View.GONE);
             otherPhoneLayout.setVisibility(View.GONE);
@@ -485,7 +486,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     }
 
     public void intentPickContactsCheckPermisson(int requestCode) {
-        if (requestPermisson(requestCode)) {
+        if (Build.VERSION.SDK_INT >= 23 && requestPermisson(requestCode)) {
+            intentPickContacts(requestCode);
+        } else {
             intentPickContacts(requestCode);
         }
     }
