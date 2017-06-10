@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -401,9 +402,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         if (isShow) {
             otherContactsLayout.setVisibility(View.VISIBLE);
             otherPhoneLayout.setVisibility(View.VISIBLE);
-            if (orderBean.orderStatus.code == 1) {
+//            if (orderBean.orderStatus.code == 1) {
                 sendMessageLayout.setVisibility(View.VISIBLE);
-            }
+//            }
         } else {
             otherContactsLayout.setVisibility(View.GONE);
             otherPhoneLayout.setVisibility(View.GONE);
@@ -485,7 +486,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     }
 
     public void intentPickContactsCheckPermisson(int requestCode) {
-        if (requestPermisson(requestCode)) {
+        if (Build.VERSION.SDK_INT >= 23 && requestPermisson(requestCode)) {
+            intentPickContacts(requestCode);
+        } else {
             intentPickContacts(requestCode);
         }
     }
@@ -558,7 +561,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = phone.replace(" ", "");
+                    phone = CommonUtils.getNum(phone);
                 }
                 if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
                     phoneET.setText(phone);
