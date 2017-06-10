@@ -1,11 +1,16 @@
 package com.hugboga.custom.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +28,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BarginBean;
 import com.hugboga.custom.data.bean.BarginWebchatList;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestBargin;
@@ -34,17 +40,21 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.BargainShareDialog;
 import com.hugboga.custom.widget.CountDownLayout;
 import com.hugboga.custom.widget.ShareDialog;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
+import net.grobas.view.PolygonImageView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -65,16 +75,31 @@ public class BargainActivity extends BaseActivity {
     TextView headerTitle;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
+
     @Bind(R.id.countdown)
     CountDownLayout countdown;
     @Bind(R.id.cut_money)
-    ImageView cutMoney;
+    TextView cutMoney;
     @Bind(R.id.list_layout)
     LinearLayout listLayout;
     @Bind(R.id.cute_money_tv)
     TextView cuteMoneyTv;
     @Bind(R.id.rule)
     TextView rule;
+
+    @Bind(R.id.cute_hint_tv1)
+    TextView cuteHintTv1;
+    @Bind(R.id.cute_hint_tv2)
+    TextView cuteHintTv2;
+    @Bind(R.id.cute_money_multiple_tv)
+    TextView multipleTv;
+    @Bind(R.id.countdown_parent_layout)
+    RelativeLayout countdownParentLayout;
+    @Bind(R.id.people_num_tv)
+    TextView peopleNumTv;
+
+    private BarginBean barginBean;
+    private double orderBargainAmount;
 
     @Override
     public int getContentViewId() {
@@ -122,7 +147,7 @@ public class BargainActivity extends BaseActivity {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 ApiReportHelper.getInstance().addReport(request);
-                BarginBean barginBean = ((RequestBargin) request).getData();
+                barginBean = ((RequestBargin) request).getData();
                 genView(barginBean);
             }
 
@@ -148,9 +173,10 @@ public class BargainActivity extends BaseActivity {
             userName = barginBean.userName;
             shareTitle = String.format(getString(R.string.share_bargin_title),barginBean.cnstr);
             bargainTotal = barginBean.bargainTotal;
-            cuteMoneyTv.setText(barginBean.bargainAmount);
+            cuteMoneyTv.setText("" + barginBean.bargainVirtualAmount);
+            multipleTv.setText(String.format("(%1$s倍)", barginBean.multiple <= 1 ? "X1" : "已上浮" + barginBean.multiple));
+
             if(null != barginBean.bargainWechatRspList && barginBean.bargainWechatRspList.size() > 0) {
-                setTimerData(barginBean,true);
                 offset += limit;
                 if(loadMore){
                     addMoreListView(barginBean);
@@ -163,48 +189,58 @@ public class BargainActivity extends BaseActivity {
                         bottom.setOnClickListener(null);
                     }
                 }
-            }else{
-                setTimerData(barginBean,false);
+                peopleNumTv.setText(String.format("（共%1$s人）", bargainTotal));
+            } else {
+                peopleNumTv.setText("");
             }
-
+            setTimerData(barginBean, barginBean.isStart);
         }
 
     }
 
-    //是否开始倒计时
-    boolean isStart = false;
-    private void setTimerData(BarginBean barginBean,boolean isStart){
+    int isStart = -1;
+    private void setTimerData(BarginBean barginBean, int _isStart) {
+        if (_isStart == isStart) {
+            return;
+        }
+        isStart = _isStart;
         second = barginBean.seconds;
-        if (0 != second) {
+
+        if (isStart == 2 || 0 == second) {//已结束
+            countdown.changeTime(0);
+            cutMoney.setBackgroundResource(R.drawable.shape_rounded_gray_all);
+            cutMoney.setText("砍价已完成");
+            cutMoney.setOnClickListener(null);
+        } else {
             countdown.changeTime(second);
             initimer();
-            if(isStart) {
+            if (isStart == 1) {
                 countDownTimer.start();
             }
-        } else {
-            countdown.changeTime(0);
-            cutMoney.setImageResource(R.mipmap.cut_end);
-            cutMoney.setOnClickListener(null);
         }
     }
 
 
     private void initimer(){
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         countDownTimer = new CountDownTimer(second * 1000 + 100, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (countdown != null) {
                     countdown.changeTime((int) millisUntilFinished / 1000);
-                    LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
+//                    LogUtil.e("===", "" + (int) millisUntilFinished / 1000);
                 }
             }
 
             @Override
             public void onFinish() {
                 if (countdown != null && cutMoney != null) {
-                    LogUtil.e("===", "done");
+//                    LogUtil.e("===", "done");
                     countdown.changeTime(0);
-                    cutMoney.setImageResource(R.mipmap.cut_end);
+                    cutMoney.setBackgroundResource(R.drawable.shape_rounded_gray_all);
+                    cutMoney.setText("砍价已完成");
                     cutMoney.setOnClickListener(null);
                 }
             }
@@ -222,19 +258,6 @@ public class BargainActivity extends BaseActivity {
     }
 
     int shareType = 1;
-
-    //显示分享界面
-    private void barginShare(int picture, final String title, final String content, final String shareUrl) {
-        CommonUtils.shareDialog(activity, picture, title, content, shareUrl, getClass().getSimpleName()
-                , new ShareDialog.OnShareListener() {
-                    @Override
-                    public void onShare(int type) {
-                        shareType = type;
-                        StatisticClickEvent.clickShare(StatisticConstant.SHARE_KANJIA,shareType == 1?"微信好友":"朋友圈");
-                    }
-                });
-    }
-
     LayoutInflater inflater;
     TextView bottom;
     private void addBottom(){
@@ -259,16 +282,16 @@ public class BargainActivity extends BaseActivity {
     private void genWebchatListView(BarginBean barginBean){
         View view;
         TextView name, time, money;
-        ImageView head;
+        PolygonImageView head;
         List<BarginWebchatList> bargainWechatRspList = barginBean.bargainWechatRspList;
         if(null != barginBean.bargainWechatRspList) {
             for (BarginWebchatList barginWebchat : bargainWechatRspList) {
                 view = inflater.inflate(R.layout.bargin_list_item, null);
-                head = (ImageView) view.findViewById(R.id.head);
+                head = (PolygonImageView) view.findViewById(R.id.head);
                 name = (TextView) view.findViewById(R.id.name);
                 time = (TextView) view.findViewById(R.id.time);
                 money = (TextView) view.findViewById(R.id.money);
-                Tools.showCircleImage(activity, head, barginWebchat.wechatPic);
+                Tools.showImage(head, barginWebchat.wechatPic, R.mipmap.icon_avatar_user);
                 name.setText(barginWebchat.wechatNickname);
                 time.setText(barginWebchat.bargTime);
                 money.setText("-" + barginWebchat.bargAmount + "元");
@@ -299,10 +322,14 @@ public class BargainActivity extends BaseActivity {
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onRefreshOrder();
                 finish();
             }
         });
         countdown.changeTime(second);
+
+        rule.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        rule.getPaint().setAntiAlias(true);
         rule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,7 +339,23 @@ public class BargainActivity extends BaseActivity {
             }
         });
 
+        int countdownParentLayoutHeight = (int) (787 / 750.0f * UIUtils.getScreenWidth());
+        int paddingButtom = (int) (18 / 750.0f * UIUtils.getScreenWidth());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, countdownParentLayoutHeight);
+        countdownParentLayout.setLayoutParams(params);
+        countdownParentLayout.setPadding(0, 0, 0, paddingButtom);
 
+        setHintText(cuteHintTv1, "砍价人数达到15人以上，总金额X1.5");
+        setHintText(cuteHintTv2, "砍价人数达到30人以上，总金额X2.0");
+
+        orderBargainAmount = getIntent().getDoubleExtra("bargainAmount", 0);
+    }
+
+    private void setHintText(TextView textView, String hint) {
+        SpannableString hintSpan = new SpannableString(hint);
+        hintSpan.setSpan(new ForegroundColorSpan(0xFFCC0001), 6, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        hintSpan.setSpan(new ForegroundColorSpan(0xFFCC0001), 16, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(hintSpan);
     }
 
 
@@ -321,17 +364,16 @@ public class BargainActivity extends BaseActivity {
     EditText nameEdit;
     private void showAddName(){
         popupView = LayoutInflater.from(activity).inflate(R.layout.bargain_add_name_layout,null);
-        popupWindow = new PopupWindow(popupView,
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        popupWindow = new PopupWindow(popupView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
+        nameEdit = (EditText)popupView.findViewById(R.id.real_name);
         popupView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
-        nameEdit = (EditText)popupView.findViewById(R.id.real_name);
         popupView.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -420,42 +462,41 @@ public class BargainActivity extends BaseActivity {
             if(!isShowAddNamePopup){
                 isShowAddNamePopup = true;
                 showAddName();
-            }else{
-                getShareUrl();
+            } else {
+                showShareDialog();
             }
-        }else{
-            getShareUrl();
+        } else {
+            showShareDialog();
         }
     }
 
-
-    private void getShareUrl(){
-        RequestBargainShare requestBargainShare = new RequestBargainShare(activity,orderNo);
-        HttpRequestUtils.request(activity, requestBargainShare, new HttpRequestListener() {
+    private void showShareDialog() {
+        BargainShareDialog shareDialog = new BargainShareDialog(activity);
+        shareDialog.setData(shareTitle, orderNo, getIntentSource());
+        shareDialog.setOnStartBargainListener(new BargainShareDialog.OnStartBargainListener() {
             @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-                ApiReportHelper.getInstance().addReport(request);
-                String h5Url = ((RequestBargainShare)request).getData();
-                barginShare(R.mipmap.bargain_share,shareTitle,getString(R.string.share_bargin_100),
-                        h5Url);
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+            public void onStartBargain() {
+                if (barginBean.isStart == 0) {
+                    barginBean.isStart = 1;
+                    genView(barginBean);
+                    EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderNo));
+                }
             }
         });
+        shareDialog.show();
     }
 
+    public void onRefreshOrder() {
+        if (barginBean != null && barginBean.bargainVirtualAmount != orderBargainAmount) {
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderNo));
+        }
+    }
 
-//    http://act.dev.huangbaoche.com/h5/cactivity/shareGui/index.html?orderNo=J190348171529&userId=191442516911
-//    //  分享的链接di'zh地址
-//      需要 传递的参数 orderNo // 订单号；sign // 签名； activityId // 活动Id； packBatchNo // 领券批次
-
-
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            onRefreshOrder();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }

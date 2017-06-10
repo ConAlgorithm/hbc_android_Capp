@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
@@ -19,11 +20,11 @@ public class CountDownItem extends LinearLayout {
     }
 
     View view;
-    ImageView timeView;
+    TextView timeView;
     public CountDownItem(Context context, AttributeSet attrs) {
         super(context, attrs);
         view = inflate(context, R.layout.countdown_item,this);
-        timeView = (ImageView)view.findViewById(R.id.time);
+        timeView = (TextView)view.findViewById(R.id.time);
     }
 
     private int oldTime = 0;
@@ -31,8 +32,9 @@ public class CountDownItem extends LinearLayout {
         if(time >= 0 && time <=9) {
             if(time != oldTime) {
                 oldTime = time;
-                int resId = getResources().getIdentifier("t" + time, "mipmap", this.getContext().getPackageName());
-                timeView.setImageResource(resId);
+//                int resId = getResources().getIdentifier("t" + time, "mipmap", this.getContext().getPackageName());
+//                timeView.setImageResource(resId);
+                timeView.setText("" + oldTime);
             }
         }
     }

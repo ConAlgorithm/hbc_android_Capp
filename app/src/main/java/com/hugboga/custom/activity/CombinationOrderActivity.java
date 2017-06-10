@@ -261,7 +261,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = phone.replace(" ", "");
+                    phone = CommonUtils.getNum(phone);
                 }
                 travelerInfoView.setTravelerPhone(phone);
             }
@@ -415,7 +415,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
-        countView.setVisibility(visibility);
+//        countView.setVisibility(visibility);//包车下单不要出行人数
         travelerInfoView.setVisibility(visibility);
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);

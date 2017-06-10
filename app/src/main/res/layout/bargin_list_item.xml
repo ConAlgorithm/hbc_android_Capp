@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <ImageView
+    <net.grobas.view.PolygonImageView
         android:id="@+id/head"
-        android:scaleType="centerCrop"
         android:layout_width="50dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
-        android:layout_height="50dp" />
+        android:layout_marginTop="20dp"
+        app:poly_vertices="0" />
 
     <TextView
         android:id="@+id/name"
-        android:textColor="@color/basic_black"
-        android:textSize="14sp"
-        android:layout_toRightOf="@id/head"
-        android:layout_toLeftOf="@+id/money"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@id/head"
-        android:layout_height="wrap_content" />
+        android:paddingTop="2dp"
+        android:layout_toLeftOf="@+id/money"
+        android:layout_toRightOf="@id/head"
+        android:textColor="@color/basic_black"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/time"
-        android:textSize="14sp"
-        android:layout_toRightOf="@id/head"
-        android:layout_toLeftOf="@+id/money"
-        android:layout_below="@id/name"
-        android:textColor="#999999"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_toLeftOf="@+id/money"
+        android:layout_toRightOf="@id/head"
+        android:layout_marginTop="8dp"
+        android:textColor="#999999"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/money"
-        android:textSize="14sp"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/basic_black"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_height="wrap_content" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/basic_black"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_height="@dimen/default_line_height"
         android:layout_below="@id/head"
-        android:background="#999999"
-        android:layout_height="1px" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#f0f0f0" />
 
 
 </RelativeLayout>

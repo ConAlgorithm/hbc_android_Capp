@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_below="@+id/view"
+        android:layout_marginLeft="10dp"
         android:background="@null"
         android:singleLine="true"
         android:maxLength="50" />

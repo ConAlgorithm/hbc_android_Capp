@@ -261,21 +261,43 @@ public class CirclePageIndicator extends View implements PageIndicator {
             if (pageFillRadius != mRadius) {
                 canvas.drawCircle(dX, dY+1, mRadius, mPaintStroke);
             }
+
+            //Draw the filled circle according to the current scroll
+            if(mOrientation == HORIZONTAL){
+                float dXForFill;
+                float dYForFill;
+                float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
+                if (!mSnap) {
+                    cx += mPageOffset * threeRadius;
+                }
+                if (mOrientation == HORIZONTAL) {
+                    dXForFill = longOffset + cx;
+                    dYForFill = shortOffset;
+                } else {
+                    dXForFill = shortOffset;
+                    dYForFill = longOffset + cx;
+                }
+                if(dXForFill == dX){
+                    canvas.drawCircle(dXForFill, dYForFill+1, mRadius, mPaintFill);
+                }
+            }
         }
 
         //Draw the filled circle according to the current scroll
-        float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
-        if (!mSnap) {
-            cx += mPageOffset * threeRadius;
+        if(mOrientation != HORIZONTAL){
+            float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
+            if (!mSnap) {
+                cx += mPageOffset * threeRadius;
+            }
+            if (mOrientation == HORIZONTAL) {
+                dX = longOffset + cx;
+                dY = shortOffset;
+            } else {
+                dX = shortOffset;
+                dY = longOffset + cx;
+            }
+            canvas.drawCircle(dX, dY+1, mRadius, mPaintFill);
         }
-        if (mOrientation == HORIZONTAL) {
-            dX = longOffset + cx;
-            dY = shortOffset;
-        } else {
-            dX = shortOffset;
-            dY = longOffset + cx;
-        }
-        canvas.drawCircle(dX, dY+1, mRadius, mPaintFill);
     }
 
     public boolean onTouchEvent(android.view.MotionEvent ev) {

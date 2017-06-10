@@ -34,6 +34,7 @@ import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -261,6 +262,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         final Calendar calendar = Calendar.getInstance();
         if (dateTimePicker == null) {
             dateTimePicker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
+            dateTimePicker.setTitleText("请选择出发时间");
             dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
             dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
                 @Override
@@ -435,7 +437,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     public void initOrderActivity() {
-        setSensorsConfirmEvent();
         OrderActivity.Params orderParams = new OrderActivity.Params();
         orderParams.airPortBean = airPortBean;
         orderParams.startPoiBean = poiBean;
@@ -452,6 +453,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, orderParams);
         startActivity(intent);
+
+        StatisticClickEvent.sendClick(StatisticConstant.CONFIRM_S, source, carBean.desc + "");
+        setSensorsConfirmEvent();
     }
 
     private void checkGuideCoflict() {
@@ -495,7 +499,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private void setUmengEvent() {
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE, source);
-        MobClickUtils.onEvent(StatisticConstant.LAUNCH_S, map);
+        MobClickUtils.onEvent(getEventId(), map);
     }
 
     //神策统计_初始页浏览

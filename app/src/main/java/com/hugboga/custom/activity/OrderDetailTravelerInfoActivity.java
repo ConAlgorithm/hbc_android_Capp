@@ -558,7 +558,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = phone.replace(" ", "");
+                    phone = CommonUtils.getNum(phone);
                 }
                 if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
                     phoneET.setText(phone);

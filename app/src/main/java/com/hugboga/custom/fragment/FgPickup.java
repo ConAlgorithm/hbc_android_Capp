@@ -41,6 +41,7 @@ import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestSeckillsPickupPrice;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -500,7 +501,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public void initOrderActivity() {
-        setSensorsConfirmEvent();
         OrderActivity.Params orderParams = new OrderActivity.Params();
         orderParams.flightBean = flightBean;
         orderParams.endPoiBean = poiBean;
@@ -517,6 +517,13 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtra(Constants.PARAMS_DATA, orderParams);
         startActivity(intent);
+
+        if (params != null && params.isSeckills) {
+            StatisticClickEvent.pickClick(StatisticConstant.CONFIRM_J_MS, source, carBean.desc + "");
+        } else {
+            StatisticClickEvent.pickClick(StatisticConstant.CONFIRM_J, source, carBean.desc + "");
+        }
+        setSensorsConfirmEvent();
     }
 
     private void checkGuideCoflict() {
@@ -554,13 +561,17 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     @Override
     public String getEventId() {
-        return StatisticConstant.LAUNCH_J;
+        if (params != null && params.isSeckills) {
+            return StatisticConstant.LAUNCH_J_MS;
+        } else {
+            return StatisticConstant.LAUNCH_J;
+        }
     }
 
     private void setUmengEvent() {
         Map map = new HashMap();
         map.put(Constants.PARAMS_SOURCE, source);
-        MobClickUtils.onEvent(StatisticConstant.LAUNCH_J, map);
+        MobClickUtils.onEvent(getEventId(), map);
     }
 
     //神策统计_初始页浏览

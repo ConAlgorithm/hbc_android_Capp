@@ -72,11 +72,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
-    private ImageView travelFundHintIV;
+    //private ImageView travelFundHintIV;
     //private ImageView headerBgIV;
 
     private MenuItemAdapter menuItemAdapter;
-
+    private String mobile;
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
@@ -313,11 +313,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
                 if (isLogin("个人中心-旅游基金")) {
-                    SharedPre sharedPre= new SharedPre(getContext());
+                    /*SharedPre sharedPre= new SharedPre(getContext());
                     if (sharedPre.isShowTravelFundHint()) {
                         sharedPre.setTravelFundHintIsShow(false);
                         travelFundHintIV.setVisibility(View.GONE);
-                    }
+                    }*/
                     intent = new Intent(getContext(), TravelFundActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
@@ -329,6 +329,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 //if (isLogin("个人中心-设置")) {
                     intent = new Intent(getContext(),SettingActivity.class);
                     intent.putExtra("needInitPwd",UserEntity.getUser().getNeedInitPwd(getContext()));
+                if(TextUtils.isEmpty(this.mobile)){
+                    intent.putExtra("isMobileBinded",false);
+                }
                     startActivity(intent);
                 //}
                 break;
@@ -367,6 +370,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             UserEntity.getUser().setTravelFund(getContext(), user.travelFund);
             UserEntity.getUser().setCoupons(getContext(), user.coupons);
             UserEntity.getUser().setNeedInitPwd(getContext(),user.needInitPwd);
+            this.mobile = user.mobile;
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
             couponUnitTV.setText("张");

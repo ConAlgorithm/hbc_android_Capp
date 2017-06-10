@@ -79,6 +79,7 @@ public class SettingActivity extends BaseActivity {
     TextView setOrChangPwd;
 
     boolean needInitPwd;
+    boolean isMobileBinded = true;
     public static int REQUEST_CODE = 0x100;
     public  static int RESULT_OK = 0x001;
     @Override
@@ -91,10 +92,14 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(arg0);
         initHeader();
         needInitPwd = getIntent().getBooleanExtra("needInitPwd",false);
+        isMobileBinded = getIntent().getBooleanExtra("isMobileBinded",true);
         setState(needInitPwd);
         if(!UserEntity.getUser().isLogin(this)){
             settingMenuLayout2.setVisibility(View.GONE);
             settingExit.setVisibility(View.GONE);
+        }
+        if(!isMobileBinded){
+            settingMenuLayout2.setVisibility(View.GONE);
         }
         if (HbcConfig.IS_DEBUG) {
             developerLayout.setVisibility(View.VISIBLE);
@@ -127,6 +132,7 @@ public class SettingActivity extends BaseActivity {
 //                startFragment(new FgChangePsw());
                 if(needInitPwd){
                     intent = new Intent(activity,SetPswActivity.class);
+                    intent.putExtra("isFromSetting",true);
                     startActivityForResult(intent,REQUEST_CODE);
                 }else{
                     intent = new Intent(activity,ChangePswActivity.class);

@@ -41,6 +41,7 @@ import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitLine;
+import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -300,7 +301,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = phone.replace(" ", "");
+                    phone = CommonUtils.getNum(phone);
                 }
                 travelerInfoView.setTravelerPhone(phone);
             }
@@ -781,6 +782,11 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public String getEventSource() {
         return "线路下单页";
+    }
+
+    @Override
+    public String getEventId() {
+        return orderType == 5 ? StatisticConstant.LAUNCH_RG2 : StatisticConstant.LAUNCH_RT2;
     }
 
     //神策统计_确认行程

@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_height="wrap_content">
+    android:orientation="horizontal">
 
     <com.hugboga.custom.widget.CountDownItem
         android:id="@+id/hour_l"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.hugboga.custom.widget.CountDownItem
         android:id="@+id/hour_r"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:text=":"
+        android:textColor="#ffffff" />
 
     <com.hugboga.custom.widget.CountDownItem
         android:id="@+id/minute_l"
-        android:layout_marginLeft="6dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.hugboga.custom.widget.CountDownItem
         android:id="@+id/minute_r"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:text=":"
+        android:textColor="#ffffff" />
 
     <com.hugboga.custom.widget.CountDownItem
         android:id="@+id/second_l"
-        android:layout_marginLeft="6dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.hugboga.custom.widget.CountDownItem
         android:id="@+id/second_r"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp" />
 
 </LinearLayout>

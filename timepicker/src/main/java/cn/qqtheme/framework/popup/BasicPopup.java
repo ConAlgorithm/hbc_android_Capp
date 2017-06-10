@@ -226,6 +226,7 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
 
     public void dismiss() {
         dialog.dismiss();
+        isPrepared = false;
         LogUtils.verbose(this, "popup dismiss");
     }
 

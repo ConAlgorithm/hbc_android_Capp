@@ -14,8 +14,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,6 +29,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.activity.SkuOrderActivity;
@@ -33,6 +38,7 @@ import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -184,10 +190,15 @@ public class ChooseCityHeaderView extends LinearLayout{
                     }else {
                         if (i < historyLayout.getChildCount()) {
                             TextView tagView = (TextView) historyLayout.getChildAt(i);
-                            tagView.setText(cityBean.name);
+                            //tagView.setText(cityBean.name);
                             tagView.setVisibility(View.VISIBLE);
                         } else {
-                            viewList.add(getTagView(cityBean.name));
+                            if(i == 0){
+                                TextView locationView = getTagViewWithLocation(cityBean.name);
+                                viewList.add(locationView);
+                            }else {
+                                viewList.add(getTagView(cityBean.name));
+                            }
                         }
                     }
 
@@ -278,11 +289,31 @@ public class ChooseCityHeaderView extends LinearLayout{
         tagTV.setGravity(Gravity.CENTER);
         tagTV.setBackgroundResource(R.drawable.shape_rounded_white_btn);
         tagTV.setTextColor(0xFF7F7F7F);
-        tagTV.setTextSize(10);
+        tagTV.setTextSize(12);
         tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
         return tagTV;
     }
-
+    private TextView getTagViewWithLocation(String text) {
+        TextView tagTV = new TextView(getContext());
+        tagTV.setMaxLines(2);
+        tagTV.setEllipsize(TextUtils.TruncateAt.END);
+        tagTV.setPadding(UIUtils.dip2px(2), 0, UIUtils.dip2px(2), 0);
+        tagTV.setBackgroundResource(R.drawable.shape_rounded_white_btn);
+        //Drawable image = ContextCompat.getDrawable(MyApplication.getAppContext(),R.mipmap.trip_icon_place);
+        Drawable image = getResources().getDrawable(R.mipmap.trip_icon_place2);
+        image.setBounds(0, 0, image.getIntrinsicWidth()-UIUtils.dip2px(1.5f), image.getIntrinsicHeight()-UIUtils.dip2px(1.5f));
+        //tagTV.setCompoundDrawables(image,null,null,null);
+        SpannableString spannable = new SpannableString("[smile]");
+        ImageSpan span = new ImageSpan(image, ImageSpan.ALIGN_BASELINE);
+        spannable.setSpan(span, 0,"[smile]".length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tagTV.setTextColor(0xFF7F7F7F);
+        tagTV.setTextSize(12);
+        tagTV.setText(spannable);
+        tagTV.append(" " + text);
+        tagTV.setGravity(Gravity.CENTER);
+        tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
+        return tagTV;
+    }
     private TextView getTagViewForNotLocation() {
         TextView tagTV = new TextView(getContext());
         tagTV.setMaxLines(2);
@@ -291,7 +322,7 @@ public class ChooseCityHeaderView extends LinearLayout{
         tagTV.setGravity(Gravity.CENTER);
         tagTV.setBackgroundResource(R.drawable.shape_rounded_red_btn);
         tagTV.setTextColor(0xFFFF2525);
-        tagTV.setTextSize(10);
+        tagTV.setTextSize(12);
         tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
         return tagTV;
     }
@@ -388,9 +419,7 @@ public class ChooseCityHeaderView extends LinearLayout{
                             String countryName = ((RequestUploadLocation) request).getData().countryName;
                             LocationUtils.saveLocationCity(getContext(), cityId, cityName, countryId, countryName);
 
-                            locationCityBean = new CityBean();
-                            locationCityBean.cityId = CommonUtils.getCountInteger(cityId);
-                            locationCityBean.name = cityName;
+                            locationCityBean = DBHelper.findCityById(cityId);
 
                             if(isPickUp && historyLayout.getChildCount() > 0){
                                 ((TextView) historyLayout.getChildAt(0)).setText(cityName);

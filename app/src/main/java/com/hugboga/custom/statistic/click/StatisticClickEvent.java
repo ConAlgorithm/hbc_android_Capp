@@ -74,6 +74,14 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
+    //接机确认行程按钮点击
+    public static void pickClick(String eventId, String source,String carstyle){
+        Map map = new HashMap();
+        map.put("source",source);
+        map.put("carstyle",carstyle);
+        MobClickUtils.onEvent(eventId,map);
+    }
+
     //送机确认行程按钮点击
     public static void sendClick(String eventId, String source,String carstyle,boolean assist, int guestcount){
         Map map = new HashMap();
@@ -84,12 +92,27 @@ public class StatisticClickEvent {
         MobClickUtils.onEvent(eventId,map);
     }
 
+    public static void sendClick(String eventId, String source,String carstyle){
+        Map map = new HashMap();
+        map.put("source",source);
+        map.put("carstyle",carstyle);
+        MobClickUtils.onEvent(eventId,map);
+    }
+
     //单次 sku确认行程按钮点击
     public static void singleSkuClick(String eventId, String source,String carstyle, int guestcount){
         Map map = new HashMap();
         map.put("source",source);
         map.put("carstyle",carstyle);
         map.put("guestcount",guestcount);
+        MobClickUtils.onEvent(eventId,map);
+    }
+
+    //单次 sku确认行程按钮点击
+    public static void singleSkuClick(String eventId, String source,String carstyle){
+        Map map = new HashMap();
+        map.put("source",source);
+        map.put("carstyle",carstyle);
         MobClickUtils.onEvent(eventId,map);
     }
 

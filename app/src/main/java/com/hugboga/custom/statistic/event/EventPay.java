@@ -33,7 +33,11 @@ public class EventPay extends EventBase{
         }
         switch (eventPayBean.orderType) {
             case 1:
-                result = StatisticConstant.PAY_J;
+                if (eventPayBean.isSeckills) {
+                    result = StatisticConstant.PAY_J_MS;
+                } else {
+                    result = StatisticConstant.PAY_J;
+                }
                 break;
             case 2:
                 result = StatisticConstant.PAY_S;
