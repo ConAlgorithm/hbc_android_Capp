@@ -74,7 +74,7 @@ public class ChooseAirActivity extends BaseActivity {
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtil.getInstance(activity).showCallDialog();
+                DialogUtil.getInstance(ChooseAirActivity.this).showServiceDialog(ChooseAirActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
             }
         });
     }
