@@ -402,9 +402,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         if (isShow) {
             otherContactsLayout.setVisibility(View.VISIBLE);
             otherPhoneLayout.setVisibility(View.VISIBLE);
-//            if (orderBean.orderStatus.code == 1) {
+            if (orderBean.orderStatus.code == 1) {
                 sendMessageLayout.setVisibility(View.VISIBLE);
-//            }
+            }
         } else {
             otherContactsLayout.setVisibility(View.GONE);
             otherPhoneLayout.setVisibility(View.GONE);
