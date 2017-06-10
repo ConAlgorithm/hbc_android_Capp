@@ -35,6 +35,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -434,4 +436,19 @@ public final class CommonUtils {
         }
         return String.valueOf(num);
     }
+
+    public static String getNum(String text) {
+        if (TextUtils.isEmpty(text) || TextUtils.isEmpty(text.trim())) {
+            return "";
+        }
+        try {
+            String regEx="[^0-9]";
+            Pattern p = Pattern.compile(regEx);
+            Matcher m = p.matcher(text);
+            return m.replaceAll("").trim();
+        } catch (Exception e) {
+            return text;
+        }
+    }
+
 }

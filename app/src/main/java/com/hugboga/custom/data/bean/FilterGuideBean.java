@@ -42,9 +42,9 @@ public class FilterGuideBean implements Serializable{
         }
         String result = "可提供服务：";
         if (serviceDaily == 1 && serviceJsc == 1) {
-            result += "接送机、单次接送、按天包车";
+            result += "接送机、单次接送、按天包车游";
         } else if (serviceDaily == 1) {
-            result += "按天包车";
+            result += "按天包车游";
         } else if (serviceJsc == 1) {
             result += "接送机、单次接送";
         }

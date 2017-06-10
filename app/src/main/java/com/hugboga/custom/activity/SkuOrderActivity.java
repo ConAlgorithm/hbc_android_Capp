@@ -301,7 +301,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = phone.replace(" ", "");
+                    phone = CommonUtils.getNum(phone);
                 }
                 travelerInfoView.setTravelerPhone(phone);
             }
