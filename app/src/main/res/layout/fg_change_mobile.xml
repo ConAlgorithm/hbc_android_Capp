@@ -131,10 +131,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/basic_margin_xlarge"
-            android:background="@drawable/login_selector_bg"
+            android:background="@drawable/login2_selector_bg"
             android:text="确定"
+            android:enabled="false"
             android:textColor="@color/basic_white"
-            android:textSize="@dimen/text_size_xlarge" />
+            android:textSize="@dimen/text_size_xlarge"
+            style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
 

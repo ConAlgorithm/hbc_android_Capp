@@ -109,6 +109,12 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     }
 
     @Override
+    protected void onPause() {
+        hideSoftInput();
+        super.onPause();
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         if(setPsw.hasFocus()){
             setPsw.setSelection(setPsw.getText().toString().length());

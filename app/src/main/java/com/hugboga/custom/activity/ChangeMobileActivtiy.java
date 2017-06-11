@@ -3,8 +3,11 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,7 +32,7 @@ import butterknife.OnClick;
 /**
  * Created by on 16/8/6.
  */
-public class ChangeMobileActivtiy extends BaseActivity{
+public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
 
     @Bind(R.id.change_mobile_phone_view)
     TextView phoneTextView;
@@ -43,6 +46,8 @@ public class ChangeMobileActivtiy extends BaseActivity{
     TextView getCodeBtn;
     @Bind(R.id.change_mobile_time)
     TextView timeTextView;
+    @Bind(R.id.change_mobile_submit)
+    Button changMobileSubnit;
 
     @Override
     public int getContentViewId() {
@@ -72,6 +77,16 @@ public class ChangeMobileActivtiy extends BaseActivity{
 
     private void initView() {
         initDefaultTitleBar();
+        if(mobileEditText!=null){
+            if(mobileEditText.getText().toString().length() >0){
+                getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
+            }else{
+                getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
+            }
+        }
+        mobileEditText.addTextChangedListener(this);
+        areaCodeTextView.addTextChangedListener(this);
+        verityEditText.addTextChangedListener(this);
         fgTitle.setText("修改手机号");
     }
 
@@ -253,5 +268,35 @@ public class ChangeMobileActivtiy extends BaseActivity{
 
     private void showTip(String tips) {
         CommonUtils.showToast(tips);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if(mobileEditText.length() >0){
+            getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
+        }else{
+            getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
+        }
+
+        if (!TextUtils.isEmpty(areaCodeTextView.getText().toString().trim()) &&
+                !TextUtils.isEmpty(verityEditText.getText().toString().trim()) &&
+                !TextUtils.isEmpty(mobileEditText.getText().toString().trim())) {
+            changMobileSubnit.setEnabled(true);
+            //login_submit.setBackgroundColor(getResources().getColor(R.color.login_ready));
+        } else {
+            changMobileSubnit.setEnabled(false);
+            //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
+        }
+
     }
 }
