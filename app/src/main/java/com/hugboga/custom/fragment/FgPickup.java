@@ -375,7 +375,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
-        AlertDialogUtils.showAlertDialogCancelable(getContext(), String.format("很抱歉，您指定的司导无法服务%1$s城市", _flightBean.arrCityName), "取消", "不找Ta服务了", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(getContext(), String.format("很抱歉，您指定的司导无法服务%1$s", _flightBean.arrCityName), "取消", "不找Ta服务了", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
