@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -25,6 +26,7 @@ import com.hugboga.custom.data.request.PasswordInitSet;
 import com.hugboga.custom.data.request.RequestAfterSetPwd;
 import com.hugboga.custom.data.request.RequestSetPwd;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -246,8 +248,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
 //            finishForResult(bundle);
             Intent intent = new Intent();
             intent.putExtras(bundle);
-            setResult(BindMobileActivity.REQUEST_CODE, intent);
-            EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+            setResult(BindMobileActivity.RESULT_OK, intent);
             finish();
         }else if(request instanceof RequestAfterSetPwd){
             RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
@@ -265,21 +266,22 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
         headerTitle.setText("设置密码");
-        if(!isFromWeChat){
+        if(isAfterProcess || isFromWeChat){
+            headerLeftBtn.setVisibility(View.GONE);
+            headerTitle.setText("  设置密码");
+        }else if(isFromSetting){
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
                 }
             });
-        }else{
-            headerLeftBtn.setVisibility(View.GONE);
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if( isFromWeChat && keyCode==KeyEvent.KEYCODE_BACK){
+        if((isAfterProcess || isFromWeChat) && keyCode==KeyEvent.KEYCODE_BACK){
             return true;//不执行父类点击事件
         }
         return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
