@@ -301,7 +301,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             e.printStackTrace();
         }
         selector.where("is_hot", "=", 1);
-        selector.orderBy("hot_weight");
+        selector.orderBy("hot_weight", true);
         selector.limit(3);
         try {
             List<AirPort> hotAirportDate = selector.findAll();
