@@ -68,6 +68,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
     private boolean isAfterProcess = false;
 
     public static int REQUEST_CODE = 0x001;
+    public final static int RESULT_OK = 2;
     private SharedPre sharedPre;
 
     public static String KEY_PHONE = "key_phone";
@@ -286,15 +287,17 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                     connectIM();
                     //EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
-                EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(this, "bind_succeed", map);
+
+                //EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPswActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtra("isFromWeChat",true);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
-                finish();
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(this, "bind_succeed", map);
+                //finish();
 
             }else { //注册且登录成功
                 userBean.setUserEntity(this);

@@ -248,8 +248,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
 //            finishForResult(bundle);
             Intent intent = new Intent();
             intent.putExtras(bundle);
-            setResult(BindMobileActivity.REQUEST_CODE, intent);
-            EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
+            setResult(BindMobileActivity.RESULT_OK, intent);
             finish();
         }else if(request instanceof RequestAfterSetPwd){
             RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
@@ -269,9 +268,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         headerTitle.setText("设置密码");
         if(isAfterProcess || isFromWeChat){
             headerLeftBtn.setVisibility(View.GONE);
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) headerTitle.getLayoutParams();
-            lp.setMargins(UIUtils.dip2px(10),0,0,0);
-            headerTitle.setLayoutParams(lp);
+            headerTitle.setText("  设置密码");
         }else if(isFromSetting){
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

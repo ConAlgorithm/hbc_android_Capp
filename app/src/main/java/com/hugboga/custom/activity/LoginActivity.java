@@ -212,6 +212,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 }
                 break;
             case BIND_MOBILE:
+                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
                 finish();
                 break;
             case CHOOSE_COUNTRY_BACK:
