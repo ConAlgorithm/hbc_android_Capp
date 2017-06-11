@@ -524,8 +524,18 @@ public class GroupParamBuilder {
         } else {
             servicePassDetail.cityId = startCityBean.cityId;
             servicePassDetail.cityName = startCityBean.name;
-            servicePassDetail.scenicDesc = cityRouteScope.routePlaces;
-            servicePassDetail.scopeDesc = cityRouteScope.routeScope;
+            if (cityRouteScope.isOpeanFence()) {
+                if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
+                    String scope = cityRouteScope.routeType == CityRouteBean.RouteType.SUBURBAN ? "周边范围：" : "市内范围：";
+                    servicePassDetail.scenicDesc = scope + cityRouteScope.routePlaces;
+                }
+                if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
+                    servicePassDetail.scopeDesc = "推荐景点：" + cityRouteScope.routeScope;
+                }
+            } else {
+                servicePassDetail.scenicDesc = cityRouteScope.routePlaces;
+                servicePassDetail.scopeDesc = cityRouteScope.routeScope;
+            }
         }
 
         servicePassDetail.days = 1; //后端要求写死

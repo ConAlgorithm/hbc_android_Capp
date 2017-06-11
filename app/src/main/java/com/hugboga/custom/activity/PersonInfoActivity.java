@@ -243,20 +243,7 @@ public class PersonInfoActivity extends BaseActivity{
                     }
                 });
                 final AlertDialog dialog = builder.create();
-                /*dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        hideSoftInput();
-                    }
-                });*/
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        hideDialogInputMethod(dialog);
-                    }
-                });
-                /*dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);*/
+                dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
                 break;
             case R.id.my_info_menu_layout3:
@@ -399,18 +386,7 @@ public class PersonInfoActivity extends BaseActivity{
                     }
                 });
                 final AlertDialog realNameDialog = realNameBuilder.create();
-                /*realNameDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        hideSoftInput();
-                    }
-                });*/
-                realNameDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        hideDialogInputMethod(realNameDialog);
-                    }
-                });
+                realNameDialog.setCanceledOnTouchOutside(false);
                 realNameDialog.show();
                 break;
             default:
