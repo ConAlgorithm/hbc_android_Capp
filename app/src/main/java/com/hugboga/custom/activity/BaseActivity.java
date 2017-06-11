@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -106,6 +107,14 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         try {
             InputMethodManager m=(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             m.hideSoftInputFromWindow(view.getWindowToken(),0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    protected void hideDialogInputMethod(Dialog dialog) {
+        try {
+            InputMethodManager manager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow( dialog.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
