@@ -165,7 +165,13 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         if (!TextUtils.isEmpty(UserEntity.getUser().getUnionid(this))) {
             setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
-
+        if(mobileEditText!=null){
+            if(mobileEditText.getText().toString().length() >0){
+                getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
+            }else{
+                getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
+            }
+        }
         mobileEditText.addTextChangedListener(this);
         areaCodeTextView.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
@@ -479,8 +485,10 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         String areaCode = areaCodeTextView.getText().toString().trim();
         if(phone.length() >0){
             delete.setVisibility(View.VISIBLE);
+            getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
         }else{
             delete.setVisibility(View.GONE);
+            getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
         }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
@@ -489,6 +497,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
             login_submit.setEnabled(false);
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
+
     }
 
     @Override
