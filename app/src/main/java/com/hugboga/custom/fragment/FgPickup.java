@@ -549,7 +549,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource());
+                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource(), false);
             }
         }, true);
     }
