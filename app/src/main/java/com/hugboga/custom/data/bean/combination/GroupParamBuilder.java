@@ -524,10 +524,8 @@ public class GroupParamBuilder {
         } else {
             servicePassDetail.cityId = startCityBean.cityId;
             servicePassDetail.cityName = startCityBean.name;
-            if (cityRouteScope.isOpeanFence()) {
-                servicePassDetail.scenicDesc = cityRouteScope.routePlaces;
-                servicePassDetail.scopeDesc = cityRouteScope.routeScope;
-            }
+            servicePassDetail.scenicDesc = cityRouteScope.routePlaces;
+            servicePassDetail.scopeDesc = cityRouteScope.routeScope;
         }
 
         servicePassDetail.days = 1; //后端要求写死

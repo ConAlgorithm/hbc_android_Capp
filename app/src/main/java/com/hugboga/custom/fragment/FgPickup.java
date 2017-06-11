@@ -361,7 +361,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         boolean isContain = false;
         final int size = guideCropList.size();
         for (int i = 0; i < size; i++) {
-            if (guideCropList.get(i) != null && _flightBean.arrCityName.equals(guideCropList.get(i).cityName)) {
+            if (guideCropList.get(i) != null && TextUtils.equals(guideCropList.get(i).cityId, "" + _flightBean.arrCityId)) {
                 isContain = true;
                 break;
             }
