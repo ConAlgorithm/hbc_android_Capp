@@ -242,9 +242,21 @@ public class PersonInfoActivity extends BaseActivity{
                         submitChangeUserInfo(2, nickStr);
                     }
                 });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(false);
+                final AlertDialog dialog = builder.create();
+                /*dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        hideSoftInput();
+                    }
+                });*/
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        hideDialogInputMethod(dialog);
+                    }
+                });
+                /*dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);*/
                 dialog.show();
                 break;
             case R.id.my_info_menu_layout3:
@@ -359,7 +371,7 @@ public class PersonInfoActivity extends BaseActivity{
                 editText.setText(realNameTextView.getText().toString());
                 editText.setSelection(editText.getText().length());
                 final TextView title = (TextView) layout.findViewById(R.id.person_info_nick_title);
-                title.setText("填写真实姓名");
+                title.setText("真实姓名");
                 AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout)/*.setTitle("填写真实姓名")*/.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -386,9 +398,19 @@ public class PersonInfoActivity extends BaseActivity{
                         submitChangeUserInfo(6, nickStr);
                     }
                 });
-                AlertDialog realNameDialog = realNameBuilder.create();
-                realNameDialog.setCancelable(true);
-                realNameDialog.setCanceledOnTouchOutside(false);
+                final AlertDialog realNameDialog = realNameBuilder.create();
+                /*realNameDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        hideSoftInput();
+                    }
+                });*/
+                realNameDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        hideDialogInputMethod(realNameDialog);
+                    }
+                });
                 realNameDialog.show();
                 break;
             default:
