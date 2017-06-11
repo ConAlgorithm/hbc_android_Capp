@@ -399,10 +399,17 @@ public final class CommonUtils {
     }
 
     public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source) {
+        apiErrorShowService(context, errorInfo, request, source, true);
+    }
+
+    public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source, boolean isShowHint) {
         if (request.errorType == BaseRequest.ERROR_TYPE_PROCESSED) {
             return;
         }
-        String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request) + "\n请联系客服，我们会协助您完成预订";
+        String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request) ;
+        if (isShowHint) {
+            errorMessage += "\n请联系客服，我们会协助您完成预订";
+        }
         AlertDialogUtils.showAlertDialog(context, errorMessage, "知道了", "联系客服", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

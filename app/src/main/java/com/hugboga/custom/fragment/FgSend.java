@@ -481,7 +481,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource());
+                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource(), false);
             }
         }, true);
     }
