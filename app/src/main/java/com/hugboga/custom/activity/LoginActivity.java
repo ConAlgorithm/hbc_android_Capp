@@ -406,7 +406,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 startActivity(intent);
                 /*overridePendingTransition(R.anim.enter_from_right,
                         0);*/
-                StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
+                //StatisticClickEvent.click(StatisticConstant.LOGIN_PHONE,getIntentSource());
                 break;
             case R.id.login_submit:
                 //登录

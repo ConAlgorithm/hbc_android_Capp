@@ -284,7 +284,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                     userBean.setUserEntity(this);
                     UserSession.getUser().setUserToken(this, userBean.userToken);
                     connectIM();
-                    EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+                    //EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPswActivity.class);
