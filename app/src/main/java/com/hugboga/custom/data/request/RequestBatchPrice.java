@@ -94,7 +94,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     checkGuideBean.orderType = 1;
                     checkGuideBean.startTime = airportParam.serviceDate;
                     checkGuideBean.endTime = charterDataUtils.chooseDateBean.start_date + " "+ CombinationOrderActivity.SERVER_TIME_END;
-                    checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+                    checkGuideBeanList.guideSubOrderInfos.add(checkGuideBean);
                 }
                 index++;
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.SEND) {//只送机
@@ -120,7 +120,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                     checkGuideBean.orderType = 2;
                     checkGuideBean.startTime = sendParam.serviceDate;
                     checkGuideBean.endTime = charterDataUtils.chooseDateBean.end_date + " "+ CombinationOrderActivity.SERVER_TIME_END;
-                    checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+                    checkGuideBeanList.guideSubOrderInfos.add(checkGuideBean);
                 }
             } else if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
                 continue;
@@ -213,7 +213,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
                         checkGuideBean.orderType = getOrderType(isOuttown == 1, dailyPriceParam.arrangements.size());
                         checkGuideBean.startTime = dailyPriceParam.startDate;
                         checkGuideBean.endTime = dailyPriceParam.endDate;
-                        checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+                        checkGuideBeanList.guideSubOrderInfos.add(checkGuideBean);
                     }
 
                     index++;

@@ -737,15 +737,26 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private void checkGuideCoflict() {
+        RequestCheckGuide.CheckGuideBeanList checkGuideBeanList = charterDataUtils.checkGuideBeanList;
+        if (checkGuideBeanList == null || checkGuideBeanList.guideSubOrderInfos == null || checkGuideBeanList.guideSubOrderInfos.size() <= 0) {
+            onSubmit();
+            return;
+        }
+
         String serverTime = travelerInfoView.getTravelerInfoBean() != null ? travelerInfoView.getTravelerInfoBean().serverTime : "";
+        serverTime = charterDataUtils.getStartServiceTime(serverTime);
+
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
-        checkGuideBean.startTime = charterDataUtils.getStartServiceTime(serverTime);
+        checkGuideBean.startTime = serverTime;
         checkGuideBean.endTime = charterDataUtils.getEndServiceTime();
         checkGuideBean.cityId = charterDataUtils.getStartCityBean(1).cityId;
         checkGuideBean.guideId = charterDataUtils.guidesDetailData.guideId;
         checkGuideBean.orderType = 3;
+        checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
 
-        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBean);
+        checkGuideBeanList.updateFirstDayServiceTime(serverTime);
+
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBeanList);
 
         HttpRequestUtils.request(this, requestCheckGuide, new HttpRequestListener() {
             @Override
