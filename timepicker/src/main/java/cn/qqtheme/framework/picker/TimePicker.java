@@ -217,8 +217,8 @@ public class TimePicker extends WheelPicker {
                 minutes.add(DateUtils.fillZero(i * 10));
             }
         } else if (hourInt == startHour) {
-            for (int i = startMinute; i <= 59; i++) {
-                minutes.add(DateUtils.fillZero(i));
+            for (int i = startMinute/10; i < 6; i++) {
+                minutes.add(DateUtils.fillZero(i*10));
             }
         } else if (hourInt == endHour) {
             for (int i = 0; i <= endMinute/10; i++) {
