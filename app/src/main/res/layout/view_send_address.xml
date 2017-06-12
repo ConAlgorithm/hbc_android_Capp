@@ -58,7 +58,7 @@
             android:layout_marginTop="2dp"
             android:layout_toLeftOf="@id/send_start_address_arrow_iv"
             android:layout_toRightOf="@id/send_start_address_iv"
-            android:paddingBottom="12dp"
+            android:paddingBottom="13dp"
             android:gravity="center_vertical"
             android:textColor="#cccccc"
             android:textSize="12sp" />

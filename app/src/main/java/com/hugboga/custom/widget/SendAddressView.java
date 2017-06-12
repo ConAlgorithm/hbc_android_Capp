@@ -79,8 +79,11 @@ public class SendAddressView extends RelativeLayout {
 
             int showWidth = UIUtils.getScreenWidth() - (getContext().getResources().getDimensionPixelOffset(R.dimen.order_padding_left) * 2 + UIUtils.dip2px(20) + UIUtils.dip2px(17));
             int stringWidth = UIUtils.getStringWidth(startDescTV, placeDetail);
-            int lines = (int)Math.ceil(stringWidth / showWidth);
-            int startDesViewWidth = UIUtils.dip2px(26) + lines * UIUtils.dip2px(16);
+            int lines = stringWidth / showWidth;
+            if (stringWidth%showWidth > 0) {
+                lines++;
+            }
+            int startDesViewWidth = UIUtils.dip2px(26) + lines * UIUtils.dip2px(10);
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), startDesViewWidth);
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
