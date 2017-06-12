@@ -236,16 +236,18 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
         wechatET.setText(orderBean.userWechat);
 
-        if ((orderBean.orderType == 3 || orderBean.orderType == 888) && orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
-            OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
-            if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
-                addressLayout.setVisibility(View.GONE);
-                timeLayout.setVisibility(View.VISIBLE);
-                addressLineView.setVisibility(View.GONE);
-            } else if (journeyItem.pickup != null) {//只接机
-                addressLayout.setVisibility(View.GONE);
-                timeLayout.setVisibility(View.GONE);
-                addressLineView.setVisibility(View.GONE);
+        if (orderBean.orderType == 3 || orderBean.orderType == 888) {
+            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
+                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
+                if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
+                    addressLayout.setVisibility(View.GONE);
+                    timeLayout.setVisibility(View.VISIBLE);
+                    addressLineView.setVisibility(View.GONE);
+                } else if (journeyItem.pickup != null) {//只接机
+                    addressLayout.setVisibility(View.GONE);
+                    timeLayout.setVisibility(View.GONE);
+                    addressLineView.setVisibility(View.GONE);
+                }
             } else {//包车
                 addressLayout.setVisibility(View.VISIBLE);
                 timeLayout.setVisibility(View.VISIBLE);

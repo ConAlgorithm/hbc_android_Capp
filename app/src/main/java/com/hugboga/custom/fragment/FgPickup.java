@@ -29,14 +29,12 @@ import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
-import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
-import com.hugboga.custom.data.request.RequestGuideCrop;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestSeckillsPickupPrice;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -107,7 +105,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
-    private ArrayList<GuideCropBean> guideCropList;
 
     private PickSendActivity.Params params;
 
@@ -157,7 +154,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             if (params.guidesDetailData != null) {
                 guidesDetailData = params.guidesDetailData;
                 guideLayout.setData(guidesDetailData);
-                requestData(new RequestGuideCrop(getContext(), guidesDetailData.guideId));
             } else if (params.isSeckills) {
                 seckillsLayout.setVisibility(View.VISIBLE);
             }
@@ -284,8 +280,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             _carListBean.timeLimitedSaleNo = params.timeLimitedSaleNo;
             _carListBean.timeLimitedSaleScheduleNo = params.timeLimitedSaleScheduleNo;
             setCarListBean(_carListBean);
-        } else if (request instanceof RequestGuideCrop) {
-            guideCropList = ((RequestGuideCrop) request).getData();
         }
     }
 
@@ -355,18 +349,10 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public boolean checkPickUpFlightBean(FlightBean _flightBean) {
-        if (guidesDetailData == null || guideCropList == null) {
+        if (guidesDetailData == null) {
             return true;
         }
-        boolean isContain = false;
-        final int size = guideCropList.size();
-        for (int i = 0; i < size; i++) {
-            if (guideCropList.get(i) != null && TextUtils.equals(guideCropList.get(i).cityId, "" + _flightBean.arrCityId)) {
-                isContain = true;
-                break;
-            }
-        }
-        if (!isContain) {
+        if (guidesDetailData.cityId != _flightBean.arrCityId) {
             showGuideCheckPickUpDialog(_flightBean);
             return false;
         } else {

@@ -42,6 +42,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
 
     public String guideId;
     public String sourceTag;
+    public CityBean guideCityBean;
     private HbcRecyclerSingleTypeAdpater<GuideCropBean> mAdapter;
     private ArrayList<GuideCropBean> guideCropList;
 
@@ -56,11 +57,13 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         if (savedInstanceState != null) {
             guideId = savedInstanceState.getString(Constants.PARAMS_ID);
             sourceTag = savedInstanceState.getString(Constants.PARAMS_TAG);
+            guideCityBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 guideId = bundle.getString(Constants.PARAMS_ID);
                 sourceTag = bundle.getString(Constants.PARAMS_TAG);
+                guideCityBean = (CityBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
 
@@ -78,7 +81,18 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        requestData(new RequestGuideCrop(this, guideId));
+        if (SingleActivity.TAG.equals(sourceTag) && guideCityBean != null) {
+            guideCropList = new ArrayList<GuideCropBean>();
+            GuideCropBean guideCropBean = new GuideCropBean();
+            guideCropBean.cityName = guideCityBean.name;
+            guideCropBean.cityId = "" + guideCityBean.cityId;
+            guideCropBean.placeName = guideCityBean.placeName;
+            guideCropBean.placeId = "" + guideCityBean.placeId;
+            guideCropList.add(guideCropBean);
+            mAdapter.addData(guideCropList);
+        } else {
+            requestData(new RequestGuideCrop(this, guideId));
+        }
     }
 
     @Override
@@ -86,6 +100,9 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
         super.onSaveInstanceState(outState);
         outState.putString(Constants.PARAMS_ID, guideId);
         outState.putString(Constants.PARAMS_TAG, sourceTag);
+        if (guideCityBean != null) {
+            outState.putSerializable(Constants.PARAMS_DATA, guideCityBean);
+        }
     }
 
     @Override
