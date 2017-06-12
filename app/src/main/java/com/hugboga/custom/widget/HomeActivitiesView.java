@@ -221,7 +221,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             itemView.setLayoutParams(itemParams);
             container.addView(itemView, 0);
 
-            if(itemData == null || TextUtils.isEmpty(itemData.urlAddress)){
+            if(itemData == null ){
                 return itemView;
             }
 
@@ -235,9 +235,10 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                         mContext.startActivity(intent);
                         return;
                     }*/
-                    if (itemData == null  || TextUtils.isEmpty(itemData.urlAddress)) {
+                    if (itemData == null) {
                         return;
                     }
+
                     //EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                     //StatisticClickEvent.click(StatisticConstant.LAUNCH_ACTIVITY, "首页活动详情展示");
                     if(itemData.requestType == 1){
