@@ -271,7 +271,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
 
     @OnClick({R.id.flight_empty_service_tv})
     public void onService() {
-        DialogUtil.showServiceDialog(PickFlightListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+        DialogUtil.getInstance(this).showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
     private void addAirportInfo(ArrayList<FlightBean> listDate) {
