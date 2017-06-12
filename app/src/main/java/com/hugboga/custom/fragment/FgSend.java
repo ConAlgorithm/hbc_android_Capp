@@ -230,7 +230,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         switch (action.getType()) {
             case AIR_PORT_BACK:
                 AirPort _airPortBean = (AirPort) action.getData();
-                if (_airPortBean == null || (airPortBean != null && TextUtils.equals(_airPortBean.airportName, airPortBean.airportName))) {
+                if (_airPortBean == null || (airPortBean != null && _airPortBean.airportId == airPortBean.airportId)) {
                     break;
                 }
                 airPortBean = _airPortBean;
@@ -481,7 +481,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource());
+                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource(), false);
             }
         }, true);
     }

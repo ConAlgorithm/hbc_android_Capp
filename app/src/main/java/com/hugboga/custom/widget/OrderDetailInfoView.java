@@ -30,6 +30,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     private TextView insurerTV;
     private TextView insurerStateTV;
     private ImageView insurerErrorIV;
+    private ImageView insurerArrowIV;
     private RelativeLayout insuranceInfoLayout, insuranceAddLayout;
 
     private OrderBean orderBean;
@@ -52,6 +53,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
         insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
         insurerErrorIV = (ImageView) findViewById(R.id.order_detail_insurer_state_error_iv);
+        insurerArrowIV = (ImageView) findViewById(R.id.order_detail_insurer_arrow_iv);
     }
 
     @Override
@@ -72,11 +74,13 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             insuranceAddLayout.setVisibility(View.VISIBLE);
             insurerErrorIV.setVisibility(View.GONE);
             insurerStateTV.setVisibility(View.VISIBLE);
+            insurerArrowIV.setVisibility(View.INVISIBLE);
             insurerTV.setText(String.format("平安境外用车险 × %1$s份", "" + (orderBean.adult + orderBean.child)));
             insuranceInfoLayout.setOnClickListener(null);
             insuranceAddLayout.setOnClickListener(this);
         } else if (insuranceListSize > 0) {
             insuranceInfoLayout.setVisibility(View.VISIBLE);
+            insurerArrowIV.setVisibility(View.VISIBLE);
             insuranceAddLayout.setVisibility(View.GONE);
             insurerStateTV.setVisibility(View.GONE);
             insurerErrorIV.setVisibility(View.GONE);

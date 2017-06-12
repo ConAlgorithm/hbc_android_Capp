@@ -364,7 +364,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         fgTitle.setText("行程");
         leftBtn.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(30), UIUtils.dip2px(30));
         headerRightImageParams.rightMargin = UIUtils.dip2px(18);
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);

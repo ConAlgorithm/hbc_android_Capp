@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -300,9 +301,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
                 checkinLayout.setVisibility(View.VISIBLE);
                 checkinHintTV.setText("举牌接机");
                 checkinET.setHint("接机牌姓名");
-            } else if (orderType == 2 && additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.checkInPrice)) {//送机
-                checkinLayout.setVisibility(View.VISIBLE);
-                checkinHintTV.setText("协助登机Check in");
+            } else if (orderType == 2) {//送机
+                if (additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.checkInPrice)) {
+                    checkinLayout.setVisibility(View.VISIBLE);
+                    checkinHintTV.setText("协助登机Check in");
+                }
                 flightLayout.setVisibility(View.VISIBLE);
             }
         }
@@ -338,7 +341,9 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     }
 
     public void intentPickContactsCheckPermisson(int requestCode) {
-        if (requestPermisson(requestCode)) {
+        if (Build.VERSION.SDK_INT >= 23 && requestPermisson(requestCode)) {
+            intentPickContacts(requestCode);
+        } else {
             intentPickContacts(requestCode);
         }
     }

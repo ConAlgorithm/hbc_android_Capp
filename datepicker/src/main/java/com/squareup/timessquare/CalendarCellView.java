@@ -166,17 +166,21 @@ public class CalendarCellView extends FrameLayout {
     if (rangeState == MonthCellDescriptor.RangeState.FIRST) {
         mergeDrawableStates(drawableState, STATE_RANGE_FIRST);
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
         day_view_round_right.setVisibility(VISIBLE);
         day_view_round_left.setVisibility(INVISIBLE);
         bottomTextView.setText("开始");
     } else if (rangeState == MonthCellDescriptor.RangeState.MIDDLE) {
         dayOfMonthTextView.setBackgroundColor(Color.parseColor("#fcf0ac"));
+        day_view_round.setBackgroundColor(0x00000000);
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         mergeDrawableStates(drawableState, STATE_RANGE_MIDDLE);
+        bottomTextView.setText("");
     } else if (rangeState == RangeState.LAST) {
         mergeDrawableStates(drawableState, STATE_RANGE_LAST);
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
         day_view_round_left.setVisibility(VISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("结束");
@@ -188,16 +192,19 @@ public class CalendarCellView extends FrameLayout {
         bottomTextView.setText("开始");
     }else if(rangeState == RangeState.SELECT){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("开始+结束");
     }else if(rangeState == RangeState.SELECT_NO_TEXT){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("");
     }else if(rangeState == RangeState.START_END){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
+        dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("开始+结束");

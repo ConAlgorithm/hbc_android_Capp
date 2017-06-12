@@ -242,8 +242,7 @@ public class PersonInfoActivity extends BaseActivity{
                         submitChangeUserInfo(2, nickStr);
                     }
                 });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(true);
+                final AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
                 break;
@@ -359,7 +358,7 @@ public class PersonInfoActivity extends BaseActivity{
                 editText.setText(realNameTextView.getText().toString());
                 editText.setSelection(editText.getText().length());
                 final TextView title = (TextView) layout.findViewById(R.id.person_info_nick_title);
-                title.setText("填写真实姓名");
+                title.setText("真实姓名");
                 AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout)/*.setTitle("填写真实姓名")*/.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -386,8 +385,7 @@ public class PersonInfoActivity extends BaseActivity{
                         submitChangeUserInfo(6, nickStr);
                     }
                 });
-                AlertDialog realNameDialog = realNameBuilder.create();
-                realNameDialog.setCancelable(true);
+                final AlertDialog realNameDialog = realNameBuilder.create();
                 realNameDialog.setCanceledOnTouchOutside(false);
                 realNameDialog.show();
                 break;

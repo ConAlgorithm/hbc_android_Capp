@@ -554,7 +554,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource());
+                CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource(), false);
             }
         }, true);
     }

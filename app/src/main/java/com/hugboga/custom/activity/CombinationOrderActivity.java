@@ -761,7 +761,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
+                CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource(), false);
             }
         }, true);
     }

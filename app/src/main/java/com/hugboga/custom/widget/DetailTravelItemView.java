@@ -247,12 +247,11 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
         TextView scopeTV = isSend ? travelItemScopeTv2: travelItemScopeTv;
         TextView placesTV = isSend ? travelItemPlacesTv2: travelItemPlacesTv;
         if (!TextUtils.isEmpty(journey.scopeDesc)) {
-            String scope = journey.type == 2 ? "周边范围：" : "市内范围：";
-            scopeTV.setText(scope + journey.scopeDesc);
+            scopeTV.setText(journey.scopeDesc);
             scopeTV.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(journey.scenicDesc)) {
-            placesTV.setText("推荐景点：" + journey.scenicDesc);
+            placesTV.setText(journey.scenicDesc);
             placesTV.setVisibility(View.VISIBLE);
         }
         travelItemLineTimeTv.setText(journey.getLabelTime());

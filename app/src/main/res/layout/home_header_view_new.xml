@@ -136,7 +136,7 @@
                         android:layout_below="@id/home_chater_title"
                         android:layout_marginTop="10dp"
                         android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                        android:text="中文司机兼导游 带你畅游专属行程"
+                        android:text="华人司机兼导游 带你畅游专属行程"
                         android:textColor="@color/common_font_color_gray"
                         android:textSize="12sp" />
 
@@ -287,7 +287,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="8dp"
-                            android:text="什么是华人导游?"
+                            android:text="5重甄选好司导"
                             android:textColor="@color/allbg_white"
                             android:textSize="14sp" />
 

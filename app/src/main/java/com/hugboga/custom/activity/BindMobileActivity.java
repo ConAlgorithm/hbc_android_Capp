@@ -68,6 +68,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
     private boolean isAfterProcess = false;
 
     public static int REQUEST_CODE = 0x001;
+    public final static int RESULT_OK = 2;
     private SharedPre sharedPre;
 
     public static String KEY_PHONE = "key_phone";
@@ -164,7 +165,13 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         if (!TextUtils.isEmpty(UserEntity.getUser().getUnionid(this))) {
             setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
-
+        if(mobileEditText!=null){
+            if(mobileEditText.getText().toString().length() >0){
+                getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
+            }else{
+                getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
+            }
+        }
         mobileEditText.addTextChangedListener(this);
         areaCodeTextView.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
@@ -284,17 +291,19 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                     userBean.setUserEntity(this);
                     UserSession.getUser().setUserToken(this, userBean.userToken);
                     connectIM();
-                    EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+                    //EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
                 }
-                EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
+
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("source", source);
+                MobclickAgent.onEvent(this, "bind_succeed", map);
+
+                //EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 Intent intent = new Intent(BindMobileActivity.this, SetPswActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtra("isFromWeChat",true);
                 BindMobileActivity.this.startActivityForResult(intent, REQUEST_CODE);
-                finish();
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("source", source);
-                MobclickAgent.onEvent(this, "bind_succeed", map);
+                //finish();
 
             }else { //注册且登录成功
                 userBean.setUserEntity(this);
@@ -476,8 +485,10 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         String areaCode = areaCodeTextView.getText().toString().trim();
         if(phone.length() >0){
             delete.setVisibility(View.VISIBLE);
+            getCodeBtn.setTextColor(getResources().getColor(R.color.forget_pwd));
         }else{
             delete.setVisibility(View.GONE);
+            getCodeBtn.setTextColor(getResources().getColor(R.color.common_font_color_gray));
         }
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(capthca) && !TextUtils.isEmpty(phone)) {
             login_submit.setEnabled(true);
@@ -486,6 +497,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
             login_submit.setEnabled(false);
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
+
     }
 
     @Override

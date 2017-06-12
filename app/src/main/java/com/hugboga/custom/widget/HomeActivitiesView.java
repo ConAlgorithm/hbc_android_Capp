@@ -221,6 +221,10 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             itemView.setLayoutParams(itemParams);
             container.addView(itemView, 0);
 
+            if(itemData == null || TextUtils.isEmpty(itemData.urlAddress)){
+                return itemView;
+            }
+
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -231,7 +235,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                         mContext.startActivity(intent);
                         return;
                     }*/
-                    if (itemData == null) {
+                    if (itemData == null  || TextUtils.isEmpty(itemData.urlAddress)) {
                         return;
                     }
                     //EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");

@@ -261,7 +261,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                     hintLayout.setVisibility(View.VISIBLE);
                     if (supportChildseat) {
                         childSeatLayout.setVisibility(View.VISIBLE);
-                        hintTV.setText("出行前请与司导联系，需要何种年龄段的儿童安全座椅");
+                        hintTV.setText("请在出行前告诉司导需要何种年龄段的儿童座椅");
                     } else {
                         childSeatLayout.setVisibility(View.GONE);
                         hintTV.setText("很抱歉，该城市暂不提供儿童座椅");

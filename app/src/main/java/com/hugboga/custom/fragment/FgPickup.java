@@ -361,7 +361,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         boolean isContain = false;
         final int size = guideCropList.size();
         for (int i = 0; i < size; i++) {
-            if (guideCropList.get(i) != null && _flightBean.arrCityName.equals(guideCropList.get(i).cityName)) {
+            if (guideCropList.get(i) != null && TextUtils.equals(guideCropList.get(i).cityId, "" + _flightBean.arrCityId)) {
                 isContain = true;
                 break;
             }
@@ -375,7 +375,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
-        AlertDialogUtils.showAlertDialogCancelable(getContext(), String.format("很抱歉，您指定的司导无法服务%1$s城市", _flightBean.arrCityName), "取消", "不找Ta服务了", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(getContext(), String.format("很抱歉，您指定的司导无法服务%1$s", _flightBean.arrCityName), "取消", "不找Ta服务了", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -549,7 +549,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource());
+                CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource(), false);
             }
         }, true);
     }

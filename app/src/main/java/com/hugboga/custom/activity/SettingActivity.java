@@ -130,7 +130,7 @@ public class SettingActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.setting_menu_layout2:
 //                startFragment(new FgChangePsw());
-                if(needInitPwd){
+                if(UserEntity.getUser().getNeedInitPwd(this)){
                     intent = new Intent(activity,SetPswActivity.class);
                     intent.putExtra("isFromSetting",true);
                     startActivityForResult(intent,REQUEST_CODE);
