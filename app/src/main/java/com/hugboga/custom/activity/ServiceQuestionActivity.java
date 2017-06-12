@@ -171,7 +171,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                     questionList.add(serviceQuestionBean);
                     adapter.addData(questionList, true);
                     mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
-                    handler.sendEmptyMessageDelayed(0, 200);
+                    handler.sendEmptyMessageDelayed(0, 100);
                 }
                 setSensorsIM(questionItem);
                 break;
