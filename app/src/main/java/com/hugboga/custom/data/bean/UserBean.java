@@ -53,25 +53,17 @@ public class UserBean implements IBaseBean {
     public String getAgeStr() {
         switch (ageType) {
             case 0:
-                return "40后";
+                return "00后";
             case 1:
-                return "50后";
+                return "90后";
             case 2:
-                return "60后";
+                return "80后";
             case 3:
                 return "70后";
             case 4:
-                return "80后";
-            case 5:
-                return "90后";
-            case 6:
-                return "00后";
-            case 7:
-                return "10后";
-            case -1:
-                return "未知";
+                return "60后";
             default:
-                return "未知";
+                return "";
         }
     }
 

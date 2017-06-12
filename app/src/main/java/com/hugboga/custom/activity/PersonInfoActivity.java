@@ -324,7 +324,7 @@ public class PersonInfoActivity extends BaseActivity{
                             public void onItemPicked(int index, String item) {
                                 String agesStr = ages[index].toString();
                                 ageTextView.setText(agesStr);
-                                submitChangeUserInfo(4, String.valueOf(getAgeLevel(index)));
+                                submitChangeUserInfo(4, String.valueOf(index));
                             }
                         }
                 );
@@ -529,15 +529,15 @@ public class PersonInfoActivity extends BaseActivity{
     private Integer getAgeLevel(Integer item) {
         switch (item) {
             case 0:
-                return 6;
+                return 0;
             case 1:
-                return 5;
+                return 1;
             case 2:
-                return 4;
+                return 2;
             case 3:
                 return 3;
             case 4:
-                return 2;
+                return 4;
             default:
                 return -1;
         }
