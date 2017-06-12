@@ -153,7 +153,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         sideBar.setVisibility(View.VISIBLE);
         initSideBar();
 
-        if (groupId != 0 || cityId != 0) {
+        if (cityId != 0) {
             headLayout.setVisibility(View.GONE);
             bottomLineView.setVisibility(View.GONE);
             cityHeaderLayout.setVisibility(View.VISIBLE);
