@@ -3,6 +3,8 @@ package com.hugboga.custom.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -167,14 +169,21 @@ public class ServiceQuestionActivity extends BaseActivity{
                     ArrayList<ServiceQuestionBean> questionList = new ArrayList<ServiceQuestionBean>(2);
                     questionList.add(userServiceQuestionBean);
                     questionList.add(serviceQuestionBean);
-
                     adapter.addData(questionList, true);
                     mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+                    handler.sendEmptyMessageDelayed(0, 200);
                 }
                 setSensorsIM(questionItem);
                 break;
         }
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+        }
+    };
 
     private void requestData() {
         if (params != null) {
