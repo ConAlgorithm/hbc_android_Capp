@@ -270,11 +270,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     String tmpDate = year + "-" + month + "-" + day;
                     String startDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
 
-                    if (DateUtils.getDateByStr(tmpDate).before(DateUtils.getDateByStr(startDate))) {
-                        CommonUtils.showToast("不能选择今天之前的时间");
-                        return;
-                    }
-
                     if (DateUtils.getDistanceDays(startDate, tmpDate) > 180) {
                         CommonUtils.showToast(R.string.time_out_180);
                     } else {
@@ -286,13 +281,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     }
                 }
             });
-        }
-        if (!TextUtils.isEmpty(serverDate) && !TextUtils.isEmpty(serverTime)) {
-            try {
-                calendar.setTime(DateUtils.dateTimeFormat2.parse(serverDate + " " + serverTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
         }
         dateTimePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
