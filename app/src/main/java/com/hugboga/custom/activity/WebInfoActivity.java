@@ -120,7 +120,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                     Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobile));
                     WebInfoActivity.this.startActivity(intent);
                 }
-
+                WebInfoActivity.this.url = url;
             }
             return false;
         }
@@ -246,6 +246,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public void onDestroy() {
         super.onDestroy();
         try {
+            if (mDialogUtil != null) {
+                mDialogUtil.dismissDialog();
+            }
             webView.destroy();
         }catch (Exception e){
             e.printStackTrace();
@@ -262,8 +265,10 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
             finish();
+        } else {
+            loadUrl(true);
         }
-        loadUrl();
+
     }
 
     public void initHeader() {
@@ -316,7 +321,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initHeader();
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
-        loadUrl();
+        loadUrl(false);
         MLog.e("url=" + url);
 
         SensorsUtils.setSensorsShowUpWebView(webView);
@@ -327,7 +332,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         return TextUtils.isEmpty(title) ? "web页面" : title;
     }
 
-    public void loadUrl() {
+    public void loadUrl(boolean isOnResume) {
         if (!TextUtils.isEmpty(url)) {
             if (url.contains("h5/cactivity/seckill") && !url.contains("&userId=") && UserEntity.getUser().isLogin(this)) {
                 url = url + "&userId=" + UserEntity.getUser().getUserId(this);
@@ -335,7 +340,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                 intent.putExtra(WebInfoActivity.WEB_URL, url);
                 startActivity(intent);
                 finish();
-            } else {
+            } else if (!isOnResume) {
                 webView.loadUrl(url);
             }
         }
