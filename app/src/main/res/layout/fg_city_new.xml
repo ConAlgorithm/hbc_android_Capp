@@ -217,13 +217,24 @@
                 android:background="@color/basic_white"
                 android:gravity="center_vertical">
 
-                <ListView
-                    android:id="@+id/left_list"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:divider="@null"
-                    android:dividerHeight="0dp" />
+                    android:layout_weight="1">
+                    <ListView
+                        android:id="@+id/left_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@null"
+                        android:dividerHeight="0dp" />
+
+                    <TextView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="#e8e9ea" />
+
+                </RelativeLayout>>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
