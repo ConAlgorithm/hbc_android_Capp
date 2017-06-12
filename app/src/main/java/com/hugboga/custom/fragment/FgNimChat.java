@@ -43,6 +43,7 @@ import com.hugboga.custom.data.request.RequestNIMRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
@@ -52,6 +53,7 @@ import com.hugboga.custom.widget.ImItemView;
 import com.hugboga.im.ImDataSyncUtils;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.ImObserverHelper;
+import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
@@ -75,7 +77,7 @@ import butterknife.OnClick;
 /**
  * Created by SPW on 2017/1/5.
  */
-public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener {
+public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener,ImObserverHelper.OnUserStatusListener {
 
     @Bind(R.id.header_left_btn)
     ImageView leftBtn;
@@ -172,6 +174,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             }
         });
         imObserverHelper.registerMessageObservers(true);
+        imObserverHelper.setOnUserStatusListener(this);
+        imObserverHelper.registerUserStatusObservers(true);
     }
 
 
@@ -319,6 +323,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onDestroyView() {
         if (imObserverHelper != null) {
             imObserverHelper.registerMessageObservers(false);
+            imObserverHelper.registerUserStatusObservers(false);
         }
         try {
             if(Unicorn.isServiceAvailable()){
@@ -663,5 +668,16 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             errorMsg = e.getMessage();
         }
         UnicornUtils.uploadQiyuInitError(errorMsg);
+    }
+
+    @Override
+    public void onPostUserStatus(StatusCode code) {
+        if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
+            ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
+        }
+        if (code.wontAutoLogin()) {
+            //IMUtil.getInstance().connect();
+            UserEntity.getUser().clean(getActivity());
+        }
     }
 }
