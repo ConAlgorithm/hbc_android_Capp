@@ -157,7 +157,7 @@ public class LevelCityAdapter extends BaseAdapter<SearchGroupBean> {
             }
         }
 
-        if(getItem(position).has_sub == 1 && flag == 2 && position != 0 && !getItem(position).isSelected){
+        if(getItem(position).has_sub == 1 && flag == 2 /*&& position != 0*/ && !getItem(position).isSelected){
             viewHolder.has_sub_img.setVisibility(View.VISIBLE);
         }else{
             viewHolder.has_sub_img.setVisibility(View.GONE);
