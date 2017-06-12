@@ -270,8 +270,8 @@ public class GroupParamBuilder {
 
         if (startPoiBean != null) {
             groupParentParam.startAddress = startPoiBean.placeName;
-            groupParentParam.startAddressPoi = startPoiBean.placeDetail;
-            groupParentParam.startAddressDetail = startPoiBean.location;
+            groupParentParam.startAddressPoi = startPoiBean.location;
+            groupParentParam.startAddressDetail = startPoiBean.placeDetail;
         } else if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
             groupParentParam.startAddress = charterDataUtils.flightBean.arrAirportName;
         }
