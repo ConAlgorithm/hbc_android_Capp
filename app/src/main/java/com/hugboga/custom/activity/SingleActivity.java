@@ -32,6 +32,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -200,6 +201,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     intent = new Intent(this, ChooseGuideCityActivity.class);
                     intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
                     intent.putExtra(Constants.PARAMS_TAG, TAG);
+                    intent.putExtra(Constants.PARAMS_DATA, DatabaseManager.getCityBean("" + guidesDetailData.cityId));
                     startActivity(intent);
                 } else {
                     intent = new Intent(this, ChooseCityActivity.class);
