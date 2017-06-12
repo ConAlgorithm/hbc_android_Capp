@@ -92,7 +92,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
             itemView.findViewById(R.id.question_member_arrow_iv).setVisibility(View.GONE);
             TextView titleTV = (TextView) itemView.findViewById(R.id.question_member_title_tv);
             titleTV.setText(serviceQuestionBean.welcome);
-            resetViewHight(titleTV, itemView);
+            resetViewHight(titleTV, serviceQuestionBean.welcome, false, itemView);
         }
 
         for (int i = 0; i < listSize; i++) {
@@ -119,7 +119,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 ((ServiceQuestionActivity) getContext()).lastCustomRole = questionItem.customRole;
             }
 
-            resetViewHight(titleTV, itemView);
+            resetViewHight(titleTV, titleTV.getText() != null ? titleTV.getText().toString() : "", !questionItem.isAnswer, itemView);
 
             //分割线的隐藏
             View lineView= itemView.findViewById(R.id.question_member_line_view);
@@ -179,25 +179,46 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
         return view;
     }
 
-    private void resetViewHight(final TextView textView, final View parentView) {
-        textView.post(new Runnable() {
-
-            @Override
-            public void run() {
-                int lines = textView.getLineCount();
-                int textHight = lines * textView.getLineHeight() + UIUtils.dip2px(12) * 2;
-                if (textHight <= UIUtils.dip2px(60)) {
-                    textHight = UIUtils.dip2px(60);
-                }
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) parentView.getLayoutParams();
-                if (layoutParams == null) {
-                    layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, textHight);
-                }else {
-                    layoutParams.width = LayoutParams.MATCH_PARENT;
-                    layoutParams.height = textHight;
-                }
-                parentView.setLayoutParams(layoutParams);
+    private void resetViewHight(TextView textView, String text, boolean isShowArrowIV, View parentView) {
+        int textWidth = UIUtils.getStringWidth(textView, text);
+        int textHight = 0;
+        if (textWidth > 0) {
+            // text实际显示区域,PreDrawListener略费内存
+            // 8 + 45(avatar) + 6 + {textView + (9 + 15)(arrow)} + 8;
+            int textScope = 0;
+            if (isShowArrowIV) {
+                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(91) - UIUtils.dip2px(10);
+            } else {
+                textScope = UIUtils.getScreenWidth() - UIUtils.dip2px(67) - UIUtils.dip2px(10);
             }
-        });
+            int lines = textWidth / textScope;
+            if (textWidth % textScope > 0) {
+                ++lines;
+            }
+            //TODO 获取文字长度有误差，待优化
+            if (lines >= 20) {
+                lines += 6;
+            } else if (lines >= 15) {
+                lines += 5;
+            } else if (lines >= 10) {
+                lines += 4;
+            } else if (lines >= 5) {
+                lines += 3;
+            } else if(lines >= 2) {
+                lines += 2;
+            }
+            textHight = lines * textView.getLineHeight() + UIUtils.dip2px(12) * 2;
+        }
+        if (textHight <= UIUtils.dip2px(60)) {
+            textHight = UIUtils.dip2px(60);
+        }
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) parentView.getLayoutParams();
+        if (layoutParams == null) {
+            layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, textHight);
+        }else {
+            layoutParams.width = LayoutParams.MATCH_PARENT;
+            layoutParams.height = textHight;
+        }
+        parentView.setLayoutParams(layoutParams);
     }
 }

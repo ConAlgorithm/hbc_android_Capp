@@ -71,7 +71,7 @@ public class SkuOrderDiscountView extends LinearLayout{
                 break;
             case R.id.sku_order_discount_travel_fund_count_tv:
                 if (listener != null && !isInvalidTravelFund) {
-                    listener.intentTravelFund();
+//                    listener.intentTravelFund();
                 }
                 break;
             case R.id.sku_order_discount_coupon_layout:
