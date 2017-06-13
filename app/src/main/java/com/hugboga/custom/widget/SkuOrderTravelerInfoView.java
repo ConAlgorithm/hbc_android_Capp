@@ -222,17 +222,17 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         if (picker == null) {
             picker = new TimePicker((Activity) getContext(), TimePicker.HOUR_24);
             picker.setTitleText("请选择上车时间");
-            if (orderType == 3) {
-                CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
-                if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
-                    try {
-                        Date date = DateUtils.timeFormat2.parse(charterDataUtils.flightBean.arrivalTime);
-                        picker.setRangeStart(date.getHours(), date.getMinutes());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
+//            if (orderType == 3) {
+//                CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
+//                if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
+//                    try {
+//                        Date date = DateUtils.timeFormat2.parse(charterDataUtils.flightBean.arrivalTime);
+//                        picker.setRangeStart(date.getHours(), date.getMinutes());
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
             picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
                 @Override
                 public void onTimePicked(String hour, String minute) {
@@ -259,15 +259,16 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
                 timeLayout.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.GONE);
                 addressLineView.setVisibility(View.GONE);
-                travelerInfoBean.serverTime = SkuOrderActivity.SERVER_TIME;
+                travelerInfoBean.serverTime = charterDataUtils.flightBean.arrivalTime;
             } else if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {// 包车加接机
-                timeLayout.setVisibility(View.VISIBLE);
+                timeLayout.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.GONE);
                 addressLineView.setVisibility(View.GONE);
                 // 上车时间：航班降落当地时间+90分钟（航班落地时间 xx:xx）可修改，但不能早于航班落地时间
                 String arrivalTime = charterDataUtils.flightBean.arrivalTime;
-                travelerInfoBean.serverTime = DateUtils.getDifferenceTime(arrivalTime, AHEAD_TIME);
-                timeTV.setHint(String.format("%1$s（航班落地时间 %2$s）", travelerInfoBean.serverTime, arrivalTime));
+                travelerInfoBean.serverTime = arrivalTime;
+//                travelerInfoBean.serverTime = DateUtils.getDifferenceTime(arrivalTime, AHEAD_TIME);
+//                timeTV.setHint(String.format("%1$s（航班落地时间 %2$s）", travelerInfoBean.serverTime, arrivalTime));
             } else {//只包车
                 timeLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.VISIBLE);

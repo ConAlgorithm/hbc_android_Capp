@@ -63,26 +63,32 @@ public class SendAddressView extends RelativeLayout {
     public void setStartAddress(String placeName, String placeDetail) {
         startTV.setText(placeName);
         if (TextUtils.isEmpty(placeDetail)) {
+            startTV.setPadding(0, 0, 0, UIUtils.dip2px(12));
             startDescTV.setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.send_start_address_tv);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), UIUtils.dip2px(12));
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             params.topMargin = UIUtils.dip2px(20);
             params.leftMargin = UIUtils.dip2px(7.5f);
-            params.bottomMargin = -UIUtils.dip2px(12f);
             startDashView.setLayoutParams(params);
 
         } else {
+            startTV.setPadding(0, 0, 0, 0);
             startDescTV.setVisibility(View.VISIBLE);
             startDescTV.setText(placeDetail);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.send_start_address_desc_tv);
+            int showWidth = UIUtils.getScreenWidth() - (getContext().getResources().getDimensionPixelOffset(R.dimen.order_padding_left) * 2 + UIUtils.dip2px(20) + UIUtils.dip2px(17));
+            int stringWidth = UIUtils.getStringWidth(startDescTV, placeDetail);
+            int lines = stringWidth / showWidth;
+            if (stringWidth%showWidth > 0) {
+                lines++;
+            }
+            int startDesViewWidth = UIUtils.dip2px(26) + lines * UIUtils.dip2px(10);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.dip2px(2), startDesViewWidth);
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             params.topMargin = UIUtils.dip2px(20);
             params.leftMargin = UIUtils.dip2px(7.5f);
-            params.bottomMargin = -UIUtils.dip2px(12f);
             startDashView.setLayoutParams(params);
         }
     }

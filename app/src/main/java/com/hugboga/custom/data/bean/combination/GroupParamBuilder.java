@@ -525,16 +525,16 @@ public class GroupParamBuilder {
             servicePassDetail.cityId = startCityBean.cityId;
             servicePassDetail.cityName = startCityBean.name;
             if (cityRouteScope.isOpeanFence()) {
-                if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
-                    String scope = cityRouteScope.routeType == CityRouteBean.RouteType.SUBURBAN ? "周边范围：" : "市内范围：";
-                    servicePassDetail.scenicDesc = scope + cityRouteScope.routePlaces;
-                }
                 if (!TextUtils.isEmpty(cityRouteScope.routeScope)) {
-                    servicePassDetail.scopeDesc = "推荐景点：" + cityRouteScope.routeScope;
+                    String scope = cityRouteScope.routeType == CityRouteBean.RouteType.SUBURBAN ? "周边范围：" : "市内范围：";
+                    servicePassDetail.scopeDesc = scope + cityRouteScope.routeScope;
+                }
+                if (!TextUtils.isEmpty(cityRouteScope.routePlaces)) {
+                    servicePassDetail.scenicDesc = "推荐景点：" + cityRouteScope.routePlaces;
                 }
             } else {
-                servicePassDetail.scenicDesc = cityRouteScope.routePlaces;
-                servicePassDetail.scopeDesc = cityRouteScope.routeScope;
+                servicePassDetail.scenicDesc = cityRouteScope.routeScope;
+                servicePassDetail.scopeDesc = cityRouteScope.routePlaces;
             }
         }
 

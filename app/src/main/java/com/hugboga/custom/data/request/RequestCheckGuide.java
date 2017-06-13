@@ -52,15 +52,18 @@ public class RequestCheckGuide extends BaseRequest {
 
     public static class CheckGuideBeanList implements Serializable {
         public ArrayList<CheckGuideBean> guideCheckInfos;
+        public ArrayList<CheckGuideBean> guideSubOrderInfos;
+
         public CheckGuideBeanList() {
             guideCheckInfos = new ArrayList<CheckGuideBean>();
+            guideSubOrderInfos = new ArrayList<CheckGuideBean>();
         }
 
         public void updateFirstDayServiceTime(String time) {
-            if (guideCheckInfos.size() <= 0 || TextUtils.isEmpty(time)) {
+            if (guideSubOrderInfos.size() <= 0 || TextUtils.isEmpty(time)) {
                 return;
             }
-            CheckGuideBean checkGuideBean = guideCheckInfos.get(0);
+            CheckGuideBean checkGuideBean = guideSubOrderInfos.get(0);
             checkGuideBean.startTime = time;
         }
     }
