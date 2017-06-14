@@ -391,6 +391,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
     @Override
     public void afterTextChanged(Editable s) {
+        if (cityList == null) {
+            return;
+        }
         emptyTV.setVisibility(GONE);
         if(editSearch!=null && editSearch.getText().length()>0){
             headSearchClean.setVisibility(View.VISIBLE);

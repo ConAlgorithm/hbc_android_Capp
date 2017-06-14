@@ -1,15 +1,20 @@
 package com.hugboga.custom;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -160,7 +165,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
 
-   public void initView() {
+    public void initView() {
         show_ad = (ImageView) findViewById(R.id.show_ad);
         bottom_txt = (ImageView) findViewById(R.id.bottom_txt);
         UpdateResources.checkLocalDB(this);
@@ -183,7 +188,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         timeSecond.setText(String.format(getString(R.string.loading_time),loading_time+""));
     }
 
-//    Handler timeHandler = new Handler();
+    //    Handler timeHandler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -214,6 +219,10 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     @PermissionGrant(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneSuccess() {
+        if (!checkPermission(this, Manifest.permission.READ_PHONE_STATE)) {
+            requestPhoneFailed();
+            return;
+        }
         initView();
         try {
             requestKey(UserEntity.getUser().getAccessKey(this).isEmpty());
@@ -244,6 +253,22 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             }
         });
         dialog.show();
+    }
+
+    @SuppressLint("NewApi")
+    public static boolean checkPermission(Context context, String permission) {
+        boolean result = false;
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+                result = true;
+            }
+        } else {
+            PackageManager pm = context.getPackageManager();
+            if (pm.checkPermission(permission, context.getPackageName()) == PackageManager.PERMISSION_GRANTED) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     /**
