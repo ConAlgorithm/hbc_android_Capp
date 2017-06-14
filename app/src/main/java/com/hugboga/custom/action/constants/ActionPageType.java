@@ -31,5 +31,6 @@ public class ActionPageType {
     public static final int CHAT_LIST = 30;                   // 30：私聊列表
     public static final int TRAVEL_FUND_USED_BILL = 31;       // 31：旅游基金使用明细
     public static final int INVITE_BILL = 32;                 // 32：邀请记录（登录）
-
+    public static final int PURPOSE_FORM = 33;                // 33：意向单页
+    public static final int CHOOSE_PAY = 34;                  // 34：支付收银台（登录、orderId、payPrice、apiType、isWechat、isAlipay、isUnionpay）
 }
