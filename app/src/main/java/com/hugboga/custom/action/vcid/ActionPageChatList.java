@@ -15,7 +15,7 @@ public class ActionPageChatList extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (!ActionUtils.isLogin(context)) {
+        if (!ActionUtils.isLogin(context, actionBean)) {
             return;
         }
         Intent intent = new Intent(context, MainActivity.class);

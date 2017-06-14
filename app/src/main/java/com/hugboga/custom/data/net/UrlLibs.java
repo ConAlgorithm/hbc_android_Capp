@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 150
+    //current urlErrorCode 152
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -170,6 +170,7 @@ public class UrlLibs {
     public static final String GET_USER_COUPON              = "trade/v1.0/c/order/home?";                               // 获取用户优惠卷
     public static final String SERVER_IP_GUIDES_COMMENTS    = "trade/v1.3/c/order/evaluate?";                           // 对车导评价 *** 1.0
     public static final String SERVER_IP_ORDER_PAY_ID       = "trade/v1.0/c/pay/getmobilepayurl?";                      // 订单支付 支付宝
+    public static final String API_COUPON_PAY               = "trade/v1.0/c/pay/couponPay";                             // 买劵支付接口151
     public static final String SERVER_IP_IM_ORDER_LIST      = "trade/v1.0/c/order/list/im";                             // IM聊天界面的订单数据
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
@@ -190,6 +191,7 @@ public class UrlLibs {
     public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          // 易联支付查询已绑定的卡128
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          // 易联查询银行卡所属银行129
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                // 易联支付接口130
+    public static final String API_COUPON_CREDIT_PAY        = "trade/v1.0/c/yilian/couponpay";                          // 买劵易联支付接口152
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机

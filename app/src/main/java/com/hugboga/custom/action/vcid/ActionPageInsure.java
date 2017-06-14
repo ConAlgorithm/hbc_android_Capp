@@ -16,7 +16,7 @@ public class ActionPageInsure extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (ActionUtils.isLogin(context)) {
+        if (ActionUtils.isLogin(context, actionBean)) {
             Intent intent = new Intent(context, InsureActivity.class);
             context.startActivity(intent);
         }

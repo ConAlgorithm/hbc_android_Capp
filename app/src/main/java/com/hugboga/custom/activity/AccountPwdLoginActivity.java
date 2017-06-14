@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.UserBean;
@@ -76,6 +77,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     private String source = "";
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
+    public ActionBean actionBean;
     @Override
     public int getContentViewId() {
         return R.layout.account_pwd_login;
@@ -95,6 +97,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             areaCode = intent.getStringExtra(KEY_AREA_CODE);
             phone = intent.getStringExtra(KEY_PHONE);
             source = intent.getStringExtra("source");
+            actionBean = (ActionBean) intent.getSerializableExtra(Constants.PARAMS_ACTION);
         }
         sharedPre = new SharedPre(activity);
         if (TextUtils.isEmpty(areaCode)) {
@@ -303,7 +306,6 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 
             connectIM();
             Unicorn.setUserInfo(null);
-            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
 
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("source", getIntentSource());
@@ -316,8 +318,12 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             if (user.mustRestPwd && passwordEditText.getText() != null) {
                 final String password = passwordEditText.getText().toString();
                 Intent intent = new Intent(this, InitPasswordActivity.class);
+                intent.putExtra(Constants.PARAMS_ACTION, actionBean);
                 intent.putExtra(Constants.PARAMS_DATA, password);
                 startActivity(intent);
+            } else {
+                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+                CommonUtils.loginDoAction(this, actionBean);
             }
             finish();
         }

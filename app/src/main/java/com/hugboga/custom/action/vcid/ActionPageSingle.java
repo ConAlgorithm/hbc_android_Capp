@@ -17,7 +17,7 @@ public class ActionPageSingle extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (ActionUtils.isLogin(context)) {
+        if (ActionUtils.isLogin(context, actionBean)) {
             Intent intent = new Intent(context, SingleActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
             context.startActivity(intent);

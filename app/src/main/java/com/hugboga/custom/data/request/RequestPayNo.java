@@ -22,19 +22,25 @@ import java.util.HashMap;
  * Created by admin on 2016/3/23.
  */
 
-@HttpRequest(path = UrlLibs.SERVER_IP_ORDER_PAY_ID,builder = NewParamsBuilder.class)
+@HttpRequest(path = "", builder = NewParamsBuilder.class)
 public class RequestPayNo extends BaseRequest<Object> {
 
-    public  int payType;
+    public int payType;
+    public int apiType;
 
     /**
      * orderID 订单ID<br/>
      * payPrice 支付金额<br/>
-     * payType 1 支付宝 ，2 微信
+     * payType 1 支付宝 ，2 微信，3.googleplay微信
      * couponID 优惠券<br/>
      */
     public RequestPayNo(Context context, String orderId, double payPrice, int _payType, String couponID){
+        this(context, orderId, payPrice, _payType, couponID, 0);
+    }
+
+    public RequestPayNo(Context context, String orderId, double payPrice, int _payType, String couponID, int apiType) {
         super(context);
+        this.apiType = apiType;
         map =new HashMap<String,Object>();
         map.put("appId", Config.getImei());
         map.put("appEnv","android");
@@ -57,7 +63,20 @@ public class RequestPayNo extends BaseRequest<Object> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40068";
+        if (apiType == 1) {
+            return "40151";
+        } else {
+            return "40068";
+        }
+    }
+
+    @Override
+    public String getUrl() {
+        if (apiType == 1) {
+            return UrlLibs.API_COUPON_PAY;
+        } else {
+            return UrlLibs.SERVER_IP_ORDER_PAY_ID;
+        }
     }
 
     @Override
@@ -72,6 +91,5 @@ public class RequestPayNo extends BaseRequest<Object> {
                 }
             };
         }
-
     }
 }

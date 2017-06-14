@@ -22,6 +22,8 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.ActionController;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
@@ -479,6 +481,13 @@ public final class CommonUtils {
             return m.replaceAll("").trim();
         } catch (Exception e) {
             return text;
+        }
+    }
+
+    public static void loginDoAction(Context context, ActionBean actionBean) {
+        if (actionBean != null && !"1".equals(actionBean.vcid) ) {
+            ActionController actionFactory = ActionController.getInstance();
+            actionFactory.doAction(context, actionBean);
         }
     }
 

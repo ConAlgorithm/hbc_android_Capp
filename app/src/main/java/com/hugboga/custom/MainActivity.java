@@ -575,13 +575,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
-            case CLICK_USER_LOGIN:
-                if (actionBean != null && !"1".equals(actionBean.vcid) ) {
-                    ActionController actionFactory = ActionController.getInstance();
-                    actionFactory.doAction(this, actionBean);
-                    actionBean = null;
-                }
-                break;
             case SET_MAIN_PAGE_INDEX:
                 lastPagerPosition = currentPosition;
                 int index = Integer.valueOf(action.data.toString());

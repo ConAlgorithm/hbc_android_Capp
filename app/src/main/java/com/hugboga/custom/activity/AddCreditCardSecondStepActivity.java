@@ -198,7 +198,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
             }.run();
         }else if(ChoosePaymentActivity.TAG.equals(sourse)){
             cardId = creditCardInfoBean.id;
-            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId,addCreditSecStepReserverdPhone.getText().toString());
+            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId,addCreditSecStepReserverdPhone.getText().toString(),params.apiType);
             requestData(creditCardPay);
         }
     }
@@ -276,7 +276,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
             cardId = creditAddInfo.id;
 
             //绑定成功进行支付请求
-            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId, addCreditSecStepReserverdPhone.getText().toString());
+            RequestCreditCardPay creditCardPay = new RequestCreditCardPay(getBaseContext(),params.orderId ,priceStr, params.couponId, cardId, addCreditSecStepReserverdPhone.getText().toString(),params.apiType);
             HttpRequestUtils.request(this,creditCardPay,this,false);
         }else if (request instanceof  RequestCreditCardPay){
             dialogUtil.dismissLoadingDialog();

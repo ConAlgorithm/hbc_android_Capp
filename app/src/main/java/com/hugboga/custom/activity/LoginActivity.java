@@ -22,6 +22,7 @@ import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.UserBean;
@@ -96,6 +97,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
 
+    private ActionBean actionBean;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_login_new;
@@ -116,6 +119,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             areaCode = intent.getStringExtra(KEY_AREA_CODE);
             phone = intent.getStringExtra(KEY_PHONE);
             source = intent.getStringExtra("source");
+            actionBean = (ActionBean)intent.getSerializableExtra(Constants.PARAMS_ACTION);
         }
         sharedPre = new SharedPre(activity);
         if (TextUtils.isEmpty(areaCode)) {
@@ -290,6 +294,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             connectIM();
             Unicorn.setUserInfo(null);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+            CommonUtils.loginDoAction(this, actionBean);
 
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("source", getIntentSource());
@@ -404,6 +409,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 break;
             case R.id.shouji_layout:
                 intent = new Intent(this, AccountPwdLoginActivity.class);
+                intent.putExtra(Constants.PARAMS_ACTION, actionBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
                 /*overridePendingTransition(R.anim.enter_from_right,

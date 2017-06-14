@@ -119,7 +119,11 @@ public class ChoosePaymentActivity extends BaseActivity {
         public boolean needShowAlert;
         public EventPayBean eventPayBean;
         public int orderType;
+        public int apiType;//0：正常  1：买券
         public boolean isOrder;//是否是在下单过程中进入
+        public boolean isAliPay = true;
+        public boolean isWechat = true;
+        public boolean isUnionpay = true;
 
         public String getShouldPay() {
             return String.valueOf(Math.round(shouldPay));
@@ -194,12 +198,26 @@ public class ChoosePaymentActivity extends BaseActivity {
             fgRightTV.setVisibility(View.GONE);
         }
         priceTV.setText(requestParams.getShouldPay());
-        // 将该app注册到微信
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
-        msgApi.registerApp(BuildConfig.WX_APP_ID);
         mDialogUtil = DialogUtil.getInstance(this);
 
-        setCreditCardStatusRequest();//信用卡初始化
+        if (!requestParams.isAliPay) {
+            choosePaymentAlipayLayout.setVisibility(View.GONE);
+        }
+        if (!requestParams.isWechat) {
+            choosePaymentWechatLayout.setVisibility(View.GONE);
+        } else {
+            // 将该app注册到微信
+            IWXAPI msgApi = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
+            msgApi.registerApp(BuildConfig.WX_APP_ID);
+        }
+
+        if (!requestParams.isUnionpay) {
+            choosePaymentCreditCardLayout.setVisibility(View.GONE);
+            chooseCreditUnderLine.setVisibility(View.GONE);
+            choosePayAddCreditCardLayout.setVisibility(View.GONE);
+        } else {
+            setCreditCardStatusRequest();//信用卡初始化
+        }
     }
 
     @Override
@@ -236,7 +254,7 @@ public class ChoosePaymentActivity extends BaseActivity {
             return;
         }
         this.payType = payType;
-        RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId);
+        RequestPayNo request = new RequestPayNo(this, requestParams.orderId, requestParams.shouldPay, payType, requestParams.couponId, requestParams.apiType);
         requestData(request);
     }
 

@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -66,6 +68,8 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     private UserBean userBean;
     boolean isFromWeChat;
     boolean isFromSetting;
+    private ActionBean actionBean;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_set_passwd_new;
@@ -81,6 +85,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             unionid = bundle.getString("unionid");
             userBean = (UserBean) bundle.getSerializable("userBean");
             isAfterProcess = bundle.getBoolean("isAfterProcess");
+            actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
         }
         isFromWeChat = getIntent().getBooleanExtra("isFromWeChat",false);
         isFromSetting = getIntent().getBooleanExtra("isFromSetting",false);
@@ -255,6 +260,8 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             Intent intent = new Intent();
             intent.putExtras(bundle);
             setResult(BindMobileActivity.RESULT_OK, intent);
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+            CommonUtils.loginDoAction(this, actionBean);
             finish();
         }else if(request instanceof RequestAfterSetPwd){
             RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;

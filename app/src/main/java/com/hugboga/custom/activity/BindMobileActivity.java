@@ -17,6 +17,7 @@ import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.UserBean;
@@ -74,6 +75,8 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
 
+    private ActionBean actionBean;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_bind_mobile;
@@ -124,6 +127,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
             unionid = bundle.getString("unionid");
             source = bundle.getString("source");
             isAfterProcess = bundle.getBoolean("isAfterProcess");
+            actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
         }
 
         //String areaCode = null;
@@ -310,6 +314,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                 UserSession.getUser().setUserToken(this, userBean.userToken);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+                CommonUtils.loginDoAction(this, actionBean);
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE));
                 destroyHandler();
                 finish();

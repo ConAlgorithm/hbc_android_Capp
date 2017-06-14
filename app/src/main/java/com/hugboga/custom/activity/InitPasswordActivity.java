@@ -12,10 +12,15 @@ import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestChangePwd;
 import com.hugboga.custom.utils.CommonUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.regex.Pattern;
 
@@ -35,6 +40,7 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
     Button submitBTN;
 
     private String oldPassword;
+    private ActionBean actionBean;
 
     @Override
     public int getContentViewId() {
@@ -46,10 +52,12 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             oldPassword = savedInstanceState.getString(Constants.PARAMS_DATA);
+            actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 oldPassword = bundle.getString(Constants.PARAMS_DATA);
+                actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
             }
         }
 
@@ -68,6 +76,7 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(Constants.PARAMS_DATA, oldPassword);
+        outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
     }
 
     @Override
@@ -116,6 +125,8 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
         if (request instanceof RequestChangePwd) {
             CommonUtils.showToast("修改密码成功");
             UserEntity.getUser().setWeakPassword(activity, false);
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+            CommonUtils.loginDoAction(this, actionBean);
             finish();
         }
     }

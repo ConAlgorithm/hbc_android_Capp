@@ -17,7 +17,7 @@ public class ActionPageInviteBill extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (ActionUtils.isLogin(context)) {
+        if (ActionUtils.isLogin(context, actionBean)) {
             Intent intent = new Intent(context, TravelFundRecordActivity.class);
             intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_INVITE_FRIENDS);
             context.startActivity(intent);
