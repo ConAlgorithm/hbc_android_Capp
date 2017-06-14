@@ -7,6 +7,7 @@ import com.hugboga.custom.action.constants.ActionPageType;
 import com.hugboga.custom.action.vcid.ActionPageActivityList;
 import com.hugboga.custom.action.vcid.ActionPageCharteredCar;
 import com.hugboga.custom.action.vcid.ActionPageChatList;
+import com.hugboga.custom.action.vcid.ActionPageChoosePay;
 import com.hugboga.custom.action.vcid.ActionPageCollectGuide;
 import com.hugboga.custom.action.vcid.ActionPageCoupon;
 import com.hugboga.custom.action.vcid.ActionPageGuideDetail;
@@ -15,6 +16,7 @@ import com.hugboga.custom.action.vcid.ActionPageImChat;
 import com.hugboga.custom.action.vcid.ActionPageInsure;
 import com.hugboga.custom.action.vcid.ActionPageInviteBill;
 import com.hugboga.custom.action.vcid.ActionPageOrderDetail;
+import com.hugboga.custom.action.vcid.ActionPagePurposeForm;
 import com.hugboga.custom.action.vcid.ActionPageSearch;
 import com.hugboga.custom.action.vcid.ActionPageSend;
 import com.hugboga.custom.action.vcid.ActionPageServicerCenter;
@@ -58,6 +60,8 @@ public class ActionMapping {
         arrayMap.put(ActionPageType.CHAT_LIST, ActionPageChatList.class);                     // 30：私聊列表
         arrayMap.put(ActionPageType.TRAVEL_FUND_USED_BILL, ActionPageUsedBill.class);         // 31：旅游基金使用明细
         arrayMap.put(ActionPageType.INVITE_BILL, ActionPageInviteBill.class);                 // 32：邀请记录（登录）
+        arrayMap.put(ActionPageType.PURPOSE_FORM, ActionPagePurposeForm.class);               // 33：意向单页
+        arrayMap.put(ActionPageType.CHOOSE_PAY, ActionPageChoosePay.class);                   // 34：支付收银台（登录、orderId、payPrice、apiType、isWechat、isAlipay、isUnionpay）
         return arrayMap;
     }
 }

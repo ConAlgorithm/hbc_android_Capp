@@ -67,7 +67,7 @@ public class MyApplication extends HbcApplication {
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-            //CrashReport.initCrashReport(this, "900024779", false);
+//            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,29 +195,31 @@ public class MyApplication extends HbcApplication {
     }
 
     public void initSensorsData() {
-        // 神策 初始化 SDK
-        SensorsDataAPI.sharedInstance(
-                this,                               // 传入 Context
-                SA_SERVER_URL,                      // 数据接收的 URL
-                SA_CONFIGURE_URL,                   // 配置分发的 URL
-                SA_DEBUG_MODE);                     // Debug 模式选项
-
-        // 公共属性
         try {
+            // 神策 初始化 SDK
+            SensorsDataAPI.sharedInstance(
+                    this,                               // 传入 Context
+                    SA_SERVER_URL,                      // 数据接收的 URL
+                    SA_CONFIGURE_URL,                   // 配置分发的 URL
+                    SA_DEBUG_MODE);                     // Debug 模式选项
+
+            // 公共属性
             JSONObject properties = new JSONObject();
             properties.put("hbc_plateform_type", "Android");        // 平台类型
             properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
             properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
-            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
+            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(this).getAnonymousId());
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
+
+            //初始化用户属性
+            LoginActivity.setSensorsUserEvent();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (InvalidDataException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        //初始化用户属性
-        LoginActivity.setSensorsUserEvent();
     }
 
     /**

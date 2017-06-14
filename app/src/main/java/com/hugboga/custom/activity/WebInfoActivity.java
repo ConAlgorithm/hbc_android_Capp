@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -34,6 +35,9 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -265,10 +269,15 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
             finish();
-        } else {
-            loadUrl(true);
+        } else if (!TextUtils.isEmpty(url)) {
+            if (url.contains("h5/cactivity/seckill") && !url.contains("&userId=") && UserEntity.getUser().isLogin(this)) {
+                url = url + "&userId=" + UserEntity.getUser().getUserId(this);
+                Intent intent = new Intent(this, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, url);
+                startActivity(intent);
+                finish();
+            }
         }
-
     }
 
     public void initHeader() {
@@ -321,7 +330,29 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         initHeader();
         isLogin = UserEntity.getUser().isLogin(this);
         url = getIntent().getStringExtra(WEB_URL);
-        loadUrl(false);
+
+        setUrlUserId();
+
+        if (isLogin) {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                UserEntity userEntity = UserEntity.getUser();
+                jsonObject.put("id", userEntity.getUserId(this));
+                jsonObject.put("ut", userEntity.getUserToken(this));
+                jsonObject.put("name", userEntity.getNickname(this));
+                jsonObject.put("areacode", userEntity.getAreaCode(this));
+                jsonObject.put("phone", userEntity.getPhone(this));
+                synCookies(url, "capp_user=" + jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!TextUtils.isEmpty(url)) {
+            webView.loadUrl(url);
+        }
         MLog.e("url=" + url);
 
         SensorsUtils.setSensorsShowUpWebView(webView);
@@ -332,16 +363,21 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         return TextUtils.isEmpty(title) ? "web页面" : title;
     }
 
-    public void loadUrl(boolean isOnResume) {
-        if (!TextUtils.isEmpty(url)) {
-            if (url.contains("h5/cactivity/seckill") && !url.contains("&userId=") && UserEntity.getUser().isLogin(this)) {
-                url = url + "&userId=" + UserEntity.getUser().getUserId(this);
-                Intent intent = new Intent(this, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, url);
-                startActivity(intent);
-                finish();
-            } else if (!isOnResume) {
-                webView.loadUrl(url);
+    public static void synCookies(String url, String value) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setCookie(url, value);
+    }
+
+    public void setUrlUserId() {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        if (isLogin) {
+            String userId = UserEntity.getUser().getUserId(this);
+            if (url.contains("userId=")) {
+                url = CommonUtils.replaceUrlValue(url, "userId", userId);
+            } else {
+                url = CommonUtils.getBaseUrl(url) + "userId=" + userId;
             }
         }
     }

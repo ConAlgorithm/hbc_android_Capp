@@ -53,7 +53,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         //version start
-        versionCode 101940
+        versionCode 102180
         versionName "4.1.0"
         //version end
         signingConfig signingConfigs.hbcSign
@@ -85,6 +85,7 @@ android {
         //==productFlavors_start==
         developer {}
 //        stage {}
+        /*==examination_start==*/
         examination {}
         '10000' {}
         '10001' {}
