@@ -19,9 +19,20 @@ public class ActionPageWeb extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (actionBean.data != null && actionBean.data instanceof String) {
-            ActionWebBean actionWebBean = (ActionWebBean) JsonUtils.fromJson((String)actionBean.data, ActionWebBean.class);
-            intentWebInfoActivity(actionWebBean.url);
+        if (actionBean.data != null) {
+            ActionWebBean actionWebBean = null;
+            if (actionBean.data instanceof String) {
+                actionWebBean = (ActionWebBean) JsonUtils.fromJson((String)actionBean.data, ActionWebBean.class);
+            } else {
+                try {
+                    actionWebBean = (ActionWebBean) JsonUtils.fromJson(actionBean.data, ActionWebBean.class);
+                } catch (Exception e) {
+                    actionWebBean = null;
+                }
+            }
+            if (actionWebBean != null && !TextUtils.isEmpty(actionWebBean.url)) {
+                intentWebInfoActivity(actionWebBean.url);
+            }
         }
     }
 
