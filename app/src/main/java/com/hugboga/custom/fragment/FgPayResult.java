@@ -62,12 +62,12 @@ public class FgPayResult extends BaseFragment{
         fgLeftBtn.setLayoutParams(titleLeftBtnParams);
     }
 
-    public void initCouponView(boolean _isPaySucceed, String areaCode, String phone) {
+    public void initCouponView(boolean _isPaySucceed) {
         this.apiType = 1;
         this.isPaySucceed = _isPaySucceed;
         payResultView.setVisibility(View.GONE);
         couponPayResultView.setVisibility(View.VISIBLE);
-        couponPayResultView.initView(_isPaySucceed, areaCode, phone);
+        couponPayResultView.initView(_isPaySucceed);
 
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override

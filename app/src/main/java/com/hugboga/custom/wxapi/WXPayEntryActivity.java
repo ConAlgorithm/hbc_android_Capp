@@ -26,10 +26,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private boolean isPaySucceed = false;
     private String orderId;
     private int orderType;
-
     public int apiType;//0：正常  1：买券
-    public String couponAreaCode;//买劵人手机区号
-    public String couponPhone;//买劵人手机号
 
     @Override
     public int getContentViewId() {
@@ -44,10 +41,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         SharedPre sharedPre = new SharedPre(WXPayEntryActivity.this);
         orderId = sharedPre.getStringValue(SharedPre.PAY_WECHAT_ORDER_ID);
         orderType = sharedPre.getIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE);
-
         apiType = sharedPre.getIntValue(SharedPre.PAY_WECHAT_APITYPE, 0);
-        couponAreaCode = sharedPre.getStringValue(SharedPre.PAY_WECHAT_COUPON_AREACODE);
-        couponPhone = sharedPre.getStringValue(SharedPre.PAY_WECHAT_COUPON_PHONE);
 
         api = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
         api.handleIntent(getIntent(), this);
@@ -76,7 +70,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             isPaySucceed = resp.errCode == BaseResp.ErrCode.ERR_OK;
             if (apiType == 1) {
-                fgPayResult.initCouponView(isPaySucceed, couponAreaCode, couponPhone);
+                fgPayResult.initCouponView(isPaySucceed);
             } else {
                 fgPayResult.initView(isPaySucceed, orderId, orderType);
             }

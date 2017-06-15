@@ -264,21 +264,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!TextUtils.isEmpty(url) && url.contains("userId=") && isLogin != UserEntity.getUser().isLogin(this)) {
-            isLogin = UserEntity.getUser().isLogin(this);
-            url = CommonUtils.replaceUrlValue(url, "userId", UserEntity.getUser().getUserId(this));
+        boolean _isLogin = UserEntity.getUser().isLogin(this);
+        if (!TextUtils.isEmpty(url) && _isLogin && isLogin != _isLogin) {
+            isLogin = true;
+            setUrlUserId();
             Intent intent = new Intent(this, WebInfoActivity.class);
             intent.putExtra(WebInfoActivity.WEB_URL, url);
             startActivity(intent);
             finish();
-        } else if (!TextUtils.isEmpty(url)) {
-            if (url.contains("h5/cactivity/seckill") && !url.contains("&userId=") && UserEntity.getUser().isLogin(this)) {
-                url = url + "&userId=" + UserEntity.getUser().getUserId(this);
-                Intent intent = new Intent(this, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, url);
-                startActivity(intent);
-                finish();
-            }
         }
     }
 

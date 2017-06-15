@@ -37,8 +37,6 @@ public class ActionPageChoosePay extends ActionPageBase {
         requestParams.isWechat = CommonUtils.getCountInteger(bean.isWechat) == 1;
         requestParams.isAliPay = CommonUtils.getCountInteger(bean.isAliPay) == 1;
 //        requestParams.isUnionpay = CommonUtils.getCountInteger(bean.isUnionpay) == 1;
-        requestParams.couponPhone = bean.moble;
-        requestParams.couponAreaCode = bean.areaCode;
 
         Intent intent = new Intent(context, ChoosePaymentActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, requestParams);

@@ -21,10 +21,7 @@ public class PayResultActivity extends BaseActivity{
         public boolean payResult;//支付结果 1.支付成功，2.支付失败
         public String orderId;
         public int orderType;
-
         public int apiType;//0：正常  1：买券
-        public String couponAreaCode;//买劵人手机区号
-        public String couponPhone;//买劵人手机号
     }
 
     @Override
@@ -46,7 +43,7 @@ public class PayResultActivity extends BaseActivity{
 
         fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
         if (params.apiType == 1) {
-            fgPayResult.initCouponView(params.payResult, params.couponAreaCode, params.couponPhone);
+            fgPayResult.initCouponView(params.payResult);
         } else {
             fgPayResult.initView(params.payResult, params.orderId, params.orderType);
         }

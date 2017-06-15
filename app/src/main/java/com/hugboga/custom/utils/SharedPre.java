@@ -50,8 +50,6 @@ public class SharedPre {
 	public static String PAY_WECHAT_ORDER_ID = "pay_wechat_order_id";
 	public static String PAY_WECHAT_ORDER_TYPE = "pay_wechat_order_type";
 	public static String PAY_WECHAT_APITYPE = "pay_wechat_apitype";
-	public static String PAY_WECHAT_COUPON_AREACODE = "pay_wechat_coupon_areacode";
-	public static String PAY_WECHAT_COUPON_PHONE = "pay_wechat_coupon_phone";
 	public static String GENDER ="gender";
 	public static String AGETYPE ="ageType";
 	public static String APP_LAUNCH_COUNT ="appLaunchCount";
