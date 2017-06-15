@@ -87,6 +87,7 @@ android {
 //        stage {}
         /*==examination_start==*/
         examination {}
+        /*==examination_end==*/
         '10000' {}
         '10001' {}
         '10002' {}
@@ -97,8 +98,9 @@ android {
         '10011' {}
         '10012' {}
         '10013' {}
+        /*==formal_start==*/
         '10092' {}
-
+        /*==formal_end==*/
         '10007' {//google play
             applicationId 'com.hugboga.custom.gp'
         }
