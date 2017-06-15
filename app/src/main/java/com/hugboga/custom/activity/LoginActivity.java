@@ -322,6 +322,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 bundle.putString("key_phone",userBean.mobile);
                 bundle.putString("key_area_code",userBean.areaCode);
                 Intent intent = new Intent(LoginActivity.this, BindMobileActivity.class);
+                intent.putExtra(Constants.PARAMS_ACTION,actionBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -332,6 +333,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 Unicorn.setUserInfo(null);
                 connectIM();
                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
+                CommonUtils.loginDoAction(this, actionBean);
 
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("bind", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");

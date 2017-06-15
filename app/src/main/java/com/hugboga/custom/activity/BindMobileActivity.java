@@ -261,6 +261,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
 //                }
 //                finishForResult(bundle1);
                 destroyHandler();
+                CommonUtils.loginDoAction(this, actionBean);
                 finish();
                 EventBus.getDefault().post(new EventAction(EventType.BIND_MOBILE, userBean));
             default:
