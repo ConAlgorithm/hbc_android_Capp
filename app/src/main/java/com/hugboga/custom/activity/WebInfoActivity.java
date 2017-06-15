@@ -31,6 +31,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
@@ -38,6 +39,8 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,6 +86,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public void onCreate(Bundle savedInstanceState) {
         this.cityBean = (CityBean)getIntent().getSerializableExtra("cityBean");
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -259,6 +263,16 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }catch (Exception e){
             e.printStackTrace();
         }
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(final EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOOUT:
+                removeAllCookies();
+                break;
+        }
     }
 
     @Override
@@ -335,6 +349,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            removeAllCookies();
         }
 
         if (!TextUtils.isEmpty(url)) {
@@ -350,7 +366,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         return TextUtils.isEmpty(title) ? "web页面" : title;
     }
 
-    public static void synCookies(String url, String value) {
+    public void synCookies(String url, String value) {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
         cookieManager.setCookie(url, value);
@@ -359,6 +375,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         } else {
             CookieSyncManager.createInstance(MyApplication.getAppContext());
             CookieSyncManager.getInstance().sync();
+        }
+    }
+
+    public void removeAllCookies() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().removeAllCookies(null);
+        } else {
+            CookieManager.getInstance().removeAllCookie();
         }
     }
 

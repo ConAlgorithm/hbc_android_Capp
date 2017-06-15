@@ -11,6 +11,7 @@ import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -436,14 +437,16 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void getUserInfo(final String callBack) {
         //获取getUserInfo，并回调
-        callBack(callBack, getUserInfoJson());
+        if (UserEntity.getUser().isLogin(mActivity)) {
+            callBack(callBack, getUserInfoJson());
+        }
     }
 
     public String getUserInfoJson() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("accessKey", UserEntity.getUser().getAccessKey(mActivity));
-            jsonObject.put("neUserId", UserEntity.getUser().getUserId(mActivity));
+            jsonObject.put("accessKey", UserSession.getUser().getAccessKey(mActivity));
+            jsonObject.put("userId", UserEntity.getUser().getUserId(mActivity));
             jsonObject.put("userToken", UserEntity.getUser().getUserToken(mActivity));
             jsonObject.put("name", UserEntity.getUser().getUserName(mActivity));
             jsonObject.put("nickName", UserEntity.getUser().getNickname(mActivity));

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.constants.Constants;
@@ -62,8 +63,7 @@ public class CouponPayResultView extends LinearLayout {
     @OnClick(R.id.coupon_pay_result_bottom_tv)
     public void onClick() {
         if (isPaySucceed) {
-            ((Activity) getContext()).finish();
-            EventBus.getDefault().post(EventType.ACTIVITY_FINISH);
+            getContext().startActivity(new Intent(getContext(), MainActivity.class));
             Intent intent = new Intent(getContext(), CouponActivity.class);
             intent.putExtra(Constants.PARAMS_SOURCE, "买卷支付结果页");
             getContext().startActivity(intent);

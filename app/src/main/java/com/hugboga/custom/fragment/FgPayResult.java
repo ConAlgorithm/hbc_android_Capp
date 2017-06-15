@@ -72,9 +72,10 @@ public class FgPayResult extends BaseFragment{
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Activity) getContext()).finish();
                 if (isPaySucceed) {
-                    EventBus.getDefault().post(EventType.ACTIVITY_FINISH);
+                    getContext().startActivity(new Intent(getContext(), MainActivity.class));
+                } else {
+                    ((Activity) getContext()).finish();
                 }
             }
         });
@@ -84,7 +85,7 @@ public class FgPayResult extends BaseFragment{
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             if (apiType == 1) {
                 if (isPaySucceed) {
-                    EventBus.getDefault().post(EventType.ACTIVITY_FINISH);
+                    getContext().startActivity(new Intent(getContext(), MainActivity.class));
                 }
             } else {
                 if (isPaySucceed) {
