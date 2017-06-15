@@ -894,13 +894,23 @@ public class OrderUtils {
     }
 
     public static void showSaveDialog(final Activity activity) {
-        AlertDialogUtils.showAlertDialog(activity, MyApplication.getAppContext().getString(R.string.back_alert_msg), "离开", "取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                activity.finish();
-            }
-        }, new DialogInterface.OnClickListener() {
+        showSaveDialog(activity, null);
+    }
+
+    public static void showSaveDialog(final Activity activity, DialogInterface.OnClickListener _exitClick) {
+        DialogInterface.OnClickListener exitClick = null;
+        if (_exitClick == null) {
+            exitClick = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    activity.finish();
+                }
+            };
+        } else {
+            exitClick = _exitClick;
+        }
+        AlertDialogUtils.showAlertDialog(activity, MyApplication.getAppContext().getString(R.string.back_alert_msg), "离开", "取消", exitClick, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

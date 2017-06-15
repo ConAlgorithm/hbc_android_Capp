@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,15 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgPickup;
 import com.hugboga.custom.fragment.FgSend;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 
@@ -81,6 +86,8 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     public void onBack() {
         if (!isShowSaveDialog()) {
             finish();
+        } else {
+            refreshSeckillsWeb();
         }
     }
 
@@ -89,8 +96,8 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             if (isShowSaveDialog()) {
                 return true;
-            } else if (params != null && params.isSeckills) {
-                startActivity(new Intent(this, MainActivity.class));
+            } else {
+                refreshSeckillsWeb();
             }
         }
         return super.onKeyUp(keyCode, event);
@@ -104,9 +111,25 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
             isShowDialog = !((FgSend) currentFragment).isAirPortNull();
         }
         if (isShowDialog) {
-            OrderUtils.showSaveDialog(this);
+            OrderUtils.showSaveDialog(this, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    refreshSeckillsWeb();
+                    dialog.dismiss();
+                    PickSendActivity.this.finish();
+                }
+            } );
+        } else {
+            refreshSeckillsWeb();
         }
         return isShowDialog;
+    }
+
+    public void refreshSeckillsWeb() {
+        if (params != null && params.isSeckills) {
+            EventBus.getDefault().post(new EventAction(EventType.WEBINFO_REFRESH));
+        }
     }
 
     @Override

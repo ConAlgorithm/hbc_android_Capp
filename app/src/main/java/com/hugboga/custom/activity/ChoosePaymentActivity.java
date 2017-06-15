@@ -239,12 +239,6 @@ public class ChoosePaymentActivity extends BaseActivity {
                     setSensorsPayResultEvent(CommonUtils.selectPayStyle(this.payType), (boolean) action.getData());
                 }
                 break;
-            case ACTIVITY_FINISH:
-                if (mDialogUtil != null) {
-                    mDialogUtil.dismissDialog();
-                }
-                finish();
-                break;
             default:
                 break;
         }

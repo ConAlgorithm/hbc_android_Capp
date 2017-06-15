@@ -272,6 +272,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             case CLICK_USER_LOOUT:
                 removeAllCookies();
                 break;
+            case WEBINFO_REFRESH:
+                if (!TextUtils.isEmpty(url)) {
+                    webView.reload();
+                }
+                break;
         }
     }
 

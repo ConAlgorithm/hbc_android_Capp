@@ -107,5 +107,5 @@ public enum EventType {
 
     SHOW_GUIDE_DETAIL_BAR,
 
-    ACTIVITY_FINISH,//关闭activity
+    WEBINFO_REFRESH,//刷新webView
 }
