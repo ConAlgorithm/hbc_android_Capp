@@ -68,7 +68,6 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     private UserBean userBean;
     boolean isFromWeChat;
     boolean isFromSetting;
-    private ActionBean actionBean;
 
     @Override
     public int getContentViewId() {
@@ -85,7 +84,6 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             unionid = bundle.getString("unionid");
             userBean = (UserBean) bundle.getSerializable("userBean");
             isAfterProcess = bundle.getBoolean("isAfterProcess");
-            actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
         }
         isFromWeChat = getIntent().getBooleanExtra("isFromWeChat",false);
         isFromSetting = getIntent().getBooleanExtra("isFromSetting",false);
@@ -261,7 +259,6 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             intent.putExtras(bundle);
             setResult(BindMobileActivity.RESULT_OK, intent);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
-            CommonUtils.loginDoAction(this, actionBean);
             finish();
         }else if(request instanceof RequestAfterSetPwd){
             RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
