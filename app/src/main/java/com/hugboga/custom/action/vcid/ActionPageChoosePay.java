@@ -15,22 +15,17 @@ import com.hugboga.custom.utils.JsonUtils;
 /**
  * Created by qingcha on 17/6/14.
  */
-
 public class ActionPageChoosePay extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (actionBean.data == null) {
+        if (!ActionUtils.isLogin(context, null) && actionBean.data == null) {
             return;
         }
         ActionChoosePayBean bean = (ActionChoosePayBean) JsonUtils.fromJson(actionBean.data, ActionChoosePayBean.class);
         if (bean == null) {
             return;
         }
-        if (CommonUtils.getCountInteger(bean.apiType) != 1 && !ActionUtils.isLogin(context, actionBean)) {
-            return;
-        }
-
         ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
         requestParams.orderId = bean.orderId;
         requestParams.shouldPay = CommonUtils.getCountDouble(bean.payPrice);
@@ -39,9 +34,9 @@ public class ActionPageChoosePay extends ActionPageBase {
         requestParams.orderType = 0;
         requestParams.isOrder = false;
         requestParams.apiType = CommonUtils.getCountInteger(bean.apiType);
-//        requestParams.isWechat = CommonUtils.getCountInteger(bean.isWechat) == 1;
-//        requestParams.isAliPay = CommonUtils.getCountInteger(bean.isAliPay) == 1;
-        requestParams.isUnionpay = CommonUtils.getCountInteger(bean.isUnionpay) == 1;
+        requestParams.isWechat = CommonUtils.getCountInteger(bean.isWechat) == 1;
+        requestParams.isAliPay = CommonUtils.getCountInteger(bean.isAliPay) == 1;
+//        requestParams.isUnionpay = CommonUtils.getCountInteger(bean.isUnionpay) == 1;
         requestParams.couponPhone = bean.moble;
         requestParams.couponAreaCode = bean.areaCode;
 

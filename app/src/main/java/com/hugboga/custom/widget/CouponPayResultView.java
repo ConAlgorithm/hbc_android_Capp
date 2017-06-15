@@ -17,9 +17,12 @@ import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,10 +69,12 @@ public class CouponPayResultView extends LinearLayout {
 
     @OnClick(R.id.coupon_pay_result_bottom_tv)
     public void onClick() {
-        if (isPaySucceed && CommonUtils.isLogin(getContext())) {
+        if (isPaySucceed) {
             String userAreaCode = UserEntity.getUser().getAreaCode(getContext());
             String userPhone = UserEntity.getUser().getPhone(getContext());
             if (TextUtils.equals(CommonUtils.removePhoneCodeSign(userAreaCode), CommonUtils.removePhoneCodeSign(areaCode)) && TextUtils.equals(userPhone, phone)) {
+                ((Activity) getContext()).finish();
+                EventBus.getDefault().post(EventType.ACTIVITY_FINISH);
                 Intent intent = new Intent(getContext(), CouponActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, "买卷支付结果页");
                 getContext().startActivity(intent);

@@ -126,6 +126,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn, TAG);
         webAgent.setSkuItemBean(skuItemBean);

@@ -159,6 +159,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webAgent = new WebAgent(this, webView, null, null, null);
         webView.addJavascriptInterface(webAgent, "javaObj");

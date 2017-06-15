@@ -436,16 +436,21 @@ public class WebAgent implements HttpRequestListener {
     @JavascriptInterface
     public void getUserInfo(final String callBack) {
         //获取getUserInfo，并回调
+        callBack(callBack, getUserInfoJson());
+    }
+
+    public String getUserInfoJson() {
         try {
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("accessKey", UserEntity.getUser().getAccessKey(mActivity));
             jsonObject.put("neUserId", UserEntity.getUser().getUserId(mActivity));
             jsonObject.put("userToken", UserEntity.getUser().getUserToken(mActivity));
             jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
             jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
             jsonObject.put("mobile", UserEntity.getUser().getPhone(mActivity));
-            callBack(callBack, jsonObject.toString());
+            return jsonObject.toString();
         } catch (Exception e) {
-            MLog.e("getUserInfo ", e);
+            return "";
         }
     }
 

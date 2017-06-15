@@ -315,8 +315,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     public void initView() {
         // 启用javaScript
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webAgent = new WebAgent(this, webView, cityBean, headerLeftBtn, TAG);
         webView.addJavascriptInterface(webAgent, "javaObj");
         webView.setOnKeyListener(this);
@@ -337,16 +338,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
         if (isLogin) {
             try {
-                JSONObject jsonObject = new JSONObject();
-                UserEntity userEntity = UserEntity.getUser();
-                jsonObject.put("neUserId", userEntity.getUserId(this));
-                jsonObject.put("userToken", userEntity.getUserToken(this));
-                jsonObject.put("name", userEntity.getNickname(this));
-                jsonObject.put("areaCode", userEntity.getAreaCode(this));
-                jsonObject.put("mobile", userEntity.getPhone(this));
-                synCookies(url, "capp_user=" + jsonObject.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
+                synCookies(url, "capp_user=" + webAgent.getUserInfoJson());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -390,4 +382,5 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             }
         }
     }
+
 }

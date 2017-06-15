@@ -18,7 +18,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 2017/3/8.
  */
-@HttpRequest(path = UrlLibs.API_CREDIT_PAY, builder = NewParamsBuilder.class)
+@HttpRequest(path = "", builder = NewParamsBuilder.class)
 public class RequestCreditCardPay extends BaseRequest<YiLianPayBean> {
 
     public int apiType;

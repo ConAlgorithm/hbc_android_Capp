@@ -11,9 +11,12 @@ import android.widget.RelativeLayout;
 
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CouponPayResultView;
 import com.hugboga.custom.widget.PayResultView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 
@@ -69,10 +72,9 @@ public class FgPayResult extends BaseFragment{
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((Activity) getContext()).finish();
                 if (isPaySucceed) {
-                    getContext().startActivity(new Intent(getContext(), MainActivity.class));
-                } else {
-                    ((Activity) getContext()).finish();
+                    EventBus.getDefault().post(EventType.ACTIVITY_FINISH);
                 }
             }
         });
@@ -82,8 +84,7 @@ public class FgPayResult extends BaseFragment{
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             if (apiType == 1) {
                 if (isPaySucceed) {
-                    getContext().startActivity(new Intent(getContext(), MainActivity.class));
-                    return true;
+                    EventBus.getDefault().post(EventType.ACTIVITY_FINISH);
                 }
             } else {
                 if (isPaySucceed) {

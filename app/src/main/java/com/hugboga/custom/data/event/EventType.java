@@ -106,4 +106,6 @@ public enum EventType {
     SKU_FILTER_SCOPE,
 
     SHOW_GUIDE_DETAIL_BAR,
+
+    ACTIVITY_FINISH,//关闭activity
 }
