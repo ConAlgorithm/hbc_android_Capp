@@ -438,11 +438,11 @@ public class WebAgent implements HttpRequestListener {
         //获取getUserInfo，并回调
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", UserEntity.getUser().getUserId(mActivity));
-            jsonObject.put("ut", UserEntity.getUser().getUserToken(mActivity));
+            jsonObject.put("neUserId", UserEntity.getUser().getUserId(mActivity));
+            jsonObject.put("userToken", UserEntity.getUser().getUserToken(mActivity));
             jsonObject.put("name", UserEntity.getUser().getNickname(mActivity));
             jsonObject.put("areacode", UserEntity.getUser().getAreaCode(mActivity));
-            jsonObject.put("phone", UserEntity.getUser().getPhone(mActivity));
+            jsonObject.put("mobile", UserEntity.getUser().getPhone(mActivity));
             callBack(callBack, jsonObject.toString());
         } catch (Exception e) {
             MLog.e("getUserInfo ", e);
@@ -804,18 +804,6 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-            }
-        });
-    }
-
-    @JavascriptInterface
-    public void showCloseButton(String isShow) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mActivity instanceof WebInfoActivity) {
-
-                }
             }
         });
     }

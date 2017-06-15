@@ -285,14 +285,12 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     public void initHeader() {
 //        fgTitle.setTextColor(getResources().getColor(R.color.my_content_title_color));
 //        fgTitle.setText("客服中心");
+
+        headerLeftBtn.setImageResource(R.mipmap.top_close);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (webView.canGoBack()) {
-                    webView.goBack();
-                } else {
-                    finish();
-                }
+                finish();
             }
         });
         if (this.getIntent().getBooleanExtra(CONTACT_SERVICE, false)) {
