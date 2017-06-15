@@ -28,10 +28,4 @@ public class ActionChoosePayBean implements Serializable {
     @SerializedName("iu")
     public String isUnionpay;//是否显示信用卡 1：显示，0：不显示
 
-    @SerializedName("m")
-    public String moble;
-
-    @SerializedName("ac")
-    public String areaCode;
-
 }

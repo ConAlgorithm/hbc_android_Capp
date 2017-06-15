@@ -179,10 +179,7 @@ public class YiLianPay {
                                 PayResultActivity.Params params1 = new PayResultActivity.Params();
                                 params1.orderId = orderNo;
                                 params1.orderType = orderType;
-
                                 params1.apiType = choosePaymentParams.apiType;
-                                params1.couponPhone = choosePaymentParams.couponPhone;
-                                params1.couponAreaCode = choosePaymentParams.couponAreaCode;
 
                                 JSONObject obj = new JSONObject(result);
                                 String code = obj.getString("respCode");
