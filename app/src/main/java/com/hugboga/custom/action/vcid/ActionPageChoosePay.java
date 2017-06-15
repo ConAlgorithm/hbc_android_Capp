@@ -19,7 +19,7 @@ public class ActionPageChoosePay extends ActionPageBase {
     @Override
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
-        if (!ActionUtils.isLogin(context, null) && actionBean.data == null) {
+        if (!ActionUtils.isLogin(context, null) || actionBean.data == null) {
             return;
         }
         ActionChoosePayBean bean = (ActionChoosePayBean) JsonUtils.fromJson(actionBean.data, ActionChoosePayBean.class);
