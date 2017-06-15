@@ -44,6 +44,7 @@
             />
 
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_marginTop="12dp"
@@ -57,7 +58,6 @@
         android:textColor="#AEAEAE"
         android:background="@android:color/white"
         />
-
 
     <RelativeLayout
         android:id="@+id/choose_payment_alipay_layout"

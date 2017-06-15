@@ -124,6 +124,8 @@ public class ChoosePaymentActivity extends BaseActivity {
         public boolean isAliPay = true;
         public boolean isWechat = true;
         public boolean isUnionpay = true;
+        public String couponAreaCode;//买劵人手机区号
+        public String couponPhone;//买劵人手机号
 
         public String getShouldPay() {
             return String.valueOf(Math.round(shouldPay));
@@ -433,6 +435,10 @@ public class ChoosePaymentActivity extends BaseActivity {
                         SharedPre sharedPre = new SharedPre(ChoosePaymentActivity.this);
                         sharedPre.saveStringValue(SharedPre.PAY_WECHAT_ORDER_ID, requestParams.orderId);
                         sharedPre.saveIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE, requestParams.orderType);
+                        
+                        sharedPre.saveIntValue(SharedPre.PAY_WECHAT_APITYPE, requestParams.apiType);
+                        sharedPre.saveStringValue(SharedPre.PAY_WECHAT_COUPON_AREACODE, requestParams.couponAreaCode);
+                        sharedPre.saveStringValue(SharedPre.PAY_WECHAT_COUPON_PHONE, requestParams.couponPhone);
                         WXPay.pay(this, bean);
                     }
                 }
@@ -497,6 +503,9 @@ public class ChoosePaymentActivity extends BaseActivity {
             params.payResult = msg.what == 1;//1.支付成功，2.支付失败
             params.orderId = requestParams.orderId;
             params.orderType = requestParams.orderType;
+            params.apiType = requestParams.apiType;
+            params.couponPhone = requestParams.couponPhone;
+            params.couponAreaCode = requestParams.couponAreaCode;
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);

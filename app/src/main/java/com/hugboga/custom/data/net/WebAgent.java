@@ -807,4 +807,16 @@ public class WebAgent implements HttpRequestListener {
             }
         });
     }
+
+    @JavascriptInterface
+    public void showCloseButton(String isShow) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActivity instanceof WebInfoActivity) {
+
+                }
+            }
+        });
+    }
 }

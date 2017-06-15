@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/coupon_pay_result_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:background="@mipmap/activity_pay_background"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/coupon_pay_result_successed_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/coupon_pay_result_successed_iv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@mipmap/activity_pay_successful" />
+            <TextView
+                android:id="@+id/coupon_pay_result_successed_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="支付成功"
+                android:textColor="@color/default_btn_yellow"
+                android:textSize="22sp" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/coupon_pay_result_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:text="支付成功"
+            android:textColor="#929292"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/coupon_pay_result_bottom_tv"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="查看优惠券"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:background="@drawable/shape_rounded_yellow_btn"
+        android:textSize="16sp"
+        />
+</LinearLayout>

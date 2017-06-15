@@ -26,12 +26,18 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -488,6 +494,20 @@ public final class CommonUtils {
         if (actionBean != null && !"1".equals(actionBean.vcid) ) {
             ActionController actionFactory = ActionController.getInstance();
             actionFactory.doAction(context, actionBean);
+        }
+    }
+
+    public static void logout(Context context) {
+        if (context instanceof Activity) {
+            UserEntity.getUser().clean((Activity) context);
+            IMUtil.getInstance().logoutNim();
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+            try {
+                // 用户退出清空 注册ID
+                SensorsDataAPI.sharedInstance(context).logout();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

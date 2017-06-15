@@ -11,4 +11,10 @@
         android:id="@+id/fg_result_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.hugboga.custom.widget.CouponPayResultView
+        android:id="@+id/fg_coupon_result_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

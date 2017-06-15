@@ -7,6 +7,7 @@ import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CouponActivity;
+import com.hugboga.custom.constants.Constants;
 
 /**
  * Created by qingcha on 16/8/13.
@@ -18,6 +19,7 @@ public class ActionPageCoupon extends ActionPageBase {
         super.intentPage(context, actionBean);
         if (ActionUtils.isLogin(context, actionBean)) {
             Intent intent = new Intent(context, CouponActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
             context.startActivity(intent);
         }
     }

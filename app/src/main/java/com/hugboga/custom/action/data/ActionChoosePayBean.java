@@ -19,12 +19,19 @@ public class ActionChoosePayBean implements Serializable {
     @SerializedName("at")
     public String apiType;//0：正常  1：买券
 
-    @SerializedName("isWechat")
+    @SerializedName("iw")
     public String isWechat;//是否显示微信支付 1：显示，0：不显示
 
-    @SerializedName("orderId")
+    @SerializedName("ia")
     public String isAliPay;//是否显示支付宝 1：显示，0：不显示
 
-    @SerializedName("orderId")
+    @SerializedName("iu")
     public String isUnionpay;//是否显示信用卡 1：显示，0：不显示
+
+    @SerializedName("m")
+    public String moble;
+
+    @SerializedName("ac")
+    public String areaCode;
+
 }

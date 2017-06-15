@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
@@ -311,6 +313,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
+//    public void set
+
     public void initView() {
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
@@ -337,11 +341,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             try {
                 JSONObject jsonObject = new JSONObject();
                 UserEntity userEntity = UserEntity.getUser();
-                jsonObject.put("id", userEntity.getUserId(this));
-                jsonObject.put("ut", userEntity.getUserToken(this));
+                jsonObject.put("neUserId", userEntity.getUserId(this));
+                jsonObject.put("userToken", userEntity.getUserToken(this));
                 jsonObject.put("name", userEntity.getNickname(this));
-                jsonObject.put("areacode", userEntity.getAreaCode(this));
-                jsonObject.put("phone", userEntity.getPhone(this));
+                jsonObject.put("areaCode", userEntity.getAreaCode(this));
+                jsonObject.put("mobile", userEntity.getPhone(this));
                 synCookies(url, "capp_user=" + jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -365,7 +369,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     public static void synCookies(String url, String value) {
         CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
         cookieManager.setCookie(url, value);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.flush();
+        } else {
+            CookieSyncManager.createInstance(MyApplication.getAppContext());
+            CookieSyncManager.getInstance().sync();
+        }
     }
 
     public void setUrlUserId() {

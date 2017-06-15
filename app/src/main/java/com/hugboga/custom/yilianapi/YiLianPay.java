@@ -88,13 +88,15 @@ public class YiLianPay {
     private String coupId;//劵id
     private String cardId;//卡id
     YiLianPayBean yiLianPayBean;
+    private ChoosePaymentActivity.RequestParams choosePaymentParams;
 
-    public YiLianPay(Context context, Activity activity, YiLianPayBean yiLianPayBean,String orderNo,int orderType){
+    public YiLianPay(Context context, Activity activity, YiLianPayBean yiLianPayBean,String orderNo,int orderType, ChoosePaymentActivity.RequestParams params){
         this.payContext = context;
         this.payActivtiy = activity;
         this.yiLianPayBean = yiLianPayBean;
         this.orderNo = orderNo;
         this.orderType = orderType;
+        this.choosePaymentParams = params;
     }
 
     public void pay(){
@@ -177,6 +179,10 @@ public class YiLianPay {
                                 PayResultActivity.Params params1 = new PayResultActivity.Params();
                                 params1.orderId = orderNo;
                                 params1.orderType = orderType;
+
+                                params1.apiType = choosePaymentParams.apiType;
+                                params1.couponPhone = choosePaymentParams.couponPhone;
+                                params1.couponAreaCode = choosePaymentParams.couponAreaCode;
 
                                 JSONObject obj = new JSONObject(result);
                                 String code = obj.getString("respCode");

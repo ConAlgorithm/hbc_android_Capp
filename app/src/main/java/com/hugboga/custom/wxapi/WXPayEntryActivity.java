@@ -2,14 +2,12 @@ package com.hugboga.custom.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgPayResult;
 import com.hugboga.custom.utils.SharedPre;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -29,6 +27,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private String orderId;
     private int orderType;
 
+    public int apiType;//0：正常  1：买券
+    public String couponAreaCode;//买劵人手机区号
+    public String couponPhone;//买劵人手机号
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_pay_result;
@@ -42,6 +44,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         SharedPre sharedPre = new SharedPre(WXPayEntryActivity.this);
         orderId = sharedPre.getStringValue(SharedPre.PAY_WECHAT_ORDER_ID);
         orderType = sharedPre.getIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE);
+
+        apiType = sharedPre.getIntValue(SharedPre.PAY_WECHAT_APITYPE, 0);
+        couponAreaCode = sharedPre.getStringValue(SharedPre.PAY_WECHAT_COUPON_AREACODE);
+        couponPhone = sharedPre.getStringValue(SharedPre.PAY_WECHAT_COUPON_PHONE);
 
         api = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
         api.handleIntent(getIntent(), this);
@@ -69,7 +75,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             isPaySucceed = resp.errCode == BaseResp.ErrCode.ERR_OK;
-            fgPayResult.initView(isPaySucceed, orderId, orderType);
+            if (apiType == 1) {
+                fgPayResult.initCouponView(isPaySucceed, couponAreaCode, couponPhone);
+            } else {
+                fgPayResult.initView(isPaySucceed, orderId, orderType);
+            }
         }
     }
 

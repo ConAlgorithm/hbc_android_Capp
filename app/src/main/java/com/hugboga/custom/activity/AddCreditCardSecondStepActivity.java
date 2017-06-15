@@ -406,7 +406,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     }
 
     public void gotoPayYiLian(YiLianPayBean yiLianPayBean){
-        YiLianPay yiLianPay = new YiLianPay(this,this,yiLianPayBean,params.orderId,params.orderType);
+        YiLianPay yiLianPay = new YiLianPay(this,this,yiLianPayBean,params.orderId,params.orderType,params);
         yiLianPay.pay();
     }
 }
