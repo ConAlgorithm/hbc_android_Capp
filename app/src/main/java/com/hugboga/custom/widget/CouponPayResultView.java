@@ -14,11 +14,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.UIUtils;
-
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
