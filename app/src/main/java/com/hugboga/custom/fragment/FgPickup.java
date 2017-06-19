@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,9 +49,9 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
-import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -220,6 +222,13 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 && TextUtils.equals(_flightBean.arrDate, flightBean.arrDate);
         if (checkFlightBean) {
             return;
+        }
+        if (flightBean == null) {
+            scrollView.setVisibility(View.VISIBLE);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fg_pickup_fragment_choose_air);
+            ft.remove(fragment);
+            ft.commitAllowingStateLoss();
         }
 
         flightBean = _flightBean;
@@ -515,7 +524,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private void checkGuideCoflict() {
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
         checkGuideBean.startTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-        checkGuideBean.endTime = DateUtils.getDifferenceTime2(checkGuideBean.startTime, CommonUtils.getCountInteger(carListBean.estTime) * 60 * 1000);;
+        checkGuideBean.endTime = DateUtils.getDifferenceTime2(checkGuideBean.startTime, CommonUtils.getCountInteger(carListBean.estTime) * 60 * 1000);
         checkGuideBean.cityId = flightBean.arrCityId;
         checkGuideBean.guideId = guidesDetailData.guideId;
         checkGuideBean.orderType = ORDER_TYPE;
