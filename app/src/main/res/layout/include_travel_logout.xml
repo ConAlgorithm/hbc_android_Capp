@@ -4,40 +4,41 @@
     android:layout_height="match_parent"
     android:layout_below="@id/toolbar"
     android:visibility="gone"
-    android:background="@color/travel_bg">
+    android:background="#f0f0f0">
 
     <TextView
         android:id="@+id/travel_login_hint_tv"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/basic_margin_small"
         android:gravity="center_horizontal"
-        android:lineSpacingExtra="3dp"
+        android:lineSpacingExtra="1dp"
         android:text="下单后可以在这里\n管理你的行程"
-        android:textColor="#666666"
-        android:textSize="20sp" />
+        android:textColor="#898989"
+        android:textSize="17sp" />
 
     <ImageView
         android:layout_below="@id/travel_login_hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="25dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:src="@mipmap/travel_list_example_icon" />
-    <Button
+    <TextView
         android:id="@+id/travel_login_btn"
-        android:layout_width="190dp"
-        android:layout_height="40dp"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/btn_orange"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/shape_rounded_yellow_btn"
         android:text="登录"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="15sp" />
 
 </RelativeLayout>
