@@ -198,8 +198,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         addFooterView(inflater, runningAdapter);
         ZDefaultDivider zDefaultDivider = fgTravelRunning.getItemDecoration();
         zDefaultDivider.setItemOffsets(0, 15, 0, 15);
-        //设置开启我的行程事件
-        setBtnClick(runninLayout.findViewById(R.id.travel_empty_btn));
+        intentTravelFundActivity(runninLayout.findViewById(R.id.travel_footer_get_layout));
 
         finishLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_finish, null);
         fgTravelFinish = (ZListPageView) finishLayout.findViewById(R.id.listview);
@@ -216,6 +215,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         ZDefaultDivider zDefaultDivider2 = fgTravelFinish.getItemDecoration();
         zDefaultDivider2.setItemOffsets(0, 15, 0, 15);
         addFooterView(inflater, finishAdapter);
+        intentTravelFundActivity(finishLayout.findViewById(R.id.travel_footer_get_layout));
 
         cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
@@ -232,6 +232,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         ZDefaultDivider zDefaultDivider3 = fgTravelCancel.getItemDecoration();
         zDefaultDivider3.setItemOffsets(0, 15, 0, 15);
         addFooterView(inflater, cancelAdapter);
+        intentTravelFundActivity(cancelLayout.findViewById(R.id.travel_footer_get_layout));
 
         evaluateLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
         fgTravelEvaluate = (ZListPageView) evaluateLayout.findViewById(R.id.listview);
@@ -248,6 +249,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         ZDefaultDivider zDefaultDivider4 = fgTravelEvaluate.getItemDecoration();
         zDefaultDivider4.setItemOffsets(0, 15, 0, 15);
         addFooterView(inflater, evaluateAdapter);
+        intentTravelFundActivity(evaluateLayout.findViewById(R.id.travel_footer_get_layout));
 
 
         //Tab相关
@@ -290,15 +292,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         View footerView = inflater.inflate(R.layout.view_travel_footer, null, false);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         footerView.setLayoutParams(params);
-        footerView.findViewById(R.id.travel_footer_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), TravelFundActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                getContext().startActivity(intent);
-                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
-            }
-        });
+        intentTravelFundActivity(footerView.findViewById(R.id.travel_footer_get_layout));
         adapter.addFooterView(footerView);
     }
 
@@ -343,16 +337,16 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener, ZLis
         }
     }
 
-    private void setBtnClick(View view) {
-        Button startBtn = (Button) view;
-        if (startBtn != null)
-            startBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //开启行程，跳转到首页
-                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-                }
-            });
+    private void intentTravelFundActivity(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TravelFundActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                getContext().startActivity(intent);
+                MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_XC);
+            }
+        });
     }
 
     @Override
