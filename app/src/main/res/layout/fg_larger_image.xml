@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:background="@android:color/black"
     >
+    <include layout="@layout/include_header" android:id="@+id/head" />
 
     <com.hugboga.custom.widget.HackyViewPager
         android:id="@+id/larger_img_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head"/>
 
-    <com.viewpagerindicator.CirclePageIndicator
+    <!--<com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/larger_img_indicator"
         android:layout_width="match_parent"
         android:layout_height="20dip"
@@ -23,5 +25,5 @@
         res:fillColor="#ffffff"
         res:strokeColor="#00ffffff"
         res:strokeWidth="0dip"
-        res:radius="4dip" />
+        res:radius="4dip" />-->
 </RelativeLayout>

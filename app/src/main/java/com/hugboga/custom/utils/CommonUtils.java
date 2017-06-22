@@ -1,12 +1,15 @@
 package com.hugboga.custom.utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -43,6 +46,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -324,6 +328,16 @@ public final class CommonUtils {
         context.startActivity(intent);
     }
 
+    public static void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic,int position) {
+        LargerImageActivity.Params params = new LargerImageActivity.Params();
+        params.imageUrlList = path;
+        params.isLocalPic = islocalPic;
+        params.position = position;
+        Intent intent = new Intent(context, LargerImageActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
+    }
+
     public static boolean checkTextIsNull(EditText editText) {
         if (editText == null) {
             return true;
@@ -510,5 +524,33 @@ public final class CommonUtils {
             }
         }
     }
-
+    /**
+     * Try to return the absolute file path from the given Uri
+     *
+     * @param context
+     * @param uri
+     * @return the file path or null
+     */
+    public static String getRealFilePath( final Context context, final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
 }
