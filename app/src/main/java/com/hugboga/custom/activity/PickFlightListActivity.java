@@ -260,13 +260,8 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         map.put("searchcity", bean.flightNo);
         MobclickAgent.onEvent(activity, "search", map);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("key_airport", bean);
-        bundle.putString(KEY_FROM, "FlightList");
-
-        EventBus.getDefault().post(new EventAction(EventType.PICK_FLIGHT_BACK, bean));
+        EventBus.getDefault().post(new EventAction(EventType.AIR_NO, bean));
         finish();
-//        finishForResult(bundle);
     }
 
     @OnClick({R.id.flight_empty_service_tv})

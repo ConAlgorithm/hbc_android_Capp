@@ -33,7 +33,6 @@
             android:background="#fcf0ac"
             android:layout_height="28dp" />
 
-
         <TextView
             android:id="@+id/day_view_round"
             style="@style/CalendarCell.CalendarDate"
@@ -41,8 +40,15 @@
             android:layout_width="28dp"
             android:layout_height="28dp" />
 
+        <ImageView
+            android:id="@+id/day_view_time_iv"
+            android:layout_alignParentRight="true"
+            android:background="#55ffff"
+            android:visibility="gone"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
 
-        <TextView
+        <com.hugboga.custom.widget.ScoreTextView
             android:id="@+id/day_view"
             style="@style/CalendarCell.CalendarDate"
             android:layout_width="match_parent"

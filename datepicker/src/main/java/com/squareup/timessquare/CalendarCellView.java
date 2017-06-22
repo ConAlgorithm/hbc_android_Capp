@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,8 @@ public class CalendarCellView extends FrameLayout {
 
     private TextView dayOfMonthTextView;
 
+    private ImageView dayViewTimeIv;
+
     public TextView getDay_view_round_left() {
         return day_view_round_left;
     }
@@ -66,6 +69,10 @@ public class CalendarCellView extends FrameLayout {
 
     public void setDay_view_round_right(TextView day_view_round_right) {
         this.day_view_round_right = day_view_round_right;
+    }
+
+    public void setDayViewTimeIv(ImageView dayViewTimeIv) {
+        this.dayViewTimeIv = dayViewTimeIv;
     }
 
     private TextView day_view_round_left;

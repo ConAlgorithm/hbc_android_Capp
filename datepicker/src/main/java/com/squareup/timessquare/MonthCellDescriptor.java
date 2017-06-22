@@ -7,7 +7,7 @@ import java.util.Date;
 /** Describes the state of a particular date cell in a {@link MonthView}. */
 public class MonthCellDescriptor {
   public enum RangeState {
-    NONE, FIRST, MIDDLE, LAST,SELECT,FIRST_SELECT,START_END,SELECT_NO_TEXT
+    NONE, FIRST, MIDDLE, LAST,SELECT,FIRST_SELECT,START_END,SELECT_NO_TEXT,DISABLED,SELECT_PART,PART
   }
 
   private final Date date;

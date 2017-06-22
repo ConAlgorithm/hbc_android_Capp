@@ -149,7 +149,7 @@ public class ZListView extends ListView implements OnScrollListener {
     }
 
     private void onLoad() {
-        if (loadListener != null && moreProgressBar.getVisibility() == View.GONE && hasMore) {
+        if (loadListener != null && hasMore) {
             state = LOADING_MORE;
             moreProgressBar.setVisibility(View.VISIBLE);
             loadMoreView.setText(getContext().getString(R.string.footer_text));

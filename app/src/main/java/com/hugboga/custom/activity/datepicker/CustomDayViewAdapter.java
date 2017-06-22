@@ -2,6 +2,7 @@ package com.hugboga.custom.activity.datepicker;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class CustomDayViewAdapter implements DayViewAdapter {
         parent.setDay_view_round((TextView)layout.findViewById(R.id.day_view_round));
         parent.setDay_view_round_left((TextView)layout.findViewById(R.id.day_view_round_left));
         parent.setDay_view_round_right((TextView)layout.findViewById(R.id.day_view_round_right));
+        parent.setDayViewTimeIv((ImageView)layout.findViewById(R.id.day_view_time_iv));
         dayView = layout.findViewById(R.id.day_view);
     }
 

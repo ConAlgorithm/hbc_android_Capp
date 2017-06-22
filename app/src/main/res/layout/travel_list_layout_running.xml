@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <include layout="@layout/fg_travel_empty" />
+        <include layout="@layout/fg_travel_empty_finish" />
 
     </RelativeLayout>
 
