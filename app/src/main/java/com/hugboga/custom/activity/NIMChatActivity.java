@@ -143,23 +143,6 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         imObserverHelper.registerUserStatusObservers(true);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (localTimeView != null) {//隐藏时区View
-                    localTimeView.closeDescription();
-                    final float eventY = event.getY();
-                    final float viewY = localTimeView.getY();
-                    if (eventY >= viewY && eventY <= viewY + localTimeView.getHeight()) {
-                        return true;
-                    }
-                }
-                break;
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
     private void initView() {
         initDefaultTitleBar();
         fgRightTV.setVisibility(GONE);

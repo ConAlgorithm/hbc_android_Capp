@@ -14,11 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,27 +33,19 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2016/11/14.
  */
-public class CountryLocalTimeView extends FrameLayout implements View.OnClickListener{
+public class CountryLocalTimeView extends FrameLayout{
+
     @Bind(R.id.local_country_iv)
     ImageView countryImageIV;
     @Bind(R.id.local_time_tv)
     TextView localTimeTV;
-    @Bind(R.id.country_flag_layout)
-    LinearLayout localLayout;
-
-    @Bind(R.id.local_time_detial_tv)
-    TextView localTimeDetialTV;
-    @Bind(R.id.local_time_detial_difference_tv)
-    TextView timeDiffTV;
-    @Bind(R.id.local_time_detial_layout)
-    LinearLayout localTimeDetialLayout;
 
     private volatile long delayedMillis;
     private volatile boolean isStop = false;
 
-    private SimpleDateFormat dateFormat, dateFormat2;
-    private String regionStr;
-    private boolean isShowDescription = false;
+    private SimpleDateFormat dateFormat;
+    private String timediffStr;
+
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
@@ -64,38 +58,43 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         View view = inflate(context, R.layout.view_local_time, this);
         ButterKnife.bind(view);
 
-        dateFormat = new SimpleDateFormat("MM月dd日");
-        dateFormat2 = new SimpleDateFormat("HH:mm");
+        dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
     }
 
     public void setStop(boolean isStop) {
         this.isStop = isStop;
     }
 
-    public void setData(String flag, int timediff, int _timezone, String cityName, String countryName) {
+    public void setData(String flag, int _timediff, int _timezone, String cityName, String countryName) {
         this.isStop = false;
 
-        regionStr = TextUtils.isEmpty(cityName) ? countryName : cityName;
-        if (TextUtils.isEmpty(regionStr)) {
+        TimeZone tz = TimeZone.getDefault();
+        String strTz = tz.getDisplayName(false, TimeZone.SHORT);
+        int local = 0;
+        if (strTz == null || !strTz.contains("GMT") || strTz.length() != 9) {
             this.setVisibility(View.GONE);
-            return;
         } else {
-            this.setVisibility(View.VISIBLE);
+            try {
+                String minutes = strTz.substring(4, 6);
+                if (minutes.charAt(0) == '0') {
+                    local = CommonUtils.getCountInteger("" + minutes.charAt(1));
+                } else {
+                    local = CommonUtils.getCountInteger(minutes);
+                }
+                if (strTz.charAt(3) == '-') {
+                    local = -local;
+                }
+                this.setVisibility(View.VISIBLE);
+            } catch (Exception e) {
+                this.setVisibility(View.GONE);
+                return;
+            }
         }
 
-        if (TextUtils.isEmpty(flag)) {
-            countryImageIV.setImageResource(R.mipmap.country_flag_default);
-        } else {
-            Tools.showImage(countryImageIV, flag, R.mipmap.country_flag_default);
-        }
+        Tools.showImage(countryImageIV, flag, R.mipmap.country_flag_default);
 
-        String timeDiffStr = "与北京没有时差，看到消息后我会立即回复，谢谢";
-        if (Math.abs(timediff) != 0) {
-            timeDiffStr = String.format("与北京有%1$s小时时差，看到消息后我会立即回复，谢谢", "" + Math.abs(timediff));
-        }
-        timeDiffTV.setText(timeDiffStr);
-
-        showLocalAnimation();
+        int timediff = Math.abs(local - _timezone);//司导与用户的时差
+        timediffStr = timediff == 0 ? "与您无时差" : String.format("与您相差%1$s小时", timediff);
 
         String timeZoneString = "GMT";
         if (_timezone >= 0) {
@@ -106,7 +105,6 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
         timeZoneString += Math.abs(_timezone);
         TimeZone timeZone = TimeZone.getTimeZone(timeZoneString);
         dateFormat.setTimeZone(timeZone);
-        dateFormat2.setTimeZone(timeZone);
         Calendar mCalendar = Calendar.getInstance(timeZone);
         mCalendar.setTimeInMillis(System.currentTimeMillis());
         delayedMillis = 60 * 1000 - mCalendar.get(Calendar.SECOND) * 1000 - mCalendar.get(Calendar.MILLISECOND);
@@ -142,11 +140,8 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
                     if (isStop) {
                         return;
                     }
-                    long sysTime = System.currentTimeMillis();
-                    CharSequence sysTimeStr = dateFormat.format(sysTime);
-                    CharSequence sysTimeStr2 = dateFormat2.format(sysTime);
-                    localTimeDetialTV.setText(String.format("Hi，%1$s现在是 %2$s %3$s", regionStr, sysTimeStr, sysTimeStr2));
-                    localTimeTV.setText(String.format("%1$s\n%2$s", sysTimeStr2, regionStr));
+                    CharSequence sysTimeStr = dateFormat.format(System.currentTimeMillis());
+                    localTimeTV.setText(String.format("司导时间：%1$s，%2$s", sysTimeStr, timediffStr));
                 break;
                 default:
                 break;
@@ -154,37 +149,4 @@ public class CountryLocalTimeView extends FrameLayout implements View.OnClickLis
             }
         }
     };
-
-    public void showLocalAnimation() {
-        localLayout.setVisibility(View.VISIBLE);
-        TranslateAnimation animation = new TranslateAnimation(UIUtils.getScreenWidth() - 5, localLayout.getWidth(), localLayout.getHeight(), localLayout.getHeight());
-        animation.setDuration(1000);
-        localLayout.startAnimation(animation);
-    }
-
-    @OnClick({R.id.country_flag_layout})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.country_flag_layout:
-                if (isShowDescription) {
-                    return;
-                }
-                localLayout.setVisibility(View.GONE);
-                localTimeDetialLayout.setVisibility(View.VISIBLE);
-
-                AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-                alphaAnimation.setDuration(300);
-                localTimeDetialLayout.startAnimation(alphaAnimation);
-                isShowDescription = true;
-                break;
-        }
-    }
-
-    public void closeDescription() {
-        if (isShowDescription) {
-            localLayout.setVisibility(View.VISIBLE);
-            localTimeDetialLayout.setVisibility(View.GONE);
-            isShowDescription = false;
-        }
-    }
 }

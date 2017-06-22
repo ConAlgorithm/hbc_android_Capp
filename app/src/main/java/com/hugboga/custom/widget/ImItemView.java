@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +46,10 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
     public View serviceUnread;
     @Bind(R.id.letter_item_service_icon_tv)
     public TextView serviceIconTV;
+    @Bind(R.id.letter_item_country_name_iv)
+    public ImageView countryNameIV;
+    @Bind(R.id.letter_item_country_name_tv)
+    public TextView countryNameTV;
 
     public ImItemView(Context context) {
         this(context,null);
@@ -64,12 +69,24 @@ public class ImItemView extends FrameLayout implements HbcViewBehavior  {
             if (chatBean.getTargetType() == 3) {
                 mMessage.setText("您有任何问题，欢迎咨询客服小包子");
                 serviceIconTV.setVisibility(View.VISIBLE);
-            } else if (!TextUtils.isEmpty(chatBean.getLastMsg())) {
-                mMessage.setText(chatBean.getLastMsg().trim());
-                serviceIconTV.setVisibility(View.GONE);
+                countryNameIV.setVisibility(View.GONE);
+                countryNameTV.setVisibility(View.GONE);
             } else {
-                mMessage.setText("");
-                serviceIconTV.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(chatBean.getLastMsg())) {
+                    mMessage.setText(chatBean.getLastMsg().trim());
+                    serviceIconTV.setVisibility(View.GONE);
+                } else {
+                    mMessage.setText("");
+                    serviceIconTV.setVisibility(View.GONE);
+                }
+                if (!TextUtils.isEmpty(chatBean.country_name)) {
+                    countryNameIV.setVisibility(View.VISIBLE);
+                    countryNameTV.setVisibility(View.VISIBLE);
+                    countryNameTV.setText(chatBean.country_name);
+                } else {
+                    countryNameIV.setVisibility(View.GONE);
+                    countryNameTV.setVisibility(View.GONE);
+                }
             }
             if(chatBean.getTimeStamp()!=0){
                 try {
