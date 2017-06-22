@@ -49,21 +49,21 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/conversation_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/imchat_viewpage_layout"
-        android:orientation="vertical">
-
-
-    </LinearLayout>
-
     <com.hugboga.custom.widget.CountryLocalTimeView
         android:id="@+id/imchat_local_time_view"
         android:layout_below="@+id/imchat_viewpage_layout"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/conversation_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imchat_local_time_view"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
 
 </RelativeLayout>

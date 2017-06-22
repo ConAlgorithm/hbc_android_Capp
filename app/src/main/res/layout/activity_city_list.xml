@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f8f8f8"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical"
-    android:background="#f8f8f8">
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/city_list_recyclerview"
@@ -24,9 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/city_list_titlebar"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:gravity="center_horizontal">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/city_list_empty_iv"
@@ -54,6 +54,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_charter_pickup_map">
+
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -61,4 +62,42 @@
             android:layout_marginRight="1dp"
             android:background="@mipmap/top_back_white" />
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/city_list_service_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/city_list_service_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="定制个性化行程，可咨询日本行程规划师傅"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center"
+            android:textColor="#929292"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/city_list_service_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_city_list_service"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="立即咨询"
+            android:textColor="#929292"
+            android:textSize="14sp" />
+    </LinearLayout>
+
 </RelativeLayout>

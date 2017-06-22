@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -13,14 +14,93 @@
     <TextView
         android:id="@+id/city_custom_title_tv"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:layout_marginLeft="@dimen/city_list_margin_left"
         android:layout_marginRight="@dimen/city_list_margin_left"
         android:gravity="center"
         android:text="快速预订"
         android:textColor="@color/default_black"
-        android:textStyle="bold"
         android:textSize="18sp" />
+
+    <RelativeLayout
+        android:id="@+id/city_custom_city_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/city_list_margin_left"
+        android:layout_marginRight="@dimen/city_list_margin_left">
+
+        <TextView
+            android:id="@+id/city_custom_city_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="快速预订"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <net.grobas.view.PolygonImageView
+                android:id="@+id/city_custom_city_guide_avatar_iv1"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@mipmap/guide_default_head"
+                android:visibility="invisible"
+                app:poly_border_color="#ffffff"
+                app:poly_border_width="0.7dp"
+                app:poly_border="true"
+                app:poly_vertices="0" />
+            <net.grobas.view.PolygonImageView
+                android:id="@+id/city_custom_city_guide_avatar_iv2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="-10dp"
+                android:visibility="invisible"
+                android:src="@mipmap/guide_default_head"
+                app:poly_border_color="#ffffff"
+                app:poly_border_width="0.7dp"
+                app:poly_border="true"
+                app:poly_vertices="0" />
+            <net.grobas.view.PolygonImageView
+                android:id="@+id/city_custom_city_guide_avatar_iv3"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="-10dp"
+                android:visibility="invisible"
+                android:src="@mipmap/guide_default_head"
+                app:poly_border_color="#ffffff"
+                app:poly_border_width="0.7dp"
+                app:poly_border="true"
+                app:poly_vertices="0" />
+            <net.grobas.view.PolygonImageView
+                android:id="@+id/city_custom_city_guide_avatar_iv4"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="-10dp"
+                android:visibility="invisible"
+                android:src="@mipmap/guide_default_head"
+                app:poly_border_color="#ffffff"
+                app:poly_border_width="0.7dp"
+                app:poly_border="true"
+                app:poly_vertices="0" />
+            <net.grobas.view.PolygonImageView
+                android:id="@+id/city_custom_city_guide_avatar_iv5"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="-10dp"
+                android:visibility="invisible"
+                android:src="@mipmap/guide_default_head"
+                app:poly_border_color="#ffffff"
+                app:poly_border_width="0.7dp"
+                app:poly_border="true"
+                app:poly_vertices="0" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -51,15 +131,14 @@
                 android:layout_height="wrap_content"
                 android:text="按天包车游"
                 android:textColor="@color/common_font_color_black"
-                android:textStyle="bold"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/city_custom_charter_desc_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:layout_below="@id/city_custom_charter_title_tv"
+                android:layout_marginTop="6dp"
                 android:drawableRight="@mipmap/order_choice_bottom_arrow"
                 android:text="中文司机兼导游 带你畅游专属行程"
                 android:textColor="@color/common_font_color_gray"
@@ -94,7 +173,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="接送机"
-                    android:textStyle="bold"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="16sp" />
 
@@ -114,8 +192,9 @@
                 android:id="@+id/city_custom_bottom_vertical_line"
                 android:layout_width="1dp"
                 android:layout_height="44dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/dash_line_v"></View>
 
             <LinearLayout
@@ -129,7 +208,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="单次接送"
-                    android:textStyle="bold"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="16sp" />
 
