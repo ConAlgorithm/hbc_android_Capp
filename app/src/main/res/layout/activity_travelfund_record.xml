@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/basic_white"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <include
@@ -21,27 +21,28 @@
     <LinearLayout
         android:id="@+id/trave_fund_record_empty_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/trave_fund_record_listview"
-        android:layout_marginTop="60dp"
+        android:background="@color/default_bg"
+        android:visibility="gone"
+        android:paddingTop="60dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="160dp"
-            android:layout_height="93dp"
-            android:background="@drawable/error_show" />
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:background="@drawable/empty_fund" />
 
         <TextView
             android:id="@+id/trave_fund_record_empty_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
             android:text="@string/travel_fund_record_empty_hint"
-            android:textColor="#999999"
+            android:textColor="#b9bdc6"
             android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

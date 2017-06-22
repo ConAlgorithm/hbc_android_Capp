@@ -25,7 +25,7 @@ import butterknife.Bind;
  */
 public class TravelFundRecordActivity extends BaseActivity{
 
-    public static final int TYPE_USE_Bill = 0;//使用明细
+    public static final int TYPE_USE_Bill = 0;//旅游基金
     public static final int TYPE_INVITE_FRIENDS = 1;//邀请明细
 
     @Bind(R.id.trave_fund_record_listview)

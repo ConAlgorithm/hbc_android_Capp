@@ -532,7 +532,7 @@
     <string name="travel_fund_validity">有效期至%1$s</string>
     <string name="travel_fund_invite_record">查看邀请记录></string>
     <string name="travel_fund_invite_record_title">邀请记录</string>
-    <string name="travel_fund_use_record_title">使用明细</string>
+    <string name="travel_fund_use_record_title">基金明细</string>
     <string name="travel_fund_use_record">明细</string>
     <string name="travel_fund_subtitle">邀请好友</string>
     <string name="travel_fund_subtitle_2">好友首次消费</string>

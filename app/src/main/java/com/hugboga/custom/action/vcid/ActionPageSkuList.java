@@ -30,6 +30,7 @@ public class ActionPageSkuList extends ActionPageBase {
         }
         CityListActivity.Params params = new CityListActivity.Params();
         params.id = CommonUtils.getCountInteger(bean.areaId);
+        params.titleName = bean.areaName;
         switch (CommonUtils.getCountInteger(bean.type)) {
             case 1:
                 params.cityHomeType = CityListActivity.CityHomeType.ROUTE;
