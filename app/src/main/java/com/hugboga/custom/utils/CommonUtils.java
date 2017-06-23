@@ -328,11 +328,12 @@ public final class CommonUtils {
         context.startActivity(intent);
     }
 
-    public static void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic,int position) {
+    public static void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic,int position,boolean isEvaluated) {
         LargerImageActivity.Params params = new LargerImageActivity.Params();
         params.imageUrlList = path;
         params.isLocalPic = islocalPic;
         params.position = position;
+        params.isEvaluated = isEvaluated;
         Intent intent = new Intent(context, LargerImageActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);

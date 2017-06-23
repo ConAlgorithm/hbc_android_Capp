@@ -8,16 +8,29 @@
     <include
         android:id="@+id/share_evaluate_titlebar"
         layout="@layout/include_header" />
+
+    <TextView
+        android:id="@+id/share_evaluate_description_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/share_evaluate_titlebar"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp"
+        android:text="50元旅游基金马上到账~"
+        android:textColor="#151515"
+        android:textSize="15sp"/>
     <ImageView
         android:id="@+id/share_evaluate_icon_iv"
-        android:layout_below="@id/share_evaluate_titlebar"
+        android:layout_below="@id/share_evaluate_description_tv1"
         android:layout_width="118dp"
         android:layout_height="90dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:background="@mipmap/share_evaluated_icon" />
-    <TextView
+    <!--<TextView
         android:id="@+id/share_evaluate_description_tv1"
         android:layout_below="@id/share_evaluate_icon_iv"
         android:layout_width="wrap_content"
@@ -28,14 +41,15 @@
         android:layout_centerHorizontal="true"
         android:text="感谢您的评价!分享您的评价到微信\n把靠谱司导推荐给好友"
         android:textColor="#333333"
-        android:textSize="15sp"/>
+        android:textSize="15sp"/>-->
 
     <TextView
         android:id="@+id/share_evaluate_description_tv2"
-        android:layout_below="@id/share_evaluate_description_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/share_layout"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:layout_marginTop="18dp"
         android:lineSpacingExtra="2dp"
@@ -55,6 +69,7 @@
         android:textSize="13sp"/>
 
     <LinearLayout
+        android:id="@+id/share_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/share_evaluate_collected_tv"

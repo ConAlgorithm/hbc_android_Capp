@@ -57,6 +57,7 @@ public class LargerImageActivity extends BaseActivity{
         public ArrayList<String> imageUrlList;
         public int position;
         public boolean isLocalPic;
+        public boolean isEvaluated;
     }
 
     @Override
@@ -126,6 +127,9 @@ public class LargerImageActivity extends BaseActivity{
             headerRightImageParams.rightMargin = UIUtils.dip2px(18);
             headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            if(params.isEvaluated){
+                headerRightBtn.setVisibility(View.GONE);
+            }
             headerRightBtn.setLayoutParams(headerRightImageParams);
             headerRightBtn.setPadding(0,0,0,0);
             headerRightBtn.setVisibility(View.VISIBLE);
