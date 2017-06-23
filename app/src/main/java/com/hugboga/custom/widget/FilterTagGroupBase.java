@@ -7,53 +7,48 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.GoodsFilterBean;
+import com.hugboga.custom.data.bean.FilterItemBase;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by qingcha on 17/4/22.
- */
-public class SkuThemeTagGroup extends TagGroup{
+public class FilterTagGroupBase<T extends FilterItemBase> extends TagGroup {
 
     private ArrayList<String> selectedTagIdList;
-    private ArrayList<GoodsFilterBean.FilterTheme> themeList;
+    private ArrayList<T> list;
 
-    public SkuThemeTagGroup(Context context) {
+    public FilterTagGroupBase(Context context) {
         this(context, null);
     }
 
-    public SkuThemeTagGroup(Context context, AttributeSet attrs) {
+    public FilterTagGroupBase(Context context, AttributeSet attrs) {
         super(context, attrs);
         selectedTagIdList = new ArrayList<String>();
     }
 
-    public ArrayList<GoodsFilterBean.FilterTheme> getThemeList() {
+    public ArrayList<T> getList() {
         selectedTagIdList.clear();
-        if (themeList != null) {
-            int labelsSize = themeList.size();
+        if (list != null) {
+            int labelsSize = list.size();
             for (int i = 0; i < labelsSize; i++) {
                 View tagView = getChildAt(i);
-                GoodsFilterBean.FilterTheme filterTheme = themeList.get(i);
-                filterTheme.isSelected = tagView.isSelected();
+                list.get(i).isSelected = tagView.isSelected();
             }
         }
-        return themeList;
+        return list;
     }
 
-    public void setThemeData(ArrayList<GoodsFilterBean.FilterTheme> themeList) {
+    public void setData(ArrayList<T> _list) {
         int childCount = getChildCount();
 
-        if (themeList == null) {
+        if (_list == null) {
             for (int j = 0; j < childCount; j++) {
                 getChildAt(j).setVisibility(View.GONE);
             }
             return;
         }
-        this.themeList = themeList;
-        int labelsSize = themeList.size();
+        this.list = _list;
+        int labelsSize = list.size();
         for (int i = 0; i < labelsSize; i++) {
             TextView tagTV = null;
             if (i < childCount) {
@@ -63,9 +58,10 @@ public class SkuThemeTagGroup extends TagGroup{
                 tagTV = getTagNewView();
                 addTag(tagTV);
             }
-            tagTV.setTag(themeList.get(i).themeId);
-            tagTV.setText(themeList.get(i).themeName);
-            setViewSelected(tagTV, themeList.get(i).isSelected);
+            FilterItemBase filterItemBase = list.get(i);
+            tagTV.setTag(filterItemBase.getTagId());
+            tagTV.setText(filterItemBase.getName());
+            setViewSelected(tagTV, filterItemBase.isSelected);
         }
         for (int j = labelsSize; j < childCount; j++) {
             getChildAt(j).setVisibility(View.GONE);
@@ -74,7 +70,7 @@ public class SkuThemeTagGroup extends TagGroup{
 
     public void setViewSelected(TextView view, boolean isSelected) {
         view.setSelected(isSelected);
-        view.setTextColor(isSelected ? 0xFFFFC620 : 0xFF8A8A8A);
+        view.setTextColor(isSelected ? getContext().getResources().getColor(R.color.default_yellow) : 0xFF8A8A8A);
     }
 
     public TextView getTagNewView() {
