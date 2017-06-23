@@ -137,6 +137,7 @@ public class SliderView extends RelativeLayout {
         if (isEnabled()) {
             if (event.getAction() == MotionEvent.ACTION_DOWN
                     || event.getAction() == MotionEvent.ACTION_MOVE) {
+                requestDisallowInterceptTouchEvent(true);
                 if (numberIndicator != null && numberIndicator.isShowing() == false)
                     numberIndicator.show();
                 if ((event.getX() <= getWidth() && event.getX() >= 0)) {
@@ -181,6 +182,7 @@ public class SliderView extends RelativeLayout {
                 }
 
             } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                requestDisallowInterceptTouchEvent(false);
                 if (numberIndicator != null)
                     numberIndicator.dismiss();
                 isLastTouch = false;
@@ -220,10 +222,10 @@ public class SliderView extends RelativeLayout {
         }
         canvas.drawRoundRect(rect, UIUtils.dip2px(6), UIUtils.dip2px(6), paint);
 
-        if (press && !showNumberIndicator) {
-            paint.setAntiAlias(true);
-            canvas.drawCircle(ViewHelper.getX(ball) + ball.getWidth() / 2, getHeight() / 2, getHeight() / 3, paint);
-        }
+//        if (press && !showNumberIndicator) {
+//            paint.setAntiAlias(true);
+//            canvas.drawCircle(ViewHelper.getX(ball) + ball.getWidth() / 2, getHeight() / 2, getHeight() / 3, paint);
+//        }
         invalidate();
     }
 
@@ -296,7 +298,7 @@ public class SliderView extends RelativeLayout {
 
         public void changeBackground(boolean isTouch) {
             resetTextColor();
-            if (isTouch) {
+            if (isTouch && showNumberIndicator) {
                 setBackgroundResource(R.mipmap.seekbar_thumb_touch);
                 setText("");
             } else {

@@ -11,7 +11,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.widget.SkuThemeTagGroup;
+import com.hugboga.custom.utils.FilterTagUtils;
+import com.hugboga.custom.widget.FilterTagGroupBase;
 import com.hugboga.custom.widget.TagGroup;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +36,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
     @Bind(R.id.sku_filter_theme_title_tv)
     TextView themeTitleTV;
     @Bind(R.id.sku_filter_theme_taggroup)
-    SkuThemeTagGroup themeTagGroup;
+    FilterTagGroupBase themeTagGroup;
     @Bind(R.id.sku_filter_theme_line_view)
     View lineView;
 
@@ -66,18 +67,9 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
         themeTagGroup.setOnTagItemClickListener(this);
         skuFilterBean = new SkuFilterBean();
         skuFilterBeanCache = new SkuFilterBean();
-        updateThemeViews(themeList);
-        if (skuFilterBean != null) {
-            skuFilterBean.themeList = themeList;
-            skuFilterBeanCache.themeList = themeList;
-        }
+        setThemeList(themeList);
         setDayTypes(dayTypes);
     }
-
-//    @OnClick({R.id.sku_filter_scope_outside_layout})
-//    public void onOutsideClick() {
-//        EventBus.getDefault().post(new EventAction(EventType.FILTER_CLOSE));
-//    }
 
     @OnClick({R.id.sku_filter_day_one_tv, R.id.sku_filter_day_two_tv, R.id.sku_filter_day_multi_tv})
     public void onSelectDay(View view) {
@@ -115,7 +107,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
                 skuFilterBean.isSave = false;
                 break;
             case R.id.sku_filter_confirm_tv:
-                skuFilterBean.themeList = themeTagGroup.getThemeList();
+                skuFilterBean.themeList = themeTagGroup.getList();
                 skuFilterBeanCache = (SkuFilterBean) skuFilterBean.clone();
                 skuFilterBean.isSave = true;
                 EventBus.getDefault().post(new EventAction(EventType.SKU_FILTER_SCOPE, skuFilterBeanCache));
@@ -125,7 +117,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
 
     public void setDatViewSelected(TextView view, boolean isSelected) {
         view.setSelected(isSelected);
-        view.setTextColor(isSelected ? 0xFFFFC620 : 0xFF8A8A8A);
+        view.setTextColor(isSelected ? getContext().getResources().getColor(R.color.default_yellow) : 0xFF8A8A8A);
     }
 
     public void resetAllFilterBean() {
@@ -198,7 +190,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
             lineView.setVisibility(View.GONE);
             themeTagGroup.setVisibility(View.GONE);
         }
-        themeTagGroup.setThemeData(_themeList);
+        themeTagGroup.setData(_themeList);
     }
 
     public static class SkuFilterBean implements Serializable, Cloneable {
@@ -223,12 +215,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
             dayTwo = false;
             dayMulti = false;
 
-            if (themeList != null) {
-                int labelsSize = themeList.size();
-                for (int i = 0; i < labelsSize; i++) {
-                    themeList.get(i).isSelected = false;
-                }
-            }
+            FilterTagUtils.reset(themeList);
         }
 
         public int getOperateCount() {
@@ -238,14 +225,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
             if (dayTwo) operateCount++;
             if (dayMulti) operateCount++;
 
-            if (themeList != null) {
-                int labelsSize = themeList.size();
-                for (int i = 0; i < labelsSize; i++) {
-                    if (themeList.get(i).isSelected) {
-                        operateCount++;
-                    }
-                }
-            }
+            operateCount += FilterTagUtils.getOperateCount(themeList);
             return operateCount;
         }
 
@@ -286,21 +266,7 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
         }
 
         public String getThemeIds() {
-            if (themeList == null) {
-                return null;
-            }
-            String result = "";
-            final int size = themeList.size();
-            for (int i = 0; i < size; i++) {
-                if (!themeList.get(i).isSelected) {
-                    continue;
-                }
-                if (!TextUtils.isEmpty(result)) {
-                    result += ",";
-                }
-                result += themeList.get(i).themeId;
-            }
-            return result;
+            return FilterTagUtils.getIds(themeList);
         }
     }
 

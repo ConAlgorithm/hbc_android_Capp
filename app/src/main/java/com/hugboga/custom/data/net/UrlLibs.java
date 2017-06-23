@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 152
+    //current urlErrorCode 153
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -202,7 +202,6 @@ public class UrlLibs {
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
     public static final String API_BATCH_PRICE              = "price/v1.4/c/batchPrice";                                // 组合单报价  121
-    public static final String API_MAX_CAPACITY_OVERALL     = "price/v1.0/c/car/max/capacity/overall";                  // 全部可服务车型最大乘坐人数 140
 
     public static final String API_CITY_HOME_LIST           = "goods/v1.5/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
@@ -246,6 +245,7 @@ public class UrlLibs {
     public static final String API_FILTER_GUIDES            = "supplier/v2.0/c/guides/qualityGuidesList";               // 查询精选司导列表 138
     public static final String API_GUIDE_EXTINFO            = "supplier/v2.0/c/guide/guidePersonalPageExtInfo";         // 司导个人页附加信息141
     public static final String API_GUIDE_AVAILABLE_CHECK    = "supplier/v2.0/c/guides/availableCheck";                  // 下单前校验司导是否可用 143
+    public static final String API_GUIDE_FILTER_OPTIONS     = "supplier/v1.0/c/guide/screening/conditions";             // 精选司导筛选条件 153
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
