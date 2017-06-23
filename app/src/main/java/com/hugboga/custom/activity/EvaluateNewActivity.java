@@ -7,22 +7,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -34,18 +28,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.huangbaoche.imageselector.ImageLoader;
 import com.huangbaoche.imageselector.ImgSelActivity;
 import com.huangbaoche.imageselector.ImgSelConfig;
-import com.huangbaoche.imageselector.bean.Image;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AppraisementBean;
-import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -61,7 +51,6 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventEvaluate;
-import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.event.EventEvaluateShareBack;
 import com.hugboga.custom.statistic.event.EventEvaluateShareFloat;
 import com.hugboga.custom.statistic.event.EventEvaluateSubmit;
@@ -72,11 +61,9 @@ import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
-import com.hugboga.custom.widget.EvaluateShareView;
 import com.hugboga.custom.widget.EvaluateTagGroup;
 import com.hugboga.custom.widget.RatingView;
 import com.hugboga.custom.widget.ShareDialog;
-import com.hugboga.custom.widget.SimpleRatingBar;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 import com.hugboga.tools.HLog;
 import com.yalantis.ucrop.UCrop;
@@ -84,21 +71,16 @@ import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
-import net.grobas.view.PolygonImageView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by zhangqiang on 17/6/19.
@@ -167,6 +149,8 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     Activity activity;
     ArrayList<Photo> localPhotos = new ArrayList<>(1);
 
+    public String orderId="";
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_evaluate_new;
@@ -183,6 +167,10 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        orderId = getIntent().getStringExtra("actionParams");
+        if(!orderId.equals("")){
+            //处理push,短链等操作
+        }
         mDialogUtil = DialogUtil.getInstance(this);
         EventBus.getDefault().register(this);
         activity = this;
@@ -190,15 +178,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
         MobClickUtils.onEvent(new EventEvaluate("" + orderBean.orderType));
     }
-    /*@OnClick({R.id.more_btn_layout})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.more_btn_layout:
-
-                break;
-            default:
-                break;
-        }}*/
 
     @Override
     protected void onStop() {
@@ -237,22 +216,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 ArrayList<String> deletList = (ArrayList<String>) action.getData();
                 if (deletList != null) {
                     deleteLocalPhotos(deletList);
-                    //setDatas(picSelected,false,false);
                 }
                 break;
-            /*case EVALUTE_PIC_DELETE_ONLYONE:
-                //重新初始化图片
-                if(localPhotos.size() >0){
-                    localPhotos.clear();
-                }
 
-                Photo photo = new Photo();
-                photo.photoType = Photo.ADD_IMAGE_ICON;
-                photo.localFilePath= "add";
-                localPhotos.add(photo);
-
-                initPicGridParams(cityGridView,localPhotos,true);
-                break;*/
         }
     }
 
@@ -321,8 +287,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         if (guideInfo == null) {
             return;
         }
-
-
 
         if (isEvaluated()) {//已评价
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -1045,63 +1009,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
-    }
-
-
-    public static class EvalutedPicAdapter extends PagerAdapter {
-
-        private Context mContext;
-        private ViewGroup.LayoutParams itemParams;
-        private ArrayList<String> itemList;
-        public EvalutedPicAdapter(Context mContext, ArrayList<String> _itemParams) {
-            this.mContext = mContext;
-            this.itemList = _itemParams;
-            itemParams = new ViewGroup.LayoutParams(100, 100);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-            if (itemList == null) {
-                return super.instantiateItem(container, position);
-            }
-            final String itemData = itemList.get(position);
-            ImageView itemView = new ImageView(mContext);
-            itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            /*if (itemData != null && !TextUtils.isEmpty(itemData)) {
-                Tools.showImage(itemView, itemData, R.mipmap.empty_home_banner);
-            } else */{
-                itemView.setImageResource(R.mipmap.empty_home_banner);
-            }
-            //itemView.setLayoutParams(itemParams);
-            container.addView(itemView, new ViewGroup.LayoutParams(100, 100));
-
-            if(itemData == null ){
-                return itemView;
-            }
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonUtils.showLargerLocalImage(mContext, itemList, true, position,true);
-                }
-            });
-            return itemView;
-        }
-
-        @Override
-        public int getCount() {
-            return itemList == null ? 0 : itemList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewGroup) container.getParent()).removeView((View)object);
-        }
     }
 
 
