@@ -108,4 +108,7 @@ public enum EventType {
     SHOW_GUIDE_DETAIL_BAR,
 
     WEBINFO_REFRESH,//刷新webView
+
+    EVALUTE_PIC_DELETE,//删除预览页,返回,或者直接返回
+    //EVALUTE_PIC_DELETE_ONLYONE//删除预览页到最后一张,直接返回
 }

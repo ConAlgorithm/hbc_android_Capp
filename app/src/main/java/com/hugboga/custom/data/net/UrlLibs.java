@@ -286,4 +286,6 @@ public class UrlLibs {
 
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
+
+    public static final String API_OSS_TOKEN_URL ="passport/v1.0/ossToken";                                             //获取图片上传环境参数
 }

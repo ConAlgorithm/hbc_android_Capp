@@ -21,6 +21,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.EvaluateActivity;
+import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
@@ -560,7 +561,7 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
             Intent intent = null;
             switch (v.getId()) {
                 case R.id.travel_item_btn_assessment:
-                    intent = new Intent(v.getContext(), EvaluateActivity.class);
+                    intent = new Intent(v.getContext(), EvaluateNewActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, mOrderBean);
                     v.getContext().startActivity(intent);
                     break;
