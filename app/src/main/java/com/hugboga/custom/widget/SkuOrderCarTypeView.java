@@ -19,6 +19,7 @@ import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -51,9 +52,8 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private boolean isShow = false;
     private ArrayList<CarBean> carList;
     private OnSelectedCarListener listener;
-    private CarBean oldCarBean;
+    private CarBean selectedCarBean;
     private GuidesDetailData guidesDetailData;
-
     private int orderType;
 
     public SkuOrderCarTypeView(Context context) {
@@ -191,8 +191,8 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             showCarLayout(view.getId(), itemView, size, i);
         }
         CarBean carBean = carList.get(view.getId());
-        if (listener != null && this.oldCarBean != carBean && carBean != null) {
-            this.oldCarBean = carBean;
+        if (listener != null && this.selectedCarBean != carBean && carBean != null) {
+            this.selectedCarBean = carBean;
             carBean.isCallOnClick = isCallOnClick;
             listener.onSelectedCar(carBean);
         }
@@ -267,12 +267,12 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         }
         int size = carPictures.size();
         for (int i = 0; i < size; i++) {
-            ImageView imageView = getCarImageView(carPictures.get(i));
+            ImageView imageView = getCarImageView(carPictures.get(i), i);
             picLayout.addView(imageView);
         }
     }
 
-    public ImageView getCarImageView(String url) {
+    public ImageView getCarImageView(String url, int position) {
         ImageView imageView = new ImageView(getContext());
         Tools.showImage(imageView, url, R.mipmap.guide_detail_car_default_bg);
         int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(80)) / 2;
@@ -280,6 +280,19 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHight);
         params.rightMargin = UIUtils.dip2px(10);
         imageView.setLayoutParams(params);
+        if (isAssignGuide()) {
+            imageView.setId(position);
+            imageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = v.getId();
+                    if (selectedCarBean == null || selectedCarBean.carPicturesL == null || position >= selectedCarBean.carPicturesL.size()) {
+                        return;
+                    }
+                    CommonUtils.showLargerImages(getContext(), selectedCarBean.carPicturesL, position);
+                }
+            });
+        }
         return imageView;
     }
 
