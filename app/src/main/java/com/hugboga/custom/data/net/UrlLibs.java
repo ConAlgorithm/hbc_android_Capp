@@ -238,7 +238,7 @@ public class UrlLibs {
     public static final String API_EVALUATE_TAG             = "supplier/v1.0/c/guides/comments/labels/OrderType";       // 获取各个星级的标签列表
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
-    public static final String CARS                         = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息
+    /*废弃*/public static final String CARS                 = "supplier/v1.0/c/guidecenter/detail/cars";                // 司导个人车辆信息 废弃
     public static final String API_CARS                     = "supplier/v2.0/c/guidecenter/detail/cars";                // 司导个人车辆信息2.0 142
     public static final String GUIDE_CROP_VALID             = "supplier/v1.0/c/guides/crop/valid";                      // 用户派单，验证接口
     public static final String API_GUIDECROP                = "supplier/v2.0/c/guides/guideCrop";                       // 查询司导可服务城市

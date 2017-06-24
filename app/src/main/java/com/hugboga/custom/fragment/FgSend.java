@@ -160,6 +160,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
             }
             guideLayout.setData(guidesDetailData);
+            carTypeView.setGuidesDetailData(guidesDetailData);
         }
         carTypeView.setOnSelectedCarListener(this);
         carTypeView.setOrderType(ORDER_TYPE);

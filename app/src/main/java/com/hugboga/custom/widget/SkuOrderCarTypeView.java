@@ -6,10 +6,10 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +18,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -30,7 +32,6 @@ import butterknife.OnClick;
 /**
  * Created by qingcha on 16/12/16.
  */
-
 public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior{
 
     private static final int DEFAULT_SHOW_COUNT = 3;//默认展示条数
@@ -51,6 +52,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private ArrayList<CarBean> carList;
     private OnSelectedCarListener listener;
     private CarBean oldCarBean;
+    private GuidesDetailData guidesDetailData;
 
     private int orderType;
 
@@ -62,6 +64,14 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         super(context, attrs);
         View view = inflate(context, R.layout.view_sku_order_car_type, this);
         ButterKnife.bind(view);
+    }
+
+    public void setGuidesDetailData(GuidesDetailData guidesDetailData) {
+        this.guidesDetailData = guidesDetailData;
+    }
+
+    public boolean isAssignGuide() {
+        return this.guidesDetailData != null;
     }
 
     public void setOrderType(int orderType) {
@@ -103,14 +113,16 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
                 priceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.price);
                 originalPriceTV.setText("");
             }
+            LinearLayout picLayout = (LinearLayout) itemView.findViewById(R.id.sku_order_car_pic_layout);
+            addCarImageView(picLayout, carBean.carPictures);
             String title = carBean.carDesc;
             List<String> serviceTags = carBean.serviceTags;
             if (serviceTags != null && serviceTags.size() >= 1 && serviceTags.get(0) != null) {
                 title += " + " + serviceTags.get(0);
             }
-            ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(title);
+            ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(isAssignGuide() ? carBean.models : title);
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);
-            showDescriptionTV(itemView, i == 0 ? carBean.models : "", size, i);
+            ((TextView) itemView.findViewById(R.id.sku_order_car_type_description_tv)).setText(isAssignGuide() ? title : carBean.models);
             itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -176,7 +188,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         for (int i = 0; i < size; i++) {
             View itemView = containerLayot.getChildAt(i);
             itemView.findViewById(R.id.sku_order_car_type_item_choose_iv).setSelected(i == view.getId());
-            showDescriptionTV(itemView, carList.get(i).models, size, i);//i == view.getId() ? carDes : ""
+            showCarLayout(view.getId(), itemView, size, i);
         }
         CarBean carBean = carList.get(view.getId());
         if (listener != null && this.oldCarBean != carBean && carBean != null) {
@@ -186,21 +198,28 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         }
     }
 
-    private void showDescriptionTV(View itemView, String description, int size, int i) {
-        TextView descriptionTV = (TextView) itemView.findViewById(R.id.sku_order_car_type_description_tv);
+    private void showCarLayout(int selectedId, View itemView, int size, int i) {
         View lineView = itemView.findViewById(R.id.sku_order_car_type_bottom_line_view);
         View lineView2 = itemView.findViewById(R.id.sku_order_car_type_bottom_line_view2);
-        boolean isEmpty = TextUtils.isEmpty(description);
-
         if (i == size - 1) {
-            lineView.setVisibility(isEmpty ? View.GONE : View.INVISIBLE);
-            lineView2.setVisibility(isEmpty ? View.INVISIBLE : View.GONE);
+            lineView.setVisibility(View.INVISIBLE);
         } else {
-            lineView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-            lineView2.setVisibility(isEmpty ? View.VISIBLE  : View.GONE);
+            lineView.setVisibility(View.VISIBLE);
         }
-        descriptionTV.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-        descriptionTV.setText(description);
+
+        boolean isLast = i == size - 1;
+
+        CarBean carBean = carList.get(i);
+        HorizontalScrollView picScrollview = (HorizontalScrollView) itemView.findViewById(R.id.sku_order_car_pic_scrollview);
+        if (i != selectedId || carBean.carPictures == null || carBean.carPictures.size() <= 0) {
+            picScrollview.setVisibility(View.GONE);
+            lineView.setVisibility(View.GONE);
+            lineView2.setVisibility(isLast ? View.INVISIBLE : View.VISIBLE);
+        } else {
+            picScrollview.setVisibility(View.VISIBLE);
+            lineView.setVisibility(isLast ? View.INVISIBLE : View.VISIBLE);
+            lineView2.setVisibility(View.GONE);
+        }
     }
 
     private void setSeatTV(TextView textView, int person, int luggage) {
@@ -240,4 +259,28 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     public void intentLuggageInfoActivity() {
         getContext().startActivity(new Intent(getContext(), LuggageInfoActivity.class));
     }
+
+    public void addCarImageView(LinearLayout picLayout, List<String> carPictures) {
+        picLayout.removeAllViews();
+        if (carPictures == null || carPictures.size() <= 0) {
+            return;
+        }
+        int size = carPictures.size();
+        for (int i = 0; i < size; i++) {
+            ImageView imageView = getCarImageView(carPictures.get(i));
+            picLayout.addView(imageView);
+        }
+    }
+
+    public ImageView getCarImageView(String url) {
+        ImageView imageView = new ImageView(getContext());
+        Tools.showImage(imageView, url, R.mipmap.guide_detail_car_default_bg);
+        int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(80)) / 2;
+        int itemHight = (int) ((2 / 3.0) * itemWidth);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHight);
+        params.rightMargin = UIUtils.dip2px(10);
+        imageView.setLayoutParams(params);
+        return imageView;
+    }
+
 }

@@ -162,6 +162,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         travelerInfoView.setOrderType(3);
 
         if (charterDataUtils.guidesDetailData != null) {
+            carTypeView.setGuidesDetailData(charterDataUtils.guidesDetailData);
             getGuideCars();
         } else {
             requestBatchPrice();

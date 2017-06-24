@@ -157,6 +157,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 if (!TextUtils.isEmpty("" + guidesDetailData.cityId)) {
                     setCityBean(DBHelper.findCityById("" + guidesDetailData.cityId));
                 }
+                carTypeView.setGuidesDetailData(guidesDetailData);
             }
             if (!TextUtils.isEmpty(params.cityId)) {
                 setCityBean(DBHelper.findCityById(params.cityId));
