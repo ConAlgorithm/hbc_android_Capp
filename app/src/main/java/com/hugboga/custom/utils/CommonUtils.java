@@ -29,7 +29,6 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -319,21 +318,15 @@ public final class CommonUtils {
     }
 
     public static void showLargerImage(Context context, String url) {
-        LargerImageActivity.Params params = new LargerImageActivity.Params();
-        ArrayList<String> imageUrlList = new ArrayList<String>(1);
+        List<String> imageUrlList = new ArrayList<String>(1);
         imageUrlList.add(url);
-        params.imageUrlList = imageUrlList;
-        Intent intent = new Intent(context, LargerImageActivity.class);
-        intent.putExtra(Constants.PARAMS_DATA, params);
-        context.startActivity(intent);
+        showLargerImages(context, imageUrlList, 0);
     }
 
-    public static void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic,int position,boolean isEvaluated) {
+    public static void showLargerImages(Context context, List<String> imageUrlList, int position) {
         LargerImageActivity.Params params = new LargerImageActivity.Params();
-        params.imageUrlList = path;
-        params.isLocalPic = islocalPic;
+        params.imageUrlList = imageUrlList;
         params.position = position;
-        params.isEvaluated = isEvaluated;
         Intent intent = new Intent(context, LargerImageActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
@@ -525,6 +518,7 @@ public final class CommonUtils {
             }
         }
     }
+
     /**
      * Try to return the absolute file path from the given Uri
      *

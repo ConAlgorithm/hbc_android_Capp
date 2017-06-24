@@ -673,7 +673,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                                     largePic.remove(i);
                                 }
                             }
-                            CommonUtils.showLargerLocalImage(activity, largePic, true, position,false);
+                            showLargerLocalImage(activity, largePic, true, position,false);
                         }
                     });
                 }
@@ -1062,10 +1062,20 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CommonUtils.showLargerLocalImage(mDontext, mDatas, true, i,true);
+                    showLargerLocalImage(mDontext, mDatas, true, i,true);
                 }
             });
 
         }
+    }
+
+    public void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic,int position,boolean isEvaluated) {
+        LargerImageActivity.Params params = new LargerImageActivity.Params();
+        params.imageUrlList = path;
+        params.isLocalPic = islocalPic;
+        params.position = position;
+        Intent intent = new Intent(context, EvaluatedLargerImageActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
     }
 }

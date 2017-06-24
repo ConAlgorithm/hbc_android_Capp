@@ -62,6 +62,7 @@ public class CarBean implements IBaseBean ,Cloneable{
     public int special;//0.普通车型 1.特殊车型
     public String carIntroduction;
     public List<String> carPictures;
+    public List<String> carPicturesL;//非接口返回
 
     public String carBrandName;
     public String carName;

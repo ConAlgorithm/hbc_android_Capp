@@ -156,6 +156,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             if (params.guidesDetailData != null) {
                 guidesDetailData = params.guidesDetailData;
                 guideLayout.setData(guidesDetailData);
+                carTypeView.setGuidesDetailData(guidesDetailData);
             } else if (params.isSeckills) {
                 seckillsLayout.setVisibility(View.VISIBLE);
             }
