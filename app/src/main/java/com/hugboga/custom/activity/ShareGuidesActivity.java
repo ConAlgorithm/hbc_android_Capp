@@ -33,8 +33,8 @@ import butterknife.OnClick;
  */
 public class ShareGuidesActivity extends BaseActivity{
 
-    @Bind(R.id.share_evaluate_description_tv1)
-    TextView descriptionTV1;
+    //@Bind(R.id.share_evaluate_description_tv1)
+    //TextView descriptionTV1;
     @Bind(R.id.share_evaluate_description_tv2)
     TextView descriptionTV2;
     @Bind(R.id.share_evaluate_collected_tv)
@@ -105,10 +105,10 @@ public class ShareGuidesActivity extends BaseActivity{
         }
         if (params.totalScore > 3) {
             collectedTV.setVisibility(params.guideAgencyType != 3 ? View.VISIBLE : View.INVISIBLE); //地接社订单不显示
-            descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
+            //descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
         } else {
             collectedTV.setVisibility(View.INVISIBLE);
-            descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_4));
+            //descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_4));
         }
 
         String commentTipParam = params.evaluateData.commentTipParam1;

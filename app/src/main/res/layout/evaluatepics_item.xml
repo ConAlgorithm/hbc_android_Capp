@@ -6,7 +6,9 @@
 
     <FrameLayout
         android:layout_width="74dp"
-        android:layout_height="74dp">
+        android:layout_height="74dp"
+        android:background="@drawable/evluatepic">
+
 
         <ImageView
             android:id="@+id/img_pic"
@@ -15,15 +17,24 @@
             android:background="@mipmap/evaluate_add_image" />
 
         <TextView
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="添加图片"
+            android:textColor="#cccccc"
+            android:textSize="10dp" />
+
+        <TextView
             android:id="@+id/fail_upload"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#e0151515"
             android:gravity="center"
             android:text="上传失败\n点击重试"
             android:textColor="#ffffff"
             android:textSize="11dp"
-            android:background="#e0151515"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </FrameLayout>
 
 
