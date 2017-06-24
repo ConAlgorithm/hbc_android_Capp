@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 153
+    //current urlErrorCode 157
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -211,11 +211,15 @@ public class UrlLibs {
     public static final String API_COUNTRY_GROUP            = "goods/v1.0/c/home/countryGroup";                         // 国家线路圈页 137
     public static final String API_GOODS_FILTER             = "goods/v1.0/c/home/goods/search";                         // 商品列表页筛选 139
 
-    public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券
+    public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
+    public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
+    public static final String SERVER_IP_COUPONS_USED       = "marketing/v2.0/c/coupons/used?";                         // 优惠券已使用(我的,失效)155
+    public static final String SERVER_IP_COUPONS_UNAVAILABLE= "marketing/v1.1/c/coupons/unavailable?";                  // 优惠券已使用(下单,不可用券)156
+
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
     public static final String GET_AD_PICTURE               = "marketing/v1.0/c/activity/effectivestart";               // 获取启动图
     public static final String MOSTFIT                      = "marketing/v1.1/c/coupons/mostFit";                       // 下单获取最适合的优惠券
-    public static final String API_COUPONS_AVAILABLE        = "marketing/v1.1/c/coupons/available";                     // 获取可用优惠券
+    public static final String API_COUPONS_AVAILABLE        = "marketing/v1.1/c/coupons/available";                     // 获取可用优惠券(下单,可用优惠券)
     public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
     public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
     public static final String API_PICKUP_COUPON_OPEN       = "marketing/v1.0/c/coupons/pickupCouponOpen";              // 接机支付成功 绑定送机包车券 开关 149

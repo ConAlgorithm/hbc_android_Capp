@@ -43,11 +43,26 @@
                 android:hint="请输入优惠券兑换码" />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@mipmap/coupon_info"
+            android:drawablePadding="2dp"
+            android:layout_below="@+id/coupon_pay_layout"
+            android:text="使用说明"
+            android:textSize="11sp"
+            android:textColor="#898989"
+            android:gravity="center"
+            />
         <com.hugboga.custom.widget.ZListView
             android:id="@+id/coupon_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/coupon_pay_layout"
+            android:layout_below="@id/des"
             android:dividerHeight="15dp"
             android:background="@color/coupon_empty_color"
             android:divider="@null" />
@@ -67,12 +82,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/basic_margin_xlarge"
                 android:drawablePadding="@dimen/basic_margin_xlarge"
-                android:drawableTop="@mipmap/journey_sorry_quan"
+                android:drawableTop="@mipmap/empty_coupon"
                 android:textSize="15sp"
-                android:text="对不起，您还没有可使用的优惠券"
+                android:text="暂无优惠券"
                 android:textColor="@color/coupon_empty_text" />
 
         </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:text="查看失效券"
+            android:textColor="#898989"
+            android:textSize="13sp"
+            android:drawableRight="@mipmap/evaluate_down"
+            android:drawablePadding="2dp"/>
     </RelativeLayout>
 
 </LinearLayout>

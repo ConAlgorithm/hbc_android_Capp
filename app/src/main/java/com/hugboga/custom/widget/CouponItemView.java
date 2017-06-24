@@ -17,8 +17,10 @@ import butterknife.ButterKnife;
 
 public class CouponItemView extends LinearLayout {
     View view;
-    @Bind(R.id.title_view)
-    TextView titleView;
+    @Bind(R.id.title_view1)
+    TextView titleView1;
+    @Bind(R.id.title_view2)
+    TextView titleView2;
     @Bind(R.id.content_view)
     TextView contentView;
 
@@ -33,10 +35,14 @@ public class CouponItemView extends LinearLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void setTitle(String txt) {
-        titleView.setText(txt);
+    public void setTitleType1(String txt) {
+        titleView1.setVisibility(VISIBLE);
+        titleView1.setText(txt);
     }
-
+    public void setTitleType2(String txt) {
+        titleView2.setVisibility(VISIBLE);
+        titleView2.setText(txt);
+    }
     public void setContent(String txt) {
         contentView.setText(txt);
     }

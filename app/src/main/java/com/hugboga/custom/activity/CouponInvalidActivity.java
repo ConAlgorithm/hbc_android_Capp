@@ -2,24 +2,18 @@ package com.hugboga.custom.activity;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -35,16 +29,13 @@ import com.hugboga.custom.data.bean.CouponTitleContent;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestAvailableCoupon;
-import com.hugboga.custom.data.request.RequestCouponExchange;
-import com.hugboga.custom.data.request.RequestUnusedCoupon;
+import com.hugboga.custom.data.request.RequestInvaidableCoupon;
+import com.hugboga.custom.data.request.RequestUsedCoupon;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AnimationUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CouponItemView;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ZListView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,26 +45,15 @@ import java.text.ParseException;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnClick;
-
 /**
- * Created by on 16/8/4.
+ * Created by zhangqiang on 17/6/24.
  */
-public class CouponActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-
-    public static final String ORDER_ID = "ORDER_ID";
-    public static final String ORDER_PRICE = "ORDER_PRICE";
-    public static final String KEY_COUPON = "KEY_COUPON";
-    public static final String KEY_COUPON_ID = "KEY_COUPON_ID";
+public class CouponInvalidActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @Bind(R.id.coupon_listview)
     ZListView listView;
-    @Bind(R.id.coupon_btn_carnumber)
-    EditText carNumberEditText;
     @Bind(R.id.coupon_listview_empty)
     RelativeLayout emptyLayout;
-    @Bind(R.id.coupon_pay_layout)
-    RelativeLayout payLayout;
 
     CouponAdapter adapter;
     @Bind(R.id.header_left_btn)
@@ -84,15 +64,6 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     TextView headerTitle;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.coupon_btn_pay)
-    Button couponBtnPay;
-    @Bind(R.id.next)
-    View next;
-    @Bind(R.id.des)
-    TextView des;
-    private String orderId;
-    private double orderPrice;
-    private String couponId;
     private int mPageSize = 20;
 
     private MostFitAvailableBean paramsData;
@@ -101,7 +72,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
     @Override
     public int getContentViewId() {
-        return R.layout.fg_coupon;
+        return R.layout.fg_coupon_invalid;
     }
 
     @Override
@@ -114,37 +85,19 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             if (bundle != null) {
                 paramsData = (MostFitAvailableBean) bundle.getSerializable(Constants.PARAMS_DATA);
                 idStr = bundle.getString("idStr");
-                orderId = bundle.getString(ORDER_ID, "");
-                couponId = bundle.getString(KEY_COUPON_ID, "");
-                orderPrice = bundle.getDouble(ORDER_PRICE);
             }
         }
 
         initView();
         requestData();
-        carNumberEditText.addTextChangedListener(new TextWatcher(){
-            @Override
-            public void afterTextChanged(Editable editable) {
-                setCouponBtnPay();
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-        });
         setSensorsDefaultEvent("优惠券", SensorsConstant.COUPON);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        hideInputMethod(carNumberEditText);
+
     }
 
     @Override
@@ -156,11 +109,14 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void initView() {
-        headerTitle.setText("我的优惠券");
+        if(paramsData!=null){
+            headerTitle.setText("不可用优惠券");
+        }else{
+            headerTitle.setText("失效优惠券");
+        }
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
                 finish();
             }
         });
@@ -168,40 +124,6 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
-        setCouponBtnPay();
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                startActivity(intent);
-            }
-        });
-        des.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CouponActivity.this, CouponDesActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                startActivity(intent);
-            }
-        });
-    }
-    private void setCouponBtnPay(){
-        if(carNumberEditText!= null && couponBtnPay != null){
-            if(carNumberEditText.getText().toString().trim().length() >0){
-                couponBtnPay.setEnabled(true);
-                couponBtnPay.setBackgroundColor(getResources().getColor(R.color.all_bg_yellow));
-            }else {
-                couponBtnPay.setEnabled(false);
-                couponBtnPay.setBackgroundColor(getResources().getColor(R.color.login_unready));
-            }
-        }
-    }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        EventBus.getDefault().post(new EventAction(EventType.SETTING_BACK));
-        finish();
     }
 
     ZListView.OnRefreshListener onRefreshListener = new ZListView.OnRefreshListener() {
@@ -210,7 +132,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             if (adapter != null) {
                 adapter = null;
             }
-            runData(orderId, 0);
+            runData(0);
         }
     };
 
@@ -218,18 +140,18 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         @Override
         public void onLoad() {
             if (adapter.getCount() > 0) {
-                runData(orderId, adapter == null ? 0 : adapter.getCount());
+                runData(adapter == null ? 0 : adapter.getCount());
             }
         }
     };
 
 
-    private Callback.Cancelable runData(String orderId, int pageIndex) {
+    private Callback.Cancelable runData(int pageIndex) {
         BaseRequest request = null;
         if (paramsData == null) {
-            request = new RequestUnusedCoupon(this, pageIndex, mPageSize);
+            request = new RequestUsedCoupon(this, pageIndex, mPageSize);
         } else {
-            request = new RequestAvailableCoupon(this, paramsData, pageIndex);
+            request = new RequestInvaidableCoupon(this, paramsData, pageIndex);
         }
         return requestData(request);
     }
@@ -239,48 +161,18 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         if (adapter != null) {
             adapter = null;
         }
-        runData(orderId, 0);
-    }
-
-    @OnClick({R.id.coupon_btn_pay})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.coupon_btn_pay:
-                //兑换优惠券
-                collapseSoftInputMethod(carNumberEditText);
-                String couponNum = carNumberEditText.getText().toString();
-                if (couponNum.isEmpty()) {
-                    CommonUtils.showToast("请输入优惠券兑换码");
-                    carNumberEditText.requestFocus();
-                    return;
-                }
-                RequestCouponExchange requestCoupon = new RequestCouponExchange(this, couponNum);
-                requestData(requestCoupon);
-                break;
-            default:
-                break;
-        }
+        runData(0);
     }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        if (request instanceof RequestUnusedCoupon) {
-            RequestUnusedCoupon mRequest = (RequestUnusedCoupon) request;
+        if (request instanceof RequestUsedCoupon) {
+            RequestUsedCoupon mRequest = (RequestUsedCoupon) request;
             setData(mRequest.getData());
-        } else if (request instanceof RequestAvailableCoupon) {
-            RequestAvailableCoupon requestAvailableCoupon = (RequestAvailableCoupon) request;
-            setData(requestAvailableCoupon.getData());
-        } else if (request instanceof RequestCouponExchange) {
-            RequestCouponExchange mParser = (RequestCouponExchange) request;
-            requestData();
-            DialogUtil dialogUtil = DialogUtil.getInstance(this);
-            dialogUtil.showCustomDialog("优惠券兑换成功", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    carNumberEditText.setText(""); //清空兑换成功的兑换码
-                }
-            }).show();
+        } else if (request instanceof RequestInvaidableCoupon) {
+            RequestInvaidableCoupon requestInvaidableCoupon = (RequestInvaidableCoupon) request;
+            setData(requestInvaidableCoupon.getData());
         }
     }
 
@@ -313,29 +205,17 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         if (paramsData != null) {
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             finish();
-        } else if (!TextUtils.isEmpty(orderId)) {
-            //点击回传优惠券
-            if (bean != null) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(KEY_COUPON, bean);
-                EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
-            }
         } else {
             //点击查看详情
             showCouponInfoByDialog(bean);
         }
     }
-    /**
-     * 查看订单详情,弹框型
-     *
-     * @param bean
-     */
+
     private void showCouponInfoByDialog(CouponBean bean){
         RelativeLayout rl = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.coupon_info_layout, null);
 
         ((TextView) rl.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
         ((TextView) rl.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
-
 
         SpannableString spannableString = new SpannableString(bean.price);
         if(bean.price.endsWith("折")){
@@ -347,7 +227,6 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         if(bean.couponStatus.equals(2) || bean.couponStatus.equals(-1) || bean.couponStatus.equals(98)){
             ((TextView) rl.findViewById(R.id.coupon_info_price)).setTextColor(getResources().getColor(R.color.common_font_color_gray2));
         }
-
         setCouponStatus(bean,rl);
 
         if (bean.endDate.equals("0")) {
@@ -371,7 +250,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl);
         final AlertDialog dialog = builder.create();
+
         dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
         dialog.show();
         Window dialogWindow = dialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
@@ -386,6 +267,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             if(bean.couponStatus.equals(2)){
                 rl.findViewById(R.id.coupon_invalid).setVisibility(View.VISIBLE);
                 ((TextView) rl.findViewById(R.id.coupon_invalid)).setText("已使用");
+
             }else if(bean.couponStatus.equals(-1)){
                 rl.findViewById(R.id.coupon_invalid).setVisibility(View.VISIBLE);
                 ((TextView) rl.findViewById(R.id.coupon_invalid)).setText("已过期");
@@ -397,9 +279,8 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             }
         }
     }
-
     /**
-     * 查看订单详情,整页型
+     * 查看订单详情
      *
      * @param bean
      */
