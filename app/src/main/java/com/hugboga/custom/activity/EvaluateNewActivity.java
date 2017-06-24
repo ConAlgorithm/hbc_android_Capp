@@ -168,7 +168,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             }
         }
         orderId = getIntent().getStringExtra("actionParams");
-        if(!orderId.equals("")){
+        if(orderId != null && !orderId.equals("")){
             //处理push,短链等操作
         }
         mDialogUtil = DialogUtil.getInstance(this);
