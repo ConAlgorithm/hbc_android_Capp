@@ -13,22 +13,23 @@
         android:id="@+id/share_evaluate_description_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/share_evaluate_titlebar"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:lineSpacingExtra="2dp"
         android:text="50元旅游基金马上到账~"
         android:textColor="#151515"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
+
     <ImageView
         android:id="@+id/share_evaluate_icon_iv"
-        android:layout_below="@id/share_evaluate_description_tv1"
         android:layout_width="118dp"
         android:layout_height="90dp"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/share_evaluate_description_tv1"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:background="@mipmap/share_evaluated_icon" />
     <!--<TextView
         android:id="@+id/share_evaluate_description_tv1"
@@ -42,20 +43,45 @@
         android:text="感谢您的评价!分享您的评价到微信\n把靠谱司导推荐给好友"
         android:textColor="#333333"
         android:textSize="15sp"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_above="@+id/share_evaluate_description_tv2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/share_divider_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="分享评价 赚的更多"
+            android:textColor="#898989"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/share_divider_right" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/share_evaluate_description_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/share_layout"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:gravity="center"
         android:layout_marginTop="18dp"
+        android:gravity="center"
         android:lineSpacingExtra="2dp"
         android:text="好友可得600元皇包车体验大礼包\n当Ta完成首单,你也能赚旅游基金"
         android:textColor="#666666"
-        android:textSize="13sp"/>
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/share_evaluate_collected_tv"
@@ -66,7 +92,7 @@
         android:layout_marginBottom="20dp"
         android:text="@string/share_evaluate_collected_tv"
         android:textColor="#666666"
-        android:textSize="13sp"/>
+        android:textSize="13sp" />
 
     <LinearLayout
         android:id="@+id/share_layout"

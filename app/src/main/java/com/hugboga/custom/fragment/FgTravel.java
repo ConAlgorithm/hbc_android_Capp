@@ -40,6 +40,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.parser.ParserTravel;
+import com.hugboga.custom.data.request.RequestEvaluateComments;
 import com.hugboga.custom.data.request.RequestOrderListAll;
 import com.hugboga.custom.data.request.RequestOrderListDoing;
 import com.hugboga.custom.data.request.RequestOrderListUnevaludate;
@@ -618,6 +619,10 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
                 contentLayout.setVisibility(View.VISIBLE);
                 logoutLayout.setVisibility(View.GONE);
                 requestData();
+                //获取行程评价信息
+                //push过来及时更新已评价界面,同时也是已评价的最新更新数据  orderBean.orderNo 为push过来的
+                //RequestEvaluateComments requestEvaluateComments = new RequestEvaluateComments(getContext(), orderBean.orderNo);
+                //requestData(requestEvaluateComments);
                 break;
             case CLICK_USER_LOOUT:
                 contentLayout.setVisibility(View.GONE);

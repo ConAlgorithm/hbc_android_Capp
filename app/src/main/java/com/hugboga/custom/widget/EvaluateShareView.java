@@ -12,22 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.EvaluateActivity;
+import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.data.bean.AppraisementBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.event.EventEvaluate;
 import com.hugboga.custom.statistic.event.EventEvaluateShare;
-import com.hugboga.custom.statistic.event.EventEvaluateShareFloat;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.Tools;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -82,8 +75,8 @@ public class EvaluateShareView extends LinearLayout implements View.OnClickListe
 
     private void share(int type) {
         String source = null;
-        if (getContext() instanceof EvaluateActivity) {
-            source = ((EvaluateActivity) getContext()).getEventSource();
+        if (getContext() instanceof EvaluateNewActivity) {
+            source = ((EvaluateNewActivity) getContext()).getEventSource();
             MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
         }
         String shareUrl = CommonUtils.getBaseUrl(appraisement.wechatShareUrl) + "orderNo=" + orderNo + "&userId=" + UserEntity.getUser().getUserId(getContext());

@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 157
+    //current urlErrorCode 159
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -239,6 +239,8 @@ public class UrlLibs {
     public static final String UPLOAD_LOCATION_V11          = "poi/v1.1/c/city?";                                       // 获取定位城市机场列表
 
     public static final String API_EVALUATE_NEW             = "supplier/v1.1/c/guide/comments/create";                  // 评价司导
+    public static final String API_EVALUATE_RETURN_MONEY    = "supplier/v1.0/c/guide/returnMoney";                      // 评价返现开关158
+    public static final String API_EVALUATE_COMMENTS        = "supplier/v1.0/c/order/comments";                         // 评价返回信息159
     public static final String API_EVALUATE_TAG             = "supplier/v1.0/c/guides/comments/labels/OrderType";       // 获取各个星级的标签列表
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情

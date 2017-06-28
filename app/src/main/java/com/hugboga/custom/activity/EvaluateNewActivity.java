@@ -45,6 +45,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
+import com.hugboga.custom.data.request.RequestEvaluateComments;
 import com.hugboga.custom.data.request.RequestEvaluateNew;
 import com.hugboga.custom.data.request.RequestEvaluateTag;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -140,7 +141,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     @Bind(R.id.banar_top)
     View banarTop;
     @Bind(R.id.guide_reply)
-    View guideReply;
+    TextView guideReply;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
@@ -149,7 +150,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     Activity activity;
     ArrayList<Photo> localPhotos = new ArrayList<>(1);
 
-    public String orderId="";
+    public String orderId = "";
+
+    private boolean isReturnMoney = false;
 
     @Override
     public int getContentViewId() {
@@ -168,8 +171,15 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             }
         }
         orderId = getIntent().getStringExtra("actionParams");
-        if(orderId != null && !orderId.equals("")){
-            //处理push,短链等操作
+        if (orderId != null && !orderId.equals("")) {
+            //处理push,短链等操作,action操作
+            //在接口中刷新评价司导等信息
+            //push过来及时更新已评价界面,同时也是已评价的最新更新数据  orderBean.orderNo 为push过来的
+            RequestEvaluateComments requestEvaluateComments = new RequestEvaluateComments(getApplicationContext(), orderId);
+            requestData(requestEvaluateComments);
+        }else if(isEvaluated()){
+            RequestEvaluateComments requestEvaluateComments = new RequestEvaluateComments(getApplicationContext(), orderBean.orderNo);
+            requestData(requestEvaluateComments);
         }
         mDialogUtil = DialogUtil.getInstance(this);
         EventBus.getDefault().register(this);
@@ -196,9 +206,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        /*if(!isEvaluated()){
+        if (!isEvaluated()) {
             picsdapter.abortUpload();
-        }*/
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -280,108 +290,19 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     private void initView() {
         //initDefaultTitleBar();
         fgTitle.setText(getString(R.string.evaluate_title));
-        if (orderBean == null) {
+        /*if (orderBean == null) {
             return;
-        }
-        final OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
-        if (guideInfo == null) {
-            return;
-        }
+        }*/
 
-        if (isEvaluated()) {//已评价
-            fgLeftBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                }
-            });
-
-            RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(20), UIUtils.dip2px(20));
-            headerRightImageParams.rightMargin = UIUtils.dip2px(18);
-            headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
-            fgRightBtn.setLayoutParams(headerRightImageParams);
-            fgRightBtn.setPadding(0, 0, 0, 0);
-            fgRightBtn.setVisibility(View.VISIBLE);
-            fgRightBtn.setImageResource(R.mipmap.evaluate_share);
-            fgRightBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //分享
-                    String source = getEventSource();
-                    //MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
-                    final String shareUrl = CommonUtils.getBaseUrl(orderBean.appraisement.wechatShareUrl) + "orderNo=" + orderBean.orderNo + "&userId=" + UserEntity.getUser().getUserId(EvaluateNewActivity.this);
-                    CommonUtils.shareDialog(EvaluateNewActivity.this, orderBean.appraisement.wechatShareHeadSrc,
-                            orderBean.appraisement.wechatShareTitle, orderBean.appraisement.content,shareUrl , source,
-                            new ShareDialog.OnShareListener() {
-                                @Override
-                                public void onShare(int type) {
-                                    StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
-                                }
-                            });
-                }
-            });
-            ratingview.setLevel(orderBean.appraisement.totalScore);
-            if (TextUtils.isEmpty("ASDJAGHAGS;GK;DASGA;GA;GDHA;GAJDSGHASKGHSKHGKASDHSAHGKASGKAHGLKA"/*orderBean.appraisement.content*/)) {
-                //commentIconIV.setVisibility(View.GONE);
-                commentET.setVisibility(View.GONE);
-            } else {
-                //commentIconIV.setVisibility(View.VISIBLE);
-                commentET.setPadding(0, 0, 0, 0);
-                commentET.setVisibility(View.VISIBLE);
-                commentET.setText("ADJGHALSHGLADHGALHGADGHALDHGLAHGALGHALHGALHDGKDSADHGJSKAHSKAHGKSALHKGAHKHGKAGH"/*orderBean.appraisement.content*/);
-            }
-            commentET.setEnabled(false);
-            commentET.setBackgroundColor(0x00000000);
-            //submitTV.setVisibility(View.GONE);
-            scoreTV.setVisibility(View.VISIBLE);
-            //判断(没有评价标签和内容),是否显示 "你还没有提交评价内容~"
-            if (true/*orderBean.appraisement.totalScore >= 5*/) {
-                scoreTV.setText(getString(R.string.evaluate_evaluated_satisfied));
-            } else {
-                scoreTV.setText(getString(R.string.evaluate_evaluated_ordinary));
-            }
-            ratingview.setOnLevelChangedListener(null);
-            ratingview.setTouchable(false);
-            if (orderBean.appraisement.guideLabels == null) {
-                tagGroup.setVisibility(View.GONE);
-            } else {
-                tagGroup.setTagEnabled(false);
-                tagGroup.setEvaluatedData(orderBean.appraisement.guideLabels);
-            }
-
-            //测试
-            ArrayList<String> _itemParams = new ArrayList<String>(2);
-            _itemParams.add("http://img3.imgtn.bdimg.com/it/u=129953484,1791172593&fm=11&gp=0.jpg");
-            _itemParams.add("http://img3.imgtn.bdimg.com/it/u=129953484,1791172593&fm=11&gp=1.jpg");
-            _itemParams.add("http://img3.imgtn.bdimg.com/it/u=129953484,1791172593&fm=11&gp=1.jpg");
-            _itemParams.add("http://img3.imgtn.bdimg.com/it/u=129953484,1791172593&fm=11&gp=1.jpg");
-            _itemParams.add("http://img3.imgtn.bdimg.com/it/u=129953484,1791172593&fm=11&gp=1.jpg");
-
-            //设置布局管理器
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            mRecyclerView.setLayoutManager(linearLayoutManager);
-            //设置适配器
-            evluatedPicAdapter = new GalleryAdapter(this,_itemParams);
-            mRecyclerView.setAdapter(evluatedPicAdapter);
-            mRecyclerView.setHorizontalScrollBarEnabled(false);
-            SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
-            final int paddingLeft = getResources().getDimensionPixelOffset(R.dimen.charter_item_margin_left);
-            itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
-            mRecyclerView.addItemDecoration(itemDecoration);
-            gridView.setVisibility(View.GONE);
-            banarBelow.setVisibility(View.GONE);
-            banarTop.setVisibility(View.VISIBLE);
-            //在接口中刷新司导等信息
-            //to do --
-
-        } else {
+        if (!isEvaluated()) {
             //准备评价
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setTitle("动动手指，留个评价吧~").setNegativeButton("不要", new DialogInterface.OnClickListener() {
+                    RelativeLayout rl = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.evaluatedialog, null);
+                    TextView title = (TextView) rl.findViewById(R.id.title);
+                    title.setText("动动手指，留个评价吧~");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setView(rl).setNegativeButton("不要", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
@@ -414,18 +335,40 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                             }
                         }
                     }
-                    mDialogUtil.showLoadingDialog();
-                    RequestEvaluateNew.RequestParams params = new RequestEvaluateNew.RequestParams();
-                    params.fromUname = UserEntity.getUser().getNickname(getApplicationContext());
-                    params.guideId = orderBean.orderGuideInfo.guideID;
-                    params.guideName = orderBean.orderGuideInfo.guideName;
-                    params.orderNo = orderBean.orderNo;
-                    params.orderType = orderBean.orderType;
-                    params.totalScore = Math.round(ratingview.getLevel());
-                    params.labels = tagGroup.getRequestTagIds();
-                    params.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
-                    RequestEvaluateNew request = new RequestEvaluateNew(getApplicationContext(), params);
-                    requestData(request);
+
+                    //有返现条件
+                    RelativeLayout rl = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.evaluatedialog, null);
+                    if (UserEntity.getUser().backFlag == 1) {
+                        TextView title = (TextView) rl.findViewById(R.id.title);
+                        title.setText("还差xx字和晒一张图，就能领取50元旅游基金啦。确定提交评价吗？");
+                        if (commentET.getText().toString().length() <= UserEntity.getUser().contentCnt || localPhotos.size() <= UserEntity.getUser().imageCnt) {
+                            //不满足返现条件
+                            AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setView(rl).setNegativeButton("返回添加", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setPositiveButton("提交，给钱不要", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //mDialogUtil.showLoadingDialog();
+                                    isReturnMoney = false;
+                                    submit();
+                                }
+                            });
+                            final AlertDialog dialog = builder.create();
+                            dialog.show();
+                        } else {
+                            //满足返现条件
+                            isReturnMoney = true;
+                            isSubmit(rl);
+                        }
+                    } else {
+                        //没有返现活动
+                        isReturnMoney = false;
+                        isSubmit(rl);
+                    }
+
+
                 }
             });
 
@@ -438,6 +381,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             //commentIconIV.setVisibility(View.GONE);
             //shareView.setVisibility(View.GONE);
         }
+
 
         /*if (isActive()) {//活动
             String activeText = null;
@@ -459,6 +403,49 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         scrollview.requestFocus();
     }
 
+    private void isSubmit(RelativeLayout rl) {
+        TextView title = (TextView) rl.findViewById(R.id.title);
+        title.setText("确定提交评价吗?");
+        AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setView(rl).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                submit();
+            }
+        });
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void submit() {
+        RequestEvaluateNew.RequestParams params = new RequestEvaluateNew.RequestParams();
+        params.fromUname = UserEntity.getUser().getNickname(getApplicationContext());
+        params.guideId = orderBean.orderGuideInfo.guideID;
+        params.guideName = orderBean.orderGuideInfo.guideName;
+        params.orderNo = orderBean.orderNo;
+        params.orderType = orderBean.orderType;
+        params.totalScore = Math.round(ratingview.getLevel());
+        params.labels = tagGroup.getRequestTagIds();
+        params.content = TextUtils.isEmpty(commentET.getText()) ? "" : commentET.getText().toString();
+        StringBuilder uploadPicPath = new StringBuilder();
+        for (Photo photo : localPhotos) {
+            if (photo.uploadStatus == AlbumUploadHelper.UPLOAD_SUCCESS) {
+                uploadPicPath.append(photo.cardPhotoSrc).append(",");
+            }
+        }
+        if (uploadPicPath.length() > 0) {
+            if (uploadPicPath.charAt(uploadPicPath.length() - 1) == ',') {
+                params.commentPics = (String) uploadPicPath.subSequence(0, uploadPicPath.length() - 1);
+            }
+        }
+
+        RequestEvaluateNew request = new RequestEvaluateNew(getApplicationContext(), params);
+        requestData(request);
+    }
+
     private void initPicGridParams(GridView gridView, List<Photo> pics, boolean isFirstIn) {
         picsdapter = new PicsAdapter(localPhotos, activity, false, isFirstIn);
         int gridWidth = UIUtils.dip2px(74);
@@ -472,7 +459,10 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
      * 是否评价过
      */
     private boolean isEvaluated() {
-        return orderBean.userCommentStatus == 1 && orderBean.appraisement != null;
+        if(orderBean !=null){
+            return orderBean.userCommentStatus == 1 && orderBean.appraisement != null;
+        }
+        return false;
     }
 
     /**
@@ -534,6 +524,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 params.orderType = orderBean.orderType;
                 params.totalScore = (int) orderBean.appraisement.totalScore;
                 params.guideAgencyType = orderBean.guideAgencyType;
+                params.isReturnMoney = isReturnMoney;
                 Intent intent = new Intent(EvaluateNewActivity.this, ShareGuidesActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 EvaluateNewActivity.this.startActivity(intent);
@@ -551,6 +542,95 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 //tagGroup.setEvaluatedData(tagBean.fiveStarTags);
             }
             ratingview.setOnLevelChangedListener(this);
+        } else if (_request instanceof RequestEvaluateComments) {
+            RequestEvaluateComments requestEvaluateComments = (RequestEvaluateComments) _request;
+            AppraisementBean appraisementBean = requestEvaluateComments.getData();
+
+            ratingview.setLevel(appraisementBean.totalScore);
+            if (TextUtils.isEmpty(appraisementBean.content)) {
+                //commentIconIV.setVisibility(View.GONE);
+                commentET.setVisibility(View.GONE);
+            } else {
+                //commentIconIV.setVisibility(View.VISIBLE);
+                commentET.setPadding(0, 0, 0, 0);
+                commentET.setVisibility(View.VISIBLE);
+                commentET.setText(appraisementBean.content);
+            }
+            commentET.setEnabled(false);
+            commentET.setBackgroundColor(0x00000000);
+            //submitTV.setVisibility(View.GONE);
+            scoreTV.setVisibility(View.VISIBLE);
+            //判断(没有评价标签和内容),是否显示 "你还没有提交评价内容~"
+            if (appraisementBean.totalScore >= 5) {
+                scoreTV.setText(getString(R.string.evaluate_evaluated_satisfied));
+            } else {
+                scoreTV.setText(getString(R.string.evaluate_evaluated_ordinary));
+            }
+            ratingview.setOnLevelChangedListener(null);
+            ratingview.setTouchable(false);
+            if (appraisementBean.guideLabels == null) {
+                tagGroup.setVisibility(View.GONE);
+            } else {
+                tagGroup.setTagEnabled(false);
+                tagGroup.setEvaluatedData(appraisementBean.guideLabels);
+            }
+
+            ArrayList<String> _itemParams = new ArrayList<String>(2);
+            if(appraisementBean.commentPic != null && appraisementBean.commentPic.size()>0){
+                _itemParams.addAll(appraisementBean.commentPic);
+                //设置布局管理器
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
+                //设置适配器
+                evluatedPicAdapter = new GalleryAdapter(this, _itemParams);
+                mRecyclerView.setAdapter(evluatedPicAdapter);
+                mRecyclerView.setHorizontalScrollBarEnabled(false);
+                SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
+                final int paddingLeft = getResources().getDimensionPixelOffset(R.dimen.charter_item_margin_left);
+                itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
+                mRecyclerView.addItemDecoration(itemDecoration);
+            }else{
+                mRecyclerView.setVisibility(View.GONE);
+            }
+
+            gridView.setVisibility(View.GONE);
+            banarBelow.setVisibility(View.GONE);
+            banarTop.setVisibility(View.VISIBLE);
+
+            fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+
+            RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(20), UIUtils.dip2px(20));
+            headerRightImageParams.rightMargin = UIUtils.dip2px(18);
+            headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            fgRightBtn.setLayoutParams(headerRightImageParams);
+            fgRightBtn.setPadding(0, 0, 0, 0);
+            fgRightBtn.setVisibility(View.VISIBLE);
+            fgRightBtn.setImageResource(R.mipmap.evaluate_share);
+            fgRightBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //分享
+                    String source = getEventSource();
+                    //MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
+                    final String shareUrl = CommonUtils.getBaseUrl(orderBean.appraisement.wechatShareUrl) + "orderNo=" + orderBean.orderNo + "&userId=" + UserEntity.getUser().getUserId(EvaluateNewActivity.this);
+                    CommonUtils.shareDialog(EvaluateNewActivity.this, orderBean.appraisement.wechatShareHeadSrc,
+                            orderBean.appraisement.wechatShareTitle, orderBean.appraisement.content, shareUrl, source,
+                            new ShareDialog.OnShareListener() {
+                                @Override
+                                public void onShare(int type) {
+                                    StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
+                                }
+                            });
+                }
+            });
+
         }
     }
 
@@ -673,7 +753,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                                     largePic.remove(i);
                                 }
                             }
-                            showLargerLocalImage(activity, largePic, true, position,false);
+                            showLargerLocalImage(activity, largePic, true, position, false);
                         }
                     });
                 }
@@ -745,6 +825,17 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                         break;
                     }
                 }
+                //组装上传图片字段
+
+                for (int i = 0; i < picsList.size(); i++) {
+                    Photo photo1 = localPhotos.get(i);
+                    if (photo1.unquineId == fid && fid != 0) {
+                        photo1.uploadStatus = AlbumUploadHelper.UPLOAD_SUCCESS;
+                        photo1.cardPhotoSrc = uploadFileUrl;
+                        break;
+                    }
+                }
+
             }
 
             @Override
@@ -1013,36 +1104,35 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
 
     public class GalleryAdapter extends
-            RecyclerView.Adapter<GalleryAdapter.ViewHolder>
-    {
+            RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
         private LayoutInflater mInflater;
         private ArrayList<String> mDatas;
         private Context mDontext;
-        public GalleryAdapter(Context context, ArrayList<String> datats)
-        {
+
+        public GalleryAdapter(Context context, ArrayList<String> datats) {
             mInflater = LayoutInflater.from(context);
             mDatas = datats;
             mDontext = context;
         }
-        public class ViewHolder extends RecyclerView.ViewHolder
-        {
-            public ViewHolder(View arg0)
-            {
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public ViewHolder(View arg0) {
                 super(arg0);
             }
+
             ImageView mImg;
         }
+
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return mDatas.size();
         }
+
         /**
          * 创建ViewHolder
          */
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
-        {
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = mInflater.inflate(R.layout.evluatedpic_item,
                     viewGroup, false);
             ViewHolder viewHolder = new ViewHolder(view);
@@ -1050,26 +1140,26 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                     .findViewById(R.id.id_index_gallery_item_image);
             return viewHolder;
         }
+
         /**
          * 设置值
          */
         @Override
-        public void onBindViewHolder(final ViewHolder viewHolder, final int i)
-        {
+        public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
             //viewHolder.mImg.setImageResource(R.mipmap.empty_home_banner);
             //viewHolder.mImg.setImageResource(mDatas.get(i));
             Tools.showImage(viewHolder.mImg, mDatas.get(i), R.mipmap.empty_home_banner);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showLargerLocalImage(mDontext, mDatas, true, i,true);
+                    showLargerLocalImage(mDontext, mDatas, true, i, true);
                 }
             });
 
         }
     }
 
-    public void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic,int position,boolean isEvaluated) {
+    public void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic, int position, boolean isEvaluated) {
         LargerImageActivity.Params params = new LargerImageActivity.Params();
         params.imageUrlList = path;
         params.isLocalPic = islocalPic;

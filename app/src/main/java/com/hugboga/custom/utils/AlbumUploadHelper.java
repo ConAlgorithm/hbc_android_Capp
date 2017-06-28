@@ -2,6 +2,7 @@ package com.hugboga.custom.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.hugboga.custom.data.bean.OssTokenBean;
 import com.hugboga.custom.data.bean.OssTokenKeyBean;
@@ -207,6 +208,10 @@ public class AlbumUploadHelper {
         //StatisticUtils.get().addBuried(StatisticUtils.EVENT_UPLOAD_PICTURE,"os","ANDROID","upload_id",uploadUniqueStr);
         RequestParams params = new RequestParams(ossTokenBean.getAddress());
         initParams(params, file, ossTokenBean, ossTokenKeyBean);
+        String string1 = ossTokenBean.toString();
+        Log.d("zqossTokenBean",string1);
+        String string2 = ossTokenKeyBean.toString();
+        Log.d("zqossTokenKeyBean",string2);
         uploadAble = x.http().post(params, new Callback.ProgressCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -39,6 +39,13 @@ public class UserEntity {
     private String nimUserId;
     private String nimUserToken;
 
+    public Integer backFlag = 1;
+    public Integer contentCnt = 50;
+    public Integer imageCnt = 1;
+    public Integer money = 50;
+    public String activityImgUrl="";
+    public String activityUrl ="";
+
     public String getUserName(Context activity) {
 //        if (userName == null) {
             SharedPre shared = new SharedPre(activity);
@@ -432,5 +439,34 @@ public class UserEntity {
         nickname = null;
         weakPassword = false;
     }
-
+    public void setEvaluateReTurnMoneyBackFlag(Context activity, Integer backFlag) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveIntValue("backFlag",backFlag);
+        this.backFlag = backFlag;
+    }
+    public void setEvaluateReTurnMoneyContentCnt(Context activity, Integer contentCnt) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveIntValue("contentCnt",contentCnt);
+        this.contentCnt = contentCnt;
+    }
+    public void setEvaluateReTurnMoneyImageCnt(Context activity, Integer imageCnt) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveIntValue("imageCnt",imageCnt);
+        this.imageCnt = imageCnt;
+    }
+    public void setEvaluateReTurnMoney(Context activity, Integer money) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveIntValue("money",money);
+        this.money = money;
+    }
+    public void setEvaluateReTurnMoneyActivityUrl(Context activity, String activityUrl) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue("activityUrl",activityUrl);
+        this.activityUrl = activityUrl;
+    }
+    public void setEvaluateReTurnMoneyImageUrl(Context activity, String activityImgUrl) {
+        SharedPre shared = new SharedPre(activity);
+        shared.saveStringValue("money",activityImgUrl);
+        this.activityImgUrl = activityImgUrl;
+    }
 }

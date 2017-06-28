@@ -6,6 +6,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -39,16 +40,20 @@ public class ShareGuidesActivity extends BaseActivity{
     TextView descriptionTV2;
     @Bind(R.id.share_evaluate_collected_tv)
     TextView collectedTV;
-
+    @Bind(R.id.share_evaluate_description_tv1)
+    TextView des;
+    @Bind(R.id.share_evaluate_icon_iv)
+    ImageView evaluateIcon;
     private Params params;
     private boolean shareSucceed = false;
-
+    private boolean isReturnMoney = true;
     public static class Params implements Serializable {
         public EvaluateData evaluateData;
         public String orderNo;
         public int orderType;
         public int totalScore;
         public int guideAgencyType;
+        public boolean isReturnMoney;
     }
 
     @Override
@@ -99,7 +104,14 @@ public class ShareGuidesActivity extends BaseActivity{
         initDefaultTitleBar();
         shareSucceed = false;
         fgTitle.setText(getString(R.string.share_evaluate_title));
-
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventAction(EventType.REFRESH_TRAVEL_DATA));
+                finish();
+            }
+        });
+        this.isReturnMoney = params.isReturnMoney;
         if (params == null || params.evaluateData == null) {
             finish();
         }
@@ -117,9 +129,13 @@ public class ShareGuidesActivity extends BaseActivity{
         }
         String description = getString(R.string.share_evaluate_description_3, commentTipParam);
         SpannableString msp = new SpannableString(description);
-        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 4, 4 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 11, 11 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), description.length() - 4, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         descriptionTV2.setText(msp);
+        if(!isReturnMoney){
+            des.setVisibility(View.GONE);
+            evaluateIcon.setBackgroundResource(R.mipmap.evaluate_successful_picture);
+        }
     }
 
     @Subscribe

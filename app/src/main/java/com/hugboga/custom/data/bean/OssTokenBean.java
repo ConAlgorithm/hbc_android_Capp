@@ -60,4 +60,9 @@ public class OssTokenBean extends ImplParser {
         OssTokenBean bean =  gson.fromJson(obj.toString(),OssTokenBean.class);
         return bean;
     }
+
+    @Override
+    public String toString() {
+        return "OssTokenBean"+"address=" +address+"validMinutes=" +validMinutes+"OssTokenParamBean="+param.toString();
+    }
 }
