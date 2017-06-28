@@ -574,16 +574,19 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 tagGroup.setTagEnabled(false);
                 tagGroup.setEvaluatedData(appraisementBean.guideLabels);
             }
-
+            tagGroup.setLineBelow(lineComment);
+            lineComment.setVisibility(View.GONE);
             ArrayList<String> _itemParams = new ArrayList<String>(2);
+            ArrayList<String> _itemParams2 = new ArrayList<String>(2);
             if(appraisementBean.commentPic != null && appraisementBean.commentPic.size()>0){
                 _itemParams.addAll(appraisementBean.commentPic);
+                _itemParams2.addAll(appraisementBean.commentPicL);
                 //设置布局管理器
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 mRecyclerView.setLayoutManager(linearLayoutManager);
                 //设置适配器
-                evluatedPicAdapter = new GalleryAdapter(this, _itemParams);
+                evluatedPicAdapter = new GalleryAdapter(this, _itemParams,_itemParams2);
                 mRecyclerView.setAdapter(evluatedPicAdapter);
                 mRecyclerView.setHorizontalScrollBarEnabled(false);
                 SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
@@ -597,7 +600,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             gridView.setVisibility(View.GONE);
             banarBelow.setVisibility(View.GONE);
             banarTop.setVisibility(View.VISIBLE);
-
+            guideReply.setText(appraisementBean.guideReply);
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1107,11 +1110,13 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
         private LayoutInflater mInflater;
         private ArrayList<String> mDatas;
+        private ArrayList<String> mDatasBig;
         private Context mDontext;
 
-        public GalleryAdapter(Context context, ArrayList<String> datats) {
+        public GalleryAdapter(Context context, ArrayList<String> datats,ArrayList<String> DatasBig) {
             mInflater = LayoutInflater.from(context);
             mDatas = datats;
+            mDatasBig = DatasBig;
             mDontext = context;
         }
 
@@ -1152,7 +1157,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showLargerLocalImage(mDontext, mDatas, true, i, true);
+                    showLargerLocalImage(mDontext, mDatasBig, false, i, true);
                 }
             });
 
@@ -1160,10 +1165,11 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     }
 
     public void showLargerLocalImage(Context context, ArrayList<String> path, boolean islocalPic, int position, boolean isEvaluated) {
-        LargerImageActivity.Params params = new LargerImageActivity.Params();
+        EvaluatedLargerImageActivity.Params params = new EvaluatedLargerImageActivity.Params();
         params.imageUrlList = path;
         params.isLocalPic = islocalPic;
         params.position = position;
+        params.isEvaluated = isEvaluated;
         Intent intent = new Intent(context, EvaluatedLargerImageActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);

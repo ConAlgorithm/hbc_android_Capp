@@ -165,7 +165,7 @@ public class EvaluateTagGroup extends TagGroup implements TagGroup.OnTagItemClic
             TextView tagTV = getTagNewView();
             tagTV.setBackgroundResource(R.drawable.shape_evaluate_tag);
             tagTV.setText(guideLabels.get(i).name);
-            tagTV.setSelected(guideLabels.get(i).checked);
+            tagTV.setSelected(false);
             if (i + 1 > DEFAULT_TAG_COUNTS) {
                 tagTV.setVisibility(View.GONE);
             }
