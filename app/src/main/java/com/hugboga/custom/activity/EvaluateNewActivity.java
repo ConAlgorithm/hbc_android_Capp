@@ -600,7 +600,12 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             gridView.setVisibility(View.GONE);
             banarBelow.setVisibility(View.GONE);
             banarTop.setVisibility(View.VISIBLE);
-            guideReply.setText(appraisementBean.guideReply);
+            if(appraisementBean.guideReply != null && appraisementBean.guideReply.length()>0){
+                guideReply.setText(appraisementBean.guideReply);
+            }else{
+                guideReply.setVisibility(View.GONE);
+            }
+
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
