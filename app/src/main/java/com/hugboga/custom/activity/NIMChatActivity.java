@@ -736,8 +736,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public boolean isAllowMessage() {
-        return true;
-       // return chatBean==null?true:chatBean.isCancel==0;
+        //return true;
+        return chatBean==null?true:chatBean.isCancel==0;
     }
 
     @Override
