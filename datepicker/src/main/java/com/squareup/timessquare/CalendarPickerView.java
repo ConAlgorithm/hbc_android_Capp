@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.squareup.timessquare.MonthCellDescriptor.RangeState;
 
@@ -23,6 +24,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -98,6 +100,9 @@ public class CalendarPickerView extends ListView {
   private List<CalendarCellDecorator> decorators;
   private DayViewAdapter dayViewAdapter = new DefaultDayViewAdapter();
 
+  private HashMap<String, CalendarListBean> guideMonthMap;
+  private SimpleDateFormat dateDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
   private boolean isSameDay = false;
 
   public boolean getIsSameDay() {
@@ -108,7 +113,9 @@ public class CalendarPickerView extends ListView {
     this.isSameDay = isSameDay;
   }
 
-
+  public void setGuideCalendarMap(HashMap<String, CalendarListBean> guideMonthMap) {
+    this.guideMonthMap = guideMonthMap;
+  }
 
   public void setDecorators(List<CalendarCellDecorator> decorators) {
     this.decorators = decorators;
@@ -501,7 +508,34 @@ public class CalendarPickerView extends ListView {
       if (cellClickInterceptor != null && cellClickInterceptor.onCellClicked(clickedDate)) {
         return;
       }
-      if (!betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate)) {
+      boolean isInvalid = !betweenDates(clickedDate, minCal, maxCal) || !isDateSelectable(clickedDate);
+      if (!isInvalid && cell.getCalendarListBean() != null) {
+        CalendarListBean calendarListBean = cell.getCalendarListBean();
+        if (calendarListBean.orderType == 3) {
+          if (!calendarListBean.isCanDailyService()) {
+            isInvalid = true;
+          } else if (selectedCals.size() == 1) {
+            Date minSelectedDate = selectedCals.get(0).getTime();
+            for (List<List<MonthCellDescriptor>> month : cells) {
+              for (List<MonthCellDescriptor> week : month) {
+                for (MonthCellDescriptor singleCell : week) {
+                  if (singleCell.getDate().after(minSelectedDate) && singleCell.getDate().before(clickedDate)
+                          && singleCell.getCalendarListBean() != null && !singleCell.getCalendarListBean().isCanDailyService()) {
+                    Toast.makeText(getContext(), "司导该期间不能服务，换个日期试试", Toast.LENGTH_SHORT).show();
+                    if (invalidDateListener != null) {
+                      invalidDateListener.onInvalidDateSelected(clickedDate);
+                    }
+                    return;
+                  }
+                }
+              }
+            }
+          }
+        } else if ((calendarListBean.orderType == 4 || calendarListBean.orderType == 2) && !calendarListBean.isCanService()) {
+          isInvalid = true;
+        }
+      }
+      if (isInvalid) {
         if (invalidDateListener != null) {
           invalidDateListener.onInvalidDateSelected(clickedDate);
         }
@@ -852,9 +886,16 @@ public class CalendarPickerView extends ListView {
           }
         }
 
+        CalendarListBean calendarListBean = null;
+        if (guideMonthMap != null) {
+            String dateStr = dateDateFormat.format(date);
+            if (guideMonthMap.containsKey(dateStr)) {
+              calendarListBean = guideMonthMap.get(dateStr);
+            }
+        }
         weekCells.add(
             new MonthCellDescriptor(date, isCurrentMonth, isSelectable, isSelected, isToday,
-                isHighlighted, value, rangeState));
+                isHighlighted, value, rangeState, calendarListBean));
         cal.add(DATE, 1);
       }
     }

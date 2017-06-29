@@ -45,6 +45,6 @@ public class UploadImAnalysisInfoRequest extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40158";
+        return "40161";
     }
 }

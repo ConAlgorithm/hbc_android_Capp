@@ -22,7 +22,7 @@ public class RequestImAnalysisSwitch extends BaseRequest<String> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40159";
+        return "40162";
     }
 
     @Override

@@ -35,6 +35,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
+import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.DialogUtil;
@@ -112,6 +113,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             charterDataUtils.onDestroy();
             charterDataUtils.cleanGuidesDate();
         }
+        GuideCalendarUtils.getInstance().onDestory();
     }
 
     @Override
@@ -139,6 +141,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             guideLayout.setVisibility(View.VISIBLE);
             guideLayout.setData(guidesDetailData);
             requestData(new RequestGuideCrop(this, guidesDetailData.guideId));
+            GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, 3);
         }
 
         if (startBean != null) {
@@ -188,6 +191,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @OnClick({R.id.charter_first_date_layout})
     public void selectDate() {
         Intent intent = new Intent(activity, DatePickerActivity.class);
+        if (guidesDetailData != null) {
+            intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
+        }
+        intent.putExtra(Constants.PARAMS_ORDER_TYPE, Constants.BUSINESS_TYPE_DAILY);
         intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
         intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");

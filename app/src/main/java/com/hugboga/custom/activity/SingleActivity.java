@@ -16,6 +16,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -34,6 +35,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
@@ -54,7 +56,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -131,6 +132,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        GuideCalendarUtils.getInstance().onDestory();
     }
 
     @Override
@@ -158,6 +160,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     setCityBean(DBHelper.findCityById("" + guidesDetailData.cityId));
                 }
                 carTypeView.setGuidesDetailData(guidesDetailData);
+                GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, ORDER_TYPE);
             }
             if (!TextUtils.isEmpty(params.cityId)) {
                 setCityBean(DBHelper.findCityById(params.cityId));
@@ -280,6 +283,13 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             case ORDER_REFRESH://价格或数量变更 刷新
                 scrollToTop();
                 getCars();
+            case CHOOSE_DATE:
+                ChooseDateBean chooseDateBean = (ChooseDateBean) action.getData();
+                serverDate = chooseDateBean.halfDateStr;
+                serverTime = chooseDateBean.serverTime;
+                timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
+                getCars();
+                break;
         }
     }
 
@@ -288,34 +298,25 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     public void showTimePicker() {
-        final Calendar calendar = Calendar.getInstance();
-        if (dateTimePicker == null) {
-            dateTimePicker = new DateTimePicker(this, DateTimePicker.YEAR_MONTH_DAY);
-            dateTimePicker.setTitleText("请选择出发时间");
-            dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
-            dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
-                @Override
-                public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                    String tmpDate = year + "-" + month + "-" + day;
-                    String startDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-
-                    if (DateUtils.getDistanceDays(startDate,tmpDate) > 180) {
-                        CommonUtils.showToast(R.string.time_out_180);
-                    } else {
-                        serverDate = tmpDate;
-                        serverTime = hour + ":" + minute;
-                        timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
-                        getCars();
-                        dateTimePicker.dismiss();
-                    }
-                }
-            });
+        Intent intent = new Intent(this, DatePickerActivity.class);
+        if (guidesDetailData != null) {
+            intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
         }
-
-        dateTimePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-        dateTimePicker.setLineColor(0xffaaaaaa);
-        dateTimePicker.show();
+        intent.putExtra(Constants.PARAMS_ORDER_TYPE, Constants.BUSINESS_TYPE_RENT);
+        intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT);
+        if (!TextUtils.isEmpty(serverDate)) {
+            try {
+                ChooseDateBean chooseDateBean = new ChooseDateBean();
+                chooseDateBean.halfDateStr = serverDate;
+                chooseDateBean.halfDate = DateUtils.dateDateFormat.parse(serverDate);
+                chooseDateBean.type = DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT;
+                chooseDateBean.serverTime = serverTime;
+                intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        this.startActivity(intent);
     }
 
     @Override

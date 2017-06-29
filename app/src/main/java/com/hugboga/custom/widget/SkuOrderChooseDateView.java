@@ -118,14 +118,14 @@ public class SkuOrderChooseDateView extends LinearLayout{
                 break;
             case R.id.sku_order_date_other_tv:
                 Intent intent = new Intent(getContext(), DatePickerActivity.class);
-                intent.putExtra("type", 3);
-                intent.putExtra("title", "请选择出发日期");
+                intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT);
+                intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择出发日期");
                 if (!TextUtils.isEmpty(currentDate)) {
                     try {
                         ChooseDateBean chooseDateBean = new ChooseDateBean();
                         chooseDateBean.halfDateStr = currentDate;
                         chooseDateBean.halfDate = DateUtils.dateDateFormat.parse(currentDate);
-                        chooseDateBean.type = 3;
+                        chooseDateBean.type = DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT;
                         chooseDateBean.minDate = DateUtils.dateDateFormat.parse(startDate);
                         intent.putExtra("chooseDateBean", chooseDateBean);
                     } catch (ParseException e) {

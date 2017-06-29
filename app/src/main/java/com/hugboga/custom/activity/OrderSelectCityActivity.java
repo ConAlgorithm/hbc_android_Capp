@@ -973,10 +973,10 @@ public class OrderSelectCityActivity extends BaseActivity {
                 if (null != collectGuideBean && !TextUtils.isEmpty(endDate.getText())) {
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
-                    Intent intent = new Intent(activity, DatePickerActivity.class);
-                    intent.putExtra("type", TYPE_RANGE);
-                    intent.putExtra("chooseDateBean", chooseDateBean);
-                    startActivity(intent);
+//                    Intent intent = new Intent(activity, DatePickerActivity.class);
+//                    intent.putExtra("type", TYPE_RANGE);
+//                    intent.putExtra("chooseDateBean", chooseDateBean);
+//                    startActivity(intent);
                 }
                 break;
             case R.id.go_city_text_layout:
@@ -984,10 +984,10 @@ public class OrderSelectCityActivity extends BaseActivity {
                 if (null != collectGuideBean && !TextUtils.isEmpty(goCityTextClick.getText())) {
                     CommonUtils.showToast(R.string.alert_del_after_edit);
                 } else {
-                    Intent intent = new Intent(activity, DatePickerActivity.class);
-                    intent.putExtra("type", TYPE_SINGLE);
-                    intent.putExtra("chooseDateBean", chooseDateBean);
-                    startActivity(intent);
+//                    Intent intent = new Intent(activity, DatePickerActivity.class);
+//                    intent.putExtra("type", TYPE_SINGLE);
+//                    intent.putExtra("chooseDateBean", chooseDateBean);
+//                    startActivity(intent);
 
                 }
                 break;

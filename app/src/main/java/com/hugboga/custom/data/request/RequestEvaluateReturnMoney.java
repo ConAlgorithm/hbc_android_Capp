@@ -28,7 +28,7 @@ public class RequestEvaluateReturnMoney extends BaseRequest<EvaluateReturnMoney>
 
     @Override
     public String getUrlErrorCode() {
-        return null;
+        return "40159";
     }
 
     private static class EvaluateReturnMoneyParser extends ImplParser {

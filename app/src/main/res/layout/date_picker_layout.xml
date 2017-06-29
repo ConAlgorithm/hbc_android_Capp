@@ -19,6 +19,61 @@
             android:textColor="#7f7f7f"
             android:textSize="15sp" />
 
+        <RelativeLayout
+            android:id="@+id/date_picker_guide_title_layout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="40dp">
+            <ImageView
+                android:id="@+id/date_picker_guide_arrow_iv"
+                android:layout_marginLeft="15dp"
+                android:layout_width="9dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/guide_pick_arrow_left" />
+            <TextView
+                android:id="@+id/date_picker_guide_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="出发日期"
+                android:textColor="#7f7f7f"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/date_picker_guide_confirm_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="#ffaf00"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/date_picker_guide_hint_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                android:text="当天部分时间可订"
+                android:textColor="#929292"
+                android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/date_picker_guide_hint_iv"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@id/date_picker_guide_hint_tv"
+                android:background="@mipmap/guide_calendar_half"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/week_layout"
             android:layout_width="match_parent"
@@ -86,6 +141,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/week_layout_top_line"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginLeft="15dp"
@@ -107,6 +163,15 @@
             android:scrollbarStyle="outsideOverlay"
             app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
             app:tsquare_dividerColor="@color/transparent" />
+
+        <cn.qqtheme.framework.picker.TimePickerView
+            android:id="@+id/timepicker_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
     </LinearLayout>
 
     <View
@@ -132,4 +197,5 @@
         android:text="请选择开始日期"
         android:textColor="@color/basic_white"
         android:textSize="12sp" />
+
 </RelativeLayout>
