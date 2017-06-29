@@ -1159,7 +1159,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
             //viewHolder.mImg.setImageResource(R.mipmap.empty_home_banner);
             //viewHolder.mImg.setImageResource(mDatas.get(i));
-            Tools.showImage(viewHolder.mImg, mDatas.get(i), R.mipmap.empty_home_banner);
+            Tools.showImage(viewHolder.mImg, mDatas.get(i), R.mipmap.evaluate_dafault);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
