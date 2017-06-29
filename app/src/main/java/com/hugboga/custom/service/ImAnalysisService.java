@@ -46,7 +46,7 @@ import static com.hugboga.im.entity.ImAnalysisEnitty.MAXCOUNT;
 public class ImAnalysisService extends Service {
 
 
-    public static final long DEFAULT_DURATION = 60*1000; //上传时间间隔10分钟
+    public static final long DEFAULT_DURATION = 600*1000; //上传时间间隔10分钟
     public static boolean running = true;
 
     @Nullable
