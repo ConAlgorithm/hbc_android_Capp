@@ -307,6 +307,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 if (isLogin("个人中心-优惠券")) {
                     intent = new Intent(getContext(), CouponActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra("isFromMyspace",true);
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
                 }

@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by zhangqiang on 17/6/24.
  */
-@HttpRequest(path = UrlLibs.API_COUPONS_AVAILABLE, builder = NewParamsBuilder.class)
+@HttpRequest(path = UrlLibs.SERVER_IP_COUPONS_UNAVAILABLE, builder = NewParamsBuilder.class)
 public class RequestInvaidableCoupon extends BaseRequest<ArrayList<CouponBean>> {
 
     public RequestInvaidableCoupon(Context context, MostFitAvailableBean params, int offset) {
@@ -62,6 +62,6 @@ public class RequestInvaidableCoupon extends BaseRequest<ArrayList<CouponBean>> 
 
     @Override
     public String getUrlErrorCode() {
-        return "40008";
+        return "420156";
     }
 }
