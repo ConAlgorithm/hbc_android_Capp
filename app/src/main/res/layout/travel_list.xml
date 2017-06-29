@@ -4,7 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/travel_list_layout" />
+    <ImageView
+        android:id="@+id/bannar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/allbg_gray"
+        android:visibility="gone" />
+
+    <!--<include layout="@layout/travel_list_layout"
+        android:id="@+id/travel_list_id" />-->
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/travel_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
 
     <RelativeLayout
         android:id="@+id/list_empty"

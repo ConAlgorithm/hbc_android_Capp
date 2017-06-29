@@ -46,6 +46,8 @@ public class TravelListUnpay extends FgBaseTravel{
     XRecyclerView mXRecyclerView;
     @Bind(R.id.list_empty)
     RelativeLayout emptyView;
+    @Bind(R.id.travel_footer_get_layout)
+    LinearLayout footerGet;
     int refreshOrNot = 1;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     @Override
@@ -79,7 +81,8 @@ public class TravelListUnpay extends FgBaseTravel{
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
-        emptyView.setOnClickListener(new View.OnClickListener() {
+
+        footerGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), TravelFundActivity.class);

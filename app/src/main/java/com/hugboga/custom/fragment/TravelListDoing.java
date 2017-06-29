@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -45,6 +46,8 @@ public class TravelListDoing extends FgBaseTravel {
     XRecyclerView mXRecyclerView;
     @Bind(R.id.list_empty)
     RelativeLayout emptyView;
+    @Bind(R.id.travel_footer_get_layout)
+    LinearLayout footerGet;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;
     @Override
@@ -76,7 +79,7 @@ public class TravelListDoing extends FgBaseTravel {
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
         //getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
-        emptyView.setOnClickListener(new View.OnClickListener() {
+        footerGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), TravelFundActivity.class);
