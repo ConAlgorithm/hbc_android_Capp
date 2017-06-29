@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 157
+    //current urlErrorCode 159
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -292,4 +292,6 @@ public class UrlLibs {
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
 
     public static final String API_OSS_TOKEN_URL ="passport/v1.0/ossToken";                                             //获取图片上传环境参数 157
+    public static final String API_UPLOAD_IMANALYSIS_INFO =  "communication/v4.0/c/im/chat/upload";                 //上传Im统计信息  158
+    public static final String API_IMANALYSIS_SWITCH = "communication/v4.0/c/im/chat/upload/switch";               //IM统计开关
 }
