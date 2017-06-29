@@ -7,6 +7,11 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class OssTokenParamBean {
+    @Override
+    public String toString() {
+        return "OssTokenParamBean"+"ossAccessKeyId="+ossAccessKeyId+"signature="+signature+"policy="+policy;
+    }
+
     @SerializedName("OSSAccessKeyId")
     private String ossAccessKeyId;
     @SerializedName("Signature")
@@ -36,4 +41,5 @@ public class OssTokenParamBean {
     public void setPolicy(String policy) {
         this.policy = policy;
     }
+
 }

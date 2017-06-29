@@ -3,19 +3,23 @@ package com.hugboga.custom;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
+import com.hugboga.custom.service.ImAnalysisService;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UmengADPlus;
@@ -84,9 +88,22 @@ public class MyApplication extends HbcApplication {
             initXMpush();               // 小米push
         }
 
+        initNim();
+    }
+
+    private void initNim(){
+        ImHelper.setUserId(UserEntity.getUser().getUserId(this));
         ImHelper.initNim(this,R.mipmap.icon_avatar_user);
     }
 
+    public  static void startImAnalysisService(){
+        try{
+            Intent intent = new Intent(MyApplication.getAppContext(), ImAnalysisService.class);
+            mAppContext.startService(intent);
+        }catch (Exception e){
+
+        }
+    }
     public static Context getAppContext() {
         return mAppContext;
     }

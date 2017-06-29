@@ -16,7 +16,7 @@ public class ZListHttpUtils extends HttpRequestUtils {
     BaseRequest request;
     HttpRequestListener pageListListener;
     ZBaseAdapter adapter;
-    ZSwipeRefreshLayout zSwipeRefreshLayout;
+    //ZSwipeRefreshLayout zSwipeRefreshLayout;
 
     public ZListHttpUtils(Context context, ZListPageView zListPageView, BaseRequest request, HttpRequestListener pageListListener, ZBaseAdapter adapter, ZSwipeRefreshLayout zSwipeRefreshLayout) {
         this.context = context;
@@ -24,7 +24,7 @@ public class ZListHttpUtils extends HttpRequestUtils {
         this.request = request;
         this.pageListListener = pageListListener;
         this.adapter = adapter;
-        this.zSwipeRefreshLayout = zSwipeRefreshLayout;
+        //this.zSwipeRefreshLayout = zSwipeRefreshLayout;
     }
 
     public void setRequest(BaseRequest request) {
@@ -40,9 +40,9 @@ public class ZListHttpUtils extends HttpRequestUtils {
             HttpRequestUtils.request(context, request, pageListListener,false); //开始请求数据
         } else {
             zListPageView.setLoading(false);
-            if (zSwipeRefreshLayout != null && zSwipeRefreshLayout.isRefreshing()) {
+            /*if (zSwipeRefreshLayout != null && zSwipeRefreshLayout.isRefreshing()) {
                 zSwipeRefreshLayout.setRefreshing(false);
-            }
+            }*/
         }
     }
 

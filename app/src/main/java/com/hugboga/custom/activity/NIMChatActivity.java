@@ -729,14 +729,15 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     public void onSendMessageFailed(int code, String message) {
         if(code!=7101){
             Toast.makeText(MyApplication.getAppContext(),"发送消息失败请稍候重试",Toast.LENGTH_SHORT).show();
-            ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
+           // ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
         }
 
     }
 
     @Override
     public boolean isAllowMessage() {
-        return chatBean==null?true:chatBean.isCancel==0;
+        return true;
+       // return chatBean==null?true:chatBean.isCancel==0;
     }
 
     @Override
@@ -776,9 +777,9 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public void onPostUserStatus(StatusCode code) {
-        if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
-            ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
-        }
+//        if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
+//            ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
+//        }
         if (code.wontAutoLogin()) {
             //IMUtil.getInstance().connect();
             if(emptyView!=null){

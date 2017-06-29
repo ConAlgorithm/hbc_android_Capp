@@ -23,4 +23,9 @@ public class OssTokenKeyBean {
     public void setKey(String key) {
         this.key = key;
     }
+
+    @Override
+    public String toString() {
+        return "OssTokenKeyBean"+ "key="+key+"path="+path;
+    }
 }
