@@ -15,11 +15,18 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.UserBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,6 +54,9 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     @Bind(R.id.choiceness_guide_city_tv)
     TextView cityTV;
 
+    @Bind(R.id.save_guild)
+    ImageView saveGuild;
+
     public ChoicenessGuideView(Context context) {
         this(context, null);
     }
@@ -65,13 +75,41 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         int imageHeight = (int)((400/690.0f) * imageWidth);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(imageWidth, imageHeight);
         bgIV.setLayoutParams(params);
+        EventBus.getDefault().register(this);
     }
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
 
+                break;
+
+        }
+    }
     @Override
     public void update(Object _data) {
         final FilterGuideBean data = (FilterGuideBean) _data;
         Tools.showImage(bgIV, data.guideCover, R.drawable.home_guide_dafault);
 
+        if(!UserEntity.getUser().isLogin(getContext())){
+            saveGuild.setSelected(false);
+        }else if(data.isCollected == 1){
+            saveGuild.setSelected(true);
+        }else if(data.isCollected == 0){
+            saveGuild.setSelected(false);
+        }
+        saveGuild.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isLogin()) {
+                    if(saveGuild.isSelected()){
+                        saveGuild.setSelected(false);
+                    }else{
+                        saveGuild.setSelected(true);
+                    }
+                }
+            }
+        });
         if (TextUtils.isEmpty(data.getGuideDesc())) {
             descTV.setVisibility(View.GONE);
         } else {
@@ -150,5 +188,23 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 判断是否登录
+     */
+    private boolean isLogin() {
+        if (UserEntity.getUser().isLogin(getContext())) {
+            return true;
+        } else {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            getContext().startActivity(intent);
+            return false;
+        }
+    }
+
+    public String getEventSource() {
+        return "大图司导";
     }
 }

@@ -14,6 +14,15 @@
         android:paddingRight="@dimen/home_view_padding_left">
 
         <ImageView
+            android:id="@+id/save_guild"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/save_guild_icon"
+            android:layout_gravity="right"/>
+
+        <ImageView
             android:id="@+id/choiceness_guide_bg_iv"
             android:layout_width="match_parent"
             android:layout_height="120dp"/>

@@ -91,6 +91,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="m-test.huangbaoche.com"
+                    android:path="/app/index.html" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -346,18 +357,6 @@
             android:name=".activity.PersonInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="hbcc_b"
-                    android:path="/cba"
-                    android:scheme="@string/hbc_scheme" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.ForgetPasswdActivity"
@@ -427,20 +426,6 @@
             android:label="abc"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-
-
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="hbcc_b"
-                    android:path="/abc"
-                    android:scheme="@string/hbc_scheme" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.GiftDialogActivity"
