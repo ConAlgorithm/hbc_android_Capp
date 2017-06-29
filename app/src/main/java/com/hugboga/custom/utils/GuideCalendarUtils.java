@@ -79,6 +79,14 @@ public class GuideCalendarUtils {
         return guideCalendarMap;
     }
 
+    public CalendarListBean getCalendarListBean(String date) {
+        if (guideCalendarMap != null && guideCalendarMap.containsKey(date)) {
+            return guideCalendarMap.get(date);
+        } else {
+            return null;
+        }
+    }
+
     private void getCalendarList(String guideMonth) {
         RequestCalendarList requestCars = new RequestCalendarList(context, guideMonth, guideId, orderType, requestTag + "");
         HttpRequestUtils.request(context, requestCars, new HttpRequestListener() {

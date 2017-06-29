@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,9 +27,11 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -47,6 +50,7 @@ import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.title.TitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.squareup.timessquare.CalendarListBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,7 +63,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.qqtheme.framework.picker.DateTimePicker;
 
 /**
  * Created by qingcha on 17/5/23.
@@ -88,8 +91,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     SkuOrderEmptyView emptyLayout;
     @Bind(R.id.single_scrollview)
     ScrollView scrollView;
-
-    private DateTimePicker dateTimePicker;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -218,6 +219,10 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             case R.id.single_time_layout:
                 if (cityBean == null) {
                     CommonUtils.showToast("请先选择城市");
+                } else if (startPoiBean == null) {
+                    CommonUtils.showToast("请先填写出发地点");
+                } else if (endPoiBean == null) {
+                    CommonUtils.showToast("请先填写结束地点");
                 } else {
                     showTimePicker();
                 }
@@ -270,14 +275,12 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     }
                     startPoiBean = poiBean;
                     addressLayout.setStartAddress(startPoiBean.placeName, startPoiBean.placeDetail);
-                    getCars();
                 } else if ("to".equals(poiBean.type)) {
                     if (poiBean == null || (endPoiBean != null && TextUtils.equals(poiBean.placeName, endPoiBean.placeName))) {
                         break;
                     }
                     endPoiBean = poiBean;
                     addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
-                    getCars();
                 }
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
@@ -288,6 +291,13 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 serverDate = chooseDateBean.halfDateStr;
                 serverTime = chooseDateBean.serverTime;
                 timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
+                if (guidesDetailData != null) {
+                    CalendarListBean calendarListBean = GuideCalendarUtils.getInstance().getCalendarListBean(chooseDateBean.halfDateStr);
+                    if (calendarListBean != null && calendarListBean.isCanHalfService()) {
+                        checkGuideTimeCoflict();
+                        break;
+                    }
+                }
                 getCars();
                 break;
         }
@@ -548,6 +558,47 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
                 CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource(), false);
+            }
+        }, true);
+    }
+
+    private void checkGuideTimeCoflict() {
+        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(this
+                , ORDER_TYPE
+                , cityBean.cityId
+                , guidesDetailData.guideId
+                , serverDate + " " + serverTime + ":00"
+                , startPoiBean.location
+                , endPoiBean.location
+                , cityBean.placeId);
+        HttpRequestUtils.request(this, requestGuideConflict, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                getCars();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                AlertDialogUtils.showAlertDialogCancelable(SingleActivity.this, "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SingleActivity.this.finish();
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        guidesDetailData = null;
+                        getCars();
+                        dialog.dismiss();
+                    }
+                });
             }
         }, true);
     }

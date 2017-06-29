@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -33,10 +35,12 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -52,6 +56,7 @@ import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.squareup.timessquare.CalendarListBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,6 +108,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private String serverTime;
     private CarListBean carListBean;
     private CarBean carBean;
+    private CityBean cityBean;
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
@@ -220,6 +226,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             case R.id.send_time_layout:
                 if (airPortBean == null) {
                     CommonUtils.showToast("请先选择机场");
+                } else if (poiBean == null) {
+                    CommonUtils.showToast("请先填写出发地点");
                 } else {
                     showTimePicker();
                 }
@@ -243,6 +251,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 bottomView.setVisibility(View.GONE);
                 startPoiLayout.resetUI();
                 poiBean = null;
+                cityBean = DBHelper.findCityById("" + airPortBean.cityId);
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean _poiBean = (PoiBean) action.getData();
@@ -251,7 +260,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 }
                 poiBean = _poiBean;
                 startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
-                getCars();
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
                 scrollToTop();
@@ -262,6 +270,13 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 serverDate = chooseDateBean.halfDateStr;
                 serverTime = chooseDateBean.serverTime;
                 timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
+                if (guidesDetailData != null) {
+                    CalendarListBean calendarListBean = GuideCalendarUtils.getInstance().getCalendarListBean(chooseDateBean.halfDateStr);
+                    if (calendarListBean != null && calendarListBean.isCanHalfService()) {
+                        checkGuideTimeCoflict();
+                        break;
+                    }
+                }
                 getCars();
                 break;
         }
@@ -431,7 +446,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         orderParams.startPoiBean = poiBean;
         orderParams.carListBean = carListBean;
         orderParams.carBean = carBean;
-        orderParams.cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+        orderParams.cityBean = cityBean;
         orderParams.orderType = ORDER_TYPE;
         orderParams.serverDate = serverDate;
         orderParams.serverTime = serverTime;
@@ -473,7 +488,48 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource(), false);
             }
         }, true);
+    }    private void checkGuideTimeCoflict() {
+        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext()
+                , ORDER_TYPE
+                , airPortBean.cityId
+                , guidesDetailData.guideId
+                , serverDate + " " + serverTime + ":00"
+                , airPortBean.location
+                , poiBean.location
+                , cityBean != null ? cityBean.placeId : "");
+        HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                getCars();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                AlertDialogUtils.showAlertDialogCancelable(getContext(), "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((Activity) getContext()).finish();
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        guidesDetailData = null;
+                        getCars();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        }, true);
     }
+
+
 
     @Override
     public String getEventSource() {

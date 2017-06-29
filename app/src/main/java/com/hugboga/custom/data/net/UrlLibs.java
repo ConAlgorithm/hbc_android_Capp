@@ -174,7 +174,7 @@ public class UrlLibs {
     public static final String SERVER_IP_IM_ORDER_LIST      = "trade/v1.0/c/order/list/im";                             // IM聊天界面的订单数据
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
-    public static final String GUIDE_CONFLIC                = "trade/v1.0/c/order/guides/conflict";                     // 导游是否可服务
+    public static final String GUIDE_CONFLIC                = "trade/v1.1/c/order/guides/conflict";                     // 导游是否可服务 46
     public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况

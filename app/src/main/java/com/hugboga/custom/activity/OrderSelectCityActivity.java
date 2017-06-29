@@ -35,7 +35,6 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestGetCarInfo;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.fragment.BaseFragment;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -817,32 +816,32 @@ public class OrderSelectCityActivity extends BaseActivity {
             if ("00:00".equalsIgnoreCase(serverTime)) {
                 end_time = (isHalfTravel ? halfDate : end_date_str) + " " + "23:59:59";
             }
-            OrderUtils.checkGuideCoflict(activity, 3, startBean.cityId,
-                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " + serverTime + ":00",
-                    end_time, getPassCitiesId(),
-                    nums, collectGuideBean.carType, collectGuideBean.carClass,collectGuideBean.special, 0,//collectGuideBean.carId
-                    new HttpRequestListener() {
-                        @Override
-                        public void onDataRequestSucceed(BaseRequest request) {
-                            RequestGuideConflict mRequest = (RequestGuideConflict) request;
-                            List<String> guideList = mRequest.getData();
-                            if (guideList.size() == 0) {
-                                driver_tips.setVisibility(View.VISIBLE);
-                            } else {
-                                goToSelectCar();
-                            }
-                        }
-
-                        @Override
-                        public void onDataRequestCancel(BaseRequest request) {
-                            System.out.print(request);
-                        }
-
-                        @Override
-                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                            System.out.print(request);
-                        }
-                    });
+//            OrderUtils.checkGuideCoflict(activity, 3, startBean.cityId,
+//                    collectGuideBean.guideId, (isHalfTravel ? halfDate : start_date_str) + " " + serverTime + ":00",
+//                    end_time, getPassCitiesId(),
+//                    nums, collectGuideBean.carType, collectGuideBean.carClass,collectGuideBean.special, 0,//collectGuideBean.carId
+//                    new HttpRequestListener() {
+//                        @Override
+//                        public void onDataRequestSucceed(BaseRequest request) {
+////                            RequestGuideConflict mRequest = (RequestGuideConflict) request;
+////                            List<String> guideList = mRequest.getData();
+////                            if (guideList.size() == 0) {
+////                                driver_tips.setVisibility(View.VISIBLE);
+////                            } else {
+////                                goToSelectCar();
+////                            }
+//                        }
+//
+//                        @Override
+//                        public void onDataRequestCancel(BaseRequest request) {
+//                            System.out.print(request);
+//                        }
+//
+//                        @Override
+//                        public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//                            System.out.print(request);
+//                        }
+//                    });
         }
 
     String serverTime = "00:00";
