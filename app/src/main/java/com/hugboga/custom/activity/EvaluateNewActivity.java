@@ -376,6 +376,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             initPicGridParams(gridView, localPhotos, true);
 
             commentET.setEnabled(true);
+            guideReply.setVisibility(View.GONE);
             //commentET.setBackgroundResource(R.drawable.border_evaluate_comment);
             requestData(new RequestEvaluateTag(this, orderBean.orderType));
             //commentIconIV.setVisibility(View.GONE);
