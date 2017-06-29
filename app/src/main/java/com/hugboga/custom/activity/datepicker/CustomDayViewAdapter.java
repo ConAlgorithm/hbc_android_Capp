@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.DayViewAdapter;
+import com.squareup.timessquare.ScoreTextView;
 
 public class CustomDayViewAdapter implements DayViewAdapter {
 
@@ -17,7 +18,7 @@ public class CustomDayViewAdapter implements DayViewAdapter {
     public void makeCellView(CalendarCellView parent) {
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_view_custom, null);
         parent.addView(layout);
-        parent.setDayOfMonthTextView((TextView) layout.findViewById(R.id.day_view));
+        parent.setDayOfMonthTextView((ScoreTextView) layout.findViewById(R.id.day_view));
         parent.setBottomTextView((TextView) layout.findViewById(R.id.bottom_text));
         parent.setDay_layout((RelativeLayout)layout.findViewById(R.id.day_layout));
         parent.setDay_view_round((TextView)layout.findViewById(R.id.day_view_round));

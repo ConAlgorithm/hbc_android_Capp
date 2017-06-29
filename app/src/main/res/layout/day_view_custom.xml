@@ -43,20 +43,19 @@
         <ImageView
             android:id="@+id/day_view_time_iv"
             android:layout_alignParentRight="true"
-            android:background="#55ffff"
             android:visibility="gone"
-            android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_marginRight="2dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@mipmap/guide_calendar_half" />
 
-        <com.hugboga.custom.widget.ScoreTextView
+        <com.squareup.timessquare.ScoreTextView
             android:id="@+id/day_view"
             style="@style/CalendarCell.CalendarDate"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_height="28dp" />
-
-
     </RelativeLayout>
 
     <TextView

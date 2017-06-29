@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 157
+    //current urlErrorCode 158
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -192,6 +192,7 @@ public class UrlLibs {
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          // 易联查询银行卡所属银行129
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                // 易联支付接口130
     public static final String API_COUPON_CREDIT_PAY        = "trade/v1.0/c/yilian/couponpay";                          // 买劵易联支付接口152
+    public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
@@ -215,7 +216,6 @@ public class UrlLibs {
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
     public static final String SERVER_IP_COUPONS_USED       = "marketing/v2.0/c/coupons/used?";                         // 优惠券已使用(我的,失效)155
     public static final String SERVER_IP_COUPONS_UNAVAILABLE= "marketing/v1.1/c/coupons/unavailable?";                  // 优惠券已使用(下单,不可用券)156
-
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
     public static final String GET_AD_PICTURE               = "marketing/v1.0/c/activity/effectivestart";               // 获取启动图
     public static final String MOSTFIT                      = "marketing/v1.1/c/coupons/mostFit";                       // 下单获取最适合的优惠券
