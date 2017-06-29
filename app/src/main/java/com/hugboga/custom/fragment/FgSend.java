@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
+import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.activity.OrderActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.PoiSearchActivity;
@@ -24,6 +26,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.ChooseDateBean;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -31,16 +35,19 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForTransfer;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -49,6 +56,7 @@ import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.squareup.timessquare.CalendarListBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,7 +65,6 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +72,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.qqtheme.framework.picker.DateTimePicker;
 
 /**
  * Created by qingcha on 17/5/18.
@@ -96,14 +102,13 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Bind(R.id.send_scrollview)
     ScrollView scrollView;
 
-    private DateTimePicker dateTimePicker;
-
     private AirPort airPortBean;
     private PoiBean poiBean;
     private String serverDate;
     private String serverTime;
     private CarListBean carListBean;
     private CarBean carBean;
+    private CityBean cityBean;
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
@@ -161,6 +166,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             }
             guideLayout.setData(guidesDetailData);
             carTypeView.setGuidesDetailData(guidesDetailData);
+            GuideCalendarUtils.getInstance().sendRequest(getContext(), guidesDetailData.guideId, ORDER_TYPE);
         }
         carTypeView.setOnSelectedCarListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
@@ -187,6 +193,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        GuideCalendarUtils.getInstance().onDestory();
     }
 
     public boolean isAirPortNull() {
@@ -219,6 +226,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             case R.id.send_time_layout:
                 if (airPortBean == null) {
                     CommonUtils.showToast("请先选择机场");
+                } else if (poiBean == null) {
+                    CommonUtils.showToast("请先填写出发地点");
                 } else {
                     showTimePicker();
                 }
@@ -242,6 +251,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 bottomView.setVisibility(View.GONE);
                 startPoiLayout.resetUI();
                 poiBean = null;
+                cityBean = DBHelper.findCityById("" + airPortBean.cityId);
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean _poiBean = (PoiBean) action.getData();
@@ -250,43 +260,48 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 }
                 poiBean = _poiBean;
                 startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
-                getCars();
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
                 scrollToTop();
+                getCars();
+                break;
+            case CHOOSE_DATE:
+                ChooseDateBean chooseDateBean = (ChooseDateBean) action.getData();
+                serverDate = chooseDateBean.halfDateStr;
+                serverTime = chooseDateBean.serverTime;
+                timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
+                if (guidesDetailData != null) {
+                    CalendarListBean calendarListBean = GuideCalendarUtils.getInstance().getCalendarListBean(chooseDateBean.halfDateStr);
+                    if (calendarListBean != null && calendarListBean.isCanHalfService()) {
+                        checkGuideTimeCoflict();
+                        break;
+                    }
+                }
                 getCars();
                 break;
         }
     }
 
     public void showTimePicker() {
-        final Calendar calendar = Calendar.getInstance();
-        if (dateTimePicker == null) {
-            dateTimePicker = new DateTimePicker(getActivity(), DateTimePicker.HOUR_OF_DAY);
-            dateTimePicker.setTitleText("请选择出发时间");
-            dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
-            dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
-                @Override
-                public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                    String tmpDate = year + "-" + month + "-" + day;
-                    String startDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-
-                    if (DateUtils.getDistanceDays(startDate, tmpDate) > 180) {
-                        CommonUtils.showToast(R.string.time_out_180);
-                    } else {
-                        serverDate = tmpDate;
-                        serverTime = hour + ":" + minute;
-                        timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
-                        getCars();
-                        dateTimePicker.dismiss();
-                    }
-                }
-            });
+        Intent intent = new Intent(getContext(), DatePickerActivity.class);
+        if (guidesDetailData != null) {
+            intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
         }
-        dateTimePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-        dateTimePicker.setLineColor(0xffaaaaaa);
-        dateTimePicker.show();
+        intent.putExtra(Constants.PARAMS_ORDER_TYPE, Constants.BUSINESS_TYPE_SEND);
+        intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT);
+        if (!TextUtils.isEmpty(serverDate)) {
+            try {
+                ChooseDateBean chooseDateBean = new ChooseDateBean();
+                chooseDateBean.halfDateStr = serverDate;
+                chooseDateBean.halfDate = DateUtils.dateDateFormat.parse(serverDate);
+                chooseDateBean.type = DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT;
+                chooseDateBean.serverTime = serverTime;
+                intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        getContext().startActivity(intent);
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
@@ -431,7 +446,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         orderParams.startPoiBean = poiBean;
         orderParams.carListBean = carListBean;
         orderParams.carBean = carBean;
-        orderParams.cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+        orderParams.cityBean = cityBean;
         orderParams.orderType = ORDER_TYPE;
         orderParams.serverDate = serverDate;
         orderParams.serverTime = serverTime;
@@ -473,7 +488,48 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource(), false);
             }
         }, true);
+    }    private void checkGuideTimeCoflict() {
+        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext()
+                , ORDER_TYPE
+                , airPortBean.cityId
+                , guidesDetailData.guideId
+                , serverDate + " " + serverTime + ":00"
+                , airPortBean.location
+                , poiBean.location
+                , cityBean != null ? cityBean.placeId : "");
+        HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                getCars();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                AlertDialogUtils.showAlertDialogCancelable(getContext(), "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((Activity) getContext()).finish();
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        guidesDetailData = null;
+                        getCars();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        }, true);
     }
+
+
 
     @Override
     public String getEventSource() {

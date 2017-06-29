@@ -22,6 +22,8 @@ public class ChooseDateBean implements IBaseBean {
     public Date maxDate;
     public String maxDateStr;
 
+    public String serverTime;
+
     public ChooseDateBean() {
     }
 

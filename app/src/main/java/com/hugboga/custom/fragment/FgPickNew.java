@@ -38,7 +38,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -469,33 +468,33 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     private void checkGuide(){
         String sTime = serverDate+":00";
-        OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
-                null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
-                DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
-                cityId + "", 0, carBean.carType, carBean.carSeat,carBean.special,carBean.carId,
-                new HttpRequestListener() {
-                    @Override
-                    public void onDataRequestSucceed(BaseRequest request) {
-                        ApiReportHelper.getInstance().addReport(request);
-                        RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
-                        List<String> list = requestGuideConflict.getData();
-                        if(list.size() > 0) {
-                            goOrder();
-                        }else{
-                            EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
-                        }
-                    }
-
-                    @Override
-                    public void onDataRequestCancel(BaseRequest request) {
-
-                    }
-
-                    @Override
-                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-                    }
-                });
+//        OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
+//                null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+//                DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+//                cityId + "", 0, carBean.carType, carBean.carSeat,carBean.special,carBean.carId,
+//                new HttpRequestListener() {
+//                    @Override
+//                    public void onDataRequestSucceed(BaseRequest request) {
+//                        ApiReportHelper.getInstance().addReport(request);
+////                        RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+////                        List<String> list = requestGuideConflict.getData();
+////                        if(list.size() > 0) {
+////                            goOrder();
+////                        }else{
+////                            EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+////                        }
+//                    }
+//
+//                    @Override
+//                    public void onDataRequestCancel(BaseRequest request) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//
+//                    }
+//                });
     }
 
 

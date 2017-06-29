@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 159
+    //current urlErrorCode 162
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -174,7 +174,7 @@ public class UrlLibs {
     public static final String SERVER_IP_IM_ORDER_LIST      = "trade/v1.0/c/order/list/im";                             // IM聊天界面的订单数据
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
-    public static final String GUIDE_CONFLIC                = "trade/v1.0/c/order/guides/conflict";                     // 导游是否可服务
+    public static final String GUIDE_CONFLIC                = "trade/v1.1/c/order/guides/conflict";                     // 导游是否可服务 46
     public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
@@ -192,6 +192,7 @@ public class UrlLibs {
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          // 易联查询银行卡所属银行129
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                // 易联支付接口130
     public static final String API_COUPON_CREDIT_PAY        = "trade/v1.0/c/yilian/couponpay";                          // 买劵易联支付接口152
+    public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
@@ -215,7 +216,6 @@ public class UrlLibs {
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
     public static final String SERVER_IP_COUPONS_USED       = "marketing/v2.0/c/coupons/used?";                         // 优惠券已使用(我的,失效)155
     public static final String SERVER_IP_COUPONS_UNAVAILABLE= "marketing/v1.1/c/coupons/unavailable?";                  // 优惠券已使用(下单,不可用券)156
-
     public static final String SERVER_IP_COUPONS_BIND       = "marketing/v1.0/c/coupons/bind?";                         // 优惠券 绑定
     public static final String GET_AD_PICTURE               = "marketing/v1.0/c/activity/effectivestart";               // 获取启动图
     public static final String MOSTFIT                      = "marketing/v1.1/c/coupons/mostFit";                       // 下单获取最适合的优惠券
@@ -239,8 +239,8 @@ public class UrlLibs {
     public static final String UPLOAD_LOCATION_V11          = "poi/v1.1/c/city?";                                       // 获取定位城市机场列表
 
     public static final String API_EVALUATE_NEW             = "supplier/v1.1/c/guide/comments/create";                  // 评价司导
-    public static final String API_EVALUATE_RETURN_MONEY    = "supplier/v1.0/c/guide/returnMoney";                      // 评价返现开关158
-    public static final String API_EVALUATE_COMMENTS        = "supplier/v1.0/c/order/comments";                         // 评价返回信息159
+    public static final String API_EVALUATE_RETURN_MONEY    = "supplier/v1.0/c/guide/returnMoney";                      // 评价返现开关159
+    public static final String API_EVALUATE_COMMENTS        = "supplier/v1.0/c/order/comments";                         // 评价返回信息160
     public static final String API_EVALUATE_TAG             = "supplier/v1.0/c/guides/comments/labels/OrderType";       // 获取各个星级的标签列表
     public static final String API_COMMENTS_LIST            = "supplier/v1.0/c/guide/commentsForGuideDetail";           // 司导个人页的导游评价列表
     public static final String API_GUIDES_DETAIL            = "supplier/v1.0/c/guidecenter/detail";                     // 导游详情
@@ -293,5 +293,7 @@ public class UrlLibs {
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
 
-    public static final String API_OSS_TOKEN_URL ="passport/v1.0/ossToken";                                             //获取图片上传环境参数 157
+    public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
+    public static final String API_UPLOAD_IMANALYSIS_INFO   = "communication/v4.0/c/im/chat/upload";                    // 上传Im统计信息  161
+    public static final String API_IMANALYSIS_SWITCH        = "communication/v4.0/c/im/chat/upload/switch";             // IM统计开关 162
 }

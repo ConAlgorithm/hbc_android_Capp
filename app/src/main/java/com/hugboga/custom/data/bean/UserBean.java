@@ -87,5 +87,7 @@ public class UserBean implements IBaseBean {
         UserEntity.getUser().setGender(context, getGenderStr());
         UserEntity.getUser().setAgeType(context, getAgeStr());
         UserEntity.getUser().setNeedInitPwd(context, needInitPwd);
+
+
     }
 }

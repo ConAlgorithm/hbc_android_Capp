@@ -18,9 +18,10 @@ public class MonthCellDescriptor {
   private final boolean isSelectable;
   private boolean isHighlighted;
   private RangeState rangeState;
+  private CalendarListBean calendarListBean;
 
   MonthCellDescriptor(Date date, boolean currentMonth, boolean selectable, boolean selected,
-      boolean today, boolean highlighted, int value, RangeState rangeState) {
+      boolean today, boolean highlighted, int value, RangeState rangeState, CalendarListBean calendarListBean) {
     this.date = date;
     isCurrentMonth = currentMonth;
     isSelectable = selectable;
@@ -29,6 +30,7 @@ public class MonthCellDescriptor {
     isToday = today;
     this.value = value;
     this.rangeState = rangeState;
+    this.calendarListBean = calendarListBean;
   }
 
   public Date getDate() {
@@ -69,6 +71,14 @@ public class MonthCellDescriptor {
 
   public void setRangeState(RangeState rangeState) {
     this.rangeState = rangeState;
+  }
+
+  public void setCalendarListBean(CalendarListBean calendarListBean) {
+    this.calendarListBean = calendarListBean;
+  }
+
+  public CalendarListBean getCalendarListBean() {
+    return calendarListBean;
   }
 
   public int getValue() {
