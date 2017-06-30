@@ -19,6 +19,7 @@ import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -40,6 +41,7 @@ import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -91,6 +93,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     SkuOrderEmptyView emptyLayout;
     @Bind(R.id.single_scrollview)
     ScrollView scrollView;
+    @Bind(R.id.single_conpons_tipview)
+    ConponsTipView conponsTipView;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -195,6 +199,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             }
         });
         setSensorsEvent();
+        updateConponsTipView();
     }
 
     @OnClick({R.id.single_city_layout, R.id.single_time_layout})
@@ -244,6 +249,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         addressLayout.resetUI();
         startPoiBean = null;
         endPoiBean = null;
+        hintConponsTipView();
         return isBreak;
     }
 
@@ -282,6 +288,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     endPoiBean = poiBean;
                     addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
                 }
+                getCars();
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
                 scrollToTop();
@@ -299,6 +306,10 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     }
                 }
                 getCars();
+                break;
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                updateConponsTipView();
                 break;
         }
     }
@@ -435,6 +446,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
+        hintConponsTipView();
     }
 
     /* 滚动到顶部 */
@@ -595,12 +607,32 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         guidesDetailData = null;
+                        guideLayout.setVisibility(View.GONE);
                         getCars();
                         dialog.dismiss();
                     }
                 });
             }
         }, true);
+    }
+
+    public void updateConponsTipView() {
+        conponsTipView.update(ORDER_TYPE);
+        conponsTipView.setOnCouponsTipRequestSucceedListener(new ConponsTipView.OnCouponsTipRequestSucceedListener() {
+            @Override
+            public void onCouponsTipRequestSucceed(CouponsOrderTipBean couponsOrderTipBean) {
+                bottomView.setConponsTip(couponsOrderTipBean != null ? couponsOrderTipBean.couponCountTips : null);
+                hintConponsTipView();
+            }
+        });
+    }
+
+    public void hintConponsTipView() {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+            conponsTipView.setVisibility(View.GONE);
+        } else {
+            conponsTipView.showView();
+        }
     }
 
     @Override

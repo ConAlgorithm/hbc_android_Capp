@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -38,6 +39,7 @@ import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
+import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
@@ -72,6 +74,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     CharterFirstCountView countLayout;
     @Bind(R.id.charter_first_bottom_next_tv)
     TextView nextTV;
+
+    @Bind(R.id.charter_first_conpons_tipview)
+    ConponsTipView conponsTipView;
+    @Bind(R.id.charter_first_scrollview)
+    ScrollView scrollView;
 
     @Bind(R.id.charter_first_guide_layout)
     OrderGuideLayout guideLayout;
@@ -152,6 +159,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 getGuideCars();
             }
         }
+
+        updateConponsTipView();
 
         setSensorsEvent();
     }
@@ -293,6 +302,11 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 break;
             case FROM_PURPOSER:
                 finish();
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                updateConponsTipView();
+                break;
+
         }
     }
 
@@ -316,7 +330,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+                    if (countLayout != null) {
+                        countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+                    }
                     break;
                 default:
                     break;
@@ -373,6 +389,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     @Override
     public void onOutRangeChange(boolean isOut) {
         setNextViewEnabled(!isOut);
+        if (isOut) {
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            });
+        }
     }
 
     private boolean isShowSaveDialog() {
@@ -503,6 +527,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 CommonUtils.apiErrorShowService(CharterFirstStepActivity.this, errorInfo, request, CharterFirstStepActivity.this.getEventSource());
             }
         }, true);
+    }
+
+    public void updateConponsTipView() {
+        conponsTipView.update(3);
     }
 
     //神策统计_确认行程

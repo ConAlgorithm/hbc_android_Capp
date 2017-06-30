@@ -521,7 +521,7 @@ public class CalendarPickerView extends ListView {
                 for (MonthCellDescriptor singleCell : week) {
                   if (singleCell.getDate().after(minSelectedDate) && singleCell.getDate().before(clickedDate)
                           && singleCell.getCalendarListBean() != null && !singleCell.getCalendarListBean().isCanDailyService()) {
-                    Toast.makeText(getContext(), "司导该期间不能服务，换个日期试试", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "司导该期间不可服务，换个日期试试", Toast.LENGTH_SHORT).show();
                     if (invalidDateListener != null) {
                       invalidDateListener.onInvalidDateSelected(clickedDate);
                     }

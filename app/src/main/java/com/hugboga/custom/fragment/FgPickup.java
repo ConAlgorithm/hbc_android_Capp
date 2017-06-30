@@ -29,6 +29,7 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -48,6 +49,7 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -96,6 +98,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     SkuOrderCarTypeView carTypeView;
     @Bind(R.id.pickup_empty_layout)
     SkuOrderEmptyView emptyLayout;
+    @Bind(R.id.pickup_conpons_tipview)
+    ConponsTipView conponsTipView;
 
     @Bind(R.id.pickup_scrollview)
     ScrollView scrollView;
@@ -177,6 +181,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 getCars();
             }
         });
+
+        updateConponsTipView();
+
         setUmengEvent();
         setSensorsEvent();
     }
@@ -245,6 +252,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         bottomView.setVisibility(View.GONE);
         cityLayout.resetUI();
         poiBean = null;
+        hintConponsTipView();
     }
 
     @Subscribe
@@ -272,6 +280,10 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 break;
             case ORDER_SECKILLS_REFRESH:
                 refreshData();
+                break;
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                updateConponsTipView();
                 break;
         }
     }
@@ -402,6 +414,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
+        hintConponsTipView();
     }
 
     /* 滚动到顶部 */
@@ -548,6 +561,25 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource(), false);
             }
         }, true);
+    }
+
+    public void updateConponsTipView() {
+        conponsTipView.update(ORDER_TYPE);
+        conponsTipView.setOnCouponsTipRequestSucceedListener(new ConponsTipView.OnCouponsTipRequestSucceedListener() {
+            @Override
+            public void onCouponsTipRequestSucceed(CouponsOrderTipBean couponsOrderTipBean) {
+                bottomView.setConponsTip(couponsOrderTipBean != null ? couponsOrderTipBean.couponCountTips : null);
+                hintConponsTipView();
+            }
+        });
+    }
+
+    public void hintConponsTipView() {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+            conponsTipView.setVisibility(View.GONE);
+        } else {
+            conponsTipView.showView();
+        }
     }
 
     @Override

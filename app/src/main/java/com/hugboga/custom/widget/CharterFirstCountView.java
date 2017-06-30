@@ -55,11 +55,13 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         adultSlider.setValue(0);
         adultSlider.setType(SLIDER_TYPE_ADULT);
         adultSlider.setOnValueChangedListener(this);
+        adultSlider.setShowNumberIndicator(false);
 
         childSlider.setMin(0);
         childSlider.setMax(11);
         childSlider.setType(SLIDER_TYPE_CHILD);
         childSlider.setOnValueChangedListener(this);
+        childSlider.setShowNumberIndicator(false);
 
         setSliderEnabled(false);
     }
@@ -102,14 +104,14 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
 
     private void setHintViewVisibility() {
         if (maxPassengers <= 0) {
-            hintTV.setVisibility(View.GONE);
+            hintTV.setVisibility(View.INVISIBLE);
             return;
         }
         final boolean isOutRange = childSlider.getValue() + adultSlider.getValue() > maxPassengers;
         if (isOutRange) {
             hintTV.setVisibility(View.VISIBLE);
         } else {
-            hintTV.setVisibility(View.GONE);
+            hintTV.setVisibility(View.INVISIBLE);
         }
 
         if (listener != null) {
