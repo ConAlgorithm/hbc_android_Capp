@@ -607,7 +607,7 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
-    private void callBack(final String callBackMethod, final String callBackResult) {
+    public void callBack(final String callBackMethod, final String callBackResult) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
