@@ -538,6 +538,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             tagGroup.setLineBelow(lineComment);
             if (isFirstIn) {
                 ratingview.setLevel(5);
+                scoreTV.setVisibility(View.VISIBLE);
                 scoreTV.setText(getScoreString(5));
                 tagGroup.setLevelChanged(5);
                 //tagGroup.setEvaluatedData(tagBean.fiveStarTags);
@@ -733,6 +734,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             Uri dirUri = Uri.fromFile(dir);
 
             if (!photo.localFilePath.equals("add")) {
+                Tools.showBlurryImage(picsHolder.image,photo.localFilePath,R.mipmap.evaluate_dafault,3,3);
                 Glide.with(getApplicationContext()).load(new File(photo.localFilePath)).into(picsHolder.image);
                 if (photo.uploadStatus == AlbumUploadHelper.UPLOAD_FAIL) {
                     picsHolder.failUpload.setVisibility(View.VISIBLE);
@@ -1157,9 +1159,8 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
          */
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-            //viewHolder.mImg.setImageResource(R.mipmap.empty_home_banner);
-            //viewHolder.mImg.setImageResource(mDatas.get(i));
-            Tools.showImage(viewHolder.mImg, mDatas.get(i), R.mipmap.evaluate_dafault);
+            //Tools.showImage(viewHolder.mImg, mDatas.get(i), R.mipmap.evaluate_dafault);
+            Tools.showBlurryImage(viewHolder.mImg,mDatas.get(i),R.mipmap.evaluate_dafault,3,3);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
