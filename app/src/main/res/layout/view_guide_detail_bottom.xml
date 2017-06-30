@@ -37,10 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="3dp"
             android:text="当地时间"
             android:textColor="#929292"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/guide_detail_bottom_book_tv"
