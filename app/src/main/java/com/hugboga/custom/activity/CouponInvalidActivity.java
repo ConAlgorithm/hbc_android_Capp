@@ -65,7 +65,7 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
     private int mPageSize = 20;
-
+    boolean isFromMyspace;
     private MostFitAvailableBean paramsData;
 
     private String idStr = null;
@@ -109,7 +109,8 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     }
 
     private void initView() {
-        if(paramsData!=null){
+        isFromMyspace = getIntent().getBooleanExtra("isFromMyspace",false);
+        if(!isFromMyspace){
             headerTitle.setText("不可用优惠券");
         }else{
             headerTitle.setText("失效优惠券");

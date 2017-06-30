@@ -153,6 +153,7 @@ public class UrlLibs {
     public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.2/c/favorite/guides";                         // 收藏的司导列表
     public static final String COLLECT_GUIDES_ID            = "ucenter/v1.0/c/userid/favorite/guide";                   // 收藏司导（司导ID）
     public static final String UNCOLLECT_GUIDES_ID          = "ucenter/v1.0/c/userid/unfavor/guide";                    // 取消收藏司导（司导ID）
+    public static final String GUIDES_SAVED                 = "ucenter/v1.0/c/userid/guides/favored";                   // 已收藏司导列表 163
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
     public static final String DEDUCTION                    = "ucenter/v1.0/c/travelFund/deduction";                    // 获取可用优惠券
     public static final String TRAVELFUND_LOGS              = "ucenter/v1.0/c/travelFund/logs";                         // 旅游基金流水

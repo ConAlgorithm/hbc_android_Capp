@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,10 @@ import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.combination.FavoriteGuideSavedBean;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.RequestDestinations;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestHome;
@@ -42,6 +46,8 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import java.util.ArrayList;
@@ -103,8 +109,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -367,6 +380,16 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             if (filterGuideListBean != null && filterGuideListBean.listData != null) {
                 addMoreGuides(filterGuideListBean.listData);
             }
+        }else if (_request instanceof FavoriteGuideSaved){
+            FavoriteGuideSavedBean favoriteGuideSavedBean = ((FavoriteGuideSaved) _request).getData();
+            for(int i=0 ;i< favoriteGuideSavedBean.data.size();i++){
+                for(int j=0;j<homeBean.qualityGuides.size();j++){
+                    if(favoriteGuideSavedBean.data.get(i).equals(homeBean.qualityGuides.get(j))){
+                        homeBean.qualityGuides.get(j).isCollected = 1;
+                    }
+                }
+            }
+            homePageAdapter.notifyDataSetChanged();
         }
     }
 
@@ -572,5 +595,35 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     @Override
     public void reload() {
         requestData();
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                StringBuilder tempUploadGuilds = new StringBuilder();
+                String uploadGuilds = "";
+                if(homeBean.qualityGuides != null  && homeBean.qualityGuides.size() > 0){
+                    for (FilterGuideBean guild : homeBean.qualityGuides) {
+                        tempUploadGuilds.append(guild.guideId).append(",");
+                    }
+                    if (tempUploadGuilds.length() > 0) {
+                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
+                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
+                        }
+                    }
+                    Log.d("uploadGuilds",uploadGuilds.toString());
+                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),uploadGuilds);
+                    requestData(favoriteGuideSaved);
+                }
+                break;
+            case CLICK_USER_LOOUT:
+                for(int i=0;i<homeBean.qualityGuides.size();i++){
+                    homeBean.qualityGuides.get(i).isCollected = 0;
+                }
+
+                homePageAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 }
