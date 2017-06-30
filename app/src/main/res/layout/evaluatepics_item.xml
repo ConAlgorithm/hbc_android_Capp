@@ -14,7 +14,8 @@
             android:id="@+id/img_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/evaluate_add_image" />
+            android:scaleType="centerCrop"
+            android:src="@mipmap/evaluate_add_image" />
 
         <TextView
             android:id="@+id/add"
