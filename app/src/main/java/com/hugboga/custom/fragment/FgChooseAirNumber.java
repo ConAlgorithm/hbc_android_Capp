@@ -22,10 +22,15 @@ import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSw
 import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.PickFlightListActivity;
+import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
@@ -50,6 +55,10 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
     LinearLayout rlNumber;
     @Bind(R.id.address_left)
     TextView addressLeft;
+    @Bind(R.id.air_address_layout)
+    LinearLayout airAddressLayout;
+    @Bind(R.id.parent_layout)
+    LinearLayout parentLayout;
     /*@Bind(R.id.address_tips)
     TextView addressTips;
     @Bind(R.id.rl_address)
@@ -104,6 +113,16 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
                 checkNextBtnStatus();
             }
         });
+        if (getContext() instanceof PickSendActivity) {
+            parentLayout.setPadding(0, UIUtils.dip2px(10), 0, 0);
+            airAddressLayout.setVisibility(View.VISIBLE);
+            airAddressLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new EventAction(EventType.CHOOSE_AIR_FRAGMENT, 1));
+                }
+            });
+        }
     }
 
     @Override

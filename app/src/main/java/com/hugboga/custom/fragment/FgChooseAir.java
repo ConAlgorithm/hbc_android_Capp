@@ -1,16 +1,23 @@
 package com.hugboga.custom.fragment;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.utils.CommonUtils;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -29,11 +36,36 @@ public class FgChooseAir extends BaseFragment{
     View dailyTapLine2;
     @Bind(R.id.daily_layout_2)
     RelativeLayout dailyLayout2;
+    @Bind(R.id.header_center)
+    LinearLayout headerCenterLayout;
+    @Bind(R.id.header_center_line)
+    View centerLine;
 
     @Bind(R.id.choose_content)
     FrameLayout choose_content;
 
     Fragment currentFragment;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CHOOSE_AIR_FRAGMENT:
+                setCurrentFragment((int) action.getData());
+                break;
+        }
+    }
 
     @Override
     public int getContentViewId() {
@@ -42,6 +74,10 @@ public class FgChooseAir extends BaseFragment{
 
     @Override
     protected void initView() {
+        if (getContext() instanceof PickSendActivity) {
+            headerCenterLayout.setVisibility(View.GONE);
+            centerLine.setVisibility(View.GONE);
+        }
         setCurrentFragment(2);
     }
 

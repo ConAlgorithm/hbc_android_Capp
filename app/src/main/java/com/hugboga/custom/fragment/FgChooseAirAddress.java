@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,15 @@ import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthVi
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
+import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,6 +53,16 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
     TextView fromCity;
     @Bind(R.id.end_city)
     TextView endCity;
+    @Bind(R.id.from_city_tips)
+    TextView fromCityTips;
+    @Bind(R.id.end_city_tips)
+    TextView endCityTips;
+    @Bind(R.id.end_city_tips_layout)
+    LinearLayout endCityTipsLayout;
+    @Bind(R.id.end_city_tips_iv)
+    ImageView endCityTipsIV;
+    @Bind(R.id.parent_layout)
+    LinearLayout parentLayout;
     /*@Bind(R.id.address_left)
     TextView addressLeft;
     @Bind(R.id.address_tips)
@@ -90,6 +104,35 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 
     @Override
     protected void initView() {
+        if (getContext() instanceof PickSendActivity) {
+            parentLayout.setPadding(0, UIUtils.dip2px(10), 0, 0);
+            fromCity.setHint("选择起飞城市");
+            fromCity.setGravity(Gravity.LEFT);
+            fromCityTips.setText("起降城市");
+            fromCityTips.setGravity(Gravity.LEFT);
+            endCity.setHint("选择降落城市");
+            endCity.setGravity(Gravity.RIGHT);
+            endCityTips.setText("按航班号查询");
+            endCityTips.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
+            endCityTipsLayout.setGravity(Gravity.RIGHT);
+            endCityTipsIV.setVisibility(View.VISIBLE);
+            endCityTipsLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chooseAirFragment();
+                }
+            });
+            endCityTips.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chooseAirFragment();
+                }
+            });
+        }
+    }
+
+    public void chooseAirFragment() {
+        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_AIR_FRAGMENT, 2));
     }
 
     @Override
