@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
@@ -74,6 +76,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     CharterFirstCountView countLayout;
     @Bind(R.id.charter_first_bottom_next_tv)
     TextView nextTV;
+    @Bind(R.id.charter_first_seckills_layout)
+    RelativeLayout seckillsLayout;
 
     @Bind(R.id.charter_first_conpons_tipview)
     ConponsTipView conponsTipView;
@@ -89,6 +93,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private CharterDataUtils charterDataUtils;
     private GuidesDetailData guidesDetailData;
     private boolean isEnabled = false;
+    public SeckillsBean seckillsBean;//秒杀活动参数
 
     @Override
     public int getContentViewId() {
@@ -99,17 +104,29 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
+            seckillsBean = (SeckillsBean) savedInstanceState.getSerializable(Constants.PARAMS_SECKILLS);
             guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
             startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
+                seckillsBean = (SeckillsBean) bundle.getSerializable(Constants.PARAMS_SECKILLS);
                 guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
         EventBus.getDefault().register(this);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (charterDataUtils.isSeckills()) {
+            seckillsLayout.setVisibility(View.VISIBLE);
+        } else {
+            seckillsLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -132,6 +149,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (startBean != null) {
             outState.putSerializable(Constants.PARAMS_START_CITY_BEAN, startBean);
         }
+        if (seckillsBean != null) {
+            outState.putSerializable(Constants.PARAMS_SECKILLS, seckillsBean);
+        }
     }
 
     private void initView() {
@@ -151,6 +171,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, 3);
         }
 
+        charterDataUtils.seckillsBean = seckillsBean;
+
         if (startBean != null) {
             cityLayout.setDesc(startBean.name);
             if (guidesDetailData == null) {
@@ -161,7 +183,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         }
 
         updateConponsTipView();
-
         setSensorsEvent();
     }
 
@@ -204,7 +225,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
         }
         intent.putExtra(Constants.PARAMS_ORDER_TYPE, Constants.BUSINESS_TYPE_DAILY);
-        intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_RANGE);
+        intent.putExtra(DatePickerActivity.PARAM_TYPE, charterDataUtils.isSeckills() ? DatePickerActivity.PARAM_TYPE_SINGLE : DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
         intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -280,9 +301,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 break;
             case CHOOSE_DATE:
                 ChooseDateBean _chooseDateBean = (ChooseDateBean) action.getData();
-                if (_chooseDateBean.type != DatePickerActivity.PARAM_TYPE_RANGE) {
-                    break;
-                }
                 this.chooseDateBean = _chooseDateBean;
                 setDateViewText();
                 break;
@@ -298,7 +316,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 setDateViewText();
                 countLayout.setAdultValue(charterDataUtils.adultCount);
                 countLayout.setChildValue(charterDataUtils.childCount);
-                countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+                countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
                 break;
             case FROM_PURPOSER:
                 finish();
@@ -317,7 +335,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
             mHandler.sendEmptyMessageDelayed(1, 200);//FIXME: 17/5/6 临时办法，待优化
-            countLayout.setSliderEnabled(true);
             setNextViewEnabled(true);
             isEnabled = true;
         } else if (_request instanceof RequestGuideCrop) {
@@ -331,7 +348,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             switch (msg.what) {
                 case 1:
                     if (countLayout != null) {
-                        countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null);
+                        countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
+                        countLayout.setSliderEnabled(true);
                     }
                     break;
                 default:
@@ -530,6 +548,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     public void updateConponsTipView() {
+        if (charterDataUtils.isSeckills()) {
+            return;
+        }
         conponsTipView.update(3);
     }
 

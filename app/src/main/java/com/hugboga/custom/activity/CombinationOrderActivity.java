@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,9 +29,11 @@ import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.combination.GroupParamBuilder;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestBatchPrice;
 import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestCheckGuide;
@@ -43,6 +46,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
@@ -100,6 +104,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     SkuOrderEmptyView emptyLayout;
     @Bind(R.id.combination_order_progress_view)
     CircularProgress progressView;
+    @Bind(R.id.combination_order_seckills_layout)
+    RelativeLayout seckillsLayout;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -160,6 +166,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(3);
+
+        if (charterDataUtils.isSeckills()) {
+            discountView.setVisibility(View.GONE);
+            seckillsLayout.setVisibility(View.VISIBLE);
+            progressView.setVisibility(View.GONE);
+        }
 
         if (charterDataUtils.guidesDetailData != null) {
             carTypeView.setGuidesDetailData(charterDataUtils.guidesDetailData);
@@ -234,6 +246,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             case ORDER_REFRESH://价格或数量变更 刷新
                 onRefresh();
                 break;
+            case ORDER_SECKILLS_ERROR:
+                String errorMessage = (String) action.getData();
+                showCheckSeckillsDialog(errorMessage);
+                break;
         }
     }
 
@@ -281,6 +297,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                         return;
                     }
                     carListBean.carList = carList;
+                }
+                if (charterDataUtils.isSeckills()) {
+                    carListBean.isSeckills = true;
+                    carListBean.timeLimitedSaleNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
+                    carListBean.timeLimitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
                 }
                 carTypeView.update(carListBean);
             }
@@ -359,6 +380,19 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && (request instanceof RequestBatchPrice || request instanceof RequestOrderGroup)) {
+            if (request instanceof RequestBatchPrice) {
+                RequestBatchPrice requestBatchPrice = (RequestBatchPrice) request;
+                if (emptyLayout != null && UrlLibs.API_SECKILLS_BATCH_PRICE.equals(requestBatchPrice.getUrl())) {
+                    String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request);
+                    emptyLayout.setSeckillsEmpty(errorMessage, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cancelSeckills();
+                        }
+                    });
+                    return;
+                }
+            }
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
@@ -418,9 +452,34 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         carTypeView.setVisibility(visibility);
 //        countView.setVisibility(visibility);//包车下单不要出行人数
         travelerInfoView.setVisibility(visibility);
-        discountView.setVisibility(visibility);
+        if (charterDataUtils.isSeckills()) {
+            discountView.setVisibility(View.GONE);
+        } else {
+            discountView.setVisibility(visibility);
+        }
         bottomView.setVisibility(visibility);
         explainView.setVisibility(visibility);
+    }
+
+    private void showCheckSeckillsDialog(String content) {
+        AlertDialogUtils.showAlertDialog(this, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                cancelSeckills();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void cancelSeckills() {
+        SeckillsBean seckillsBean = charterDataUtils.seckillsBean;
+        seckillsBean.isSeckills = false;
+        finish();
     }
 
     @Override
@@ -453,8 +512,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     public void onLoadSucceed() {
+        if (charterDataUtils.isSeckills()) {
+            return;
+        }
         requestSucceedCount--;
-        if (requestSucceedCount == 0) {
+        if (requestSucceedCount <= 0) {
             onBottomLoading(false);
         }
     }
@@ -470,12 +532,17 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date);
         int additionalPrice = countView.getAdditionalPrice();
 
-        requestSucceedCount = 3;
-        onBottomLoading(!carBean.isCallOnClick);
-        requestCouponTag++;
-        requestCancleTipsTag ++;
-        requestMostFit(additionalPrice, requestCouponTag);
-        requestTravelFund(additionalPrice, requestCouponTag);
+        if (charterDataUtils.isSeckills()) {
+            bottomView.updatePrice(carBean.seckillingPrice, carBean.price + additionalPrice - carBean.seckillingPrice);
+        } else {
+            requestSucceedCount = 3;
+            onBottomLoading(!carBean.isCallOnClick);
+            requestCouponTag++;
+            requestCancleTipsTag ++;
+            requestMostFit(additionalPrice, requestCouponTag);
+            requestTravelFund(additionalPrice, requestCouponTag);
+        }
+
         requestCancleTips(requestCancleTipsTag);
     }
 
@@ -628,7 +695,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 提交订单
     * */
     private void requestSubmitOrder(String requestBody) {
-        RequestOrderGroup requestOrderGroup = new RequestOrderGroup(this, requestBody);
+        RequestOrderGroup requestOrderGroup = new RequestOrderGroup(this, requestBody, charterDataUtils.isSeckills());
         requestData(requestOrderGroup);
     }
 
@@ -705,7 +772,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public String getEventSource() {
         return "组合单下单页";
     }
-
 
     private void getGuideCars() {
         RequestNewCars requestCars = new RequestNewCars(this, 1, charterDataUtils.guidesDetailData.guideId, null);

@@ -40,6 +40,7 @@ import com.hugboga.custom.data.bean.ActivityBuyNowBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.GuideOrderWebParamsBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.bean.ShareBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -466,8 +467,6 @@ public class WebAgent implements HttpRequestListener {
         }
     }
 
-
-
     /**
      * 在线咨询客服
      */
@@ -740,6 +739,20 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
+    /*
+     * 隐藏导航栏
+     * show 1-隐藏；0-显示
+     */
+    @JavascriptInterface
+    public void hideNavigationBar(final int show) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new EventAction(EventType.SHOW_WEB_TITLE_BAR, show));
+            }
+        });
+    }
+
     /**
      *  接机秒杀入口
      *  timeLimitedSaleNo 秒杀活动编号
@@ -747,11 +760,23 @@ public class WebAgent implements HttpRequestListener {
      * */
     @JavascriptInterface
     public void pushToActivityPickup(final String timeLimitedSaleNo, final String timeLimitedSaleScheduleNo) {
+        pushToActivityOrder("1", timeLimitedSaleNo, timeLimitedSaleScheduleNo);
+    }
+
+
+    /**
+     *  活动下单入口
+     *  orderType 1-接机；2-送机；3-包车；4-次租；5-商品
+     *  timeLimitedSaleNo 秒杀活动编号
+     *  timeLimitedSaleScheduleNo 秒杀活动场次编号
+     * */
+    @JavascriptInterface
+    public void pushToActivityOrder(final String _orderType, final String timeLimitedSaleNo, final String timeLimitedSaleScheduleNo) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (!CommonUtils.isLogin(mActivity)) {
-                   return;
+                    return;
                 }
                 RequestActivityBuyNow requestCars = new RequestActivityBuyNow(mActivity, timeLimitedSaleNo, timeLimitedSaleScheduleNo);
                 HttpRequestUtils.request(mActivity, requestCars, new HttpRequestListener() {
@@ -770,16 +795,27 @@ public class WebAgent implements HttpRequestListener {
                                 showCheckSeckillsDialog(mActivity.getResources().getString(R.string.seckills_check_hint1, bean.couponName));
                                 break;
                             case 202://用户未参与，有库存
-                                Intent intent = new Intent(mActivity, PickSendActivity.class);
-                                if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
-                                    PickSendActivity.Params params = new PickSendActivity.Params();
-                                    params.isSeckills = true;
-                                    params.timeLimitedSaleNo = timeLimitedSaleNo;
-                                    params.timeLimitedSaleScheduleNo = timeLimitedSaleScheduleNo;
-                                    intent.putExtra(Constants.PARAMS_DATA, params);
+                                int orderType = CommonUtils.getCountInteger(_orderType);
+                                if (orderType == 1) {
+                                    Intent intent = new Intent(mActivity, PickSendActivity.class);
+                                    if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
+                                        PickSendActivity.Params params = new PickSendActivity.Params();
+                                        params.isSeckills = true;
+                                        params.timeLimitedSaleNo = timeLimitedSaleNo;
+                                        params.timeLimitedSaleScheduleNo = timeLimitedSaleScheduleNo;
+                                        intent.putExtra(Constants.PARAMS_DATA, params);
+                                    }
+                                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                                    mActivity.startActivity(intent);
+                                } else if (orderType == 3) {
+                                    Intent intent = new Intent(mActivity, CharterFirstStepActivity.class);
+                                    if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
+                                        SeckillsBean seckillsBean = new SeckillsBean(timeLimitedSaleNo, timeLimitedSaleScheduleNo);
+                                        intent.putExtra(Constants.PARAMS_SECKILLS, seckillsBean);
+                                    }
+                                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                                    mActivity.startActivity(intent);
                                 }
-                                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                                mActivity.startActivity(intent);
                                 break;
                             case 203://用户未参与，无库存，发券
                                 showCheckSeckillsDialog(mActivity.getResources().getString(R.string.seckills_check_hint2, bean.couponName));

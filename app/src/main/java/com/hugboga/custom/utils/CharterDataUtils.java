@@ -18,6 +18,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCropBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
+import com.hugboga.custom.data.bean.SeckillsBean;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -59,6 +60,8 @@ public class CharterDataUtils {
     public boolean isShowEmpty = false;
     public boolean isGroupOrder = false;                        // 是不是组合单，（查报价时赋值，查报价后才能使用）
 
+    public SeckillsBean seckillsBean;                           // 秒杀活动参数
+
     /**
      * 第一段行程的类型，退改规则使用（查报价时赋值，查报价后才能使用）
      *
@@ -80,6 +83,9 @@ public class CharterDataUtils {
         return charterDataUtils;
     }
 
+    /*
+     * 待优化
+     * */
     public void init(CharterSecondStepActivity.Params params) {
         this.chooseDateBean = params.chooseDateBean;
         this.adultCount = params.adultCount;
@@ -343,6 +349,13 @@ public class CharterDataUtils {
             }
         }
         return citiesId;
+    }
+
+    public boolean isSeckills() {
+        return charterDataUtils.seckillsBean != null
+                && charterDataUtils.seckillsBean.isSeckills
+                && !TextUtils.isEmpty(charterDataUtils.seckillsBean.timeLimitedSaleNo)
+                && !TextUtils.isEmpty(charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo);
     }
 
     public void cleanSendInfo() {

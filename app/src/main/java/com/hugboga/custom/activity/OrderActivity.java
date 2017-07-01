@@ -39,7 +39,6 @@ import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestSubmitBase;
-import com.hugboga.custom.data.request.RequestSubmitPick;
 import com.hugboga.custom.data.request.RequestSubmitPickOrder;
 import com.hugboga.custom.data.request.RequestSubmitPickSeckills;
 import com.hugboga.custom.data.request.RequestSubmitRent;

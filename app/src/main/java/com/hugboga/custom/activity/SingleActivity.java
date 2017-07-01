@@ -190,7 +190,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 getCars();
             }
         });
-        emptyLayout.setonClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
+        emptyLayout.setOnClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
             @Override
             public void onClickCharter() {
                 Intent intent = new Intent(SingleActivity.this, CharterFirstStepActivity.class);

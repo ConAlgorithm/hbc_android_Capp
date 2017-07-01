@@ -46,7 +46,7 @@ public class ConponsTipView extends TextView{
 
     public void update(final int orderType) {
         if (UserEntity.getUser().isLogin(getContext())) {
-            setVisibility(INVISIBLE);
+            setText("");
             RequestCouponsOrderTip requestCouponsOrderTip = new RequestCouponsOrderTip(getContext(), "" + orderType);
             HttpRequestUtils.request(getContext(), requestCouponsOrderTip, new HttpRequestListener() {
                 @Override

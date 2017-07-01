@@ -4,9 +4,11 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.activity.CombinationOrderActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -31,11 +33,16 @@ import java.util.List;
 @HttpRequest(path = UrlLibs.API_BATCH_PRICE, builder = NewParamsBuilder.class)
 public class RequestBatchPrice extends BaseRequest<CarListBean> {
 
-    public RequestBatchPrice(Context context, CharterDataUtils charterDataUtils) {
-        super(context);
+    private boolean isSeckills = false;
+    private Context context;
+
+    public RequestBatchPrice(Context _context, CharterDataUtils charterDataUtils) {
+        super(_context);
+        this.context = _context;
         map = new HashMap<String, Object>();
         bodyEntity = getRequestParamsBody(charterDataUtils);
         errorType = ERROR_TYPE_IGNORE;
+        isSeckills = charterDataUtils.isSeckills();
     }
 
     @Override
@@ -50,9 +57,21 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40121";
+        if (isSeckills) {
+            return "40164";
+        } else {
+            return "40121";
+        }
     }
 
+    @Override
+    public String getUrl() {
+        if (isSeckills) {
+            return UrlLibs.API_SECKILLS_BATCH_PRICE;
+        } else {
+            return UrlLibs.API_BATCH_PRICE;
+        }
+    }
 
     public String getRequestParamsBody(CharterDataUtils charterDataUtils) {
 
@@ -224,8 +243,12 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         BatchPriceListBean batchPriceListBean = new BatchPriceListBean();
         batchPriceListBean.batchPrice = batchPriceList;
         batchPriceListBean.adultNum = charterDataUtils.adultCount;
-        batchPriceListBean.childNum = charterDataUtils.childCount;
 
+        batchPriceListBean.userId = UserEntity.getUser().getUserId(context);
+        if (charterDataUtils.isSeckills()) {
+            batchPriceListBean.timeLimitedSaleNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
+            batchPriceListBean.timeLimitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
+        }
         if (batchPriceList != null && batchPriceList.size() > 1) {//标记是否是组合单
             charterDataUtils.isGroupOrder = true;
         } else {
@@ -279,6 +302,10 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         ArrayList<BatchPrice> batchPrice;
         public int adultNum;
         public int childNum;
+        public int channelId = Constants.REQUEST_CHANNEL_ID;
+        public String userId;
+        public String timeLimitedSaleNo;
+        public String timeLimitedSaleScheduleNo;
     }
 
     public static class BatchPrice implements Serializable {

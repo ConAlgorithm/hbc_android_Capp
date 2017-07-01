@@ -12,17 +12,27 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize" />
 
-    <com.hugboga.custom.widget.title.TitleBarCharterSecond
-        android:id="@+id/charter_second_titlebar"
+    <LinearLayout
+        android:id="@+id/charter_second_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.hugboga.custom.widget.title.TitleBarCharterSecond
+            android:id="@+id/charter_second_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
+        <include
+            android:id="@+id/charter_second_seckills_layout"
+            layout="@layout/view_order_seckill"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/charter_second_unfold_map_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/charter_second_titlebar"
+        android:layout_below="@id/charter_second_top_layout"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/shape_charter_unfold_map"
@@ -46,19 +56,21 @@
             android:textColor="#ffffff"
             android:textSize="11sp" />
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/charter_second_packup_map_layout"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/shape_charter_pickup_map"
-        android:visibility="gone"
-        android:layout_width="35dp"
-        android:layout_height="35dp">
+        android:visibility="gone">
+
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:layout_marginRight="1dp"
             android:layout_gravity="center"
+            android:layout_marginRight="1dp"
             android:background="@mipmap/top_back_white" />
     </FrameLayout>
 

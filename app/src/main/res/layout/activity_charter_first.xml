@@ -114,6 +114,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <include
+                android:id="@+id/charter_first_seckills_layout"
+                layout="@layout/view_order_seckill"
+                android:visibility="gone" />
+
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/charter_first_guide_layout"
                 android:layout_width="match_parent"

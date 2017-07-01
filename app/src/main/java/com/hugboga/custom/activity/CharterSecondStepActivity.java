@@ -44,7 +44,6 @@ import com.hugboga.custom.data.request.RequestCarMaxCapaCity;
 import com.hugboga.custom.data.request.RequestCityRoute;
 import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterModelBehavior;
-import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -85,6 +84,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private static final int REQUEST_CITYROUTE_TYPE_OUTTOWN = 2;      // 跨城市
     private static final int REQUEST_CITYROUTE_TYPE_PICKUP = 3;       // 接机，开始城市修改
 
+    @Bind(R.id.charter_second_top_layout)
+    LinearLayout topLayout;
     @Bind(R.id.charter_second_titlebar)
     TitleBarCharterSecond titleBar;
     @Bind(R.id.charter_second_bottom_view)
@@ -93,6 +94,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     HbcMapView mapView;
     @Bind(R.id.charter_second_list_container)
     FrameLayout listContainer;
+    @Bind(R.id.charter_second_seckills_layout)
+    RelativeLayout seckillsLayout;
 
     @Bind(R.id.charter_second_unfold_map_layout)
     LinearLayout unfoldMapLayout;
@@ -127,10 +130,12 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public int getContentViewId() {
         return R.layout.activity_charter_second;
     }
+
     //此页有map，不能解绑
     protected boolean isUnbinded(){
         return false;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,18 +147,19 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 params = (CharterSecondStepActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
-        initMapView();
-        mapView.onCreate(savedInstanceState);
-
         EventBus.getDefault().register(this);
 
-        initView();
+        initView(savedInstanceState);
     }
 
-    private void initMapView(){
+    private void initMapView(Bundle savedInstanceState) {
         MapsInitializer.loadWorldGridMap(true);
-        mapView.getLayoutParams().height = getMapHight(false);
+        int topMargin = getMapTopMargin();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+        params.height = getMapHight(false);
+        params.topMargin = topMargin;
         mapView.getaMap().getUiSettings().setZoomControlsEnabled(false);
+        mapView.onCreate(savedInstanceState);
     }
 
     @Override
@@ -171,6 +177,10 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         mapView.onResume();
         bottomView.updateConfirmView();
         updateTitleBar();
+        updateSeckillsLayout();
+        final int topMargin = getMapTopMargin();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
+        params.topMargin = topMargin;
     }
 
     @Override
@@ -182,11 +192,13 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
+        }
         EventBus.getDefault().unregister(this);
     }
 
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         charterDataUtils = CharterDataUtils.getInstance();
         charterDataUtils.init(params);
         currentDay = charterDataUtils.currentDay;
@@ -204,6 +216,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             }
         });
         updateTitleBar();
+
+        initMapView(savedInstanceState);
 
         fragmentAgent = new CharterFragmentAgent(this, R.id.charter_second_list_container);
         fragmentAgent.setOnCharterItemClickListener(this);
@@ -659,6 +673,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         }
     }
 
+    public void updateSeckillsLayout() {
+        if (charterDataUtils.isSeckills()) {
+            seckillsLayout.setVisibility(View.VISIBLE);
+        } else {
+            seckillsLayout.setVisibility(View.GONE);
+        }
+    }
+
     @OnClick({R.id.charter_second_unfold_map_layout})
     public void onUnfoldMapListener() {//展开地图
         onUnfoldMap(true);
@@ -671,11 +693,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     private void onUnfoldMap(boolean isUnfold) {
         this.isUnfoldMap = isUnfold;
+        final int mapTopMargin = getMapTopMargin();
         if (isUnfold) {
             unfoldMapLayout.setVisibility(View.GONE);
             bottomView.setVisibility(View.GONE);
-            final int actionBarSize = UIUtils.getActionBarSize();
-            ObjectAnimator anim = ObjectAnimator.ofFloat(titleBar, "translationY", -actionBarSize);
+            ObjectAnimator anim = ObjectAnimator.ofFloat(topLayout, "translationY", -mapTopMargin);
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
@@ -684,8 +706,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
                 @Override
                 public void onAnimationEnd(Animator animator) {
-                    titleBar.setY(0);
-                    titleBar.setVisibility(View.GONE);
+                    topLayout.setY(0);
+                    topLayout.setVisibility(View.GONE);
                     packupMapLayout.setVisibility(View.VISIBLE);
 
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
@@ -708,7 +730,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     float h = (float)valueAnimator.getAnimatedValue();
-                    float topMargin = actionBarSize + h;
+                    float topMargin = mapTopMargin + h;
                     if (topMargin >= 0) {
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
                         params.topMargin = (int)topMargin;
@@ -733,11 +755,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         } else {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapView.getLayoutParams();
             params.height = getMapHight(isUnfold);
-            params.topMargin = UIUtils.getActionBarSize();
+            params.topMargin = mapTopMargin;
             bottomView.setVisibility(View.VISIBLE);
             packupMapLayout.setVisibility(View.GONE);
             unfoldMapLayout.setVisibility(View.VISIBLE);
-            titleBar.setVisibility(View.VISIBLE);
+            topLayout.setVisibility(View.VISIBLE);
             updateDrawFences();
             mapView.getaMap().moveCamera(CameraUpdateFactory.zoomOut());
         }
@@ -745,6 +767,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public int getMapHight(boolean isUnfold) {
         return isUnfold ? UIUtils.getScreenHeight() : (int)((1 / 2.6f) * UIUtils.getScreenWidth());
+    }
+
+    public int getMapTopMargin() {
+        int actionBarSize = UIUtils.getActionBarSize();
+        return charterDataUtils.isSeckills() ? (actionBarSize + UIUtils.dip2px(50)) : actionBarSize;
     }
 
     @Override
