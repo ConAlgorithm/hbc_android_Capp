@@ -69,7 +69,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
 
     public Callback.Cancelable runData(int orderShowType, int pageIndex, int pageSize) {
         BaseRequest request = new RequestOrderListUnevaludate(getActivity(), orderShowType, pageSize, pageIndex);
-        return HttpRequestUtils.request(getActivity(), request, this, false);
+        return HttpRequestUtils.request(getActivity(), request, this, true);
     }
 
     @Override
@@ -183,7 +183,8 @@ public class TravelListUnevaludate extends FgBaseTravel {
 
                 //返现开关
                 RequestEvaluateReturnMoney requestEvaluateReturnMoney = new RequestEvaluateReturnMoney(getContext());
-                requestData(requestEvaluateReturnMoney);
+                HttpRequestUtils.request(getActivity(), requestEvaluateReturnMoney, this, false);
+                //requestData(requestEvaluateReturnMoney);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("travelListAllBean", travelListAllBean);
@@ -206,9 +207,9 @@ public class TravelListUnevaludate extends FgBaseTravel {
             if (evaluateReturnMoney.backFlag == 1) {
                 bannar.setVisibility(View.VISIBLE);
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(0, UIUtils.dip2px(90), 0, 0);
+                lp.setMargins(0, UIUtils.dip2px(70), 0, 0);
                 mXRecyclerView.setLayoutParams(lp);
-                Tools.showImage(bannar, evaluateReturnMoney.activityImgUrl, R.color.allbg_gray);
+                Tools.showImage(bannar, evaluateReturnMoney.activityImgUrl, R.mipmap.evaluate_banner);
                 bannar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

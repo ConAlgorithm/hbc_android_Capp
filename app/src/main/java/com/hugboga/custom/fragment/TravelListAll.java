@@ -124,7 +124,7 @@ public class TravelListAll extends FgBaseTravel {
 
     public Callback.Cancelable runData(int orderShowType, int pageIndex,int pageSize) {
         BaseRequest request = new RequestOrderListAll(getActivity(),orderShowType,pageSize,pageIndex);
-        return HttpRequestUtils.request(getActivity(), request, this,false);
+        return HttpRequestUtils.request(getActivity(), request, this,true);
     }
 
     @Override
