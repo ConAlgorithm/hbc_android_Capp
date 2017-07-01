@@ -224,6 +224,7 @@ public class UrlLibs {
     public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
     public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
     public static final String API_PICKUP_COUPON_OPEN       = "marketing/v1.0/c/coupons/pickupCouponOpen";              // 接机支付成功 绑定送机包车券 开关 149
+    public static final String API_COUPONS_ORDERTIP         = "marketing/v1.1/c/coupons/orderTip";                      // 下单第一部获取优惠信息 163
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
@@ -258,6 +259,7 @@ public class UrlLibs {
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
+    public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
 
     public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132
@@ -280,6 +282,8 @@ public class UrlLibs {
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单
     public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                    // 聊天列表订单信息
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
+    public static final String API_UPLOAD_IMANALYSIS_INFO   = "communication/v4.0/c/im/chat/upload";                    // 上传Im统计信息  161
+    public static final String API_IMANALYSIS_SWITCH        = "communication/v4.0/c/im/chat/upload/switch";             // IM统计开关 162
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
     public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       // 创建旅行意向单125
@@ -287,14 +291,10 @@ public class UrlLibs {
     public static final String API_QUERY_TRAVEL_FORM_DETAIL = "crm/v1.0/c/workorderthird/detail";                       // 意向单详情123
     public static final String API_QUERY_HAS_CREATE_FORM    = "crm/v1.0/c/workorderthird/hasWorkorder";                 // 是否创建过意向单124
 
-
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
     public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
 
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
 
-    public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
-    public static final String API_UPLOAD_IMANALYSIS_INFO   = "communication/v4.0/c/im/chat/upload";                    // 上传Im统计信息  161
-    public static final String API_IMANALYSIS_SWITCH        = "communication/v4.0/c/im/chat/upload/switch";             // IM统计开关 162
 }

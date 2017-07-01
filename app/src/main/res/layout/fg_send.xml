@@ -4,18 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.hugboga.custom.widget.OrderBottomView
-        android:id="@+id/send_bottom_view"
+    <LinearLayout
+        android:id="@+id/send_bottom_layout"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="@dimen/order_bottom_height"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <com.hugboga.custom.widget.ConponsTipView
+            android:id="@+id/send_conpons_tipview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center" />
+
+        <com.hugboga.custom.widget.OrderBottomView
+            android:id="@+id/send_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/order_bottom_height"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/send_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/send_bottom_view">
+        android:layout_above="@id/send_bottom_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,9 +39,9 @@
 
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/send_guide_layout"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/send_airport_layout"
@@ -56,8 +71,8 @@
                 android:id="@+id/send_car_type_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:layout_marginBottom="@dimen/order_margin_vertical"
+                android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 
@@ -65,12 +80,12 @@
                 android:id="@+id/send_empty_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/order_margin_vertical"
                 android:background="#ffffff"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="40dp" />
+                android:paddingBottom="40dp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

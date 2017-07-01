@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -25,6 +26,8 @@ public class OrderBottomView extends RelativeLayout {
     TextView shouldPriceTV;
     @Bind(R.id.order_bottom_distance_tv)
     TextView distanceTV;
+    @Bind(R.id.order_bottom_conpons_tip_tv)
+    TextView conponsTipTV;
 
     private OnConfirmListener listener;
 
@@ -44,6 +47,15 @@ public class OrderBottomView extends RelativeLayout {
         shouldPriceTV.setText(getContext().getResources().getString(R.string.sign_rmb) + price);
         distanceTV.setVisibility(View.VISIBLE);
         distanceTV.setText("全程预计: " + CommonUtils.doubleTrans(carListBean.distance) + "公里/" + carListBean.interval + "分钟");
+    }
+
+    public void setConponsTip(String tip) {
+        if (TextUtils.isEmpty(tip)) {
+            conponsTipTV.setVisibility(View.GONE);
+        } else {
+            conponsTipTV.setVisibility(View.VISIBLE);
+            conponsTipTV.setText(String.format("(%1$s)", tip));
+        }
     }
 
     @OnClick(R.id.order_bottom_confirm_tv)

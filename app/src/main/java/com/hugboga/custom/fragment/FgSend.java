@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -48,6 +49,7 @@ import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.GuideCalendarUtils;
+import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -83,6 +85,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Bind(R.id.send_bottom_view)
     OrderBottomView bottomView;
+    @Bind(R.id.send_conpons_tipview)
+    ConponsTipView conponsTipView;
 
     @Bind(R.id.send_guide_layout)
     OrderGuideLayout guideLayout;
@@ -163,6 +167,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
                 airPortBean = airPortList.get(0);
                 airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
+                cityBean = DBHelper.findCityById("" + airPortBean.cityId);
             }
             guideLayout.setData(guidesDetailData);
             carTypeView.setGuidesDetailData(guidesDetailData);
@@ -184,6 +189,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 getCars();
             }
         });
+
+        updateConponsTipView();
 
         setUmengEvent();
         setSensorsEvent();
@@ -252,6 +259,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 startPoiLayout.resetUI();
                 poiBean = null;
                 cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+                hintConponsTipView();
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean _poiBean = (PoiBean) action.getData();
@@ -260,6 +268,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 }
                 poiBean = _poiBean;
                 startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
+                getCars();
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
                 scrollToTop();
@@ -278,6 +287,10 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     }
                 }
                 getCars();
+                break;
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                updateConponsTipView();
                 break;
         }
     }
@@ -318,6 +331,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
+        hintConponsTipView();
     }
 
     /* 滚动到顶部 */
@@ -488,7 +502,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource(), false);
             }
         }, true);
-    }    private void checkGuideTimeCoflict() {
+    }
+
+    private void checkGuideTimeCoflict() {
         RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext()
                 , ORDER_TYPE
                 , airPortBean.cityId
@@ -521,6 +537,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         guidesDetailData = null;
+                        guideLayout.setVisibility(View.GONE);
                         getCars();
                         dialog.dismiss();
                     }
@@ -529,7 +546,24 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         }, true);
     }
 
+    public void updateConponsTipView() {
+        conponsTipView.update(ORDER_TYPE);
+        conponsTipView.setOnCouponsTipRequestSucceedListener(new ConponsTipView.OnCouponsTipRequestSucceedListener() {
+            @Override
+            public void onCouponsTipRequestSucceed(CouponsOrderTipBean couponsOrderTipBean) {
+                bottomView.setConponsTip(couponsOrderTipBean != null ? couponsOrderTipBean.couponCountTips : null);
+                hintConponsTipView();
+            }
+        });
+    }
 
+    public void hintConponsTipView() {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+            conponsTipView.setVisibility(View.GONE);
+        } else {
+            conponsTipView.showView();
+        }
+    }
 
     @Override
     public String getEventSource() {
