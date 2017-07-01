@@ -681,7 +681,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .manLuggageBean(countView.getManLuggageBean())
                 .contactUsersBean(travelerInfoBean.getContactUsersBean())
                 .isCheckedTravelFund(discountView.isCheckedTravelFund())
-                .travelFund(CommonUtils.getCountDouble(deductionBean.deduction))
+                .travelFund(deductionBean != null ? CommonUtils.getCountDouble(deductionBean.deduction) : 0)
                 .couponBean(couponBean)
                 .mostFitBean(mostFitBean)
                 .startPoiBean(travelerInfoBean.poiBean)
