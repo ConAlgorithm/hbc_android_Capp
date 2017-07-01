@@ -221,6 +221,14 @@ public class DatePickerActivity extends Activity {
 
         initCalendar();
 
+        calendar.setOnInvalidDateRangeSelectedListener(new CalendarPickerView.OnInvalidDateRangeSelectedListener() {
+            @Override
+            public void onInvalidDateRangeSelected() {
+                showTips.setText("司导该期间不可服务,请重选");
+                AnimationUtils.showAnimation(showTips, 200, null);
+                clickTimes = 0;
+            }
+        });
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(MonthCellDescriptor cell, Date date) {

@@ -92,6 +92,7 @@ public class CalendarPickerView extends ListView {
   private Typeface titleTypeface;
   private Typeface dateTypeface;
 
+  private OnInvalidDateRangeSelectedListener invalidDateRangeSelectedListener;
   private OnDateSelectedListener dateListener;
   private DateSelectableFilter dateConfiguredListener;
   private OnInvalidDateSelectedListener invalidDateListener =
@@ -516,14 +517,14 @@ public class CalendarPickerView extends ListView {
             isInvalid = true;
           } else if (selectedCals.size() == 1) {
             Date minSelectedDate = selectedCals.get(0).getTime();
-            for (List<List<MonthCellDescriptor>> month : cells) {
+            i:for (List<List<MonthCellDescriptor>> month : cells) {
               for (List<MonthCellDescriptor> week : month) {
                 for (MonthCellDescriptor singleCell : week) {
                   if (singleCell.getDate().after(minSelectedDate) && singleCell.getDate().before(clickedDate)
                           && singleCell.getCalendarListBean() != null && !singleCell.getCalendarListBean().isCanDailyService()) {
-                    Toast.makeText(getContext(), "司导该期间不可服务，换个日期试试", Toast.LENGTH_SHORT).show();
-                    if (invalidDateListener != null) {
-                      invalidDateListener.onInvalidDateSelected(clickedDate);
+                    doSelectDate(clickedDate, cell);
+                    if (invalidDateRangeSelectedListener != null) {
+                      invalidDateRangeSelectedListener.onInvalidDateRangeSelected();
                     }
                     return;
                   }
@@ -541,7 +542,6 @@ public class CalendarPickerView extends ListView {
         }
       } else {
         boolean wasSelected = doSelectDate(clickedDate, cell);
-
         if (dateListener != null) {
           if (wasSelected) {
             dateListener.onDateSelected(cell, clickedDate);
@@ -971,6 +971,10 @@ public class CalendarPickerView extends ListView {
     invalidDateListener = listener;
   }
 
+  public void setOnInvalidDateRangeSelectedListener(OnInvalidDateRangeSelectedListener listener) {
+    invalidDateRangeSelectedListener = listener;
+  }
+
   /**
    * Set a listener used to discriminate between selectable and unselectable dates. Set this to
    * disable arbitrary dates as they are rendered.
@@ -1023,6 +1027,10 @@ public class CalendarPickerView extends ListView {
    */
   public interface OnInvalidDateSelectedListener {
     void onInvalidDateSelected(Date date);
+  }
+
+  public interface OnInvalidDateRangeSelectedListener {
+    void onInvalidDateRangeSelected();
   }
 
   /**
