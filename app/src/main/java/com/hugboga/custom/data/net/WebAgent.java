@@ -166,7 +166,12 @@ public class WebAgent implements HttpRequestListener {
             @Override
             public void run() {
                 // 调用分享操作
-                WXShareUtils.getInstance(mActivity).share(type, picUrl, title, content, goUrl);
+                if (type == 0) {
+                    CommonUtils.shareDialog(mActivity, picUrl, title, content, goUrl);
+                } else {
+                    WXShareUtils.getInstance(mActivity).share(type, picUrl, title, content, goUrl);
+                }
+
             }
         });
     }
@@ -180,7 +185,11 @@ public class WebAgent implements HttpRequestListener {
                 if (shareBean == null) {
                     return;
                 }
-                WXShareUtils.getInstance(mActivity).share(shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
+                if (shareBean.type == 0) {
+                    CommonUtils.shareDialog(mActivity, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
+                } else {
+                    WXShareUtils.getInstance(mActivity).share(shareBean.type, shareBean.picUrl, shareBean.title, shareBean.content, shareBean.goUrl);
+                }
             }
         });
     }

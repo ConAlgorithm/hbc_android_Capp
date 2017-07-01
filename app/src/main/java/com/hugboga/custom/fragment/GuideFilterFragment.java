@@ -259,6 +259,9 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             localLanguageTagGroup.setOnTagItemClickListener(new TagGroup.OnTagItemClickListener() {
                 @Override
                 public void onTagClick(View view, int position) {
+                    if (position == 0) {
+                        return;
+                    }
                     localLanguageTagGroup.setViewSelected((TextView) view, !view.isSelected());
                     guideFilterBean.isInitial = false;
                     guideFilterBean.isSave = false;
@@ -335,7 +338,7 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             isInitial = true;
 
             FilterTagUtils.reset(guideForeignLangs);
-            FilterTagUtils.reset(guideLocalLangs);
+            FilterTagUtils.resetLocalLangsList(guideLocalLangs);
             FilterTagUtils.reset(guideSkillLabels);
         }
 
@@ -352,7 +355,7 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             if (travelerCount != 2) operateCount++;
 
             operateCount += FilterTagUtils.getOperateCount(guideForeignLangs);
-            operateCount += FilterTagUtils.getOperateCount(guideLocalLangs);
+            operateCount += (FilterTagUtils.getOperateCount(guideLocalLangs) - 1);
             operateCount += FilterTagUtils.getOperateCount(guideSkillLabels);
             return operateCount;
         }
