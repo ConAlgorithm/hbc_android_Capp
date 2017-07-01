@@ -3,6 +3,7 @@ package com.hugboga.custom.utils;
 import android.text.TextUtils;
 
 import com.hugboga.custom.data.bean.FilterItemBase;
+import com.hugboga.custom.data.request.RequestFilterGuide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,19 @@ import java.util.List;
  */
 public final class FilterTagUtils {
 
+
+    public static void resetLocalLangsList(List<? extends FilterItemBase> list) {
+        if (list != null) {
+            int labelsSize = list.size();
+            for (int i = 0; i < labelsSize; i++) {
+                if (TextUtils.equals(RequestFilterGuide.MANDARIN_ID + "",list.get(i).getTagId())) {
+                    list.get(i).isSelected = true;
+                } else {
+                    list.get(i).isSelected = false;
+                }
+            }
+        }
+    }
 
     public static void reset(List<? extends FilterItemBase> list) {
         if (list != null) {

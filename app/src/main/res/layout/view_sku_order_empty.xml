@@ -20,6 +20,7 @@
         android:layout_marginTop="20dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:gravity="center"
         android:text="很抱歉，没有找到可服务的司导，换个日期试试"
         android:textColor="#a8a8a8"
         android:textSize="13sp" />

@@ -147,7 +147,9 @@ public class TravelListActivity extends BaseActivity {
                 notifyModelChanged(travelItemModel);
             }
             ArrayList<CityRouteBean.CityRouteScope> travelList = charterDataUtils.travelList;
-            if (dayNums == travelList.size() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {//最后一天选了送机，不显示添加
+            if (charterDataUtils.isSeckills()) {
+                updateAddModel(false);
+            } else if (dayNums == travelList.size() && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {//最后一天选了送机，不显示添加
                 updateAddModel(false);
             } else {
                 updateAddModel(true);

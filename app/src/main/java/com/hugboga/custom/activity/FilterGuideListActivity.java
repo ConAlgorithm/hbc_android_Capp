@@ -281,6 +281,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             mRecyclerView.setNoMore(mAdapter.getListCount() >= filterGuideListBean.listCount);
         } else if (_request instanceof RequestGuideFilterOptions) {
             FilterGuideOptionsBean filterGuideOptionsBean = ((RequestGuideFilterOptions) _request).getData();
+            filterGuideOptionsBean.setMandarinBean();
             filterLayout.setFilterGuideOptionsBean(filterGuideOptionsBean);
         }
     }

@@ -107,6 +107,7 @@ public enum EventType {
     SKU_FILTER_SCOPE,
 
     SHOW_GUIDE_DETAIL_BAR,
+    SHOW_WEB_TITLE_BAR,
 
     WEBINFO_REFRESH,//刷新webView
 

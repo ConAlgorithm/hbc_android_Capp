@@ -2,11 +2,8 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.google.gson.annotations.SerializedName;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderContactBean;
 import com.hugboga.custom.data.bean.OrderInfoBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -15,7 +12,6 @@ import com.hugboga.custom.data.parser.HbcParser;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -24,9 +20,12 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_ORDER_GROUP, builder = NewParamsBuilder.class)
 public class RequestOrderGroup extends BaseRequest<OrderInfoBean> {
 
-    public RequestOrderGroup(Context context, String _bodyEntity) {
+    private boolean isSeckills = false;
+
+    public RequestOrderGroup(Context context, String _bodyEntity, boolean isSeckills) {
         super(context);
         map = new HashMap<String, Object>();
+        this.isSeckills = isSeckills;
         this.bodyEntity = _bodyEntity;
         errorType = ERROR_TYPE_IGNORE;
     }
@@ -43,6 +42,19 @@ public class RequestOrderGroup extends BaseRequest<OrderInfoBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40122";
+        if (isSeckills) {
+            return "40165";
+        } else {
+            return "40122";
+        }
+    }
+
+    @Override
+    public String getUrl() {
+        if (isSeckills) {
+            return UrlLibs.API_DAILY_SECKILL;
+        } else {
+            return UrlLibs.API_ORDER_GROUP;
+        }
     }
 }

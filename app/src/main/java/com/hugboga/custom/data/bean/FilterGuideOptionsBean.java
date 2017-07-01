@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import com.hugboga.custom.data.request.RequestFilterGuide;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,6 +15,17 @@ public class FilterGuideOptionsBean implements Serializable{
     public ArrayList<GuideSkillLabel> guideSkillLabels;
     public int numOfPerson;
 
+    public void setMandarinBean() {
+        FilterGuideOptionsBean.GuideLanguage guideLanguage = new FilterGuideOptionsBean.GuideLanguage();
+        guideLanguage.cnName = RequestFilterGuide.MANDARIN_STR;
+        guideLanguage.langCode = RequestFilterGuide.MANDARIN_ID;
+        guideLanguage.isSelected = true;
+        if (guideLocalLangs == null) {
+            guideLocalLangs = new ArrayList<>();
+        }
+        guideLocalLangs.add(0, guideLanguage);
+
+    }
 
     public static class GuideLanguage extends FilterItemBase{
         public String cnName;

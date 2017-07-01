@@ -69,6 +69,9 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
     TextView headerRightTxt;
     @Bind(R.id.webview)
     WebView webView;
+    @Bind(R.id.webview_titlebar)
+    RelativeLayout titlebar;
+
     private DialogUtil mDialogUtil;
 
     private CityBean cityBean;
@@ -137,7 +140,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.cancel();
+            if (error.getPrimaryError() == SslError.SSL_INVALID) {
+                handler.proceed();
+            } else {
+                handler.cancel();
+            }
         }
 
         @Override
@@ -275,6 +282,14 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             case WEBINFO_REFRESH:
                 if (!TextUtils.isEmpty(url)) {
                     webView.reload();
+                }
+                break;
+            case SHOW_WEB_TITLE_BAR:
+                int isShow = (int) action.getData();
+                if (isShow == 0) {
+                    titlebar.setVisibility(View.VISIBLE);
+                } else {
+                    titlebar.setVisibility(View.GONE);
                 }
                 break;
         }

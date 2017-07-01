@@ -641,6 +641,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
+//                Intent intent = new Intent(this, WebInfoActivity.class);
+//                intent.putExtra(WebInfoActivity.WEB_URL, "https://act-test.huangbaoche.com/h5/cactivity/seckill-daily/index.html?activityNo=TL2171820001");
+//                startActivity(intent);
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
