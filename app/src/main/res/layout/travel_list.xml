@@ -7,8 +7,8 @@
     <ImageView
         android:id="@+id/bannar_layout"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/allbg_gray"
+        android:layout_height="70dp"
+        android:background="@mipmap/evaluate_banner"
         android:visibility="gone" />
 
     <!--<include layout="@layout/travel_list_layout"

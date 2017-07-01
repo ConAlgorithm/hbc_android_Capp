@@ -39,7 +39,6 @@ import com.hugboga.custom.data.bean.AppraisementBean;
 import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.Photo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -136,12 +135,16 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     TextView fgTitle;
     @Bind(R.id.id_recyclerview_horizontal)
     RecyclerView mRecyclerView;
+    @Bind(R.id.ecyclerview_layout)
+    RelativeLayout ecyclerviewLayout;
     @Bind(R.id.banar_below)
     View banarBelow;
     @Bind(R.id.banar_top)
     View banarTop;
     @Bind(R.id.guide_reply)
     TextView guideReply;
+    @Bind(R.id.none)
+    LinearLayout none;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
@@ -374,7 +377,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
             initDefalut();
             initPicGridParams(gridView, localPhotos, true);
-
+            ecyclerviewLayout.setVisibility(View.GONE);
             commentET.setEnabled(true);
             guideReply.setVisibility(View.GONE);
             //commentET.setBackgroundResource(R.drawable.border_evaluate_comment);
@@ -448,7 +451,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     }
 
     private void initPicGridParams(GridView gridView, List<Photo> pics, boolean isFirstIn) {
-        picsdapter = new PicsAdapter(localPhotos, activity, false, isFirstIn);
+        picsdapter = new PicsAdapter(pics, activity, false, isFirstIn);
         int gridWidth = UIUtils.dip2px(74);
         gridView.setColumnWidth(gridWidth);
         gridView.setNumColumns(4);
@@ -586,6 +589,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 //设置布局管理器
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                ecyclerviewLayout.setVisibility(View.VISIBLE);
                 mRecyclerView.setLayoutManager(linearLayoutManager);
                 //设置适配器
                 evluatedPicAdapter = new GalleryAdapter(this, _itemParams,_itemParams2);
@@ -596,17 +600,21 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
                 mRecyclerView.addItemDecoration(itemDecoration);
             }else{
-                mRecyclerView.setVisibility(View.GONE);
+                ecyclerviewLayout.setVisibility(View.GONE);
             }
 
             gridView.setVisibility(View.GONE);
             banarBelow.setVisibility(View.GONE);
+            none.setVisibility(View.GONE);
             banarTop.setVisibility(View.VISIBLE);
-            if(appraisementBean.guideReply != null && appraisementBean.guideReply.length()>0){
+            if(appraisementBean.auditStatus == 2){
+                guideReply.setVisibility(View.GONE);
+            } else if(appraisementBean.guideReply != null && appraisementBean.guideReply.length()>0){
                 guideReply.setText(appraisementBean.guideReply);
-            }else{
+            } else {
                 guideReply.setVisibility(View.GONE);
             }
+
 
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -733,9 +741,19 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             File dir = new File(photo.localFilePath);
             Uri dirUri = Uri.fromFile(dir);
 
+            if (photo.localFilePath.equals("add")) {
+                picsHolder.add.setVisibility(View.VISIBLE);
+                picsHolder.image.setImageResource(R.mipmap.evaluate_add_image);//最后一个显示加号图片
+                picsHolder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        grantSdcard();
+                    }
+                });
+
+            }
             if (!photo.localFilePath.equals("add")) {
-                Tools.showBlurryImage(picsHolder.image,photo.localFilePath,R.mipmap.evaluate_dafault,3,3);
-                Glide.with(getApplicationContext()).load(new File(photo.localFilePath)).into(picsHolder.image);
+                Tools.showRoundImage(picsHolder.image,photo.localFilePath,UIUtils.dip2px(3));
                 if (photo.uploadStatus == AlbumUploadHelper.UPLOAD_FAIL) {
                     picsHolder.failUpload.setVisibility(View.VISIBLE);
                     picsHolder.add.setVisibility(View.GONE);
@@ -768,18 +786,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                         }
                     });
                 }
-
-            }
-
-            if (photo.localFilePath.equals("add")) {
-                picsHolder.add.setVisibility(View.VISIBLE);
-                picsHolder.image.setImageResource(R.mipmap.evaluate_add_image);//最后一个显示加号图片
-                picsHolder.image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        grantSdcard();
-                    }
-                });
 
             }
 
@@ -1160,7 +1166,8 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
             //Tools.showImage(viewHolder.mImg, mDatas.get(i), R.mipmap.evaluate_dafault);
-            Tools.showBlurryImage(viewHolder.mImg,mDatas.get(i),R.mipmap.evaluate_dafault,3,3);
+            Tools.showRoundImage(viewHolder.mImg,mDatas.get(i),UIUtils.dip2px(3));
+            //Tools.showBlurryImage(viewHolder.mImg,mDatas.get(i),R.mipmap.evaluate_dafault,3,3);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
