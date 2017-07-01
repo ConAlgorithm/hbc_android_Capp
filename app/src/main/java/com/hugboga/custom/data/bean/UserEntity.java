@@ -39,12 +39,14 @@ public class UserEntity {
     private String nimUserId;
     private String nimUserToken;
 
+    //begin 评价返现活动
     public Integer backFlag = 1;
     public Integer contentCnt = 50;
     public Integer imageCnt = 1;
     public Integer money = 50;
     public String activityImgUrl="";
     public String activityUrl ="";
+    //end
 
     public String getUserName(Context activity) {
 //        if (userName == null) {

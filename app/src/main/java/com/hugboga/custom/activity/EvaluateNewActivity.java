@@ -13,7 +13,10 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,11 +143,13 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     @Bind(R.id.banar_below)
     View banarBelow;
     @Bind(R.id.banar_top)
-    View banarTop;
+    TextView banarTop;
     @Bind(R.id.guide_reply)
     TextView guideReply;
     @Bind(R.id.none)
     LinearLayout none;
+    @Bind(R.id.view_above_guide_reply)
+    View view;
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
@@ -296,7 +301,20 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         /*if (orderBean == null) {
             return;
         }*/
-
+        if(UserEntity.getUser().backFlag == 0){
+            commentET.setHint(getResources().getString(R.string.evaluate_et_hint2));
+        }
+        if(UserEntity.getUser().backFlag == 1){
+            banarBelow.setVisibility(View.VISIBLE);
+            banarBelow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(EvaluateNewActivity.this, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, UserEntity.getUser().activityUrl);
+                    startActivity(intent);
+                }
+            });
+        }
         if (!isEvaluated()) {
             //准备评价
             fgLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -564,13 +582,16 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             commentET.setEnabled(false);
             commentET.setBackgroundColor(0x00000000);
             //submitTV.setVisibility(View.GONE);
-            scoreTV.setVisibility(View.VISIBLE);
+
             //判断(没有评价标签和内容),是否显示 "你还没有提交评价内容~"
-            if (appraisementBean.totalScore >= 5) {
-                scoreTV.setText(getString(R.string.evaluate_evaluated_satisfied));
-            } else {
-                scoreTV.setText(getString(R.string.evaluate_evaluated_ordinary));
+            if(commentET.getText().toString().length()==0 && appraisementBean.guideLabels == null){
+                scoreTV.setVisibility(View.VISIBLE);
+                scoreTV.setText("您没有提交评价内容~");
+                scoreTV.setTextColor(0xff7f7f7f);
+            }else{
+                scoreTV.setVisibility(View.GONE);
             }
+
             ratingview.setOnLevelChangedListener(null);
             ratingview.setTouchable(false);
             if (appraisementBean.guideLabels == null) {
@@ -608,6 +629,18 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             none.setVisibility(View.GONE);
             banarTop.setVisibility(View.VISIBLE);
             if(appraisementBean.auditStatus == 2){
+                banarTop.setText("评价中含有违规内容，无法展示给其他小伙伴");
+                banarTop.setTextColor(0xffff2525);
+                banarTop.setBackgroundResource(R.color.sku_info_bg);
+            }else{
+                String text = "分享评价送好友600元，你赚旅游基金";
+                banarTop.setText(text);
+                banarTop.setTextColor(0xffc7a513);
+                SpannableStringBuilder style = new SpannableStringBuilder(text);
+                style.setSpan(new ForegroundColorSpan(0xffff2525), text.length()-4, text.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                banarTop.setText(style);
+            }
+            if(appraisementBean.auditStatus == 2){
                 guideReply.setVisibility(View.GONE);
             } else if(appraisementBean.guideReply != null && appraisementBean.guideReply.length()>0){
                 guideReply.setText(appraisementBean.guideReply);
@@ -629,7 +662,11 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
             fgRightBtn.setLayoutParams(headerRightImageParams);
             fgRightBtn.setPadding(0, 0, 0, 0);
-            fgRightBtn.setVisibility(View.VISIBLE);
+            if(appraisementBean.auditStatus == 2){
+                fgRightBtn.setVisibility(View.GONE);
+            }else {
+                fgRightBtn.setVisibility(View.VISIBLE);
+            }
             fgRightBtn.setImageResource(R.mipmap.evaluate_share);
             fgRightBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1028,6 +1065,11 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                             .rememberSelected(false)
                             //动态调整最大张数
                             .maxNum(9 - tmpSelected.size())
+                            .needCamera(false)
+                            .titleBgColor(0xFFFFFFFF)
+                            .titleColor(0xFF000000)
+                            .backResId(R.mipmap.top_back_black)
+                            .btnTextColor(0xFFFFC100)
                             // 使用沉浸式状态栏
                             .build();
 
