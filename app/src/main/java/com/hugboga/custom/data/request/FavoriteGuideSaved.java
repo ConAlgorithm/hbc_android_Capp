@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.combination.FavoriteGuideSavedBean;
+import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
  * Created by zhangqiang on 17/6/29.
  */
 @HttpRequest(path = UrlLibs.GUIDES_SAVED, builder = NewParamsBuilder.class)
-public class FavoriteGuideSaved extends BaseRequest<FavoriteGuideSavedBean> {
+public class FavoriteGuideSaved extends BaseRequest<UserFavoriteGuideListVo3> {
 
 
     public FavoriteGuideSaved(Context context,String userId,String guideIds) {
@@ -41,8 +41,8 @@ public class FavoriteGuideSaved extends BaseRequest<FavoriteGuideSavedBean> {
         @Override
         public Object parseObject(JSONObject obj) throws Throwable {
             Gson gson = new Gson();
-            FavoriteGuideSavedBean favoriteGuideSavedBean = gson.fromJson(obj.toString(), FavoriteGuideSavedBean.class);
-            return favoriteGuideSavedBean;
+            UserFavoriteGuideListVo3 userFavoriteGuideListVo3 = gson.fromJson(obj.toString(), UserFavoriteGuideListVo3.class);
+            return userFavoriteGuideListVo3;
         }
     }
 }

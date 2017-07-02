@@ -178,14 +178,14 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             } else {
                 endAddressLayout.setVisibility(View.VISIBLE);
                 //endAddressIV.setBackgroundResource(R.mipmap.trip);
-                startAddressIV1.setVisibility(GONE);
-                startAddressIV2.setVisibility(VISIBLE);
-                startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
+                startAddressIV2.setVisibility(GONE);
+                startAddressIV1.setVisibility(VISIBLE);
+                //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
                 String dailyPlace = orderBean.serviceCityName;
                 if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                     dailyPlace += " - " + orderBean.serviceEndCityName;
                 }
-                startAddressTV.setText(dailyPlace);
+                endAddressTV.setText(dailyPlace);
             }
         } else {
             citysTV.setVisibility(View.GONE);

@@ -117,13 +117,13 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     }
     private void init(){
 
-        if (activityPageSettings.size() == 0) {
+        if (activityPageSettings != null && activityPageSettings.size() == 0) {
             activityPageSettings = new ArrayList<HomeBeanV2.ActivityPageSetting>();
             HomeBeanV2.ActivityPageSetting activityPageSetting = new HomeBeanV2.ActivityPageSetting();
             activityPageSettings.add(activityPageSetting);
-        }
 
-        homeHeaderHolder.activitiesView.update(activityPageSettings);
+            homeHeaderHolder.activitiesView.update(activityPageSettings);
+        }
 
         tabView = homeHeaderHolder.homeSearchTabView;
         fastYudingLayout = homeHeaderHolder.fastYudingLayout;

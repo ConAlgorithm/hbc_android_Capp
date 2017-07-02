@@ -114,11 +114,11 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                     if(saveGuild.isSelected()){
                         data.isCollected = 0;
                         saveGuild.setSelected(false);
-                        HttpRequestUtils.request(getContext(),new RequestUncollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this);
+                        HttpRequestUtils.request(getContext(),new RequestUncollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this,false);
                     }else{
                         saveGuild.setSelected(true);
                         data.isCollected= 1;
-                        HttpRequestUtils.request(getContext(),new RequestCollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this);
+                        HttpRequestUtils.request(getContext(),new RequestCollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this,false);
                     }
                 }
             }

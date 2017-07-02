@@ -26,7 +26,7 @@ import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.combination.FavoriteGuideSavedBean;
+import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.RequestCityHomeList;
@@ -289,15 +289,21 @@ public class CityListActivity extends BaseActivity {
             }
             cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
         }else if (_request instanceof FavoriteGuideSaved){
-            FavoriteGuideSavedBean favoriteGuideSavedBean = ((FavoriteGuideSaved) _request).getData();
-            for(int i=0 ;i< favoriteGuideSavedBean.data.size();i++){
+            if(_request.getData() instanceof UserFavoriteGuideListVo3){
                 for(int j=0;j<filterGuideListBean.listData.size();j++){
-                    if(favoriteGuideSavedBean.data.get(i).equals(filterGuideListBean.listData.get(j))){
-                        filterGuideListBean.listData.get(j).isCollected = 1;
+                    filterGuideListBean.listData.get(j).isCollected = 0;
+                }
+                UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3)_request.getData();
+                for(int i=0 ;i< favoriteGuideSavedBean.guides.size();i++){
+                    for(int j=0;j<filterGuideListBean.listData.size();j++){
+                        if(favoriteGuideSavedBean.guides.get(i).equals(filterGuideListBean.listData.get(j).guideId)){
+                            filterGuideListBean.listData.get(j).isCollected = 1;
+                        }
                     }
                 }
+                cityListAdapter.notifyDataSetChanged();
             }
-            cityListAdapter.notifyDataSetChanged();
+
         }
     }
 
@@ -378,8 +384,8 @@ public class CityListActivity extends BaseActivity {
                         }
                     }
                     Log.d("uploadGuilds",uploadGuilds.toString());
-                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this, UserEntity.getUser().getUserId(this),uploadGuilds);
-                    requestData(favoriteGuideSaved);
+                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),uploadGuilds);
+                    HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
                 }
                 break;
             case CLICK_USER_LOOUT:
@@ -388,6 +394,10 @@ public class CityListActivity extends BaseActivity {
                 }
 
                 cityListAdapter.notifyDataSetChanged();
+                break;
+            case ORDER_DETAIL_UPDATE_COLLECT:
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
+                HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
                 break;
         }
     }

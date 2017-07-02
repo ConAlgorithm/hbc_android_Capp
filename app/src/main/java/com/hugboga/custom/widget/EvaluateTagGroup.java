@@ -265,6 +265,11 @@ public class EvaluateTagGroup extends TagGroup implements TagGroup.OnTagItemClic
         tagTV.setMaxLines(1);
         tagTV.setEllipsize(TextUtils.TruncateAt.END);
         tagTV.setLayoutParams(new LinearLayout.LayoutParams(tagWidth, tagHight));
+        if(tagTV.isSelected()){
+            tagTV.setTextColor(0xffffaf00);
+        }else{
+            tagTV.setTextColor(0xff929292);
+        }
         return tagTV;
     }
 }

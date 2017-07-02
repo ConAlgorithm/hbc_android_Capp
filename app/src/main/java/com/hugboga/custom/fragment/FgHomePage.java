@@ -28,7 +28,7 @@ import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.bean.combination.FavoriteGuideSavedBean;
+import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
@@ -363,6 +363,11 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                         }
                         break;
                 }
+                //重新请求已收藏司导状态
+                if(UserEntity.getUser().isLogin(getContext())){
+                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),null);
+                    HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
+                }
             }
 
         } else if (_request instanceof RequestHotExploration) {
@@ -381,10 +386,13 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 addMoreGuides(filterGuideListBean.listData);
             }
         }else if (_request instanceof FavoriteGuideSaved){
-            FavoriteGuideSavedBean favoriteGuideSavedBean = ((FavoriteGuideSaved) _request).getData();
-            for(int i=0 ;i< favoriteGuideSavedBean.data.size();i++){
-                for(int j=0;j<homeBean.qualityGuides.size();j++){
-                    if(favoriteGuideSavedBean.data.get(i).equals(homeBean.qualityGuides.get(j))){
+            for(int j=0;j<homeBean.qualityGuides.size();j++){
+                homeBean.qualityGuides.get(j).isCollected  = 0;
+            }
+            UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3) _request.getData();
+            for (int i = 0; i < favoriteGuideSavedBean.guides.size(); i++) {
+                for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
+                    if (favoriteGuideSavedBean.guides.get(i).equals(homeBean.qualityGuides.get(j).guideId)) {
                         homeBean.qualityGuides.get(j).isCollected = 1;
                     }
                 }
@@ -401,6 +409,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         }
         if(request instanceof RequestHome){
             homePageAdapter.addNetworkErrorModel(this);
+        }else if (request instanceof FavoriteGuideSaved){
+            Log.d("FavoriteGuideSaved",errorInfo.toString());
         }
     }
 
@@ -614,7 +624,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                     }
                     Log.d("uploadGuilds",uploadGuilds.toString());
                     FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),uploadGuilds);
-                    requestData(favoriteGuideSaved);
+                    HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
                 }
                 break;
             case CLICK_USER_LOOUT:
@@ -623,6 +633,10 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 }
 
                 homePageAdapter.notifyDataSetChanged();
+                break;
+            case ORDER_DETAIL_UPDATE_COLLECT:
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),null);
+                HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
                 break;
         }
     }
