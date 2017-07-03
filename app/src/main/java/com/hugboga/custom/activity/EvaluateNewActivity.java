@@ -361,7 +361,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                     RelativeLayout rl = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.evaluatedialog, null);
                     if (UserEntity.getUser().backFlag == 1) {
                         TextView title = (TextView) rl.findViewById(R.id.title);
-                        title.setText("还差xx字和晒一张图，就能领取50元旅游基金啦。确定提交评价吗？");
+                        title.setText("满20字和晒一张图，才能领取30元旅游基金哦~ 确定提交评价吗？");
                         if (commentET.getText().toString().length() <= UserEntity.getUser().contentCnt || localPhotos.size() <= UserEntity.getUser().imageCnt) {
                             //不满足返现条件
                             AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setView(rl).setNegativeButton("返回添加", new DialogInterface.OnClickListener() {
