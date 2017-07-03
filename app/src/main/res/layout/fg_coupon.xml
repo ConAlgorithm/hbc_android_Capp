@@ -110,7 +110,7 @@
             android:text="查看失效券"
             android:textColor="#898989"
             android:textSize="13sp"
-            android:drawableRight="@mipmap/evaluate_down"
+            android:drawableRight="@mipmap/coupon_more"
             android:drawablePadding="2dp"
             android:visibility="gone"/>
 

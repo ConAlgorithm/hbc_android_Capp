@@ -149,9 +149,9 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
 
     private Callback.Cancelable runData(int pageIndex) {
         BaseRequest request = null;
-        if (paramsData == null) {
+        if (isFromMyspace) {
             request = new RequestUsedCoupon(this, pageIndex, mPageSize);
-        } else {
+        } else if(!isFromMyspace && paramsData != null){
             request = new RequestInvaidableCoupon(this, paramsData, pageIndex);
         }
         return requestData(request);
