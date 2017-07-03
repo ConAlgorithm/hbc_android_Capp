@@ -99,7 +99,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
     @Bind(R.id.travel_item_btn_pay)
     public TextView mBtnPay; //立即支付
     @Bind(R.id.travel_item_btn_chat)
-    public ImageView mBtnChat; //聊一聊按钮
+    public TextView mBtnChat; //聊一聊按钮
     @Bind(R.id.travel_item_btn_chat_num)
     public TextView mBtnChatNum; //未读消息个数
     @Bind(R.id.travel_item_btn_assessment)

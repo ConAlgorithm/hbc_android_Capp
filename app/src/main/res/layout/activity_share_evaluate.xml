@@ -26,10 +26,9 @@
         android:id="@+id/share_evaluate_icon_iv"
         android:layout_width="118dp"
         android:layout_height="90dp"
-        android:layout_below="@id/share_evaluate_description_tv1"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:background="@mipmap/evaluate_gift" />
     <!--<TextView
         android:id="@+id/share_evaluate_description_tv1"
