@@ -162,6 +162,7 @@ public class GuideFilterLayout extends LinearLayout {
         if (cityParams == null) {
             return;
         }
+        setGuideFilterBean(null);
         this.cityParams = cityParams;
         TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_guide_type_city_tv);
         cityTV.setTextColor(0xFFFFC110);

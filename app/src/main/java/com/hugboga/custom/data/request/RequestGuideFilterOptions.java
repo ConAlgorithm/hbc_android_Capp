@@ -25,18 +25,20 @@ public class RequestGuideFilterOptions extends BaseRequest<FilterGuideOptionsBea
     public RequestGuideFilterOptions(Context context, CityListActivity.CityHomeType cityHomeType, String id) {
         super(context);
         map = new HashMap<String, Object>();
-        switch (cityHomeType) {
-            case CITY:
-                map.put("cityIds", id);
-                break;
-            case ROUTE:
-                map.put("lineGroupId", id);
-                break;
-            case COUNTRY:
-                map.put("countryId", id);
-                break;
-            default:
-                break;
+        if (cityHomeType != null) {
+            switch (cityHomeType) {
+                case CITY:
+                    map.put("cityIds", id);
+                    break;
+                case ROUTE:
+                    map.put("lineGroupId", id);
+                    break;
+                case COUNTRY:
+                    map.put("countryId", id);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
