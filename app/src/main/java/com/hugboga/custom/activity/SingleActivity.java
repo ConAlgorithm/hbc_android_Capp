@@ -662,7 +662,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
-            int total = carBean.price;
+            double total = carBean.price;
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_type", "单次接送");
             properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单

@@ -32,7 +32,7 @@ public class OrderBean implements IBaseBean{
     public String flightFlyTimeL;//航班起飞时间 格式：yyyy-MM-dd HH:mm:ss
     public String distance;//服务距离
     public String serviceDepartTime; //服务时间
-    public Integer orderPrice;//订单价格
+    public Double orderPrice;//订单价格
     public Integer checkInPrice;//check in 价格 送机
     public String priceMark;//价格戳 询价系统返回ID
     public String skuPoi;//poi 列表，jsonArray格式
@@ -51,7 +51,7 @@ public class OrderBean implements IBaseBean{
     public boolean isSeckills = false;       // 是否是秒杀
     public String timeLimitedSaleNo;         // 秒杀活动编号
     public String timeLimitedSaleScheduleNo; // 秒杀活动场次编号
-    public int priceTicket;               // 秒杀原价
+    public double priceTicket;                  // 秒杀原价
 
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息

@@ -47,7 +47,7 @@ public class GroupParamBuilder {
     private CouponBean couponBean;
     private MostFitBean mostFitBean;
     private PoiBean startPoiBean;
-    private int allChildSeatPrice;
+    private double allChildSeatPrice;
     private SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean;
 
     public GroupParamBuilder() {
@@ -99,7 +99,7 @@ public class GroupParamBuilder {
         return this;
     }
 
-    public GroupParamBuilder allChildSeatPrice(int allChildSeatPrice) {
+    public GroupParamBuilder allChildSeatPrice(double allChildSeatPrice) {
         this.allChildSeatPrice = allChildSeatPrice;
         return this;
     }
@@ -216,7 +216,7 @@ public class GroupParamBuilder {
             groupParentParam.userRemark = travelerInfoBean.mark;
             groupParentParam.userWechat = travelerInfoBean.wechatNo;
         }
-        groupParentParam.priceChannel = Double.valueOf(carBean.price) + allChildSeatPrice;
+        groupParentParam.priceChannel = carBean.price + allChildSeatPrice;
         if (isCheckedTravelFund) {
             groupParentParam.travelFund = travelFund;
         } else {
@@ -278,8 +278,8 @@ public class GroupParamBuilder {
             groupParentParam.limitedSaleNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
             groupParentParam.limitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
             groupParentParam.priceTicket = groupParentParam.priceChannel;
-            groupParentParam.priceActual = (double)carBean.seckillingPrice;
-            groupParentParam.priceChannel = (double)carBean.seckillingPrice;
+            groupParentParam.priceActual = carBean.seckillingPrice;
+            groupParentParam.priceChannel = carBean.seckillingPrice;
         }
         return groupParentParam;
     }
@@ -522,8 +522,8 @@ public class GroupParamBuilder {
             croupDailyParam.limitedSaleNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
             croupDailyParam.limitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
             croupDailyParam.priceTicket = croupDailyParam.priceChannel;
-            croupDailyParam.priceActual = (double)carBean.seckillingPrice;
-            croupDailyParam.priceChannel = (double)carBean.seckillingPrice;
+            croupDailyParam.priceActual = carBean.seckillingPrice;
+            croupDailyParam.priceChannel = carBean.seckillingPrice;
         }
     }
 

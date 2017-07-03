@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,14 +48,14 @@ public class SkuOrderBottomView extends LinearLayout {
         ButterKnife.bind(view);
     }
 
-    public void updatePrice(int shouldPrice, int discountPrice) {
-        shouldPriceTV.setText(getContext().getString(R.string.sign_rmb) + shouldPrice);
-        totalPriceTV.setText(String.format("总额: ¥%1$s","" + (shouldPrice + discountPrice)));
+    public void updatePrice(double shouldPrice, double discountPrice) {
+        shouldPriceTV.setText(getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(shouldPrice));
+        totalPriceTV.setText(String.format("总额: ¥%1$s","" + CommonUtils.doubleTrans(shouldPrice + discountPrice)));
         if (discountPrice <= 0) {
             discountPriceTV.setVisibility(View.GONE);
         } else {
             discountPriceTV.setVisibility(View.VISIBLE);
-            discountPriceTV.setText(String.format("已减: ¥%1$s","" + discountPrice));
+            discountPriceTV.setText(String.format("已减: ¥%1$s","" + CommonUtils.doubleTrans(discountPrice)));
         }
     }
 

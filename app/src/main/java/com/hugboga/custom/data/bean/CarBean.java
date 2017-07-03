@@ -17,8 +17,8 @@ public class CarBean implements IBaseBean ,Cloneable{
     public int carSeat;//座位
     public String desc;//描述
     public String models;//代表车型
-    public int originalPrice;//原价
-    public int checkInPrice;//促销价
+    public double originalPrice;//原价
+    public double checkInPrice;//促销价
     public String pricemark;//价格戳
     public String urgentCutdownTip;//提示
     public int urgentFlag;//是否急单，1是，0非
@@ -27,8 +27,8 @@ public class CarBean implements IBaseBean ,Cloneable{
 
     public int capOfLuggage;//行李数
     public int capOfPerson;//人数
-    public int price; // 钱
-    public int seckillingPrice;//秒杀价
+    public double price; // 钱
+    public double seckillingPrice;//秒杀价
 
     public String carLicenceNo;//车牌号
     public String carLicenceNoCovered;//车牌号遮盖
@@ -41,7 +41,7 @@ public class CarBean implements IBaseBean ,Cloneable{
 
     public int avgSpend;
     public String carDesc;
-    public int localPrice;
+    public double localPrice;
     public int numOfPerson;
     public int overChargePerHour;
     public String payDeadline;

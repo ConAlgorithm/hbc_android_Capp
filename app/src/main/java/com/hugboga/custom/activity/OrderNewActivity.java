@@ -379,14 +379,14 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dreamLeft.setChecked(false);
-                    int showPrice = 0;
+                    double showPrice = 0;
                     if (null == mostFitBean || null == mostFitBean.actualPrice  ||  mostFitBean.actualPrice == 0) {
                         if (null != couponBean) {
                             showPrice = couponBean.actualPrice.intValue();
                         } else {
                             showPrice = carBean.price;
                             //其他费用总和
-                            int otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+                            double otherPriceTotal = checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
                             showPrice += otherPriceTotal;
                         }
@@ -407,9 +407,9 @@ public class OrderNewActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     couponLeft.setChecked(false);
-                    int otherPriceTotal =  hotelPrice + checkInOrPickupPrice
+                    double otherPriceTotal =  hotelPrice + checkInOrPickupPrice
                             + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
-                    int showPrice = 0;
+                    double showPrice = 0;
                     if (null == deductionBean || null == deductionBean.priceToPay) {
                         showPrice = carBean.price + otherPriceTotal;
                     } else {
@@ -713,7 +713,7 @@ public class OrderNewActivity extends BaseActivity {
         hospital_layout.setVisibility(GONE);
     }
 
-    int hotelPrice = 0;
+    double hotelPrice = 0;
     int hourseNum = 1;
 
     //线路包车
@@ -764,7 +764,7 @@ public class OrderNewActivity extends BaseActivity {
             hourseNum = carListBean.hourseNum;
             hotelPrice = carListBean.hotelPrice * hourseNum;
         }
-        int price = carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+        double price = carBean.price + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean)
                 + hotelPrice;
         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
@@ -905,7 +905,7 @@ public class OrderNewActivity extends BaseActivity {
     DeductionBean deductionBean;
 
     private void requestTravelFund() {
-        final int totalPrice =  OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
+        final double totalPrice =  OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean)
                 + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean) + hotelPrice;
         RequestDeduction requestDeduction = new RequestDeduction(activity, (carBean.price + totalPrice) + "");
         HttpRequestUtils.request(activity, requestDeduction, new HttpRequestListener() {
@@ -925,7 +925,7 @@ public class OrderNewActivity extends BaseActivity {
                 } else {
                     dreamRight.setText(Tools.getRMB(activity) + (Integer.valueOf(deductionBean.deduction) + Integer.valueOf(deductionBean.leftAmount)));
                     if (dreamLeft.isChecked()) {
-                        int price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
+                        double price = Integer.valueOf(deductionBean.priceToPay) + totalPrice;
                         allMoneyLeftText.setText(Tools.getRMB(activity) + price);
                         sensorActualPrice = price;
                     }
@@ -965,7 +965,7 @@ public class OrderNewActivity extends BaseActivity {
     String areaCode4MostFit = null;
     String idStr = "";
 
-    int totalPrice = 0;
+    double totalPrice = 0;
     //优惠券
     private void requestMostFit() {
         switch (type) {
@@ -1017,7 +1017,7 @@ public class OrderNewActivity extends BaseActivity {
             public void onDataRequestSucceed(BaseRequest request) {
                 RequestMostFit requestMostFit1 = (RequestMostFit) request;
                 mostFitBean = requestMostFit1.getData();
-                int price = 0;
+                double price = 0;
                 if (null == mostFitBean.priceInfo) {
                     couponRight.setText("无优惠券可用");
                     price = carBean.price + totalPrice;
@@ -1319,7 +1319,7 @@ public class OrderNewActivity extends BaseActivity {
                 couponBean = null;
                 couponRight.setText("");
                 if (couponLeft.isChecked()) {
-                    int price = carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
+                    double price = carBean.price + checkInOrPickupPrice + hotelPrice + OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean) + OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
                     allMoneyLeftText.setText(Tools.getRMB(activity) + price);
                     sensorActualPrice = price;
                 }
