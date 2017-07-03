@@ -144,7 +144,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
         if(null == carBean){
             return;
         }
-        int total = carBean.price;
+        double total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
@@ -571,7 +571,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
-            int total = carBean.price;
+            double total = carBean.price;
             if(null != manLuggageBean){
                 int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
                 int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
@@ -589,7 +589,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             properties.put("hbc_childNum", manLuggageBean.childs);// 出行儿童数
             properties.put("hbc_childseatNum", manLuggageBean.childSeats);// 儿童座椅数
             properties.put("hbc_car_type", carBean.desc);//车型选择
-            properties.put("hbc_price_total", total);//费用总计
+            properties.put("hbc_price_total", (int)total);//费用总计
             properties.put("hbc_distance", carListBean.distance);// 全程公里数
             properties.put("hbc_airport", airPortBean.airportName);// 机场
             properties.put("hbc_geton_time", serverDate + " " + serverTime);// 出发时间

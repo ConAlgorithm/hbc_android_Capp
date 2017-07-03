@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.CouponsOrderTipBean;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
@@ -24,6 +25,7 @@ public class RequestCouponsOrderTip extends BaseRequest<CouponsOrderTipBean> {
         super(context);
         map = new HashMap<String, Object>();
         map.put("orderType", orderType);
+        map.put("userId", UserEntity.getUser().getUserId(context));
     }
 
     @Override

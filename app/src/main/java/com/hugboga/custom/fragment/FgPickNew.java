@@ -243,7 +243,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if(null == carBean){
             return;
         }
-        int total = carBean.price;
+        double total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
@@ -617,7 +617,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
-            int total = carBean.price;
+            double total = carBean.price;
             if(null != manLuggageBean){
                 int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
                 int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);

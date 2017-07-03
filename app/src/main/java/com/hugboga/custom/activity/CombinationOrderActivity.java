@@ -530,7 +530,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
         countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date);
-        int additionalPrice = countView.getAdditionalPrice();
+        double additionalPrice = countView.getAdditionalPrice();
 
         if (charterDataUtils.isSeckills()) {
             bottomView.updatePrice(carBean.seckillingPrice, carBean.price + additionalPrice - carBean.seckillingPrice);
@@ -567,7 +567,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     /* 儿童座椅价格发生改变 */
     @Override
-    public void onAdditionalPriceChange(int price) {
+    public void onAdditionalPriceChange(double price) {
         requestSucceedCount = 2;
         onBottomLoading(true);
         requestCouponTag++;
@@ -581,10 +581,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (carBean == null) {
             return;
         }
-        final int additionalPrice = countView.getAdditionalPrice();
-        int totalPrice = carBean.price + additionalPrice;
-        int actualPrice = totalPrice;
-        int deductionPrice = 0;
+        final double additionalPrice = countView.getAdditionalPrice();
+        double totalPrice = carBean.price + additionalPrice;
+        double actualPrice = totalPrice;
+        double deductionPrice = 0;
 
         switch (type) {
             case SkuOrderDiscountView.TYPE_COUPON:
@@ -712,7 +712,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 获取优惠券
      * @params additionalPrice 儿童座椅 + 酒店价格
      * */
-    private void requestMostFit(int additionalPrice, int requestTag) {
+    private void requestMostFit(double additionalPrice, int requestTag) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , carBean.price + additionalPrice + ""
                 , carBean.price + additionalPrice + ""
@@ -735,7 +735,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     * 获取旅游基金
     * @params additionalPrice 儿童座椅 + 酒店价格
     * */
-    private void requestTravelFund(int additionalPrice, int requestTag) {
+    private void requestTravelFund(double additionalPrice, int requestTag) {
         RequestDeduction requestDeduction = new RequestDeduction(this, carBean.price + additionalPrice + "");
         requestDeduction.tag = "" + requestTag;
         requestData(requestDeduction, false);

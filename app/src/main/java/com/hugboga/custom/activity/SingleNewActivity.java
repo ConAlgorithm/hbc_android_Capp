@@ -201,7 +201,7 @@ public class SingleNewActivity extends BaseActivity {
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
-            int total = carBean.price;
+            double total = carBean.price;
             if (null != manLuggageBean) {
                 int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
                 int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);
@@ -339,7 +339,7 @@ public class SingleNewActivity extends BaseActivity {
         if (null == carBean) {
             return;
         }
-        int total = carBean.price;
+        double total = carBean.price;
         if (null != manLuggageBean) {
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean, manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean, manLuggageBean);

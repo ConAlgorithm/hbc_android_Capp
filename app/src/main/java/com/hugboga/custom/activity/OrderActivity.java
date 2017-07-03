@@ -170,7 +170,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         travelerInfoView.setOrderType(params.orderType, params.carListBean);
         travelerInfoView.setOnSwitchPickOrSendListener(this);
         discountView.setDiscountOnClickListener(this);
-        int additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
+        double additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
         if (params.carListBean.isSeckills) {
             discountView.setVisibility(View.GONE);
             seckillsLayout.setVisibility(View.VISIBLE);
@@ -285,8 +285,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
 
     /* 儿童座椅+酒店价格发生改变 */
     @Override
-    public void onAdditionalPriceChange(int price) {
-        int additionalPrice = price + travelerInfoView.getAdditionalPrice();
+    public void onAdditionalPriceChange(double price) {
+        double additionalPrice = price + travelerInfoView.getAdditionalPrice();
         if (params.carListBean.isSeckills) {
             bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
         } else {
@@ -299,14 +299,14 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     public void onSwitchPickOrSend(boolean isSelect, int _additionalPrice) {
         if (params.carListBean.additionalServicePrice != null) {
             if (params.carListBean.isSeckills) {
-                int additionalPrice = _additionalPrice + countView.getAdditionalPrice();
+                double additionalPrice = _additionalPrice + countView.getAdditionalPrice();
                 bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
             } else{
                 CarAdditionalServicePrice additionalServicePrice = params.carListBean.additionalServicePrice;
                 boolean isPickup = params.orderType == 1 && CommonUtils.getCountInteger(additionalServicePrice.pickupSignPrice) > 0;
                 boolean isSend = params.orderType == 2 && CommonUtils.getCountInteger(additionalServicePrice.checkInPrice) > 0;
                 if (isPickup || isSend) {
-                    int additionalPrice = _additionalPrice + countView.getAdditionalPrice();
+                    double additionalPrice = _additionalPrice + countView.getAdditionalPrice();
                     requestMostFit(additionalPrice);
                     requestTravelFund(additionalPrice);
                 }
@@ -320,10 +320,10 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (params.carBean == null) {
             return;
         }
-        final int additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
-        int totalPrice = params.carBean.price + additionalPrice;
-        int actualPrice = totalPrice;
-        int deductionPrice = 0;
+        final double additionalPrice = countView.getAdditionalPrice() + travelerInfoView.getAdditionalPrice();
+        double totalPrice = params.carBean.price + additionalPrice;
+        double actualPrice = totalPrice;
+        double deductionPrice = 0;
 
         switch (type) {
             case SkuOrderDiscountView.TYPE_COUPON:
@@ -407,7 +407,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     * 获取优惠券
     * @params additionalPrice 儿童座椅 + 酒店价格 + 接机/举牌
     * */
-    private void requestMostFit(int additionalPrice) {
+    private void requestMostFit(double additionalPrice) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , params.carBean.price + additionalPrice + ""
                 , params.carBean.price + additionalPrice + ""
@@ -429,7 +429,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
      * 获取旅游基金
      * @params additionalPrice 儿童座椅 + 酒店价格 + 接机/举牌
      * */
-    private void requestTravelFund(int additionalPrice) {
+    private void requestTravelFund(double additionalPrice) {
         RequestDeduction requestDeduction = new RequestDeduction(this, params.carBean.price + additionalPrice + "");
         requestData(requestDeduction);
     }
