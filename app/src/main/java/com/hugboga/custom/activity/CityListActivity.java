@@ -389,11 +389,12 @@ public class CityListActivity extends BaseActivity {
                 }
                 break;
             case CLICK_USER_LOOUT:
-                for(int i=0;i<filterGuideListBean.listData.size();i++){
-                    filterGuideListBean.listData.get(i).isCollected = 0;
+                if(filterGuideListBean!= null){
+                    for(int i=0;i<filterGuideListBean.listData.size();i++){
+                        filterGuideListBean.listData.get(i).isCollected = 0;
+                    }
+                    cityListAdapter.notifyDataSetChanged();
                 }
-
-                cityListAdapter.notifyDataSetChanged();
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT:
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);

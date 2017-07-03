@@ -24,7 +24,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingTop="50dp"
             android:gravity="center"
-            android:text="添加图片"
+            android:text="添加照片"
             android:textColor="#cccccc"
             android:textSize="10dp" />
 

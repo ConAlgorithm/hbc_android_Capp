@@ -18,6 +18,13 @@
     "_done":"true",
      "_comment":"商品列表页"
   },
+  "app/city.html":{
+    "t":"2",
+    "v":"4",
+    "d":["t","ai","an"],
+    "_done":"true",
+    "_comment":"商品列表页"
+  },
   "app/detail.html":{
     "t":"2",
     "v":"5",

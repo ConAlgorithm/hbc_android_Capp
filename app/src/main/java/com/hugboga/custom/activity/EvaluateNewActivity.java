@@ -151,7 +151,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     @Bind(R.id.view_above_guide_reply)
     View view;
     private OrderBean orderBean;
-    private DialogUtil mDialogUtil;
     private boolean isFirstIn = true;
     PicsAdapter picsdapter;
     GalleryAdapter evluatedPicAdapter;
@@ -189,7 +188,6 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             RequestEvaluateComments requestEvaluateComments = new RequestEvaluateComments(getApplicationContext(), orderBean.orderNo);
             requestData(requestEvaluateComments);
         }
-        mDialogUtil = DialogUtil.getInstance(this);
         EventBus.getDefault().register(this);
         activity = this;
         initView();
@@ -398,6 +396,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             initPicGridParams(gridView, localPhotos, true);
             ecyclerviewLayout.setVisibility(View.GONE);
             commentET.setEnabled(true);
+            ViewGroup.LayoutParams lp = commentET.getLayoutParams();
+            lp.height = UIUtils.dip2px(108);
+            commentET.setLayoutParams(lp);
             guideReply.setVisibility(View.GONE);
             //commentET.setBackgroundResource(R.drawable.border_evaluate_comment);
             requestData(new RequestEvaluateTag(this, orderBean.orderType));
