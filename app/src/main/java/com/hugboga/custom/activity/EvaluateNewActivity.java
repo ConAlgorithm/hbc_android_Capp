@@ -160,7 +160,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     public String orderId = "";
 
     private boolean isReturnMoney = false;
-
+    private boolean isFromOrderDetail = false;
     @Override
     public int getContentViewId() {
         return R.layout.fg_evaluate_new;
@@ -177,6 +177,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        isFromOrderDetail = getIntent().getBooleanExtra("isFromOrderDetail",false);
         orderId = getIntent().getStringExtra("actionParams");
         if (orderId != null && !orderId.equals("")) {
             //处理push,短链等操作,action操作
@@ -552,6 +553,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 Intent intent = new Intent(EvaluateNewActivity.this, ShareGuidesActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 EvaluateNewActivity.this.startActivity(intent);
+                if(isFromOrderDetail){
+                    setResult(Constants.EVALUATE_OK);
+                }
                 finish();
             }
         } else if (_request instanceof RequestEvaluateTag) {
@@ -571,6 +575,9 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             RequestEvaluateComments requestEvaluateComments = (RequestEvaluateComments) _request;
             AppraisementBean appraisementBean = requestEvaluateComments.getData();
 
+            if(appraisementBean == null){
+                return;
+            }
             ratingview.setLevel(appraisementBean.totalScore);
             if (TextUtils.isEmpty(appraisementBean.content)) {
                 //commentIconIV.setVisibility(View.GONE);
@@ -585,8 +592,16 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             commentET.setBackgroundColor(0x00000000);
             //submitTV.setVisibility(View.GONE);
 
+            //通过check来判断是否展示
+            ArrayList<AppraisementBean.GuideLabels> displayGuideLabels = new ArrayList<AppraisementBean.GuideLabels>(1);
+            for (int i = 0; i < appraisementBean.guideLabels.size(); i++) {
+                if (appraisementBean.guideLabels.get(i).checked == true) {
+                    displayGuideLabels.add(appraisementBean.guideLabels.get(i));
+                }
+            }
+
             //判断(没有评价标签和内容),是否显示 "你还没有提交评价内容~"
-            if(commentET.getText().toString().length()==0 && appraisementBean.guideLabels == null){
+            if(commentET.getText().toString().length()==0 && displayGuideLabels.size() == 0){
                 scoreTV.setVisibility(View.VISIBLE);
                 scoreTV.setText("您没有提交评价内容~");
                 scoreTV.setTextColor(0xff7f7f7f);
@@ -596,11 +611,11 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
             ratingview.setOnLevelChangedListener(null);
             ratingview.setTouchable(false);
-            if (appraisementBean.guideLabels == null) {
+            if (displayGuideLabels.size() == 0) {
                 tagGroup.setVisibility(View.GONE);
             } else {
                 tagGroup.setTagEnabled(false);
-                tagGroup.setEvaluatedData(appraisementBean.guideLabels);
+                tagGroup.setEvaluatedData(displayGuideLabels);
             }
             tagGroup.setLineBelow(lineComment);
             lineComment.setVisibility(View.GONE);
@@ -630,7 +645,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             banarBelow.setVisibility(View.GONE);
             none.setVisibility(View.GONE);
             banarTop.setVisibility(View.VISIBLE);
-            if(appraisementBean.auditStatus == 2){
+            if(appraisementBean.auditStatus == 1){
                 banarTop.setText("评价中含有违规内容，无法展示给其他小伙伴");
                 banarTop.setTextColor(0xffff2525);
                 banarTop.setBackgroundResource(R.color.sku_info_bg);
@@ -642,7 +657,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 style.setSpan(new ForegroundColorSpan(0xffff2525), text.length()-4, text.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                 banarTop.setText(style);
             }
-            if(appraisementBean.auditStatus == 2){
+            if(appraisementBean.auditStatus == 1){
                 guideReply.setVisibility(View.GONE);
             } else if(appraisementBean.guideReply != null && appraisementBean.guideReply.length()>0){
                 guideReply.setText(appraisementBean.guideReply);
@@ -664,7 +679,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
             fgRightBtn.setLayoutParams(headerRightImageParams);
             fgRightBtn.setPadding(0, 0, 0, 0);
-            if(appraisementBean.auditStatus == 2){
+            if(appraisementBean.auditStatus == 1){
                 fgRightBtn.setVisibility(View.GONE);
             }else {
                 fgRightBtn.setVisibility(View.VISIBLE);
@@ -678,7 +693,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                     //MobClickUtils.onEvent(new EventEvaluateShare(orderBean.orderType, source, "" + type));
                     final String shareUrl = CommonUtils.getBaseUrl(orderBean.appraisement.wechatShareUrl) + "orderNo=" + orderBean.orderNo + "&userId=" + UserEntity.getUser().getUserId(EvaluateNewActivity.this);
                     CommonUtils.shareDialog(EvaluateNewActivity.this, orderBean.appraisement.wechatShareHeadSrc,
-                            orderBean.appraisement.wechatShareTitle, orderBean.appraisement.content, shareUrl, source,
+                            orderBean.appraisement.wechatShareTitle, orderBean.appraisement.wechatShareContent, shareUrl, source,
                             new ShareDialog.OnShareListener() {
                                 @Override
                                 public void onShare(int type) {

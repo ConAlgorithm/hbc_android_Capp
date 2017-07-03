@@ -127,7 +127,7 @@ public class ShareGuidesActivity extends BaseActivity{
         if (TextUtils.isEmpty(commentTipParam)) {
             descriptionTV2.setVisibility(View.GONE);
         }
-        String description = getString(R.string.share_evaluate_description_3, commentTipParam);
+        String description = getString(R.string.share_evaluate_description_3,commentTipParam);
         SpannableString msp = new SpannableString(description);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 11, 11 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), description.length() - 4, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

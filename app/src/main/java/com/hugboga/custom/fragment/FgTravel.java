@@ -651,6 +651,10 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
                 }
 
                 break;
+            case REFRESH_TRAVEL_DATA:
+                viewPager.setCurrentItem(3);
+                EventBus.getDefault().post(new EventAction(EventType.REFRESH_TRAVEL_DATA_UNEVALUDATE));
+                break;
             default:
                 break;
         }

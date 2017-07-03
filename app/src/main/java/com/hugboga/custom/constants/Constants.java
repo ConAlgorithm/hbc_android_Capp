@@ -56,6 +56,8 @@ public final class Constants {
     public static final int REQUEST_CHANNEL_ID = 18;
 
     public static final String CHANNEL_GOOGLE_PLAY = "10007";
+    public static final int EVALUATE_OK = 1000;
+
 
     public static final String[][] TaiCityNames = {{"曼谷", UrlLibs.H5_TAI_MANGU},
             {"普吉", UrlLibs.H5_TAI_PUJIDAO},

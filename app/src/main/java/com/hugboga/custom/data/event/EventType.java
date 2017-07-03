@@ -115,6 +115,6 @@ public enum EventType {
     //EVALUTE_PIC_DELETE_ONLYONE//删除预览页到最后一张,直接返回
     REFRESH_TRAVEL_DATA,
     REFRESH_TRAVEL_DATA_UNEVALUDATE,
-
+    UNEVALUDATE_BACK,
     CHOOSE_AIR_FRAGMENT,//切换航班号或者是起降地fragment
 }

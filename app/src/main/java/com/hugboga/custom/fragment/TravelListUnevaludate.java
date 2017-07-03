@@ -229,7 +229,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
-            case REFRESH_TRAVEL_DATA:
+            case REFRESH_TRAVEL_DATA_UNEVALUDATE:
                 refreshOrNot = 1;
                 runData(6, 0, 10);
                 break;

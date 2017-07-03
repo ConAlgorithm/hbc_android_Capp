@@ -19,15 +19,18 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CouponActivity;
+import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
+import com.hugboga.custom.activity.ShareGuidesActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -305,11 +308,22 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case R.id.slidemenu_header_coupon_layout://我的优惠券
                 if (isLogin("个人中心-优惠券")) {
-                    intent = new Intent(getContext(), CouponActivity.class);
+                    /*intent = new Intent(getContext(), CouponActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra("isFromMyspace",true);
                     startActivity(intent);
-                    UserEntity.getUser().setHasNewCoupon(false);
+                    UserEntity.getUser().setHasNewCoupon(false);*/
+
+                    ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
+                    params.evaluateData = new EvaluateData();
+                    params.orderNo = "J122500069181";
+                    params.orderType = 1;
+                    params.totalScore = 5;
+                    params.guideAgencyType = 1;
+                    params.isReturnMoney = false;
+                    Intent intent1 = new Intent(getContext(), ShareGuidesActivity.class);
+                    intent1.putExtra(Constants.PARAMS_DATA, params);
+                    getContext().startActivity(intent1);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金

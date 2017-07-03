@@ -195,7 +195,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 intent = new Intent(getContext(), EvaluateNewActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, ((OrderDetailActivity) getContext()).getEventSource());
-                getContext().startActivity(intent);
+                intent.putExtra("isFromOrderDetail",true);
+                ((OrderDetailActivity) getContext()).startActivityForResult(intent,OrderDetailActivity.EVALUATE_TYPE);
                 break;
             case R.id.ogi_chat_layout:
                 if (orderBean == null || orderBean.imInfo == null) {

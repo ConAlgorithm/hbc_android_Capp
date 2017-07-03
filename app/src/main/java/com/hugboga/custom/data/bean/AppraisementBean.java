@@ -28,7 +28,7 @@ public class AppraisementBean implements Serializable {
     public ArrayList<String> commentPic;//评价小图
     public ArrayList<String> commentPicL;//评价大图
     public String guideReply; //司导回复信息
-    public int auditStatus;//2 = 下线
+    public int auditStatus;//1 = 下线
     public static class GuideLabels implements Serializable {
         public String name;
         public boolean checked;
