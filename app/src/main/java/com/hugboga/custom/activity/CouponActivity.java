@@ -174,6 +174,27 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
+        LinearLayout mFooter = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.coupon_listview, null);
+        TextView footer = (TextView) mFooter.findViewById(R.id.footer);
+        if(isFromMyspace){
+            footer.setText("查看失效券");
+        }else{
+            footer.setText("查看不可用券");
+        }
+        listView.addFooterView(mFooter);
+        next.setVisibility(View.GONE);
+        mFooter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                intent.putExtras(bundle);
+                intent.putExtra("isFromMyspace",isFromMyspace);
+                startActivity(intent);
+            }
+        });
         setCouponBtnPay();
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,28 +329,6 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 adapter.addList(list);
             }
 
-            LinearLayout mFooter = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.coupon_listview, null);
-            TextView footer = (TextView) mFooter.findViewById(R.id.footer);
-            if(isFromMyspace){
-                footer.setText("查看失效券");
-            }else{
-                footer.setText("查看不可用券");
-            }
-
-            listView.addFooterView(mFooter);
-            next.setVisibility(View.GONE);
-            mFooter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
-                    intent.putExtras(bundle);
-                    intent.putExtra("isFromMyspace",isFromMyspace);
-                    startActivity(intent);
-                }
-            });
         }else{
             next.setVisibility(View.VISIBLE);
         }

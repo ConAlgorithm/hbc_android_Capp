@@ -115,7 +115,7 @@ public class DeepLinkHelper {
         }
 
 
-        if(jsonData != null){
+        //if(jsonData != null){
             //final ActionBean actionBean = (ActionBean) JsonUtils.fromJson(jsonData, ActionBean.class);
             ActionBean actionBean = new ActionBean();
             actionBean.data = jsonData;
@@ -125,7 +125,7 @@ public class DeepLinkHelper {
             actionBean.source = "外部调起";
             ActionController actionFactory = ActionController.getInstance();
             actionFactory.doAction(mContext,actionBean);
-        }
+        //}
 
         return actionBean;
     }

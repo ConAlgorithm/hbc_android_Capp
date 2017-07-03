@@ -203,10 +203,10 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
-        if (paramsData != null) {
+        /*if (paramsData != null) {
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             finish();
-        } else {
+        } else */{
             //点击查看详情
             showCouponInfoByDialog(bean);
         }
