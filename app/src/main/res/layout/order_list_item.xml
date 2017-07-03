@@ -42,7 +42,7 @@
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:text="等待支付"
-            android:textColor="#ff2525"
+            android:textColor="#7f7f7f"
             android:textSize="12sp" />
 
         <TextView
@@ -271,13 +271,6 @@
                     android:textColor="#787878"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/travel_item_btn_chat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="6dp"
-                    android:src="@mipmap/btn_chat" />
 
                 <TextView
                     android:id="@+id/travel_item_btn_chat_num"
@@ -356,10 +349,23 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+
+            <TextView
+                android:id="@+id/travel_item_btn_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_round_travel"
+                android:text="联系司导"
+                android:gravity="center"
+                android:textColor="#7f7f7f"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/br_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:visibility="gone">
 
@@ -397,7 +403,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/basic_margin_medium"
                 android:background="@drawable/btn_round_travel"
-                android:text="评价司导"
+                android:text="评价有礼"
                 android:textColor="#ffaf00"
                 android:textSize="13sp"
                 android:visibility="gone" />

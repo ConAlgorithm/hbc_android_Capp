@@ -383,7 +383,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
         }
         switch (orderBean.orderStatus) {
             case INITSTATE://等待支付 初始状态
-
+                mStatus.setTextColor(0xffff2525);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 lineView.setVisibility(View.VISIBLE);
                 br_layout.setVisibility(View.GONE);//添加投保人
