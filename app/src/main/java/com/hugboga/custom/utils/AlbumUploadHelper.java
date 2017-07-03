@@ -321,7 +321,9 @@ public class AlbumUploadHelper {
     }
 
     private void setFailStatus() {
-        uploadQueue.get(0).uploadStatus = UPLOAD_FAIL;
+        if(uploadQueue !=null && uploadQueue.size() >0){
+            uploadQueue.get(0).uploadStatus = UPLOAD_FAIL;
+        }
     }
 
     public interface UploadListener {

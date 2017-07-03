@@ -780,7 +780,8 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
             if (photo.localFilePath.equals("add")) {
                 picsHolder.add.setVisibility(View.VISIBLE);
-                picsHolder.image.setImageResource(R.mipmap.evaluate_add_image);//最后一个显示加号图片
+                picsHolder.failUpload.setVisibility(View.GONE);
+                Glide.with(getApplicationContext()).load(R.mipmap.evaluate_add_image).into(picsHolder.image);
                 picsHolder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -870,6 +871,16 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
             @Override
             public void onPostUploadSuccess(int fid, String uploadFileUrl) {
+                //组装上传图片字段
+                for (int i = 0; i < localPhotos.size(); i++) {
+                    Photo photo1 = localPhotos.get(i);
+                    if (photo1.unquineId == fid && fid != 0) {
+                        photo1.uploadStatus = AlbumUploadHelper.UPLOAD_SUCCESS;
+                        photo1.cardPhotoSrc = uploadFileUrl;
+                        break;
+                    }
+                }
+
                 for (int i = 0; i < picsList.size(); i++) {
                     Photo photo = picsList.get(i);
                     if (photo.unquineId == fid && fid != 0) {
@@ -879,16 +890,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                         break;
                     }
                 }
-                //组装上传图片字段
 
-                for (int i = 0; i < picsList.size(); i++) {
-                    Photo photo1 = localPhotos.get(i);
-                    if (photo1.unquineId == fid && fid != 0) {
-                        photo1.uploadStatus = AlbumUploadHelper.UPLOAD_SUCCESS;
-                        photo1.cardPhotoSrc = uploadFileUrl;
-                        break;
-                    }
-                }
 
             }
 
@@ -1020,7 +1022,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             }
             picsdapter.setFirstIn(false);
             picsdapter.upload(photos);
-            picsdapter.notifyDataSetChanged();
+            //picsdapter.notifyDataSetChanged();
         }
     }
 

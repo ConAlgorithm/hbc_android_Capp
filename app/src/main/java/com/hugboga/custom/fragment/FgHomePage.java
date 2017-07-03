@@ -389,15 +389,17 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             for(int j=0;j<homeBean.qualityGuides.size();j++){
                 homeBean.qualityGuides.get(j).isCollected  = 0;
             }
-            UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3) _request.getData();
-            for (int i = 0; i < favoriteGuideSavedBean.guides.size(); i++) {
-                for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
-                    if (favoriteGuideSavedBean.guides.get(i).equals(homeBean.qualityGuides.get(j).guideId)) {
-                        homeBean.qualityGuides.get(j).isCollected = 1;
+            if(_request.getData() instanceof UserFavoriteGuideListVo3){
+                UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3) _request.getData();
+                for (int i = 0; i < favoriteGuideSavedBean.guides.size(); i++) {
+                    for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
+                        if (favoriteGuideSavedBean.guides.get(i).equals(homeBean.qualityGuides.get(j).guideId)) {
+                            homeBean.qualityGuides.get(j).isCollected = 1;
+                        }
                     }
                 }
+                homePageAdapter.notifyDataSetChanged();
             }
-            homePageAdapter.notifyDataSetChanged();
         }
     }
 

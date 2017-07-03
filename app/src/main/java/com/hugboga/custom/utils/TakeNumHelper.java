@@ -121,7 +121,9 @@ public class TakeNumHelper {
 
                 @Override
                 public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                    keyBackListener.onFail(errorInfo.exception.getMessage());
+                    if(errorInfo !=null && errorInfo.exception!=null){
+                        keyBackListener.onFail(errorInfo.exception.getMessage());
+                    }
                 }
             },option);
         }

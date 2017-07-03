@@ -167,6 +167,13 @@ public class EvaluatedLargerImageActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.EVALUTE_PIC_DELETE, deleteList));
+        finish();
+    }
+
     private class LargerImageAdapter extends PagerAdapter {
 
         @Override
