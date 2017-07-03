@@ -180,6 +180,10 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             public void onClick(View view) {
                 Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                intent.putExtras(bundle);
+                intent.putExtra("isFromMyspace",isFromMyspace);
                 startActivity(intent);
             }
         });
@@ -319,6 +323,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 public void onClick(View view) {
                     Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                    intent.putExtras(bundle);
                     intent.putExtra("isFromMyspace",isFromMyspace);
                     startActivity(intent);
                 }
