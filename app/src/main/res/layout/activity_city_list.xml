@@ -52,8 +52,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_charter_pickup_map">
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:layout_width="20dp"
