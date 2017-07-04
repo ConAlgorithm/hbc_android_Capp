@@ -65,7 +65,7 @@ public class OrderDetailStateView extends RelativeLayout implements HbcViewBehav
                 break;
             case NOT_EVALUATED://6:服务完成未评价
             case COMPLETE://7:服务完成
-                if (!orderBean.isEvaluated()) {//服务完成未评价
+                if (!orderBean.isEvaluated() && orderBean.orderType != 888) {//服务完成未评价
                     setStyleSingle(0xFFFFC110, "服务完成，请评价", R.mipmap.order_state_finish);
                 } else {//服务完成已评价
                     setStyleSingle(0xFFFFC110, "服务完成", R.mipmap.order_state_finish);
