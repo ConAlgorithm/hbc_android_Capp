@@ -201,7 +201,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
      */
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
-            my_icon_head.setImageResource(R.mipmap.personal_default_head);
+            my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
             couponTV.setText("--");
@@ -219,7 +219,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         } else {
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
-                Tools.showImage(my_icon_head, avatar, R.mipmap.personal_default_head);
+                Tools.showImage(my_icon_head, avatar, R.mipmap.icon_avatar_user);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
             } else {
                 my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
