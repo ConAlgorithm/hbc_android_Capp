@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 165
+    //current urlErrorCode 166
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -204,6 +204,7 @@ public class UrlLibs {
     public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
+    public static final String API_CAR_MAX_CAPACITY_SECKILLS= "price/v1.1/c/car/max/capacity";                          // 秒杀可服务车型最大可乘坐人数 166
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
     public static final String API_BATCH_PRICE              = "price/v1.4/c/batchPrice";                                // 组合单报价  121
 

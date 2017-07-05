@@ -274,7 +274,15 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void requestCarMaxCapaCity(int cityId) {
-        requestData(new RequestCarMaxCapaCity(this, cityId));
+        String carIds = "";
+        if (charterDataUtils != null && charterDataUtils.guidesDetailData != null) {
+            carIds = charterDataUtils.guidesDetailData.getCarIds();
+        }
+        String activityNo = "";
+        if (charterDataUtils != null && charterDataUtils.seckillsBean != null) {
+            activityNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
+        }
+        requestData(new RequestCarMaxCapaCity(this, cityId, carIds, activityNo));
     }
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {

@@ -201,7 +201,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
      */
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
-            my_icon_head.setImageResource(R.mipmap.personal_default_head);
+            my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
             menuItemAdapter.notifyDataSetChanged();
             couponTV.setText("--");
@@ -219,7 +219,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         } else {
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
-                Tools.showImage(my_icon_head, avatar, R.mipmap.personal_default_head);
+                Tools.showImage(my_icon_head, avatar, R.mipmap.icon_avatar_user);
 //                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
             } else {
                 my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
@@ -310,8 +310,20 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 if (isLogin("个人中心-优惠券")) {
                     intent = new Intent(getContext(), CouponActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra("isFromMyspace",true);
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
+
+//                    ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
+//                    params.evaluateData = new EvaluateData();
+//                    params.orderNo = "J122500069181";
+//                    params.orderType = 1;
+//                    params.totalScore = 5;
+//                    params.guideAgencyType = 1;
+//                    params.isReturnMoney = false;
+//                    Intent intent1 = new Intent(getContext(), ShareGuidesActivity.class);
+//                    intent1.putExtra(Constants.PARAMS_DATA, params);
+//                    getContext().startActivity(intent1);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金

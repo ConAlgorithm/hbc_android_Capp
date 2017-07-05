@@ -167,7 +167,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             startBean = DatabaseManager.getCityBean("" + guidesDetailData.cityId);
             guideLayout.setVisibility(View.VISIBLE);
             guideLayout.setData(guidesDetailData);
-            requestData(new RequestGuideCrop(this, guidesDetailData.guideId));
+            requestData(new RequestGuideCrop(this, guidesDetailData.guideId), false);
             GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, 3);
         }
 
@@ -176,7 +176,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (startBean != null) {
             cityLayout.setDesc(startBean.name);
             if (guidesDetailData == null) {
-                requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+                requestCarMaxCapaCity();
             } else {
                 getGuideCars();
             }
@@ -290,7 +290,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 }
                 startBean = cityBean;
                 cityLayout.setDesc(cityBean.name);
-                requestData(new RequestCarMaxCapaCity(this, startBean.cityId));
+                requestCarMaxCapaCity();
                 break;
             case CHOOSE_GUIDE_CITY_BACK:
                 ChooseGuideCityActivity.GuideServiceCitys guideServiceCitys = (ChooseGuideCityActivity.GuideServiceCitys) action.getData();
@@ -334,29 +334,19 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
-            mHandler.sendEmptyMessageDelayed(1, 200);//FIXME: 17/5/6 临时办法，待优化
+            countLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
+                    countLayout.setSliderEnabled(true);
+                }
+            });
             setNextViewEnabled(true);
             isEnabled = true;
         } else if (_request instanceof RequestGuideCrop) {
             charterDataUtils.guideCropList = ((RequestGuideCrop) _request).getData();
         }
     }
-
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    if (countLayout != null) {
-                        countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
-                        countLayout.setSliderEnabled(true);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
@@ -467,6 +457,18 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         });
     }
 
+    public void requestCarMaxCapaCity() {
+        String carIds = "";
+        if (guidesDetailData != null) {
+            carIds = guidesDetailData.getCarIds();
+        }
+        String activityNo = "";
+        if (charterDataUtils != null && charterDataUtils.seckillsBean != null) {
+            activityNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
+        }
+        requestData(new RequestCarMaxCapaCity(CharterFirstStepActivity.this, startBean.cityId, carIds, activityNo));
+    }
+
     public void requestTravelPurposeForm() {
         UserEntity userEntity = UserEntity.getUser();
         RequestTravelPurposeForm requestTravelPurposeForm = new RequestTravelPurposeForm(this
@@ -532,7 +534,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 }
                 guidesDetailData.guideCars = guideCarBeanList;
                 guidesDetailData.guideCarCount = guideCarBeanList.size();
-                requestData(new RequestCarMaxCapaCity(CharterFirstStepActivity.this, startBean.cityId, guidesDetailData.getCarIds()));
+                requestCarMaxCapaCity();
             }
 
             @Override

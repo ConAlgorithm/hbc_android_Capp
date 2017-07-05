@@ -114,7 +114,7 @@ public class CityListCustomView extends LinearLayout {
                 }
                 PolygonImageView avatarView = avatarViewList.get(viewIndex);
                 avatarView.setVisibility(View.VISIBLE);
-                Tools.showImage(avatarView, guideAvatars.get(i), R.mipmap.guide_default_head);
+                Tools.showImage(avatarView, guideAvatars.get(i), R.mipmap.icon_avatar_guide);
             }
         }
 
