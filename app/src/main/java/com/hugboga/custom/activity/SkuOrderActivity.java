@@ -51,6 +51,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
+import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderChooseDateView;
@@ -97,6 +98,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.sku_order_discount_view)
     SkuOrderDiscountView discountView;
+    @Bind(R.id.sku_order_insurance_view)
+    OrderInsuranceView insuranceView;
     @Bind(R.id.sku_order_bottom_view)
     SkuOrderBottomView bottomView;
     @Bind(R.id.sku_order_explain_view)
@@ -428,6 +431,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
         explainView.setVisibility(visibility);
+        insuranceView.setVisibility(visibility);
     }
 
     /* 滚动到顶部 */
@@ -455,11 +459,13 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             bottomView.onLoading();
             progressView.setVisibility(View.VISIBLE);
             discountView.setVisibility(View.GONE);
+            insuranceView.setVisibility(View.GONE);
             explainView.setVisibility(View.GONE);
         } else {
             bottomView.onSucceed();
             progressView.setVisibility(View.GONE);
             discountView.setVisibility(View.VISIBLE);
+            insuranceView.setVisibility(View.VISIBLE);
             explainView.setVisibility(View.VISIBLE);
         }
     }
@@ -512,7 +518,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         if (bean == null) {
             return;
         }
-        discountView.setInsuranceCount(bean.mans + bean.childs);
+        insuranceView.setInsuranceCount(bean.mans + bean.childs);
     }
 
     /* 儿童座椅+酒店价格发生改变 */

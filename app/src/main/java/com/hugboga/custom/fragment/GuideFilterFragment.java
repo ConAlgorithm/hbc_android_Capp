@@ -421,7 +421,7 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
 
         public String getLanguageRequestParams() {
             String foreignIds = FilterTagUtils.getIds(guideForeignLangs);
-            String localIds = FilterTagUtils.getIds(guideLocalLangs);
+            String localIds = FilterTagUtils.getLocalLangsIds(guideLocalLangs);
             String ids = "";
             if (!TextUtils.isEmpty(foreignIds) && !TextUtils.isEmpty(localIds)) {
                 ids = foreignIds + "," + localIds;

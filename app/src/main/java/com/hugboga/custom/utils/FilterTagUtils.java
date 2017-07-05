@@ -66,4 +66,22 @@ public final class FilterTagUtils {
         }
         return result;
     }
+
+    public static String getLocalLangsIds(ArrayList<? extends FilterItemBase> list) {
+        if (list == null) {
+            return null;
+        }
+        String result = "";
+        final int size = list.size();
+        for (int i = 0; i < size; i++) {
+            if (!list.get(i).isSelected || ("" + RequestFilterGuide.MANDARIN_ID).equals(list.get(i).getTagId())) {
+                continue;
+            }
+            if (!TextUtils.isEmpty(result)) {
+                result += ",";
+            }
+            result += list.get(i).getTagId();
+        }
+        return result;
+    }
 }

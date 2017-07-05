@@ -56,6 +56,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderDescriptionView;
 import com.hugboga.custom.widget.OrderExplainView;
+import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCountView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
@@ -91,6 +92,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.order_discount_view)
     SkuOrderDiscountView discountView;
+    @Bind(R.id.order_insurance_view)
+    OrderInsuranceView insuranceView;
     @Bind(R.id.order_explain_view)
     OrderExplainView explainView;
 
@@ -280,7 +283,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (bean == null) {
             return;
         }
-        discountView.setInsuranceCount(bean.mans + bean.childs);
+        insuranceView.setInsuranceCount(bean.mans + bean.childs);
     }
 
     /* 儿童座椅+酒店价格发生改变 */

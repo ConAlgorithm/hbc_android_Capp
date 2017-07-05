@@ -57,6 +57,7 @@ import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
+import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderCountView;
@@ -96,6 +97,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.combination_order_discount_view)
     SkuOrderDiscountView discountView;
+    @Bind(R.id.combination_order_insurance_view)
+    OrderInsuranceView insuranceView;
     @Bind(R.id.combination_order_bottom_view)
     SkuOrderBottomView bottomView;
     @Bind(R.id.combination_order_explain_view)
@@ -457,6 +460,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         } else {
             discountView.setVisibility(visibility);
         }
+        insuranceView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
         explainView.setVisibility(visibility);
     }
@@ -502,11 +506,13 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             bottomView.onLoading();
             progressView.setVisibility(View.VISIBLE);
             discountView.setVisibility(View.GONE);
+            insuranceView.setVisibility(View.GONE);
             explainView.setVisibility(View.GONE);
         } else {
             bottomView.onSucceed();
             progressView.setVisibility(View.GONE);
             discountView.setVisibility(View.VISIBLE);
+            insuranceView.setVisibility(View.VISIBLE);
             explainView.setVisibility(View.VISIBLE);
         }
     }
@@ -560,7 +566,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (bean == null) {
             return;
         }
-        discountView.setInsuranceCount(bean.mans + bean.childs);
+        insuranceView.setInsuranceCount(bean.mans + bean.childs);
         charterDataUtils.adultCount = bean.mans;
         charterDataUtils.childCount = bean.childs;
     }
