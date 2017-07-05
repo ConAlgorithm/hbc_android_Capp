@@ -126,7 +126,7 @@ public class ChoosePaymentActivity extends BaseActivity {
         public boolean isUnionpay = true;
 
         public String getShouldPay() {
-            return String.valueOf(Math.round(shouldPay));
+            return CommonUtils.doubleTrans(shouldPay);
         }
     }
 

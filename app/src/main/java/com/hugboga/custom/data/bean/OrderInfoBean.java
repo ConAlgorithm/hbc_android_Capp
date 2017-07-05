@@ -11,7 +11,7 @@ public class OrderInfoBean  implements  IBaseBean{
      */
 
     private String serviceDepartTime;
-    private int priceActual;
+    private double priceActual;
     private String payDeadTime;
     private String orderno;
 
@@ -23,11 +23,11 @@ public class OrderInfoBean  implements  IBaseBean{
         this.serviceDepartTime = serviceDepartTime;
     }
 
-    public int getPriceActual() {
+    public double getPriceActual() {
         return priceActual;
     }
 
-    public void setPriceActual(int priceActual) {
+    public void setPriceActual(double priceActual) {
         this.priceActual = priceActual;
     }
 
