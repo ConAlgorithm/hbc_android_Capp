@@ -116,6 +116,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
+    private int airportId;
 
     private PickSendActivity.Params params;
 
@@ -166,6 +167,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + guidesDetailData.cityId);
             if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
                 airPortBean = airPortList.get(0);
+                airportId = airPortBean.airportId;
                 airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
                 cityBean = DBHelper.findCityById("" + airPortBean.cityId);
             }
@@ -205,6 +207,10 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     public boolean isAirPortNull() {
         return airPortBean == null;
+    }
+
+    public boolean isShowSaveDialog() {
+        return (airPortBean != null && airPortBean.airportId != airportId) || poiBean != null;
     }
 
     @OnClick({R.id.send_airport_layout, R.id.send_poi_layout, R.id.send_time_layout})
