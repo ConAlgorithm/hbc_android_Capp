@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/sku_order_traveler_info_title_tv"
@@ -96,81 +93,4 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_margin_vertical"
-        android:background="@color/default_bg" />
-
-    <TextView
-        style="@style/SkuOrderSubtitleTextView"
-        android:layout_marginLeft="@dimen/sku_order_padding_left"
-        android:text="投保信息"/>
-
-    <RelativeLayout
-        android:id="@+id/sku_order_discount_insurance_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
-
-        <ImageView
-            android:id="@+id/sku_order_discount_insurance_choose_iv"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="0.5dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/checkbox_sku_order_multi"/>
-
-        <TextView
-            android:id="@+id/sku_order_discount_insurance_title_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/sku_order_discount_insurance_choose_iv"
-            android:text="平安境外用车险"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_discount_insurance_count_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="3dp"
-            android:layout_toRightOf="@id/sku_order_discount_insurance_title_iv"
-            android:text=" × 1份"
-            android:textColor="@color/default_black"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="33dp"
-            android:text="免费赠送"
-            android:textColor="@color/default_price_red"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="26dp"
-            android:text="下单后添加投保人护照，保单即可生效"
-            android:textColor="#cccccc"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
-
-</LinearLayout>
+</merge>
