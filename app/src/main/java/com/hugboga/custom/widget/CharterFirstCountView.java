@@ -81,6 +81,13 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         if (adultSlider.getValue() == 0) {
             adultSlider.setMin(1);
             adultSlider.setValue(2);
+        } else {
+            if (adultSlider.getValue() > maxPassengers) {
+                adultSlider.setValue(2);
+            }
+            if (childSlider.getValue() > maxPassengers) {
+                childSlider.setValue(0);
+            }
         }
         adultSlider.setMax(maxPassengers);
         childSlider.setMax(maxPassengers);
