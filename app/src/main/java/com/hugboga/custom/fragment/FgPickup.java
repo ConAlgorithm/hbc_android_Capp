@@ -564,6 +564,10 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public void updateConponsTipView() {
+        if (params != null && params.isSeckills) {
+            conponsTipView.setVisibility(View.GONE);
+            return;
+        }
         conponsTipView.update(ORDER_TYPE);
         conponsTipView.setOnCouponsTipRequestSucceedListener(new ConponsTipView.OnCouponsTipRequestSucceedListener() {
             @Override

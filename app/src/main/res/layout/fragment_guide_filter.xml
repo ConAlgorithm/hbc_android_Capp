@@ -27,7 +27,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="重置"
-            android:textColor="#a8a8a8"
+            android:textColor="#7f7f7f"
             android:textSize="15sp" />
 
         <TextView

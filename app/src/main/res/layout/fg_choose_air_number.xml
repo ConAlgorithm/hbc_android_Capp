@@ -55,12 +55,6 @@
                             android:textColor="@color/default_highlight_blue"
                             android:gravity="center"
                             android:textSize="13sp" />
-                        <ImageView
-                            android:layout_width="4dp"
-                            android:layout_height="6dp"
-                            android:layout_marginLeft="2dp"
-                            android:background="@mipmap/icon_blue_right_arrow"
-                            />
                     </LinearLayout>
                 </RelativeLayout>
                 <LinearLayout
