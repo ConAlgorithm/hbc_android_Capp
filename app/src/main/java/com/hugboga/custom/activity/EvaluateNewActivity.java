@@ -783,7 +783,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             }
             final Photo photo = picsList.get(position);
             //isFirstIn
-            if (isFirstIn) {
+            /*if (isFirstIn) {
                 picsHolder.image.setImageResource(R.mipmap.evaluate_add_image);//只显示加号图片
                 picsHolder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -792,7 +792,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                     }
                 });
                 return convertView;
-            }
+            }*/
 
             File dir = new File(photo.localFilePath);
             Uri dirUri = Uri.fromFile(dir);
@@ -800,6 +800,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             if (photo.localFilePath.equals("add")) {
                 picsHolder.add.setVisibility(View.VISIBLE);
                 picsHolder.failUpload.setVisibility(View.GONE);
+                picsHolder.loading.setVisibility(View.GONE);
                 Glide.with(getApplicationContext()).load(R.mipmap.evaluate_add_image).into(picsHolder.image);
                 picsHolder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -826,13 +827,10 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                     picsHolder.failUpload.setVisibility(View.GONE);
                     picsHolder.add.setVisibility(View.GONE);
                     picsHolder.loading.setVisibility(View.VISIBLE);
-                } else if(photo.uploadStatus == AlbumUploadHelper.UPLOAD_SUCCESS){
-                    picsHolder.failUpload.setVisibility(View.GONE);
-                    picsHolder.add.setVisibility(View.GONE);
-                    picsHolder.loading.setVisibility(View.GONE);
                 } else {
                     picsHolder.failUpload.setVisibility(View.GONE);
                     picsHolder.add.setVisibility(View.GONE);
+                    picsHolder.loading.setVisibility(View.GONE);
                     //picsHolder.image.setImageURI(dirUri);
                     picsHolder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
