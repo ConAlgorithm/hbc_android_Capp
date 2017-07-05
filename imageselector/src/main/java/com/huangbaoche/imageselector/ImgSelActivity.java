@@ -125,7 +125,12 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 if (!config.rememberSelected) {
                     Constant.imageList.clear();
                 }
-                btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
+                if (Constant.imageList.size() > 0) {
+                    btnConfirm.setVisibility(View.VISIBLE);
+                    btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size()));
+                } else {
+                    btnConfirm.setVisibility(View.GONE);
+                }
             } else {
                 Constant.imageList.clear();
                 btnConfirm.setVisibility(View.GONE);
@@ -159,12 +164,23 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     public void onImageSelected(String path) {
-        btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
+        if (Constant.imageList.size() > 0) {
+            btnConfirm.setVisibility(View.VISIBLE);
+        } else {
+            btnConfirm.setVisibility(View.GONE);
+        }
+        btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size()));
     }
 
     @Override
     public void onImageUnselected(String path) {
-        btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
+        if (Constant.imageList.size() == 0) {
+            btnConfirm.setVisibility(View.GONE);
+        } else {
+            btnConfirm.setVisibility(View.VISIBLE);
+        }
+        btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size()));
+
     }
 
     @Override

@@ -20,6 +20,6 @@
         android:contentDescription="@null"
         android:paddingBottom="20dp"
         android:paddingLeft="20dp"
-        android:src="@drawable/ic_uncheck" />
+        android:src="@drawable/evaluate_select_photo_uncheck" />
 
 </com.huangbaoche.imageselector.widget.SquareRelativeLayout>
