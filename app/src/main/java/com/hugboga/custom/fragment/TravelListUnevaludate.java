@@ -210,6 +210,10 @@ public class TravelListUnevaludate extends FgBaseTravel {
                         hbcRecyclerSingleTypeAdpater.addHeaderView(getHeaderView(inflater,evaluateReturnMoney));
                     }
                 }
+            }else{
+                if(hbcRecyclerSingleTypeAdpater.getHeadersCount()>0){
+                    hbcRecyclerSingleTypeAdpater.cleanAllHeaderView(true);
+                }
             }
         }
 
