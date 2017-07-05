@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -20,6 +21,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -135,6 +137,9 @@ public class ShareGuidesActivity extends BaseActivity{
         if(!isReturnMoney){
             des.setVisibility(View.GONE);
             evaluateIcon.setBackgroundResource(R.mipmap.evaluate_successful_picture);
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) evaluateIcon.getLayoutParams();
+            lp.setMargins(0, UIUtils.dip2px(88),0,0);
+            evaluateIcon.setLayoutParams(lp);
         }
     }
 

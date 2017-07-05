@@ -59,9 +59,9 @@ ImageListAdapter extends EasyRVAdapter<Image> {
                         int ret = listener.onCheckedClick(position, item);
                         if (ret == 1) { // 局部刷新
                             if (Constant.imageList.contains(item.path)) {
-                                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_checked);
+                                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.evaluate_select_photo_check);
                             } else {
-                                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_uncheck);
+                                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.evaluate_select_photo_uncheck);
                             }
                         }
                     }
@@ -83,9 +83,9 @@ ImageListAdapter extends EasyRVAdapter<Image> {
         if (mutiSelect) {
             viewHolder.setVisible(R.id.ivPhotoCheaked, true);
             if (Constant.imageList.contains(item.path)) {
-                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_checked);
+                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.evaluate_select_photo_check);
             } else {
-                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.ic_uncheck);
+                viewHolder.setImageResource(R.id.ivPhotoCheaked, R.drawable.evaluate_select_photo_uncheck);
             }
         } else {
             viewHolder.setVisible(R.id.ivPhotoCheaked, false);
