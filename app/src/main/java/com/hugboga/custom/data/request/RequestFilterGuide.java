@@ -53,11 +53,9 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         map.put("limit", builder.limit);
         map.put("offset", builder.offset);
 
-        String langCodes = "" + MANDARIN_ID;
         if (!TextUtils.isEmpty(builder.langCodes)) {
-            langCodes = builder.langCodes;
+            map.put("langCodes", builder.langCodes);            // 语言代码,多个用逗号隔开(包括方言和外语)
         }
-        map.put("langCodes", langCodes);                        // 语言代码,多个用逗号隔开(包括方言和外语)，普通话前端写死
 
         if (!TextUtils.isEmpty(builder.labelIds)) {
             map.put("labelIds", builder.labelIds);              // 技能标签标识,多个用逗号隔开

@@ -60,7 +60,7 @@ public class SkuOrderDiscountView extends LinearLayout{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sku_order_discount_coupon_count_tv:
-                if (listener != null && !isInvalidCoupon) {
+                if (listener != null) {//!isInvalidCoupon
                     listener.intentCouponList();
                 }
                 break;
