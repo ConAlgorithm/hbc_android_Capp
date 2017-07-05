@@ -515,6 +515,14 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         }
     }
 
+    public void clearTravelCount(){
+        tab2NumberTextView.setVisibility(View.GONE);
+        tab2NumberTextView.setText("");
+        tab3NumberTextView.setVisibility(View.GONE);
+        tab3NumberTextView.setText("");
+        tab4NumberTextView.setVisibility(View.GONE);
+        tab4NumberTextView.setText("");
+    }
     private void setListCount(TextView textView, Object _count) {
         int count = CommonUtils.getCountInteger("" + _count);
         if (count > 0) {
@@ -627,7 +635,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             case CLICK_USER_LOOUT:
                 contentLayout.setVisibility(View.GONE);
                 logoutLayout.setVisibility(View.VISIBLE);
-                cleanListData();
+                clearTravelCount();
                 break;
             case TRAVEL_LIST_TYPE:
                 if (getContext() instanceof MainActivity) {

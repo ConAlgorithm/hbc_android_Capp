@@ -821,6 +821,15 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                             AlbumUploadHelper.with(getApplicationContext()).reStartUpload();
                         }
                     });
+                    picsHolder.loading.setVisibility(View.GONE);
+                } else if(photo.uploadStatus == AlbumUploadHelper.UPLOAD_PROGRESS){
+                    picsHolder.failUpload.setVisibility(View.GONE);
+                    picsHolder.add.setVisibility(View.GONE);
+                    picsHolder.loading.setVisibility(View.VISIBLE);
+                } else if(photo.uploadStatus == AlbumUploadHelper.UPLOAD_SUCCESS){
+                    picsHolder.failUpload.setVisibility(View.GONE);
+                    picsHolder.add.setVisibility(View.GONE);
+                    picsHolder.loading.setVisibility(View.GONE);
                 } else {
                     picsHolder.failUpload.setVisibility(View.GONE);
                     picsHolder.add.setVisibility(View.GONE);
@@ -877,15 +886,13 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         AlbumUploadHelper.UploadListener uploadListener = new AlbumUploadHelper.UploadListener() {
             @Override
             public void onPostUploadProgress(int fid, String percent) {
-                /*for (int i = 0; i < photoList.size(); i++) {
-                    Photo photo = photoList.get(i);
+                for (int i = 0; i < picsList.size(); i++) {
+                    Photo photo = picsList.get(i);
                     if (photo.unquineId == fid && fid != 0) {
                         photo.uploadStatus = AlbumUploadHelper.UPLOAD_PROGRESS;
-                        photo.uploadPercent = percent;
-                        AlbumBaseAdapter.this.notifyItemChanged(i);
-                        break;
                     }
-                }*/
+                }
+                notifyDataSetChanged();
             }
 
             @Override
@@ -963,6 +970,8 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         TextView add;
         @Bind(R.id.fail_upload)
         TextView failUpload;
+        @Bind(R.id.loading_layout)
+        RelativeLayout loading;
     }
 
     @Override

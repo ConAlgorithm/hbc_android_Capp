@@ -224,6 +224,11 @@ public class TravelListUnevaludate extends FgBaseTravel {
                 refreshOrNot = 1;
                 runData(6, 0, 10);
                 break;
+
+            case CLICK_USER_LOGIN:
+                refreshOrNot = 1;
+                runData(6, 0, 10);
+                break;
         }
     }
 
