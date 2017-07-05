@@ -801,7 +801,7 @@ public class WebAgent implements HttpRequestListener {
                                 CommonUtils.showToast("无效的活动场次编号");
                                 break;
                             case 201://用户已参与，发券
-                                showCheckSeckillsDialog(mActivity.getResources().getString(R.string.seckills_check_hint1, bean.couponName));
+                                showCheckSeckillsDialog(_orderType, mActivity.getResources().getString(R.string.seckills_check_hint1, bean.couponName));
                                 break;
                             case 202://用户未参与，有库存
                                 int orderType = CommonUtils.getCountInteger(_orderType);
@@ -827,7 +827,7 @@ public class WebAgent implements HttpRequestListener {
                                 }
                                 break;
                             case 203://用户未参与，无库存，发券
-                                showCheckSeckillsDialog(mActivity.getResources().getString(R.string.seckills_check_hint2, bean.couponName));
+                                showCheckSeckillsDialog(_orderType, mActivity.getResources().getString(R.string.seckills_check_hint2, bean.couponName));
                                 break;
                         }
                     }
@@ -845,14 +845,21 @@ public class WebAgent implements HttpRequestListener {
         });
     }
 
-    private void showCheckSeckillsDialog(String content) {
+    private void showCheckSeckillsDialog(final String _orderType, String content) {
         AlertDialogUtils.showAlertDialog(mActivity, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent = new Intent(mActivity, PickSendActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                mActivity.startActivity(intent);
+                int orderType = CommonUtils.getCountInteger(_orderType);
+                if (orderType == 3) {
+                    Intent intent = new Intent(mActivity, CharterFirstStepActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    mActivity.startActivity(intent);
+                } else if (orderType == 1) {
+                    Intent intent = new Intent(mActivity, PickSendActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    mActivity.startActivity(intent);
+                }
             }
         }, new DialogInterface.OnClickListener() {
             @Override
