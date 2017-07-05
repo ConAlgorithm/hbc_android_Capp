@@ -42,11 +42,14 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.im.ImObserverHelper;
+import com.netease.nimlib.sdk.StatusCode;
 
 import net.grobas.view.PolygonImageView;
 
@@ -64,7 +67,7 @@ import butterknife.Bind;
 /**
  * Created by on 16/10/13.
  */
-public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener{
+public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener,ImObserverHelper.OnUserStatusListener{
 
     @Bind(R.id.fg_space_listview)
     ListView listView;
@@ -80,6 +83,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     private MenuItemAdapter menuItemAdapter;
     private String mobile;
+
+    ImObserverHelper imObserverHelper;
+
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
@@ -104,6 +110,9 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        imObserverHelper = new ImObserverHelper();
+        imObserverHelper.setOnUserStatusListener(this);
+        imObserverHelper.registerUserStatusObservers(true);
     }
 
     @Override
@@ -115,12 +124,16 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public void onResume() {
         super.onResume();
+        refreshUserInfo();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (imObserverHelper != null) {
+            imObserverHelper.registerUserStatusObservers(false);
+        }
     }
 
     @Subscribe
@@ -130,6 +143,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case CLICK_USER_LOGIN:
             case SETTING_BACK:
                 refreshContent();
+                refreshUserInfo();
                 break;
         }
     }
@@ -137,7 +151,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        refreshUserInfo();
+        //refreshUserInfo();
     }
 
     @Override
@@ -193,6 +207,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             if(redPoint!= null){
                 redPoint.setVisibility(View.GONE);
             }
+            resetData();
         }
     }
 
@@ -201,21 +216,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
      */
     private void refreshContent() {
         if (!UserEntity.getUser().isLogin(getContext())) {
-            my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
-            tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
-            menuItemAdapter.notifyDataSetChanged();
-            couponTV.setText("--");
-            couponTV.setTextColor(0xff898989);
-            couponTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
-            couponUnitTV.setTextColor(0xff898989);
-
-            travelFundTV.setText("--");
-            travelFundTV.setTextColor(0xff898989);
-            travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
-            travelFundUnitTV.setTextColor(0xff898989);
-
-            tv_nickname.setText("点击登录");
-            tv_nickname.setTextColor(0xff898989);
+            resetData();
         } else {
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
@@ -241,9 +242,25 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
             travelFundUnitTV.setTextColor(0xffffc100);
         }
-        refreshUserInfo();
     }
 
+    private void resetData(){
+        my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
+        tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
+        menuItemAdapter.notifyDataSetChanged();
+        couponTV.setText("--");
+        couponTV.setTextColor(0xff898989);
+        couponTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
+        couponUnitTV.setTextColor(0xff898989);
+
+        travelFundTV.setText("--");
+        travelFundTV.setTextColor(0xff898989);
+        travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
+        travelFundUnitTV.setTextColor(0xff898989);
+
+        tv_nickname.setText("点击登录");
+        tv_nickname.setTextColor(0xff898989);
+    }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HashMap<String, String> map = new HashMap<String, String>();
@@ -404,5 +421,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public String getEventSource() {
         return "个人中心";
+    }
+
+    @Override
+    public void onPostUserStatus(StatusCode code) {
+
+        if (code.wontAutoLogin()) {
+            //IMUtil.getInstance().connect();
+            UserEntity.getUser().clean(getActivity());
+            resetData();
+        }
     }
 }
