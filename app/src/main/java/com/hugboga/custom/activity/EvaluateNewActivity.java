@@ -339,8 +339,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
             fgRightTV.setVisibility(View.VISIBLE);
             fgRightTV.setText("提交");
-            fgRightTV.setTextColor(0xff151515);
-            fgRightTV.setTextColor(getResources().getColor(R.color.all_bg_yellow));
+            fgRightTV.setTextColor(getResources().getColor(R.color.default_black));
             fgRightTV.setTextSize(15);
             fgRightTV.setOnClickListener(new View.OnClickListener() {
                 @Override
