@@ -11,7 +11,7 @@
         android:background="#eeeeee">
 
         <LinearLayout
-            android:id="@+id/parent_layout"
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -42,7 +42,6 @@
                         android:id="@+id/air_address_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_alignParentRight="true"
                         android:paddingTop="10dp"
                         android:paddingRight="15dp"

@@ -21,7 +21,6 @@ import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthVi
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
-import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -57,12 +56,6 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
     TextView fromCityTips;
     @Bind(R.id.end_city_tips)
     TextView endCityTips;
-    @Bind(R.id.end_city_tips_layout)
-    LinearLayout endCityTipsLayout;
-    @Bind(R.id.end_city_tips_iv)
-    ImageView endCityTipsIV;
-    @Bind(R.id.parent_layout)
-    LinearLayout parentLayout;
     /*@Bind(R.id.address_left)
     TextView addressLeft;
     @Bind(R.id.address_tips)
@@ -104,31 +97,6 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 
     @Override
     protected void initView() {
-        if (getContext() instanceof PickSendActivity) {
-            parentLayout.setPadding(0, UIUtils.dip2px(10), 0, 0);
-            fromCity.setHint("选择起飞城市");
-            fromCity.setGravity(Gravity.LEFT);
-            fromCityTips.setText("起降城市");
-            fromCityTips.setGravity(Gravity.LEFT);
-            endCity.setHint("选择降落城市");
-            endCity.setGravity(Gravity.RIGHT);
-            endCityTips.setText("按航班号查询");
-            endCityTips.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
-            endCityTipsLayout.setGravity(Gravity.RIGHT);
-            endCityTipsIV.setVisibility(View.VISIBLE);
-            endCityTipsLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    chooseAirFragment();
-                }
-            });
-            endCityTips.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    chooseAirFragment();
-                }
-            });
-        }
     }
 
     public void chooseAirFragment() {
@@ -337,7 +305,8 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 //        checkNextBtnStatus();
 //    }
 
-    @OnClick({R.id.start_layout,R.id.end_layout,R.id.end_city_tips, R.id.from_city_tips, R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange})
+    @OnClick({R.id.start_layout,R.id.end_layout, R.id.from_city_tips, R.id.from_city
+            , R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange, R.id.end_city_tips_layout})
     public void onClick(View view) {
 //        FgChooseCity city = new FgChooseCity();
         Intent intent = new Intent(getActivity(), ChooseCityActivity.class);
@@ -357,7 +326,6 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 
                 break;
             case R.id.end_layout:
-            case R.id.end_city_tips:
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
                 bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.PICK_UP);
@@ -397,6 +365,9 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
                 intent.putExtra("chooseDateBean",chooseDateBean);
                 getActivity().startActivity(intent);
                 break;*/
+            case R.id.end_city_tips_layout:
+                chooseAirFragment();
+                break;
             default:
                 break;
         }

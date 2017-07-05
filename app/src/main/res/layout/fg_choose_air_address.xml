@@ -11,7 +11,7 @@
         android:background="#eeeeee">
 
         <LinearLayout
-            android:id="@+id/parent_layout"
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -37,8 +37,8 @@
                         android:id="@+id/from_city_tips"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/choose_fly"
-                        android:gravity="center"
+                        android:text="起降城市"
+                        android:gravity="left"
                         android:textColor="@color/common_font_air"
                         android:textSize="13sp" />
 
@@ -48,9 +48,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:ellipsize="end"
-                        android:hint="@string/choose_from_address"
+                        android:hint="选择起飞城市"
                         android:maxLines="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#cccccc"
                         android:textSize="16sp" />
@@ -78,21 +78,20 @@
                         android:id="@+id/end_city_tips_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:gravity="right"
                         android:orientation="horizontal">
                         <TextView
                             android:id="@+id/end_city_tips"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/choose_arrived"
-                            android:textColor="@color/common_font_air"
+                            android:text="按航班号查询"
+                            android:textColor="@color/default_highlight_blue"
                             android:gravity="center"
                             android:textSize="13sp" />
                         <ImageView
                             android:id="@+id/end_city_tips_iv"
                             android:layout_width="4dp"
                             android:layout_height="6dp"
-                            android:visibility="gone"
                             android:layout_marginLeft="2dp"
                             android:layout_gravity="center_vertical"
                             android:background="@mipmap/icon_blue_right_arrow"
@@ -105,8 +104,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:ellipsize="end"
-                        android:gravity="center"
-                        android:hint="@string/choose_from_address"
+                        android:gravity="right"
+                        android:hint="选择降落城市"
                         android:maxLines="1"
                         android:textColor="@color/basic_black"
                         android:textColorHint="#cccccc"
