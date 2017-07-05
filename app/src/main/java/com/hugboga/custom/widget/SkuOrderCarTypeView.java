@@ -274,7 +274,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
 
     public ImageView getCarImageView(String url, int position) {
         ImageView imageView = new ImageView(getContext());
-        Tools.showImage(imageView, url, R.mipmap.guide_detail_car_default_bg);
+        Tools.showImage(imageView, url, R.mipmap.order_car_dafault);
         int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(80)) / 2;
         int itemHight = (int) ((2 / 3.0) * itemWidth);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHight);

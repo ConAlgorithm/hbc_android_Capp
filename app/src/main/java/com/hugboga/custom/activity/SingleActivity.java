@@ -105,6 +105,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
+    private int guideCityId;
 
     private SingleActivity.Params params;
 
@@ -163,6 +164,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 guideLayout.setData(guidesDetailData);
                 if (!TextUtils.isEmpty("" + guidesDetailData.cityId)) {
                     setCityBean(DBHelper.findCityById("" + guidesDetailData.cityId));
+                    guideCityId = guidesDetailData.cityId;
                 }
                 carTypeView.setGuidesDetailData(guidesDetailData);
                 GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, ORDER_TYPE);
@@ -424,7 +426,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     private boolean isShowSaveDialog() {
-        if (cityBean != null) {
+        if ((cityBean != null && cityBean.cityId != guideCityId) || startPoiBean != null || endPoiBean != null) {
             OrderUtils.showSaveDialog(this);
             return true;
         } else {
