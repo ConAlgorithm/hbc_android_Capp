@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/bannar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@mipmap/evaluate_banner"
-        android:visibility="gone" />
-
     <!--<include layout="@layout/travel_list_layout"
         android:id="@+id/travel_list_id" />-->
     <com.jcodecraeer.xrecyclerview.XRecyclerView
