@@ -373,7 +373,7 @@
                     android:id="@+id/travel_item_btn_br"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_round_travel"
+                    android:background="@drawable/btn_round_travel_im"
                     android:text="添加投保人"
                     android:textColor="#ffaf00"
                     android:textSize="13sp" />
@@ -391,7 +391,7 @@
                 android:id="@+id/travel_item_btn_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_round_travel"
+                android:background="@drawable/btn_round_travel_im"
                 android:text="立即支付"
                 android:textColor="#ffaf00"
                 android:textSize="13sp"
@@ -404,7 +404,7 @@
                 android:layout_marginLeft="@dimen/basic_margin_medium"
                 android:background="@drawable/btn_round_travel"
                 android:text="评价有礼"
-                android:textColor="#ffaf00"
+                android:textColor="#7f7f7f"
                 android:textSize="13sp"
                 android:visibility="gone" />
 
