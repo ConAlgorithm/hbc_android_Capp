@@ -366,21 +366,27 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             try {
                 guideFilterBean = (GuideFilterBean) super.clone();
 
-                guideFilterBean.guideForeignLangs = new ArrayList<>();
-                for (int i = 0; i < guideForeignLangs.size(); i++) {
-                    guideFilterBean.guideForeignLangs.add((FilterGuideOptionsBean.GuideLanguage)guideForeignLangs.get(i).clone());
+                if (guideForeignLangs != null) {
+                    guideFilterBean.guideForeignLangs = new ArrayList<>();
+                    for (int i = 0; i < guideForeignLangs.size(); i++) {
+                        guideFilterBean.guideForeignLangs.add((FilterGuideOptionsBean.GuideLanguage)guideForeignLangs.get(i).clone());
+                    }
+                }
+                if (guideLocalLangs != null) {
+                    guideFilterBean.guideLocalLangs = new ArrayList<>();
+                    for (int i = 0; i < guideLocalLangs.size(); i++) {
+                        guideFilterBean.guideLocalLangs.add((FilterGuideOptionsBean.GuideLanguage)guideLocalLangs.get(i).clone());
+                    }
                 }
 
-                guideFilterBean.guideLocalLangs = new ArrayList<>();
-                for (int i = 0; i < guideLocalLangs.size(); i++) {
-                    guideFilterBean.guideLocalLangs.add((FilterGuideOptionsBean.GuideLanguage)guideLocalLangs.get(i).clone());
+                if (guideSkillLabels != null) {
+                    guideFilterBean.guideSkillLabels = new ArrayList<>();
+                    int size = guideSkillLabels.size();
+                    for (int i = 0; i < size; i++) {
+                        guideFilterBean.guideSkillLabels.add((FilterGuideOptionsBean.GuideSkillLabel)guideSkillLabels.get(i).clone());
+                    }
                 }
 
-                guideFilterBean.guideSkillLabels = new ArrayList<>();
-                int size = guideSkillLabels.size();
-                for (int i = 0; i < size; i++) {
-                    guideFilterBean.guideSkillLabels.add((FilterGuideOptionsBean.GuideSkillLabel)guideSkillLabels.get(i).clone());
-                }
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }

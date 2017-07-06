@@ -630,7 +630,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     public void hintConponsTipView() {
-        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE || carListBean != null) {
             conponsTipView.setVisibility(View.GONE);
         } else {
             conponsTipView.showView();
