@@ -94,10 +94,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     @Bind(R.id.chat_list_empty_tv)
     TextView emptyTV;
 
-    @Bind(R.id.login_btn)
-    TextView loginBtn;
-
-
     private int reRequestTimes = 0;
 
     private int limitSize = Constants.DEFAULT_PAGESIZE;
@@ -268,13 +264,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     private void updateUI() {
         emptyTV.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.GONE);
-        if (UserEntity.getUser().isLogin(MyApplication.getAppContext())) {
-            if (loginBtn != null)
-                loginBtn.setVisibility(View.GONE);
-        } else {
-            if (loginBtn != null)
-                loginBtn.setVisibility(View.VISIBLE);
-        }
     }
 
 
@@ -352,8 +341,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     adapter.clearData();
                 adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
-                if (loginBtn != null)
-                    loginBtn.setVisibility(View.VISIBLE);
                 ((MainActivity) getActivity()).setIMCount(0, 0);
                 break;
             case CLICK_USER_LOGIN:
@@ -678,6 +665,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (code.wontAutoLogin()) {
             //IMUtil.getInstance().connect();
             UserEntity.getUser().clean(getActivity());
+            loadImList();
         }
     }
 }
