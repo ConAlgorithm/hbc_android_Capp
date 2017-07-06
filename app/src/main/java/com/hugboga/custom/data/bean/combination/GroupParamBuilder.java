@@ -8,7 +8,6 @@ import com.hugboga.custom.activity.CombinationOrderActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
-import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.ContactUserBean;
@@ -48,7 +47,7 @@ public class GroupParamBuilder {
     private CouponBean couponBean;
     private MostFitBean mostFitBean;
     private PoiBean startPoiBean;
-    private int allChildSeatPrice;
+    private double allChildSeatPrice;
     private SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean;
 
     public GroupParamBuilder() {
@@ -100,7 +99,7 @@ public class GroupParamBuilder {
         return this;
     }
 
-    public GroupParamBuilder allChildSeatPrice(int allChildSeatPrice) {
+    public GroupParamBuilder allChildSeatPrice(double allChildSeatPrice) {
         this.allChildSeatPrice = allChildSeatPrice;
         return this;
     }
@@ -217,7 +216,7 @@ public class GroupParamBuilder {
             groupParentParam.userRemark = travelerInfoBean.mark;
             groupParentParam.userWechat = travelerInfoBean.wechatNo;
         }
-        groupParentParam.priceChannel = Double.valueOf(carBean.price) + allChildSeatPrice;
+        groupParentParam.priceChannel = carBean.price + allChildSeatPrice;
         if (isCheckedTravelFund) {
             groupParentParam.travelFund = travelFund;
         } else {
@@ -259,7 +258,7 @@ public class GroupParamBuilder {
             groupParentParam.serviceEndCityid = endCityBean.cityId;
         }
 
-        String serverTime = TextUtils.isEmpty(travelerInfoBean.serverTime) ? CombinationOrderActivity.SERVER_TIME : travelerInfoBean.serverTime + ":00";
+        String serverTime = (travelerInfoBean == null || TextUtils.isEmpty(travelerInfoBean.serverTime)) ? CombinationOrderActivity.SERVER_TIME : travelerInfoBean.serverTime + ":00";
         if (charterDataUtils.travelList != null && charterDataUtils.travelList.size() > 0 &&
                 charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP) {//只接机
             serverTime = charterDataUtils.flightBean.arrivalTime + ":00";
@@ -274,6 +273,13 @@ public class GroupParamBuilder {
             groupParentParam.startAddressDetail = startPoiBean.placeDetail;
         } else if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
             groupParentParam.startAddress = charterDataUtils.flightBean.arrAirportName;
+        }
+        if (charterDataUtils.isSeckills()) {
+            groupParentParam.limitedSaleNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
+            groupParentParam.limitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
+            groupParentParam.priceTicket = groupParentParam.priceChannel;
+            groupParentParam.priceActual = carBean.seckillingPrice;
+            groupParentParam.priceChannel = carBean.seckillingPrice;
         }
         return groupParentParam;
     }
@@ -362,7 +368,7 @@ public class GroupParamBuilder {
         groupPickupParam.serviceCityId = startCityBean.cityId;
         groupPickupParam.serviceCityName = startCityBean.name;
 
-        String serverTime = TextUtils.isEmpty(travelerInfoBean.serverTime) ? flightBean.arrivalTime : travelerInfoBean.serverTime;
+        String serverTime = (travelerInfoBean == null || TextUtils.isEmpty(travelerInfoBean.serverTime)) ? flightBean.arrivalTime : travelerInfoBean.serverTime;
         if (charterDataUtils.travelList != null && charterDataUtils.travelList.size() > 0 &&
                 charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP) {//只接机
             serverTime = flightBean.arrivalTime + ":00";
@@ -431,7 +437,7 @@ public class GroupParamBuilder {
             return;
         }
         CityBean startCityBean = charterDataUtils.getStartCityBean(groupDailyParamIndex + 1);
-        String serverTime = !TextUtils.isEmpty(travelerInfoBean.serverTime) && orderIndex == 0 ? travelerInfoBean.serverTime + ":00" : CombinationOrderActivity.SERVER_TIME;
+        String serverTime = (travelerInfoBean != null && !TextUtils.isEmpty(travelerInfoBean.serverTime) && orderIndex == 0) ? travelerInfoBean.serverTime + ":00" : CombinationOrderActivity.SERVER_TIME;
         croupDailyParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + serverTime;
 
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(orderIndex);
@@ -445,7 +451,7 @@ public class GroupParamBuilder {
             croupDailyParam.startAddress = flightBean.arrAirportName;
 
             GroupDailyParam.TravelFlightParam travelFlightParam = new GroupDailyParam.TravelFlightParam();
-            String serverTime2 = TextUtils.isEmpty(travelerInfoBean.serverTime) ? flightBean.arrivalTime : travelerInfoBean.serverTime;
+            String serverTime2 = (travelerInfoBean == null || TextUtils.isEmpty(travelerInfoBean.serverTime)) ? flightBean.arrivalTime : travelerInfoBean.serverTime;
             travelFlightParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + serverTime2 + ":00";
             travelFlightParam.flightDestCode = flightBean.arrAirportCode;
             travelFlightParam.flightDestName = flightBean.arrAirportName;
@@ -510,6 +516,14 @@ public class GroupParamBuilder {
             croupDailyParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, manLuggageBean.childSeats);
         } else {
             croupDailyParam.priceChannel = groupQuotesBean.price;
+        }
+
+        if (charterDataUtils.isSeckills()) {
+            croupDailyParam.limitedSaleNo = charterDataUtils.seckillsBean.timeLimitedSaleNo;
+            croupDailyParam.limitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
+            croupDailyParam.priceTicket = croupDailyParam.priceChannel;
+            croupDailyParam.priceActual = carBean.seckillingPrice;
+            croupDailyParam.priceChannel = carBean.seckillingPrice;
         }
     }
 

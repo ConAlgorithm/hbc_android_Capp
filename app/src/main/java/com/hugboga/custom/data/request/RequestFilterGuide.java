@@ -21,6 +21,9 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_FILTER_GUIDES, builder = NewParamsBuilder.class)
 public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
 
+    public final static int MANDARIN_ID = 2052;//前端写死
+    public final static String MANDARIN_STR = "中文（普通话）";//前端写死
+
     public RequestFilterGuide(Context context, Builder builder) {
         super(context);
         map = new HashMap<String, Object>();
@@ -53,6 +56,7 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         if (!TextUtils.isEmpty(builder.langCodes)) {
             map.put("langCodes", builder.langCodes);            // 语言代码,多个用逗号隔开(包括方言和外语)
         }
+
         if (!TextUtils.isEmpty(builder.labelIds)) {
             map.put("labelIds", builder.labelIds);              // 技能标签标识,多个用逗号隔开
         }

@@ -87,14 +87,14 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     @Bind(R.id.coupon_btn_pay)
     Button couponBtnPay;
     @Bind(R.id.next)
-    View next;
+    TextView next;
     @Bind(R.id.des)
     TextView des;
     private String orderId;
     private double orderPrice;
     private String couponId;
     private int mPageSize = 20;
-
+    private boolean isFromMyspace = false;
     private MostFitAvailableBean paramsData;
 
     private String idStr = null;
@@ -156,7 +156,13 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void initView() {
-        headerTitle.setText("我的优惠券");
+        isFromMyspace = getIntent().getBooleanExtra("isFromMyspace",false);
+        if(isFromMyspace){
+            headerTitle.setText("我的优惠券");
+        }else {
+            headerTitle.setText("选择优惠券");
+        }
+
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,12 +174,37 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
+        LinearLayout mFooter = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.coupon_listview, null);
+        TextView footer = (TextView) mFooter.findViewById(R.id.footer);
+        if(isFromMyspace){
+            footer.setText("查看失效券");
+        }else{
+            footer.setText("查看不可用券");
+        }
+        listView.addFooterView(mFooter);
+        next.setVisibility(View.GONE);
+        mFooter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                intent.putExtras(bundle);
+                intent.putExtra("isFromMyspace",isFromMyspace);
+                startActivity(intent);
+            }
+        });
         setCouponBtnPay();
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                intent.putExtras(bundle);
+                intent.putExtra("isFromMyspace",isFromMyspace);
                 startActivity(intent);
             }
         });
@@ -185,6 +216,10 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 startActivity(intent);
             }
         });
+
+        if(!isFromMyspace){
+            next.setText("查看不可用券");
+        }
     }
     private void setCouponBtnPay(){
         if(carNumberEditText!= null && couponBtnPay != null){
@@ -285,7 +320,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void setData(List<CouponBean> list) {
-        if (list != null) {
+        if (list != null && list.size()>0) {
             if (adapter == null) {
                 adapter = new CouponAdapter(this, idStr);
                 listView.setAdapter(adapter);
@@ -293,6 +328,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             } else {
                 adapter.addList(list);
             }
+
+        }else{
+            next.setVisibility(View.VISIBLE);
         }
         if (list != null && list.size() < mPageSize) {
             listView.onLoadCompleteNone();

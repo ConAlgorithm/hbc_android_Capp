@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -20,6 +21,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -116,7 +118,7 @@ public class ShareGuidesActivity extends BaseActivity{
             finish();
         }
         if (params.totalScore > 3) {
-            collectedTV.setVisibility(params.guideAgencyType != 3 ? View.VISIBLE : View.INVISIBLE); //地接社订单不显示
+            collectedTV.setVisibility(View.VISIBLE);
             //descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
         } else {
             collectedTV.setVisibility(View.INVISIBLE);
@@ -127,7 +129,7 @@ public class ShareGuidesActivity extends BaseActivity{
         if (TextUtils.isEmpty(commentTipParam)) {
             descriptionTV2.setVisibility(View.GONE);
         }
-        String description = getString(R.string.share_evaluate_description_3, commentTipParam);
+        String description = getString(R.string.share_evaluate_description_3,commentTipParam);
         SpannableString msp = new SpannableString(description);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 11, 11 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), description.length() - 4, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -135,6 +137,9 @@ public class ShareGuidesActivity extends BaseActivity{
         if(!isReturnMoney){
             des.setVisibility(View.GONE);
             evaluateIcon.setBackgroundResource(R.mipmap.evaluate_successful_picture);
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) evaluateIcon.getLayoutParams();
+            lp.setMargins(0, UIUtils.dip2px(88),0,0);
+            evaluateIcon.setLayoutParams(lp);
         }
     }
 

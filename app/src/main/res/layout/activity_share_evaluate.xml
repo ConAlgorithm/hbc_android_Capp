@@ -18,7 +18,7 @@
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:lineSpacingExtra="2dp"
-        android:text="50元旅游基金马上到账~"
+        android:text="30元旅游基金马上到账~"
         android:textColor="#151515"
         android:textSize="15sp" />
 
@@ -26,11 +26,11 @@
         android:id="@+id/share_evaluate_icon_iv"
         android:layout_width="118dp"
         android:layout_height="90dp"
-        android:layout_below="@id/share_evaluate_description_tv1"
+        android:layout_below="@+id/share_evaluate_description_tv1"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:background="@mipmap/share_evaluated_icon" />
+        android:background="@mipmap/evaluate_gift" />
     <!--<TextView
         android:id="@+id/share_evaluate_description_tv1"
         android:layout_below="@id/share_evaluate_icon_iv"
@@ -91,8 +91,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:text="@string/share_evaluate_collected_tv"
-        android:textColor="#666666"
-        android:textSize="13sp" />
+        android:textColor="#7f7f7f"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:id="@+id/share_layout"
@@ -119,8 +119,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="@string/wechat"
-                android:textColor="#373737"
+                android:text="给微信好友"
+                android:textColor="#929292"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -141,8 +141,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="@string/moments"
-                android:textColor="#373737"
+                android:text="发到朋友圈"
+                android:textColor="#929292"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

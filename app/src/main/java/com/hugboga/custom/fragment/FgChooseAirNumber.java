@@ -23,9 +23,13 @@ import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthVi
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.PickFlightListActivity;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
@@ -117,6 +121,10 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         getSaveInfo();
     }
 
+    @OnClick(R.id.air_address_layout)
+    public void chooseFragment() {
+        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_AIR_FRAGMENT, 1));
+    }
 
     private int getMaxId(){
         return cityList.size() == 0?0:cityList.get(0).id + 1 ;

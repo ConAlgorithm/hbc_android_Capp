@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
@@ -33,6 +34,7 @@ import com.hugboga.custom.widget.TravelLoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import butterknife.Bind;
@@ -56,12 +58,23 @@ public class TravelListUnpay extends FgBaseTravel{
         runData(4,0,10);
     }
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Override
     public int getContentViewId() {
         return R.layout.travel_list;
     }
     public Callback.Cancelable runData(int orderShowType, int pageIndex, int pageSize) {
         BaseRequest request = new RequestOrderListUnpay(getActivity(),orderShowType,pageSize,pageIndex);
-        return HttpRequestUtils.request(getActivity(), request, this,false);
+        return HttpRequestUtils.request(getActivity(), request, this,true);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -159,6 +172,16 @@ public class TravelListUnpay extends FgBaseTravel{
             bundle.putInt("requestType", ParserTravel.UNPAYISTT);
             EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_NUMBER, bundle));
 
+        }
+    }
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        MLog.e(this + " onEventMainThread " + action.getType());
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                refreshOrNot = 1;
+                runData(4,0,10);
+                break;
         }
     }
 }

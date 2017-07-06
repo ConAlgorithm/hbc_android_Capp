@@ -309,7 +309,7 @@ public class AlbumUploadHelper {
         return uploadQueue == null ? 0 : uploadQueue.size();
     }
 
-    private void initParams(RequestParams params, File file, OssTokenBean ossTokenBean, OssTokenKeyBean ossTokenKeyBean) {
+    public static void initParams(RequestParams params, File file, OssTokenBean ossTokenBean, OssTokenKeyBean ossTokenKeyBean) {
         List<KeyValue> list = new ArrayList<>();
         list.add(new KeyValue("OSSAccessKeyId", ossTokenBean.getOssTokenParamBean().getOssAccessKeyId()));
         list.add(new KeyValue("policy", ossTokenBean.getOssTokenParamBean().getPolicy()));
@@ -321,7 +321,9 @@ public class AlbumUploadHelper {
     }
 
     private void setFailStatus() {
-        uploadQueue.get(0).uploadStatus = UPLOAD_FAIL;
+        if(uploadQueue !=null && uploadQueue.size() >0){
+            uploadQueue.get(0).uploadStatus = UPLOAD_FAIL;
+        }
     }
 
     public interface UploadListener {

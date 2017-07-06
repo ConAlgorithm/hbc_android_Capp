@@ -477,11 +477,15 @@ public final class CommonUtils {
         }
     }
 
-    public static String doubleTrans(double num){
-        if (num % 1.0 == 0) {
-            return String.valueOf((long)num);
+    public static String doubleTrans(double num) {
+        try {
+            if (num % 1.0 == 0) {
+                return String.valueOf((long)num);
+            }
+            return String.valueOf(num);
+        } catch (Exception e) {
+            return "" + num;
         }
-        return String.valueOf(num);
     }
 
     public static String getNum(String text) {

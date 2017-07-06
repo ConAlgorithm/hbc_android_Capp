@@ -42,6 +42,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ChannelUtils;
+import com.hugboga.custom.utils.DeepLinkHelper;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.PermissionRes;
@@ -135,7 +136,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         Intent intent = _intent;
         String scheme = intent.getScheme();
         if (getString(R.string.hbc_scheme).equals(scheme)) {
-
             String data = null;
 
             Bundle extras = getIntent().getExtras();
@@ -167,6 +167,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 }
             }
         }
+
     }
 
 

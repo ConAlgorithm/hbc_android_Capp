@@ -18,17 +18,17 @@ public class CalendarListBean implements Serializable {
 
     public int orderType;       // 本地字段，当前的订单类型
 
-    // 包车是否可定
+    // 包车全天是否可定
     public boolean isCanDailyService() {
         return !past && serviceAble && !hasOrder;
     }
 
-    // 全天是否可定
+    // 接送次全天是否可定
     public boolean isCanService() {
         return !past && serviceAble && !daily;
     }
 
-    // 部分时间可定
+    // 接送次部分时间可定
     public boolean isCanHalfService() {
         return !past && serviceAble && pickup && !daily;
     }

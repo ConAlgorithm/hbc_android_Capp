@@ -105,12 +105,12 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             TextView priceTV = (TextView) itemView.findViewById(R.id.sku_order_car_type_price_tv);
             TextView originalPriceTV = (TextView) itemView.findViewById(R.id.sku_order_car_type_original_price_tv);
             if (carListBean.isSeckills) {
-                priceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.seckillingPrice);
-                originalPriceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.price);
+                priceTV.setText(getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(carBean.seckillingPrice));
+                originalPriceTV.setText(getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(carBean.price));
                 originalPriceTV.getPaint().setAntiAlias(true);
                 originalPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
             } else {
-                priceTV.setText(getContext().getString(R.string.sign_rmb) + carBean.price);
+                priceTV.setText(getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(carBean.price));
                 originalPriceTV.setText("");
             }
             LinearLayout picLayout = (LinearLayout) itemView.findViewById(R.id.sku_order_car_pic_layout);
@@ -274,7 +274,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
 
     public ImageView getCarImageView(String url, int position) {
         ImageView imageView = new ImageView(getContext());
-        Tools.showImage(imageView, url, R.mipmap.guide_detail_car_default_bg);
+        Tools.showImage(imageView, url, R.mipmap.order_car_dafault);
         int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(80)) / 2;
         int itemHight = (int) ((2 / 3.0) * itemWidth);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHight);

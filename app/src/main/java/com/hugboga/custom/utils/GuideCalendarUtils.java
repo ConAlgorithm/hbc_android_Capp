@@ -66,7 +66,6 @@ public class GuideCalendarUtils {
             } else {
                 guideMonth = year + "-" + month;
             }
-            Log.i("aa", "requestCalendarList " + guideMonth);
             getCalendarList(guideMonth);
         }
     }
@@ -79,6 +78,14 @@ public class GuideCalendarUtils {
         return guideCalendarMap;
     }
 
+    public CalendarListBean getCalendarListBean(String date) {
+        if (guideCalendarMap != null && guideCalendarMap.containsKey(date)) {
+            return guideCalendarMap.get(date);
+        } else {
+            return null;
+        }
+    }
+
     private void getCalendarList(String guideMonth) {
         RequestCalendarList requestCars = new RequestCalendarList(context, guideMonth, guideId, orderType, requestTag + "");
         HttpRequestUtils.request(context, requestCars, new HttpRequestListener() {
@@ -87,10 +94,7 @@ public class GuideCalendarUtils {
                 ApiReportHelper.getInstance().addReport(request);
                 RequestCalendarList requestCalendarList = (RequestCalendarList) request;
                 if (!(requestTag + "").equals(requestCalendarList.tag)) {
-                    Log.i("aa", "getCalendarList return requestTag" + requestTag + " succeedCount " + succeedCount);
                     return;
-                } else {
-                    Log.i("aa", "getCalendarList 11111111 requestTag" + requestTag + " succeedCount " + succeedCount);
                 }
                 HashMap<String, CalendarListBean> itemMap = requestCalendarList.getData();
                 guideCalendarMap.putAll(itemMap);

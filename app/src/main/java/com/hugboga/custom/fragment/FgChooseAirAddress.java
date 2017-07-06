@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,6 +52,10 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
     TextView fromCity;
     @Bind(R.id.end_city)
     TextView endCity;
+    @Bind(R.id.from_city_tips)
+    TextView fromCityTips;
+    @Bind(R.id.end_city_tips)
+    TextView endCityTips;
     /*@Bind(R.id.address_left)
     TextView addressLeft;
     @Bind(R.id.address_tips)
@@ -90,6 +97,10 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 
     @Override
     protected void initView() {
+    }
+
+    public void chooseAirFragment() {
+        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_AIR_FRAGMENT, 2));
     }
 
     @Override
@@ -294,7 +305,8 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 //        checkNextBtnStatus();
 //    }
 
-    @OnClick({R.id.start_layout,R.id.end_layout,R.id.end_city_tips, R.id.from_city_tips, R.id.from_city, R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange})
+    @OnClick({R.id.start_layout,R.id.end_layout, R.id.from_city_tips, R.id.from_city
+            , R.id.end_city, R.id.search, R.id.clean_all_history, R.id.exchange, R.id.end_city_tips_layout})
     public void onClick(View view) {
 //        FgChooseCity city = new FgChooseCity();
         Intent intent = new Intent(getActivity(), ChooseCityActivity.class);
@@ -314,7 +326,6 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 
                 break;
             case R.id.end_layout:
-            case R.id.end_city_tips:
             case R.id.end_city:
                 bundle.putString(KEY_FROM, "end");
                 bundle.putInt(ChooseCityActivity.KEY_SHOW_TYPE, ChooseCityActivity.ShowType.PICK_UP);
@@ -354,6 +365,9 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
                 intent.putExtra("chooseDateBean",chooseDateBean);
                 getActivity().startActivity(intent);
                 break;*/
+            case R.id.end_city_tips_layout:
+                chooseAirFragment();
+                break;
             default:
                 break;
         }

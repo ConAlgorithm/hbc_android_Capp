@@ -12,18 +12,32 @@
         app:right_icon="@mipmap/topbar_cs"
         app:title_res="@string/custom_single" />
 
-    <com.hugboga.custom.widget.OrderBottomView
-        android:id="@+id/single_bottom_view"
+    <LinearLayout
+        android:id="@+id/single_bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/order_bottom_height"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+        android:orientation="vertical">
+
+        <com.hugboga.custom.widget.ConponsTipView
+            android:id="@+id/single_conpons_tipview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center" />
+
+        <com.hugboga.custom.widget.OrderBottomView
+            android:id="@+id/single_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/order_bottom_height"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/single_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/single_bottom_view"
+        android:layout_above="@id/single_bottom_layout"
         android:layout_below="@id/single_titlebar">
 
         <LinearLayout

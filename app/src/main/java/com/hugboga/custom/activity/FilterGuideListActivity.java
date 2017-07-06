@@ -179,7 +179,16 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     }
 
     public void requestGuideFilterOptions() {
-        requestData(new RequestGuideFilterOptions(this, paramsData.cityHomeType, "" + paramsData.id));
+        CityListActivity.CityHomeType cityHomeType = null;
+        String id = "";
+        if (cityParams != null) {
+            cityHomeType = cityParams.cityHomeType;
+            id = "" + cityParams.id;
+        } else if (paramsData != null) {
+            cityHomeType = paramsData.cityHomeType;
+            id = "" + paramsData.id;
+        }
+        requestData(new RequestGuideFilterOptions(this, cityHomeType, id));
     }
 
     public boolean isShowCity() {
@@ -209,6 +218,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                     paramsData = null;
                     cityParams = (CityListActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
+                    requestGuideFilterOptions();
                     requestGuideList();
                 }
                 break;
@@ -281,6 +291,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             mRecyclerView.setNoMore(mAdapter.getListCount() >= filterGuideListBean.listCount);
         } else if (_request instanceof RequestGuideFilterOptions) {
             FilterGuideOptionsBean filterGuideOptionsBean = ((RequestGuideFilterOptions) _request).getData();
+            filterGuideOptionsBean.setMandarinBean();
             filterLayout.setFilterGuideOptionsBean(filterGuideOptionsBean);
         }
     }

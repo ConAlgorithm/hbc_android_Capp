@@ -221,11 +221,31 @@ public class DatePickerActivity extends Activity {
 
         initCalendar();
 
+        calendar.setOnInvalidDateRangeSelectedListener(new CalendarPickerView.OnInvalidDateRangeSelectedListener() {
+            @Override
+            public void onInvalidDateRangeSelected() {
+                showTips.setText("司导该期间不可服务,请重选");
+                AnimationUtils.showAnimation(showTips, 200, null);
+                clickTimes = 0;
+            }
+        });
         calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(MonthCellDescriptor cell, Date date) {
                 ChooseDateBean chooseDateBean = new ChooseDateBean();
-                if (calender_type == 1 || calender_type == 3) {
+                if (calender_type == 1) {
+                    showTips.setVisibility(GONE);
+                    chooseDateBean.type = calender_type;
+                    chooseDateBean.showStartDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
+                    chooseDateBean.showEndDateStr = DateUtils.dateSimpleDateFormatMMdd.format(date);
+                    chooseDateBean.start_date = DateUtils.dateDateFormat.format(date);
+                    chooseDateBean.end_date = DateUtils.dateDateFormat.format(date);
+                    chooseDateBean.dayNums = 1;
+                    chooseDateBean.isToday = DateUtils.isToday(date);
+                    chooseDateBean.startDate = date;
+                    chooseDateBean.endDate = date;
+                    finishDelay(chooseDateBean);
+                }else if (calender_type == 3) {
                     showTips.setVisibility(GONE);
                     chooseDateBean.halfDateStr = DateUtils.dateDateFormat.format(date);
                     chooseDateBean.halfDate = date;
@@ -294,9 +314,9 @@ public class DatePickerActivity extends Activity {
     public void initCalendar() {
         calendar.setGuideCalendarMap(guideCalendarMap);
         if (mChooseDateBean != null) {
-            if (calender_type == 1 && null != mChooseDateBean.halfDate) {
+            if (calender_type == 1 && null != mChooseDateBean.startDate) {
                 model = CalendarPickerView.SelectionMode.SINGLE;
-                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.halfDate);
+                calendar.init(lastYear.getTime(), nextYear.getTime()).inMode(model).withSelectedDate(mChooseDateBean.startDate);
                 showTips.setText(R.string.show_tips_half);
             } else if (calender_type == 2 && null != mChooseDateBean.startDate) {
                 showTips.setText(R.string.show_tips_start);

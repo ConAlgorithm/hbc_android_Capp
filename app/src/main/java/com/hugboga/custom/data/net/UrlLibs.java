@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 162
+    //current urlErrorCode 166
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -153,6 +153,7 @@ public class UrlLibs {
     public static final String COLLECT_GUIDES_LIST          = "ucenter/v1.2/c/favorite/guides";                         // 收藏的司导列表
     public static final String COLLECT_GUIDES_ID            = "ucenter/v1.0/c/userid/favorite/guide";                   // 收藏司导（司导ID）
     public static final String UNCOLLECT_GUIDES_ID          = "ucenter/v1.0/c/userid/unfavor/guide";                    // 取消收藏司导（司导ID）
+    public static final String GUIDES_SAVED                 = "ucenter/v1.3/c/favorite/guides";                         // 已收藏司导列表 163
     public static final String GET_INVITATION_CODE          = "ucenter/v1.0/c/invitation/code";                         // 获取邀请码
     public static final String DEDUCTION                    = "ucenter/v1.0/c/travelFund/deduction";                    // 获取可用优惠券
     public static final String TRAVELFUND_LOGS              = "ucenter/v1.0/c/travelFund/logs";                         // 旅游基金流水
@@ -174,7 +175,7 @@ public class UrlLibs {
     public static final String SERVER_IP_IM_ORDER_LIST      = "trade/v1.0/c/order/list/im";                             // IM聊天界面的订单数据
     public static final String SERVER_IP_ORDER_HISTORY      = "trade/v1.0/c/order/list/history?";                       // IM中查询历史订单
     public static final String CANCLE_TIPS                  = "trade/v1.0/c/order/cancelTips";                          // 退改规则
-    public static final String GUIDE_CONFLIC                = "trade/v1.0/c/order/guides/conflict";                     // 导游是否可服务
+    public static final String GUIDE_CONFLIC                = "trade/v1.1/c/order/guides/conflict";                     // 导游是否可服务 46
     public static final String PAY_SUCCESS                  = "trade/v1.0/c/order/paysuccess";                          // 支付成功页
     public static final String QUERYBARGAIN                 = "trade/v1.0/c/queryBargain?";                             // 砍价详情查询
     public static final String DELIVER_INFO                 = "trade/v1.0/c/order/deliverInfo";                         // 订单详情页发单情况
@@ -193,6 +194,8 @@ public class UrlLibs {
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                // 易联支付接口130
     public static final String API_COUPON_CREDIT_PAY        = "trade/v1.0/c/yilian/couponpay";                          // 买劵易联支付接口152
     public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
+    public static final String API_DAILY_SECKILL            = "trade/v1.0/c/order/secKillDaily";                        // 秒杀包车下单 165
+
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
@@ -201,6 +204,7 @@ public class UrlLibs {
     public static final String SERVER_IP_PRICE_SKU          = "price/v1.2/c/goodsPrice?";                               // 查询价格 SKU
     public static final String SERVER_IP_AIRPORT            = "price/v1.0/c/airports?";                                 // 机场 暂时不用，使用DB
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
+    public static final String API_CAR_MAX_CAPACITY_SECKILLS= "price/v1.1/c/car/max/capacity";                          // 秒杀可服务车型最大可乘坐人数 166
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
     public static final String API_BATCH_PRICE              = "price/v1.4/c/batchPrice";                                // 组合单报价  121
 
@@ -223,6 +227,7 @@ public class UrlLibs {
     public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
     public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
     public static final String API_PICKUP_COUPON_OPEN       = "marketing/v1.0/c/coupons/pickupCouponOpen";              // 接机支付成功 绑定送机包车券 开关 149
+    public static final String API_COUPONS_ORDERTIP         = "marketing/v1.1/c/coupons/orderTip";                      // 下单第一部获取优惠信息 163
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
@@ -257,6 +262,7 @@ public class UrlLibs {
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
+    public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
 
     public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132
@@ -279,6 +285,8 @@ public class UrlLibs {
     public static final String REMOVE_NIM_BLACK             = "communication/v3.0/c/im/black/remove";                   // 云信私聊对象移出黑名单
     public static final String API_SINGLE_CHAT_ORDER_DETAIL = "communication/v3.0/c/im/target/info";                    // 聊天列表订单信息
     public static final String API_IM_SERVER_INFO           = "communication/v2.0/c/im/info/kf";                        // 获取当前环境下的客服信息
+    public static final String API_UPLOAD_IMANALYSIS_INFO   = "communication/v4.0/c/im/chat/upload";                    // 上传Im统计信息  161
+    public static final String API_IMANALYSIS_SWITCH        = "communication/v4.0/c/im/chat/upload/switch";             // IM统计开关 162
 
     public static final String API_SERVICE_QUESTION_LIST    = "crm/v1.0/c/advice/source";                               // 客服常见问题
     public static final String API_CREATE_TRAVEL_FORM       = "crm/v1.0/c/workorderthird/create";                       // 创建旅行意向单125
@@ -286,14 +294,11 @@ public class UrlLibs {
     public static final String API_QUERY_TRAVEL_FORM_DETAIL = "crm/v1.0/c/workorderthird/detail";                       // 意向单详情123
     public static final String API_QUERY_HAS_CREATE_FORM    = "crm/v1.0/c/workorderthird/hasWorkorder";                 // 是否创建过意向单124
 
-
     public static final String POI_SEARCH_PLACES            = "search/v1.0/c/places";                                   // POI 搜索接口
     public static final String API_DIRECTION                = "proxy/v1.0/c/direction";                                 // 行程查询 120
 
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
+    public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.0/c/batchPrice";                             // 接机秒杀报价 164
 
-    public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
-    public static final String API_UPLOAD_IMANALYSIS_INFO   = "communication/v4.0/c/im/chat/upload";                    // 上传Im统计信息  161
-    public static final String API_IMANALYSIS_SWITCH        = "communication/v4.0/c/im/chat/upload/switch";             // IM统计开关 162
 }

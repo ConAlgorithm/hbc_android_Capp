@@ -47,10 +47,18 @@ public enum JsonUtils {
     public static Object fromJson(Object obj, Type type) {
         Object result = null;
         if (HbcConfig.IS_DEBUG) {
-            result = INSTANCE.gson.fromJson(INSTANCE.gson.toJson(obj), type);
+            if (obj instanceof String) {
+                result = INSTANCE.gson.fromJson((String) obj, type);
+            } else {
+                result = INSTANCE.gson.fromJson(INSTANCE.gson.toJson(obj), type);
+            }
         } else {
             try {
-                result = INSTANCE.gson.fromJson(INSTANCE.gson.toJson(obj), type);
+                if (obj instanceof String) {
+                    result = INSTANCE.gson.fromJson((String) obj, type);
+                } else {
+                    result = INSTANCE.gson.fromJson(INSTANCE.gson.toJson(obj), type);
+                }
             } catch (Exception e) {
                 result = null;
             }

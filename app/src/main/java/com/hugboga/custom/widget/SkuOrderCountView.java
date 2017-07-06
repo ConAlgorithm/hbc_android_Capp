@@ -79,9 +79,9 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     private int roomCount = 0;       // 房间数
     private int maxLuuages = 0;      // 可携带最大行李数
 
-    private int additionalPrice = 0; // 总价格（儿童座椅 + 酒店）
-    private int seatTotalPrice = 0;  // 儿童座椅总价
-    private int hotelTotalPrice = 0; // 酒店总价
+    private double additionalPrice = 0; // 总价格（儿童座椅 + 酒店）
+    private double seatTotalPrice = 0;  // 儿童座椅总价
+    private double hotelTotalPrice = 0; // 酒店总价
 
     private boolean isGroupOrder;
     private OnCountChangeListener listener;
@@ -292,10 +292,10 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         }
     }
 
-    private void setPriceText(TextView textView, int price, int count) {
+    private void setPriceText(TextView textView, double price, int count) {
         String priceStr = "";
         if (count > 0) {
-            priceStr = String.format("（%1$s）", price <= 0 ? "免费" : getContext().getString(R.string.sign_rmb) + price);
+            priceStr = String.format("（%1$s）", price <= 0 ? "免费" : getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(price));
         }
         textView.setText(priceStr);
     }
@@ -355,7 +355,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         }
     }
 
-    public int getSeatTotalPrice() {
+    public double getSeatTotalPrice() {
         seatTotalPrice = 0;
         if (childSeatCount >= 1 && CommonUtils.getCountInteger(childSeatPrice1) > 0) {
             seatTotalPrice = CommonUtils.getCountInteger(childSeatPrice1);
@@ -366,11 +366,11 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         return seatTotalPrice;
     }
 
-    public int getHotelTotalPrice() {
+    public double getHotelTotalPrice() {
         return hotelTotalPrice = carListBean == null ? 0 :carListBean.hotelPrice * roomCount;
     }
 
-    public int getAdditionalPrice() {
+    public double getAdditionalPrice() {
         return additionalPrice = getSeatTotalPrice() + getHotelTotalPrice();
     }
 
@@ -380,7 +380,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
 
     public interface OnCountChangeListener {
         public void onCountChange(ManLuggageBean bean);
-        public void onAdditionalPriceChange(int price);
+        public void onAdditionalPriceChange(double price);
     }
 
     public void setOnCountChangeListener(OnCountChangeListener listener) {

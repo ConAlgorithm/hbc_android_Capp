@@ -38,7 +38,7 @@ public class RequestEvaluateComments extends BaseRequest<AppraisementBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40160";
+        return "420160";
     }
 
     private static class EvaluateCommentsParser extends ImplParser {

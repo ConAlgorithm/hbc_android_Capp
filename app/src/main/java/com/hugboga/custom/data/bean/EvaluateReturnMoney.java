@@ -8,9 +8,9 @@ import java.io.Serializable;
 
 public class EvaluateReturnMoney implements Serializable {
     public int backFlag = 1;
-    public int contentCnt = 50;
+    public int contentCnt = 20;
     public int imageCnt = 1;
-    public int money = 50;
+    public int money = 30;
     public String activityUrl="";
     public  String activityImgUrl = "";
 

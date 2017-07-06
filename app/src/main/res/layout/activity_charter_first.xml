@@ -10,87 +10,102 @@
         android:layout_height="?android:attr/actionBarSize"
         app:title_res="@string/custom_chartered" />
 
-    <RelativeLayout
-        android:id="@+id/charter_first_bottom_next_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/order_bottom_height"
-        android:layout_alignParentBottom="true"
-        android:background="#ffffff">
-
-        <LinearLayout
-            android:id="@+id/charter_first_bottom_service_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/order_bottom_padding_left"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:background="@mipmap/icon_call" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
-                android:text="联系客服"
-                android:textColor="@color/default_black"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/charter_first_bottom_line"
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/charter_first_bottom_service_layout"
-            android:background="@color/default_dividing_line" />
-
-        <LinearLayout
-            android:id="@+id/charter_first_bottom_online_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/charter_first_bottom_line"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:background="@mipmap/icon_im" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
-                android:text="在线咨询"
-                android:textColor="@color/default_black"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/charter_first_bottom_next_tv"
-            style="@style/OrderBottomConfirm"
-            android:background="@drawable/shape_rounded_gray_btn"
-            android:enabled="false"
-            android:text="立即预订" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/charter_first_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/charter_first_bottom_next_layout"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <com.hugboga.custom.widget.ConponsTipView
+            android:id="@+id/charter_first_conpons_tipview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/default_bg"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:id="@+id/charter_first_bottom_next_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/order_bottom_height"
+            android:background="#ffffff">
+
+            <LinearLayout
+                android:id="@+id/charter_first_bottom_service_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/order_bottom_padding_left">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@mipmap/icon_call" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:text="联系客服"
+                    android:textColor="@color/default_black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/charter_first_bottom_line"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/charter_first_bottom_service_layout"
+                android:background="@color/default_dividing_line" />
+
+            <LinearLayout
+                android:id="@+id/charter_first_bottom_online_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/charter_first_bottom_line"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@mipmap/icon_im" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:text="在线咨询"
+                    android:textColor="@color/default_black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/charter_first_bottom_next_tv"
+                style="@style/OrderBottomConfirm"
+                android:background="@drawable/shape_rounded_gray_btn"
+                android:enabled="false"
+                android:text="立即预订" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_line_height"
+                android:background="@color/default_dividing_line" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/charter_first_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/charter_first_bottom_layout"
         android:layout_below="@id/charter_first_titlebar"
         android:background="@color/default_bg">
 
@@ -98,6 +113,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <include
+                android:id="@+id/charter_first_seckills_layout"
+                layout="@layout/view_order_seckill"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/charter_first_guide_layout"
@@ -127,4 +147,5 @@
                 android:layout_marginTop="@dimen/order_margin_vertical" />
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

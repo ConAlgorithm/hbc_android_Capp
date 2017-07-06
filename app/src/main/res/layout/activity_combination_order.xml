@@ -28,6 +28,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <include
+                android:id="@+id/combination_order_seckills_layout"
+                layout="@layout/view_order_seckill"
+                android:visibility="gone" />
+
             <com.hugboga.custom.widget.CombinationOrderDescriptionView
                 android:id="@+id/combination_order_description_layout"
                 android:layout_width="match_parent"
@@ -85,6 +90,14 @@
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
+
+            <com.hugboga.custom.widget.OrderInsuranceView
+                android:id="@+id/combination_order_insurance_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/sku_order_margin_vertical"
+                android:background="#ffffff" />
 
             <com.hugboga.custom.widget.OrderExplainView
                 android:id="@+id/combination_order_explain_view"

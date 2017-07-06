@@ -65,7 +65,7 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
     private int mPageSize = 20;
-
+    boolean isFromMyspace;
     private MostFitAvailableBean paramsData;
 
     private String idStr = null;
@@ -109,7 +109,8 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     }
 
     private void initView() {
-        if(paramsData!=null){
+        isFromMyspace = getIntent().getBooleanExtra("isFromMyspace",false);
+        if(!isFromMyspace){
             headerTitle.setText("不可用优惠券");
         }else{
             headerTitle.setText("失效优惠券");
@@ -148,9 +149,9 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
 
     private Callback.Cancelable runData(int pageIndex) {
         BaseRequest request = null;
-        if (paramsData == null) {
+        if (isFromMyspace) {
             request = new RequestUsedCoupon(this, pageIndex, mPageSize);
-        } else {
+        } else if(!isFromMyspace && paramsData != null){
             request = new RequestInvaidableCoupon(this, paramsData, pageIndex);
         }
         return requestData(request);
@@ -202,10 +203,10 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
-        if (paramsData != null) {
+        /*if (paramsData != null) {
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));
             finish();
-        } else {
+        } else */{
             //点击查看详情
             showCouponInfoByDialog(bean);
         }

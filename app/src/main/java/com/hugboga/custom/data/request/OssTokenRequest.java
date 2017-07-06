@@ -40,6 +40,6 @@ public class OssTokenRequest extends BaseRequest<OssTokenBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "400104";
+        return "40157";
     }
 }

@@ -57,6 +57,7 @@ import butterknife.Bind;
  */
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
+    public static final int EVALUATE_TYPE = 1000;
     @Bind(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
 
@@ -327,6 +328,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 requestData();
                 break;
+            case UNEVALUDATE_BACK:
+
             default:
                 break;
         }
@@ -499,6 +502,16 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             properties.put("hbc_is_appoint_guide", this.getIntent().getStringExtra("guideCollectId") == null ? false : true);//指定司导下单
             SensorsDataAPI.sharedInstance(this).track("buy_submitorder", properties);
         } catch (Exception e) {
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == EVALUATE_TYPE){
+            if(resultCode == Constants.EVALUATE_OK){
+                finish();
+            }
         }
     }
 }

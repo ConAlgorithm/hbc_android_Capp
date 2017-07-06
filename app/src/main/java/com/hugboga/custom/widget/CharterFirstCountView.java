@@ -55,11 +55,13 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         adultSlider.setValue(0);
         adultSlider.setType(SLIDER_TYPE_ADULT);
         adultSlider.setOnValueChangedListener(this);
+        adultSlider.setShowNumberIndicator(false);
 
         childSlider.setMin(0);
         childSlider.setMax(11);
         childSlider.setType(SLIDER_TYPE_CHILD);
         childSlider.setOnValueChangedListener(this);
+        childSlider.setShowNumberIndicator(false);
 
         setSliderEnabled(false);
     }
@@ -69,25 +71,47 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         childSlider.setSliderEnabled(isEnabled);
     }
 
-    public void setMaxPassengers(int maxPassengers, boolean isGuide) {
+    public void setMaxPassengers(int maxPassengers, boolean isGuide, boolean isSeckills) {
+        if (maxPassengers <= 0) {
+            setSliderEnabled(false);
+            adultSlider.setValue(0);
+            childSlider.setValue(0);
+            return;
+        }
         if (adultSlider.getValue() == 0) {
             adultSlider.setMin(1);
             adultSlider.setValue(2);
+        } else {
+            if (adultSlider.getValue() > maxPassengers) {
+                adultSlider.setValue(2);
+            }
+            if (childSlider.getValue() > maxPassengers) {
+                childSlider.setValue(0);
+            }
         }
+        adultSlider.setMax(maxPassengers);
+        childSlider.setMax(maxPassengers);
         this.maxPassengers = maxPassengers;
         setHintViewVisibility();
-        if (context instanceof BaseActivity) {
+        if (isSeckills) {
+            hintTV.setText(context.getResources().getString(R.string.charter_first_max_passengers_hint3, "" + maxPassengers));
+        } else {
             int hintResId = isGuide ? R.string.charter_first_max_passengers_hint2 : R.string.charter_first_max_passengers_hint;
-            OrderUtils.genCLickSpan((Activity) context, hintTV, context.getResources().getString(hintResId, "" + maxPassengers),
-                    context.getResources().getString(R.string.charter_first_max_passengers_service),
-                    null,
-                    0xFFFFFFFF,
-                    new OrderUtils.MyCLickSpan.OnSpanClickListener() {
-                        @Override
-                        public void onSpanClick(View view) {
-                            DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, ((BaseActivity)context).getEventSource());
-                        }
-                    });
+            String contentStr = context.getResources().getString(hintResId, "" + maxPassengers);
+            if (context instanceof Activity) {
+                OrderUtils.genCLickSpan((Activity) context, hintTV, contentStr,
+                        context.getResources().getString(R.string.charter_first_max_passengers_service),
+                        null,
+                        0xFFFFFFFF,
+                        new OrderUtils.MyCLickSpan.OnSpanClickListener() {
+                            @Override
+                            public void onSpanClick(View view) {
+                                DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, ((BaseActivity)context).getEventSource());
+                            }
+                        });
+            } else {
+                hintTV.setText(contentStr);
+            }
         }
     }
 
@@ -102,14 +126,14 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
 
     private void setHintViewVisibility() {
         if (maxPassengers <= 0) {
-            hintTV.setVisibility(View.GONE);
+            hintTV.setVisibility(View.INVISIBLE);
             return;
         }
         final boolean isOutRange = childSlider.getValue() + adultSlider.getValue() > maxPassengers;
         if (isOutRange) {
             hintTV.setVisibility(View.VISIBLE);
         } else {
-            hintTV.setVisibility(View.GONE);
+            hintTV.setVisibility(View.INVISIBLE);
         }
 
         if (listener != null) {

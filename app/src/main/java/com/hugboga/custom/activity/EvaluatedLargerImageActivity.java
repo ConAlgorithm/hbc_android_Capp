@@ -98,7 +98,7 @@ public class EvaluatedLargerImageActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                setIndicatorText(position, imgListSize);
+                setIndicatorText(position, params.imageUrlList.size());
             }
 
             @Override
@@ -167,6 +167,13 @@ public class EvaluatedLargerImageActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new EventAction(EventType.EVALUTE_PIC_DELETE, deleteList));
+        finish();
+    }
+
     private class LargerImageAdapter extends PagerAdapter {
 
         @Override
@@ -196,12 +203,12 @@ public class EvaluatedLargerImageActivity extends BaseActivity {
             photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float x, float y) {
-                    EvaluatedLargerImageActivity.this.finish();
+                    //EvaluatedLargerImageActivity.this.finish();
                 }
 
                 @Override
                 public void onOutsidePhotoTap() {
-                    EvaluatedLargerImageActivity.this.finish();
+                    //EvaluatedLargerImageActivity.this.finish();
                 }
             });
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

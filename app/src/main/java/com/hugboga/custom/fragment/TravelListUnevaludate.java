@@ -54,8 +54,6 @@ public class TravelListUnevaludate extends FgBaseTravel {
     XRecyclerView mXRecyclerView;
     @Bind(R.id.list_empty)
     RelativeLayout emptyView;
-    @Bind(R.id.bannar_layout)
-    ImageView bannar;
     @Bind(R.id.travel_footer_get_layout)
     LinearLayout footerGet;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
@@ -69,7 +67,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
 
     public Callback.Cancelable runData(int orderShowType, int pageIndex, int pageSize) {
         BaseRequest request = new RequestOrderListUnevaludate(getActivity(), orderShowType, pageSize, pageIndex);
-        return HttpRequestUtils.request(getActivity(), request, this, false);
+        return HttpRequestUtils.request(getActivity(), request, this, true);
     }
 
     @Override
@@ -104,6 +102,7 @@ public class TravelListUnevaludate extends FgBaseTravel {
         mXRecyclerView.setFootView(travelLoadingMoreFooter);
         hbcRecyclerSingleTypeAdpater = new HbcRecyclerSingleTypeAdpater(getContext(), TravelListItem.class);
         mXRecyclerView.setAdapter(hbcRecyclerSingleTypeAdpater);
+        //mXRecyclerView.addHeaderView(getHeaderView(inflater));
         getFooterView(inflater);
         mXRecyclerView.setEmptyView(emptyView);
         footerGet.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +182,8 @@ public class TravelListUnevaludate extends FgBaseTravel {
 
                 //返现开关
                 RequestEvaluateReturnMoney requestEvaluateReturnMoney = new RequestEvaluateReturnMoney(getContext());
-                requestData(requestEvaluateReturnMoney);
+                HttpRequestUtils.request(getActivity(), requestEvaluateReturnMoney, this, false);
+                //requestData(requestEvaluateReturnMoney);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("travelListAllBean", travelListAllBean);
@@ -204,20 +204,16 @@ public class TravelListUnevaludate extends FgBaseTravel {
             }
             //开启活动
             if (evaluateReturnMoney.backFlag == 1) {
-                bannar.setVisibility(View.VISIBLE);
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(0, UIUtils.dip2px(90), 0, 0);
-                mXRecyclerView.setLayoutParams(lp);
-                Tools.showImage(bannar, evaluateReturnMoney.activityImgUrl, R.color.allbg_gray);
-                bannar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //进入活动
-                        Intent intent = new Intent(getContext(), WebInfoActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, evaluateReturnMoney.activityUrl);
-                        getContext().startActivity(intent);
+                LayoutInflater inflater = LayoutInflater.from(getActivity());
+                if(hbcRecyclerSingleTypeAdpater.getListCount() > 0){
+                    if( hbcRecyclerSingleTypeAdpater.getHeadersCount() <= 0){
+                        hbcRecyclerSingleTypeAdpater.addHeaderView(getHeaderView(inflater,evaluateReturnMoney));
                     }
-                });
+                }
+            }else{
+                if(hbcRecyclerSingleTypeAdpater.getHeadersCount()>0){
+                    hbcRecyclerSingleTypeAdpater.cleanAllHeaderView(true);
+                }
             }
         }
 
@@ -228,10 +224,36 @@ public class TravelListUnevaludate extends FgBaseTravel {
     public void onEventMainThread(EventAction action) {
         MLog.e(this + " onEventMainThread " + action.getType());
         switch (action.getType()) {
-            case REFRESH_TRAVEL_DATA:
+            case REFRESH_TRAVEL_DATA_UNEVALUDATE:
+                refreshOrNot = 1;
+                runData(6, 0, 10);
+                break;
+
+            case CLICK_USER_LOGIN:
                 refreshOrNot = 1;
                 runData(6, 0, 10);
                 break;
         }
+    }
+
+    protected View getHeaderView(LayoutInflater inflater,EvaluateReturnMoney evaluateReturnMoney){
+        View headerView = inflater.inflate(R.layout.evaluate_header_view, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        headerView.setLayoutParams(params);
+        ImageView imageView = (ImageView) headerView.findViewById(R.id.bannar_layout);
+        Tools.showImage(imageView, evaluateReturnMoney.activityImgUrl, R.mipmap.evaluate_banner);
+        intentBannarActivity(imageView,evaluateReturnMoney);
+        return headerView;
+    }
+    protected void intentBannarActivity(View view, final EvaluateReturnMoney evaluateReturnMoney) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //进入活动
+                Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, evaluateReturnMoney.activityUrl);
+                getContext().startActivity(intent);
+            }
+        });
     }
 }

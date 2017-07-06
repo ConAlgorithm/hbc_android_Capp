@@ -37,6 +37,12 @@ public class GroupDailyParam implements Serializable{
 //    public Double priceHotel;                              // 酒店总费用
 //    public Integer hotelRoom;                              // 房间数
 //    public Integer hotelDays;                              // 几晚
+
+    public Double priceTicket;
+    public Double priceActual;
+    public String limitedSaleNo;                           // 秒杀活动编号
+    public String limitedSaleScheduleNo;                   // 秒杀活动场次编号
+
     public TravelRaiders travelRaidersInfo;
     public OrderBean.ChildSeats childSeatInfo;
 

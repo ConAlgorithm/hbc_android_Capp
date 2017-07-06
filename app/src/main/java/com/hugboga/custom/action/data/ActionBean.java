@@ -51,5 +51,5 @@ public class ActionBean implements Serializable {
         this.type = "" + ActionType.NATIVE_PAGE;
         this.vcid = "" + vcid;
     }
-
+    public ActionBean() {}
 }

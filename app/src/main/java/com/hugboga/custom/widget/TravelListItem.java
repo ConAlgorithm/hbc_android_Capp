@@ -76,6 +76,10 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
     public LinearLayout startAddressIV1;
     @Bind(R.id.order_item_start_address_iv2_layout)
     public ImageView startAddressIV2;
+    @Bind(R.id.order_item_xianlu_iv)
+    public ImageView xianlu_iv;
+    @Bind(R.id.order_item_chexing)
+    public ImageView chexing;
     @Bind(R.id.order_item_start_address_layout)
     public LinearLayout startAddressLayout;
     @Bind(R.id.order_item_end_address_layout)
@@ -99,7 +103,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
     @Bind(R.id.travel_item_btn_pay)
     public TextView mBtnPay; //立即支付
     @Bind(R.id.travel_item_btn_chat)
-    public ImageView mBtnChat; //聊一聊按钮
+    public TextView mBtnChat; //聊一聊按钮
     @Bind(R.id.travel_item_btn_chat_num)
     public TextView mBtnChatNum; //未读消息个数
     @Bind(R.id.travel_item_btn_assessment)
@@ -144,7 +148,9 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             mTypeStr.setVisibility(View.GONE);
             verticalLine.setVisibility(View.GONE);
             mCarType.setVisibility(View.GONE);
-
+            startAddressIV1.setVisibility(GONE);
+            startAddressIV2.setVisibility(GONE);
+            itemTime.setBackgroundResource(R.mipmap.trip_icon_date);
             if (orderBean.carPool) {//是否拼车
                 Drawable drawable = getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
@@ -152,21 +158,23 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                 spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 citysTV.setText(spannable);
-
+                chexing.setVisibility(GONE);
+                endAddressLayout.setVisibility(View.GONE);
                 //startAddressLayout.setVisibility(View.GONE);
-                startAddressIV1.setVisibility(GONE);
+
             } else {
                 citysTV.setText(orderBean.lineSubject);
 
                 if (TextUtils.isEmpty(orderBean.carDesc)) {
-                    startAddressLayout.setVisibility(View.GONE);
+                    endAddressLayout.setVisibility(View.GONE);
+                    chexing.setVisibility(GONE);
                 } else {
-                    startAddressLayout.setVisibility(View.VISIBLE);
+                    chexing.setVisibility(VISIBLE);
+                    chexing.setBackgroundResource(R.mipmap.trip_icon_car);
+                    endAddressLayout.setVisibility(View.VISIBLE);
                     //startAddressIV.setBackgroundResource(R.mipmap.order_car);
-                    startAddressIV1.setVisibility(GONE);
-                    startAddressIV2.setVisibility(VISIBLE);
-                    startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
-                    //startAddressTV.setText(orderBean.carDesc);
+                    //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
+                    endAddressTV.setText(orderBean.carDesc);
                 }
             }
 
@@ -174,18 +182,19 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
 
             if (TextUtils.isEmpty(orderBean.serviceCityName)) {
-                endAddressLayout.setVisibility(View.GONE);
+                startAddressLayout.setVisibility(View.GONE);
+                xianlu_iv.setVisibility(GONE);
             } else {
-                endAddressLayout.setVisibility(View.VISIBLE);
-                //endAddressIV.setBackgroundResource(R.mipmap.trip);
-                startAddressIV1.setVisibility(GONE);
-                startAddressIV2.setVisibility(VISIBLE);
-                startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
+                startAddressLayout.setVisibility(View.VISIBLE);
+                //endAddressIV.setBackgroundResource(R.mipmap.trip)
+                //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
                 String dailyPlace = orderBean.serviceCityName;
                 if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                     dailyPlace += " - " + orderBean.serviceEndCityName;
                 }
                 startAddressTV.setText(dailyPlace);
+                xianlu_iv.setVisibility(VISIBLE);
+                xianlu_iv.setBackgroundResource(R.mipmap.trip_icon_line);
             }
         } else {
             citysTV.setVisibility(View.GONE);
@@ -193,6 +202,8 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             verticalLine.setVisibility(View.VISIBLE);
             mCarType.setVisibility(View.VISIBLE);
             mCarType.setText(orderBean.carDesc);//车辆类型
+            chexing.setVisibility(GONE);
+            xianlu_iv.setVisibility(GONE);
             switch (orderBean.orderType) {
                 case Constants.BUSINESS_TYPE_PICK://接机
                     mTypeStr.setText("中文接机");
@@ -383,7 +394,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
         }
         switch (orderBean.orderStatus) {
             case INITSTATE://等待支付 初始状态
-
+                mStatus.setTextColor(0xffff2525);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 lineView.setVisibility(View.VISIBLE);
                 br_layout.setVisibility(View.GONE);//添加投保人
@@ -399,6 +410,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mHeadLayout.setVisibility(View.GONE);
@@ -437,6 +449,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             case AGREE://司导已接单
             case ARRIVED://司导已到达
             case SERVICING://服务中
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
@@ -500,6 +513,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 break;
             case NOT_EVALUATED://未评价
             case COMPLETE://已完成
+                mStatus.setTextColor(0xff7f7f7f);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 lineView.setVisibility(View.VISIBLE);
                 mPrice.setVisibility(View.GONE);
@@ -545,6 +559,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 break;
             case CANCELLED://已取消
             case REFUNDED://已退款
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
@@ -572,6 +587,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 }
                 break;
             case COMPLAINT://客诉处理中
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);

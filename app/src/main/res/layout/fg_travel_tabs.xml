@@ -27,7 +27,7 @@
                     android:id="@+id/travel_tab1_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部订单"
+                    android:text="全部"
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -51,6 +51,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/travel_tab2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -64,21 +65,24 @@
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/travel_tab2_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:minWidth="16dp"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/basic_margin_small"
-                    android:paddingLeft="1dp"
-                    android:paddingRight="1dp"
-                    android:background="@drawable/msg_round_bg"
-                    android:visibility="gone"
-                    android:textColor="#ffffff"
-                    android:textSize="10sp" />
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/travel_tab2_number"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginLeft="@dimen/basic_margin_small"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/travel_tab2"
+                android:background="@drawable/msg_round_bg"
+                android:gravity="center"
+                android:minWidth="16dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/travel_tab2_line"
@@ -99,6 +103,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/travel_tab3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -112,22 +117,23 @@
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/travel_tab3_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:minWidth="16dp"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/basic_margin_small"
-                    android:paddingLeft="1dp"
-                    android:paddingRight="1dp"
-                    android:visibility="gone"
-                    android:background="@drawable/msg_round_bg"
-                    android:textColor="#ffffff"
-                    android:textSize="10sp" />
-
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/travel_tab3_number"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginLeft="@dimen/basic_margin_small"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/travel_tab3"
+                android:background="@drawable/msg_round_bg"
+                android:gravity="center"
+                android:minWidth="16dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/travel_tab3_line"
@@ -148,6 +154,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/travel_tab4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -161,21 +168,23 @@
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/travel_tab4_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:minWidth="16dp"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/basic_margin_small"
-                    android:paddingLeft="1dp"
-                    android:paddingRight="1dp"
-                    android:visibility="gone"
-                    android:background="@drawable/msg_round_bg"
-                    android:textColor="#ffffff"
-                    android:textSize="10sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/travel_tab4_number"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginLeft="@dimen/basic_margin_small"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/travel_tab4"
+                android:background="@drawable/msg_round_bg"
+                android:gravity="center"
+                android:minWidth="16dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/travel_tab4_line"

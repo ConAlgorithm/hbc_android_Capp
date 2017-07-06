@@ -108,7 +108,7 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
         if (currentFragment instanceof FgPickup) {
             isShowDialog = !((FgPickup) currentFragment).isFlightBeanNull();
         } else if (currentFragment instanceof FgSend) {
-            isShowDialog = !((FgSend) currentFragment).isAirPortNull();
+            isShowDialog = ((FgSend) currentFragment).isShowSaveDialog();
         }
         if (isShowDialog) {
             OrderUtils.showSaveDialog(this, new DialogInterface.OnClickListener() {
@@ -143,6 +143,7 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     }
 
     public void changeFragment(String tag) {
+        hideSoftInput();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
         if (currentFragment != null) {
