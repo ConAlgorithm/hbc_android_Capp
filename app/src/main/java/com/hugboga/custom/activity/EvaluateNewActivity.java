@@ -663,7 +663,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
             if(appraisementBean.auditStatus == 1){
                 guideReply.setVisibility(View.GONE);
             } else if(appraisementBean.guideReply != null && appraisementBean.guideReply.length()>0){
-                guideReply.setText(appraisementBean.guideReply);
+                guideReply.setText("司导回复: " + appraisementBean.guideReply);
             } else {
                 guideReply.setVisibility(View.GONE);
             }

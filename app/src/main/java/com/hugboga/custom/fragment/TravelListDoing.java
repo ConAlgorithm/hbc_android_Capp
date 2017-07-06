@@ -138,6 +138,9 @@ public class TravelListDoing extends FgBaseTravel {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request.getOffset() == 0 && mXRecyclerView != null) {
+            mXRecyclerView.smoothScrollToPosition(0);
+        }
     }
 
     @Override
@@ -149,6 +152,9 @@ public class TravelListDoing extends FgBaseTravel {
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         TravelListAllBean travelListAllBean = (TravelListAllBean) request.getData();
+        if (request!=null && request.getOffset() == 0) {
+            mXRecyclerView.smoothScrollToPosition(0);
+        }
         if (mXRecyclerView != null && travelListAllBean!=null) {
             if (hbcRecyclerSingleTypeAdpater != null) {
                 hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);

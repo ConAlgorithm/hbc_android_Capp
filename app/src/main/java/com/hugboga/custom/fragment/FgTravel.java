@@ -198,6 +198,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         fragments.add(travelListDoing);
         fragments.add(travelListUnevaludate);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), (ArrayList<BaseFragment>) fragments);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
