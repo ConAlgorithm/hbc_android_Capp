@@ -93,12 +93,13 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         childSlider.setMax(maxPassengers);
         this.maxPassengers = maxPassengers;
         setHintViewVisibility();
-        if (context instanceof BaseActivity) {
-            if (isSeckills) {
-                hintTV.setText(context.getResources().getString(R.string.charter_first_max_passengers_hint3, "" + maxPassengers));
-            } else {
-                int hintResId = isGuide ? R.string.charter_first_max_passengers_hint2 : R.string.charter_first_max_passengers_hint;
-                OrderUtils.genCLickSpan((Activity) context, hintTV, context.getResources().getString(hintResId, "" + maxPassengers),
+        if (isSeckills) {
+            hintTV.setText(context.getResources().getString(R.string.charter_first_max_passengers_hint3, "" + maxPassengers));
+        } else {
+            int hintResId = isGuide ? R.string.charter_first_max_passengers_hint2 : R.string.charter_first_max_passengers_hint;
+            String contentStr = context.getResources().getString(hintResId, "" + maxPassengers);
+            if (context instanceof Activity) {
+                OrderUtils.genCLickSpan((Activity) context, hintTV, contentStr,
                         context.getResources().getString(R.string.charter_first_max_passengers_service),
                         null,
                         0xFFFFFFFF,
@@ -108,8 +109,9 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
                                 DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, ((BaseActivity)context).getEventSource());
                             }
                         });
+            } else {
+                hintTV.setText(contentStr);
             }
-
         }
     }
 
