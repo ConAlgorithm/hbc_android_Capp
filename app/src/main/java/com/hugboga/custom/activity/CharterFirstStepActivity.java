@@ -127,6 +127,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         } else {
             seckillsLayout.setVisibility(View.GONE);
         }
+        updateConponsTipView();
     }
 
     @Override
@@ -181,8 +182,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 getGuideCars();
             }
         }
-
-        updateConponsTipView();
         setSensorsEvent();
     }
 
@@ -551,6 +550,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     public void updateConponsTipView() {
         if (charterDataUtils.isSeckills()) {
+            conponsTipView.setVisibility(View.GONE);
             return;
         }
         conponsTipView.update(3);

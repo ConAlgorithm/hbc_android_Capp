@@ -182,8 +182,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             }
         });
 
-        updateConponsTipView();
-
         setUmengEvent();
         setSensorsEvent();
     }
@@ -192,6 +190,12 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateConponsTipView();
     }
 
     public boolean isFlightBeanNull() {
@@ -352,6 +356,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         if (params != null) {
             params.isSeckills = false;
         }
+        updateConponsTipView();
         requestCarPriceList();
         scrollToTop();
     }
