@@ -377,13 +377,8 @@ public class GroupParamBuilder {
         groupPickupParam.destAddress = charterDataUtils.pickUpPoiBean.placeName;
         groupPickupParam.destAddressDetail = charterDataUtils.pickUpPoiBean.placeDetail;
         groupPickupParam.destAddressPoi = charterDataUtils.pickUpPoiBean.location;
-        if (flightBean.arrivalAirport != null && !TextUtils.isEmpty(flightBean.arrivalAirport.airportName)){
-            groupPickupParam.startAddress = flightBean.arrivalAirport.airportName;
-            groupPickupParam.flightDestName = flightBean.arrivalAirport.airportName;
-        } else {
-            groupPickupParam.startAddress = flightBean.arrAirportName;
-            groupPickupParam.flightDestName = flightBean.arrAirportName;
-        }
+        groupPickupParam.startAddress = flightBean.arrAirportName;
+        groupPickupParam.flightDestName = flightBean.arrAirportName;
         groupPickupParam.startAddressPoi = flightBean.arrLocation;
         groupPickupParam.flightNo = flightBean.flightNo;
         groupPickupParam.flightDestCode = flightBean.arrivalAirportCode;

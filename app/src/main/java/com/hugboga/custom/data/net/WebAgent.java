@@ -787,6 +787,7 @@ public class WebAgent implements HttpRequestListener {
                 if (!CommonUtils.isLogin(mActivity)) {
                     return;
                 }
+                final int orderType = CommonUtils.getCountInteger(_orderType);
                 RequestActivityBuyNow requestCars = new RequestActivityBuyNow(mActivity, timeLimitedSaleNo, timeLimitedSaleScheduleNo);
                 HttpRequestUtils.request(mActivity, requestCars, new HttpRequestListener() {
                     @Override
@@ -804,7 +805,6 @@ public class WebAgent implements HttpRequestListener {
                                 showCheckSeckillsDialog(_orderType, mActivity.getResources().getString(R.string.seckills_check_hint1, bean.couponName));
                                 break;
                             case 202://用户未参与，有库存
-                                int orderType = CommonUtils.getCountInteger(_orderType);
                                 if (orderType == 1) {
                                     Intent intent = new Intent(mActivity, PickSendActivity.class);
                                     if (!TextUtils.isEmpty(timeLimitedSaleNo) && !TextUtils.isEmpty(timeLimitedSaleScheduleNo)) {
@@ -827,7 +827,8 @@ public class WebAgent implements HttpRequestListener {
                                 }
                                 break;
                             case 203://用户未参与，无库存，发券
-                                showCheckSeckillsDialog(_orderType, mActivity.getResources().getString(R.string.seckills_check_hint2, bean.couponName));
+                                int resId = orderType == 3 ? R.string.seckills_check_hint3 : R.string.seckills_check_hint2;
+                                showCheckSeckillsDialog(_orderType, mActivity.getResources().getString(resId, bean.couponName));
                                 break;
                         }
                     }

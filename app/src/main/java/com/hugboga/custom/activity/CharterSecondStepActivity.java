@@ -354,7 +354,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                         charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
-                        charterDataUtils.flightBean = flightBean.transformData();
+                        charterDataUtils.flightBean = flightBean;
                         finishActivity();
                     }
                 }, new DialogInterface.OnClickListener() {
@@ -401,7 +401,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 if (charterDataUtils.flightBean != null && charterDataUtils.flightBean != flightBean) {
                     charterDataUtils.pickUpPoiBean = null;
                 }
-                charterDataUtils.flightBean = flightBean.transformData();
+                charterDataUtils.flightBean = flightBean;
                 charterDataUtils.isSelectedPickUp = true;
                 if (charterDataUtils.chooseDateBean.dayNums > 1) {
                     fragmentAgent.showPickupModel();

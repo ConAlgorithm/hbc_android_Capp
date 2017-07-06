@@ -74,13 +74,8 @@ public class FlightAdapter extends BaseAdapter {
         holder.title.setText(bean.company + "  " + bean.flightNo);
         holder.fromtime.setText(bean.depTime);
         holder.endtime.setText(bean.arrivalTime);
-        if (bean.depAirport != null){
-            holder.fromaddress.setText(bean.depAirport.airportName);
-        }
-
-        if (bean.arrivalAirport != null) {
-            holder.endaddress.setText(bean.arrivalAirport.airportName);
-        }
+        holder.fromaddress.setText(bean.depAirportName);
+        holder.endaddress.setText(bean.arrAirportName);
         return convertView;
     }
 

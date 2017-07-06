@@ -224,8 +224,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         startLocation = flightBean.arrLocation;//.arrivalAirport.location;
         termLocation = poiBean.location;
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
-        needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
-        needBanner = flightBean.arrivalAirport.bannerSwitch;
+//        needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
+//        needBanner = flightBean.arrivalAirport.bannerSwitch;
 
         RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode
                 , cityId, startLocation, termLocation, serverDate,carIds

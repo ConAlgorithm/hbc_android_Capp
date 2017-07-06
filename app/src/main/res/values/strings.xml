@@ -841,8 +841,10 @@
 
     <string name="bargain_hint">支付后还可以挑选司导哦~</string>
 
-    <string name="seckills_check_hint1">很抱歉，秒杀活动每人仅限参与一次。送您{%1$s}，出行依然优惠！（该礼包仅可领取一次）~</string>
-    <string name="seckills_check_hint2">很抱歉，本场限量秒杀接机已抢光。送您{%1$s}，出行依然优惠！（该礼包仅可领取一次）~</string>
+    <string name="seckills_check_hint1">很抱歉，秒杀活动每人仅限参与一次。送您%1$s，出行依然优惠！（该礼包仅可领取一次）~</string>
+    <string name="seckills_check_hint2">很抱歉，本场限量秒杀接机已抢光。送您%1$s，出行依然优惠！（该礼包仅可领取一次）~</string>
+    <string name="seckills_check_hint3">很抱歉，本场限量秒杀包车已抢光。送您%1$s，出行依然优惠！（该礼包仅可领取一次）~</string>
+
     <string name="coupon_des">
         1. 同一个皇包车账号、同一台设备、同一个手机号以及同一个支付账号仅可领取一次,此优惠券仅限皇包车APP下单时使用;\n\n
     2. 每单仅可使用一张优惠券，一张优惠券不可拆分多次使用;\n\n
