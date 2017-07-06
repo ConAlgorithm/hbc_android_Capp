@@ -34,22 +34,4 @@ public class FlightBean implements IBaseBean{
     public int depCityId;
     public int arrCityId;
 
-    public boolean serviceStatus = true;
-
-    public AirPort depAirport;
-    public AirPort arrivalAirport;
-
-
-    public FlightBean transformData() {
-        if (arrivalAirport != null) {
-            arrAirportName = arrivalAirport.airportName;
-            arrLocation = arrivalAirport.location;
-        }
-        if (depAirport != null) {
-            depAirportName = depAirport.airportName;
-            depLocation = depAirport.location;
-        }
-        return this;
-    }
-
 }

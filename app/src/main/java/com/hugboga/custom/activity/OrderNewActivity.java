@@ -618,9 +618,9 @@ public class OrderNewActivity extends BaseActivity {
         flightBean = (FlightBean) this.getIntent().getSerializableExtra(KEY_FLIGHT);
         poiBean = (PoiBean) this.getIntent().getSerializableExtra(KEY_ARRIVAL);
 
-        hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
+//        hotelPhoneTextCodeClick.setText("+" + flightBean.arrivalAirport.areaCode);
 
-        cancleTipsId = flightBean.arrivalAirport.cityId + "";
+//        cancleTipsId = flightBean.arrivalAirport.cityId + "";
 
 
         carBean = (CarBean) this.getIntent().getSerializableExtra("carBean");
@@ -633,10 +633,10 @@ public class OrderNewActivity extends BaseActivity {
         cancleTipsTime = flightBean.depDate + " " + flightBean.arrivalTime + ":00";
 
         citysLineTitle.setText("当地时间 " + DateUtils.getOrderDateFormat(flightBean.arrDate) + "  " + flightBean.arrivalTime);
-        citys_line_title_tips.setText("航班" + flightBean.flightNo + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
+//        citys_line_title_tips.setText("航班" + flightBean.flightNo + " " + flightBean.depAirport.cityName + "-" + flightBean.arrivalAirport.cityName);
 
 
-        startHospitalTitle.setText(flightBean.arrivalAirport.airportName);
+//        startHospitalTitle.setText(flightBean.arrivalAirport.airportName);
         startHospitalTitleTips.setVisibility(GONE);
         endHospitalTitle.setText(poiBean.placeName);
         endHospitalTitleTips.setText(poiBean.placeDetail);
@@ -970,9 +970,9 @@ public class OrderNewActivity extends BaseActivity {
     private void requestMostFit() {
         switch (type) {
             case 1:
-                startCityId4MostFit = flightBean.arrivalAirport.cityId + "";
+//                startCityId4MostFit = flightBean.arrivalAirport.cityId + "";
                 date4MostFit = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-                areaCode4MostFit = flightBean.arrivalAirport.areaCode;
+//                areaCode4MostFit = flightBean.arrivalAirport.areaCode;
                 break;
             case 2:
                 startCityId4MostFit = airPort.cityId + "";

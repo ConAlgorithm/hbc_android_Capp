@@ -293,21 +293,21 @@ public class OrderUtils {
         OrderBean orderBean = new OrderBean();//订单
         orderBean.flight = flightBean.flightNo;
         orderBean.flightBean = flightBean;
-        orderBean.startAddress = flightBean.arrivalAirport.airportName;
+        orderBean.startAddress = flightBean.arrAirportName;
         //出发地，到达地经纬度
-        orderBean.startAddressPoi = flightBean.arrivalAirport.location;
+        orderBean.startAddressPoi = flightBean.arrLocation;
         orderBean.terminalLocation = poiBean.location;
         orderBean.carDesc = carBean.carDesc;
         orderBean.destAddress = poiBean.placeName;
         orderBean.destAddressDetail = poiBean.placeDetail;
-        orderBean.serviceCityId = flightBean.arrivalAirport.cityId;
+        orderBean.serviceCityId = flightBean.arrCityId;
         orderBean.serviceTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
         orderBean.brandSign = brandSign;//pickName.getText().toString();
         orderBean.flightNo = flightBean.flightNo;
         orderBean.flightFlyTimeL = flightBean.arrDate;
         orderBean.flightArriveTimeL = flightBean.arrivalTime;
-        orderBean.flightAirportBuiding = flightBean.arrivalAirport.airportName;
-        orderBean.flightAirportCode = flightBean.arrivalAirport.airportCode;
+        orderBean.flightAirportBuiding = flightBean.arrTerminal;
+        orderBean.flightAirportCode = flightBean.arrAirportCode;
         orderBean.flightAirportName = flightBean.arrAirportName;
         orderBean.flightDestCode = flightBean.depAirportCode;
         orderBean.flightDestName = flightBean.depAirportName;

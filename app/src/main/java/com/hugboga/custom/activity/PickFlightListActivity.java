@@ -249,11 +249,6 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FlightBean bean = mListDate.get(position);
-        if (!bean.serviceStatus) {
-            CommonUtils.showToast("机场信息未查到");
-            return;
-        }
-
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("source", source);
         map.put("searchinput", flightNo);
@@ -290,29 +285,11 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
                 for (int i = listDate.size() - 1; i >= 0; i--) {
                     FlightBean flightBean = listDate.get(i);
                     for (AirPort airPort : list) {
-                        if (airPort.airportCode.equals(flightBean.depAirportCode))
-                            flightBean.depAirport = airPort;
-                        else if (airPort.airportCode.equals(flightBean.arrivalAirportCode))
-                            flightBean.arrivalAirport = airPort;
-                    }
-                    if (flightBean.depAirport == null) {
-                        flightBean.depAirport = new AirPort();
-                        flightBean.depAirport.airportName = flightBean.depAirportName;
-                        flightBean.depAirport.cityName = flightBean.depCityName;
-                        if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
-                            flightBean.serviceStatus = false;
-                            listDate.remove(i);
+                        if (airPort.airportCode.equals(flightBean.depAirportCode)) {
+                            flightBean.depAirportName = airPort.airportName;
+                        } else if (airPort.airportCode.equals(flightBean.arrivalAirportCode)) {
+                            flightBean.arrAirportName = airPort.airportName;
                         }
-                    }
-                    if (flightBean.arrivalAirport == null) {
-                        flightBean.arrivalAirport = new AirPort();
-                        flightBean.arrivalAirport.airportName = flightBean.arrAirportName;
-                        flightBean.arrivalAirport.cityName = flightBean.arrCityName;
-                        if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
-                            flightBean.serviceStatus = false;
-                            listDate.remove(i);
-                        }
-
                     }
                 }
             }
