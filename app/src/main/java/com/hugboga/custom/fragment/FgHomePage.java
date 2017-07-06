@@ -615,7 +615,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             case CLICK_USER_LOGIN:
                 StringBuilder tempUploadGuilds = new StringBuilder();
                 String uploadGuilds = "";
-                if(homeBean.qualityGuides != null  && homeBean.qualityGuides.size() > 0){
+                if(homeBean!= null && homeBean.qualityGuides != null  && homeBean.qualityGuides.size() > 0){
                     for (FilterGuideBean guild : homeBean.qualityGuides) {
                         tempUploadGuilds.append(guild.guideId).append(",");
                     }
@@ -630,11 +630,13 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 }
                 break;
             case CLICK_USER_LOOUT:
-                for(int i=0;i<homeBean.qualityGuides.size();i++){
-                    homeBean.qualityGuides.get(i).isCollected = 0;
-                }
+                if(homeBean!= null){
+                    for(int i=0;i<homeBean.qualityGuides.size();i++){
+                        homeBean.qualityGuides.get(i).isCollected = 0;
+                    }
 
-                homePageAdapter.notifyDataSetChanged();
+                    homePageAdapter.notifyDataSetChanged();
+                }
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT:
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),null);
