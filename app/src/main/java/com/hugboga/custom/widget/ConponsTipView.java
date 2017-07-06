@@ -45,6 +45,9 @@ public class ConponsTipView extends TextView{
     }
 
     public void update(final int orderType) {
+        if (couponsOrderTipBean != null) {
+            return;
+        }
         if (UserEntity.getUser().isLogin(getContext())) {
             setText("");
             RequestCouponsOrderTip requestCouponsOrderTip = new RequestCouponsOrderTip(getContext(), "" + orderType);
