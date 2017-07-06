@@ -152,6 +152,9 @@ public class TravelListUnevaludate extends FgBaseTravel {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (request.getOffset() == 0 && mXRecyclerView != null) {
+            mXRecyclerView.smoothScrollToPosition(0);
+        }
     }
 
     @Override
@@ -164,13 +167,14 @@ public class TravelListUnevaludate extends FgBaseTravel {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestOrderListUnevaludate) {
             TravelListAllBean travelListAllBean = (TravelListAllBean) request.getData();
+            if (request!=null && request.getOffset() == 0) {
+                mXRecyclerView.smoothScrollToPosition(0);
+            }
             if (mXRecyclerView != null && travelListAllBean != null) {
                 if (hbcRecyclerSingleTypeAdpater != null) {
                     hbcRecyclerSingleTypeAdpater.addData(travelListAllBean.resultBean, request.getOffset() > 0);
                 }
-                if (request.getOffset() == 0) {
-                    mXRecyclerView.smoothScrollToPosition(0);
-                }
+
                 if (refreshOrNot == 1) {
                     mXRecyclerView.refreshComplete();
                 } else if (refreshOrNot == 2) {
@@ -205,13 +209,13 @@ public class TravelListUnevaludate extends FgBaseTravel {
             //开启活动
             if (evaluateReturnMoney.backFlag == 1) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
-                if(hbcRecyclerSingleTypeAdpater.getListCount() > 0){
+                if(hbcRecyclerSingleTypeAdpater!= null && hbcRecyclerSingleTypeAdpater.getListCount() > 0){
                     if( hbcRecyclerSingleTypeAdpater.getHeadersCount() <= 0){
                         hbcRecyclerSingleTypeAdpater.addHeaderView(getHeaderView(inflater,evaluateReturnMoney));
                     }
                 }
             }else{
-                if(hbcRecyclerSingleTypeAdpater.getHeadersCount()>0){
+                if(hbcRecyclerSingleTypeAdpater != null && hbcRecyclerSingleTypeAdpater.getHeadersCount()>0){
                     hbcRecyclerSingleTypeAdpater.cleanAllHeaderView(true);
                 }
             }
