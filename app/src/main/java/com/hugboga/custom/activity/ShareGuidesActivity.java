@@ -118,7 +118,7 @@ public class ShareGuidesActivity extends BaseActivity{
             finish();
         }
         if (params.totalScore > 3) {
-            collectedTV.setVisibility(params.guideAgencyType != 3 ? View.VISIBLE : View.INVISIBLE); //地接社订单不显示
+            collectedTV.setVisibility(View.VISIBLE);
             //descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
         } else {
             collectedTV.setVisibility(View.INVISIBLE);
