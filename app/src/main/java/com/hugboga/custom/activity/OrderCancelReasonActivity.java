@@ -52,6 +52,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
     private CancelReasonBean.CancelReasonItem selectedReasonItem = null;
     private View otherReasonView;
     private OrderBean orderBean;
+    private int lastPosition = -1;
 
     @Override
     public int getContentViewId() {
@@ -174,7 +175,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
-        if (data != null && data.cancelReasonList != null) {
+        if (data != null && data.cancelReasonList != null && lastPosition != position) {
             ArrayList<CancelReasonBean.CancelReasonItem> cancelReasonList = data.cancelReasonList;
             final int size = cancelReasonList.size();
             if (position > size) {
@@ -198,6 +199,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                 hideSoftInput();
             }
             mAdapter.notifyDataSetChanged();
+            lastPosition = position;
         }
     }
 

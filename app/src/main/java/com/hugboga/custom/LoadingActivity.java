@@ -103,8 +103,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         schemeIntent(getIntent());
 
         setSensorsEvent();
-
-        requestImAnalysisConfig();
     }
 
     private void appLaunchCount() {
@@ -433,42 +431,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-
-    //请求im统计开关
-    private void requestImAnalysisConfig(){
-        RequestImAnalysisSwitch requestImAnalysisSwitch = new RequestImAnalysisSwitch(MyApplication.getAppContext());
-        HttpRequestUtils.request(this, requestImAnalysisSwitch, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-                Object o  = request.getData();
-                if(o!=null && o instanceof String){
-                    try{
-                    String value = (String)o;
-                    JSONObject jsonObject = new JSONObject(value);
-                    String open = jsonObject.optString("data");
-                    if("1".equals(open)){// 1：打开IM统计 0:关闭IM统计
-                        ImAnalysisUtils.setOpen(ImAnalysisUtils.SWITCHER_OPEN);
-                        MyApplication.startImAnalysisService();
-                    }else{
-                        ImAnalysisUtils.setOpen(ImAnalysisUtils.SWITCHER_CLOSE);
-                        Intent intent = new Intent(MyApplication.getAppContext(),ImAnalysisService.class);
-                        MyApplication.getAppContext().stopService(intent);
-                    }
-                    }catch (Exception e){
-                    }
-                }
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            }
-        });
     }
 
 }

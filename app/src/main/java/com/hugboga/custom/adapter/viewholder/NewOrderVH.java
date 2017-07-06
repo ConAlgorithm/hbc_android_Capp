@@ -62,7 +62,7 @@ public class NewOrderVH extends ZBaseViewHolder {
     @ViewInject(R.id.travel_item_btn_pay)
     public TextView mBtnPay; //立即支付
     @ViewInject(R.id.travel_item_btn_chat)
-    public ImageView mBtnChat; //聊一聊按钮
+    public TextView mBtnChat; //聊一聊按钮
     @ViewInject(R.id.travel_item_btn_chat_num)
     public TextView mBtnChatNum; //未读消息个数
     @ViewInject(R.id.travel_item_btn_assessment)
@@ -86,6 +86,16 @@ public class NewOrderVH extends ZBaseViewHolder {
     public CircleImageView travel_item_head_img3;
     @ViewInject(R.id.travel_item_head_more_tv)
     public TextView travel_item_head_more_tv;
+    @ViewInject(R.id.order_item_time)
+    public ImageView itemTime;
+    @ViewInject(R.id.order_item_start_address_iv1_layout)
+    public LinearLayout startAddressIV1;
+    @ViewInject(R.id.order_item_start_address_iv2_layout)
+    public ImageView startAddressIV2;
+    @ViewInject(R.id.order_item_xianlu_iv)
+    public ImageView xianlu_iv;
+    @ViewInject(R.id.order_item_chexing)
+    public ImageView chexing;
 
 
     public NewOrderVH(View itemView) {

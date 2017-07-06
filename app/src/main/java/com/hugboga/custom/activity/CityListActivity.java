@@ -287,8 +287,10 @@ public class CityListActivity extends BaseActivity {
                     serviceHintTV.setText(String.format("定制个性化行程，可咨询%1$s行程规划师", cityBean.placeName));
                 }
             }
-            FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
-            HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
+            if(UserEntity.getUser().isLogin(this)){
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
+                HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
+            }
             cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
         }else if (_request instanceof FavoriteGuideSaved){
             if(_request.getData() instanceof UserFavoriteGuideListVo3){
