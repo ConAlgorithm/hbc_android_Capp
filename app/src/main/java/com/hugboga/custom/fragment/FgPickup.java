@@ -584,7 +584,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public void hintConponsTipView() {
-        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE || carListBean != null) {
             conponsTipView.setVisibility(View.GONE);
         } else {
             conponsTipView.showView();
