@@ -112,9 +112,9 @@ public class ImAnalysisService extends Service {
 
     private void validateUploadData(int count){
         List<String> msgs = ImAnalysisUtils.readImAnalysisMsgToList(ImAnalysisService.this.getApplicationContext());
-        for(String string:msgs){
-            Log.e("im_ana",string);
-        }
+//        for(String string:msgs){
+//            Log.e("im_ana",string);
+//        }
         if(msgs.size()>=count){
             Message msg = new Message();
             msg.obj = ImAnalysisEnitty.generateJsonArray(msgs);
