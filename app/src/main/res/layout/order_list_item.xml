@@ -130,7 +130,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/order_item_start_address_iv"
@@ -154,7 +155,23 @@
                 android:id="@+id/order_item_start_address_iv2_layout"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="1.5dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/trip_icon_line"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/order_item_xianlu_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/trip_icon_line"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/order_item_chexing"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
                 android:background="@mipmap/trip_icon_line"
                 android:visibility="gone" />
         </LinearLayout>
@@ -177,7 +194,6 @@
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
-
 
                 <TextView
                     android:id="@+id/order_item_start_address_tv"
@@ -203,7 +219,6 @@
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
-
 
                 <TextView
                     android:id="@+id/order_item_end_address_tv"

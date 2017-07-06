@@ -76,6 +76,10 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
     public LinearLayout startAddressIV1;
     @Bind(R.id.order_item_start_address_iv2_layout)
     public ImageView startAddressIV2;
+    @Bind(R.id.order_item_xianlu_iv)
+    public ImageView xianlu_iv;
+    @Bind(R.id.order_item_chexing)
+    public ImageView chexing;
     @Bind(R.id.order_item_start_address_layout)
     public LinearLayout startAddressLayout;
     @Bind(R.id.order_item_end_address_layout)
@@ -144,7 +148,8 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             mTypeStr.setVisibility(View.GONE);
             verticalLine.setVisibility(View.GONE);
             mCarType.setVisibility(View.GONE);
-
+            startAddressIV1.setVisibility(GONE);
+            startAddressIV2.setVisibility(GONE);
             if (orderBean.carPool) {//是否拼车
                 Drawable drawable = getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
@@ -154,19 +159,20 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 citysTV.setText(spannable);
 
                 //startAddressLayout.setVisibility(View.GONE);
-                startAddressIV1.setVisibility(GONE);
+
             } else {
                 citysTV.setText(orderBean.lineSubject);
 
                 if (TextUtils.isEmpty(orderBean.carDesc)) {
-                    startAddressLayout.setVisibility(View.GONE);
+                    endAddressLayout.setVisibility(View.GONE);
+                    chexing.setVisibility(GONE);
                 } else {
-                    startAddressLayout.setVisibility(View.VISIBLE);
+                    chexing.setVisibility(VISIBLE);
+                    chexing.setBackgroundResource(R.mipmap.trip_icon_car);
+                    endAddressLayout.setVisibility(View.VISIBLE);
                     //startAddressIV.setBackgroundResource(R.mipmap.order_car);
-                    startAddressIV1.setVisibility(GONE);
-                    startAddressIV2.setVisibility(VISIBLE);
-                    startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
-                    //startAddressTV.setText(orderBean.carDesc);
+                    //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
+                    endAddressTV.setText(orderBean.carDesc);
                 }
             }
 
@@ -174,18 +180,19 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             timeLocalTV.setText("(" + orderBean.serviceCityName + "时间)");//当地城市时间
 
             if (TextUtils.isEmpty(orderBean.serviceCityName)) {
-                endAddressLayout.setVisibility(View.GONE);
+                startAddressLayout.setVisibility(View.GONE);
+                xianlu_iv.setVisibility(GONE);
             } else {
-                endAddressLayout.setVisibility(View.VISIBLE);
-                //endAddressIV.setBackgroundResource(R.mipmap.trip);
-                startAddressIV2.setVisibility(GONE);
-                startAddressIV1.setVisibility(VISIBLE);
+                startAddressLayout.setVisibility(View.VISIBLE);
+                //endAddressIV.setBackgroundResource(R.mipmap.trip)
                 //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
                 String dailyPlace = orderBean.serviceCityName;
                 if (!TextUtils.isEmpty(orderBean.serviceEndCityName)) {
                     dailyPlace += " - " + orderBean.serviceEndCityName;
                 }
-                endAddressTV.setText(dailyPlace);
+                startAddressTV.setText(dailyPlace);
+                xianlu_iv.setVisibility(VISIBLE);
+                xianlu_iv.setBackgroundResource(R.mipmap.trip_icon_line);
             }
         } else {
             citysTV.setVisibility(View.GONE);
@@ -193,6 +200,8 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             verticalLine.setVisibility(View.VISIBLE);
             mCarType.setVisibility(View.VISIBLE);
             mCarType.setText(orderBean.carDesc);//车辆类型
+            chexing.setVisibility(GONE);
+            xianlu_iv.setVisibility(GONE);
             switch (orderBean.orderType) {
                 case Constants.BUSINESS_TYPE_PICK://接机
                     mTypeStr.setText("中文接机");
