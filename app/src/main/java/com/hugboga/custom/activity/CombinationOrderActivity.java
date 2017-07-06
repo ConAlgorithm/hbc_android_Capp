@@ -404,10 +404,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (request instanceof RequestPayNo) {
             return;
         }
-        if (emptyLayout != null) {
-            emptyLayout.setErrorVisibility(View.VISIBLE);
-            progressView.setVisibility(View.GONE);
-            setItemVisibility(View.GONE);
+        if (!(request instanceof RequestOrderGroup)) {
+            if (emptyLayout != null) {
+                emptyLayout.setErrorVisibility(View.VISIBLE);
+                progressView.setVisibility(View.GONE);
+                setItemVisibility(View.GONE);
+            }
         }
     }
 
