@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by zhangqiang on 17/6/23.
  */
 
-public interface ActionEvaluateBean extends Serializable {
+public class ActionEvaluateBean implements Serializable {
     @SerializedName("o")
     public String orderId = null;//订单id
 }
