@@ -39,6 +39,7 @@ public class RequestEvaluateNew extends BaseRequest<EvaluateData> {
         if (!TextUtils.isEmpty(params.content)) {
             map.put("content", params.content);//可选 评价内容：123
         }
+        map.put("commentPics",params.commentPics);
     }
 
     @Override
@@ -65,5 +66,6 @@ public class RequestEvaluateNew extends BaseRequest<EvaluateData> {
         public int totalScore;
         public String labels;
         public String content;
+        public String commentPics;
     }
 }

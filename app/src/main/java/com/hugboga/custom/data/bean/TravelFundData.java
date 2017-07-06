@@ -73,6 +73,12 @@ public class TravelFundData implements Serializable {
         private String orderNo;//订单编号，source为3时会有
         private String username;
         private int gender;
+        /* source
+        1： 推荐用户
+        2 邀请的用户首单提成
+        3  订单消费
+        4  过期
+        5 评价返现*/
         private int source;
 
         private String type;//记录类型 未注册/注册/首次使用返现
@@ -114,7 +120,9 @@ public class TravelFundData implements Serializable {
         public String getUpdateTime() {
             return updateTime;
         }
-
+        public int getSource() {
+            return source;
+        }
         /**
          * 性别：0.保密、1.男、2.女；
          * */

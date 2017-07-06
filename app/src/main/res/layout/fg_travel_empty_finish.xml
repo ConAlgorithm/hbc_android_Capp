@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/travel_bg"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:background="#f0f0f0">
     <ImageView
+        android:id="@+id/fg_travel_empty_finish_iv"
         android:layout_marginTop="60dp"
         android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:src="@mipmap/travel_list_empty_icon"
+        android:layout_height="104dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/empty_order"
         />
     <TextView
+        android:layout_below="@id/fg_travel_empty_finish_iv"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#666666"
+        android:textColor="#b9bdc6"
+        android:layout_marginTop="15dp"
         android:text="您还没有相关订单"
         android:textSize="16sp" />
-
-</LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+        <include layout="@layout/view_travel_footer"/>
+    </FrameLayout>
+</RelativeLayout>

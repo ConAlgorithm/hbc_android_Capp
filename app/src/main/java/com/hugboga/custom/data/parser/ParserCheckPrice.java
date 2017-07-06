@@ -26,7 +26,7 @@ public class ParserCheckPrice extends ImplParser {
         CarListBean carListBean = new CarListBean();
         carListBean.distance = obj.optDouble("distance", 0);
         carListBean.interval = obj.optInt("estTime", 0);
-        carListBean.hotelPrice = obj.optInt("hotelPrice",0);
+        carListBean.hotelPrice = obj.optDouble("hotelPrice",0);
         carListBean.timeNotReachFlag = obj.optInt("timeNotReachFlag", 0);
         carListBean.supportChildseat = obj.optBoolean("supportChildseat");
         carListBean.guideFloatSwitch = obj.optInt("guideFloatSwitch", 0);
@@ -55,14 +55,14 @@ public class ParserCheckPrice extends ImplParser {
                 bean.pricemark = jsonObj.optString("pricemark");
                 bean.urgentCutdownTip = jsonObj.optString("urgentCutdownTip");
                 bean.originalPrice = jsonObj.optInt("price");
-                bean.checkInPrice = jsonObj.optInt("checkInPrice", 0);
+                bean.checkInPrice = jsonObj.optDouble("checkInPrice", 0);
                 bean.urgentFlag = jsonObj.optInt("urgentFlag", 0);
                 bean.capOfLuggage = jsonObj.optInt("capOfLuggage", 0);
 
                 bean.capOfPerson = jsonObj.optInt("capOfPerson", 0);
-                bean.price = jsonObj.optInt("price", 0);
-                bean.seckillingPrice = jsonObj.optInt("seckillingPrice", 0);
-                bean.localPrice = jsonObj.optInt("localPrice", 0);
+                bean.price = jsonObj.optDouble("price", 0);
+                bean.seckillingPrice = jsonObj.optDouble("seckillingPrice", 0);
+                bean.localPrice = jsonObj.optDouble("localPrice", 0);
 
                 bean.carId = jsonObj.optInt("carId");
                 bean.carIntroduction = jsonObj.optString("carIntroduction");

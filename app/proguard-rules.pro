@@ -351,6 +351,8 @@
  *;
 }
 
+-keep class com.hugboga.im.** {*;}
+
 -ignorewarnings
 #-libraryjars   libs/payecoplugin.jar
 -keep class  com.payeco.android.plugin.**{*;}

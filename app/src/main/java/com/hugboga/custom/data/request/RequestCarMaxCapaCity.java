@@ -1,6 +1,7 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -18,17 +19,19 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_CAR_MAX_CAPACITY, builder = NewParamsBuilder.class)
 public class RequestCarMaxCapaCity extends BaseRequest<CarMaxCapaCityBean> {
 
-    public RequestCarMaxCapaCity(Context context, int cityId) {
-        super(context);
-        map = new HashMap<String, Object>();
-        map.put("cityId", cityId);
-    }
+    public String activityNo;
 
-    public RequestCarMaxCapaCity(Context context, int cityId, String carIds) {
+    public RequestCarMaxCapaCity(Context context, int cityId, String carIds, String activityNo) {
         super(context);
+        this.activityNo = activityNo;
         map = new HashMap<String, Object>();
         map.put("cityId", cityId);
-        map.put("carIds", carIds);
+        if (!TextUtils.isEmpty(carIds)) {
+            map.put("carIds", carIds);
+        }
+        if (!TextUtils.isEmpty(activityNo)) {
+            map.put("activityNo", activityNo);
+        }
     }
 
     @Override
@@ -37,13 +40,18 @@ public class RequestCarMaxCapaCity extends BaseRequest<CarMaxCapaCityBean> {
     }
 
     @Override
+    public String getUrl() {
+        return TextUtils.isEmpty(activityNo) ? UrlLibs.API_CAR_MAX_CAPACITY : UrlLibs.API_CAR_MAX_CAPACITY_SECKILLS;
+    }
+
+    @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_CAR_MAX_CAPACITY, CarMaxCapaCityBean.class);
+        return new HbcParser(getUrl(), CarMaxCapaCityBean.class);
     }
 
     @Override
     public String getUrlErrorCode() {
-        return "40118";
+        return TextUtils.isEmpty(activityNo) ? "40118" : "40166";
     }
 
 }

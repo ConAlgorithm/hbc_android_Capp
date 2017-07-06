@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -46,10 +49,11 @@ import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
-import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -94,6 +98,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     SkuOrderCarTypeView carTypeView;
     @Bind(R.id.pickup_empty_layout)
     SkuOrderEmptyView emptyLayout;
+    @Bind(R.id.pickup_conpons_tipview)
+    ConponsTipView conponsTipView;
 
     @Bind(R.id.pickup_scrollview)
     ScrollView scrollView;
@@ -154,6 +160,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             if (params.guidesDetailData != null) {
                 guidesDetailData = params.guidesDetailData;
                 guideLayout.setData(guidesDetailData);
+                carTypeView.setGuidesDetailData(guidesDetailData);
             } else if (params.isSeckills) {
                 seckillsLayout.setVisibility(View.VISIBLE);
             }
@@ -174,6 +181,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 getCars();
             }
         });
+
         setUmengEvent();
         setSensorsEvent();
     }
@@ -182,6 +190,12 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateConponsTipView();
     }
 
     public boolean isFlightBeanNull() {
@@ -221,6 +235,13 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         if (checkFlightBean) {
             return;
         }
+        if (flightBean == null) {
+            scrollView.setVisibility(View.VISIBLE);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fg_pickup_fragment_choose_air);
+            ft.remove(fragment);
+            ft.commitAllowingStateLoss();
+        }
 
         flightBean = _flightBean;
         String desc1 = flightBean.flightNo + " " + flightBean.depCityName + "-" + flightBean.arrCityName;
@@ -235,6 +256,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         bottomView.setVisibility(View.GONE);
         cityLayout.resetUI();
         poiBean = null;
+        hintConponsTipView();
     }
 
     @Subscribe
@@ -262,6 +284,10 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 break;
             case ORDER_SECKILLS_REFRESH:
                 refreshData();
+                break;
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                updateConponsTipView();
                 break;
         }
     }
@@ -330,6 +356,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         if (params != null) {
             params.isSeckills = false;
         }
+        updateConponsTipView();
         requestCarPriceList();
         scrollToTop();
     }
@@ -392,6 +419,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
+        hintConponsTipView();
     }
 
     /* 滚动到顶部 */
@@ -515,7 +543,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private void checkGuideCoflict() {
         RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
         checkGuideBean.startTime = flightBean.arrDate + " " + flightBean.arrivalTime + ":00";
-        checkGuideBean.endTime = DateUtils.getDifferenceTime2(checkGuideBean.startTime, CommonUtils.getCountInteger(carListBean.estTime) * 60 * 1000);;
+        checkGuideBean.endTime = DateUtils.getDifferenceTime2(checkGuideBean.startTime, CommonUtils.getCountInteger(carListBean.estTime) * 60 * 1000);
         checkGuideBean.cityId = flightBean.arrCityId;
         checkGuideBean.guideId = guidesDetailData.guideId;
         checkGuideBean.orderType = ORDER_TYPE;
@@ -538,6 +566,29 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource(), false);
             }
         }, true);
+    }
+
+    public void updateConponsTipView() {
+        if (params != null && params.isSeckills) {
+            conponsTipView.setVisibility(View.GONE);
+            return;
+        }
+        conponsTipView.update(ORDER_TYPE);
+        conponsTipView.setOnCouponsTipRequestSucceedListener(new ConponsTipView.OnCouponsTipRequestSucceedListener() {
+            @Override
+            public void onCouponsTipRequestSucceed(CouponsOrderTipBean couponsOrderTipBean) {
+                bottomView.setConponsTip(couponsOrderTipBean != null ? couponsOrderTipBean.couponCountTips : null);
+                hintConponsTipView();
+            }
+        });
+    }
+
+    public void hintConponsTipView() {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+            conponsTipView.setVisibility(View.GONE);
+        } else {
+            conponsTipView.showView();
+        }
     }
 
     @Override

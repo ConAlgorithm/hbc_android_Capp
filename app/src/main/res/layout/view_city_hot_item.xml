@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="7dp">
 
         <TextView
@@ -27,23 +26,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:paddingTop="15dp"
             android:textColor="@color/common_font_color_black"
+            android:text="精选司导"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/city_hot_more_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/city_hot_title_tv"
             android:layout_toRightOf="@id/city_hot_title_tv"
             android:gravity="right"
+            android:layout_alignParentRight="true"
             android:includeFontPadding="false"
+            android:layout_marginLeft="50dp"
             android:paddingLeft="5dp"
             android:paddingRight="13dp"
-            android:paddingTop="5dp"
+            android:paddingTop="20dp"
             android:text="更多"
-            android:textColor="#F9B900"
+            android:textColor="@color/default_yellow"
             android:textSize="12sp" />
 
         <ImageView

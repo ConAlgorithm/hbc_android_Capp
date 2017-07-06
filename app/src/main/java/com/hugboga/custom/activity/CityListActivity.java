@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,25 +15,39 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityListAdapter;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
+import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
+import com.hugboga.custom.models.ChoicenessGuideModel;
+import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
+import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
-public class CityListActivity extends BaseActivity{
+public class CityListActivity extends BaseActivity {
 
     public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
 
@@ -52,9 +68,15 @@ public class CityListActivity extends BaseActivity{
     @Bind(R.id.city_list_empty_hint_tv)
     TextView emptyHintTV;
 
+    @Bind(R.id.city_list_service_layout)
+    LinearLayout serviceLayout;
+    @Bind(R.id.city_list_service_hint_tv)
+    TextView serviceHintTV;
+
     public CityListActivity.Params paramsData;
     private CityListAdapter cityListAdapter;
     private CountryGroupBean countryGroupBean;
+    private CityListBean cityListBean;
 
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY, ALL
@@ -82,6 +104,7 @@ public class CityListActivity extends BaseActivity{
                 paramsData = (CityListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -135,6 +158,12 @@ public class CityListActivity extends BaseActivity{
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     public void initView() {
         initTitleBar();
         cityListAdapter = new CityListAdapter();
@@ -152,7 +181,7 @@ public class CityListActivity extends BaseActivity{
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (paramsData.cityHomeType == CityListActivity.CityHomeType.CITY && cityListAdapter.cityListHeaderModel != null) {
+                if (paramsData.cityHomeType == CityHomeType.CITY && cityListAdapter.cityListHeaderModel != null) {
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                     int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
                     int scrollY = Math.abs(recyclerView.getChildAt(0).getTop());
@@ -219,12 +248,12 @@ public class CityListActivity extends BaseActivity{
         builder.setLimit(GUIDE_LIST_COUNT);
         requestData(new RequestFilterGuide(this, builder));
     }
-
+    FilterGuideListBean filterGuideListBean;
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestCityHomeList) {
-            CityListBean cityListBean = ((RequestCityHomeList) _request).getData();
+            cityListBean = ((RequestCityHomeList) _request).getData();
             boolean isCanService = cityListBean != null && cityListBean.isCanService();
             if (isCanService) {
                 setEmptyLayout(false, true);
@@ -242,13 +271,41 @@ public class CityListActivity extends BaseActivity{
             }
             requestGuideList();
         } else if (_request instanceof RequestFilterGuide) {
-            FilterGuideListBean filterGuideListBean = ((RequestFilterGuide) _request).getData();
+            filterGuideListBean = ((RequestFilterGuide) _request).getData();
             if (paramsData.cityHomeType != CityHomeType.CITY && (countryGroupBean == null || countryGroupBean.isEmpty()) && filterGuideListBean.listCount == 0) {
                 setEmptyLayout(true, true);
             } else {
                 setEmptyLayout(false, true);
             }
+            if (paramsData.cityHomeType == CityHomeType.CITY
+                    && filterGuideListBean.listCount == 0
+                    && cityListBean != null
+                    && (cityListBean.hotLines == null || cityListBean.hotLines.size() <= 0)) {
+                CityBean cityBean = DatabaseManager.getCityBean("" + paramsData.id);
+                if (cityBean != null && !TextUtils.isEmpty(cityBean.placeName)) {
+                    serviceLayout.setVisibility(View.VISIBLE);
+                    serviceHintTV.setText(String.format("定制个性化行程，可咨询%1$s行程规划师", cityBean.placeName));
+                }
+            }
+            FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
+            HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
             cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
+        }else if (_request instanceof FavoriteGuideSaved){
+            if(_request.getData() instanceof UserFavoriteGuideListVo3){
+                for(int j=0;j<filterGuideListBean.listData.size();j++){
+                    filterGuideListBean.listData.get(j).isCollected = 0;
+                }
+                UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3)_request.getData();
+                for(int i=0 ;i< favoriteGuideSavedBean.guides.size();i++){
+                    for(int j=0;j<filterGuideListBean.listData.size();j++){
+                        if(favoriteGuideSavedBean.guides.get(i).equals(filterGuideListBean.listData.get(j).guideId)){
+                            filterGuideListBean.listData.get(j).isCollected = 1;
+                        }
+                    }
+                }
+                cityListAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 
@@ -305,6 +362,46 @@ public class CityListActivity extends BaseActivity{
             return true;
         } else {
             return false;
+        }
+    }
+
+    @OnClick(R.id.city_list_service_tv)
+    public void showServiceDialog() {
+        DialogUtil.showServiceDialog(CityListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                StringBuilder tempUploadGuilds = new StringBuilder();
+                String uploadGuilds = "";
+                if(filterGuideListBean != null && filterGuideListBean.listData != null && filterGuideListBean.listData.size() > 0){
+                    for (FilterGuideBean guild : filterGuideListBean.listData) {
+                        tempUploadGuilds.append(guild.guideId).append(",");
+                    }
+                    if (tempUploadGuilds.length() > 0) {
+                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
+                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
+                        }
+                    }
+                    Log.d("uploadGuilds",uploadGuilds.toString());
+                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),uploadGuilds);
+                    HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
+                }
+                break;
+            case CLICK_USER_LOOUT:
+                if(filterGuideListBean!= null){
+                    for(int i=0;i<filterGuideListBean.listData.size();i++){
+                        filterGuideListBean.listData.get(i).isCollected = 0;
+                    }
+                    cityListAdapter.notifyDataSetChanged();
+                }
+                break;
+            case ORDER_DETAIL_UPDATE_COLLECT:
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
+                HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
+                break;
         }
     }
 }

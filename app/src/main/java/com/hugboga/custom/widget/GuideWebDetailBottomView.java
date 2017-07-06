@@ -50,6 +50,9 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
     @Bind(R.id.guide_detail_bottom_contact_layout)
     LinearLayout contactLayout;
 
+    @Bind(R.id.guide_detail_bottom_book_tv)
+    TextView bottomBookTv;
+
     @Bind(R.id.guide_detail_bottom_choose_guide_tv)
     TextView chooseGuideTv;
 
@@ -118,15 +121,15 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         if (guideExtinfoBean.accessible == 1) {//是否可联系司导
             hintTv.setVisibility(View.GONE);
             topLineView.setVisibility(View.GONE);
-            contactIv.setBackgroundResource(R.mipmap.navbar_chat_white);
-            contactTv.setTextColor(0xFFFFFFFF);
-            contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow_btn);
+            contactIv.setBackgroundResource(R.mipmap.navbar_chat);
+            contactTv.setTextColor(getContext().getResources().getColor(R.color.default_yellow));
+            contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
             contactLayout.setEnabled(true);
         } else {
             hintTv.setVisibility(View.VISIBLE);
             topLineView.setVisibility(View.VISIBLE);
-            contactIv.setBackgroundResource(R.mipmap.navbar_chat);
-            contactTv.setTextColor(0xFF666666);
+            contactIv.setBackgroundResource(R.mipmap.navbar_chat_white);
+            contactTv.setTextColor(0xFFFFFFFF);
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
             contactLayout.setEnabled(false);
         }
@@ -181,12 +184,16 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                     if (isStop) {
                         return;
                     }
-                    timeTv.setText(String.format("司导当地时间: %1$s", dateTimeFormat.format(System.currentTimeMillis())));
+                    timeTv.setText(String.format("当地时间: %1$s", dateTimeFormat.format(System.currentTimeMillis())));
                     break;
                 default:
                     break;
             }
         }
+    };
+
+    public TextView getBookTextView() {
+        return bottomBookTv;
     };
 
     public void setStop(boolean isStop) {

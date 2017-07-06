@@ -4,18 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.hugboga.custom.widget.OrderBottomView
-        android:id="@+id/pickup_bottom_view"
+    <LinearLayout
+        android:id="@+id/pickup_bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/order_bottom_height"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+        android:orientation="vertical">
+
+        <com.hugboga.custom.widget.ConponsTipView
+            android:id="@+id/pickup_conpons_tipview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center" />
+
+        <com.hugboga.custom.widget.OrderBottomView
+            android:id="@+id/pickup_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/order_bottom_height"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/pickup_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/pickup_bottom_view">
+        android:layout_above="@id/pickup_bottom_layout"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,8 +39,8 @@
 
             <include
                 android:id="@+id/pickup_seckills_layout"
-                android:visibility="gone"
-                layout="@layout/view_order_seckill" />
+                layout="@layout/view_order_seckill"
+                android:visibility="gone" />
 
             <com.hugboga.custom.widget.OrderGuideLayout
                 android:id="@+id/pickup_guide_layout"
@@ -118,4 +133,9 @@
         </LinearLayout>
     </ScrollView>
 
+    <fragment
+        android:id="@+id/fg_pickup_fragment_choose_air"
+        android:name="com.hugboga.custom.fragment.FgChooseAir"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

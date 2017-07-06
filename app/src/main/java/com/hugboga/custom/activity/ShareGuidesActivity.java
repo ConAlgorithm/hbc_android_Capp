@@ -6,6 +6,8 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -19,6 +21,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.event.EventEvaluateShare;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,22 +36,26 @@ import butterknife.OnClick;
  */
 public class ShareGuidesActivity extends BaseActivity{
 
-    @Bind(R.id.share_evaluate_description_tv1)
-    TextView descriptionTV1;
+    //@Bind(R.id.share_evaluate_description_tv1)
+    //TextView descriptionTV1;
     @Bind(R.id.share_evaluate_description_tv2)
     TextView descriptionTV2;
     @Bind(R.id.share_evaluate_collected_tv)
     TextView collectedTV;
-
+    @Bind(R.id.share_evaluate_description_tv1)
+    TextView des;
+    @Bind(R.id.share_evaluate_icon_iv)
+    ImageView evaluateIcon;
     private Params params;
     private boolean shareSucceed = false;
-
+    private boolean isReturnMoney = true;
     public static class Params implements Serializable {
         public EvaluateData evaluateData;
         public String orderNo;
         public int orderType;
         public int totalScore;
         public int guideAgencyType;
+        public boolean isReturnMoney;
     }
 
     @Override
@@ -99,27 +106,41 @@ public class ShareGuidesActivity extends BaseActivity{
         initDefaultTitleBar();
         shareSucceed = false;
         fgTitle.setText(getString(R.string.share_evaluate_title));
-
+        fgLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new EventAction(EventType.REFRESH_TRAVEL_DATA));
+                finish();
+            }
+        });
+        this.isReturnMoney = params.isReturnMoney;
         if (params == null || params.evaluateData == null) {
             finish();
         }
         if (params.totalScore > 3) {
-            collectedTV.setVisibility(params.guideAgencyType != 3 ? View.VISIBLE : View.INVISIBLE); //地接社订单不显示
-            descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
+            collectedTV.setVisibility(View.VISIBLE);
+            //descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_2));
         } else {
             collectedTV.setVisibility(View.INVISIBLE);
-            descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_4));
+            //descriptionTV1.setText(getString(R.string.share_evaluate_description_1) + getString(R.string.share_evaluate_description_4));
         }
 
         String commentTipParam = params.evaluateData.commentTipParam1;
         if (TextUtils.isEmpty(commentTipParam)) {
             descriptionTV2.setVisibility(View.GONE);
         }
-        String description = getString(R.string.share_evaluate_description_3, commentTipParam);
+        String description = getString(R.string.share_evaluate_description_3,commentTipParam);
         SpannableString msp = new SpannableString(description);
-        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 4, 4 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(0xFFFF6633), 11, 11 + commentTipParam.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new ForegroundColorSpan(0xFFFF6633), description.length() - 4, description.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         descriptionTV2.setText(msp);
+        if(!isReturnMoney){
+            des.setVisibility(View.GONE);
+            evaluateIcon.setBackgroundResource(R.mipmap.evaluate_successful_picture);
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) evaluateIcon.getLayoutParams();
+            lp.setMargins(0, UIUtils.dip2px(88),0,0);
+            evaluateIcon.setLayoutParams(lp);
+        }
     }
 
     @Subscribe

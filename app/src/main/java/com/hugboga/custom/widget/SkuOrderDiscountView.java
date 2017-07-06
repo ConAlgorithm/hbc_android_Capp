@@ -38,11 +38,6 @@ public class SkuOrderDiscountView extends LinearLayout{
     @Bind(R.id.sku_order_discount_travel_fund_count_tv)
     TextView travelFundCountTV;
 
-    @Bind(R.id.sku_order_discount_insurance_choose_iv)
-    ImageView insuranceChooseIV;
-    @Bind(R.id.sku_order_discount_insurance_count_tv)
-    TextView insuranceCountTV;
-
     private DiscountOnClickListener listener;
     private int currentType = TYPE_COUPON;
     private int oldType;
@@ -56,16 +51,16 @@ public class SkuOrderDiscountView extends LinearLayout{
 
     public SkuOrderDiscountView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setOrientation(VERTICAL);
         View view = inflate(context, R.layout.view_sku_order_discount, this);
         ButterKnife.bind(view);
-        insuranceChooseIV.setSelected(true);
     }
 
-    @OnClick({R.id.sku_order_discount_coupon_count_tv, R.id.sku_order_discount_travel_fund_count_tv, R.id.sku_order_discount_coupon_layout, R.id.sku_order_discount_travel_fund_layout, R.id.sku_order_discount_insurance_layout})
+    @OnClick({R.id.sku_order_discount_coupon_count_tv, R.id.sku_order_discount_travel_fund_count_tv, R.id.sku_order_discount_coupon_layout, R.id.sku_order_discount_travel_fund_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sku_order_discount_coupon_count_tv:
-                if (listener != null && !isInvalidCoupon) {
+                if (listener != null) {//!isInvalidCoupon
                     listener.intentCouponList();
                 }
                 break;
@@ -87,9 +82,6 @@ public class SkuOrderDiscountView extends LinearLayout{
                 }
                 currentType = TYPE_TRAVEL_FUND;
                 resetCheckedView();
-                break;
-            case R.id.sku_order_discount_insurance_layout:
-                insuranceChooseIV.setSelected(!insuranceChooseIV.isSelected());
                 break;
         }
     }
@@ -162,10 +154,6 @@ public class SkuOrderDiscountView extends LinearLayout{
                 listener.chooseDiscount(currentType);
             }
         }
-    }
-
-    public void setInsuranceCount(int count) {
-        insuranceCountTV.setText(String.format(" × %1$s份", "" + count));
     }
 
     public boolean isCheckedTravelFund() {

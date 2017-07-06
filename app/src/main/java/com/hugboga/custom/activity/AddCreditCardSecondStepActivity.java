@@ -237,26 +237,39 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         if (request instanceof RequestCreditCardPay){
             ServerException serverException = (ServerException) errorInfo.exception;
             String errResult = serverException.getMessage();
-
-            String[] str1= errResult.split("<RETMSG>");
-            String[] str11 = str1[1].split("</RETMSG>");
-            String mesg = str11[0];                     //截取错误信息
-
-            String[] strCode1 = errResult.split("<RETCODE>");
-            String[] strCode11 = strCode1[1].split("</RETCODE>");
-            String code = strCode11[0];                 //截取错误code
-
             if (ExceptionErrorCode.ERROR_CODE_SERVER == errorInfo.state) {
                 try {
-                    if (!TextUtils.isEmpty(JsonUtils.getJsonStr(this, "yilianErrorCode.json"))) {
-                        JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(this, "yilianErrorCode.json"));
-                        jsonObject.has(code);
-                        Toast.makeText(this, mesg, Toast.LENGTH_LONG).show();
+                    String mesg = "";
+                    String code = "";
+                    if (errResult.contains("<RETMSG>") && errResult.contains("</RETMSG>")) {
+                        String[] str1= errResult.split("<RETMSG>");
+                        String[] str11 = str1[1].split("</RETMSG>");
+                        mesg = str11[0];                     //截取错误信息
+                    }
+                    if (errResult.contains("<RETCODE>") && errResult.contains("</RETCODE>")) {
+                        String[] strCode1 = errResult.split("<RETCODE>");
+                        String[] strCode11 = strCode1[1].split("</RETCODE>");
+                        code = strCode11[0];                 //截取错误code
+                    }
+                    if (TextUtils.isEmpty(mesg) || TextUtils.isEmpty(code)) {
+                        Toast.makeText(this, errResult, Toast.LENGTH_LONG).show();
                         dialogUtil.dismissLoadingDialog();
                         return;
+                    } else {
+                        if (!TextUtils.isEmpty(JsonUtils.getJsonStr(this, "yilianErrorCode.json"))) {
+                            JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(this, "yilianErrorCode.json"));
+                            jsonObject.has(code);
+                            Toast.makeText(this, mesg, Toast.LENGTH_LONG).show();
+                            dialogUtil.dismissLoadingDialog();
+                            return;
+                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Toast.makeText(this, errResult, Toast.LENGTH_LONG).show();
+                    if (dialogUtil != null) {
+                        dialogUtil.dismissLoadingDialog();
+                    }
+                    return;
                 }
             }
         }

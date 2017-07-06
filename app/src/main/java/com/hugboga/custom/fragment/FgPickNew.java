@@ -38,7 +38,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForPickup;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -225,8 +224,8 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         startLocation = flightBean.arrLocation;//.arrivalAirport.location;
         termLocation = poiBean.location;
         serverDate = flightBean.arrDate + " " + flightBean.arrivalTime;
-        needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
-        needBanner = flightBean.arrivalAirport.bannerSwitch;
+//        needChildrenSeat = flightBean.arrivalAirport.childSeatSwitch;
+//        needBanner = flightBean.arrivalAirport.bannerSwitch;
 
         RequestCheckPriceForPickup requestCheckPriceForPickup = new RequestCheckPriceForPickup(getActivity(), 1, airportCode
                 , cityId, startLocation, termLocation, serverDate,carIds
@@ -244,7 +243,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
         if(null == carBean){
             return;
         }
-        int total = carBean.price;
+        double total = carBean.price;
         if(null != manLuggageBean){
             int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
             int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);
@@ -469,33 +468,33 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
 
     private void checkGuide(){
         String sTime = serverDate+":00";
-        OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
-                null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
-                DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
-                cityId + "", 0, carBean.carType, carBean.carSeat,carBean.special,carBean.carId,
-                new HttpRequestListener() {
-                    @Override
-                    public void onDataRequestSucceed(BaseRequest request) {
-                        ApiReportHelper.getInstance().addReport(request);
-                        RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
-                        List<String> list = requestGuideConflict.getData();
-                        if(list.size() > 0) {
-                            goOrder();
-                        }else{
-                            EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
-                        }
-                    }
-
-                    @Override
-                    public void onDataRequestCancel(BaseRequest request) {
-
-                    }
-
-                    @Override
-                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-                    }
-                });
+//        OrderUtils.checkGuideCoflict(getContext(), 1, cityId,
+//                null != collectGuideBean ? collectGuideBean.guideId : null, sTime,
+//                DateUtils.getToTime(sTime,Integer.valueOf(carListBean.estTime)),
+//                cityId + "", 0, carBean.carType, carBean.carSeat,carBean.special,carBean.carId,
+//                new HttpRequestListener() {
+//                    @Override
+//                    public void onDataRequestSucceed(BaseRequest request) {
+//                        ApiReportHelper.getInstance().addReport(request);
+////                        RequestGuideConflict requestGuideConflict = (RequestGuideConflict)request;
+////                        List<String> list = requestGuideConflict.getData();
+////                        if(list.size() > 0) {
+////                            goOrder();
+////                        }else{
+////                            EventBus.getDefault().post(new EventAction(EventType.GUIDE_ERROR_TIME));
+////                        }
+//                    }
+//
+//                    @Override
+//                    public void onDataRequestCancel(BaseRequest request) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//
+//                    }
+//                });
     }
 
 
@@ -618,7 +617,7 @@ public class FgPickNew extends BaseFragment implements View.OnTouchListener{
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
-            int total = carBean.price;
+            double total = carBean.price;
             if(null != manLuggageBean){
                 int seat1Price = OrderUtils.getSeat1PriceTotal(carListBean,manLuggageBean);
                 int seat2Price = OrderUtils.getSeat2PriceTotal(carListBean,manLuggageBean);

@@ -2,12 +2,13 @@
 package com.squareup.timessquare;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -130,15 +131,48 @@ public class MonthView extends LinearLayout {
         for (int c = 0; c < week.size(); c++) {
           MonthCellDescriptor cell = week.get(isRtl ? 6 - c : c);
           CalendarCellView cellView = (CalendarCellView) weekRow.getChildAt(c);
-          TextView dayOfMonthTextView = cellView.getDayOfMonthTextView();
-          if (!cell.isCurrentMonth()) {
+          ScoreTextView dayOfMonthTextView = cellView.getDayOfMonthTextView();
+          CalendarListBean calendarListBean = cell.getCalendarListBean();
+          final boolean isCurrentMonth = cell.isCurrentMonth();
+          final boolean isBetweenDates = CalendarPickerView.betweenDates(cell.getDate(), minCal, maxCal);
+
+          if (!isCurrentMonth) {
             dayOfMonthTextView.setTextColor(0x00000000);
-          } else if (!CalendarPickerView.betweenDates(cell.getDate(), minCal, maxCal)) {
-            dayOfMonthTextView.setTextColor(0xFFD7D7D7);
+          } else if (!isBetweenDates) {
+            dayOfMonthTextView.setTextColor(0xFFCCCCCC);
           } else if((c ==0 || c == week.size() -1 )){
             dayOfMonthTextView.setTextColor(0xFFFF2525);
           } else {
             dayOfMonthTextView.setTextColor(0xFF161616);
+          }
+
+          ImageView dayViewTimeIv = cellView.getDayViewTimeIv();
+          if (calendarListBean != null && isCurrentMonth && isBetweenDates) {
+            int orderType = calendarListBean.orderType;
+            if (orderType == 3 && !calendarListBean.isCanDailyService()) {
+              dayOfMonthTextView.isDrawScoreLine(true);
+              dayViewTimeIv.setVisibility(INVISIBLE);
+              dayOfMonthTextView.setTextColor(0xFFCCCCCC);
+            } else if (orderType == 4 || orderType == 2) {
+              if (!calendarListBean.isCanService()) {//全天不可服务
+                dayOfMonthTextView.isDrawScoreLine(true);
+                dayViewTimeIv.setVisibility(INVISIBLE);
+                dayOfMonthTextView.setTextColor(0xFFCCCCCC);
+              } else {
+                dayOfMonthTextView.isDrawScoreLine(false);
+                if (calendarListBean.isCanHalfService()) {//部分可服务
+                  dayViewTimeIv.setVisibility(VISIBLE);
+                } else {
+                  dayViewTimeIv.setVisibility(INVISIBLE);
+                }
+              }
+            } else {
+              dayOfMonthTextView.isDrawScoreLine(false);
+              dayViewTimeIv.setVisibility(INVISIBLE);
+            }
+          } else {
+            dayOfMonthTextView.isDrawScoreLine(false);
+            dayViewTimeIv.setVisibility(INVISIBLE);
           }
 
           String cellDate = numberFormatter.format(cell.getValue());
@@ -151,6 +185,7 @@ public class MonthView extends LinearLayout {
               dayOfMonthTextView.setText(cellDate);
             }
           }
+
           cellView.setEnabled(cell.isCurrentMonth());
           cellView.setClickable(!displayOnly);
 
@@ -161,6 +196,7 @@ public class MonthView extends LinearLayout {
           cellView.setRangeState(cell.getRangeState());
           cellView.setHighlighted(cell.isHighlighted());
           cellView.setTag(cell);
+          cellView.setCalendarListBean(cell.getCalendarListBean());
 
           if (null != decorators) {
             for (CalendarCellDecorator decorator : decorators) {

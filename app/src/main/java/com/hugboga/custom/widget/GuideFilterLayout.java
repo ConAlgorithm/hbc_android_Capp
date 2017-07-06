@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
-import com.hugboga.custom.data.bean.CapacityBean;
+import com.hugboga.custom.data.bean.FilterGuideOptionsBean;
 import com.hugboga.custom.fragment.CityFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
@@ -162,6 +162,7 @@ public class GuideFilterLayout extends LinearLayout {
         if (cityParams == null) {
             return;
         }
+        setGuideFilterBean(null);
         this.cityParams = cityParams;
         TextView cityTV = (TextView) cityLayout.findViewById(R.id.filter_guide_type_city_tv);
         cityTV.setTextColor(0xFFFFC110);
@@ -203,15 +204,15 @@ public class GuideFilterLayout extends LinearLayout {
         }
     }
 
-    public void setCapacityBean(CapacityBean capacityBean) {
-        pagerAdapter.setCapacityBean(capacityBean);
+    public void setFilterGuideOptionsBean(FilterGuideOptionsBean rilterGuideOptionsBean) {
+        pagerAdapter.setFilterGuideOptionsBean(rilterGuideOptionsBean);
     }
 
     public static class GuideFilterAdapter extends FragmentStatePagerAdapter {
 
         GuideFilterFragment guideFilterFragment;
         GuideFilterSortFragment guideFilterSortFragment;
-        CapacityBean capacityBean;
+        FilterGuideOptionsBean rilterGuideOptionsBean;
         CityListActivity.Params cityParams;
 
         public GuideFilterAdapter(FragmentManager fm) {
@@ -227,8 +228,8 @@ public class GuideFilterLayout extends LinearLayout {
                     return cityFilterfragment;
                 case 1:
                     guideFilterFragment = new GuideFilterFragment();
-                    if (capacityBean != null) {
-                        guideFilterFragment.setCapacityBean(capacityBean);
+                    if (rilterGuideOptionsBean != null) {
+                        guideFilterFragment.setFilterGuideOptionsBean(rilterGuideOptionsBean);
                     }
                     return guideFilterFragment;
                 case 2:
@@ -247,11 +248,11 @@ public class GuideFilterLayout extends LinearLayout {
             return guideFilterFragment == null ? false : guideFilterFragment.resetCacheFilter();
         }
 
-        public void setCapacityBean(CapacityBean capacityBean) {
+        public void setFilterGuideOptionsBean(FilterGuideOptionsBean rilterGuideOptionsBean) {
             if (guideFilterFragment != null) {
-                guideFilterFragment.setCapacityBean(capacityBean);
+                guideFilterFragment.setFilterGuideOptionsBean(rilterGuideOptionsBean);
             } else {
-                this.capacityBean = capacityBean;
+                this.rilterGuideOptionsBean = rilterGuideOptionsBean;
             }
         }
 

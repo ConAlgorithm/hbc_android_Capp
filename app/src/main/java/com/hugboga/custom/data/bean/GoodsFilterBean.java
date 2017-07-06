@@ -15,10 +15,9 @@ public class GoodsFilterBean implements Serializable{
     public List<SkuItemBean> listData;  // 线路列表
     public ArrayList<FilterTheme> themes;    // 主题列表
 
-    public static class FilterTheme implements Serializable, Cloneable{
+    public static class FilterTheme extends FilterItemBase{
         public int themeId;
         public String themeName;
-        public boolean isSelected = false;//本地字段
 
         @Override
         public Object clone() {
@@ -29,6 +28,16 @@ public class GoodsFilterBean implements Serializable{
                 e.printStackTrace();
             }
             return filterTheme;
+        }
+
+        @Override
+        public String getTagId() {
+            return themeId + "";
+        }
+
+        @Override
+        public String getName() {
+            return themeName;
         }
     }
 }

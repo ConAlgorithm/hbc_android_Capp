@@ -13,6 +13,18 @@
         android:textSize="19sp" />
 
     <TextView
+        android:id="@+id/order_bottom_conpons_tip_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/order_bottom_should_price_tv"
+        android:layout_alignBottom="@id/order_bottom_should_price_tv"
+        android:paddingBottom="4dp"
+        android:gravity="center"
+        android:paddingLeft="3dp"
+        android:textColor="@color/default_price_red"
+        android:textSize="12sp" />
+
+    <TextView
         android:id="@+id/order_bottom_distance_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -186,6 +186,14 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             shareIV.setVisibility(View.VISIBLE);
             collectIV.setVisibility(View.VISIBLE);
         }
+
+        bottomView.getBookTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webAgent.callBack("goToNext", "");
+            }
+        });
+
         sendRequest();
     }
 

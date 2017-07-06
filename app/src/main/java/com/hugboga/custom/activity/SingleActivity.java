@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,7 +17,9 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
+import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -25,16 +28,20 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
+import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -45,6 +52,7 @@ import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.title.TitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
+import com.squareup.timessquare.CalendarListBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,11 +62,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.qqtheme.framework.picker.DateTimePicker;
 
 /**
  * Created by qingcha on 17/5/23.
@@ -87,8 +93,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     SkuOrderEmptyView emptyLayout;
     @Bind(R.id.single_scrollview)
     ScrollView scrollView;
-
-    private DateTimePicker dateTimePicker;
+    @Bind(R.id.single_conpons_tipview)
+    ConponsTipView conponsTipView;
 
     private CarListBean carListBean;
     private CarBean carBean;
@@ -99,6 +105,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
+    private int guideCityId;
 
     private SingleActivity.Params params;
 
@@ -131,6 +138,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        GuideCalendarUtils.getInstance().onDestory();
     }
 
     @Override
@@ -156,7 +164,10 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 guideLayout.setData(guidesDetailData);
                 if (!TextUtils.isEmpty("" + guidesDetailData.cityId)) {
                     setCityBean(DBHelper.findCityById("" + guidesDetailData.cityId));
+                    guideCityId = guidesDetailData.cityId;
                 }
+                carTypeView.setGuidesDetailData(guidesDetailData);
+                GuideCalendarUtils.getInstance().sendRequest(this, guidesDetailData.guideId, ORDER_TYPE);
             }
             if (!TextUtils.isEmpty(params.cityId)) {
                 setCityBean(DBHelper.findCityById(params.cityId));
@@ -181,7 +192,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 getCars();
             }
         });
-        emptyLayout.setonClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
+        emptyLayout.setOnClickCharterListener(new SkuOrderEmptyView.OnClickCharterListener() {
             @Override
             public void onClickCharter() {
                 Intent intent = new Intent(SingleActivity.this, CharterFirstStepActivity.class);
@@ -190,6 +201,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             }
         });
         setSensorsEvent();
+        updateConponsTipView();
     }
 
     @OnClick({R.id.single_city_layout, R.id.single_time_layout})
@@ -214,6 +226,10 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             case R.id.single_time_layout:
                 if (cityBean == null) {
                     CommonUtils.showToast("请先选择城市");
+                } else if (startPoiBean == null) {
+                    CommonUtils.showToast("请先填写出发地点");
+                } else if (endPoiBean == null) {
+                    CommonUtils.showToast("请先填写结束地点");
                 } else {
                     showTimePicker();
                 }
@@ -235,6 +251,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         addressLayout.resetUI();
         startPoiBean = null;
         endPoiBean = null;
+        hintConponsTipView();
         return isBreak;
     }
 
@@ -266,19 +283,36 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     }
                     startPoiBean = poiBean;
                     addressLayout.setStartAddress(startPoiBean.placeName, startPoiBean.placeDetail);
-                    getCars();
                 } else if ("to".equals(poiBean.type)) {
                     if (poiBean == null || (endPoiBean != null && TextUtils.equals(poiBean.placeName, endPoiBean.placeName))) {
                         break;
                     }
                     endPoiBean = poiBean;
                     addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
-                    getCars();
                 }
+                getCars();
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
                 scrollToTop();
                 getCars();
+            case CHOOSE_DATE:
+                ChooseDateBean chooseDateBean = (ChooseDateBean) action.getData();
+                serverDate = chooseDateBean.halfDateStr;
+                serverTime = chooseDateBean.serverTime;
+                timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
+                if (guidesDetailData != null) {
+                    CalendarListBean calendarListBean = GuideCalendarUtils.getInstance().getCalendarListBean(chooseDateBean.halfDateStr);
+                    if (calendarListBean != null && calendarListBean.isCanHalfService()) {
+                        checkGuideTimeCoflict();
+                        break;
+                    }
+                }
+                getCars();
+                break;
+            case CLICK_USER_LOGIN:
+            case CLICK_USER_LOOUT:
+                updateConponsTipView();
+                break;
         }
     }
 
@@ -287,34 +321,25 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     public void showTimePicker() {
-        final Calendar calendar = Calendar.getInstance();
-        if (dateTimePicker == null) {
-            dateTimePicker = new DateTimePicker(this, DateTimePicker.YEAR_MONTH_DAY);
-            dateTimePicker.setTitleText("请选择出发时间");
-            dateTimePicker.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
-            dateTimePicker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
-                @Override
-                public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
-                    String tmpDate = year + "-" + month + "-" + day;
-                    String startDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-
-                    if (DateUtils.getDistanceDays(startDate,tmpDate) > 180) {
-                        CommonUtils.showToast(R.string.time_out_180);
-                    } else {
-                        serverDate = tmpDate;
-                        serverTime = hour + ":" + minute;
-                        timeLayout.setDesc(DateUtils.getPointStrFromDate2(serverDate) + " " + serverTime);
-                        getCars();
-                        dateTimePicker.dismiss();
-                    }
-                }
-            });
+        Intent intent = new Intent(this, DatePickerActivity.class);
+        if (guidesDetailData != null) {
+            intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
         }
-
-        dateTimePicker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-        dateTimePicker.setLineColor(0xffaaaaaa);
-        dateTimePicker.show();
+        intent.putExtra(Constants.PARAMS_ORDER_TYPE, Constants.BUSINESS_TYPE_RENT);
+        intent.putExtra(DatePickerActivity.PARAM_TYPE, DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT);
+        if (!TextUtils.isEmpty(serverDate)) {
+            try {
+                ChooseDateBean chooseDateBean = new ChooseDateBean();
+                chooseDateBean.halfDateStr = serverDate;
+                chooseDateBean.halfDate = DateUtils.dateDateFormat.parse(serverDate);
+                chooseDateBean.type = DatePickerActivity.PARAM_TYPE_SINGLE_NOTEXT;
+                chooseDateBean.serverTime = serverTime;
+                intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        this.startActivity(intent);
     }
 
     @Override
@@ -401,7 +426,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     private boolean isShowSaveDialog() {
-        if (cityBean != null) {
+        if ((cityBean != null && cityBean.cityId != guideCityId) || startPoiBean != null || endPoiBean != null) {
             OrderUtils.showSaveDialog(this);
             return true;
         } else {
@@ -423,6 +448,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
+        hintConponsTipView();
     }
 
     /* 滚动到顶部 */
@@ -550,6 +576,67 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         }, true);
     }
 
+    private void checkGuideTimeCoflict() {
+        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(this
+                , ORDER_TYPE
+                , cityBean.cityId
+                , guidesDetailData.guideId
+                , serverDate + " " + serverTime + ":00"
+                , startPoiBean.location
+                , endPoiBean.location
+                , cityBean.placeId);
+        HttpRequestUtils.request(this, requestGuideConflict, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                getCars();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                AlertDialogUtils.showAlertDialogCancelable(SingleActivity.this, "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SingleActivity.this.finish();
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        guidesDetailData = null;
+                        guideLayout.setVisibility(View.GONE);
+                        getCars();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        }, true);
+    }
+
+    public void updateConponsTipView() {
+        conponsTipView.update(ORDER_TYPE);
+        conponsTipView.setOnCouponsTipRequestSucceedListener(new ConponsTipView.OnCouponsTipRequestSucceedListener() {
+            @Override
+            public void onCouponsTipRequestSucceed(CouponsOrderTipBean couponsOrderTipBean) {
+                bottomView.setConponsTip(couponsOrderTipBean != null ? couponsOrderTipBean.couponCountTips : null);
+                hintConponsTipView();
+            }
+        });
+    }
+
+    public void hintConponsTipView() {
+        if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE) {
+            conponsTipView.setVisibility(View.GONE);
+        } else {
+            conponsTipView.showView();
+        }
+    }
+
     @Override
     public String getEventSource() {
         return "单次接送下单";
@@ -577,7 +664,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     //神策统计_确认行程
     private void setSensorsConfirmEvent() {
         try {
-            int total = carBean.price;
+            double total = carBean.price;
             JSONObject properties = new JSONObject();
             properties.put("hbc_sku_type", "单次接送");
             properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单

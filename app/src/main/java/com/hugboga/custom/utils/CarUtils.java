@@ -109,6 +109,8 @@ public class CarUtils {
 //                    }
                     carBean.models = guideCars.get(i).carBrandName + " " + guideCars.get(i).carName;
                     carBean.id = guideCars.get(i).guideCarId;
+                    carBean.carPictures = guideCars.get(i).carPictures;
+                    carBean.carPicturesL = guideCars.get(i).carPicturesL;
                     list.add(carBean);
                 }
             }
@@ -134,9 +136,9 @@ public class CarUtils {
                     if (!TextUtils.isEmpty(guideCars.get(i).carInfo2)) {
                         carBean.models = guideCars.get(i).carInfo2;
                     }
-                    if(guideCars.get(i).carPhotosL.size()>0){
-                        carBean.carPictures = guideCars.get(i).carPhotosL;
-                    }
+//                    if(guideCars.get(i).carPhotosL.size()>0){
+//                        carBean.carPictures = guideCars.get(i).carPhotosL;
+//                    }
                     list.add(carBean);
                 }
             }
@@ -162,9 +164,9 @@ public class CarUtils {
                 }
                 carBean.capOfLuggage = guideCars.get(i).modelLuggageNum;
                 carBean.capOfPerson = guideCars.get(i).modelGuestNum;
-                if(guideCars.get(i).carPhotosL.size()>0){
-                    carBean.carPictures = guideCars.get(i).carPhotosL;
-                }
+//                if(guideCars.get(i).carPhotosL.size()>0){
+//                    carBean.carPictures = guideCars.get(i).carPhotosL;
+//                }
                 carBean.id = guideCars.get(i).guideCarId;
                 list.add(carBean);
             }

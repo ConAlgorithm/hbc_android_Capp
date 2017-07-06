@@ -73,4 +73,8 @@ public class SliderLayout extends LinearLayout {
     public void setOnValueChangedListener(SliderView.OnValueChangedListener onValueChangedListener) {
         slider.setOnValueChangedListener(onValueChangedListener);
     }
+
+    public void setShowNumberIndicator(boolean showNumberIndicator) {
+        slider.setShowNumberIndicator(showNumberIndicator);
+    }
 }

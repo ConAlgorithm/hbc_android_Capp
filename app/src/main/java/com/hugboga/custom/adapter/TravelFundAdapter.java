@@ -74,8 +74,8 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
                 holder.amountTV.setText("" + bean.getAmount());
                 if (bean.getAmount() >= 0) {
                     holder.signTV.setVisibility(View.VISIBLE);
-                    holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
-                    holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+                    holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.default_yellow));
+                    holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.default_yellow));
                 } else {
                     holder.signTV.setVisibility(View.GONE);
                     holder.amountTV.setTextColor(0xFFCECECE);
@@ -87,17 +87,23 @@ public class TravelFundAdapter extends BaseAdapter<TravelFundData.TravelFundBean
             holder.nameTV.setVisibility(View.GONE);
             holder.dateTV.setText(bean.getCreateDate());
             String sourceStr = bean.getDesc();
-            if (!TextUtils.equals(UserEntity.getUser().getUserName(mContext), bean.getUsername())) {
-                sourceStr = bean.getUsername() + sourceStr;
+            if(bean.getSource() != 5){
+                if (!TextUtils.equals(UserEntity.getUser().getUserName(mContext), bean.getUsername())) {
+                    sourceStr = bean.getUsername() + sourceStr;
+                }
+            }else {
+                sourceStr = bean.getDesc();
             }
+
+            holder.sourceTV.setTextSize(15);
             holder.sourceTV.setText(sourceStr);
 
             holder.desTV.setVisibility(View.GONE);
             holder.amountTV.setText("" + bean.getAmount());
             if (bean.getAmount() >= 0) {
                 holder.signTV.setVisibility(View.VISIBLE);
-                holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
-                holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.travel_fund_basic));
+                holder.amountTV.setTextColor(mContext.getResources().getColor(R.color.default_yellow));
+                holder.unitTV.setTextColor(mContext.getResources().getColor(R.color.default_yellow));
             } else {
                 holder.signTV.setVisibility(View.GONE);
                 holder.amountTV.setTextColor(0xFFCECECE);

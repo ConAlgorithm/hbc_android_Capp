@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/coupon_empty_color">
 
     <include layout="@layout/include_header" />
 
@@ -43,11 +44,35 @@
                 android:hint="请输入优惠券兑换码" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/des_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/coupon_empty_color"
+            android:layout_below="@+id/coupon_pay_layout"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/coupon_info"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:drawablePadding="2dp"
+                android:text="使用说明"
+                android:textSize="11sp"
+                android:textColor="#898989"
+                android:gravity="center"
+                />
+        </RelativeLayout>
+
         <com.hugboga.custom.widget.ZListView
             android:id="@+id/coupon_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/coupon_pay_layout"
+            android:layout_below="@id/des_layout"
             android:dividerHeight="15dp"
             android:background="@color/coupon_empty_color"
             android:divider="@null" />
@@ -67,12 +92,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/basic_margin_xlarge"
                 android:drawablePadding="@dimen/basic_margin_xlarge"
-                android:drawableTop="@mipmap/journey_sorry_quan"
+                android:drawableTop="@mipmap/empty_coupon"
+                android:gravity="center"
                 android:textSize="15sp"
-                android:text="对不起，您还没有可使用的优惠券"
+                android:text="暂无优惠券"
                 android:textColor="@color/coupon_empty_text" />
 
         </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="查看失效券"
+            android:textColor="#898989"
+            android:textSize="13sp"
+            android:drawableRight="@mipmap/coupon_more"
+            android:drawablePadding="2dp"
+            android:visibility="gone"/>
+
     </RelativeLayout>
+
 
 </LinearLayout>

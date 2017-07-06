@@ -183,6 +183,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     public void goodsSoldOut() {
+        if (headerRightBtn == null || emptyLayout == null || contentLayout == null) {
+            return;
+        }
         headerRightBtn.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.VISIBLE);
         contentLayout.setVisibility(View.GONE);

@@ -14,7 +14,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.EvaluateActivity;
+import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
@@ -32,6 +32,7 @@ import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
 
 import net.grobas.view.PolygonImageView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -137,10 +138,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                         evaluateTV.setText("评价司导");
                     }
 
-                    if (orderBean.guideAgencyType == 3) { //地接社不显示收藏按钮
-                        collectLayout.setVisibility(View.GONE);
-                        collectIV.setVisibility(View.GONE);
-                    } else if (guideInfo.isCollected()) { //不可取消收藏
+                    if (guideInfo.isCollected()) { //不可取消收藏
                         collectIV.setVisibility(View.VISIBLE);
                         collectLayout.setVisibility(View.GONE);
                     } else {
@@ -191,10 +189,11 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 if (orderBean == null) {
                     return;
                 }
-                intent = new Intent(getContext(), EvaluateActivity.class);
+                intent = new Intent(getContext(), EvaluateNewActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 intent.putExtra(Constants.PARAMS_SOURCE, ((OrderDetailActivity) getContext()).getEventSource());
-                getContext().startActivity(intent);
+                intent.putExtra("isFromOrderDetail",true);
+                ((OrderDetailActivity) getContext()).startActivityForResult(intent,OrderDetailActivity.EVALUATE_TYPE);
                 break;
             case R.id.ogi_chat_layout:
                 if (orderBean == null || orderBean.imInfo == null) {

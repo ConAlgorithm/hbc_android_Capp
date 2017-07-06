@@ -20,4 +20,7 @@ public class ActionSkuListBean implements Serializable {
      * */
     @SerializedName("ai")
     public String areaId;
+
+    @SerializedName("an")
+    public String areaName;
 }

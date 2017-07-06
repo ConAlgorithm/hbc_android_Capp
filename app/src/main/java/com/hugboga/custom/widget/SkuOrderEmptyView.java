@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -98,16 +97,11 @@ public class SkuOrderEmptyView extends LinearLayout{
         } else if (_carList == null || _carList.size() <= 0) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
-//            if (TextUtils.isEmpty(noneCarsReason)) {
-                if (isAssignGuide) {
-                    hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
-                } else {
-                    hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
-                }
-//            } else {
-//                hintTV.setText(noneCarsReason + "\n请联系客服，我们会协助您完成预订");
-//            }
-
+            if (isAssignGuide) {
+                hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
+            } else {
+                hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
+            }
             isEmpty = true;
             refreshTV.setVisibility(View.VISIBLE);
             refreshTV.setText("联系客服");
@@ -116,6 +110,15 @@ public class SkuOrderEmptyView extends LinearLayout{
             setVisibility(View.GONE);
         }
         return isEmpty;
+    }
+
+    public void setSeckillsEmpty(String noneCarsReason, OnClickListener listener) {
+        setVisibility(View.VISIBLE);
+        emptyIV.setBackgroundResource(R.drawable.empty_car);
+        hintTV.setText(noneCarsReason);
+        refreshTV.setVisibility(View.VISIBLE);
+        refreshTV.setText("继续下单");
+        refreshTV.setOnClickListener(listener);
     }
 
     @OnClick(R.id.sku_order_empty_refresh_tv)
@@ -156,7 +159,7 @@ public class SkuOrderEmptyView extends LinearLayout{
         public void onClickCharter();
     }
 
-    public void setonClickCharterListener(OnClickCharterListener onClickCharterListener) {
+    public void setOnClickCharterListener(OnClickCharterListener onClickCharterListener) {
         this.onClickCharterListener = onClickCharterListener;
     }
 }

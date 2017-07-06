@@ -28,17 +28,17 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
-import com.hugboga.custom.data.request.RequestUpLoadFile;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.utils.AlbumUploadHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UploadPicUtils;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
@@ -198,15 +198,6 @@ public class PersonInfoActivity extends BaseActivity{
             UserEntity.getUser().setPhone(activity, userBean.mobile);
             initView();
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
-        } else if (request instanceof RequestUpLoadFile) {
-            RequestUpLoadFile requestUpLoadFile = (RequestUpLoadFile) request;
-            Object obj = requestUpLoadFile.getData();
-            if (obj instanceof String) {
-                submitChangeUserInfo(1, obj.toString());
-            } else if (obj instanceof List) {
-                if (!((List) obj).isEmpty())
-                    submitChangeUserInfo(1, ((List) obj).get(0).toString());
-            }
         }
     }
     AgePicker agePicker;
@@ -714,17 +705,32 @@ public class PersonInfoActivity extends BaseActivity{
      * @param file
      */
     private void uploadPic(File file) {
-        MLog.e("uploadPic url=" + UrlLibs.SERVER_IP_PIC_UPLOAD);
-        String url = UrlLibs.SERVER_IP_PIC_UPLOAD;
-        url = url.replace(UrlLibs.SERVER_IP_HOST_PUBLIC_DEFAULT, UrlLibs.SERVER_IP_HOST_PUBLIC);
-        MLog.e("uploadPic url=" + url);
-        HashMap<String, Object> fileMap = new HashMap<>();
-        fileMap.put("pic", file);
-        fileMap.put("type", "1");
-        fileMap.put("refId", UserEntity.getUser().getUserId(this));
-        fileMap.put("refType", "4");
-        RequestUpLoadFile parser = new RequestUpLoadFile(this, fileMap);
-        requestData(parser);
+        new UploadPicUtils(this, file, new AlbumUploadHelper.UploadListener() {
+            @Override
+            public void onPostUploadProgress(int fid, String percent) {
+
+            }
+
+            @Override
+            public void onPostUploadSuccess(int fid, String uploadFileUrl) {
+                submitChangeUserInfo(1, uploadFileUrl);
+            }
+
+            @Override
+            public void onPostUploadFail(int fid, String message) {
+                CommonUtils.showToast(message);
+            }
+
+            @Override
+            public void onPostAllUploaded() {
+
+            }
+
+            @Override
+            public void onPostUploadCancleAll() {
+
+            }
+        });
     }
 
     private void showTip(String tips) {

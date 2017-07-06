@@ -2,32 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="#e5e6e7" />
 
     <TextView
-        android:id="@+id/title_view"
+        android:id="@+id/title_view1"
         android:layout_marginTop="10dp"
-        android:textColor="#face05"
+        android:textColor="#898989"
         android:drawableLeft="@drawable/coupon_left_line"
-        android:textSize="16sp"
+        android:textSize="13sp"
         android:drawablePadding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left" />
-
+        android:gravity="left"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/title_view2"
+        android:layout_marginTop="10dp"
+        android:textColor="#898989"
+        android:drawableLeft="@drawable/coupon_left_line2"
+        android:textSize="13sp"
+        android:drawablePadding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/content_view"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+        android:textColor="#a8a8a8"
         android:gravity="left" />
 
 </LinearLayout>

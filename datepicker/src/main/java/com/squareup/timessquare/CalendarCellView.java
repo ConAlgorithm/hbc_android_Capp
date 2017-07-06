@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,7 +51,9 @@ public class CalendarCellView extends FrameLayout {
 
     private TextView day_view_round;
 
-    private TextView dayOfMonthTextView;
+    private ScoreTextView dayOfMonthTextView;
+
+    private ImageView dayViewTimeIv;
 
     public TextView getDay_view_round_left() {
         return day_view_round_left;
@@ -66,6 +69,14 @@ public class CalendarCellView extends FrameLayout {
 
     public void setDay_view_round_right(TextView day_view_round_right) {
         this.day_view_round_right = day_view_round_right;
+    }
+
+    public void setDayViewTimeIv(ImageView dayViewTimeIv) {
+        this.dayViewTimeIv = dayViewTimeIv;
+    }
+
+    public ImageView getDayViewTimeIv() {
+        return dayViewTimeIv;
     }
 
     private TextView day_view_round_left;
@@ -91,6 +102,12 @@ public class CalendarCellView extends FrameLayout {
     }
 
     private TextView bottomTextView;
+
+    private CalendarListBean calendarListBean;
+
+    public void setCalendarListBean(CalendarListBean calendarListBean) {
+        this.calendarListBean = calendarListBean;
+    }
 
   @SuppressWarnings("UnusedDeclaration") //
   public CalendarCellView(Context context, AttributeSet attrs) {
@@ -202,6 +219,7 @@ public class CalendarCellView extends FrameLayout {
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("");
+        dayViewTimeIv.setBackgroundResource(R.drawable.guide_calendar_half_check);
     }else if(rangeState == RangeState.START_END){
         day_view_round.setBackgroundResource(R.drawable.day_view_selector);
         dayOfMonthTextView.setBackgroundColor(Color.parseColor("#00000000"));
@@ -214,16 +232,16 @@ public class CalendarCellView extends FrameLayout {
         day_view_round_left.setVisibility(INVISIBLE);
         day_view_round_right.setVisibility(INVISIBLE);
         bottomTextView.setText("");
+        dayViewTimeIv.setBackgroundResource(R.drawable.guide_calendar_half);
     }
-
     return drawableState;
   }
 
-  public void setDayOfMonthTextView(TextView textView) {
+  public void setDayOfMonthTextView(ScoreTextView textView) {
     dayOfMonthTextView = textView;
   }
 
-  public TextView getDayOfMonthTextView() {
+  public ScoreTextView getDayOfMonthTextView() {
     if (dayOfMonthTextView == null) {
       throw new IllegalStateException(
               "You have to setDayOfMonthTextView in your custom DayViewAdapter."

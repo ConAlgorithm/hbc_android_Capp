@@ -1,12 +1,15 @@
 package com.hugboga.custom.utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -26,7 +29,6 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -43,6 +45,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -315,10 +318,15 @@ public final class CommonUtils {
     }
 
     public static void showLargerImage(Context context, String url) {
-        LargerImageActivity.Params params = new LargerImageActivity.Params();
-        ArrayList<String> imageUrlList = new ArrayList<String>(1);
+        List<String> imageUrlList = new ArrayList<String>(1);
         imageUrlList.add(url);
+        showLargerImages(context, imageUrlList, 0);
+    }
+
+    public static void showLargerImages(Context context, List<String> imageUrlList, int position) {
+        LargerImageActivity.Params params = new LargerImageActivity.Params();
         params.imageUrlList = imageUrlList;
+        params.position = position;
         Intent intent = new Intent(context, LargerImageActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
@@ -469,11 +477,15 @@ public final class CommonUtils {
         }
     }
 
-    public static String doubleTrans(double num){
-        if (num % 1.0 == 0) {
-            return String.valueOf((long)num);
+    public static String doubleTrans(double num) {
+        try {
+            if (num % 1.0 == 0) {
+                return String.valueOf((long)num);
+            }
+            return String.valueOf(num);
+        } catch (Exception e) {
+            return "" + num;
         }
-        return String.valueOf(num);
     }
 
     public static String getNum(String text) {
@@ -511,4 +523,33 @@ public final class CommonUtils {
         }
     }
 
+    /**
+     * Try to return the absolute file path from the given Uri
+     *
+     * @param context
+     * @param uri
+     * @return the file path or null
+     */
+    public static String getRealFilePath( final Context context, final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
 }

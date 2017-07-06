@@ -187,4 +187,5 @@
     <color name="forget_pwd">#24b5ff</color>
     <color name="pickerLine">#dddddd</color>
     <color name="blacktrans">#60000000</color>
+    <color name="guildsaved">#929292</color>
 </resources>

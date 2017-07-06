@@ -3,7 +3,10 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,7 +21,12 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.utils.DatabaseManager;
-import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.Tools;
+
+import net.grobas.view.PolygonImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,6 +64,18 @@ public class CityListCustomView extends LinearLayout {
     @Bind(R.id.city_custom_single_tv)
     TextView singleTV;
 
+    @Bind(R.id.city_custom_city_title_layout)
+    RelativeLayout cityTitleLayout;
+    @Bind(R.id.city_custom_city_title_tv)
+    TextView cityTitleTV;
+    @Bind({R.id.city_custom_city_guide_avatar_iv1
+            , R.id.city_custom_city_guide_avatar_iv2
+            , R.id.city_custom_city_guide_avatar_iv3
+            , R.id.city_custom_city_guide_avatar_iv4
+            , R.id.city_custom_city_guide_avatar_iv5})
+    List<PolygonImageView> avatarViewList;
+
+
     private CityListBean cityListBean;
 
     public CityListCustomView(Context context) {
@@ -74,8 +94,29 @@ public class CityListCustomView extends LinearLayout {
         }
         this.cityListBean = cityListBean;
 
+        titleTV.setVisibility(View.GONE);
+        cityTitleLayout.setVisibility(View.VISIBLE);
+
         int guideCount = cityListBean.cityGuides == null ? 0 : cityListBean.cityGuides.guideAmount;
-        titleTV.setText(String.format("%1$s位当地中文司导可服务", "" + guideCount));
+        String title = String.format("%1$s 位华人司导可服务", "" + guideCount);
+        SpannableString msp = new SpannableString(title);
+        msp.setSpan(new RelativeSizeSpan(1.4f), 0, ("" + guideCount).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        cityTitleTV.setText(msp);
+
+        if (cityListBean.cityGuides != null && cityListBean.cityGuides.guideAvatars != null) {
+            ArrayList<String> guideAvatars = cityListBean.cityGuides.guideAvatars;
+            int avatarViewSize = avatarViewList.size();
+            int avatarSize = guideAvatars.size();
+            for (int i = 0; i < avatarSize; i++) {
+                int viewIndex = avatarViewSize - i - 1;
+                if (viewIndex < 0) {
+                    break;
+                }
+                PolygonImageView avatarView = avatarViewList.get(viewIndex);
+                avatarView.setVisibility(View.VISIBLE);
+                Tools.showImage(avatarView, guideAvatars.get(i), R.mipmap.icon_avatar_guide);
+            }
+        }
 
         boolean dailyIsCanService = cityListBean.dailyServiceVo != null && cityListBean.dailyServiceVo.isCanService();
         if (dailyIsCanService) {
@@ -156,10 +197,6 @@ public class CityListCustomView extends LinearLayout {
             }
             if (pickOrSendIsCanService && singleCanService) {
                 bottomVerticalLine.setVisibility(View.VISIBLE);
-                LinearLayout.LayoutParams lp = (LayoutParams) picksendTV.getLayoutParams();
-                lp.setMargins(0,UIUtils.dip2px(6),UIUtils.dip2px(20),0);
-                picksendTV.setLayoutParams(lp);
-
             } else {
                 bottomVerticalLine.setVisibility(View.GONE);
             }

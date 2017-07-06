@@ -1,15 +1,22 @@
 package com.hugboga.custom.activity;
 
 import android.animation.Animator;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,12 +36,13 @@ import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAvailableCoupon;
-import com.hugboga.custom.data.request.RequestCoupon;
 import com.hugboga.custom.data.request.RequestCouponExchange;
+import com.hugboga.custom.data.request.RequestUnusedCoupon;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CouponItemView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ZListView;
@@ -78,11 +86,15 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     TextView headerRightTxt;
     @Bind(R.id.coupon_btn_pay)
     Button couponBtnPay;
+    @Bind(R.id.next)
+    TextView next;
+    @Bind(R.id.des)
+    TextView des;
     private String orderId;
     private double orderPrice;
     private String couponId;
     private int mPageSize = 20;
-
+    private boolean isFromMyspace = false;
     private MostFitAvailableBean paramsData;
 
     private String idStr = null;
@@ -144,7 +156,13 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void initView() {
-        headerTitle.setText("我的优惠券");
+        isFromMyspace = getIntent().getBooleanExtra("isFromMyspace",false);
+        if(isFromMyspace){
+            headerTitle.setText("我的优惠券");
+        }else {
+            headerTitle.setText("选择优惠券");
+        }
+
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +174,52 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
         listView.setonLoadListener(onLoadListener);
+        LinearLayout mFooter = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.coupon_listview, null);
+        TextView footer = (TextView) mFooter.findViewById(R.id.footer);
+        if(isFromMyspace){
+            footer.setText("查看失效券");
+        }else{
+            footer.setText("查看不可用券");
+        }
+        listView.addFooterView(mFooter);
+        next.setVisibility(View.GONE);
+        mFooter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                intent.putExtras(bundle);
+                intent.putExtra("isFromMyspace",isFromMyspace);
+                startActivity(intent);
+            }
+        });
         setCouponBtnPay();
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponActivity.this, CouponInvalidActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.PARAMS_DATA, paramsData);
+                intent.putExtras(bundle);
+                intent.putExtra("isFromMyspace",isFromMyspace);
+                startActivity(intent);
+            }
+        });
+        des.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponActivity.this, CouponDesActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                startActivity(intent);
+            }
+        });
+
+        if(!isFromMyspace){
+            next.setText("查看不可用券");
+        }
     }
     private void setCouponBtnPay(){
         if(carNumberEditText!= null && couponBtnPay != null){
@@ -199,7 +262,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private Callback.Cancelable runData(String orderId, int pageIndex) {
         BaseRequest request = null;
         if (paramsData == null) {
-            request = new RequestCoupon(this, orderId, orderPrice, pageIndex, mPageSize);
+            request = new RequestUnusedCoupon(this, pageIndex, mPageSize);
         } else {
             request = new RequestAvailableCoupon(this, paramsData, pageIndex);
         }
@@ -237,8 +300,8 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        if (request instanceof RequestCoupon) {
-            RequestCoupon mRequest = (RequestCoupon) request;
+        if (request instanceof RequestUnusedCoupon) {
+            RequestUnusedCoupon mRequest = (RequestUnusedCoupon) request;
             setData(mRequest.getData());
         } else if (request instanceof RequestAvailableCoupon) {
             RequestAvailableCoupon requestAvailableCoupon = (RequestAvailableCoupon) request;
@@ -257,7 +320,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     private void setData(List<CouponBean> list) {
-        if (list != null) {
+        if (list != null && list.size()>0) {
             if (adapter == null) {
                 adapter = new CouponAdapter(this, idStr);
                 listView.setAdapter(adapter);
@@ -265,6 +328,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             } else {
                 adapter.addList(list);
             }
+
+        }else{
+            next.setVisibility(View.VISIBLE);
         }
         if (list != null && list.size() < mPageSize) {
             listView.onLoadCompleteNone();
@@ -294,17 +360,84 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             }
         } else {
             //点击查看详情
-            try {
-                showCouponInfo(bean);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            showCouponInfoByDialog(bean);
+        }
+    }
+    /**
+     * 查看订单详情,弹框型
+     *
+     * @param bean
+     */
+    private void showCouponInfoByDialog(CouponBean bean){
+        RelativeLayout rl = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.coupon_info_layout, null);
+
+        ((TextView) rl.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
+        ((TextView) rl.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
+
+
+        SpannableString spannableString = new SpannableString(bean.price);
+        if(bean.price.endsWith("折")){
+            spannableString.setSpan(new AbsoluteSizeSpan(50), bean.price.length() - 3, bean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }else if(bean.price.endsWith("元")){
+            spannableString.setSpan(new AbsoluteSizeSpan(50), bean.price.length() - 1, bean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        ((TextView) rl.findViewById(R.id.coupon_info_price)).setText(spannableString);
+        if(bean.couponStatus.equals(2) || bean.couponStatus.equals(-1) || bean.couponStatus.equals(98)){
+            ((TextView) rl.findViewById(R.id.coupon_info_price)).setTextColor(getResources().getColor(R.color.common_font_color_gray2));
+        }
+
+        setCouponStatus(bean,rl);
+
+        if (bean.endDate.equals("0")) {
+            ((TextView) rl.findViewById(R.id.coupon_info_limit_time)).setText("有效期：长期有效");
+        } else {
+            ((TextView) rl.findViewById(R.id.coupon_info_limit_time)).setText("有效期：" + bean.startDate + " 至 " + bean.endDate);
+        }
+
+        LinearLayout dataListLayout = (LinearLayout) rl.findViewById(R.id.data_list_layout);
+        CouponItemView couponItemView;
+        for(CouponTitleContent titleContent:bean.dataList){
+            couponItemView = new CouponItemView(activity);
+            if(bean.couponStatus.equals(2) || bean.couponStatus.equals(-1) || bean.couponStatus.equals(98)){
+                couponItemView.setTitleType2(titleContent.title);
+            }else if(bean.couponStatus.equals(1)){
+                couponItemView.setTitleType1(titleContent.title);
+            }
+            couponItemView.setContent(titleContent.content);
+            dataListLayout.addView(couponItemView);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl);
+        final AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.gravity = Gravity.CENTER;
+        lp.width= UIUtils.dip2px(330);
+        lp.height=UIUtils.dip2px(380);
+        dialogWindow.setAttributes(lp);
+    }
+
+    private void setCouponStatus(CouponBean bean,RelativeLayout rl){
+        if(bean != null){
+            if(bean.couponStatus.equals(2)){
+                rl.findViewById(R.id.coupon_invalid).setVisibility(View.VISIBLE);
+                ((TextView) rl.findViewById(R.id.coupon_invalid)).setText("已使用");
+            }else if(bean.couponStatus.equals(-1)){
+                rl.findViewById(R.id.coupon_invalid).setVisibility(View.VISIBLE);
+                ((TextView) rl.findViewById(R.id.coupon_invalid)).setText("已过期");
+            }else if(bean.couponStatus.equals(98)){
+                rl.findViewById(R.id.coupon_invalid).setVisibility(View.VISIBLE);
+                ((TextView) rl.findViewById(R.id.coupon_invalid)).setText("已冻结");
+            }else if(bean.couponStatus.equals(1)){
+                rl.findViewById(R.id.coupon_invalid).setVisibility(View.GONE);
             }
         }
     }
 
-
     /**
-     * 查看订单详情
+     * 查看订单详情,整页型
      *
      * @param bean
      */
@@ -329,7 +462,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         CouponItemView couponItemView;
         for(CouponTitleContent titleContent:bean.dataList){
             couponItemView = new CouponItemView(activity);
-            couponItemView.setTitle(titleContent.title);
+            //couponItemView.setTitle(titleContent.title);
             couponItemView.setContent(titleContent.content);
             dataListLayout.addView(couponItemView);
         }

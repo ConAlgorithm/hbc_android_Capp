@@ -57,4 +57,8 @@ public class GroupParentParam implements Serializable {
     public String startAddress;                 // 出发地地址 //GDS-M C-APP-O
     public String startAddressPoi;              // 出发地点POI //M
     public String startAddressDetail;           // 出发地详情(上车地点) //O-for-CAPP | M-for-GDS
+
+    public Double priceTicket;
+    public String limitedSaleNo;                // 秒杀活动编号
+    public String limitedSaleScheduleNo;        // 秒杀活动场次编号
 }

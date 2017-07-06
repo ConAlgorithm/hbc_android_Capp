@@ -9,23 +9,27 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.hugboga.custom.constants.Constants;
+import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * com.hugboga.custom.utils.ImageUtils
  *
- * @author ZHZEPHI
- *         Create at 2015年3月23日 上午11:41:44
+ * @author zhangqiang
+ *
  */
 public class ImageUtils {
 
@@ -92,4 +96,35 @@ public class ImageUtils {
         return dm.widthPixels;
     }
 
+    public static File compressImageFile(Context context,File file){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getPath(),options);
+        int sampleSize = options.outWidth / ScreenUtil.screenWidth;
+        if(sampleSize>0){
+            options.inSampleSize = sampleSize;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getPath(),options);
+        String newFilePath = context.getExternalFilesDir(Constants.IMAGE_DIR) + File.separator + "hbc_" + System.currentTimeMillis();
+        CompressFormat format = CompressFormat.JPEG;
+        int quality = 70;
+        OutputStream stream = null;
+        File newFile = null;
+        try {
+            newFile = new File(newFilePath);
+            if (newFile.exists()) {
+                newFile.delete();
+            }
+            newFile.createNewFile();
+            stream = new FileOutputStream(newFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(bitmap!=null && stream!=null){
+            bitmap.compress(format, quality, stream);
+            bitmap.recycle();
+        }
+        return newFile;
+    }
 }

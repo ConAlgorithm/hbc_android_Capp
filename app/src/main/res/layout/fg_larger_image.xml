@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:res="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    >
+    android:background="@android:color/black">
+
+    <include
+        android:id="@+id/larger_img_titlebar"
+        layout="@layout/include_header" />
 
     <com.hugboga.custom.widget.HackyViewPager
         android:id="@+id/larger_img_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/larger_img_titlebar" />
 
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/larger_img_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="20dip"
-        android:layout_marginBottom="40dip"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="5dip"
-        res:centered="true"
-        res:pageColor="#44ffffff"
-        res:fillColor="#ffffff"
-        res:strokeColor="#00ffffff"
-        res:strokeWidth="0dip"
-        res:radius="4dip" />
 </RelativeLayout>

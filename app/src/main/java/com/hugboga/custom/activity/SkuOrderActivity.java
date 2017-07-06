@@ -51,6 +51,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
+import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderChooseDateView;
@@ -97,6 +98,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.sku_order_discount_view)
     SkuOrderDiscountView discountView;
+    @Bind(R.id.sku_order_insurance_view)
+    OrderInsuranceView insuranceView;
     @Bind(R.id.sku_order_bottom_view)
     SkuOrderBottomView bottomView;
     @Bind(R.id.sku_order_explain_view)
@@ -120,7 +123,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     private CouponBean couponBean;
     private String couponId;
 
-    private int sensorsActualPrice = 0;
+    private double sensorsActualPrice = 0;
 
     private int requestCouponTag = 0;
     private int requestCancleTipsTag = 0;
@@ -428,6 +431,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         discountView.setVisibility(visibility);
         bottomView.setVisibility(visibility);
         explainView.setVisibility(visibility);
+        insuranceView.setVisibility(visibility);
     }
 
     /* 滚动到顶部 */
@@ -455,11 +459,13 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
             bottomView.onLoading();
             progressView.setVisibility(View.VISIBLE);
             discountView.setVisibility(View.GONE);
+            insuranceView.setVisibility(View.GONE);
             explainView.setVisibility(View.GONE);
         } else {
             bottomView.onSucceed();
             progressView.setVisibility(View.GONE);
             discountView.setVisibility(View.VISIBLE);
+            insuranceView.setVisibility(View.VISIBLE);
             explainView.setVisibility(View.VISIBLE);
         }
     }
@@ -488,7 +494,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
         countView.update(carBean, carListBean, serverDate, params.skuItemBean);
-        int additionalPrice = countView.getAdditionalPrice();
+        double additionalPrice = countView.getAdditionalPrice();
         requestSucceedCount = 3;
         onBottomLoading(!carBean.isCallOnClick);
         requestCouponTag++;
@@ -512,12 +518,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         if (bean == null) {
             return;
         }
-        discountView.setInsuranceCount(bean.mans + bean.childs);
+        insuranceView.setInsuranceCount(bean.mans + bean.childs);
     }
 
     /* 儿童座椅+酒店价格发生改变 */
     @Override
-    public void onAdditionalPriceChange(int price) {
+    public void onAdditionalPriceChange(double price) {
         requestSucceedCount = 2;
         onBottomLoading(true);
         requestCouponTag++;
@@ -531,10 +537,10 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         if (carBean == null) {
             return;
         }
-        final int additionalPrice = countView.getAdditionalPrice();
-        int totalPrice = carBean.price + additionalPrice;
-        int actualPrice = totalPrice;
-        int deductionPrice = 0;
+        final double additionalPrice = countView.getAdditionalPrice();
+        double totalPrice = carBean.price + additionalPrice;
+        double actualPrice = totalPrice;
+        double deductionPrice = 0;
 
         switch (type) {
             case SkuOrderDiscountView.TYPE_COUPON:
@@ -642,7 +648,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     * 获取优惠券
     * @params additionalPrice 儿童座椅 + 酒店价格
     * */
-    private void requestMostFit(int additionalPrice, int requestTag) {
+    private void requestMostFit(double additionalPrice, int requestTag) {
         RequestMostFit requestMostFit = new RequestMostFit(this
                 , carBean.price + additionalPrice + ""
                 , carBean.price + additionalPrice + ""
@@ -665,7 +671,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     * 获取旅游基金
     * @params additionalPrice 儿童座椅 + 酒店价格
     * */
-    private void requestTravelFund(int additionalPrice, int requestTag) {
+    private void requestTravelFund(double additionalPrice, int requestTag) {
         RequestDeduction requestDeduction = new RequestDeduction(this, carBean.price + additionalPrice + "");
         requestDeduction.tag = "" + requestTag;
         requestData(requestDeduction, false);

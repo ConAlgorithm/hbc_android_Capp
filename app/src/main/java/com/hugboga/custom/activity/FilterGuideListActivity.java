@@ -14,14 +14,12 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CapacityBean;
-import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
-import com.hugboga.custom.data.bean.LineGroupBean;
+import com.hugboga.custom.data.bean.FilterGuideOptionsBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestFilterGuide;
-import com.hugboga.custom.data.request.RequestMaxCapacityOverall;
+import com.hugboga.custom.data.request.RequestGuideFilterOptions;
 import com.hugboga.custom.fragment.GuideFilterFragment;
 import com.hugboga.custom.fragment.GuideFilterSortFragment;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -130,7 +128,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             filterLayout.initCityFilter(params);
         }
 
-        requestMaxCapacityOverall();
+        requestGuideFilterOptions();
         requestGuideList();
     }
 
@@ -180,9 +178,17 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         requestData(requestFilterGuide, isShowLoading);
     }
 
-    // 可服务车型最大乘坐人数
-    public void requestMaxCapacityOverall() {
-        requestData(new RequestMaxCapacityOverall(this));
+    public void requestGuideFilterOptions() {
+        CityListActivity.CityHomeType cityHomeType = null;
+        String id = "";
+        if (cityParams != null) {
+            cityHomeType = cityParams.cityHomeType;
+            id = "" + cityParams.id;
+        } else if (paramsData != null) {
+            cityHomeType = paramsData.cityHomeType;
+            id = "" + paramsData.id;
+        }
+        requestData(new RequestGuideFilterOptions(this, cityHomeType, id));
     }
 
     public boolean isShowCity() {
@@ -212,6 +218,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                     paramsData = null;
                     cityParams = (CityListActivity.Params) action.getData();
                     filterLayout.setCityParams(cityParams);
+                    requestGuideFilterOptions();
                     requestGuideList();
                 }
                 break;
@@ -254,6 +261,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             builder.setGenders(guideFilterBean.getGendersRequestParams());
             builder.setServiceTypes(guideFilterBean.getCharterRequestParams());
             builder.setGuestNum("" + guideFilterBean.travelerCount);
+            builder.setLangCodes(guideFilterBean.getLanguageRequestParams());
+            builder.setLabelIds(guideFilterBean.getSkillRequestParams());
         }
         if (sortTypeBean != null) {
             builder.setOrderByType(sortTypeBean.type);
@@ -280,9 +289,10 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             }
             mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= filterGuideListBean.listCount);
-        } else if (_request instanceof RequestMaxCapacityOverall) {
-            CapacityBean capacityBean = ((RequestMaxCapacityOverall) _request).getData();
-            filterLayout.setCapacityBean(capacityBean);
+        } else if (_request instanceof RequestGuideFilterOptions) {
+            FilterGuideOptionsBean filterGuideOptionsBean = ((RequestGuideFilterOptions) _request).getData();
+            filterGuideOptionsBean.setMandarinBean();
+            filterLayout.setFilterGuideOptionsBean(filterGuideOptionsBean);
         }
     }
 

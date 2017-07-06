@@ -26,6 +26,7 @@ public enum EventType {
     WECHAT_SHARE_SUCCEED,//微信分享成功
     PAY_RESULT,//支付回调
     TRAVEL_LIST_TYPE,//行程列表分类
+    TRAVEL_LIST_NUMBER,//行程个数
     QUESTION_ITEM,//客服问题
 
     CHANGE_MOBILE,//修改手机号
@@ -106,6 +107,14 @@ public enum EventType {
     SKU_FILTER_SCOPE,
 
     SHOW_GUIDE_DETAIL_BAR,
+    SHOW_WEB_TITLE_BAR,
 
     WEBINFO_REFRESH,//刷新webView
+
+    EVALUTE_PIC_DELETE,//删除预览页,返回,或者直接返回
+    //EVALUTE_PIC_DELETE_ONLYONE//删除预览页到最后一张,直接返回
+    REFRESH_TRAVEL_DATA,
+    REFRESH_TRAVEL_DATA_UNEVALUDATE,
+    UNEVALUDATE_BACK,
+    CHOOSE_AIR_FRAGMENT,//切换航班号或者是起降地fragment
 }

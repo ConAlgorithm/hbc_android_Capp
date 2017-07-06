@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.bean.CapacityBean;
+import com.hugboga.custom.data.bean.FilterGuideOptionsBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.FilterTagUtils;
+import com.hugboga.custom.widget.FilterTagGroupBase;
+import com.hugboga.custom.widget.GuideSkillFilterTagGroup;
 import com.hugboga.custom.widget.SliderLayout;
 import com.hugboga.custom.widget.SliderView;
+import com.hugboga.custom.widget.TagGroup;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,9 +55,24 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
     @Bind(R.id.guide_filter_slider_layout)
     SliderLayout sliderLayout;
 
+    @Bind(R.id.guide_filter_language_foreign_layout)
+    LinearLayout foreignLanguageLayout;
+    @Bind(R.id.guide_filter_language_foreign_taggroup)
+    FilterTagGroupBase foreignLanguageTagGroup;
+
+    @Bind(R.id.guide_filter_language_local_layout)
+    LinearLayout localLanguageLayout;
+    @Bind(R.id.guide_filter_language_local_taggroup)
+    FilterTagGroupBase localLanguageTagGroup;
+
+    @Bind(R.id.guide_filter_skill_layout)
+    LinearLayout skillLayout;
+    @Bind(R.id.guide_filter_skill_taggroup)
+    GuideSkillFilterTagGroup skillLanguageTagGroup;
+
     private GuideFilterBean guideFilterBean;
     private GuideFilterBean guideFilterBeanCache;
-    private CapacityBean capacityBean;
+    private FilterGuideOptionsBean filterGuideOptionsBean;
 
     @Override
     public int getContentViewId() {
@@ -69,14 +90,15 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
         guideFilterBean = new GuideFilterBean();
         guideFilterBeanCache = new GuideFilterBean();
 
-        if (capacityBean != null) {
-            sliderLayout.setMax(capacityBean.numOfPerson);
+        if (filterGuideOptionsBean != null) {
+            setFilterGuideOptionsBean(filterGuideOptionsBean);
         } else {
             sliderLayout.setMax(11);
         }
         sliderLayout.setMin(1);
         sliderLayout.setValue(2);
         sliderLayout.setOnValueChangedListener(this);
+        sliderLayout.setShowNumberIndicator(false);
     }
 
     @Override
@@ -130,6 +152,9 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
                 guideFilterBean.isSave = false;
                 break;
             case R.id.guide_filter_confirm_tv:
+                guideFilterBean.guideForeignLangs = foreignLanguageTagGroup.getList();
+                guideFilterBean.guideLocalLangs = localLanguageTagGroup.getList();
+                guideFilterBean.guideSkillLabels = skillLanguageTagGroup.getList();
                 guideFilterBeanCache = (GuideFilterBean) guideFilterBean.clone();
                 guideFilterBean.isSave = true;
                 EventBus.getDefault().post(new EventAction(EventType.GUIDE_FILTER_SCOPE, guideFilterBeanCache));
@@ -137,37 +162,46 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
         }
     }
 
-    @OnClick({R.id.guide_filter_scope_outside_layout})
-    public void onOutsideClick() {
-        EventBus.getDefault().post(new EventAction(EventType.FILTER_CLOSE));
-    }
-
-    public void setCapacityBean(CapacityBean capacityBean) {
-        if (capacityBean == null) {
+    //FIXME 数据传递有空改成eventbus sticky实现，待优化
+    public void setFilterGuideOptionsBean(FilterGuideOptionsBean _bean) {
+        if (_bean == null) {
             return;
         }
-        if (sliderLayout != null) {
-            sliderLayout.setMax(capacityBean.numOfPerson);
+        if (sliderLayout != null && foreignLanguageLayout != null && localLanguageLayout != null && skillLayout != null) {
+            sliderLayout.setMax(_bean.numOfPerson);
+            updateForeignLangsViews(_bean.guideForeignLangs);
+            updateLocalLangsViews(_bean.guideLocalLangs);
+            updateSkillViews(_bean.guideSkillLabels);
+            if (guideFilterBean != null) {
+                guideFilterBean.guideForeignLangs = _bean.guideForeignLangs;
+                guideFilterBean.guideLocalLangs = _bean.guideLocalLangs;
+                guideFilterBean.guideSkillLabels = _bean.guideSkillLabels;
+            }
+            if (guideFilterBeanCache != null) {
+                guideFilterBeanCache.guideForeignLangs = _bean.guideForeignLangs;
+                guideFilterBeanCache.guideLocalLangs = _bean.guideLocalLangs;
+                guideFilterBeanCache.guideSkillLabels = _bean.guideSkillLabels;
+            }
         } else {
-            this.capacityBean = capacityBean;
+            this.filterGuideOptionsBean = _bean;
         }
     }
 
     public void setGendersMaleLayoutSelected(boolean isSelected) {
         gendersMaleLayout.setSelected(isSelected);
         gendersMaleIV.setBackgroundResource(isSelected ? R.mipmap.guide_man_check : R.mipmap.guide_man_uncheck);
-        gendersMaleTV.setTextColor(isSelected ? 0xFFFFC620 : 0xFF8A8A8A);
+        gendersMaleTV.setTextColor(isSelected ? getContext().getResources().getColor(R.color.default_yellow) : 0xFF8A8A8A);
     }
 
     public void setGendersFemaleLayoutSelected(boolean isSelected) {
         gendersFemaleLayout.setSelected(isSelected);
         gendersFemaleIV.setBackgroundResource(isSelected ? R.mipmap.guide_woman_check : R.mipmap.guide_woman_uncheck);
-        gendersFemaleTV.setTextColor(isSelected ? 0xFFFFC620 : 0xFF8A8A8A);
+        gendersFemaleTV.setTextColor(isSelected ? getContext().getResources().getColor(R.color.default_yellow) : 0xFF8A8A8A);
     }
 
     public void setCharterViewSelected(TextView view, boolean isSelected) {
         view.setSelected(isSelected);
-        view.setTextColor(isSelected ? 0xFFFFC620 : 0xFF8A8A8A);
+        view.setTextColor(isSelected ? getContext().getResources().getColor(R.color.default_yellow) : 0xFF8A8A8A);
     }
 
     public void resetALLFilterBean() {
@@ -195,6 +229,64 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
         setCharterViewSelected(dailyTV, guideFilterBean.daily);
 
         sliderLayout.setValue(guideFilterBean.travelerCount);
+
+        updateForeignLangsViews(guideFilterBean.guideForeignLangs);
+        updateLocalLangsViews(guideFilterBean.guideLocalLangs);
+        updateSkillViews(guideFilterBean.guideSkillLabels);
+    }
+
+    public void updateForeignLangsViews(ArrayList<FilterGuideOptionsBean.GuideLanguage> guideForeignLangs) {
+        if (guideForeignLangs != null && guideForeignLangs.size() > 0) {
+            foreignLanguageLayout.setVisibility(View.VISIBLE);
+            foreignLanguageTagGroup.setData(guideForeignLangs);
+            foreignLanguageTagGroup.setOnTagItemClickListener(new TagGroup.OnTagItemClickListener() {
+                @Override
+                public void onTagClick(View view, int position) {
+                    foreignLanguageTagGroup.setViewSelected((TextView) view, !view.isSelected());
+                    guideFilterBean.isInitial = false;
+                    guideFilterBean.isSave = false;
+                }
+            });
+        } else {
+            foreignLanguageLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public void updateLocalLangsViews(ArrayList<FilterGuideOptionsBean.GuideLanguage> guideLocalLangs) {
+        if (guideLocalLangs != null && guideLocalLangs.size() > 0) {
+            localLanguageLayout.setVisibility(View.VISIBLE);
+            localLanguageTagGroup.setData(guideLocalLangs);
+            localLanguageTagGroup.setOnTagItemClickListener(new TagGroup.OnTagItemClickListener() {
+                @Override
+                public void onTagClick(View view, int position) {
+                    if (position == 0) {
+                        return;
+                    }
+                    localLanguageTagGroup.setViewSelected((TextView) view, !view.isSelected());
+                    guideFilterBean.isInitial = false;
+                    guideFilterBean.isSave = false;
+                }
+            });
+        } else {
+            localLanguageLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public void updateSkillViews(ArrayList<FilterGuideOptionsBean.GuideSkillLabel> guideSkillLabels) {
+        if (guideSkillLabels != null && guideSkillLabels.size() > 0) {
+            skillLayout.setVisibility(View.VISIBLE);
+            skillLanguageTagGroup.setData(guideSkillLabels);
+            skillLanguageTagGroup.setOnTagItemClickListener(new TagGroup.OnTagItemClickListener() {
+                @Override
+                public void onTagClick(View view, int position) {
+                    skillLanguageTagGroup.setViewSelected((TextView) view, !view.isSelected());
+                    guideFilterBean.isInitial = false;
+                    guideFilterBean.isSave = false;
+                }
+            });
+        } else {
+            skillLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -219,10 +311,17 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
 
         public int travelerCount;
 
+        public ArrayList<FilterGuideOptionsBean.GuideLanguage> guideForeignLangs;
+        public ArrayList<FilterGuideOptionsBean.GuideLanguage> guideLocalLangs;
+        public ArrayList<FilterGuideOptionsBean.GuideSkillLabel> guideSkillLabels;
+
         public boolean isInitial = true;
         public boolean isSave = false;
 
         public GuideFilterBean() {
+            guideForeignLangs = new ArrayList<>();
+            guideLocalLangs = new ArrayList<>();
+            guideSkillLabels = new ArrayList<>();
             reset();
         }
 
@@ -237,6 +336,10 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             travelerCount = 2;
 
             isInitial = true;
+
+            FilterTagUtils.reset(guideForeignLangs);
+            FilterTagUtils.resetLocalLangsList(guideLocalLangs);
+            FilterTagUtils.reset(guideSkillLabels);
         }
 
         public int getOperateCount() {
@@ -251,6 +354,9 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
 
             if (travelerCount != 2) operateCount++;
 
+            operateCount += FilterTagUtils.getOperateCount(guideForeignLangs);
+            operateCount += (FilterTagUtils.getOperateCount(guideLocalLangs) - 1);
+            operateCount += FilterTagUtils.getOperateCount(guideSkillLabels);
             return operateCount;
         }
 
@@ -259,6 +365,22 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             GuideFilterBean guideFilterBean = null;
             try {
                 guideFilterBean = (GuideFilterBean) super.clone();
+
+                guideFilterBean.guideForeignLangs = new ArrayList<>();
+                for (int i = 0; i < guideForeignLangs.size(); i++) {
+                    guideFilterBean.guideForeignLangs.add((FilterGuideOptionsBean.GuideLanguage)guideForeignLangs.get(i).clone());
+                }
+
+                guideFilterBean.guideLocalLangs = new ArrayList<>();
+                for (int i = 0; i < guideLocalLangs.size(); i++) {
+                    guideFilterBean.guideLocalLangs.add((FilterGuideOptionsBean.GuideLanguage)guideLocalLangs.get(i).clone());
+                }
+
+                guideFilterBean.guideSkillLabels = new ArrayList<>();
+                int size = guideSkillLabels.size();
+                for (int i = 0; i < size; i++) {
+                    guideFilterBean.guideSkillLabels.add((FilterGuideOptionsBean.GuideSkillLabel)guideSkillLabels.get(i).clone());
+                }
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
@@ -295,6 +417,24 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
                 stringBuilder.append("4");
             }
             return stringBuilder.toString();
+        }
+
+        public String getLanguageRequestParams() {
+            String foreignIds = FilterTagUtils.getIds(guideForeignLangs);
+            String localIds = FilterTagUtils.getLocalLangsIds(guideLocalLangs);
+            String ids = "";
+            if (!TextUtils.isEmpty(foreignIds) && !TextUtils.isEmpty(localIds)) {
+                ids = foreignIds + "," + localIds;
+            } else if (!TextUtils.isEmpty(foreignIds)) {
+                ids = foreignIds;
+            } else {
+                ids = localIds;
+            }
+            return ids;
+        }
+
+        public String getSkillRequestParams() {
+            return FilterTagUtils.getIds(guideSkillLabels);
         }
     }
 }

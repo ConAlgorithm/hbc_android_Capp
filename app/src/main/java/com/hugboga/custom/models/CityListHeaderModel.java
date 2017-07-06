@@ -64,6 +64,8 @@ public class CityListHeaderModel extends EpoxyModel<RelativeLayout> {
             descriptionTV.setText(cityContent.cityDesc);
         }
 
+
+
         cityTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

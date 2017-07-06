@@ -50,10 +50,13 @@ public class IMUtil {
 
 
     public void logoutNim(){
+        ImHelper.setUserId("");
         ImHelper.logoutNim();
     }
 
     private void connectNim(String account,String token){
+
+        ImHelper.setUserId(UserEntity.getUser().getUserId(MyApplication.getAppContext()));//与云信业务无关，统计用的id
         if (!UserEntity.getUser().isLogin(context)) {
             return;
         }
@@ -84,14 +87,14 @@ public class IMUtil {
                     return;
                 }
                 nimConnectError();
-                ApiFeedbackUtils.requestIMFeedback(1, String.valueOf(code));
+                //ApiFeedbackUtils.requestIMFeedback(1, String.valueOf(code));
             }
 
             @Override
             public void onException(Throwable exception) {
                 nimConnectError();
                 if(exception!=null && !TextUtils.isEmpty(exception.getMessage())){
-                    ApiFeedbackUtils.requestIMFeedback(1, "0","云信登录异常");
+                    //ApiFeedbackUtils.requestIMFeedback(1, "0","云信登录异常");
                 }
             }
         });

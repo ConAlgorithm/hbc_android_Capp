@@ -21,6 +21,9 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_FILTER_GUIDES, builder = NewParamsBuilder.class)
 public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
 
+    public final static int MANDARIN_ID = 2052;//前端写死
+    public final static String MANDARIN_STR = "中文（普通话）";//前端写死
+
     public RequestFilterGuide(Context context, Builder builder) {
         super(context);
         map = new HashMap<String, Object>();
@@ -49,6 +52,14 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         }
         map.put("limit", builder.limit);
         map.put("offset", builder.offset);
+
+        if (!TextUtils.isEmpty(builder.langCodes)) {
+            map.put("langCodes", builder.langCodes);            // 语言代码,多个用逗号隔开(包括方言和外语)
+        }
+
+        if (!TextUtils.isEmpty(builder.labelIds)) {
+            map.put("labelIds", builder.labelIds);              // 技能标签标识,多个用逗号隔开
+        }
     }
 
     @Override
@@ -78,6 +89,18 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         public Integer isQuality;
         public int limit = Constants.DEFAULT_PAGESIZE;
         public int offset = 0;
+        public String langCodes;
+        public String labelIds;
+
+        public Builder setLangCodes(String langCodes) {
+            this.langCodes = langCodes;
+            return this;
+        }
+
+        public Builder setLabelIds(String labelIds) {
+            this.labelIds = labelIds;
+            return this;
+        }
 
         public Builder setCityIds(String cityIds) {
             this.cityIds = cityIds;
