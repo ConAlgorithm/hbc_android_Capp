@@ -49,6 +49,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckVersion;
+import com.hugboga.custom.data.request.RequestImAnalysisSwitch;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
@@ -56,6 +57,7 @@ import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
+import com.hugboga.custom.service.ImAnalysisService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -73,6 +75,7 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
+import com.hugboga.im.ImAnalysisUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -198,6 +201,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
         requesetBattery();
+        requestImAnalysisConfig();
     }
 
     @Override
@@ -1010,6 +1014,41 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
         } catch (Exception e) {
         }
+    }
+
+    //请求im统计开关
+    private void requestImAnalysisConfig(){
+        RequestImAnalysisSwitch requestImAnalysisSwitch = new RequestImAnalysisSwitch(MyApplication.getAppContext());
+        HttpRequestUtils.request(this, requestImAnalysisSwitch, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                Object o  = request.getData();
+                if(o!=null && o instanceof String){
+                    try{
+                        String value = (String)o;
+                        JSONObject jsonObject = new JSONObject(value);
+                        String open = jsonObject.optString("data");
+                        if("1".equals(open)){// 1：打开IM统计 0:关闭IM统计
+                            ImAnalysisUtils.setOpen(ImAnalysisUtils.SWITCHER_OPEN);
+                            MyApplication.startImAnalysisService();
+                        }else{
+                            ImAnalysisUtils.setOpen(ImAnalysisUtils.SWITCHER_CLOSE);
+                            Intent intent = new Intent(MyApplication.getAppContext(),ImAnalysisService.class);
+                            MyApplication.getAppContext().stopService(intent);
+                        }
+                    }catch (Exception e){
+                    }
+                }
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+            }
+        }, false);
     }
 
 

@@ -150,7 +150,7 @@ public class ImAnalysisService extends Service {
                 HLog.e("Upload im analysis info fail! Network error");
                 ImAnalysisUtils.saveUploadFailInfoToFile(ImAnalysisService.this,content);
             }
-        });
+        }, false);
 
     }
 
