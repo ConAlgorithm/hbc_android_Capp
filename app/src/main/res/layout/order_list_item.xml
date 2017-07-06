@@ -163,7 +163,7 @@
                 android:id="@+id/order_item_xianlu_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="center"
+                android:layout_marginBottom="3dp"
                 android:background="@mipmap/trip_icon_line"
                 android:visibility="gone" />
 
@@ -171,7 +171,7 @@
                 android:id="@+id/order_item_chexing"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
                 android:background="@mipmap/trip_icon_line"
                 android:visibility="gone" />
         </LinearLayout>

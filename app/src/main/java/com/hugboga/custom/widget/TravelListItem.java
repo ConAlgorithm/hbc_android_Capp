@@ -150,6 +150,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             mCarType.setVisibility(View.GONE);
             startAddressIV1.setVisibility(GONE);
             startAddressIV2.setVisibility(GONE);
+            itemTime.setBackgroundResource(R.mipmap.trip_icon_date);
             if (orderBean.carPool) {//是否拼车
                 Drawable drawable = getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
@@ -157,7 +158,8 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                 spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 citysTV.setText(spannable);
-
+                chexing.setVisibility(GONE);
+                endAddressLayout.setVisibility(View.GONE);
                 //startAddressLayout.setVisibility(View.GONE);
 
             } else {
@@ -408,6 +410,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 mAssessment.setVisibility(View.GONE);//评价司导
                 break;
             case PAYSUCCESS://预订成功
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mHeadLayout.setVisibility(View.GONE);
@@ -446,6 +449,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
             case AGREE://司导已接单
             case ARRIVED://司导已到达
             case SERVICING://服务中
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
@@ -509,6 +513,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 break;
             case NOT_EVALUATED://未评价
             case COMPLETE://已完成
+                mStatus.setTextColor(0xff7f7f7f);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 lineView.setVisibility(View.VISIBLE);
                 mPrice.setVisibility(View.GONE);
@@ -554,6 +559,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 break;
             case CANCELLED://已取消
             case REFUNDED://已退款
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
@@ -581,6 +587,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                 }
                 break;
             case COMPLAINT://客诉处理中
+                mStatus.setTextColor(0xff7f7f7f);
                 mPrice.setVisibility(View.GONE);
                 mBtnPay.setVisibility(View.GONE);
                 mAssessment.setVisibility(View.GONE);
