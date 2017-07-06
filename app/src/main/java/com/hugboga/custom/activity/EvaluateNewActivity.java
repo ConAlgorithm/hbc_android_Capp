@@ -302,6 +302,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
         }*/
         if(UserEntity.getUser().backFlag == 0){
             commentET.setHint(getResources().getString(R.string.evaluate_et_hint2));
+            banarBelow.setVisibility(View.GONE);
         }
         if(UserEntity.getUser().backFlag == 1){
             commentET.setHint(getResources().getString(R.string.evaluate_et_hint2) + "(" + UserEntity.getUser().contentCnt + "个字上带图评价可返钱哦)");
@@ -487,7 +488,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
      */
     private boolean isEvaluated() {
         if(orderBean !=null){
-            return orderBean.userCommentStatus == 1 && orderBean.appraisement != null;
+            return orderBean.userCommentStatus == 1 ;
         }
         return false;
     }
