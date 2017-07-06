@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
@@ -80,9 +81,13 @@ public class ImAnalysisService extends Service {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.obj!=null){
-                String uploadContent = (String)msg.obj;
-                uploadImAnalyMsgs(uploadContent);
+            try{
+                if(msg.obj!=null){
+                    String uploadContent = (String)msg.obj;
+                    uploadImAnalyMsgs(uploadContent);
+                }
+            }catch (Exception e){
+
             }
 
         }
@@ -92,13 +97,14 @@ public class ImAnalysisService extends Service {
         @Override
         public void run() {
             super.run();
-            while (running){
-                validateUploadData(1);
-                try {
+            try {
+              while (running){
+                 validateUploadData(1);
                    Thread.sleep(DEFAULT_DURATION);
-                }catch (InterruptedException e){
+              }
+            }catch (InterruptedException e){
 
-                }
+            }catch (Exception e){
 
             }
         }
@@ -106,6 +112,9 @@ public class ImAnalysisService extends Service {
 
     private void validateUploadData(int count){
         List<String> msgs = ImAnalysisUtils.readImAnalysisMsgToList(ImAnalysisService.this.getApplicationContext());
+//        for(String string:msgs){
+//            Log.e("im_ana",string);
+//        }
         if(msgs.size()>=count){
             Message msg = new Message();
             msg.obj = ImAnalysisEnitty.generateJsonArray(msgs);
