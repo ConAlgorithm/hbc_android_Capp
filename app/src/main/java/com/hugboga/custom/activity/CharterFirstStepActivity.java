@@ -337,7 +337,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 @Override
                 public void run() {
                     countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
-                    countLayout.setSliderEnabled(true);
                 }
             });
             setNextViewEnabled(true);

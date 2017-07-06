@@ -73,9 +73,9 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
 
     public void setMaxPassengers(int maxPassengers, boolean isGuide, boolean isSeckills) {
         if (maxPassengers <= 0) {
-            setSliderEnabled(false);
             adultSlider.setValue(0);
             childSlider.setValue(0);
+            setSliderEnabled(false);
             return;
         }
         if (adultSlider.getValue() == 0) {
@@ -113,6 +113,7 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
                 hintTV.setText(contentStr);
             }
         }
+        setSliderEnabled(true);
     }
 
     @Override
