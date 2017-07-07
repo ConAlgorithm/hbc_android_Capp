@@ -131,16 +131,18 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         }
 
         double serviceStar = data.getServiceStar();
-        String services = serviceStar+"星";
-        SpannableString spannableString = new SpannableString(services);
-        spannableString.setSpan(new AbsoluteSizeSpan(30), services.length()-1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.guildsaved)), services.length()-1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        /*if (serviceStar <= 0) {
+        if (serviceStar <= 0) {
             levelTV.setText("暂无星级");
-            levelTV.setTextSize(11);
-            levelTV.setTextColor(0xFFD1D1D1);
-        } else */{
+            levelTV.setTextSize(12);
+            levelTV.setTextColor(0xFF929292);
+        } else {
+            String services = serviceStar+"星";
+            SpannableString spannableString = new SpannableString(services);
+            spannableString.setSpan(new AbsoluteSizeSpan(30), services.length()-1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.guildsaved)), services.length()-1, services.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            levelTV.setTextColor(0xffffc100);
+            levelTV.setTextSize(16);
             levelTV.setText(spannableString);
         }
 
