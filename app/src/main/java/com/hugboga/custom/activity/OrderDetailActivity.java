@@ -32,6 +32,7 @@ import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.widget.CompatPopupWindow;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailBargainEntr;
@@ -82,7 +83,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.order_detail_bargain_entr_view)
     OrderDetailBargainEntr bargainEntrView;
 
-    private PopupWindow popup;
+    private CompatPopupWindow popup;
     private View menuLayout;
     private Params params;
     private OrderBean orderBean;
@@ -373,7 +374,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
             return;
         }
-        popup = new PopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        popup = new CompatPopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
