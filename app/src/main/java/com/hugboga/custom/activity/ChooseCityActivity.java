@@ -1038,7 +1038,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         } catch (DbException e) {
             e.printStackTrace();
         }
-        if (dataList.size() > 0) {
+        if (dataList != null && dataList.size() > 0) {
             for (CityBean cb : dataList) {
                 cb.keyWord = keyword;
             }
