@@ -74,7 +74,6 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     @Bind(R.id.sku_order_traveler_info_address_book_iv)
     ImageView addressBookIV;
 
-
     @Bind(R.id.sku_order_traveler_info_other_code_arrow_iv)
     ImageView otherCodeArrowIV;
     @Bind(R.id.sku_order_traveler_info_other_contacts_et)
