@@ -213,11 +213,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         switch (action.getType()) {
             case CHOOSE_COUNTRY_BACK:
                 AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
-                if (areaCodeBean.viewId == R.id.sku_order_traveler_info_code_tv) {
-                    travelerInfoView.setAreaCode(areaCodeBean.getCode());
-                } else if (areaCodeBean.viewId == R.id.sku_order_traveler_info_other_code_tv) {
-                    travelerInfoView.setOtherAreaCode(areaCodeBean.getCode());
-                }
+                travelerInfoView.setAreaCode(areaCodeBean.getCode(), areaCodeBean.viewId);
                 break;
             case CHOOSE_POI:
                 Bundle bundle = new Bundle();
@@ -596,35 +592,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode || SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS == requestCode) {
-            Uri result = data.getData();
-            String[] contact = PhoneInfo.getPhoneContacts(this, result);
-            if (contact == null || contact.length < 2) {
-                return;
-            }
-            if (!TextUtils.isEmpty(contact[0])) {
-                if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
-                    travelerInfoView.setTravelerName(contact[0]);
-                } else {
-                    travelerInfoView.setOtherTravelerName(contact[0]);
-                }
-            }
-            if (!TextUtils.isEmpty(contact[1])){
-                String phone = contact[1];
-                if (!TextUtils.isEmpty(phone)) {
-                    phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = CommonUtils.getNum(phone);
-                }
-                if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
-                    travelerInfoView.setTravelerPhone(phone);
-                } else {
-                    travelerInfoView.setOtherTravelerPhone(phone);
-                }
-            }
-        }
+        travelerInfoView.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

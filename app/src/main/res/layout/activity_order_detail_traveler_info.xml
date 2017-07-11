@@ -7,10 +7,13 @@
 
     <include layout="@layout/include_header" />
 
-    <include layout="@layout/view_sku_order_traveler_info" />
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/view_sku_order_traveler_info" />
+    </ScrollView>
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e8eaeb" />
+        android:background="#eeeeee" />
 </LinearLayout>

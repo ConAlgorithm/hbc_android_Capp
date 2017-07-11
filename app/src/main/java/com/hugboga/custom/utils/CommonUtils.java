@@ -552,4 +552,16 @@ public final class CommonUtils {
         }
         return data;
     }
+
+    public static String getText(EditText editText, boolean isRemoveAllBlank) {
+        String result = editText.getText() != null ? editText.getText().toString() : "";
+        if (!TextUtils.isEmpty(result)) {
+            if (isRemoveAllBlank) {
+                result.replaceAll(" ", "");
+            } else {
+                result.trim();
+            }
+        }
+        return result;
+    }
 }

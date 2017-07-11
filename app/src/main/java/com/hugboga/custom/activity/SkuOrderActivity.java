@@ -247,7 +247,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
                 break;
             case CHOOSE_COUNTRY_BACK:
                 AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
-                travelerInfoView.setAreaCode(areaCodeBean.getCode());
+                travelerInfoView.setAreaCode(areaCodeBean.getCode(), areaCodeBean.viewId);
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean poiBean = (PoiBean) action.getData();
@@ -288,27 +288,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
-            Uri result = data.getData();
-            String[] contact = PhoneInfo.getPhoneContacts(this, result);
-            if (contact == null || contact.length < 2) {
-                return;
-            }
-            if (!TextUtils.isEmpty(contact[0])) {
-                travelerInfoView.setTravelerName(contact[0]);
-            }
-            if (!TextUtils.isEmpty(contact[1])){
-                String phone = contact[1];
-                if (!TextUtils.isEmpty(phone)) {
-                    phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
-                    phone = CommonUtils.getNum(phone);
-                }
-                travelerInfoView.setTravelerPhone(phone);
-            }
-        }
+        travelerInfoView.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

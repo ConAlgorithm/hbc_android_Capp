@@ -1,16 +1,12 @@
 package com.hugboga.custom.activity;
 
-import android.Manifest;
-import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,9 +27,11 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderEdit;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
+import com.hugboga.custom.widget.TravelerInfoItemView;
 import com.sevenheaven.iosswitch.ShSwitchView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,49 +50,25 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     @Bind(R.id.sku_order_traveler_info_title_tv)
     TextView travelerInfoTitleTV;
+
+    @Bind(R.id.traveler_info_contacts_layout)
+    TravelerInfoItemView contactsLayout;
+
     @Bind(R.id.sku_order_traveler_info_contacts_choose_iv)
-    ImageView contactsChooseIV;
+    ImageView standbyContactsChooseIV;
     @Bind(R.id.sku_order_traveler_info_contacts_choose_tv)
-    TextView contactsChooseTV;
+    TextView standbyContactsChooseTV;
+    @Bind(R.id.traveler_info_standby_contacts_layout)
+    TravelerInfoItemView standbyContactsLayout;
 
-    @Bind(R.id.sku_order_traveler_info_code_arrow_iv)
-    ImageView codeArrowIV;
-    @Bind(R.id.sku_order_traveler_info_contacts_et)
-    EditText contactsET;
-    @Bind(R.id.sku_order_traveler_info_code_tv)
-    TextView codeTV;
-    @Bind(R.id.sku_order_traveler_info_phone_et)
-    EditText phoneET;
-    @Bind(R.id.sku_order_traveler_info_contacts_star_tv)
-    TextView contactsStarTV;
-    @Bind(R.id.sku_order_traveler_info_phone_star_tv)
-    TextView phoneStarTV;
-    @Bind(R.id.sku_order_traveler_info_address_book_tv)
-    TextView addressBookTV;
-    @Bind(R.id.sku_order_traveler_info_address_book_iv)
-    ImageView addressBookIV;
-
-    @Bind(R.id.sku_order_traveler_info_other_code_arrow_iv)
-    ImageView otherCodeArrowIV;
-    @Bind(R.id.sku_order_traveler_info_other_contacts_et)
-    EditText otherContactsET;
-    @Bind(R.id.sku_order_traveler_info_other_phone_et)
-    EditText otherPhoneET;
-    @Bind(R.id.sku_order_traveler_info_other_contacts_layout)
-    RelativeLayout otherContactsLayout;
-    @Bind(R.id.sku_order_traveler_info_other_phone_layout)
-    RelativeLayout otherPhoneLayout;
-    @Bind(R.id.sku_order_traveler_info_other_code_tv)
-    TextView otherCodeTV;
-    @Bind(R.id.sku_order_traveler_info_other_contacts_star_tv)
-    TextView otherContactsStarTV;
-    @Bind(R.id.sku_order_traveler_info_other_phone_star_tv)
-    TextView otherPhoneStarTV;
-    @Bind(R.id.sku_order_traveler_info_other_address_book_tv)
-    TextView otherAddressBookTV;
-    @Bind(R.id.sku_order_traveler_info_other_address_book_iv)
-    ImageView otherAddressBookIV;
-
+    @Bind(R.id.sku_order_traveler_info_other_contacts_top_space)
+    View otherContactsTopSpaceView;
+    @Bind(R.id.traveler_info_other_contacts_switch_layout)
+    RelativeLayout contactsSwitchLayout;
+    @Bind(R.id.sku_order_traveler_info_contacts_switch_view)
+    ShSwitchView contactsSwitchView;
+    @Bind(R.id.traveler_info_other_contacts_layout)
+    TravelerInfoItemView otherContactsLayout;
     @Bind(R.id.sku_order_traveler_info_sendmessage_layout)
     RelativeLayout sendMessageLayout;
     @Bind(R.id.sku_order_traveler_info_sendmessage_switch_view)
@@ -144,9 +118,13 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     @Bind(R.id.sku_order_traveler_info_mark_et)
     EditText markET;
 
+    @Bind(R.id.view_order_traveler_info_bottom_hint_tv)
+    TextView bottomHintTV;
+
     private TimePicker picker;
     String serverTime = "09:00";
     private DialogUtil mDialogUtil;
+    private boolean isStandby = false;
 
     private ContactUsersBean contactUsersBean;
     private OrderBean orderBean;
@@ -252,16 +230,18 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 timeLayout.setVisibility(View.VISIBLE);
                 addressLineView.setVisibility(View.VISIBLE);
             }
+            setOtherContactsHide(true);
+            setBottomHint();
         } else if (orderBean.orderType == 5 || orderBean.orderType == 6) {//线路
             addressLayout.setVisibility(View.VISIBLE);
             timeLayout.setVisibility(View.VISIBLE);
             addressLineView.setVisibility(View.VISIBLE);
+            setOtherContactsHide(true);
+            setBottomHint();
         } else {
             timeLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
             addressLineView.setVisibility(View.GONE);
-            contactsChooseIV.setVisibility(View.VISIBLE);
-            contactsChooseTV.setVisibility(View.VISIBLE);
             if (orderBean.orderType == 1 && !TextUtils.isEmpty(orderBean.flightBrandSign) && !TextUtils.isEmpty(orderBean.flightBrandSign.trim())) {//接机
                 checkinLayout.setVisibility(View.VISIBLE);
                 checkinSwitchView.setVisibility(View.GONE);
@@ -273,6 +253,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 flightLayout.setVisibility(View.VISIBLE);
                 flightET.setText(orderBean.flightNo);
             }
+            bottomHintTV.setVisibility(View.GONE);
         }
 
         contactUsersBean = new ContactUsersBean();
@@ -280,9 +261,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         if (userList != null && userList.size() > 0) {
             String userName = userList.get(0).name;
             String userPhone = userList.get(0).mobile;
-            contactsET.setText(userName);
-            codeTV.setText(CommonUtils.addPhoneCodeSign(userList.get(0).areaCode));
-            phoneET.setText(userPhone);
+            contactsLayout.init(userName, CommonUtils.addPhoneCodeSign(userList.get(0).areaCode), userPhone);
             markET.setText(orderBean.userRemark);
             for (int i = 0; i < userList.size(); i++) {
                 if (i == 0) {
@@ -299,6 +278,12 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                     contactUsersBean.phone2Code = userList.get(i).areaCode;
                 }
             }
+            if (!TextUtils.isEmpty(contactUsersBean.user1Name) && !TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+                standbyContactsLayout.init(contactUsersBean.user1Name, CommonUtils.addPhoneCodeSign(contactUsersBean.phone1Code), contactUsersBean.user1Phone);
+                setStandbyContactsShow(true);
+            } else {
+                setStandbyContactsShow(false);
+            }
         }
         ArrayList<OrderContactBean> realUserList = orderBean.realUserList;
         if (realUserList != null && realUserList.size() > 0 && !TextUtils.isEmpty(realUserList.get(0).name)) {
@@ -310,11 +295,10 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         boolean isRealUser = "2".equals(orderBean.isRealUser);
         contactUsersBean.isForOther = isRealUser;
         if (isRealUser) {
-            otherContactsET.setText(contactUsersBean.otherName);
-            otherCodeTV.setText(CommonUtils.addPhoneCodeSign(contactUsersBean.otherphoneCode));
-            otherPhoneET.setText(contactUsersBean.otherPhone);
-            setOtherContactsShow(true);
+            otherContactsLayout.init(contactUsersBean.otherName, CommonUtils.addPhoneCodeSign(contactUsersBean.otherphoneCode), contactUsersBean.otherPhone);
+            setOtherContactsHide(false);
             sendMessageSwitchView.setOn(contactUsersBean.isSendMessage);
+            contactsSwitchView.setOn(true);
         }
 
         sendMessageSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
@@ -323,6 +307,26 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 contactUsersBean.isSendMessage = b;
             }
         });
+        contactsSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
+            @Override
+            public void onSwitchStateChange(boolean b) {
+                contactUsersBean.isForOther = !contactUsersBean.isForOther;
+                if (contactUsersBean.isForOther) {
+                    otherContactsLayout.setVisibility(View.VISIBLE);
+                    sendMessageLayout.setVisibility(View.VISIBLE);
+                } else {
+                    otherContactsLayout.setVisibility(View.GONE);
+                    sendMessageLayout.setVisibility(View.GONE);
+                }
+                CommonUtils.hideSoftInput(OrderDetailTravelerInfoActivity.this);
+            }
+        });
+
+        contactsLayout.setRequestCode(SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS);
+        standbyContactsLayout.setRequestCode(SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS);
+        otherContactsLayout.setRequestCode(SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS);
+
+        otherContactsLayout.setContactsHintText("乘车人");
 
         requestParams = new RequestOrderEdit.Params();
 
@@ -330,30 +334,27 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             fgRightTV.setVisibility(View.GONE);
             fgRightTV.setOnClickListener(null);
 
-            contactsChooseIV.setVisibility(View.GONE);
-            contactsChooseTV.setVisibility(View.GONE);
+            standbyContactsChooseIV.setVisibility(View.GONE);
+            standbyContactsChooseTV.setVisibility(View.GONE);
 
-            setHideTV(contactsET);
-            setHideTV(codeTV);
-            setHideTV(phoneET);
-            codeArrowIV.setEnabled(false);
-            codeArrowIV.setVisibility(View.INVISIBLE);
-            addressBookTV.setVisibility(View.INVISIBLE);
-            addressBookIV.setVisibility(View.INVISIBLE);
-            contactsStarTV.setVisibility(View.INVISIBLE);
-            phoneStarTV.setVisibility(View.INVISIBLE);
+            contactsLayout.setReadOnly();
 
-            setHideTV(otherContactsET);
-            setHideTV(otherCodeTV);
-            setHideTV(otherPhoneET);
-            otherCodeArrowIV.setEnabled(false);
-            otherCodeArrowIV.setVisibility(View.INVISIBLE);
-            otherAddressBookTV.setVisibility(View.INVISIBLE);
-            otherAddressBookIV.setVisibility(View.INVISIBLE);
-            otherContactsStarTV.setVisibility(View.INVISIBLE);
-            otherPhoneStarTV.setVisibility(View.INVISIBLE);
+            if (!isStandby) {
+                standbyContactsLayout.setVisibility(View.GONE);
+            } else {
+                standbyContactsLayout.setReadOnly();
+            }
 
-            checkinStarTV.setVisibility(View.GONE);
+            if (contactUsersBean.isForOther) {
+                contactsSwitchView.setVisibility(View.GONE);
+                otherContactsLayout.setReadOnly();
+                sendMessageLayout.setVisibility(View.GONE);
+                otherContactsLayout.setBottomLineVisibility(View.GONE);
+            } else {
+                setOtherContactsHide(true);
+            }
+
+//            checkinStarTV.setVisibility(View.GONE);
             setItemEnabled(flightLayout, flightET, orderBean.flightNo);
             setItemEnabled(checkinLayout, checkinET, orderBean.flightBrandSign);
             setItemEnabled(wechatLayout, wechatET, orderBean.userWechat);
@@ -376,6 +377,18 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         }
     }
 
+    public void setBottomHint() {
+        bottomHintTV.setVisibility(View.VISIBLE);
+        String hint = "·  如果在司导接单后，您需要修改上车时间、上车地点，请先在APP-私聊 中与司导沟通确认，再提交修改~ 平台将按照聊天记录为您提供后续保障";
+        String clickHint = "APP-私聊";
+        OrderUtils.genCLickSpan(this, bottomHintTV, hint, clickHint, getResources().getColor(R.color.default_highlight_blue), new OrderUtils.MyCLickSpan.OnSpanClickListener() {
+            @Override
+            public void onSpanClick(View view) {
+                DialogUtil.showServiceDialog(OrderDetailTravelerInfoActivity.this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
+            }
+        });
+    }
+
     private void setHideTV(TextView textView) {
         if (textView.getText() == null || TextUtils.isEmpty(textView.getText().toString())) {
             textView.setHint("");
@@ -393,25 +406,30 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     @OnClick({R.id.sku_order_traveler_info_contacts_choose_tv
             , R.id.sku_order_traveler_info_contacts_choose_iv})
-    public void chooseOtherContacts() {
-        contactUsersBean.isForOther = !contactUsersBean.isForOther;
-        setOtherContactsShow(contactUsersBean.isForOther);
+    public void chooseStandbyContacts() {
+        isStandby = !isStandby;
+        setStandbyContactsShow(isStandby);
     }
 
-    public void setOtherContactsShow(boolean isShow) {
-        contactsChooseIV.setSelected(isShow);
-        if (isShow) {
-            otherContactsLayout.setVisibility(View.VISIBLE);
-            otherPhoneLayout.setVisibility(View.VISIBLE);
-            if (orderBean.orderStatus.code == 1) {
-                sendMessageLayout.setVisibility(View.VISIBLE);
-            }
-        } else {
-            otherContactsLayout.setVisibility(View.GONE);
-            otherPhoneLayout.setVisibility(View.GONE);
-            sendMessageLayout.setVisibility(View.GONE);
-        }
+    public void setStandbyContactsShow(boolean isShow) {
+        isStandby = isShow;
+        standbyContactsChooseIV.setSelected(isShow);
+        standbyContactsLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
         CommonUtils.hideSoftInput(this);
+    }
+
+    public void setOtherContactsHide(boolean isHide) {
+        if (isHide) {
+            otherContactsTopSpaceView.setVisibility(View.GONE);
+            contactsSwitchLayout.setVisibility(View.GONE);
+            otherContactsLayout.setVisibility(View.GONE);
+            sendMessageLayout.setVisibility(View.GONE);
+        } else {
+            otherContactsTopSpaceView.setVisibility(View.VISIBLE);
+            contactsSwitchLayout.setVisibility(View.VISIBLE);
+            otherContactsLayout.setVisibility(View.VISIBLE);
+            sendMessageLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.sku_order_traveler_info_start_address_layout)
@@ -432,52 +450,6 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.sku_order_traveler_info_address_book_tv
-            , R.id.sku_order_traveler_info_code_arrow_iv
-            , R.id.sku_order_traveler_info_code_tv
-            , R.id.sku_order_traveler_info_start_address_layout})
-    public void setContact(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.sku_order_traveler_info_address_book_tv://通讯录
-                intentPickContactsCheckPermisson(SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS);
-                break;
-            case R.id.sku_order_traveler_info_code_tv://区号
-            case R.id.sku_order_traveler_info_code_arrow_iv:
-                intent = new Intent(this, ChooseCountryActivity.class);
-                intent.putExtra("viewId", R.id.sku_order_traveler_info_code_tv);
-                startActivity(intent);
-                break;
-        }
-    }
-
-    @OnClick({R.id.sku_order_traveler_info_other_address_book_tv
-            , R.id.sku_order_traveler_info_other_code_arrow_iv
-            , R.id.sku_order_traveler_info_other_code_tv})
-    public void setOtherContact(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.sku_order_traveler_info_other_address_book_tv://通讯录
-                intentPickContactsCheckPermisson(SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS);
-                break;
-            case R.id.sku_order_traveler_info_other_code_arrow_iv://区号
-            case R.id.sku_order_traveler_info_other_code_tv:
-                intent = new Intent(this, ChooseCountryActivity.class);
-                intent.putExtra("viewId", R.id.sku_order_traveler_info_other_code_tv);
-                startActivity(intent);
-                break;
-        }
-    }
-
-    @TargetApi(23)
-    public boolean requestPermisson(int requestCode) {
-        if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, requestCode);
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     public void intentPickContacts(int requestCode) {
         Intent intent = new Intent();
@@ -486,20 +458,13 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         startActivityForResult(intent, requestCode);
     }
 
-    public void intentPickContactsCheckPermisson(int requestCode) {
-        if (Build.VERSION.SDK_INT >= 23 && requestPermisson(requestCode)) {
-            intentPickContacts(requestCode);
-        } else {
-            intentPickContacts(requestCode);
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS:
             case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS:
+            case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS:
                 intentPickContacts(requestCode);
                 break;
         }
@@ -517,10 +482,16 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                     break;
                 }
                 String code = CommonUtils.addPhoneCodeSign(areaCodeBean.getCode());
-                if (areaCodeBean.viewId == R.id.sku_order_traveler_info_code_tv) {
-                    codeTV.setText(code);
-                } else if (areaCodeBean.viewId == R.id.sku_order_traveler_info_other_code_tv) {
-                    otherCodeTV.setText(code);
+                switch (areaCodeBean.viewId) {
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS:
+                        contactsLayout.setAreaCode(code);
+                        break;
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS:
+                        otherContactsLayout.setAreaCode(code);
+                        break;
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                        standbyContactsLayout.setAreaCode(code);
+                        break;
                 }
                 break;
             case CHOOSE_POI_BACK:
@@ -547,32 +518,46 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode || SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS == requestCode) {
+        if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode
+                || SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS == requestCode
+                || SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS == requestCode) {
             Uri result = data.getData();
             String[] contact = PhoneInfo.getPhoneContacts(this, result);
             if (contact == null || contact.length < 2) {
                 return;
             }
             if (!TextUtils.isEmpty(contact[0])) {
-                if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
-                    contactsET.setText(contact[0]);
-                } else {
-                    otherContactsET.setText(contact[0]);
+                switch (requestCode) {
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS:
+                        contactsLayout.setName(contact[0]);
+                        break;
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS:
+                        otherContactsLayout.setName(contact[0]);
+                        break;
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                        standbyContactsLayout.setName(contact[0]);
+                        break;
                 }
             }
-            if (!TextUtils.isEmpty(contact[1])){
+            if (!TextUtils.isEmpty(contact[1])) {
                 String phone = contact[1];
                 if (!TextUtils.isEmpty(phone)) {
                     phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
                     phone = CommonUtils.getNum(phone);
                 }
-                if (SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS == requestCode) {
-                    phoneET.setText(phone);
-                } else {
-                    otherPhoneET.setText(phone);
+                switch (requestCode) {
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS:
+                        contactsLayout.setPhone(phone);
+                        break;
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS:
+                        otherContactsLayout.setPhone(phone);
+                        break;
+                    case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                        standbyContactsLayout.setPhone(phone);
+                        break;
                 }
             }
         }
@@ -617,27 +602,41 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     }
 
     private void sendRequest() {
-        if (TextUtils.isEmpty(contactsET.getText())) {
+        if (TextUtils.isEmpty(contactsLayout.getName())) {
             CommonUtils.showToast("请填写联系人姓名");
             return;
         }
-        if (TextUtils.isEmpty(phoneET.getText())) {
+        if (TextUtils.isEmpty(contactsLayout.getPhone().toString())) {
             CommonUtils.showToast("请填写联系人手机号");
             return;
         }
-        if (!CommonUtils.checkInlandPhoneNumber(codeTV.getText().toString(), phoneET.getText().toString())) {
+        if (!CommonUtils.checkInlandPhoneNumber(contactsLayout.getAreaCode().toString(), contactsLayout.getPhone().toString())) {
             return;
         }
+
+        if (isStandby) {
+            if (TextUtils.isEmpty(standbyContactsLayout.getName())) {
+                CommonUtils.showToast("请填写备用联系人姓名!");
+                return;
+            }
+            if (TextUtils.isEmpty(standbyContactsLayout.getPhone())) {
+                CommonUtils.showToast("请填写备用联系人手机号!");
+                return;
+            }
+            if (!CommonUtils.checkInlandPhoneNumber(standbyContactsLayout.getAreaCode().toString(), standbyContactsLayout.getPhone().toString())) {
+                return;
+            }
+        }
         if (contactUsersBean.isForOther) {
-            if (TextUtils.isEmpty(otherContactsET.getText())) {
-                CommonUtils.showToast("请填写乘车人姓名");
+            if (TextUtils.isEmpty(otherContactsLayout.getName())) {
+                CommonUtils.showToast("请填写乘车人姓名!");
                 return;
             }
-            if (TextUtils.isEmpty(otherPhoneET.getText())) {
-                CommonUtils.showToast("请填写乘车人手机号");
+            if (TextUtils.isEmpty(otherContactsLayout.getPhone())) {
+                CommonUtils.showToast("请填写乘车人手机号!");
                 return;
             }
-            if (!CommonUtils.checkInlandPhoneNumber(otherCodeTV.getText().toString(), otherPhoneET.getText().toString())) {
+            if (!CommonUtils.checkInlandPhoneNumber(otherContactsLayout.getAreaCode().toString(), otherContactsLayout.getPhone().toString())) {
                 return;
             }
         }
@@ -678,12 +677,12 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         StringBuffer userExJson = new StringBuffer();
         userExJson.append("[");
 
-        if (!TextUtils.isEmpty(contactsET.getText())) {
-            userExJson.append("{name:\"" + contactsET.getText().toString() + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(codeTV.getText().toString()) + "\",mobile:\"" + phoneET.getText().toString() + "\"}");
+        if (!TextUtils.isEmpty(contactsLayout.getName())) {
+            userExJson.append("{name:\"" + contactsLayout.getName().toString() + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactsLayout.getAreaCode().toString()) + "\",mobile:\"" + contactsLayout.getPhone().toString() + "\"}");
         }
 
-        if (!TextUtils.isEmpty(contactUsersBean.user1Phone)) {
-            userExJson.append(",{name:\"" + contactUsersBean.user1Name + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(contactUsersBean.phone1Code) + "\",mobile:\"" + contactUsersBean.user1Phone + "\"}");
+        if (isStandby && !TextUtils.isEmpty(standbyContactsLayout.getName())) {
+            userExJson.append(",{name:\"" + standbyContactsLayout.getName().toString() + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(standbyContactsLayout.getAreaCode().toString()) + "\",mobile:\"" + standbyContactsLayout.getPhone().toString() + "\"}");
         }
 
         if (!TextUtils.isEmpty(contactUsersBean.user2Phone)) {
@@ -695,9 +694,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     private String getRealUserExJson() {
         StringBuffer realUserExJson = new StringBuffer();
-        if (contactUsersBean.isForOther && !TextUtils.isEmpty(otherContactsET.getText())) {
+        if (contactUsersBean.isForOther && !TextUtils.isEmpty(otherContactsLayout.getName())) {
             realUserExJson.append("[");
-            realUserExJson.append("{name:\"" + otherContactsET.getText().toString() + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(otherCodeTV.getText().toString()) + "\",mobile:\"" + otherPhoneET.getText().toString() + "\"}");
+            realUserExJson.append("{name:\"" + otherContactsLayout.getName().toString() + "\",areaCode:\"" + CommonUtils.removePhoneCodeSign(otherContactsLayout.getAreaCode().toString()) + "\",mobile:\"" + otherContactsLayout.getPhone().toString() + "\"}");
             realUserExJson.append("]");
         }
         return realUserExJson.toString();
