@@ -44,7 +44,7 @@ public class ServiceQuestionActivity extends BaseActivity{
     private ServiceQuestionAdapter adapter;
 
     private UnicornServiceActivity.Params params;
-    public int lastCustomRole;
+    private int lastCustomRole;
 
     @Override
     public int getContentViewId() {
@@ -176,6 +176,10 @@ public class ServiceQuestionActivity extends BaseActivity{
                 setSensorsIM(questionItem);
                 break;
         }
+    }
+
+    public void setLastCustomRole(int lastCustomRole) {
+        this.lastCustomRole = lastCustomRole;
     }
 
     private Handler handler = new Handler() {
