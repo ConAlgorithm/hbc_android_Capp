@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -371,35 +373,37 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     boolean adClick = false;
     private void showAd(final ADPictureBean adPictureBean) {
+        String imgUrl;
+        Animation animation= AnimationUtils.loadAnimation(this,R.anim.loading);
         try {
             if (ImageUtils.getScreenWidth(this) <= 720) {
-                String imgUrl = adPictureBean.picList.get(0).picture;
-                Tools.showImage(getApplicationContext(), show_ad, imgUrl);
+                imgUrl = adPictureBean.picList.get(0).picture;
             } else if (ImageUtils.getScreenWidth(this) > 1080) {
-                String imgUrl = adPictureBean.picList.get(2).picture;
-                Tools.showImage(getApplicationContext(), show_ad, imgUrl);
+                imgUrl = adPictureBean.picList.get(2).picture;
             } else {
-                String imgUrl = adPictureBean.picList.get(1).picture;
-                Tools.showImage(getApplicationContext(), show_ad, imgUrl);
+                imgUrl = adPictureBean.picList.get(1).picture;
             }
-            show_ad.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!TextUtils.isEmpty(adPictureBean.urlAddress)) {
-                        EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "启动页推广图");
-                        EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "启动页推广图");
-                        adClick = true;
-                        handler.removeMessages(200);
-                        Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
-                        if (actionBean != null) {
-                            intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+            if(!imgUrl.isEmpty()){
+                Tools.showAdImageWithAnim(this,show_ad,imgUrl,animation);
+                show_ad.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!TextUtils.isEmpty(adPictureBean.urlAddress)) {
+                            EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "启动页推广图");
+                            EventUtil.onDefaultEvent(StatisticConstant.LAUNCH_ACTIVITY, "启动页推广图");
+                            adClick = true;
+                            handler.removeMessages(200);
+                            Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
+                            if (actionBean != null) {
+                                intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+                            }
+                            intent.putExtra("url", adPictureBean.urlAddress);
+                            startActivity(intent);
+                            finish();
                         }
-                        intent.putExtra("url", adPictureBean.urlAddress);
-                        startActivity(intent);
-                        finish();
                     }
-                }
-            });
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -433,4 +437,11 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(handler!= null ){
+            handler.removeCallbacks(runnable);
+        }
+    }
 }
