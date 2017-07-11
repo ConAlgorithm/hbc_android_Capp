@@ -373,7 +373,15 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                             int contentCount = UserEntity.getUser().contentCnt;
                             int money = UserEntity.getUser().money;
                             title.setText("满" + contentCount + "字和晒一张图，才能领取" + money + "元旅游基金哦~ 确定提交评价吗？");
-                            if (commentET.getText().toString().length() < UserEntity.getUser().contentCnt || localPhotos.size() < UserEntity.getUser().imageCnt) {
+
+                            //图片的个数,不包含添加图片占位符
+                            int picCount = 0;
+                            for(int i= 0; i<localPhotos.size();i++){
+                                if(!localPhotos.get(i).localFilePath.equals("add")){
+                                    picCount +=1;
+                                }
+                            }
+                            if (commentET.getText().toString().length() < UserEntity.getUser().contentCnt || picCount < UserEntity.getUser().imageCnt) {
                                 //不满足返现条件
                                 AlertDialog.Builder builder = new AlertDialog.Builder(EvaluateNewActivity.this).setView(rl).setNegativeButton("返回添加", new DialogInterface.OnClickListener() {
                                     @Override
