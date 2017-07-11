@@ -7,8 +7,9 @@ Properties getProperties() {
     return properties;
 }
 
+//google pl 需要替换证书
 String keyStoreFile() {
-    return getProperties().getProperty('storeFile');
+    return getProperties().getProperty('storeFilegp');
 }
 
 String localKeyAlias() {

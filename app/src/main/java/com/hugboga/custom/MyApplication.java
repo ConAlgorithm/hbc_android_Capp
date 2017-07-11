@@ -159,6 +159,7 @@ public class MyApplication extends HbcApplication {
         HbcConfig.APP_NAME = getString(R.string.app_name);
         x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = BuildConfig.WX_APP_ID;
+        HbcConfig.FLAVOR = BuildConfig.FLAVOR;
     }
 
     public static boolean setDebugUrlHost() {
@@ -302,7 +303,11 @@ public class MyApplication extends HbcApplication {
 
 
     public void initXMpush() {
-        MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
+        if(BuildConfig.FLAVOR.equals("10007")){
+            MiPushClient.registerPush(this, "2882303761517595662", "5921759512662");
+        }else{
+            MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
+        }
         Logger.disablePushFileLog(MyApplication.getAppContext());
     }
 

@@ -44,7 +44,12 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
                 keypw = "123";//Common.getClientP12Key(context);
                 long time = System.currentTimeMillis();
                 trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                InputStream ins = context.getResources().getAssets().open("client.keystore");
+                InputStream ins;
+                if(HbcConfig.FLAVOR.equals("10007")){
+                    ins = context.getResources().getAssets().open("clientgp.keystore");
+                }else{
+                    ins = context.getResources().getAssets().open("client.keystore");
+                }
                 trustStore.load(ins, keystorepw.toCharArray());
                 MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
             } catch (Throwable var1) {
@@ -63,7 +68,12 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
                     keypw = "123";//Common.getClientP12Key(context);
                     long time = System.currentTimeMillis();
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                    InputStream ins = context.getResources().getAssets().open("client.keystore");
+                    InputStream ins;
+                    if(HbcConfig.FLAVOR.equals("10007")){
+                        ins = context.getResources().getAssets().open("clientgp.keystore");
+                    }else{
+                        ins = context.getResources().getAssets().open("client.keystore");
+                    }
                     trustStore.load(ins, keystorepw.toCharArray());
                     MLog.e("trustStore load time = " + (System.currentTimeMillis() - time));
                 } catch (Throwable var1) {
