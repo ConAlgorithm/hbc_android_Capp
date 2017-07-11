@@ -270,7 +270,11 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.cancel();
+            if (error.getPrimaryError() == SslError.SSL_INVALID) {
+                handler.proceed();
+            } else {
+                handler.cancel();
+            }
         }
 
         @Override
