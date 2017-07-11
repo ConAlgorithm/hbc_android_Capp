@@ -88,8 +88,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     OrderGuideLayout guideLayout;
     @Bind(R.id.pickup_flight_layout)
     OrderInfoItemView flightLayout;
-    @Bind(R.id.pickup_start_time_tv)
-    TextView startTimeTv;
     @Bind(R.id.pickup_start_time_layout)
     LinearLayout startTimeLayout;
     @Bind(R.id.pickup_city_layout)
@@ -249,7 +247,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         flightLayout.setDesc(flightBean.arrAirportName, desc1, desc2);
 
         startTimeLayout.setVisibility(View.VISIBLE);//用车时间
-        startTimeTv.setText(DateUtils.orderChooseDateTransform(flightBean.arrDate) + flightBean.arrivalTime);
 
         emptyLayout.setVisibility(View.GONE);
         carTypeView.setVisibility(View.GONE);

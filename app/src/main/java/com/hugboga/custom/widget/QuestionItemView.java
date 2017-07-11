@@ -116,7 +116,7 @@ public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
                 arrowIV.setVisibility(View.VISIBLE);
             }
             if (questionItem.type == 3 && getContext() instanceof ServiceQuestionActivity) {//记录最近一条客服ID
-                ((ServiceQuestionActivity) getContext()).lastCustomRole = questionItem.customRole;
+                ((ServiceQuestionActivity) getContext()).setLastCustomRole(questionItem.customRole);
             }
 
             resetViewHight(titleTV, titleTV.getText() != null ? titleTV.getText().toString() : "", !questionItem.isAnswer, itemView);
