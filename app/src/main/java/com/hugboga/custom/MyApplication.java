@@ -91,19 +91,20 @@ public class MyApplication extends HbcApplication {
         initNim();
     }
 
-    private void initNim(){
+    private void initNim() {
         ImHelper.setUserId(UserEntity.getUser().getUserId(this));
-        ImHelper.initNim(this,R.mipmap.icon_avatar_user);
+        ImHelper.initNim(this, R.mipmap.icon_avatar_user);
     }
 
-    public  static void startImAnalysisService(){
-        try{
+    public static void startImAnalysisService() {
+        try {
             Intent intent = new Intent(MyApplication.getAppContext(), ImAnalysisService.class);
             mAppContext.startService(intent);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
+
     public static Context getAppContext() {
         return mAppContext;
     }
@@ -114,7 +115,7 @@ public class MyApplication extends HbcApplication {
 //        }
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
         MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
-        if(TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
+        if (TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
             String channel = BuildConfig.FLAVOR;
             MLog.e("channel=" + channel);
             //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问正式服务器
@@ -127,13 +128,13 @@ public class MyApplication extends HbcApplication {
             if (urlHost != null) {
                 host = urlHost.url;
             }
-            if("formal".equals(channel)) {
+            if ("formal".equals(channel)) {
                 scheme = UrlLibs.SERVER_HTTP_SCHEME_HTTPS;
-            }else{
+            } else {
                 scheme = UrlLibs.SERVER_HTTP_SCHEME_HTTP;
             }
             UrlLibs.SERVER_IP_HOST_PUBLIC = scheme + host;
-        }else {
+        } else {
             UrlLibs.SERVER_IP_HOST_PUBLIC = BuildConfig.API_SERVER_URL;
         }
         UrlLibs.SHARE_BASE_URL_1 = BuildConfig.SHARE_BASE_URL_1;
@@ -143,9 +144,9 @@ public class MyApplication extends HbcApplication {
         UrlLibs.SHARE_APPID = BuildConfig.SHARE_APPID;
         UrlLibs.H5_HOST = BuildConfig.H5_HOST;
 
-        LogUtils.e(UrlLibs.SHARE_BASE_URL_1+"\n" +UrlLibs.SHARE_BASE_URL_2
-                +"\n"+UrlLibs.SHARE_BASE_URL_3+"\n"+UrlLibs.SHARE_BASE_URL_4
-                +"\n"+UrlLibs.H5_HOST);
+        LogUtils.e(UrlLibs.SHARE_BASE_URL_1 + "\n" + UrlLibs.SHARE_BASE_URL_2
+                + "\n" + UrlLibs.SHARE_BASE_URL_3 + "\n" + UrlLibs.SHARE_BASE_URL_4
+                + "\n" + UrlLibs.H5_HOST);
     }
 
     private void initConfig() {
@@ -199,7 +200,7 @@ public class MyApplication extends HbcApplication {
                 int currentEnvironmentType = 0;
                 if (UrlLibs.DEV_H5_HOST.equals(BuildConfig.H5_HOST)) {
                     currentEnvironmentType = 1;
-                } else if(UrlLibs.TEST_H5_HOST.equals(BuildConfig.H5_HOST)) {
+                } else if (UrlLibs.TEST_H5_HOST.equals(BuildConfig.H5_HOST)) {
                     currentEnvironmentType = 2;
                 } else {
                     currentEnvironmentType = 3;
@@ -256,7 +257,7 @@ public class MyApplication extends HbcApplication {
                 }
             }
         } catch (Exception e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
     }
@@ -287,8 +288,6 @@ public class MyApplication extends HbcApplication {
     }
 
 
-
-
     public static boolean inMainProcess(Context context) {
         String packageName = context.getPackageName();
         String processName = getCurProcessName(context);
@@ -299,15 +298,8 @@ public class MyApplication extends HbcApplication {
     }
 
 
-
-
-
     public void initXMpush() {
-        if(BuildConfig.FLAVOR.equals("10007")){
-            MiPushClient.registerPush(this, "2882303761517595662", "5921759512662");
-        }else{
-            MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
-        }
+        MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
         Logger.disablePushFileLog(MyApplication.getAppContext());
     }
 

@@ -7,9 +7,12 @@ Properties getProperties() {
     return properties;
 }
 
+String keyStoreGpFile() {
+    return getProperties().getProperty('storeFilegp');
+}
 //google pl 需要替换证书
 String keyStoreFile() {
-    return getProperties().getProperty('storeFilegp');
+    return getProperties().getProperty('storeFile');
 }
 
 String localKeyAlias() {
@@ -46,6 +49,12 @@ android {
             storeFile file(keyStoreFile())
             storePassword localStorePassword()
         }
+        hbcSignGp {
+            keyAlias localKeyAlias()
+            keyPassword localKeyPassword()
+            storeFile file(keyStoreGpFile())
+            storePassword localStorePassword()
+        }
     }
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
@@ -57,7 +66,8 @@ android {
         versionCode 102220
         versionName "4.2.0"
         //version end
-        signingConfig signingConfigs.hbcSign
+        //signingConfig signingConfigs.hbcSign
+        //signingConfig signingConfigs.hbcSignGp
         multiDexEnabled true
         ndk {
             //设置支持的SO库架构
@@ -78,32 +88,60 @@ android {
         }
         debug {
             debuggable true
-            signingConfig signingConfigs.hbcSign
+            //signingConfig signingConfigs.hbcSign
+            signingConfig signingConfigs.hbcSignGp
         }
     }
 
     productFlavors {
         //==productFlavors_start==
-        developer {}
+        developer {
+            signingConfig signingConfigs.hbcSign
+        }
 //        stage {}
         /*==examination_start==*/
-        examination {}
+        examination {
+            signingConfig signingConfigs.hbcSign
+        }
         /*==examination_end==*/
-        '10000' {}
-        '10001' {}
-        '10002' {}
-        '10003' {}
-        '10006' {}
-        '10008' {}
-        '10009' {}
-        '10011' {}
-        '10012' {}
-        '10013' {}
+        '10000' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10001' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10002' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10003' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10006' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10008' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10009' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10011' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10012' {
+            signingConfig signingConfigs.hbcSign
+        }
+        '10013' {
+            signingConfig signingConfigs.hbcSign
+        }
         /*==formal_start==*/
-        '10092' {}
+        '10092' {
+            signingConfig signingConfigs.hbcSign
+        }
         /*==formal_end==*/
         '10007' {//google play
             applicationId 'com.hugboga.custom.gp'
+            signingConfig signingConfigs.hbcSignGp
         }
         //==productFlavors_end==
     }
