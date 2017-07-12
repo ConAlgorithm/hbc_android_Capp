@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.data.net.UrlLibs;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,8 +44,18 @@ public class OrderInsuranceView extends LinearLayout {
         insuranceCountTV.setText(String.format(" × %1$s份", "" + count));
     }
 
-    @OnClick({R.id.order_discount_insurance_layout})
+    @OnClick({R.id.order_discount_insurance_layout, R.id.order_discount_insurance_explain_tv})
     public void onClick(View view) {
-        insuranceChooseIV.setSelected(!insuranceChooseIV.isSelected());
+        switch (view.getId()) {
+            case R.id.order_discount_insurance_layout:
+                insuranceChooseIV.setSelected(!insuranceChooseIV.isSelected());
+                break;
+            case R.id.order_discount_insurance_explain_tv:
+                Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                getContext().startActivity(intent);
+                break;
+        }
+
     }
 }

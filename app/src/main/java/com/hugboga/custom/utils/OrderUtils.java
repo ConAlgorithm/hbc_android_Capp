@@ -829,6 +829,10 @@ public class OrderUtils {
         genCLickSpan(activity,textView,activity.getString(R.string.common_card_payment_protocol),activity.getString(R.string.common_card_payment_protocol),UrlLibs.H5_CREDIT_CARD_ARGEEMENT,0xff393838, null);
     }
 
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click, int color, MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity, textView, agree_text, agree_text_click, null,color, listener);
+    }
+
     public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
         int start = agree_text.lastIndexOf(agree_text_click);
         int end = start + agree_text_click.length();

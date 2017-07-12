@@ -32,6 +32,7 @@ public class ServiceQuestionBean implements Serializable{
 
         public boolean isAnswer = false;                  // 非接口返回 是否显示答案
         public int lastCustomRole = 0;                    // 非接口返回 记录最后一条客服ID
+        public boolean isRoot = false;                    // 非接口返回 是否是根目录
 
         public int adviceId;        // 问题id
         public String adviceName;   // 问题

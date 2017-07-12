@@ -1,13 +1,9 @@
 package com.hugboga.custom.widget;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.provider.ContactsContract;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,7 +16,6 @@ import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCountryActivity;
 import com.hugboga.custom.activity.CombinationOrderActivity;
 import com.hugboga.custom.activity.SkuOrderActivity;
 import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
@@ -34,6 +29,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.PhoneInfo;
 import com.sevenheaven.iosswitch.ShSwitchView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,47 +37,30 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
-
-import static android.support.v4.app.ActivityCompat.requestPermissions;
-import static android.support.v4.content.ContextCompat.checkSelfPermission;
-
 /**
  * Created by qingcha on 16/12/17.
  */
-public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchView.OnSwitchStateChangeListener{
+public class SkuOrderTravelerInfoView extends LinearLayout{
 
     private static final int AHEAD_TIME = 90 * 60 * 1000;
     public static final int REQUEST_CODE_PICK_CONTACTS = 101;
     public static final int REQUEST_CODE_PICK_OTHER_CONTACTS = 102;
+    public static final int REQUEST_CODE_PICK_STANDBY_CONTACTS = 103;
+
+    @Bind(R.id.traveler_info_contacts_layout)
+    TravelerInfoItemView contactsLayout;
 
     @Bind(R.id.sku_order_traveler_info_contacts_choose_iv)
-    ImageView contactsChooseIV;
+    ImageView standbyContactsChooseIV;
     @Bind(R.id.sku_order_traveler_info_contacts_choose_tv)
-    TextView contactsChooseTV;
-
-    @Bind(R.id.sku_order_traveler_info_contacts_et)
-    EditText contactsET;
-    @Bind(R.id.sku_order_traveler_info_code_tv)
-    TextView codeTV;
-    @Bind(R.id.sku_order_traveler_info_phone_et)
-    EditText phoneET;
-
-    @Bind(R.id.sku_order_traveler_info_other_contacts_et)
-    EditText otherContactsET;
-    @Bind(R.id.sku_order_traveler_info_other_code_tv)
-    TextView otherCodeTV;
-    @Bind(R.id.sku_order_traveler_info_other_phone_et)
-    EditText otherPhoneET;
-    @Bind(R.id.sku_order_traveler_info_other_contacts_layout)
-    RelativeLayout otherContactsLayout;
-    @Bind(R.id.sku_order_traveler_info_other_phone_layout)
-    RelativeLayout otherPhoneLayout;
+    TextView standbyContactsChooseTV;
+    @Bind(R.id.traveler_info_standby_contacts_layout)
+    TravelerInfoItemView standbyContactsLayout;
 
     @Bind(R.id.sku_order_traveler_info_flight_layout)
     RelativeLayout flightLayout;
@@ -101,6 +80,14 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     @Bind(R.id.sku_order_traveler_info_checkin_star_tv)
     TextView checkinStarTV;
 
+    @Bind(R.id.sku_order_traveler_info_other_contacts_top_space)
+    View otherContactsTopSpaceView;
+    @Bind(R.id.traveler_info_other_contacts_switch_layout)
+    RelativeLayout contactsSwitchLayout;
+    @Bind(R.id.sku_order_traveler_info_contacts_switch_view)
+    ShSwitchView contactsSwitchView;
+    @Bind(R.id.traveler_info_other_contacts_layout)
+    TravelerInfoItemView otherContactsLayout;
     @Bind(R.id.sku_order_traveler_info_sendmessage_layout)
     RelativeLayout sendMessageLayout;
     @Bind(R.id.sku_order_traveler_info_sendmessage_switch_view)
@@ -143,47 +130,104 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
 
         travelerInfoBean = new TravelerInfoBean();
 
-        contactsET.setText(travelerInfoBean.travelerName);
-        codeTV.setText(CommonUtils.addPhoneCodeSign(travelerInfoBean.areaCode));
-        phoneET.setText(travelerInfoBean.travelerPhone);
-        checkinSwitchView.setOnSwitchStateChangeListener(this);
+        contactsLayout.init(travelerInfoBean.travelerName, CommonUtils.addPhoneCodeSign(travelerInfoBean.areaCode), travelerInfoBean.travelerPhone);
+        checkinSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
+            @Override
+            public void onSwitchStateChange(boolean isSelect) {
+                if (orderType == 1) {//接机
+                    travelerInfoBean.isPickup = isSelect;
+                    checkinET.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                    checkinStarTV.setVisibility(isSelect ? View.VISIBLE : View.GONE);
+                } else if (orderType == 2) {//送机
+                    travelerInfoBean.isCheckin = isSelect;
+                }
+                CommonUtils.hideSoftInput((Activity) getContext());
+                if (onSwitchPickOrSendListener != null) {
+                    onSwitchPickOrSendListener.onSwitchPickOrSend(isSelect, getAdditionalPrice());
+                }
+            }
+        });
+
+        contactsSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
+            @Override
+            public void onSwitchStateChange(boolean b) {
+                travelerInfoBean.isOther = !travelerInfoBean.isOther;
+                if (travelerInfoBean.isOther) {
+                    otherContactsLayout.setVisibility(View.VISIBLE);
+                    sendMessageLayout.setVisibility(View.VISIBLE);
+                } else {
+                    otherContactsLayout.setVisibility(View.GONE);
+                    sendMessageLayout.setVisibility(View.GONE);
+                }
+                CommonUtils.hideSoftInput((Activity) getContext());
+            }
+        });
+
+        contactsLayout.setRequestCode(REQUEST_CODE_PICK_CONTACTS);
+        standbyContactsLayout.setRequestCode(REQUEST_CODE_PICK_STANDBY_CONTACTS);
+        otherContactsLayout.setRequestCode(REQUEST_CODE_PICK_OTHER_CONTACTS);
+
+        otherContactsLayout.setContactsHintText("乘车人");
     }
 
-    @OnClick({R.id.sku_order_traveler_info_address_book_tv
-            , R.id.sku_order_traveler_info_code_arrow_iv
-            , R.id.sku_order_traveler_info_code_tv
-            , R.id.sku_order_traveler_info_start_address_layout})
-    public void setContact(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.sku_order_traveler_info_address_book_tv://通讯录
-                intentPickContactsCheckPermisson(REQUEST_CODE_PICK_CONTACTS);
-                break;
-            case R.id.sku_order_traveler_info_code_tv://区号
-            case R.id.sku_order_traveler_info_code_arrow_iv:
-                intent = new Intent(getContext(), ChooseCountryActivity.class);
-                intent.putExtra("viewId", R.id.sku_order_traveler_info_code_tv);
-                getContext().startActivity(intent);
-                break;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (REQUEST_CODE_PICK_CONTACTS == requestCode || REQUEST_CODE_PICK_OTHER_CONTACTS == requestCode || REQUEST_CODE_PICK_STANDBY_CONTACTS == requestCode) {
+            Uri result = data.getData();
+            String[] contact = PhoneInfo.getPhoneContacts(getContext(), result);
+            if (contact == null || contact.length < 2) {
+                return;
+            }
+            if (!TextUtils.isEmpty(contact[0])) {
+                switch (requestCode) {
+                    case REQUEST_CODE_PICK_CONTACTS:
+                        setTravelerName(contact[0]);
+                        break;
+                    case REQUEST_CODE_PICK_OTHER_CONTACTS:
+                        setOtherTravelerName(contact[0]);
+                        break;
+                    case REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                        setStandbyTravelerName(contact[0]);
+                        break;
+                }
+            }
+            if (!TextUtils.isEmpty(contact[1])){
+                String phone = contact[1];
+                if (!TextUtils.isEmpty(phone)) {
+                    phone = phone.replace("+86", "");//此处拷贝自以前代码。。。
+                    phone = CommonUtils.getNum(phone);
+                }
+                switch (requestCode) {
+                    case REQUEST_CODE_PICK_CONTACTS:
+                        setTravelerPhone(phone);
+                        break;
+                    case REQUEST_CODE_PICK_OTHER_CONTACTS:
+                        setOtherTravelerPhone(phone);
+                        break;
+                    case REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                        setStandbyTravelerPhone(phone);
+                        break;
+                }
+            }
         }
     }
 
-    @OnClick({R.id.sku_order_traveler_info_other_address_book_tv
-            , R.id.sku_order_traveler_info_other_code_arrow_iv
-            , R.id.sku_order_traveler_info_other_code_tv})
-    public void setOtherContact(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.sku_order_traveler_info_other_address_book_tv://通讯录
-                intentPickContactsCheckPermisson(REQUEST_CODE_PICK_OTHER_CONTACTS);
+    public void onRequestPermissionsResult(int requestCode) {
+        TravelerInfoItemView travelerInfoItemView = null;
+        switch (requestCode) {
+            case REQUEST_CODE_PICK_CONTACTS:
+                travelerInfoItemView = contactsLayout;
                 break;
-            case R.id.sku_order_traveler_info_other_code_arrow_iv://区号
-            case R.id.sku_order_traveler_info_other_code_tv:
-                intent = new Intent(getContext(), ChooseCountryActivity.class);
-                intent.putExtra("viewId", R.id.sku_order_traveler_info_other_code_tv);
-                getContext().startActivity(intent);
+            case REQUEST_CODE_PICK_OTHER_CONTACTS:
+                travelerInfoItemView = otherContactsLayout;
+                break;
+            case REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                travelerInfoItemView = standbyContactsLayout;
                 break;
         }
+        travelerInfoItemView.intentPickContacts(requestCode);
     }
 
     @OnClick({R.id.sku_order_traveler_info_start_address_layout})
@@ -193,18 +237,10 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
 
     @OnClick({R.id.sku_order_traveler_info_contacts_choose_tv
             , R.id.sku_order_traveler_info_contacts_choose_iv})
-    public void chooseOtherContacts() {
-        travelerInfoBean.isOther = !travelerInfoBean.isOther;
-        contactsChooseIV.setSelected(travelerInfoBean.isOther);
-        if (travelerInfoBean.isOther) {
-            otherContactsLayout.setVisibility(View.VISIBLE);
-            otherPhoneLayout.setVisibility(View.VISIBLE);
-            sendMessageLayout.setVisibility(View.VISIBLE);
-        } else {
-            otherContactsLayout.setVisibility(View.GONE);
-            otherPhoneLayout.setVisibility(View.GONE);
-            sendMessageLayout.setVisibility(View.GONE);
-        }
+    public void chooseStandbyContacts() {
+        travelerInfoBean.isStandby = !travelerInfoBean.isStandby;
+        standbyContactsChooseIV.setSelected(travelerInfoBean.isStandby);
+        standbyContactsLayout.setVisibility(travelerInfoBean.isStandby ? View.VISIBLE : View.GONE);
         CommonUtils.hideSoftInput((Activity) getContext());
     }
 
@@ -277,6 +313,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
                 addressTV.setHint("添加第1天上车地点");
                 travelerInfoBean.serverTime = CombinationOrderActivity.SERVER_TIME.substring(0, CombinationOrderActivity.SERVER_TIME.lastIndexOf(":00"));
             }
+            setOtherContactsHide(true);
         } else if (orderType == 5 || orderType == 6) {//线路
             timeLayout.setVisibility(View.VISIBLE);
             addressLayout.setVisibility(View.VISIBLE);
@@ -284,12 +321,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             timeTV.setHint("09:00（当地时间）");
             addressTV.setHint("请添加上车地点");
             travelerInfoBean.serverTime = SkuOrderActivity.SERVER_TIME;
+            setOtherContactsHide(true);
         } else {//接送次
             timeLayout.setVisibility(View.GONE);
             addressLayout.setVisibility(View.GONE);
             addressLineView.setVisibility(View.GONE);
-            contactsChooseIV.setVisibility(View.VISIBLE);
-            contactsChooseTV.setVisibility(View.VISIBLE);
             checkinET.setVisibility(View.GONE);
             sendMessageSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
                 @Override
@@ -312,6 +348,18 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         }
     }
 
+    public void setOtherContactsHide(boolean isHide) {
+        if (isHide) {
+            otherContactsTopSpaceView.setVisibility(View.GONE);
+            contactsSwitchLayout.setVisibility(View.GONE);
+            otherContactsLayout.setVisibility(View.GONE);
+            sendMessageLayout.setVisibility(View.GONE);
+        } else {
+            otherContactsTopSpaceView.setVisibility(View.VISIBLE);
+            contactsSwitchLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void setCarListBean(CarListBean carListBean) {
         if (carListBean == null || carListBean.additionalServicePrice == null) {
             return;
@@ -324,68 +372,53 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         }
     }
 
-    @TargetApi(23)
-    public boolean requestPermisson(int requestCode) {
-        if (checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions((Activity)getContext(), new String[]{Manifest.permission.READ_CONTACTS}, requestCode);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public void intentPickContacts(int requestCode) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_PICK);
-        intent.setData(ContactsContract.Contacts.CONTENT_URI);
-        ((Activity)getContext()).startActivityForResult(intent, requestCode);
-    }
-
-    public void intentPickContactsCheckPermisson(int requestCode) {
-        if (Build.VERSION.SDK_INT >= 23 && requestPermisson(requestCode)) {
-            intentPickContacts(requestCode);
-        } else {
-            intentPickContacts(requestCode);
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode) {
+    public void setAreaCode(String _code, int requestCode) {
+        String code = CommonUtils.addPhoneCodeSign(_code);
         switch (requestCode) {
             case REQUEST_CODE_PICK_CONTACTS:
+                travelerInfoBean.areaCode = code;
+                contactsLayout.setAreaCode(code);
+                break;
             case REQUEST_CODE_PICK_OTHER_CONTACTS:
-                intentPickContacts(requestCode);
+                travelerInfoBean.otherAreaCode = code;
+                otherContactsLayout.setAreaCode(code);
+                break;
+            case REQUEST_CODE_PICK_STANDBY_CONTACTS:
+                travelerInfoBean.standbyAreaCode = code;
+                standbyContactsLayout.setAreaCode(code);
                 break;
         }
     }
 
-    public void setAreaCode(String code) {
-        travelerInfoBean.areaCode = code;
-        codeTV.setText(CommonUtils.addPhoneCodeSign(code));
-    }
-
     public void setTravelerName(String travelerName) {
         travelerInfoBean.travelerName = travelerName;
-        contactsET.setText(travelerName);
+        contactsLayout.setName(travelerName);
     }
 
     public void setTravelerPhone(String travelerPhone) {
         travelerInfoBean.travelerPhone = travelerPhone;
-        phoneET.setText(travelerPhone);
-    }
-
-    public void setOtherAreaCode(String code) {
-        travelerInfoBean.otherAreaCode = code;
-        otherCodeTV.setText(CommonUtils.addPhoneCodeSign(code));
+        contactsLayout.setPhone(travelerPhone);
     }
 
     public void setOtherTravelerName(String travelerName) {
         travelerInfoBean.otherName = travelerName;
-        otherContactsET.setText(travelerName);
+        otherContactsLayout.setName(travelerName);
     }
 
     public void setOtherTravelerPhone(String travelerPhone) {
         travelerInfoBean.otherPhone = travelerPhone;
-        otherPhoneET.setText(travelerPhone);
+        otherContactsLayout.setPhone(travelerPhone);
+    }
+
+
+    public void setStandbyTravelerName(String travelerName) {
+        travelerInfoBean.standbyName = travelerName;
+        standbyContactsLayout.setName(travelerName);
+    }
+
+    public void setStandbyTravelerPhone(String travelerPhone) {
+        travelerInfoBean.standbyPhone = travelerPhone;
+        standbyContactsLayout.setPhone(travelerPhone);
     }
 
     public void setPlace(PoiBean poiBean) {
@@ -426,13 +459,28 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         if (!CommonUtils.checkInlandPhoneNumber(infoBean.areaCode, infoBean.travelerPhone)) {
             return false;
         }
+
+        if (infoBean.isStandby) {
+            if (TextUtils.isEmpty(infoBean.standbyName)) {
+                CommonUtils.showToast("请填写备用联系人姓名!");
+                return false;
+            }
+            if (TextUtils.isEmpty(infoBean.standbyPhone)) {
+                CommonUtils.showToast("请填写备用联系人手机号!");
+                return false;
+            }
+            if (!CommonUtils.checkInlandPhoneNumber(infoBean.standbyAreaCode, infoBean.standbyPhone)) {
+                return false;
+            }
+        }
+
         if (infoBean.isOther) {
             if (TextUtils.isEmpty(infoBean.otherName)) {
                 CommonUtils.showToast("请填写乘车人姓名!");
                 return false;
             }
             if (TextUtils.isEmpty(infoBean.otherPhone)) {
-                CommonUtils.showToast("请填写乘车人电话!");
+                CommonUtils.showToast("请填写乘车人手机号!");
                 return false;
             }
             if (!CommonUtils.checkInlandPhoneNumber(infoBean.otherAreaCode, infoBean.otherPhone)) {
@@ -444,21 +492,6 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void onSwitchStateChange(boolean isSelect) {
-        if (orderType == 1) {//接机
-            travelerInfoBean.isPickup = isSelect;
-            checkinET.setVisibility(isSelect ? View.VISIBLE : View.GONE);
-            checkinStarTV.setVisibility(isSelect ? View.VISIBLE : View.GONE);
-        } else if (orderType == 2) {//送机
-            travelerInfoBean.isCheckin = isSelect;
-        }
-        CommonUtils.hideSoftInput((Activity) getContext());
-        if (onSwitchPickOrSendListener != null) {
-            onSwitchPickOrSendListener.onSwitchPickOrSend(isSelect, getAdditionalPrice());
-        }
     }
 
     public int getAdditionalPrice() {
@@ -480,13 +513,17 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
     }
 
     public TravelerInfoBean getTravelerInfoBean() {
-        travelerInfoBean.travelerName = getText(contactsET, false);
-        travelerInfoBean.travelerPhone = getText(phoneET, true);
+        travelerInfoBean.travelerName = getText(contactsLayout.getNameView(), false);
+        travelerInfoBean.travelerPhone = getText(contactsLayout.getPhoneView(), true);
         travelerInfoBean.mark = getText(markET, false);
         travelerInfoBean.wechatNo = getText(wechatET, false);
+        if (travelerInfoBean.isStandby) {
+            travelerInfoBean.standbyName = getText(standbyContactsLayout.getNameView(), false);
+            travelerInfoBean.standbyPhone = getText(standbyContactsLayout.getPhoneView(), true);
+        }
         if (travelerInfoBean.isOther) {
-            travelerInfoBean.otherName = getText(otherContactsET, false);
-            travelerInfoBean.otherPhone = getText(otherPhoneET, true);
+            travelerInfoBean.otherName = getText(otherContactsLayout.getNameView(), false);
+            travelerInfoBean.otherPhone = getText(standbyContactsLayout.getPhoneView(), true);
         }
         if (travelerInfoBean.isPickup) {
             travelerInfoBean.pickName = getText(checkinET, false);
@@ -508,6 +545,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
                 areaCode = "86";
             }
             isOther = false;
+            isStandby = false;
         }
 
         public String travelerName;
@@ -521,7 +559,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
         public boolean isPickup = false;
         public boolean isCheckin = false;
         public boolean isSendMessage = false;
+        public boolean isStandby = false;
         public String sendFlight;//送机航班
+        public String standbyName;
+        public String standbyPhone;
+        public String standbyAreaCode = "86";
         public String otherName;
         public String otherPhone;
         public String otherAreaCode = "86";
@@ -532,6 +574,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout implements ShSwitchVi
             contactUsersBean.userName = travelerName;
             contactUsersBean.userPhone = travelerPhone;
             contactUsersBean.phoneCode = CommonUtils.removePhoneCodeSign(areaCode);
+            if (isStandby) {
+                contactUsersBean.user1Name = standbyName;
+                contactUsersBean.user1Phone = standbyPhone;
+                contactUsersBean.phone1Code = CommonUtils.removePhoneCodeSign(standbyAreaCode);
+            }
             if (isOther) {
                 contactUsersBean.isForOther = isOther;
                 contactUsersBean.isSendMessage = isSendMessage;
