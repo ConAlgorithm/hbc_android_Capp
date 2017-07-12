@@ -27,6 +27,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.DestinationServiceview;
 
 import java.util.List;
 
@@ -40,7 +41,10 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
 
     private List<HomeBeanV2.HotCity> hotCitys;
     private HomeBeanV2.LineGroupAgg lineGroup;
-
+    int position = -1;
+    public DestinationAggModel(int position){
+        this.position = position;
+    }
     public DestinationAggModel(List<HomeBeanV2.HotCity> hotCity) {
         this.hotCitys = hotCity;
         initSrc();
@@ -74,6 +78,11 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     public void bind(EpoxyHolder holder) {
         super.bind(holder);
         DestinationViewHolder destinationViewHolder = (DestinationViewHolder) holder;
+        if(this.position == 0){
+            destinationViewHolder.destinationServiceview.setVisibility(View.VISIBLE);
+        }else{
+            destinationViewHolder.destinationServiceview.setVisibility(View.GONE);
+        }
         if (hotCitys != null) {
             renderHotCity(destinationViewHolder);
         }
@@ -219,6 +228,8 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
         GridView countryGridView;
         @Bind(R.id.home_dest_country_open_switcher)
         TextView countrySwitcher;
+        @Bind(R.id.des_service)
+        DestinationServiceview destinationServiceview;
 
 
         @Override
