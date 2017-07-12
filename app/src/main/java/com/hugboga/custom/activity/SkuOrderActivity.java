@@ -183,6 +183,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
+        bottomView.setHintTV(orderType, false, false);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
