@@ -228,9 +228,11 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 break;
             case SELECT_COUPON_BACK:
                 couponBean = (CouponBean) action.getData();
-                if (couponBean.couponID.equalsIgnoreCase(couponId)) {
+                if (couponBean == null) {
                     couponId = null;
                     couponBean = null;
+                } else if (couponBean.couponID.equalsIgnoreCase(couponId)) {
+                    break;
                 }
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
