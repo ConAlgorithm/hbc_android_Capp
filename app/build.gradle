@@ -80,18 +80,6 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.hbcSign
-        }
-        debug {
-            debuggable true
-            //signingConfig signingConfigs.hbcSign
-            signingConfig signingConfigs.hbcSignGp
-        }
-    }
 
     productFlavors {
         //==productFlavors_start==
@@ -144,6 +132,19 @@ android {
             signingConfig signingConfigs.hbcSignGp
         }
         //==productFlavors_end==
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.hbcSign
+        }
+        debug {
+            debuggable true
+            //signingConfig signingConfigs.hbcSign
+            //signingConfig signingConfigs.hbcSignGp
+        }
     }
 
     productFlavors.all { flavor ->
