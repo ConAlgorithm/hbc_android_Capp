@@ -127,6 +127,7 @@
 
     <!-- tab-->
     <string name="tab_home">首页</string>
+    <string name="tab_des">目的地</string>
     <string name="tab_chat">私聊</string>
     <string name="tab_journey">行程</string>
     <string name="tab_space">我的</string>

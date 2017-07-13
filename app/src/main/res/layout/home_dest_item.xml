@@ -2,9 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
     android:paddingTop="10dp">
+
+    <com.hugboga.custom.widget.DestinationServiceview
+        android:id="@+id/des_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone">
+
+    </com.hugboga.custom.widget.DestinationServiceview>
 
     <TextView
         android:id="@+id/home_dest_title_name"
@@ -28,16 +37,16 @@
         android:numColumns="3"
         android:verticalSpacing="10dp"></com.hugboga.custom.widget.ChildGridView>
 
-  <!--  <LinearLayout
-    android:id="@+id/home_dest_city_gridview"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginTop="5dp"
-        android:orientation="vertical">
-    </LinearLayout>-->
+    <!--  <LinearLayout
+      android:id="@+id/home_dest_city_gridview"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="5dp"
+      android:layout_marginLeft="15dp"
+      android:layout_marginRight="15dp"
+      android:layout_marginTop="5dp"
+          android:orientation="vertical">
+      </LinearLayout>-->
 
 
     <View
@@ -58,18 +67,19 @@
         android:visibility="gone" />
 
     <com.hugboga.custom.widget.ChildGridView
+        android:id="@+id/home_dest_country_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:id="@+id/home_dest_country_gridview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:horizontalSpacing="10dp"
         android:numColumns="3"
         android:scrollbars="none"
         android:verticalSpacing="15dp"
         android:visibility="gone"></com.hugboga.custom.widget.ChildGridView>
+
     <TextView
         android:id="@+id/home_dest_country_open_switcher"
         android:layout_width="wrap_content"
@@ -82,10 +92,11 @@
         android:textColor="#A8A8A8"
         android:textSize="12sp"
         android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
+        android:layout_height="15dp"
         android:layout_marginTop="10dp"
-        android:background="#F8F8F8"
-        android:layout_height="15dp"></View>
+        android:background="#F8F8F8"></View>
 
 </LinearLayout>
