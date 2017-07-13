@@ -76,7 +76,7 @@ public class HomeSearchTabView extends FrameLayout {
                 destTabLine.setVisibility(View.GONE);
                 storyTabLine.setVisibility(View.GONE);
                 break;
-            case R.id.home_header_dest_tab:
+            /*case R.id.home_header_dest_tab:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.VISIBLE);
                 storyTabIcon.setVisibility(View.GONE);
@@ -84,7 +84,7 @@ public class HomeSearchTabView extends FrameLayout {
                 hotTabLine.setVisibility(View.GONE);
                 destTabLine.setVisibility(View.VISIBLE);
                 storyTabLine.setVisibility(View.GONE);
-                break;
+                break;*/
             case R.id.home_header_story_tab:
                 hotTabIcon.setVisibility(View.GONE);
                 destTabIcon.setVisibility(View.GONE);

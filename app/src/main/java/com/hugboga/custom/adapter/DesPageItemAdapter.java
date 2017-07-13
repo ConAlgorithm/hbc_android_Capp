@@ -2,10 +2,12 @@ package com.hugboga.custom.adapter;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.data.bean.HomeHotCityVo;
 import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.models.DestinationAggModel;
 import com.hugboga.custom.models.HomeEndModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,35 +16,24 @@ import java.util.List;
 
 public class DesPageItemAdapter extends EpoxyAdapter {
 
-    public void addService(int position){
-        removeAllModels();
-        addModel(new DestinationAggModel(position));
-
-    }
-    public void addHotCitys(List<HomeBeanV2.HotCity> cities) {
-        //removeAllAfterModel(homeHeaderModel);
-        if(cities!=null && cities.size()>0){
-            addModel(new DestinationAggModel(cities));
-        }
-    }
-
-    public void addDestionLineGroups(List<HomeBeanV2.LineGroupAgg> groupAggs,int listCount,int dataSize) {
-        if (groupAggs != null && groupAggs.size() > 0) {
-            for (HomeBeanV2.LineGroupAgg lineGroupAgg : groupAggs) {
-                if((lineGroupAgg.lineGroupCities==null || lineGroupAgg.lineGroupCities.size()==0)&&
-                        (lineGroupAgg.lineGroupCountries==null || lineGroupAgg.lineGroupCountries.size()==0)){
-                    continue;
-                }
-                addModel(new DestinationAggModel(lineGroupAgg));
+    public void addHotCitys(ArrayList<HomeBeanV2.HotCity> homeHotCityVos, int position) {
+        if(getItemCount()==0){
+            if (homeHotCityVos != null && homeHotCityVos.size() > 0) {
+                addModel(new DestinationAggModel(homeHotCityVos, position));
             }
         }
-        if(listCount==dataSize){
-            addFooterModel(FgHomePage.TAB_DESTION);
+    }
+
+    public void addDestionLineGroups(HomeBeanV2.LineGroupAgg groupAggs, int position) {
+        if(getItemCount() == 0){
+            if (groupAggs != null) {
+                addModel(new DestinationAggModel(groupAggs, position));
+            }
         }
     }
-    public void addFooterModel(int tab){
+    /*public void addFooterModel(int tab){
         HomeEndModel homeEndModel = new HomeEndModel();
         homeEndModel.setCurrentTab(tab);
         addModel(homeEndModel);
-    }
+    }*/
 }

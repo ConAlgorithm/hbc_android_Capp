@@ -7,7 +7,11 @@ import android.view.View;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.DesPageItemAdapter;
+import com.hugboga.custom.data.bean.HomeBeanV2;
+import com.hugboga.custom.data.bean.HomeHotCityVo;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by zhangqiang on 17/7/12.
@@ -17,6 +21,8 @@ public class DesPager {
     private Context mContext;
     private DesPageItemAdapter recyclerAdapter;
     RecyclerView desItemView;
+    ArrayList<HomeBeanV2.HotCity> homeHotCityVos;
+    HomeBeanV2.LineGroupAgg lineGroupAgg;
     public DesPager(Context context) {
         this.mContext = context;
     }
@@ -38,26 +44,30 @@ public class DesPager {
         desItemView.setAdapter(recyclerAdapter);
     }
 
+    public void setHotData(ArrayList<HomeBeanV2.HotCity> homeHotCityVos){
+        this.homeHotCityVos = homeHotCityVos;
+    }
+
+    public void setLineData(HomeBeanV2.LineGroupAgg lineGroupAgg){
+        this.lineGroupAgg = lineGroupAgg;
+    }
+
     public void requestData(String title, int position){
         //// TODO: 17/7/12
         // 需要请求每个tab的数据
         if(!title.isEmpty()){
             if(title.equals("热门")){
                 if(recyclerAdapter!= null){
-                    recyclerAdapter.addService(position);
+                    recyclerAdapter.addHotCitys(homeHotCityVos,position);
                 }
-                //recyclerAdapter.addHotCitys();
             }else{
-                /*if (homeBean!=null && homeBean.destinationAggVo != null) {
-                    if (homeBean.destinationAggVo.hotCities != null) {
-                        recyclerAdapter.addHotCitys(homeBean.destinationAggVo.hotCities);
+                if(recyclerAdapter!= null){
+                    if (lineGroupAgg!=null) {
+                            recyclerAdapter.addDestionLineGroups(lineGroupAgg,position);
+                        }
                     }
-                    if(homeBean.destinationAggVo.lineGroupAggVos!=null){
-                        recyclerAdapter.addDestionLineGroups(homeBean.destinationAggVo.lineGroupAggVos
-                                ,homeBean.destinationAggVo.listCount,homeBean.destinationAggVo.getLineGroupAggSize());
-                    }
-                }*/
+                }
+
             }
         }
-    }
 }
