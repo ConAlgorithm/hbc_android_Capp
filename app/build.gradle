@@ -84,53 +84,40 @@ android {
     productFlavors {
         //==productFlavors_start==
         developer {
-            signingConfig signingConfigs.hbcSign
         }
 //        stage {}
         /*==examination_start==*/
         examination {
-            signingConfig signingConfigs.hbcSign
         }
         /*==examination_end==*/
         '10000' {
-            signingConfig signingConfigs.hbcSign
         }
         '10001' {
-            signingConfig signingConfigs.hbcSign
         }
         '10002' {
-            signingConfig signingConfigs.hbcSign
         }
         '10003' {
-            signingConfig signingConfigs.hbcSign
         }
         '10006' {
-            signingConfig signingConfigs.hbcSign
         }
         '10008' {
-            signingConfig signingConfigs.hbcSign
         }
         '10009' {
-            signingConfig signingConfigs.hbcSign
         }
         '10011' {
-            signingConfig signingConfigs.hbcSign
         }
         '10012' {
-            signingConfig signingConfigs.hbcSign
         }
         '10013' {
-            signingConfig signingConfigs.hbcSign
+        }
+
+        '10092' {
         }
         /*==formal_start==*/
-        '10092' {
-            signingConfig signingConfigs.hbcSign
-        }
-        /*==formal_end==*/
         '10007' {//google play
             applicationId 'com.hugboga.custom.gp'
-            signingConfig signingConfigs.hbcSignGp
         }
+        /*==formal_end==*/
         //==productFlavors_end==
     }
 
@@ -138,12 +125,13 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.hbcSign
+            //signingConfig signingConfigs.hbcSign
+            signingConfig signingConfigs.hbcSignGp
         }
         debug {
             debuggable true
-            signingConfig signingConfigs.hbcSign
-            //signingConfig signingConfigs.hbcSignGp
+            //signingConfig signingConfigs.hbcSign
+            signingConfig signingConfigs.hbcSignGp
         }
     }
 
