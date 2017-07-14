@@ -53,6 +53,7 @@ import com.hugboga.custom.data.request.RequestImAnalysisSwitch;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
+import com.hugboga.custom.fragment.FgDestination;
 import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgNimChat;
@@ -126,7 +127,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     TextView qyServiceUnreadMsgCount;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private TextView tabMenu[] = new TextView[4];
+    private TextView tabMenu[] = new TextView[5];
     private ActionBean actionBean;
     private int currentPosition = 0;
     private CheckVersionBean cvBean;
@@ -135,6 +136,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     //private FgHome fgHome;
     private FgHomePage fgHomePage;
+    private FgDestination fgDestination;
     private FgNimChat fgChat;
     private FgTravel fgTravel;
     private FgMySpace fgMySpace;
@@ -166,7 +168,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         initBottomView();
         initAdapterContent();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setScrollble(false);
@@ -370,11 +372,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void initAdapterContent() {
         //fgHome = new FgHome();
         fgHomePage = new FgHomePage();
+        fgDestination = new FgDestination();
         fgTravel = new FgTravel();
         fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
         //addFragment(fgHome);
         addFragment(fgHomePage);
+        addFragment(fgDestination);
         addFragment(fgChat);
         addFragment(fgTravel);
         addFragment(fgMySpace);
@@ -600,6 +604,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         tabMenu[1] = (TextView) findViewById(R.id.tab_text_2);
         tabMenu[2] = (TextView) findViewById(R.id.tab_text_3);
         tabMenu[3] = (TextView) findViewById(R.id.tab_text_4);
+        tabMenu[4] = (TextView) findViewById(R.id.tab_text_5);
         tabMenu[0].setSelected(true);
     }
 
@@ -636,7 +641,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
-    @OnClick({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4})
+    @OnClick({R.id.tab_text_1, R.id.tab_text_2, R.id.tab_text_3, R.id.tab_text_4,R.id.tab_text_5})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tab_text_1:
@@ -652,6 +657,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.tab_text_4:
                 mViewPager.setCurrentItem(3);
                 break;
+            case R.id.tab_text_5:
+                mViewPager.setCurrentItem(4);
         }
     }
 
@@ -741,15 +748,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             switch (position) {
                 case 0: {
                     return fgHomePage;
-                    //return fgHome;
                 }
                 case 1: {
-                    return fgChat;
+                    return fgDestination;
                 }
                 case 2: {
-                    return fgTravel;
+                    return fgChat;
                 }
                 case 3: {
+                    return fgTravel;
+                }
+                case 4: {
                     return fgMySpace;
                 }
             }
@@ -758,7 +767,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
@@ -767,10 +776,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 case 0:
                     return "发现";
                 case 1:
-                    return "私聊";
+                    return "目的地";
                 case 2:
-                    return "行程";
+                    return "私聊";
                 case 3:
+                    return "行程";
+                case 4:
                     return "我的";
             }
             return null;

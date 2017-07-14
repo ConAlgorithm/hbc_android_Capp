@@ -98,7 +98,7 @@ public class SkuOrderDiscountView extends LinearLayout{
 
     public void setCouponBean(CouponBean couponBean) {
         if (couponBean == null) {
-            couponCountTV.setText("当前没有用劵，请选择");
+            couponCountTV.setText("不使用优惠券");
         } else {
             couponCountTV.setText(couponBean.price);
         }

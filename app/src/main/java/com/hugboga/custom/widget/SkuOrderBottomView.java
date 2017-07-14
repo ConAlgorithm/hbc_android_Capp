@@ -88,4 +88,28 @@ public class SkuOrderBottomView extends LinearLayout {
         return selectedGuideHintTV;
     }
 
+    public void setHintTV(int orderType, boolean isGuides, boolean isSeckills) {
+        String hint1 = "支付后参与砍价活动，还能再减200元哦！";
+        String hint2 = "支付后还可以挑选司导哦~";
+        String showText = "";
+
+        boolean isDaily = orderType == 3 || orderType == 888 || orderType == 5 || orderType == 6;
+
+        if (isSeckills) {
+            if (isDaily) {
+                showText = hint2;
+            } else {
+                showText = null;
+            }
+        } else if (isGuides) {
+            showText = hint1;
+        } else if (isDaily) {
+            showText = hint2;
+        } else {
+            showText = hint1;
+        }
+        selectedGuideHintTV.setText(showText);
+        selectedGuideHintTV.setVisibility(showText == null ? GONE : VISIBLE);
+    }
+
 }

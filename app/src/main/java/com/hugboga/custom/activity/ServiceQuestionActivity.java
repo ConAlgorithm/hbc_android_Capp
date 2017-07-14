@@ -44,7 +44,8 @@ public class ServiceQuestionActivity extends BaseActivity{
     private ServiceQuestionAdapter adapter;
 
     private UnicornServiceActivity.Params params;
-    public int lastCustomRole;
+    private int lastCustomRole;
+    private ServiceQuestionBean serviceQuestionBean;
 
     @Override
     public int getContentViewId() {
@@ -129,6 +130,14 @@ public class ServiceQuestionActivity extends BaseActivity{
         switch (action.getType()) {
             case QUESTION_ITEM:
                 final ServiceQuestionBean.QuestionItem questionItem = (ServiceQuestionBean.QuestionItem) action.getData();
+                if (questionItem.isRoot) {
+                    ArrayList<ServiceQuestionBean> questionList = new ArrayList<ServiceQuestionBean>(1);
+                    questionList.add(serviceQuestionBean);
+                    adapter.addData(questionList, true);
+                    mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+                    handler.sendEmptyMessageDelayed(0, 100);
+                    return;
+                }
                 if (questionItem.type == 3) { //进客服
                     if (!CommonUtils.isLogin(this)) {
                         return;
@@ -144,9 +153,9 @@ public class ServiceQuestionActivity extends BaseActivity{
                     userQuestionList.add(questionItem);
                     userServiceQuestionBean.questionList = userQuestionList;
 
-                    ServiceQuestionBean serviceQuestionBean = new ServiceQuestionBean();
+                    ServiceQuestionBean questionBean = new ServiceQuestionBean();
                     if (questionItem.type == 2) {
-                        ArrayList<ServiceQuestionBean.QuestionItem> questionList = new ArrayList<ServiceQuestionBean.QuestionItem>(2);
+                        ArrayList<ServiceQuestionBean.QuestionItem> questionList = new ArrayList<ServiceQuestionBean.QuestionItem>(3);
                         ServiceQuestionBean.QuestionItem questionItem2 = (ServiceQuestionBean.QuestionItem) questionItem.clone();
                         if (questionItem2 == null) {
                             questionItem2 = questionItem;
@@ -161,14 +170,21 @@ public class ServiceQuestionActivity extends BaseActivity{
                             defaultServiceQuestionItem.adviceName = "还没解决您的问题？转接人工服务";
                             questionList.add(defaultServiceQuestionItem);
                         }
-                        serviceQuestionBean.questionList = questionList;
-                    } else {
-                        serviceQuestionBean.questionList = questionItem.questionItemList;
-                    }
 
+                        ServiceQuestionBean.QuestionItem serviceQuestionItem = new ServiceQuestionBean.QuestionItem();
+                        serviceQuestionItem.type = 1;
+                        serviceQuestionItem.adviceName = "查看其它问题";
+                        serviceQuestionItem.isRoot = true;
+                        serviceQuestionItem.questionItemList = serviceQuestionBean.questionList;
+                        questionList.add(serviceQuestionItem);
+
+                        questionBean.questionList = questionList;
+                    } else {
+                        questionBean.questionList = questionItem.questionItemList;
+                    }
                     ArrayList<ServiceQuestionBean> questionList = new ArrayList<ServiceQuestionBean>(2);
                     questionList.add(userServiceQuestionBean);
-                    questionList.add(serviceQuestionBean);
+                    questionList.add(questionBean);
                     adapter.addData(questionList, true);
                     mRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
                     handler.sendEmptyMessageDelayed(0, 100);
@@ -176,6 +192,10 @@ public class ServiceQuestionActivity extends BaseActivity{
                 setSensorsIM(questionItem);
                 break;
         }
+    }
+
+    public void setLastCustomRole(int lastCustomRole) {
+        this.lastCustomRole = lastCustomRole;
     }
 
     private Handler handler = new Handler() {
@@ -200,6 +220,7 @@ public class ServiceQuestionActivity extends BaseActivity{
             if (data == null) {
                 intentDefaultServiceActivity();
             }
+            serviceQuestionBean = data;
             ArrayList<ServiceQuestionBean> questionList = new ArrayList<ServiceQuestionBean>(1);
             questionList.add(data);
             adapter.addData(questionList);

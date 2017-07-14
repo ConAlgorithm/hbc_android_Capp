@@ -415,7 +415,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 //            handler.proceed();
-            handler.cancel();
+            if (error.getPrimaryError() == SslError.SSL_INVALID) {
+                handler.proceed();
+            } else {
+                handler.cancel();
+            }
         }
 
         @Override

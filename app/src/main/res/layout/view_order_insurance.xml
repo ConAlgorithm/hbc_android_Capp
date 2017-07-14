@@ -41,7 +41,17 @@
             android:text=" × 1份"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
-
+        <ImageView
+            android:id="@+id/order_discount_insurance_explain_tv"
+            android:layout_toRightOf="@id/order_discount_insurance_count_tv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="5dp"
+            android:layout_marginLeft="-2dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_order_info"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

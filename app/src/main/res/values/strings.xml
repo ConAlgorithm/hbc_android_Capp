@@ -127,6 +127,7 @@
 
     <!-- tab-->
     <string name="tab_home">首页</string>
+    <string name="tab_des">目的地</string>
     <string name="tab_chat">私聊</string>
     <string name="tab_journey">行程</string>
     <string name="tab_space">我的</string>
@@ -431,7 +432,7 @@
     <string name="choose_search">查询</string>
     <string name="choose_search_history">查询历史</string>
     <string name="choose_clean_all_history">清除查询记录</string>
-    <string name="choose_input_air_no">请输入航班号, 如CA979</string>
+    <string name="choose_input_air_no">请输入航班号, 如CA167</string>
     <string name="choose_input_air_no_left">航班号</string>
 
     <string name="can_sit_man">可乘坐</string>

@@ -225,9 +225,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
         super.onDataRequestError(errorInfo, _request);
         if (_request instanceof RequestOrderDetail) {
-            emptyTV.setVisibility(View.VISIBLE);
-            emptyTV.setText(R.string.data_load_error_retry);
-            emptyTV.setOnClickListener(this);
+            if (emptyTV != null) {
+                emptyTV.setVisibility(View.VISIBLE);
+                emptyTV.setText(R.string.data_load_error_retry);
+                emptyTV.setOnClickListener(this);
+            }
         }
     }
 

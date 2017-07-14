@@ -96,6 +96,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private int mPageSize = 20;
     private boolean isFromMyspace = false;
     private MostFitAvailableBean paramsData;
+    private ImageView headerSelectedIV;
 
     private String idStr = null;
 
@@ -182,6 +183,19 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             footer.setText("查看不可用券");
         }
         listView.addFooterView(mFooter);
+        if (paramsData != null) {
+            RelativeLayout headerView = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.view_coupon_header, null);
+            headerView.findViewById(R.id.coupon_header_item_selected).setVisibility(TextUtils.isEmpty(idStr) ? View.VISIBLE : View.GONE);
+            headerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, null));
+                    finish();
+                }
+            });
+            listView.addHeaderView(headerView);
+        }
+
         next.setVisibility(View.GONE);
         mFooter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -347,6 +361,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (paramsData != null) {
+            position--;
+        }
         CouponBean bean = (CouponBean) adapter.getItem(position - 1);
         if (paramsData != null) {
             EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, bean));

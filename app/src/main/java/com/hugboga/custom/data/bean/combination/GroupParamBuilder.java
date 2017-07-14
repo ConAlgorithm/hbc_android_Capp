@@ -205,6 +205,10 @@ public class GroupParamBuilder {
         groupParentParam.isRealUser = contactUsersBean.isForOther ? 2 : 1;
         ArrayList<ContactUserBean> userExInfo = new ArrayList<ContactUserBean>();
         userExInfo.add(getUserExBean(contactUsersBean));
+        ContactUserBean contactUserBean2 = getUserExBean2(contactUsersBean);
+        if (contactUserBean2 != null) {
+            userExInfo.add(contactUserBean2);
+        }
         groupParentParam.userExInfo = userExInfo;
         ContactUserBean contactUserBean = getRealUserExBean(contactUsersBean);
         if (contactUserBean != null) {
@@ -346,6 +350,17 @@ public class GroupParamBuilder {
         userExBean.name = contactUsersBean.userName;
         userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.phoneCode) ? "86" : contactUsersBean.phoneCode;
         userExBean.mobile = contactUsersBean.userPhone;
+        return userExBean;
+    }
+
+    private ContactUserBean getUserExBean2(ContactUsersBean contactUsersBean) {
+        if (TextUtils.isEmpty(contactUsersBean.user1Name) || TextUtils.isEmpty(contactUsersBean.user1Phone)) {
+            return null;
+        }
+        ContactUserBean userExBean = new ContactUserBean();
+        userExBean.name = contactUsersBean.user1Name;
+        userExBean.areaCode = TextUtils.isEmpty(contactUsersBean.phone1Code) ? "86" : contactUsersBean.phone1Code;
+        userExBean.mobile = contactUsersBean.user1Phone;
         return userExBean;
     }
 

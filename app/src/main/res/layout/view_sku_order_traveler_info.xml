@@ -23,9 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
             android:layout_marginTop="11.8dp"
-            android:text="为他人订车"
+            android:text="添加备用联系人"
             android:textColor="#7f7f7f"
             android:textSize="12sp" />
 
@@ -34,367 +33,28 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginTop="12dp"
-            android:visibility="gone"
             android:layout_toLeftOf="@id/sku_order_traveler_info_contacts_choose_tv"
             android:background="@drawable/checkbox_sku_order_multi" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <com.hugboga.custom.widget.TravelerInfoItemView
+        android:id="@+id/traveler_info_contacts_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingLeft="@dimen/sku_order_padding_left">
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/sku_order_traveler_info_contacts_star_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="-10dp"
-            android:paddingTop="3dp"
-            android:text="*"
-            android:textColor="@color/default_price_red"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_contacts_hint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:minWidth="80dp"
-            android:text="联系人"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_address_book_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:gravity="center"
-            android:text="通讯录"
-            android:textColor="@color/default_highlight_blue"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/sku_order_traveler_info_address_book_iv"
-            android:layout_width="13dp"
-            android:layout_height="14dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="0.5dp"
-            android:layout_toLeftOf="@id/sku_order_traveler_info_address_book_tv"
-            android:background="@mipmap/icon_order_contacts" />
-
-        <EditText
-            android:id="@+id/sku_order_traveler_info_contacts_et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/sku_order_traveler_info_address_book_iv"
-            android:layout_toRightOf="@id/sku_order_traveler_info_contacts_hint_tv"
-            android:background="#00000000"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:hint="请填写真实姓名"
-            android:maxLength="50"
-            android:singleLine="true"
-            android:textColor="@color/default_black"
-            android:textColorHint="#cccccc"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingLeft="@dimen/sku_order_padding_left">
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_phone_star_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="-10dp"
-            android:paddingTop="3dp"
-            android:text="*"
-            android:textColor="@color/default_price_red"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_phone_hint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:minWidth="80dp"
-            android:text="手机号"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_code_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/sku_order_traveler_info_phone_hint_tv"
-            android:gravity="center_vertical"
-            android:minWidth="25dp"
-            android:text="+86"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/sku_order_traveler_info_code_arrow_iv"
-            android:layout_width="8dp"
-            android:layout_height="4dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/sku_order_traveler_info_code_tv"
-            android:background="@mipmap/icon_black_arrow" />
-
-        <View
-            android:layout_width="@dimen/default_line_height"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/sku_order_traveler_info_code_arrow_iv"
-            android:background="@color/default_dividing_line" />
-
-        <EditText
-            android:id="@+id/sku_order_traveler_info_phone_et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:layout_toRightOf="@id/sku_order_traveler_info_code_arrow_iv"
-            android:background="#00000000"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:hint="请填写手机号"
-            android:inputType="phone"
-            android:maxLength="50"
-            android:singleLine="true"
-            android:textColor="@color/default_black"
-            android:textColorHint="#cccccc"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/sku_order_traveler_info_other_contacts_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:clipChildren="false"
-        android:clipToPadding="false"
+    <com.hugboga.custom.widget.TravelerInfoItemView
+        android:id="@+id/traveler_info_standby_contacts_layout"
         android:visibility="gone"
-        android:paddingLeft="@dimen/sku_order_padding_left">
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_other_contacts_star_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="-10dp"
-            android:paddingTop="3dp"
-            android:text="*"
-            android:textColor="@color/default_price_red"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_other_contacts_hint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:minWidth="80dp"
-            android:text="乘车人"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_other_address_book_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:gravity="center"
-            android:text="通讯录"
-            android:textColor="@color/default_highlight_blue"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/sku_order_traveler_info_other_address_book_iv"
-            android:layout_width="13dp"
-            android:layout_height="14dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="0.5dp"
-            android:layout_toLeftOf="@id/sku_order_traveler_info_other_address_book_tv"
-            android:background="@mipmap/icon_order_contacts" />
-
-        <EditText
-            android:id="@+id/sku_order_traveler_info_other_contacts_et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/sku_order_traveler_info_other_address_book_iv"
-            android:layout_toRightOf="@id/sku_order_traveler_info_other_contacts_hint_tv"
-            android:background="#00000000"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:hint="请填写真实姓名"
-            android:maxLength="50"
-            android:singleLine="true"
-            android:textColor="@color/default_black"
-            android:textColorHint="#cccccc"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/sku_order_traveler_info_other_phone_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:visibility="gone"
-        android:paddingLeft="@dimen/sku_order_padding_left">
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_other_phone_star_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="-10dp"
-            android:paddingTop="3dp"
-            android:text="*"
-            android:textColor="@color/default_price_red"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_other_phone_hint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:minWidth="80dp"
-            android:text="手机号"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/sku_order_traveler_info_other_code_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/sku_order_traveler_info_other_phone_hint_tv"
-            android:gravity="center_vertical"
-            android:minWidth="25dp"
-            android:text="+86"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/sku_order_traveler_info_other_code_arrow_iv"
-            android:layout_width="8dp"
-            android:layout_height="4dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/sku_order_traveler_info_other_code_tv"
-            android:background="@mipmap/icon_black_arrow" />
-
-        <View
-            android:layout_width="@dimen/default_line_height"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/sku_order_traveler_info_other_code_arrow_iv"
-            android:background="@color/default_dividing_line" />
-
-        <EditText
-            android:id="@+id/sku_order_traveler_info_other_phone_et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:layout_toRightOf="@id/sku_order_traveler_info_other_code_arrow_iv"
-            android:background="#00000000"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:hint="请填写手机号"
-            android:inputType="phone"
-            android:maxLength="50"
-            android:singleLine="true"
-            android:textColor="@color/default_black"
-            android:textColorHint="#cccccc"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/sku_order_traveler_info_sendmessage_layout"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
-        <TextView
-            android:id="@+id/sku_order_traveler_info_sendmessage_hint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/sku_order_min_item_hight"
-            android:gravity="center_vertical"
-            android:minWidth="80dp"
-            android:text="预订后短信通知乘车人"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
-        <com.sevenheaven.iosswitch.ShSwitchView
-            android:id="@+id/sku_order_traveler_info_sendmessage_switch_view"
-            android:layout_width="58dip"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="14dp"
-            android:layout_centerVertical="true"
-            app:tintColor="@color/default_yellow"
-            app:shadowSpace="7dip"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/default_dividing_line" />
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:id="@+id/sku_order_traveler_info_flight_layout"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sku_order_min_item_hight"
-        android:layout_marginLeft="@dimen/sku_order_padding_left">
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/sku_order_traveler_info_flight_hint_tv"
@@ -411,12 +71,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:background="#00000000"
+            android:layout_marginRight="@dimen/sku_order_padding_left"
             android:layout_toRightOf="@id/sku_order_traveler_info_flight_hint_tv"
+            android:background="#00000000"
+            android:gravity="center_vertical"
             android:hint="告诉司导航班号，出行省心"
             android:singleLine="true"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
             android:textSize="14sp" />
@@ -431,11 +91,12 @@
     <RelativeLayout
         android:id="@+id/sku_order_traveler_info_checkin_layout"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:visibility="gone"
-        android:layout_height="@dimen/sku_order_min_item_hight"
-        android:paddingLeft="@dimen/sku_order_padding_left">
+        android:paddingLeft="@dimen/sku_order_padding_left"
+        android:visibility="gone">
+
         <TextView
             android:id="@+id/sku_order_traveler_info_checkin_star_tv"
             android:layout_width="wrap_content"
@@ -443,10 +104,11 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="-10dp"
             android:paddingTop="3dp"
-            android:visibility="gone"
             android:text="*"
             android:textColor="@color/default_price_red"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/sku_order_traveler_info_checkin_hint_tv"
             android:layout_width="wrap_content"
@@ -456,42 +118,46 @@
             android:text="举牌接机"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
+
         <com.sevenheaven.iosswitch.ShSwitchView
             android:id="@+id/sku_order_traveler_info_checkin_switch_view"
             android:layout_width="58dip"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="14dp"
             android:layout_centerVertical="true"
-            app:tintColor="@color/default_yellow"
-            app:shadowSpace="7dip"/>
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            app:shadowSpace="7dip"
+            app:tintColor="@color/default_yellow" />
+
         <TextView
             android:id="@+id/sku_order_traveler_info_checkin_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sku_order_min_item_hight"
-            android:layout_toLeftOf="@id/sku_order_traveler_info_checkin_switch_view"
             android:layout_marginRight="4dp"
+            android:layout_toLeftOf="@id/sku_order_traveler_info_checkin_switch_view"
             android:gravity="center_vertical"
             android:textColor="@color/default_price_red"
             android:textSize="14sp" />
+
         <EditText
             android:id="@+id/sku_order_traveler_info_checkin_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:gravity="center_vertical"
-            android:visibility="gone"
             android:layout_toLeftOf="@id/sku_order_traveler_info_checkin_price_tv"
             android:layout_toRightOf="@id/sku_order_traveler_info_checkin_hint_tv"
-            android:singleLine="true"
             android:background="#00000000"
+            android:gravity="center_vertical"
             android:hint="接机牌姓名"
+            android:singleLine="true"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_line_height"
@@ -612,13 +278,13 @@
             android:id="@+id/sku_order_traveler_info_wechat_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_centerVertical="true"
-            android:background="#00000000"
+            android:layout_marginRight="@dimen/sku_order_padding_left"
             android:layout_toRightOf="@id/sku_order_traveler_info_wechat_hint_tv"
+            android:background="#00000000"
+            android:gravity="center_vertical"
             android:hint="可填写微信号作为备用联系方式"
             android:singleLine="true"
-            android:layout_marginRight="@dimen/sku_order_padding_left"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
             android:textSize="14sp" />
@@ -664,4 +330,95 @@
             android:textColorHint="#cccccc"
             android:textSize="14sp" />
     </RelativeLayout>
+
+    <View
+        android:id="@+id/sku_order_traveler_info_other_contacts_top_space"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_margin_vertical"
+        android:background="@color/default_bg" />
+
+    <RelativeLayout
+        android:id="@+id/traveler_info_other_contacts_switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left">
+
+        <TextView
+            android:id="@+id/sku_order_traveler_info_contacts_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:gravity="center_vertical"
+            android:minWidth="80dp"
+            android:text="为他人订车"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <com.sevenheaven.iosswitch.ShSwitchView
+            android:id="@+id/sku_order_traveler_info_contacts_switch_view"
+            android:layout_width="58dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            app:shadowSpace="7dip"
+            app:tintColor="@color/default_yellow" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <com.hugboga.custom.widget.TravelerInfoItemView
+        android:id="@+id/traveler_info_other_contacts_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/sku_order_traveler_info_sendmessage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/sku_order_traveler_info_sendmessage_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:gravity="center_vertical"
+            android:minWidth="80dp"
+            android:text="预订后短信通知乘车人"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <com.sevenheaven.iosswitch.ShSwitchView
+            android:id="@+id/sku_order_traveler_info_sendmessage_switch_view"
+            android:layout_width="58dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            app:shadowSpace="7dip"
+            app:tintColor="@color/default_yellow" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/view_order_traveler_info_bottom_hint_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingBottom="12dp"
+        android:paddingLeft="@dimen/sku_order_padding_left"
+        android:paddingRight="@dimen/sku_order_padding_left"
+        android:paddingTop="12dp"
+        android:textColor="#7f7f7f"
+        android:background="#eeeeee"
+        android:textSize="14sp" />
 </LinearLayout>

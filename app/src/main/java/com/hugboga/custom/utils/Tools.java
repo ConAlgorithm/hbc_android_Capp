@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -99,7 +100,31 @@ public class Tools {
                     }
                 })
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+
                 .into(imageView);
+    }
+    public static void showAdImageWithAnim(final Context context, final ImageView imageView, String url, final Animation animation) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(context)
+                .load(url)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                if (resource == null) {
+                    return;
+                }
+                imageView.setImageBitmap(resource);
+                imageView.startAnimation(animation);
+            }
+
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+
+            }
+        });
     }
     public static void showImageHasPlaceHolder(final ImageView imageView, String url, final int placeHolderResId) {
         if (TextUtils.isEmpty(url)) {
