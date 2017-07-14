@@ -138,11 +138,11 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //signingConfig signingConfigs.hbcSign
+            signingConfig signingConfigs.hbcSign
         }
         debug {
             debuggable true
-            //signingConfig signingConfigs.hbcSign
+            signingConfig signingConfigs.hbcSign
             //signingConfig signingConfigs.hbcSignGp
         }
     }
