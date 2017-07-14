@@ -488,17 +488,17 @@ public class OrderNewActivity extends BaseActivity {
                 break;
             case 5:
                 genSKU();
-                StatisticClickEvent.showOrderNewPage(5,StatisticConstant.LAUNCH_RG2,getIntentSource(),
-                        carBean.carDesc,
-                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==guideCollectId?false:true);
+//                StatisticClickEvent.showOrderNewPage(5,StatisticConstant.LAUNCH_RG2,getIntentSource(),
+//                        carBean.carDesc,
+//                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+//                        null ==guideCollectId?false:true);
                 break;
             case 6:
                 genSKU();
-                StatisticClickEvent.showOrderNewPage(6,StatisticConstant.LAUNCH_RT2,getIntentSource(),
-                        carBean.carDesc,
-                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
-                        null ==guideCollectId?false:true);
+//                StatisticClickEvent.showOrderNewPage(6,StatisticConstant.LAUNCH_RT2,getIntentSource(),
+//                        carBean.carDesc,
+//                        EventUtil.getInstance().sourceDetail,isCheckIn,(adultNum+childrenNum)+"",
+//                        null ==guideCollectId?false:true);
                 break;
         }
     }
@@ -1347,7 +1347,6 @@ public class OrderNewActivity extends BaseActivity {
 
     //SKU参数
     private OrderBean getSKUOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RG,getIntentSource(),carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
 
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,
@@ -1360,7 +1359,6 @@ public class OrderNewActivity extends BaseActivity {
 
     //推荐线路
     private OrderBean getLineOrderByInput() {
-        StatisticClickEvent.commitClick(StatisticConstant.SUBMITORDER_RT,getIntentSource(),carBean.carDesc+"",allMansNum,contactUsersBean.isForOther);
 
         return new OrderUtils().getSKUOrderByInput(guideCollectId, skuBean,
                 startDate, serverTime, distance,

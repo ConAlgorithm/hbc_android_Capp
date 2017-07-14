@@ -50,10 +50,8 @@ public class EventPay extends EventBase{
                 result = StatisticConstant.PAY_C;
                 break;
             case 5:
-                result = StatisticConstant.PAY_RG;
-                break;
             case 6:
-                result = StatisticConstant.PAY_RT;
+                result = StatisticConstant.PAY_SKU;
                 break;
         }
         return result;

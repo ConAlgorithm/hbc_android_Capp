@@ -176,26 +176,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventId() {
-        if (skuItemBean == null) {
-            return "";
-        }
-        if (skuItemBean.goodsClass == 1) {//固定
-            return StatisticConstant.LAUNCH_DETAIL_RG;
-        }else {
-            return StatisticConstant.LAUNCH_DETAIL_RT;
-        }
+        return StatisticConstant.LAUNCH_DETAIL_RG;
     }
 
     @Override
     public String getEventSource() {
-        if (skuItemBean == null) {
-            return "";
-        }
-        if(skuItemBean.goodsClass == 1) {//固定
-            return "固定线路包车";
-        }else {
-            return "推荐线路包车";
-        }
+        return "商品线路详情页";
     }
 
     public void goodsSoldOut() {
@@ -282,6 +268,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     String shareUrl = skuItemBean.shareURL == null ? skuItemBean.skuDetailUrl : skuItemBean.shareURL;
                     shareUrl = shareUrl == null ? "http://www.huangbaoche.com" : shareUrl;
                     skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
+                    StatisticClickEvent.click(StatisticConstant.SHARESKU);
                 }
                 break;
             case R.id.goto_order:
@@ -299,6 +286,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
+                StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
                 break;
             case R.id.sku_detail_bottom_service_layout://联系客服
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
@@ -320,17 +308,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     private void skuShare(String goodsPicture, final String title, final String content, final String shareUrl) {
-        CommonUtils.shareDialog(activity, skuItemBean.goodsPicture, title, content, shareUrl, getClass().getSimpleName()
+        CommonUtils.shareDialog(activity, goodsPicture, title, content, shareUrl, getClass().getSimpleName()
                 , new ShareDialog.OnShareListener() {
                     @Override
                     public void onShare(int type) {
-                        if (skuItemBean != null) {
-                            if (skuItemBean.goodsClass == 1) {
-                                EventUtil.onShareSkuEvent(StatisticConstant.SHARERG, "" + type, getCityName());
-                            } else if (skuItemBean.goodsClass == 2) {
-                                EventUtil.onShareSkuEvent(StatisticConstant.SHARERT, "" + type, getCityName());
-                            }
-                        }
+                        EventUtil.onShareSkuEvent(StatisticConstant.SHARESKU_TYPE, "" + type, getCityName());
                     }
                 });
     }
@@ -501,33 +483,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         initView();
         setSensorsShowEvent();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe
-    public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case WECHAT_SHARE_SUCCEED:
-                WXShareUtils wxShareUtils = WXShareUtils.getInstance(this);
-                if (getClass().getSimpleName().equals(wxShareUtils.source)) {//分享成功
-                    if (skuItemBean != null) {
-                        if (skuItemBean.goodsClass == 1) {
-                            EventUtil.onShareSkuEvent(StatisticConstant.SHARERG_BACK, "" + wxShareUtils.type, getCityName());
-                        } else if (skuItemBean.goodsClass == 2) {
-                            EventUtil.onShareSkuEvent(StatisticConstant.SHARERT_BACK, "" + wxShareUtils.type, getCityName());
-                        }
-                    }
-                }
-                break;
-        }
     }
 
     //神策统计_浏览页面

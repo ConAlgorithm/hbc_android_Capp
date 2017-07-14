@@ -39,6 +39,7 @@ import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitLine;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
@@ -573,6 +574,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         }
         requestSubmitOrder();
         setSensorsEvent();
+        StatisticClickEvent.click(StatisticConstant.SUBMITORDER_SKU);
     }
 
     /*
@@ -729,12 +731,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
     @Override
     public String getEventSource() {
-        return "线路下单页";
+        return "商品确认订单页";
     }
 
     @Override
     public String getEventId() {
-        return orderType == 5 ? StatisticConstant.LAUNCH_RG2 : StatisticConstant.LAUNCH_RT2;
+        return StatisticConstant.LAUNCH_SKU;
     }
 
     //神策统计_确认行程

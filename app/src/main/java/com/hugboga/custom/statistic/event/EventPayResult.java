@@ -46,10 +46,8 @@ public class EventPayResult extends EventBase{
                 result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_C : StatisticConstant.LAUNCH_PAYFAILED_C;
                 break;
             case 5:
-                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_RG : StatisticConstant.LAUNCH_PAYFAILED_RG;
-                break;
             case 6:
-                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_RT : StatisticConstant.LAUNCH_PAYFAILED_RT;
+                result = payResult ? StatisticConstant.LAUNCH_PAYSUCCEED_SKU : StatisticConstant.LAUNCH_PAYFAILED_SKU;
                 break;
         }
         return result;

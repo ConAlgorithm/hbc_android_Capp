@@ -42,10 +42,8 @@ public class EventPayShow extends EventBase{
                 result = StatisticConstant.LAUNCH_PAYC;
                 break;
             case 5:
-                result = StatisticConstant.LAUNCH_PAYRG;
-                break;
             case 6:
-                result = StatisticConstant.LAUNCH_PAYRT;
+                result = StatisticConstant.LAUNCH_PAYSKU;
                 break;
         }
         return result;

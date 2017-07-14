@@ -44,10 +44,9 @@ public class StatisticConstant {
     public static final String LAUNCH_C = "02_launch_C";                     // 0单次接送界面展示
     public static final String LAUNCH_DETAIL_R = "02_launch_detail_R";       // 1自定义包车详情展示
     public static final String LAUNCH_R = "02_launch_R";                     // 自定义包车界面展示
-    public static final String LAUNCH_DETAIL_RG = "02_launch_detail_RG";     // 1固定线路包车详情页展示
-    public static final String LAUNCH_DETAIL_RT = "02_launch_detail_RT";     // 1推荐线路详情页展示
-    public static final String LAUNCH_RT = "02_launch_RT";                   // 1推荐线路包车界面展示
-    public static final String LAUNCH_RG = "02_launch_RG";                   // 1固定线路包车界面展示
+    public static final String LAUNCH_DETAIL_RG = " 02_launch_detail_SKU";   // 商品线路详情页展示
+    public static final String CLICK_SKUDATE = "02_click_SKUdate";           // 商品详情查看日历
+    public static final String LAUNCH_SKU = "02_launch_SKU";                 // 商品确认订单页面展示
 
 
     public static final String CONFIRM_J = "02_confirm_J";                   // 0接机确定行程
@@ -56,8 +55,6 @@ public class StatisticConstant {
     public static final String CONFIRM_C = "02_confirm_C";                   // 0单次确定行程
     public static final String CONFIRM_R = "02_confirm_R";                   // 0自定义包车确定行程
     public static final String CARNEXT_R = "02_carnext_R";                   // 0自定义包车选车
-    public static final String CONFIRM_RG = "02_confirm_RG";                 // 1固定线路包车确定行程
-    public static final String CONFIRM_RT = "02_confirm_RT";                 // 1推荐线路包车确定行程
     public static final String CONFIRM2_R = "02_confirm2_R";                 // 自定义包车查看报价
 
     public static final String R_ADDJ = "02_R_addJ";                         // 定制包车点击添加航班
@@ -70,8 +67,7 @@ public class StatisticConstant {
     public static final String SUBMITORDER_S = "02_submitorder_S";           // 0送机提交订单
     public static final String SUBMITORDER_C = "02_submitorder_C";           // 0单次提交订单
     public static final String SUBMITORDER_R = "02_submitorder_R";           // 0自定义包车提交订单
-    public static final String SUBMITORDER_RG = "02_submitorder_RG";         // 1固定线路包车提交订单
-    public static final String SUBMITORDER_RT = "02_submitorder_RT";         // 1推荐线路包车提交订单
+    public static final String SUBMITORDER_SKU = "02_submitorder_SKU";       // 0商品线路提交订单
 
     public static final String LAUNCH_J2 = "02_launch_J2";                   // 接机确认订单页面展示
     public static final String LAUNCH_J2_MS = "02_launch_J2_ms";             // 秒杀接机确认订单页面展示
@@ -79,8 +75,6 @@ public class StatisticConstant {
     public static final String LAUNCH_C2 = "02_launch_C2";                   // 单次接送确认订单页面展示
     public static final String LAUNCH_CARNEXTR = "02_launch_carnextR";       // 自定义包车选车页面展示
     public static final String LAUNCH_R2 = "02_launch_R2";                   // 自定义包车确认订单页面展示
-    public static final String LAUNCH_RG2 = "02_launch_RG2";                 // 固定线路包车确认订单页面展示
-    public static final String LAUNCH_RT2 = "02_launch_RT2";                 // 推荐线路包车确认订单页面展示
     public static final String LAUNCH_RWEILAN = "02_launch_Rweilan";         // 行程围栏页面展示
 
     // MARK: 03_支付
@@ -89,32 +83,28 @@ public class StatisticConstant {
     public static final String LAUNCH_PAYS = "03_launch_payS";           // 展示送机收银台
     public static final String LAUNCH_PAYR = "03_launch_payR";           // 展示自定义包车收银台
     public static final String LAUNCH_PAYC = "03_launch_payC";           // 展示单次接送收银台
-    public static final String LAUNCH_PAYRG = "03_launch_payRG";         // 展示超省心收银台
-    public static final String LAUNCH_PAYRT = "03_launch_payRT";         // 展示超自由收银台
+    public static final String LAUNCH_PAYSKU = "02_launch_paySKU";       // 展示商品收银台
 
     public static final String PAY_J = "03_pay_J";           // 0接机支付
     public static final String PAY_J_MS = "03_pay_J_ms";     // 0秒杀接机支付
     public static final String PAY_S = "03_pay_S";           // 0送机支付
     public static final String PAY_R = "03_pay_R";           // 0自定义包车支付
     public static final String PAY_C = "03_pay_C";           // 0单次支付
-    public static final String PAY_RG = "03_pay_RG";         // 1固定线路包车支付
-    public static final String PAY_RT = "03_pay_RT";         // 1推荐线路包车支付
+    public static final String PAY_SKU = "02_pay_SKU";       // 1商品支付
 
     public static final String LAUNCH_PAYSUCCEED_J = "03_launch_paysucceed_J";       // 0接机支付成功展示
     public static final String LAUNCH_PAYSUCCEED_J_MS = "03_launch_paysucceed_J_ms"; // 0秒杀接机支付成功展示
     public static final String LAUNCH_PAYSUCCEED_S = "03_launch_paysucceed_S";       // 0送机支付成功展示
     public static final String LAUNCH_PAYSUCCEED_R = "03_launch_paysucceed_R";       // 0自定义包车支付成功展示
     public static final String LAUNCH_PAYSUCCEED_C = "03_launch_paysucceed_C";       // 0单次支付成功展示
-    public static final String LAUNCH_PAYSUCCEED_RG = "03_launch_paysucceed_RG";     // 1固定线路包车支付成功展示
-    public static final String LAUNCH_PAYSUCCEED_RT = "03_launch_paysucceed_RT";     // 1推荐线路包车支付成功展示
+    public static final String LAUNCH_PAYSUCCEED_SKU = "02_launch_paysucceed_SKU";   // 0商品线路支付成功展示
 
     public static final String LAUNCH_PAYFAILED_J = "03_launch_payfailed_J";         // 0接机支付失败展示
     public static final String LAUNCH_PAYFAILED_J_MS = "03_launch_payfailed_J_ms";   // 0秒杀接机支付失败展示
     public static final String LAUNCH_PAYFAILED_S = "03_launch_payfailed_S";         // 0送机支付失败展示
     public static final String LAUNCH_PAYFAILED_R = "03_launch_payfailed_R";         // 0自定义包车支付失败展示
     public static final String LAUNCH_PAYFAILED_C = "03_launch_payfailed_C";         // 0单次支付失败展示
-    public static final String LAUNCH_PAYFAILED_RG = "03_launch_payfailed_RG";       // 1固定线路包车支付失败展示
-    public static final String LAUNCH_PAYFAILED_RT = "03_launch_payfailed_RT";       // 1推荐线路包车支付失败展示
+    public static final String LAUNCH_PAYFAILED_SKU = "02_launch_payfailed_SKU";     // 0商品线路支付失败展示
 
     // MARK: 04_取消订单 heke begin
     public static final String CANCELORDER_J = "04_cancelorder_J";           // 0接机取消订单
@@ -169,12 +159,8 @@ public class StatisticConstant {
     public static final String CLICK_SHAREFOUND = "05_click_sharefound";     // 0点击基金分享浮层
     public static final String SHAREFOUND_BACK = "05_sharefound_back";       // 0基金分享后回到应用内
 
-    public static final String SHARERG = "05_shareRG";           // 0固定线路包车点击分享浮层
-    public static final String SHARERG_BACK = "05_shareRG_back"; // 0固定线路包车分享后回到应用内
-    public static final String SHARERT = "05_shareRT";           // 0推荐线路包车点击分享浮层
-    public static final String SHARERT_BACK = "05_shareRT_back"; // 0推荐线路包车分享后回到应用内
-    public static final String SHARER = "05_shareR";             // 0自定义包车点击分享浮层
-    public static final String SHARER_BACK = "05_shareR_back";   // 0自定义包车分享后回到应用内
+    public static final String SHARESKU = "02_shareSKU";          // 商品线路点击分享
+    public static final String SHARESKU_TYPE = "02_shareSKU_type"; // 商品线路点击分享浮层
 
     // MARK: 06_活动
     public static final String CLICK_ACTIVITY = "06_click_activity";             // 0点击活动
