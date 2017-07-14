@@ -106,8 +106,7 @@ public class DayUtils {
    * @param cal
    * @return
    */
-  public static boolean isEnable(Calendar cal) {
-    Calendar calendar = Calendar.getInstance();
+  public static boolean isBeforeStartEnable(Calendar cal, Calendar calendar) {
     if (cal.get(Calendar.YEAR) < calendar.get(Calendar.YEAR)) {
       return false;
     } else if (cal.get(Calendar.YEAR) > calendar.get(Calendar.YEAR)) {

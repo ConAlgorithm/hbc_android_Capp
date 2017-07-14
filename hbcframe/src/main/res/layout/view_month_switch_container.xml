@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical" android:layout_width="match_parent"
-  android:layout_height="wrap_content">
-
-  <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchTextView
-    android:id="@android:id/text2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    />
+    android:orientation="vertical">
 
-  <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthRecyclerView
-    android:id="@android:id/content"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/default_month_view_height"
-    android:background="@android:color/white"
-    />
+    <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchTextView
+        android:id="@android:id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthRecyclerView
+        android:id="@android:id/content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_month_view_height"
+        android:paddingTop="5dp"
+        android:background="@android:color/white" />
 
 </LinearLayout>

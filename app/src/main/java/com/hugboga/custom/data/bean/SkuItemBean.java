@@ -48,6 +48,8 @@ public class SkuItemBean implements Serializable {
     public int saleAmount;
     public int transactionVolumes;
 
+    public GoodsBookDateBean bookDateInfo;
+
     public static class CharacteristicLables implements Serializable {
         public String lableName;
         public int lableType;
