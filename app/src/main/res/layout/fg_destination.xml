@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f8f8f8"
+    android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/allbg_white"
         android:gravity="center">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:background="#eceeef">
+            android:background="@drawable/des_search_bg"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="搜索国家或城市"
-                android:drawableLeft="@mipmap/evaluate_down"
+                android:drawableLeft="@mipmap/wish_search_icon"
                 android:drawablePadding="3dp"
+                android:text="搜索国家或城市"
                 android:textColor="#ff929292"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>
 
-    <android.support.design.widget.TabLayout
+    <com.androidkun.xtablayout.XTabLayout
         android:id="@+id/tabs"
-        android:background="#80ffffff"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        app:tabMode="scrollable"
-        app:tabIndicatorColor="#ffffaf00"
-        app:tabSelectedTextColor="#ffffaf00"
-        app:tabTextColor="#ff151515" />
+        app:xTabBackgroundColor="#eeeeee"
+        app:xTabSelectedBackgroundColor="#eeeeee"
+        app:xTabIndicatorColor="#ffffaf00"
+        app:xTabMode="scrollable"
+        app:xTabSelectedTextColor="#ffffaf00"
+        app:xTabSelectedTextSize="14sp"
+        app:xTabTextColor="#ff151515"
+        app:xTabTextSize="12sp"/>
 
     <!--可滑动的布局内容-->
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent" />
+
+
 </LinearLayout>
