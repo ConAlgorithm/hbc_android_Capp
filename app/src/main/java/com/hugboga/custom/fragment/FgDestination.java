@@ -99,7 +99,7 @@ public class FgDestination extends BaseFragment implements HttpRequestListener {
             desPager.requestData(title,0);
         }else{
             DestinationLine destinationLine = new DestinationLine(getContext(),groundId);
-            requestData(destinationLine);
+            HttpRequestUtils.request(getContext(),destinationLine,this,false);
         }
 
     }

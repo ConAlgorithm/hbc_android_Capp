@@ -228,77 +228,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         IntentFilter filter = new IntentFilter(FILTER_FLUSH);
         getActivity().registerReceiver(flushReceiver, filter);
 
-
         initAdapterContent();
-
-        /*runninLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_running, null);
-        fgTravelRunning = (ZListPageView) runninLayout.findViewById(R.id.listview);
-        fgTravelRunning.removeItemDecoration(fgTravelRunning.divider);
-        runningSwipeRefresh = (ZSwipeRefreshLayout) runninLayout.findViewById(R.id.swipe);
-        runningEmptyLayout = (RelativeLayout) runninLayout.findViewById(R.id.list_empty);
-        runningAdapter = new NewOrderAdapter(getContext());
-        fgTravelRunning.setAdapter(runningAdapter);
-        fgTravelRunning.setzSwipeRefreshLayout(runningSwipeRefresh);
-        fgTravelRunning.setEmptyLayout(runningEmptyLayout);
-        fgTravelRunning.setNoticeViewTask(this);
-        fgTravelRunning.setRequestData(new RequestOrderListAll(getActivity()));
-        fgTravelRunning.setOnItemClickListener(new TravelOnItemClickListener(fgTravelRunning));
-        addFooterView(inflater, runningAdapter);
-        ZDefaultDivider zDefaultDivider = fgTravelRunning.getItemDecoration();
-        zDefaultDivider.setItemOffsets(0, 15, 0, 15);
-        intentTravelFundActivity(runninLayout.findViewById(R.id.travel_footer_get_layout));
-
-        finishLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_finish, null);
-        fgTravelFinish = (ZListPageView) finishLayout.findViewById(R.id.listview);
-        fgTravelFinish.removeItemDecoration(fgTravelFinish.divider);
-        finishSwipeRefresh = (ZSwipeRefreshLayout) finishLayout.findViewById(R.id.swipe);
-        finishEmptyLayout = (RelativeLayout) finishLayout.findViewById(R.id.list_empty);
-        finishAdapter = new NewOrderAdapter(getContext());
-        fgTravelFinish.setAdapter(finishAdapter);
-        fgTravelFinish.setzSwipeRefreshLayout(finishSwipeRefresh);
-        fgTravelFinish.setEmptyLayout(finishEmptyLayout);
-        fgTravelFinish.setNoticeViewTask(this);
-        fgTravelFinish.setRequestData(new RequestOrderListUnpay(getActivity()));
-        fgTravelFinish.setOnItemClickListener(new TravelOnItemClickListener(fgTravelFinish));
-        ZDefaultDivider zDefaultDivider2 = fgTravelFinish.getItemDecoration();
-        zDefaultDivider2.setItemOffsets(0, 15, 0, 15);
-        addFooterView(inflater, finishAdapter);
-        intentTravelFundActivity(finishLayout.findViewById(R.id.travel_footer_get_layout));
-
-        cancelLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
-        fgTravelCancel = (ZListPageView) cancelLayout.findViewById(R.id.listview);
-        fgTravelCancel.removeItemDecoration(fgTravelCancel.divider);
-        cancelSwipeRefresh = (ZSwipeRefreshLayout) cancelLayout.findViewById(R.id.swipe);
-        cancelEmptyLayout = (RelativeLayout) cancelLayout.findViewById(R.id.list_empty);
-        cancelAdapter = new NewOrderAdapter(getContext());
-        fgTravelCancel.setAdapter(cancelAdapter);
-        fgTravelCancel.setzSwipeRefreshLayout(cancelSwipeRefresh);
-        fgTravelCancel.setEmptyLayout(cancelEmptyLayout);
-        fgTravelCancel.setNoticeViewTask(this);
-        fgTravelCancel.setRequestData(new RequestOrderListDoing(getActivity()));
-        fgTravelCancel.setOnItemClickListener(new TravelOnItemClickListener(fgTravelCancel));
-        ZDefaultDivider zDefaultDivider3 = fgTravelCancel.getItemDecoration();
-        zDefaultDivider3.setItemOffsets(0, 15, 0, 15);
-        addFooterView(inflater, cancelAdapter);
-        intentTravelFundActivity(cancelLayout.findViewById(R.id.travel_footer_get_layout));
-
-        evaluateLayout = (RelativeLayout) inflater.inflate(R.layout.travel_list_layout_cancel, null);
-        fgTravelEvaluate = (ZListPageView) evaluateLayout.findViewById(R.id.listview);
-        fgTravelEvaluate.removeItemDecoration(fgTravelEvaluate.divider);
-        evaluateSwipeRefresh = (ZSwipeRefreshLayout) evaluateLayout.findViewById(R.id.swipe);
-        evaluateEmptyLayout = (RelativeLayout) evaluateLayout.findViewById(R.id.list_empty);
-        evaluateAdapter = new NewOrderAdapter(getContext());
-        fgTravelEvaluate.setAdapter(evaluateAdapter);
-        fgTravelEvaluate.setzSwipeRefreshLayout(evaluateSwipeRefresh);
-        fgTravelEvaluate.setEmptyLayout(evaluateEmptyLayout);
-        fgTravelEvaluate.setNoticeViewTask(this);
-        fgTravelEvaluate.setRequestData(new RequestOrderListUnevaludate(getActivity()));
-        fgTravelEvaluate.setOnItemClickListener(new TravelOnItemClickListener(fgTravelEvaluate));
-        ZDefaultDivider zDefaultDivider4 = fgTravelEvaluate.getItemDecoration();
-        zDefaultDivider4.setItemOffsets(0, 15, 0, 15);
-        addFooterView(inflater, evaluateAdapter);
-        intentTravelFundActivity(evaluateLayout.findViewById(R.id.travel_footer_get_layout));
-*/
 
         //Tab相关
         tab1TextView.setSelected(true);
