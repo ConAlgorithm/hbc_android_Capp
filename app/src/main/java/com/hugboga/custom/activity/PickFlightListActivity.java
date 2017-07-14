@@ -201,7 +201,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }
         int count = 0;
         if (mListDate != null && !mListDate.isEmpty()) {
-            addAirportInfo(mListDate);
+//            addAirportInfo(mListDate);
             count = mListDate.size();
         }
         if(count == 0){
