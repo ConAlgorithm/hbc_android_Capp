@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -18,11 +17,9 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
-import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
-import com.hugboga.custom.data.bean.GoodsBookDateBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
@@ -34,7 +31,6 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCancleTips;
 import com.hugboga.custom.data.request.RequestDeduction;
-import com.hugboga.custom.data.request.RequestGoodsBookDate;
 import com.hugboga.custom.data.request.RequestMostFit;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestPriceSku;
@@ -46,7 +42,6 @@ import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.DialogUtil;
@@ -54,7 +49,6 @@ import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
 import com.hugboga.custom.widget.SkuOrderCarTypeView;
-import com.hugboga.custom.widget.SkuOrderChooseDateView;
 import com.hugboga.custom.widget.SkuOrderCountView;
 import com.hugboga.custom.widget.SkuOrderDescriptionView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
@@ -75,8 +69,8 @@ import butterknife.Bind;
 /**
  * Created by qingcha on 16/12/16.
  */
-public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDateView.OnSelectedDateListener
-        , SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
+public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener
+        , SkuOrderDiscountView.DiscountOnClickListener
         , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
         , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
 
@@ -88,8 +82,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     ScrollView scrollView;
     @Bind(R.id.sku_order_description_view)
     SkuOrderDescriptionView descriptionView;
-    @Bind(R.id.sku_order_choose_date_view)
-    SkuOrderChooseDateView chooseDateView;
     @Bind(R.id.sku_order_car_type_view)
     SkuOrderCarTypeView carTypeView;
     @Bind(R.id.sku_order_count_view)
@@ -132,6 +124,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     public static class Params implements Serializable {
         public SkuItemBean skuItemBean;
         public CityBean cityBean;
+        public String serverDate;
     }
 
     @Override
@@ -175,10 +168,10 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         }
 
         orderType = params.skuItemBean.goodsClass == 1 ? 5 : 6;
+        serverDate = params.serverDate;
 
         initTitleBar();
-        descriptionView.update(params.skuItemBean);
-        chooseDateView.setOnSelectedDateListener(this);
+        descriptionView.update(params.skuItemBean, serverDate);
         carTypeView.setOnSelectedCarListener(this);
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
@@ -189,7 +182,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(orderType);
 
-        requestStartDate();
+        requestPriceSku(serverDate);
     }
 
     public void initTitleBar() {
@@ -240,12 +233,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Subscribe
     public void onEventMainThread(final EventAction action) {
         switch (action.getType()) {
-            case CHOOSE_DATE:
-                ChooseDateBean chooseDateBean = (ChooseDateBean) action.getData();
-                if (chooseDateBean.type == 3) {
-                    chooseDateView.setChooseDateBean(chooseDateBean);
-                }
-                break;
             case CHOOSE_COUNTRY_BACK:
                 AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
                 travelerInfoView.setAreaCode(areaCodeBean.getCode(), areaCodeBean.viewId);
@@ -297,16 +284,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onDataRequestSucceed(BaseRequest _request) {
         super.onDataRequestSucceed(_request);
-        if (_request instanceof RequestGoodsBookDate) {
-            GoodsBookDateBean goodsBookDateBean = ((RequestGoodsBookDate) _request).getData();
-            String[] bookDates = goodsBookDateBean.bookDates;
-            if (bookDates == null || bookDates.length < 1) {
-                return;
-            }
-            serverDate = bookDates[0];
-            chooseDateView.setStartDate(serverDate);
-            chooseDateView.setVisibility(View.VISIBLE);
-        } else if (_request instanceof RequestPriceSku) {
+        if (_request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) _request).getData();
             if (!checkDataIsEmpty(carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
                 carTypeView.update(carListBean);
@@ -430,11 +408,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     /* empty重试 */
     @Override
     public void onRefresh() {
-        if (TextUtils.isEmpty(serverDate)) {
-            requestStartDate();
-        } else {
-            requestPriceSku(serverDate);
-        }
+        requestPriceSku(serverDate);
     }
 
     public void onBottomLoading(boolean isLoading) {
@@ -463,13 +437,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
     @Override
     public void onClickServices() {
         showServiceDialog();
-    }
-
-    /* 选择日期 */
-    @Override
-    public void onSelectedDate(String date) {
-        requestPriceSku(date);
-        scrollToTop();
     }
 
     /* 选择车辆 */
@@ -606,14 +573,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderChooseDate
         }
         requestSubmitOrder();
         setSensorsEvent();
-    }
-
-    /*
-    * 获取最近的可服务日期
-    * */
-    private void requestStartDate() {
-        RequestGoodsBookDate request = new RequestGoodsBookDate(this, params.skuItemBean.goodsNo);
-        requestData(request);
     }
 
     /*

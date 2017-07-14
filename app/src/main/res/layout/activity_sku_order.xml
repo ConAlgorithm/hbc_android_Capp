@@ -35,13 +35,6 @@
                 android:layout_marginBottom="@dimen/sku_order_margin_vertical"
                 android:background="#ffffff" />
 
-            <com.hugboga.custom.widget.SkuOrderChooseDateView
-                android:id="@+id/sku_order_choose_date_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:visibility="gone" />
-
             <com.hugboga.custom.widget.SkuOrderEmptyView
                 android:id="@+id/sku_order_empty_layout"
                 android:layout_width="match_parent"

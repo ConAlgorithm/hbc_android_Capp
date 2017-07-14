@@ -175,11 +175,13 @@ public class MonthView extends View {
       Calendar endDate = Calendar.getInstance();
       endDate.add(Calendar.MONTH, 6);
       endDate.add(Calendar.DAY_OF_MONTH,-1);
-      if(!DayUtils.isEnable(calendar) || DayUtils.isAfterEndDate(calendar,endDate)){
+      Calendar firstDayCalendar = Calendar.getInstance();
+      firstDayCalendar.setTimeInMillis(mFirstDay.getTime());
+      if(!DayUtils.isBeforeStartEnable(calendar,firstDayCalendar) || DayUtils.isAfterEndDate(calendar,endDate)){
         mPaintNormal.setColor(mTextNotClickColor);
         canvas.drawText(content, x, y, mPaintNormal);
       }else if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-        if(!DayUtils.isEnable(calendar) || DayUtils.isAfterEndDate(calendar,endDate)){
+        if(!DayUtils.isBeforeStartEnable(calendar,firstDayCalendar) || DayUtils.isAfterEndDate(calendar,endDate)){
           //do nothing. Befor has drawed not click color.
         }else{
           mPaintNormal.setColor(mTextSundaySaturdayColor);
@@ -207,7 +209,9 @@ public class MonthView extends View {
       endDate.add(Calendar.MONTH, 6);
       endDate.add(Calendar.DAY_OF_MONTH,-1);
       if (calendarDay != null ) {
-        if(!DayUtils.isEnable(calendar) || DayUtils.isAfterEndDate(calendar,endDate)){
+        Calendar firstDayCalendar = Calendar.getInstance();
+        firstDayCalendar.setTimeInMillis(mFirstDay.getTime());
+        if(!DayUtils.isBeforeStartEnable(calendar,firstDayCalendar) || DayUtils.isAfterEndDate(calendar,endDate)){
           //do bothing!
         }else{
           mOnDayClickListener.onDayClick(calendarDay);

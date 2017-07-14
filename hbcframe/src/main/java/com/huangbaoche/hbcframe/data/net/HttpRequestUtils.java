@@ -15,6 +15,7 @@ import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONObject;
+import org.xutils.HttpManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.HttpException;
 import org.xutils.http.app.RequestInterceptListener;
@@ -87,6 +88,8 @@ public class HttpRequestUtils {
             return null;
         }
         final HttpRequestOption finalOption = option;
+        request.setConnectTimeout(1000 * 45); // 服务器连接超时时间
+        request.setCacheMaxAge(10 * 1000);    // 设置缓存10秒，1秒内直接返回上次成功请求的数据
         Callback.Cancelable cancelable = x.http().request(request.getHttpMethod(), request, new CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {//请求成功

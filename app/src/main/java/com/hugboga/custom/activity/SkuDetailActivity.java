@@ -8,7 +8,11 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -102,6 +106,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     LinearLayout emptyLayout;
     @Bind(R.id.sku_detail_content_layout)
     RelativeLayout contentLayout;
+    @Bind(R.id.goto_order_lay)
+    LinearLayout bottomLayout;
 
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
@@ -121,9 +127,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 finish();
             }
         });
+        setBottomLayoutShow();
         getSkuItemBean(false);
-
-
         // 启用javaScript
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
@@ -156,6 +161,17 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         gotoOrder.setTextColor(0xFFFFFFFF);
         gotoOrder.setBackgroundResource(R.drawable.bg_sku_detial_grey);
         gotoOrder.setOnClickListener(null);
+    }
+
+    public void setBottomLayoutShow() {
+        if (skuItemBean != null) {
+            bottomLayout.setVisibility(View.VISIBLE);
+            String unitStr = "起/人";
+            String priceStr = getString(R.string.sign_rmb) + skuItemBean.perPrice + " " + unitStr;
+            SpannableString spannableString = new SpannableString(priceStr);
+            spannableString.setSpan(new RelativeSizeSpan(0.7f), priceStr.length() - unitStr.length(), priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            gotoOrder.setText(spannableString);
+        }
     }
 
     @Override
@@ -214,6 +230,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                         if (skuItemBean == null) {
                             return;
                         }
+                        setBottomLayoutShow();
                         if (cityBean == null) {
                             cityBean = findCityById("" + skuItemBean.arrCityId);
                         }
@@ -254,7 +271,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv,R.id.hint_iv})
+    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -268,9 +285,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
                 break;
             case R.id.goto_order:
-                if (!CommonUtils.isLogin(this)) {
-                    return;
-                }
                 if (skuItemBean == null) {
                     getSkuItemBean(true);
                     break;
@@ -281,20 +295,10 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 SkuOrderActivity.Params params = new SkuOrderActivity.Params();
                 params.skuItemBean = skuItemBean;
                 params.cityBean = cityBean;
-                Intent intent = new Intent(activity, SkuOrderActivity.class);
+                Intent intent = new Intent(activity, SkuDateActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
                 startActivity(intent);
-
-                map.put("routename", skuItemBean.goodsName);
-                int countResult = 0;
-                try {
-                    countResult = Integer.parseInt(skuItemBean.goodsMinPrice);
-                } catch (Exception e) {
-                    LogUtil.e(e.toString());
-                }
-                MobclickAgent.onEventValue(activity, "chose_route", map, countResult);
-                setSensorsOnClickEvent();
                 break;
             case R.id.sku_detail_bottom_service_layout://联系客服
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
@@ -311,9 +315,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
                 EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
-                break;
-            case R.id.hint_iv:
-                findViewById(R.id.hint_layout).setVisibility(View.GONE);
                 break;
         }
     }
@@ -561,24 +562,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_city_name", skuItemBean.depCityName);
             properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //神策统计_商品进入下单
-    private void setSensorsOnClickEvent() {
-        try {
-            if (skuItemBean == null) {
-                return;
-            }
-            JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_id", skuItemBean.goodsNo);
-            properties.put("hbc_sku_name", skuItemBean.goodsName);
-            properties.put("hbc_sku_type", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
         } catch (InvalidDataException e) {
             e.printStackTrace();
         } catch (JSONException e) {

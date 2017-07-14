@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,14 +18,17 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 16/12/16.
  */
-public class SkuOrderDescriptionView extends LinearLayout implements HbcViewBehavior{
+public class SkuOrderDescriptionView extends LinearLayout{
 
     @Bind(R.id.sku_order_itinerary_iv)
     ImageView itineraryIV;
-    @Bind(R.id.sku_order_itinerary_tag_iv)
-    ImageView tagIV;
     @Bind(R.id.sku_order_itinerary_title_tv)
     TextView titleTV;
+
+    @Bind(R.id.sku_order_itinerary_start_date_tv)
+    TextView startDateTV;
+    @Bind(R.id.sku_order_itinerary_end_date_tv)
+    TextView endDateTV;
 
     public SkuOrderDescriptionView(Context context) {
         this(context, null);
@@ -36,21 +40,13 @@ public class SkuOrderDescriptionView extends LinearLayout implements HbcViewBeha
         ButterKnife.bind(view);
     }
 
-    @Override
-    public void update(Object _data) {
-        if (!(_data instanceof SkuItemBean)) {
-            return;
-        }
-        SkuItemBean skuItemBean = (SkuItemBean) _data;
+    public void update(SkuItemBean skuItemBean, String serverDate) {
 
         Tools.showImage(itineraryIV, skuItemBean.goodsPicture);
 
         titleTV.setText(skuItemBean.goodsName);
 
-        if (skuItemBean.goodsClass == 1) {//固定线路 超省心
-            tagIV.setBackgroundResource(R.mipmap.order_sku_tag_green);
-        } else {//推荐路线 超自由
-            tagIV.setBackgroundResource(R.mipmap.order_sku_tag_blue);
-        }
+        startDateTV.setText(String.format("出行日期：%1$s（当地时间）", serverDate));
+        endDateTV.setText(String.format("起止日期：%1$s至%2$s", serverDate, DateUtils.getDay(serverDate, skuItemBean.daysCount - 1)));
     }
 }
