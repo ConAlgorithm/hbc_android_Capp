@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.ChooseCityActivity;
@@ -126,7 +127,14 @@ public class CharterSubtitleView extends LinearLayout{
     @OnClick({R.id.charter_subtitle_pickup_layout})
     public void onClick(View view) {
         if (charterDataUtils.isFirstDay() && (charterDataUtils.isSelectedPickUp || charterDataUtils.flightBean == null)) {//包车第一天，添写接机航班号
-            intentActivity(ChooseAirActivity.class);
+            Intent intent = new Intent(context,ChooseAirActivity.class);
+            if(charterDataUtils.flightBean != null){
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("flightBean",charterDataUtils.flightBean);
+                intent.putExtra("flightBean",bundle);
+            }
+            getContext().startActivity(intent);
+            //intentActivity(ChooseAirActivity.class);
             MobClickUtils.onEvent(StatisticConstant.R_ADDJ);
         } else if (charterDataUtils.currentDay > 1 && charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
             Intent intent = new Intent(context, ChooseAirPortActivity.class);

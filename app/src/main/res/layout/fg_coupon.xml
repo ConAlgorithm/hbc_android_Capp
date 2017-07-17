@@ -11,38 +11,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/coupon_pay_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/coupon_pay_height"
             android:background="@color/basic_white"
-            android:paddingBottom="6dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="6dp">
-
-            <Button
-                android:id="@+id/coupon_btn_pay"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:background="#cccccc"
-                android:gravity="center"
-                android:text="兑换"
-                android:textSize="16sp"
-                android:textColor="#ffffff" />
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/coupon_btn_carnumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/coupon_btn_pay"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
                 android:background="@drawable/textbox"
                 android:textColorHint="@color/change_mobile_hint"
                 android:paddingLeft="10dp"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:hint="请输入优惠券兑换码" />
-        </RelativeLayout>
+
+            <Button
+                android:id="@+id/coupon_btn_pay"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/coupon_pay_btn"
+                android:gravity="center"
+                android:text="兑换"
+                android:textSize="14sp"
+                android:textColor="#ffffff" />
+
+
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/des_layout"
@@ -51,7 +55,8 @@
             android:background="@color/coupon_empty_color"
             android:layout_below="@+id/coupon_pay_layout"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/des"

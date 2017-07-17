@@ -45,6 +45,7 @@ public class StatisticConstant {
     public static final String LAUNCH_DETAIL_R = "02_launch_detail_R";       // 1自定义包车详情展示
     public static final String LAUNCH_R = "02_launch_R";                     // 自定义包车界面展示
     public static final String LAUNCH_DETAIL_RG = " 02_launch_detail_SKU";   // 商品线路详情页展示
+    public static final String LAUNCH_DETAIL_RT = "02_launch_detail_RT";     // 1推荐线路详情页展示
     public static final String CLICK_SKUDATE = "02_click_SKUdate";           // 商品详情查看日历
     public static final String LAUNCH_SKU = "02_launch_SKU";                 // 商品确认订单页面展示
 
@@ -161,6 +162,8 @@ public class StatisticConstant {
 
     public static final String SHARESKU = "02_shareSKU";          // 商品线路点击分享
     public static final String SHARESKU_TYPE = "02_shareSKU_type"; // 商品线路点击分享浮层
+    public static final String SHARER_BACK = "05_shareR_back";   // 0自定义包车分享后回到应用内
+    public static final String SHARER = "05_shareR";             // 0自定义包车点击分享浮层
 
     // MARK: 06_活动
     public static final String CLICK_ACTIVITY = "06_click_activity";             // 0点击活动

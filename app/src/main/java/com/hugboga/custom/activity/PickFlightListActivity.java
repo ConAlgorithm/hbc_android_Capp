@@ -24,6 +24,7 @@ import com.hugboga.custom.data.request.RequestFlightByNo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -255,7 +256,11 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         map.put("searchcity", bean.flightNo);
         MobclickAgent.onEvent(activity, "search", map);
 
+
         EventBus.getDefault().post(new EventAction(EventType.AIR_NO, bean));
+        //根据选航班类型,方便以后再次进入,根据航班类型,需要带入上次填写的航班类型数据
+        SharedPre sharedPre = new SharedPre(PickFlightListActivity.this);
+        sharedPre.saveIntValue("chooseAirType",flightType);
         finish();
     }
 

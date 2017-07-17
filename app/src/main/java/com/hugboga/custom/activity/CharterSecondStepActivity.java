@@ -52,6 +52,7 @@ import com.hugboga.custom.utils.CharterFragmentAgent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.charter.CharterEmptyView;
@@ -148,7 +149,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             }
         }
         EventBus.getDefault().register(this);
-
         initView(savedInstanceState);
     }
 
@@ -595,6 +595,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(CharterSecondStepActivity.this, ChooseAirActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("flightBean",charterDataUtils.flightBean);
+                intent.putExtra("flightBean",bundle);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 CharterSecondStepActivity.this.startActivity(intent);
                 dialog.dismiss();
@@ -1068,5 +1071,17 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         }
         HbcLantLng hbcLantLng =  CharterDataUtils.getHbcLantLng(cityBean.cityId, cityBean.location);
         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(hbcLantLng.latitude,hbcLantLng.longitude),16));
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //离开接送机界面,将选航班号的类型初始化按选航班号类型=1
+        SharedPre sharedPre = new SharedPre(CharterSecondStepActivity.this);
+        sharedPre.saveIntValue("chooseAirType",1);
+        if(charterDataUtils!= null){
+            charterDataUtils.flightBean = null;
+            charterDataUtils.isSelectedPickUp = false;
+        }
     }
 }

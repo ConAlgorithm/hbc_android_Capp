@@ -73,7 +73,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     @Bind(R.id.coupon_listview_empty)
     RelativeLayout emptyLayout;
     @Bind(R.id.coupon_pay_layout)
-    RelativeLayout payLayout;
+    LinearLayout payLayout;
 
     CouponAdapter adapter;
     @Bind(R.id.header_left_btn)
@@ -171,6 +171,18 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 finish();
             }
         });
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setText("使用说明");
+        headerRightTxt.setTextColor(0xff151515);
+        headerRightTxt.setTextSize(15);
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponActivity.this, CouponDesActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                startActivity(intent);
+            }
+        });
         listView.setEmptyView(emptyLayout);
         listView.setOnItemClickListener(this);
         listView.setonRefreshListener(onRefreshListener);
@@ -239,10 +251,10 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         if(carNumberEditText!= null && couponBtnPay != null){
             if(carNumberEditText.getText().toString().trim().length() >0){
                 couponBtnPay.setEnabled(true);
-                couponBtnPay.setBackgroundColor(getResources().getColor(R.color.all_bg_yellow));
+                //couponBtnPay.setBackgroundColor(getResources().getColor(R.color.all_bg_yellow));
             }else {
                 couponBtnPay.setEnabled(false);
-                couponBtnPay.setBackgroundColor(getResources().getColor(R.color.login_unready));
+                //couponBtnPay.setBackgroundColor(getResources().getColor(R.color.login_unready));
             }
         }
     }
@@ -342,7 +354,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             } else {
                 adapter.addList(list);
             }
-
+        }
+        if(adapter.getCount() > 0){
+            next.setVisibility(View.GONE);
         }else{
             next.setVisibility(View.VISIBLE);
         }
@@ -523,4 +537,5 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     public String getEventId() {
         return StatisticConstant.LAUNCH_COUPON;
     }
+
 }

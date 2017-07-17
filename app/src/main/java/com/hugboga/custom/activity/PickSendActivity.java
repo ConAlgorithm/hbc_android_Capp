@@ -16,6 +16,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgPickup;
 import com.hugboga.custom.fragment.FgSend;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
 
@@ -167,5 +168,21 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
         }
         currentFragment = fragment;
         ft.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //离开接送机界面,将选航班号的类型初始化按选航班号类型=1
+        SharedPre sharedPre = new SharedPre(PickSendActivity.this);
+        sharedPre.saveIntValue("chooseAirType",1);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //离开接送机界面,将选航班号的类型初始化按选航班号类型=1
+        SharedPre sharedPre = new SharedPre(PickSendActivity.this);
+        sharedPre.saveIntValue("chooseAirType",1);
     }
 }

@@ -117,4 +117,5 @@ public enum EventType {
     REFRESH_TRAVEL_DATA_UNEVALUDATE,
     UNEVALUDATE_BACK,
     CHOOSE_AIR_FRAGMENT,//切换航班号或者是起降地fragment
+    GET_LAST_AIR_DATA, //获得上一次的航班信息
 }

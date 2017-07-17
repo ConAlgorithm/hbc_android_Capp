@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -119,6 +120,18 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setText("使用说明");
+        headerRightTxt.setTextColor(0xff151515);
+        headerRightTxt.setTextSize(15);
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CouponInvalidActivity.this, CouponDesActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                startActivity(intent);
             }
         });
         listView.setEmptyView(emptyLayout);

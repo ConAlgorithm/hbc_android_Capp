@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,7 +22,9 @@ import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
 import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
 import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
+import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -30,6 +33,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;
@@ -80,6 +84,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
     //CalendarAdapter calAdapter;
     Calendar thisCalendar = Calendar.getInstance(); //日历当前显示日期
     String dateFormat="";
+    FlightBean flightBean;
     @Override
     public int getContentViewId() {
         return R.layout.fg_choose_air_number;
@@ -123,7 +128,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
 
     @OnClick(R.id.air_address_layout)
     public void chooseFragment() {
-        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_AIR_FRAGMENT, 1));
+        EventBus.getDefault().post(new EventAction(EventType.CHOOSE_AIR_FRAGMENT, 2));
     }
 
     private int getMaxId(){
@@ -138,6 +143,14 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
             genHistoryList();
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(getActivity() instanceof ChooseAirActivity){
+            flightBean = ((ChooseAirActivity) getActivity()).getFlightBean();
         }
     }
 
@@ -260,7 +273,16 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         calAdapter = new CalendarAdapter(getContext());
         gridView.setAdapter(calAdapter);
         calAdapter.setOnItemClickListener(onItemClickListener);*/
-        updateData();
+        if(flightBean!= null){
+            if(numberTips!= null){
+                numberTips.setText(flightBean.flightNo);
+                updateDate(flightBean.depDate);
+            }
+
+        }else{
+            initDate();
+        }
+        checkNextBtnStatus();
         return rootView;
     }
     /*ZBaseAdapter.OnItemClickListener onItemClickListener = new ZBaseAdapter.OnItemClickListener() {
@@ -274,7 +296,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         }
 
     };*/
-    private void updateData() {
+    private void initDate() {
         Calendar beginDate= Calendar.getInstance();
         int year = beginDate.get(Calendar.YEAR);
         int month = beginDate.get(Calendar.MONTH)+1;
@@ -289,6 +311,33 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         mMonthPagerView.setOnDayClickListener(this);
         mMonthPagerView.setSelectDay(new CalendarDay(year, month, day));
         dateFormat = new CalendarDay(year, month, day).getDayString();
+    }
+
+    private void updateDate(String date) {
+        if(date.isEmpty()){
+            return;
+        }
+        Calendar beginDate= Calendar.getInstance();
+        int year = beginDate.get(Calendar.YEAR);
+        int month = beginDate.get(Calendar.MONTH)+1;
+        int day = beginDate.get(Calendar.DAY_OF_MONTH);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        int endYear = endDate.get(Calendar.YEAR);
+        int endMonth = endDate.get(Calendar.MONTH)+1;
+        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
+
+        String[] temp = date.split("-");
+        if(temp.length == 3){
+            int lastYear = Integer.valueOf(temp[0]);
+            int lastMonth = Integer.valueOf(temp[1]);
+            int lastDay = Integer.valueOf(temp[2]);
+            mMonthPagerView.setData(new CalendarDay(year, month, day), new CalendarDay(endYear, endMonth, endDay));
+            mMonthPagerView.setOnDayClickListener(this);
+            mMonthPagerView.setSelectDay(new CalendarDay(lastYear, lastMonth, lastDay));
+            dateFormat = date;
+        }
+
     }
     @Override
     public void onDestroyView() {
@@ -449,4 +498,5 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         super.onStop();
         hideInputMethod(numberTips);
     }
+
 }

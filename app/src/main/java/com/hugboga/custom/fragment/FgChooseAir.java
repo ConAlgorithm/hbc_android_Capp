@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.SharedPre;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +51,10 @@ public class FgChooseAir extends BaseFragment{
 
     @Override
     protected void initView() {
-        setCurrentFragment(2);
+        //需要判断之前是否填写过航班类型,按航班号查询=1,按城市查询=2,默认是航班号
+        SharedPre sharedPre = new SharedPre(getContext());
+        int chooseAirType = sharedPre.getIntValue("chooseAirType",1);
+        setCurrentFragment(chooseAirType);
     }
 
     public void setCurrentFragment(int index) {
@@ -66,10 +70,10 @@ public class FgChooseAir extends BaseFragment{
         if (fragment == null) {
             switch (index) {
                 case 1:
-                    fragment = new FgChooseAirAddress();
+                    fragment = new FgChooseAirNumber();
                     break;
                 case 2:
-                    fragment = new FgChooseAirNumber();
+                    fragment = new FgChooseAirAddress();
                     break;
             }
             ft.add(R.id.choose_content, fragment, tag);

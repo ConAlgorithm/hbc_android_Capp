@@ -206,6 +206,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         switch (view.getId()) {
             case R.id.pickup_flight_layout:
                 intent = new Intent(getActivity(), ChooseAirActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("flightBean",flightBean);
+                intent.putExtra("flightBean",bundle);
                 getActivity().startActivity(intent);
                 break;
             case R.id.pickup_city_layout:
