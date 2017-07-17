@@ -171,7 +171,7 @@ public class FgDestination extends BaseFragment implements HttpRequestListener {
                     }
                 });
                 DestinationHot destinationHot = new DestinationHot(getContext());
-                requestData(destinationHot);
+                HttpRequestUtils.request(getContext(),destinationHot,this,false);
             }
         }else if(request instanceof DestinationHot){
             ArrayList<HomeBeanV2.HotCity> homeHotCityVos = (ArrayList<HomeBeanV2.HotCity>) request.getData();
