@@ -6,29 +6,17 @@
     android:background="@color/basic_white"
     android:orientation="vertical">
 
-    <FrameLayout
+
+    <TextView
+        android:id="@+id/coupon_info_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp">
-
-        <TextView
-            android:id="@+id/coupon_info_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1000"
-            android:textColor="#face05"
-            android:textSize="@dimen/coupon_item_price_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="元"
-            android:textColor="#face05"
-            android:textSize="18sp"
-            android:visibility="gone" />
-    </FrameLayout>
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="1000"
+        android:textColor="#face05"
+        android:textSize="@dimen/coupon_item_price_text_size" />
 
     <TextView
         android:id="@+id/coupon_info_rule"
@@ -47,6 +35,7 @@
         android:layout_below="@+id/coupon_info_rule"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="满1000元可用/满1000公里可用/满10个小"
         android:textColor="#898989"
         android:textSize="@dimen/text_size_medium" />
@@ -89,13 +78,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@mipmap/coupon_invalid"
             android:gravity="center"
             android:paddingLeft="8dp"
-            android:background="@mipmap/coupon_invalid"
             android:text="已使用"
             android:textColor="#cacaca"
             android:textSize="10sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </FrameLayout>
 

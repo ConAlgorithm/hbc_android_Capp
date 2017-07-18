@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="当季热门"
+                android:text="热门线路"
                 android:textColor="@color/common_font_color_black"
                 android:textSize="13sp" />
 
