@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
@@ -402,9 +403,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private void showCouponInfoByDialog(CouponBean bean){
         RelativeLayout rl = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.coupon_info_layout, null);
 
-        ((TextView) rl.findViewById(R.id.coupon_info_rule)).setText(bean.batchName);
-        ((TextView) rl.findViewById(R.id.coupon_info_content)).setText(bean.applyRule);
-
+        TextView rule= ((TextView) rl.findViewById(R.id.coupon_info_rule));
+        TextView content = ((TextView) rl.findViewById(R.id.coupon_info_content));
+        TextView price = ((TextView) rl.findViewById(R.id.coupon_info_price));
 
         SpannableString spannableString = new SpannableString(bean.price);
         if(bean.price.endsWith("折")){
@@ -412,7 +413,23 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         }else if(bean.price.endsWith("元")){
             spannableString.setSpan(new AbsoluteSizeSpan(50), bean.price.length() - 1, bean.price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        ((TextView) rl.findViewById(R.id.coupon_info_price)).setText(spannableString);
+        price.setText(spannableString);
+        TextPaint paint = price.getPaint();
+        int priceWight = (int) paint.measureText(price.getText().toString());
+        rule.setText(bean.batchName);
+        content.setText(bean.applyRule);
+
+        //根据价格宽度,边距动态调整rule的宽度
+        RelativeLayout.LayoutParams ruleLp = (RelativeLayout.LayoutParams) rule.getLayoutParams();
+        ruleLp.width = UIUtils.dip2px(330)-priceWight- UIUtils.dip2px(15)*2-UIUtils.dip2px(10);
+        ruleLp.height=RelativeLayout.LayoutParams.WRAP_CONTENT;
+        rule.setLayoutParams(ruleLp);
+        //根据价格宽度,边距动态调整content的宽度
+        RelativeLayout.LayoutParams contentLp = (RelativeLayout.LayoutParams) content.getLayoutParams();
+        contentLp.width = UIUtils.dip2px(330)-priceWight- UIUtils.dip2px(15)*2-UIUtils.dip2px(10);
+        contentLp.height=RelativeLayout.LayoutParams.WRAP_CONTENT;
+        content.setLayoutParams(contentLp);
+
         if(bean.couponStatus.equals(2) || bean.couponStatus.equals(-1) || bean.couponStatus.equals(98)){
             ((TextView) rl.findViewById(R.id.coupon_info_price)).setTextColor(getResources().getColor(R.color.common_font_color_gray2));
         }

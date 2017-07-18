@@ -14,29 +14,28 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:text="1000"
+        android:text="10000元"
         android:textColor="#face05"
         android:textSize="@dimen/coupon_item_price_text_size" />
 
     <TextView
         android:id="@+id/coupon_info_rule"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="单笔订单满10000元可用此券"
+        android:text="单笔订单满10000元可用此单笔订单满10000元可用此"
         android:textColor="#151515"
         android:textSize="@dimen/text_size_large" />
 
     <TextView
         android:id="@+id/coupon_info_content"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/coupon_info_rule"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="满1000元可用/满1000公里可用/满10个小"
+        android:text="满1000元可用/满1000公里可用/单笔订单满10000元可用此"
         android:textColor="#898989"
         android:textSize="@dimen/text_size_medium" />
 
