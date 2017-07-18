@@ -355,7 +355,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 adapter.addList(list);
             }
         }
-        if(adapter.getCount() > 0){
+        if(adapter != null && adapter.getCount() > 0){
             next.setVisibility(View.GONE);
         }else{
             next.setVisibility(View.VISIBLE);
