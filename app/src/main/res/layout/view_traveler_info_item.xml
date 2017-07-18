@@ -64,7 +64,7 @@
             android:background="#00000000"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:hint="请填写真实姓名"
+            android:hint="请输入联系人姓名"
             android:maxLength="50"
             android:singleLine="true"
             android:textColor="@color/default_black"
