@@ -98,6 +98,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private boolean isFromMyspace = false;
     private MostFitAvailableBean paramsData;
     private ImageView headerSelectedIV;
+    private boolean couponExchange = false;
 
     private String idStr = null;
 
@@ -341,6 +342,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     carNumberEditText.setText(""); //清空兑换成功的兑换码
+                    couponExchange = true;
                 }
             }).show();
         }
@@ -354,6 +356,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 adapter.setList(list);
             } else {
                 adapter.addList(list);
+            }
+            if (TextUtils.isEmpty(idStr) && couponExchange) {
+                EventBus.getDefault().post(new EventAction(EventType.SELECT_COUPON_BACK, null));
             }
         }
         if(adapter != null && adapter.getCount() > 0){
