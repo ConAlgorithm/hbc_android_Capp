@@ -53,7 +53,6 @@ public class DesPager {
     }
 
     public void requestData(String title, int position){
-        //// TODO: 17/7/12
         // 需要请求每个tab的数据
         if(!title.isEmpty()){
             if(title.equals("热门")){
