@@ -45,6 +45,8 @@ public class SkuOrderDiscountView extends LinearLayout{
     private boolean isInvalidCoupon = false;
     private boolean isInvalidTravelFund = false;
 
+    private boolean isNotUseCoupon = false;
+
     public SkuOrderDiscountView(Context context) {
         this(context, null);
     }
@@ -99,8 +101,10 @@ public class SkuOrderDiscountView extends LinearLayout{
     public void setCouponBean(CouponBean couponBean) {
         if (couponBean == null) {
             couponCountTV.setText("不使用优惠券");
+            isNotUseCoupon = true;
         } else {
             couponCountTV.setText(couponBean.price);
+            isNotUseCoupon = false;
         }
         currentType = TYPE_COUPON;
         resetCheckedView();
@@ -114,6 +118,7 @@ public class SkuOrderDiscountView extends LinearLayout{
             couponCountTV.setText(mostFitBean.priceInfo);
             isInvalidCoupon = false;
         }
+        isNotUseCoupon = false;
         resetCheckedView();
     }
 
@@ -144,9 +149,9 @@ public class SkuOrderDiscountView extends LinearLayout{
         boolean isCoupon = currentType == TYPE_COUPON && !isInvalidCoupon;
         int priceColor = getContext().getResources().getColor(R.color.default_price_red);
         travelFundChooseIV.setSelected(isTravelFund);
-        travelFundCountTV.setTextColor(isTravelFund ? priceColor : 0xFFA8A8A8);
+        travelFundCountTV.setTextColor(isTravelFund ? priceColor : 0xFF929292);
         couponChooseIV.setSelected(isCoupon);
-        couponCountTV.setTextColor(isCoupon ? priceColor : 0xFFA8A8A8);
+        couponCountTV.setTextColor(isCoupon && !isNotUseCoupon ? priceColor : 0xFF929292);
 
         if (currentType == TYPE_INVALID || isTravelFund || isCoupon) {
             oldType = currentType;
