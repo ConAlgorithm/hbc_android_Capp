@@ -202,7 +202,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
         }
         int count = 0;
         if (mListDate != null && !mListDate.isEmpty()) {
-//            addAirportInfo(mListDate);
+            addAirportInfo(mListDate);
             count = mListDate.size();
         }
         if(count == 0){
@@ -289,11 +289,23 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
             if (null != list) {
                 for (int i = listDate.size() - 1; i >= 0; i--) {
                     FlightBean flightBean = listDate.get(i);
+                    AirPort depAirport = null;
+                    AirPort arrivalAirport = null;
                     for (AirPort airPort : list) {
                         if (airPort.airportCode.equals(flightBean.depAirportCode)) {
-                            flightBean.depAirportName = airPort.airportName;
+                            depAirport = airPort;
                         } else if (airPort.airportCode.equals(flightBean.arrivalAirportCode)) {
-                            flightBean.arrAirportName = airPort.airportName;
+                            arrivalAirport = airPort;
+                        }
+                    }
+                    if (depAirport == null) {
+                        if (mBusinessType == Constants.BUSINESS_TYPE_SEND) {
+                            listDate.remove(i);
+                        }
+                    }
+                    if (arrivalAirport == null) {
+                        if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
+                            listDate.remove(i);
                         }
                     }
                 }
