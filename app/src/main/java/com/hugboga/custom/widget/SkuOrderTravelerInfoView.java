@@ -523,7 +523,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         }
         if (travelerInfoBean.isOther) {
             travelerInfoBean.otherName = getText(otherContactsLayout.getNameView(), false);
-            travelerInfoBean.otherPhone = getText(standbyContactsLayout.getPhoneView(), true);
+            travelerInfoBean.otherPhone = getText(otherContactsLayout.getPhoneView(), true);
         }
         if (travelerInfoBean.isPickup) {
             travelerInfoBean.pickName = getText(checkinET, false);
