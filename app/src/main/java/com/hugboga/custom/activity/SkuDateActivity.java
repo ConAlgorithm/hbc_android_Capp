@@ -58,7 +58,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
         initMonthView();
 
-        Tools.showImage(displayIV, params.skuItemBean.goodsPicture);
+        Tools.showImage(displayIV, params.skuItemBean.goodsPicture, R.mipmap.line_goods_dafault);
         descriptionTV.setText(params.skuItemBean.goodsName);
     }
 
