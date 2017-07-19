@@ -122,6 +122,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private int requestCancleTipsTag = 0;
     private int requestSucceedCount = 0;
 
+    private boolean requestedSubmit = false;
+
     public static class Params implements Serializable {
         public SkuItemBean skuItemBean;
         public CityBean cityBean;
@@ -308,6 +310,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
             deductionBean = requestDeduction.getData();
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestSubmitBase) {
+            requestedSubmit = false;
             orderInfoBean = ((RequestSubmitBase) _request).getData();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
@@ -368,10 +371,14 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         if (request instanceof RequestPayNo) {
             return;
         }
-        if (emptyLayout != null) {
-            emptyLayout.setErrorVisibility(View.VISIBLE);
-            progressView.setVisibility(View.GONE);
-            setItemVisibility(View.GONE);
+        if (!(request instanceof RequestSubmitBase)) {
+            if (emptyLayout != null) {
+                emptyLayout.setErrorVisibility(View.VISIBLE);
+                progressView.setVisibility(View.GONE);
+                setItemVisibility(View.GONE);
+            }
+        } else {
+            requestedSubmit = false;
         }
     }
 
@@ -625,6 +632,11 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     * 提交订单
     * */
     private void requestSubmitOrder() {
+        if (requestedSubmit) {
+            return;
+        } else {
+            requestedSubmit = true;
+        }
         orderBean = getSKUOrderByInput();
         switch (orderType) {
             case 5:

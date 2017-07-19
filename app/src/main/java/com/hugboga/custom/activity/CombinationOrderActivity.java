@@ -129,6 +129,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private int requestCancleTipsTag = 0;
     private int requestSucceedCount = 0;
 
+    private boolean requestedSubmit = false;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_combination_order;
@@ -320,6 +322,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             }
             explainView.setCancleTips(cancleTips);
         } else if (_request instanceof RequestOrderGroup) {
+            requestedSubmit = false;
             orderInfoBean = ((RequestOrderGroup) _request).getData();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
@@ -392,6 +395,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 progressView.setVisibility(View.GONE);
                 setItemVisibility(View.GONE);
             }
+        } else {
+            requestedSubmit = false;
         }
     }
 
@@ -685,6 +690,11 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 提交订单
     * */
     private void requestSubmitOrder(String requestBody) {
+        if (requestedSubmit) {
+            return;
+        } else {
+            requestedSubmit = true;
+        }
         RequestOrderGroup requestOrderGroup = new RequestOrderGroup(this, requestBody, charterDataUtils.isSeckills());
         requestData(requestOrderGroup);
     }
