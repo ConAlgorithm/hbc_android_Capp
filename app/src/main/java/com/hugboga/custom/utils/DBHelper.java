@@ -30,7 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //The Android's default system path of your application database.
-    public static String DB_NAME = "hbc_v3.3.0_118.db";
+    public static String DB_NAME = "hbc_v4.3.0_121.db";
     public static String DB_TMP = ".tmp";
 
 
