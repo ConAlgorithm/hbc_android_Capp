@@ -1,5 +1,6 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
@@ -72,14 +73,14 @@ public class HomePageAdapter extends EpoxyAdapter {
         }
     }
 
-    public void addGuideModels(List<FilterGuideBean> guideList, boolean switchTab, int listCount, int dataSize) {
+    public void addGuideModels( Activity activity,List<FilterGuideBean> guideList, boolean switchTab, int listCount, int dataSize) {
         if (switchTab) {
             removeAllAfterModel(homeHeaderModel);
         }
         if (guideList != null && guideList.size() > 0) {
             int size = guideList.size();
             for (int i = 0; i < size; i++) {
-                ChoicenessGuideModel guideModel = new ChoicenessGuideModel();
+                ChoicenessGuideModel guideModel = new ChoicenessGuideModel(activity);
                 guideModel.setGuideData(guideList.get(i));
                 addModel(guideModel);
             }

@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -74,10 +76,14 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
 
     @Bind(R.id.save_guild)
     ImageView saveGuild;
+    Activity activity;
     public ChoicenessGuideView(Context context) {
         this(context, null);
     }
 
+    public void setActivity(Activity activity){
+        this.activity = activity;
+    }
     public ChoicenessGuideView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View view = inflate(context, R.layout.view_choiceness_guide, this);
@@ -242,9 +248,14 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     public void onDataRequestCancel(BaseRequest request) {
 
     }
-
+    private ErrorHandler errorHandler;
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+        if(request instanceof RequestCollectGuidesId){
+            if (errorHandler == null) {
+                errorHandler = new ErrorHandler(activity, this);
+            }
+            errorHandler.onDataRequestError(errorInfo, request);
+        }
     }
 }

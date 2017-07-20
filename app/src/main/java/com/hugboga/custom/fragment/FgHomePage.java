@@ -340,7 +340,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 switch (tabIndex) {
                     case TAB_GUIDE:
                         if (homeBean!=null && homeBean.qualityGuides != null) {
-                            homePageAdapter.addGuideModels(homeBean.qualityGuides, true
+                            homePageAdapter.addGuideModels(getActivity(),homeBean.qualityGuides, true
                                     ,CHOICENESS_GUIDES_COUNT
                                     ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
                         }
@@ -454,7 +454,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         if (homeBean.qualityGuides != null) {
             homeBean.qualityGuides.addAll(storyAggVo);
             if (tabIndex == TAB_GUIDE) {
-                homePageAdapter.addGuideModels(storyAggVo, false, CHOICENESS_GUIDES_COUNT
+                homePageAdapter.addGuideModels(getActivity(),storyAggVo, false, CHOICENESS_GUIDES_COUNT
                 ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
             }
         }
@@ -551,7 +551,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
 
         swtichTabScrollToTop();
         if (homeBean!=null && homeBean.qualityGuides != null) {
-            homePageAdapter.addGuideModels(homeBean.qualityGuides, true
+            homePageAdapter.addGuideModels(getActivity(),homeBean.qualityGuides, true
                     ,CHOICENESS_GUIDES_COUNT
                     ,homeBean.qualityGuides != null ? homeBean.qualityGuides.size() : 0);
         }

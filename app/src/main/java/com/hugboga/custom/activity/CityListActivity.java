@@ -291,7 +291,7 @@ public class CityListActivity extends BaseActivity {
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
                 HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
             }
-            cityListAdapter.setGuideListData(filterGuideListBean.listData, filterGuideListBean.listCount);
+            cityListAdapter.setGuideListData(this,filterGuideListBean.listData, filterGuideListBean.listCount);
         }else if (_request instanceof FavoriteGuideSaved){
             if(_request.getData() instanceof UserFavoriteGuideListVo3){
                 for(int j=0;j<filterGuideListBean.listData.size();j++){

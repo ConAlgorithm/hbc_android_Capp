@@ -1,5 +1,7 @@
 package com.hugboga.custom.adapter;
 
+import android.app.Activity;
+
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.data.bean.CityListBean;
@@ -62,14 +64,14 @@ public class CityListAdapter extends EpoxyAdapter {
         addCityListHotModel(countryGroupBean.deepLines, CityListHotView.TYPE_DEEP);
     }
 
-    public void setGuideListData(ArrayList<FilterGuideBean> guideList, int listCount) {
+    public void setGuideListData(Activity activity,ArrayList<FilterGuideBean> guideList, int listCount) {
         if (guideList == null || guideList.size() <= 0) {
             return;
         }
         addModel(new CityListGuideHeaderModel(paramsData));
         int size = guideList.size();
         for (int i = 0; i < size; i++) {
-            ChoicenessGuideModel guideModel = new ChoicenessGuideModel();
+            ChoicenessGuideModel guideModel = new ChoicenessGuideModel(activity);
             guideModel.setGuideData(guideList.get(i));
             addModel(guideModel);
         }
