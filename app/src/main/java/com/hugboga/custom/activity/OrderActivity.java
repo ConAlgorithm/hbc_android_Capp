@@ -108,6 +108,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private CouponBean couponBean;
     private String couponId;
 
+    private boolean requestedSubmit = false;
+
     public static class Params implements Serializable {
         public FlightBean flightBean; // 接机航班信息
         public AirPort airPortBean;   // 送机机场信息
@@ -465,6 +467,11 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     * 提交订单
     * */
     private void requestSubmitOrder() {
+        if (requestedSubmit) {
+            return;
+        } else {
+            requestedSubmit = true;
+        }
         RequestSubmitBase requestSubmitBase = null;
         switch (params.orderType) {
             case 1:
@@ -607,6 +614,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             deductionBean = ((RequestDeduction) _request).getData();
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestSubmitBase) {
+            requestedSubmit = false;
             orderInfoBean = ((RequestSubmitBase) _request).getData();
             if (orderInfoBean.getPriceActual() == 0) {
                 requestPayNo(orderInfoBean.getOrderno());
@@ -654,6 +662,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
         if (request instanceof RequestSubmitBase) {
+            requestedSubmit = false;
             CommonUtils.apiErrorShowService(OrderActivity.this, errorInfo, request, OrderActivity.this.getEventSource());
         }
     }

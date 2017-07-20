@@ -52,8 +52,8 @@ import java.util.ArrayList;
 
 public class UnicornUtils {
 
-    private static String UNICORN_APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
-    private static String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
+    private static final String UNICORN_APPKEY = "d1838897aaf0debe1da1f0443c6942ff";
+    private static final String CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
 
     public static void initUnicorn() {
         try {
@@ -117,11 +117,6 @@ public class UnicornUtils {
         Unicorn.setUserInfo(userInfo);
 
         UICustomization uiCustomization = new UICustomization();
-        if(HbcConfig.IS_DEBUG){
-            CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head_test.jpg";
-        }else{
-            CUSTOMER_AVATAR = "https://hbcdn.huangbaoche.com/im/avatar/default/k_head.jpg";
-        }
         uiCustomization.leftAvatar = CUSTOMER_AVATAR;
         uiCustomization.rightAvatar = UserEntity.getUser().getAvatar(activity);
         uiCustomization.titleBackgroundColor = 0xFF2D2B24;

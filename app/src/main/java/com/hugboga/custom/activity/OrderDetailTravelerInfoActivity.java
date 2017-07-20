@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AreaCodeBean;
@@ -384,7 +385,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         OrderUtils.genCLickSpan(this, bottomHintTV, hint, clickHint, getResources().getColor(R.color.default_highlight_blue), new OrderUtils.MyCLickSpan.OnSpanClickListener() {
             @Override
             public void onSpanClick(View view) {
-                DialogUtil.showServiceDialog(OrderDetailTravelerInfoActivity.this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
+                Intent intent = new Intent(OrderDetailTravelerInfoActivity.this, MainActivity.class);
+                startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
             }
         });
     }

@@ -46,7 +46,8 @@ public class Tools {
     //placeholder 显示有问题
     public static void showImage(final ImageView imageView, String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
-            imageView.setBackgroundResource(resId);
+//            imageView.setBackgroundResource(resId);
+            imageView.setImageResource(resId);
             return;
         }
 //        imageView.setBackgroundResource(resId);

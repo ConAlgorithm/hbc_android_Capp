@@ -204,11 +204,11 @@ public class MonthView extends View {
     if (event.getAction() == MotionEvent.ACTION_UP) {
       CalendarDay calendarDay = getDayFromLocation(event.getX(), event.getY());
       Calendar calendar = Calendar.getInstance();
-      calendar.setTimeInMillis(calendarDay.getTime());
       Calendar endDate = Calendar.getInstance();
       endDate.add(Calendar.MONTH, 6);
       endDate.add(Calendar.DAY_OF_MONTH,-1);
       if (calendarDay != null ) {
+        calendar.setTimeInMillis(calendarDay.getTime());
         Calendar firstDayCalendar = Calendar.getInstance();
         firstDayCalendar.setTimeInMillis(mFirstDay.getTime());
         if(!DayUtils.isBeforeStartEnable(calendar,firstDayCalendar) || DayUtils.isAfterEndDate(calendar,endDate)){
