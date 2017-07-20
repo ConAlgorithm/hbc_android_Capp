@@ -206,25 +206,25 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
     }
 
     public void requestGuideList(boolean isThemes, int offset, boolean isShowLoading) {
+        CityListActivity.CityHomeType cityHomeType = null;
+        int id = 0;
+        String themeIds = null;
+        String dayTypes = null;
+
         if (cityParams != null) {
-            String themeIds = null;
-            String dayTypes = null;
-            if (skuFilterBean != null) {
-                themeIds = skuFilterBean.getThemeIds();
-                dayTypes = skuFilterBean.getDayTypeParams();
-            }
-            requestGuideList(cityParams.cityHomeType, cityParams.id, themeIds, isThemes, dayTypes, offset, isShowLoading);
+            cityHomeType = cityParams.cityHomeType;
+            id = cityParams.id;
         } else if (paramsData != null) {
-            String themeIds = null;
-            String dayTypes = paramsData.days;
-            if (skuFilterBean != null) {
-                themeIds = skuFilterBean.getThemeIds();
-                dayTypes = skuFilterBean.getDayTypeParams();
-            }
-            requestGuideList(paramsData.cityHomeType, paramsData.id, themeIds, isThemes, dayTypes, offset, isShowLoading);
-        } else {
-            requestGuideList(null, 0, null, isThemes, null, offset, isShowLoading);
+            cityHomeType = paramsData.cityHomeType;
+            id = paramsData.id;
+            dayTypes = paramsData.days;
         }
+
+        if (skuFilterBean != null) {
+            themeIds = skuFilterBean.getThemeIds();
+            dayTypes = skuFilterBean.getDayTypeParams();
+        }
+        requestGuideList(cityHomeType, id, themeIds, isThemes, dayTypes, offset, isShowLoading);
     }
 
     public void requestGuideList(CityListActivity.CityHomeType cityHomeType, int id, String themeIds, boolean isThemes, String days, int offset, boolean isShowLoading) {
