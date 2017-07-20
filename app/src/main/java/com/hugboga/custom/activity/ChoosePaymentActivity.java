@@ -549,7 +549,7 @@ public class ChoosePaymentActivity extends BaseActivity {
 
                 intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
                 startActivity(intent);
-                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 2));
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 3));
                 EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, 1));
 
                 OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
