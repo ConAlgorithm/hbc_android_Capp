@@ -99,10 +99,10 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(imageWidth, imageHeight);
         bgIV.setLayoutParams(params);
     }
-
+    FilterGuideBean data = null;
     @Override
     public void update(Object _data) {
-        final FilterGuideBean data = (FilterGuideBean) _data;
+        data = (FilterGuideBean) _data;
         Tools.showImage(bgIV, data.guideCover, R.drawable.home_guide_dafault);
 
         if(!UserEntity.getUser().isLogin(getContext())){
@@ -122,8 +122,8 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                         saveGuild.setSelected(false);
                         HttpRequestUtils.request(getContext(),new RequestUncollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this,false);
                     }else{
-                        saveGuild.setSelected(true);
-                        data.isCollected= 1;
+                        //saveGuild.setSelected(true);
+                        //data.isCollected= 1;
                         HttpRequestUtils.request(getContext(),new RequestCollectGuidesId(getContext(), data.guideId),ChoicenessGuideView.this,false);
                     }
                 }
@@ -238,6 +238,8 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         if(request instanceof RequestCollectGuidesId){
+            saveGuild.setSelected(true);
+            data.isCollected= 1;
             CommonUtils.showToast("收藏成功");
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast("已取消收藏");
@@ -252,6 +254,8 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         if(request instanceof RequestCollectGuidesId){
+            saveGuild.setSelected(false);
+            data.isCollected= 0;
             if (errorHandler == null) {
                 errorHandler = new ErrorHandler(activity, this);
             }
