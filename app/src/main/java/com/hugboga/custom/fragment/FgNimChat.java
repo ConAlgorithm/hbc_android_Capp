@@ -659,9 +659,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     @Override
     public void onPostUserStatus(StatusCode code) {
-        if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
-            ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
-        }
+//        if(code!=StatusCode.LOGINED && code!=StatusCode.CONNECTING){
+//            ApiFeedbackUtils.requestIMFeedback(3,String .valueOf(code.getValue()));
+//        }
         if (code.wontAutoLogin()) {
             //IMUtil.getInstance().connect();
             UserEntity.getUser().clean(getActivity());

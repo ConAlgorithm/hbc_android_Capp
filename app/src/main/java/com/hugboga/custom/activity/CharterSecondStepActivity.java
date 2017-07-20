@@ -378,6 +378,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        if (isFinishing()) {
+            return;
+        }
         if (_request instanceof RequestCityRoute && fragmentAgent != null && bottomView != null) {
             fragmentAgent.showEmpty(CharterEmptyView.ERROR_TYPE, true);
             bottomView.setConfirmViewEnabled(false);
