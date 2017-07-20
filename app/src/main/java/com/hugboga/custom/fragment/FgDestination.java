@@ -189,12 +189,12 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        super.onDataRequestError(errorInfo, request);
+        //super.onDataRequestError(errorInfo, request);
         isNetworkAvailable = NetWork.isNetworkAvailable(getContext());
         if(request instanceof DestinationTab){
             isNetworkAvailable = NetWork.isNetworkAvailable(getContext());
             if(!isNetworkAvailable){
-                //CommonUtils.showToast("当前网络不可用");
+                CommonUtils.showToast("当前网络不可用");
                 EventBus.getDefault().post(new EventAction(EventType.SHOW_EMPTY_WIFI_BY_TAB));
                 return;
             }
