@@ -2,6 +2,7 @@ package com.hugboga.custom.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
@@ -20,6 +22,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChooseGuideUtils;
 import com.hugboga.custom.utils.IMUtil;
 
@@ -97,15 +100,6 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
         chooseGuideUtils.chooseGuide(params.chooseGuide);
     }
 
-    @OnClick(R.id.guide_detail_bottom_contact_layout)
-    public void contactGuide() {
-        if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
-            return;
-        }
-        NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId);
-        StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
-    }
-
     @Override
     public void update(Object _data) {
         if (!UserEntity.getUser().isLogin(getContext())) {
@@ -124,14 +118,33 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactIv.setBackgroundResource(R.mipmap.navbar_chat);
             contactTv.setTextColor(getContext().getResources().getColor(R.color.default_yellow));
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_yellow);
-            contactLayout.setEnabled(true);
+            contactLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
+                        return;
+                    }
+                    NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId);
+                    StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
+                }
+            });
         } else {
             hintTv.setVisibility(View.VISIBLE);
             topLineView.setVisibility(View.VISIBLE);
             contactIv.setBackgroundResource(R.mipmap.navbar_chat_white);
             contactTv.setTextColor(0xFFFFFFFF);
             contactLayout.setBackgroundResource(R.drawable.shape_rounded_disabled);
-            contactLayout.setEnabled(false);
+            contactLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialogUtils.showAlertDialog(v.getContext(), "需要先下单并支付才能找Ta聊天呢", "优秀司导都在服务用户的路上，预订后沟通更高效~", "我知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
         }
 
         if (TextUtils.isEmpty(guideExtinfoBean.localTime) || guideExtinfoBean.localTimezone == null) {
