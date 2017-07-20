@@ -564,7 +564,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
         }
         //跳转到聊天列表
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(2);
     }
 
     private void gotoOrder(PushMessage message) {
