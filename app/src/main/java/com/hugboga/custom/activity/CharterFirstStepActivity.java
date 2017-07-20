@@ -336,7 +336,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             countLayout.post(new Runnable() {
                 @Override
                 public void run() {
-                    countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
+                    if (!isFinishing() && countLayout != null) {
+                        countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
+                    }
                 }
             });
             setNextViewEnabled(true);

@@ -237,10 +237,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         }
     }
 
-    public boolean setCityBean(CityBean _cityBean) {
-        boolean isBreak = false;
+    public void setCityBean(CityBean _cityBean) {
         if (_cityBean == null || (cityBean != null && cityBean.cityId == _cityBean.cityId)) {
-            isBreak = true;
+            return;
         }
         cityBean = _cityBean;
         cityLayout.setDesc(_cityBean.name);
@@ -252,7 +251,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         startPoiBean = null;
         endPoiBean = null;
         hintConponsTipView();
-        return isBreak;
     }
 
     @Subscribe
@@ -364,6 +362,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (isFinishing()) {
+            return;
+        }
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForSingle) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
@@ -541,6 +542,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (isFinishing()) {
+                    return;
+                }
                 if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
                     checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
                 }
@@ -571,6 +575,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (isFinishing()) {
+                    return;
+                }
                 CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource(), false);
             }
         }, true);
@@ -599,6 +606,9 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (isFinishing()) {
+                    return;
+                }
                 AlertDialogUtils.showAlertDialogCancelable(SingleActivity.this, "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

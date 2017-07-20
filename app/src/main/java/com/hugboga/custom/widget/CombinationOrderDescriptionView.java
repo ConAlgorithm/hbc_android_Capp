@@ -44,7 +44,7 @@ public class CombinationOrderDescriptionView extends LinearLayout{
     }
 
     public void update(CharterDataUtils charterDataUtils) {
-        if (charterDataUtils == null) {
+        if (charterDataUtils == null || charterDataUtils.chooseDateBean == null) {
             setVisibility(GONE);
             return;
         }

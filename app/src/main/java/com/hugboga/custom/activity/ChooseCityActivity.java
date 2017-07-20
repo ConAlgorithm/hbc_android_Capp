@@ -448,7 +448,9 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
             } else {
                 dataList = requestDataByKeyword(mBusinessType, groupId, editSearch.getText().toString().trim(), false);
             }
-            cityList.addAll(dataList);
+            if (dataList != null) {
+                cityList.addAll(dataList);
+            }
 
             if (cityList.size() < 10) {
                 List<CityBean> moreDataList = null;
