@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,6 +36,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_below="@+id/search"
         app:xTabBackgroundColor="#f8f8f8"
         app:xTabSelectedBackgroundColor="#f8f8f8"
         app:xTabIndicatorColor="#ffffaf00"
@@ -48,8 +49,35 @@
     <!--可滑动的布局内容-->
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_view"
+        android:layout_below="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <LinearLayout
+        android:id="@+id/city_list_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabs"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/city_list_empty_iv"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="50dip"
+            android:background="@drawable/empty_wifi" />
+
+        <TextView
+            android:id="@+id/city_list_empty_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="似乎与网络断开，点击屏幕重试"
+            android:textColor="#a8a8a8"
+            android:textSize="13sp" />
+    </LinearLayout>
+</RelativeLayout>
