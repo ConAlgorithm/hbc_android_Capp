@@ -312,6 +312,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (checkActivityIsFinished()) {
+            return;
+        }
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForPickup) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
@@ -495,6 +498,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (checkActivityIsFinished()) {
+                    return;
+                }
                 if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
                     checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
                 }
@@ -563,6 +569,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (checkActivityIsFinished()) {
+                    return;
+                }
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgPickup.this.getEventSource(), false);
             }
         }, true);
@@ -602,6 +611,14 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             return StatisticConstant.LAUNCH_J_MS;
         } else {
             return StatisticConstant.LAUNCH_J;
+        }
+    }
+
+    public boolean checkActivityIsFinished() {
+        if (getContext() instanceof Activity && ((Activity) getContext()).isFinishing()) {
+            return true;
+        } else {
+            return false;
         }
     }
 

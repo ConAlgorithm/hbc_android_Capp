@@ -372,6 +372,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        if (checkActivityIsFinished()) {
+            return;
+        }
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForTransfer) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
@@ -441,6 +444,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (checkActivityIsFinished()) {
+                    return;
+                }
                 if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
                     checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
                 }
@@ -505,6 +511,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (checkActivityIsFinished()) {
+                    return;
+                }
                 CommonUtils.apiErrorShowService(getContext(), errorInfo, request, FgSend.this.getEventSource(), false);
             }
         }, true);
@@ -533,6 +542,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (checkActivityIsFinished()) {
+                    return;
+                }
                 AlertDialogUtils.showAlertDialogCancelable(getContext(), "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -579,6 +591,14 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     @Override
     public String getEventId() {
         return StatisticConstant.LAUNCH_S;
+    }
+
+    public boolean checkActivityIsFinished() {
+        if (getContext() instanceof Activity && ((Activity) getContext()).isFinishing()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void setUmengEvent() {
