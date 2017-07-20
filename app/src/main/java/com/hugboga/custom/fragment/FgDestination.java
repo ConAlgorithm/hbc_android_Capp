@@ -194,7 +194,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
         if(request instanceof DestinationTab){
             isNetworkAvailable = NetWork.isNetworkAvailable(getContext());
             if(!isNetworkAvailable){
-                CommonUtils.showToast("当前网络不可用");
+                //CommonUtils.showToast("当前网络不可用");
                 EventBus.getDefault().post(new EventAction(EventType.SHOW_EMPTY_WIFI_BY_TAB));
                 return;
             }
