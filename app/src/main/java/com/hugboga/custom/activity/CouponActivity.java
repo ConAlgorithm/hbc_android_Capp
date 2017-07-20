@@ -336,13 +336,13 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             setData(requestAvailableCoupon.getData());
         } else if (request instanceof RequestCouponExchange) {
             RequestCouponExchange mParser = (RequestCouponExchange) request;
+            couponExchange = true;
             requestData();
             DialogUtil dialogUtil = DialogUtil.getInstance(this);
             dialogUtil.showCustomDialog("优惠券兑换成功", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     carNumberEditText.setText(""); //清空兑换成功的兑换码
-                    couponExchange = true;
                 }
             }).show();
         }
