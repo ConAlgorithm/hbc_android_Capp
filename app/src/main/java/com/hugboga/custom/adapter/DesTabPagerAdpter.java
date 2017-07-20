@@ -1,48 +1,46 @@
 package com.hugboga.custom.adapter;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hugboga.custom.data.bean.SimpleLineGroupVo;
 import com.hugboga.custom.widget.DesPager;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by zhangqiang on 17/7/12.
  */
 
 public class DesTabPagerAdpter extends PagerAdapter {
-    private List<String> titleTextList;
-    List<DesPager> pagerList;
-    private LinkedHashMap<Integer, View> views = new LinkedHashMap<>();
+    ArrayList<SimpleLineGroupVo> simpleLineGroupVo;
 
-    public DesTabPagerAdpter(List<DesPager> pagerList, List<String> titleTextList) {
-        this.pagerList = pagerList;
-        this.titleTextList = titleTextList;
+    Context context;
+    public DesPager homePager;
+    public DesTabPagerAdpter(ArrayList<SimpleLineGroupVo> simpleLineGroupVo, Context context) {
+        this.simpleLineGroupVo = simpleLineGroupVo;
+        this.context = context;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titleTextList.get(position);
+        return simpleLineGroupVo.get(position).getGroupName();
     }
 
     @Override
     public int getCount() {
-        return pagerList.size();
+        return simpleLineGroupVo.size();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        DesPager homePager = pagerList.get(position);
-        View view = views.get(position);
-        if (view == null) {
-            view = homePager.inflateView();
-            views.put(position, view);
-        }
-        container.addView(view);
-        return view;
+        homePager = new DesPager(context);//pagerList.get(position);
+        homePager.initData(simpleLineGroupVo.get(position),position);
+        //homePager.selectDestionTab(position,currentGroundId);
+        container.addView(homePager,0);
+        return homePager;
     }
 
     @Override
@@ -54,4 +52,5 @@ public class DesTabPagerAdpter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
+
 }

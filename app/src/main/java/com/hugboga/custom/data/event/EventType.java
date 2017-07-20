@@ -118,4 +118,7 @@ public enum EventType {
     UNEVALUDATE_BACK,
     CHOOSE_AIR_FRAGMENT,//切换航班号或者是起降地fragment
     GET_LAST_AIR_DATA, //获得上一次的航班信息
+    SHOW_EMPTY_WIFI_BY_HOT_OR_LINE,
+    SHOW_EMPTY_WIFI_BY_TAB,
+    SHOW_DATA,
 }
