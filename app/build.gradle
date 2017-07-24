@@ -63,7 +63,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         //version start
-        versionCode 102320
+        versionCode 102440
         versionName "4.3.0"
         //version end
         //signingConfig signingConfigs.hbcSign
