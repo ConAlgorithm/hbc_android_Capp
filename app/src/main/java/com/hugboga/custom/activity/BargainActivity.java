@@ -128,9 +128,7 @@ public class BargainActivity extends BaseActivity {
             properties.put("hbc_web_url", SensorsConstant.KANJIA + "?order_id=" + orderNo);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

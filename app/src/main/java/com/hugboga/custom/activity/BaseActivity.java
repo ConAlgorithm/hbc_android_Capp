@@ -90,8 +90,6 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             properties.put("hbc_web_url", webUrl);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -301,9 +299,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             properties.put("hbc_realname", userEntity.getUserName(context));
             // 设定用户属性
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).profileSet(properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

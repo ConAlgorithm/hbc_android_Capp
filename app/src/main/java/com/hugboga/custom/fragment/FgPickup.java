@@ -635,9 +635,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             properties.put("hbc_sku_type", "接机");
             properties.put("hbc_refer", source);
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

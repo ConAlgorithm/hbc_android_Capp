@@ -664,9 +664,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             properties.put("hbc_sku_type", "单次");
             properties.put("hbc_refer", source);
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

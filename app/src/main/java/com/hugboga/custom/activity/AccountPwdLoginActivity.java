@@ -300,7 +300,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             try {
                 SensorsDataAPI.sharedInstance(this).login(user.userID);
                 setSensorsUserEvent();
-            } catch (InvalidDataException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

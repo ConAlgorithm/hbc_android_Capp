@@ -936,7 +936,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     SensorsDataAPI.sharedInstance(MainActivity.this).registerSuperProperties(properties);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                } catch (InvalidDataException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if(timer == null) {

@@ -561,9 +561,7 @@ public class FgSendNew extends BaseFragment implements View.OnTouchListener {
             properties.put("hbc_sku_type", "送机");
             properties.put("hbc_refer", source);
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

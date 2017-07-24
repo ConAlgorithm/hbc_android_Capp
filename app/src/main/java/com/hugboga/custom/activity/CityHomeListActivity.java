@@ -194,9 +194,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
             properties.put("hbc_web_url", webUrl);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -226,9 +224,7 @@ public class CityHomeListActivity extends BaseActivity implements HbcRecyclerTyp
                     break;
             }
             SensorsDataAPI.sharedInstance(this).track("view_citis", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -287,7 +287,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             try {
                 SensorsDataAPI.sharedInstance(this).login(user.userID);
                 //setSensorsUserEvent();
-            } catch (InvalidDataException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

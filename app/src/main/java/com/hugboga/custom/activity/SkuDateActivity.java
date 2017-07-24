@@ -140,9 +140,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
             properties.put("hbc_sku_name", params.skuItemBean.goodsName);
             properties.put("hbc_sku_type", params.skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             SensorsDataAPI.sharedInstance(this).track("sku_buy", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

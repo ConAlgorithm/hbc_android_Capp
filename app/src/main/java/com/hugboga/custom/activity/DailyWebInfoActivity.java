@@ -123,9 +123,7 @@ public class DailyWebInfoActivity extends BaseActivity implements View.OnKeyList
             properties.put("hbc_sku_type", "按天包车游");
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

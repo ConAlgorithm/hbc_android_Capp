@@ -234,8 +234,6 @@ public class MyApplication extends HbcApplication {
             LoginActivity.setSensorsUserEvent();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

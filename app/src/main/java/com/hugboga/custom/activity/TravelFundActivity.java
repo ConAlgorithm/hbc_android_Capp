@@ -247,9 +247,7 @@ public class TravelFundActivity extends BaseActivity {
             JSONObject properties = new JSONObject();
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("invite_friends", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

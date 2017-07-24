@@ -498,9 +498,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean.goodsNo);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -519,9 +517,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_city_name", skuItemBean.depCityName);
             properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

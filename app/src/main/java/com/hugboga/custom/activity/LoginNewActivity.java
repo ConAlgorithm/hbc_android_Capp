@@ -140,9 +140,7 @@ public class LoginNewActivity extends BaseActivity implements TextWatcher {
             properties.put("hbc_realname", userEntity.getUserName(context));
             // 设定用户属性
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).profileSet(properties);
-        } catch (InvalidDataException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -265,7 +263,7 @@ public class LoginNewActivity extends BaseActivity implements TextWatcher {
             try {
                 SensorsDataAPI.sharedInstance(this).login(user.userID);
                 setSensorsUserEvent();
-            } catch (InvalidDataException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
