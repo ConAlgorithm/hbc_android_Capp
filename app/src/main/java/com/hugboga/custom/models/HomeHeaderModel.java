@@ -2,10 +2,6 @@ package com.hugboga.custom.models;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -15,48 +11,29 @@ import android.text.style.SuperscriptSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
-import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
-import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
-import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.action.ActionController;
-import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.MediaPlayerActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.TravelPurposeFormActivity;
-import com.hugboga.custom.activity.TravelPurposeFormListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.request.RequestHasCreatedTravelForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
-import com.netease.nim.uikit.common.util.sys.NetworkUtil;
-import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.nineoldandroids.view.ViewHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -345,31 +322,6 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 v.getContext().startActivity(intent);
                 break;
         }
-    }
-
-    private void gotoTravelPurposeForm(final View view) {
-        RequestHasCreatedTravelForm requestHasCreate = new RequestHasCreatedTravelForm(view.getContext(), UserEntity.getUser().getUserId(view.getContext()));
-        HttpRequestUtils.request(view.getContext(), requestHasCreate, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-                Intent intent = null;
-                RequestHasCreatedTravelForm.HasWork hasWork = ((RequestHasCreatedTravelForm) request).getData();
-                if (hasWork.getHasWorkorder()) {
-                    intent = new Intent(view.getContext(), TravelPurposeFormListActivity.class);
-                } else {
-                    intent = new Intent(view.getContext(), TravelPurposeFormActivity.class);
-                }
-                view.getContext().startActivity(intent);
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            }
-        }, false);
     }
 
     static class HomeHeaderHolder extends EpoxyHolder {
