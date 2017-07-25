@@ -178,17 +178,6 @@ android {
 //                flavor.buildConfigField('String', 'SHARE_APPID','"wx62ad814ba9bf0b68"')
 //                flavor.buildConfigField('String', 'CREDIT_CARD_PAY_ENVIRONMENT', '"01"')
                 break;
-            case '10000':
-            case '10001':
-            case '10002':
-            case '10003':
-            case '10006':
-            case '10008':
-            case '10009':
-            case '10011':
-            case '10012':
-            case '10013':
-            case '10092':
             default:
                 flavor.buildConfigField('String', 'API_SERVER_URL', '"https://api5.huangbaoche.com/"')
                 flavor.buildConfigField('String', 'H5_HOST','"https://info.huangbaoche.com"')
