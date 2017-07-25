@@ -85,10 +85,6 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="HomeChoicenessRouteView">
-        <attr name="type" format="integer"/>
-    </declare-styleable>
-
     <declare-styleable name="TitleBar">
         <attr name="title_res" format="reference"/>
         <attr name="right_icon" format="reference"/>

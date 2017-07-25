@@ -14,7 +14,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.InsureInfoActivity;
 import com.hugboga.custom.activity.OrderDetailTravelerInfoActivity;
-import com.hugboga.custom.activity.OrderEditActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;

@@ -18,7 +18,6 @@ public enum EventType {
     CHECK_INSURE, //选择投保人
     ADD_INSURE_SUCCESS, //添加投保人成功
     AIR_NO,//航班号返回
-    MAN_CHILD_LUUAGE, //乘客行李
     CHANGE_CAR, //选择汽车
     CHOOSE_GUIDE, //收藏选择司导
     CONTACT, //通讯录选取联系人
@@ -59,8 +58,6 @@ public enum EventType {
     GUIDE_ERROR_TIME,//司导无法在所选时间段内进行服务
     GUIDE_DEL,//删除司导
     CHANGE_GUIDE,//换司导
-    ONBACKPRESS,//触发后退键
-    PICK_SEND_ONBACKPRESS,//接送backpress
 
     SKU_HOTEL_NUM_CHANGE,//sku 酒店房间数量变化
     CHOOSE_DATE,//选日期
