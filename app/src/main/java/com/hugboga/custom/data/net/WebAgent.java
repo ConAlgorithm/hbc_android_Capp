@@ -26,7 +26,6 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityListActivity;
-import com.hugboga.custom.activity.DailyWebInfoActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
@@ -493,9 +492,7 @@ public class WebAgent implements HttpRequestListener {
             public void run() {
                 Intent intent = new Intent(mActivity, ServiceQuestionActivity.class);
                 UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
-                if (agentType.equals(DailyWebInfoActivity.TAG)) {
-                    params.sourceType = UnicornServiceActivity.SourceType.TYPE_CHARTERED;
-                } else if (agentType.equals(SkuDetailActivity.TAG) && skuItemBean != null) {
+                if (agentType.equals(SkuDetailActivity.TAG) && skuItemBean != null) {
                     params.sourceType = UnicornServiceActivity.SourceType.TYPE_LINE;
                     params.skuItemBean = skuItemBean;
                 } else {

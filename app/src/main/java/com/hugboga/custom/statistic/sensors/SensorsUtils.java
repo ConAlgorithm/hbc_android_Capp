@@ -5,7 +5,7 @@ import android.webkit.WebView;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BargainActivity;
-import com.hugboga.custom.activity.DailyWebInfoActivity;
+import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
@@ -106,24 +106,13 @@ public class SensorsUtils {
 
 
     //分享
-    public static void setSensorsShareEvent(String type, String _source) {
+    public static void setSensorsShareEvent(String type, String source,String goodsNo,String guideId) {
         try {
-            String source = "";
-            if (_source.equals(TravelFundActivity.class.getSimpleName())) {
-                source = "旅游基金";
-            } else if (_source.equals(DailyWebInfoActivity.class.getSimpleName())) {
-                source = "包车游详情";
-            } else if (_source.equals(BargainActivity.class.getSimpleName())) {
-                source = "砍价";
-            } else if (_source.equals(SkuDetailActivity.class.getSimpleName())) {
-                source = "商品详情";
-            } else if (_source.equals(GuideWebDetailActivity.class.getSimpleName())) {
-                source = "司导";
-            }
-
             JSONObject properties = new JSONObject();
-            properties.put("hbc_share_channelId", type);
-            properties.put("hbc_share_content", source);
+            properties.put("shareType", type);
+            properties.put("shareContent", source);
+            properties.put("goodsNo", goodsNo);
+            properties.put("guideId", guideId);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("share", properties);
         } catch (Exception e) {
             e.printStackTrace();

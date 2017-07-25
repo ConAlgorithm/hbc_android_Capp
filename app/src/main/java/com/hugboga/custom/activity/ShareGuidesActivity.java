@@ -56,6 +56,8 @@ public class ShareGuidesActivity extends BaseActivity{
         public int totalScore;
         public int guideAgencyType;
         public boolean isReturnMoney;
+        public String guideId;
+        public String goodsNo;
     }
 
     @Override
@@ -178,7 +180,7 @@ public class ShareGuidesActivity extends BaseActivity{
                 , evaluateData.wechatShareContent
                 , shareUrl);
         MobClickUtils.onEvent(new EventEvaluateShare(params.orderType, getEventSource(), "" + type));
-        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", ShareGuidesActivity.class.getSimpleName());
+        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),params.goodsNo,params.guideId);
     }
 
     @Override

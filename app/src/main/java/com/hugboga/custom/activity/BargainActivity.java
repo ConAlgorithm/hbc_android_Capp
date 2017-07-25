@@ -447,7 +447,7 @@ public class BargainActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return super.getEventSource();
+       return  "砍价";
     }
 
     //是否显示过填写姓名popup
@@ -470,7 +470,7 @@ public class BargainActivity extends BaseActivity {
 
     private void showShareDialog() {
         BargainShareDialog shareDialog = new BargainShareDialog(activity);
-        shareDialog.setData(shareTitle, orderNo, getIntentSource());
+        shareDialog.setData(shareTitle, orderNo, getEventSource());
         shareDialog.setOnStartBargainListener(new BargainShareDialog.OnStartBargainListener() {
             @Override
             public void onStartBargain() {

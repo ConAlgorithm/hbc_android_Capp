@@ -313,6 +313,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     @Override
                     public void onShare(int type) {
                         EventUtil.onShareSkuEvent(StatisticConstant.SHARESKU_TYPE, "" + type, getCityName());
+                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),goodsNo,null);
                     }
                 });
     }

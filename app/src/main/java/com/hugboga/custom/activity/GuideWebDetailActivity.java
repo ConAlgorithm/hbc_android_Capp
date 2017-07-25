@@ -39,6 +39,7 @@ import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -388,6 +389,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                     @Override
                     public void onShare(int type) {
                         StatisticClickEvent.clickShare(StatisticConstant.SHAREG_TYPE, type == 1 ? "微信好友" : "朋友圈");
+                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),null,paramsData.guideId);
                     }
                 });
     }

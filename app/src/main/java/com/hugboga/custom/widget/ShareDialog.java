@@ -72,7 +72,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         } else {
             wxShareUtils.share(type, mParams.picUrl, mParams.title, mParams.content, mParams.shareUrl);
         }
-        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", mParams.source);
+        //SensorsUtils.setSensorsShareEvent(type == 1 ? "好友" : "朋友圈", mParams.source);
         dismiss();
     }
 

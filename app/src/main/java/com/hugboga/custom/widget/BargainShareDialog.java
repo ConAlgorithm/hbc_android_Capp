@@ -9,6 +9,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.request.RequestBargainShare;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 
 public class BargainShareDialog extends ShareDialog {
@@ -49,6 +50,7 @@ public class BargainShareDialog extends ShareDialog {
     }
 
     private void getShareUrl(final int shareType) {
+        SensorsUtils.setSensorsShareEvent(shareType == 1 ? "微信好友" : "朋友圈", source,null,null);
         RequestBargainShare requestBargainShare = new RequestBargainShare(getContext(), orderNo);
         HttpRequestUtils.request(getContext(), requestBargainShare, new HttpRequestListener() {
             @Override

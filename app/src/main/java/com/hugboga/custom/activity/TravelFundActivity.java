@@ -27,6 +27,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -208,6 +209,7 @@ public class TravelFundActivity extends BaseActivity {
                             @Override
                             public void onShare(int type) {
                                 EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_SHAREFOUND, "" + type);
+                                SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),null,null);
                             }
                         });
                 break;
@@ -250,5 +252,10 @@ public class TravelFundActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "旅游基金";
     }
 }

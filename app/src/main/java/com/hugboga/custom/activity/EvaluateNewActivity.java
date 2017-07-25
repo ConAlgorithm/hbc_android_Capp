@@ -571,6 +571,8 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 params.totalScore = (int) orderBean.appraisement.totalScore;
                 params.guideAgencyType = orderBean.guideAgencyType;
                 params.isReturnMoney = isReturnMoney;
+                params.guideId = orderBean.orderGuideInfo.guideID;
+                params.goodsNo = orderBean.goodsNo;
                 Intent intent = new Intent(EvaluateNewActivity.this, ShareGuidesActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 EvaluateNewActivity.this.startActivity(intent);
