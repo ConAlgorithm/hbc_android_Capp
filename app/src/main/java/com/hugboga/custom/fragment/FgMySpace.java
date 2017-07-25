@@ -27,6 +27,7 @@ import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
 import com.hugboga.custom.activity.ShareGuidesActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -292,11 +293,11 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_IN);
-                SensorsUtils.setSensorsServiceEvent(getEventSource(), 1);
+                SensorsUtils.setSensorsServiceEvent(UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource(), 1);
                 break;
             case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
-                SensorsUtils.setSensorsServiceEvent(getEventSource(), 2);
+                SensorsUtils.setSensorsServiceEvent(UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource(), 2);
                 break;
             /*case Constants.PERSONAL_CENTER_SETTING://设置
                 if (isLogin("个人中心-设置")) {

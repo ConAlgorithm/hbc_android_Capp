@@ -106,7 +106,7 @@ public class UnicornServiceActivity extends BaseActivity{
 
         /*
         * 返回请求所需的type(API_SERVICE_QUESTION_LIST)
-        * 场景id: 1订单，2商品，3默认
+        * 场景id: 1订单售后，2商品售前，3默认通用
         * */
         public static int getRequsetType(int _type) {
             int result = 3;

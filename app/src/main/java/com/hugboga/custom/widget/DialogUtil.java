@@ -535,7 +535,7 @@ public class DialogUtil implements DialogUtilInterface {
         return showServiceDialog(_context, _title, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, source);
     }
 
-    public static AlertDialog showServiceDialog(final Context _context, final String _title, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean, String source) {
+    public static AlertDialog showServiceDialog(final Context _context, final String _title, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean, final String source) {
         if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)
                 || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
             return showDefaultServiceDialog(_context, source);
@@ -561,7 +561,7 @@ public class DialogUtil implements DialogUtilInterface {
                         }else if(which == 3){
                             dialog.dismiss();
                         }
-                        SensorsUtils.setSensorsServiceEvent(sourceType, which);
+                        SensorsUtils.setSensorsServiceEvent(sourceType, source, which);
                     }
                 }).create();
         dialog.setCancelable(true);
