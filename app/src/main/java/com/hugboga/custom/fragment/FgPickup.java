@@ -318,7 +318,9 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForPickup) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
-            checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
+            if(errorMessage!= null && errorCode != null){
+                checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
+            }
         } else if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestSeckillsPickupPrice) {
             String errorMessage = ErrorHandler.getErrorMessage(errorInfo, request);
             showCheckSeckillsDialog(errorMessage);
