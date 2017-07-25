@@ -111,7 +111,6 @@ public class CityHotPagerAdapter extends PagerAdapter {
                     intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
                     v.getContext().startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG,"首页");
                 }
             }
         });

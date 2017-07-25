@@ -107,10 +107,8 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior{
                 intent.putExtra(Constants.PARAMS_SOURCE, source);
                 if (skuItemBean.goodsClass == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, source);
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, source);
                 } else {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RT, source);
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, source);
                 }
                 v.getContext().startActivity(intent);
 
