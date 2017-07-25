@@ -153,10 +153,8 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
             startActivity(intent);
             if (skuItemBean.goodsClass == 1) {
                 StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, getEventSource());
             } else {
                 StatisticClickEvent.click(StatisticConstant.CLICK_RT, getEventSource());
-                StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, getEventSource());
             }
         }
     }

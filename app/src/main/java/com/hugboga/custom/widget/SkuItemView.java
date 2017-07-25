@@ -91,10 +91,8 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior{
                 v.getContext().startActivity(intent);
                 if (skuItemBean.goodsClass == 1) {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "商品列表页");
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RG, "商品列表页");
                 } else {
                     StatisticClickEvent.click(StatisticConstant.CLICK_RT, "商品列表页");
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_DETAIL_RT, "商品列表页");
                 }
             }
         });

@@ -176,12 +176,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventId() {
-        return StatisticConstant.LAUNCH_DETAIL_RG;
+        return StatisticConstant.LAUNCH_DETAIL_SKU;
     }
 
     @Override
     public String getEventSource() {
-        return "商品线路详情页";
+        return "商品详情页";
     }
 
     public void goodsSoldOut() {
