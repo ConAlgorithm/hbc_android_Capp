@@ -236,6 +236,7 @@ public class MyApplication extends HbcApplication {
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
 
             setSensorsAutoTrack();
+            addSensorsCustomAppInstall();
             //初始化用户属性
             LoginActivity.setSensorsUserEvent();
         } catch (JSONException e) {
@@ -307,6 +308,9 @@ public class MyApplication extends HbcApplication {
         Logger.disablePushFileLog(MyApplication.getAppContext());
     }
 
+    /*
+    打开神策的预制埋点
+    * */
     private void setSensorsAutoTrack(){
         // 打开自动采集, 并指定追踪哪些 AutoTrack 事件
         List<SensorsDataAPI.AutoTrackEventType> eventTypeList = new ArrayList<>();
@@ -319,6 +323,21 @@ public class MyApplication extends HbcApplication {
         // $AppClick
         eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_CLICK);
         SensorsDataAPI.sharedInstance(this).enableAutoTrack(eventTypeList);
+    }
+
+    /*
+    添加自定义渠道追踪信息
+    * */
+    private void addSensorsCustomAppInstall(){
+        try {
+            JSONObject properties = new JSONObject();
+            // 设置渠道名
+            properties.put("channelId", BuildConfig.FLAVOR);
+            // 追踪渠道效果
+            SensorsDataAPI.sharedInstance(this).trackInstallation("AppInstall", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
