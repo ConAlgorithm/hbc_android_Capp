@@ -38,6 +38,9 @@ import org.json.JSONObject;
 import org.xutils.x;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -215,6 +218,7 @@ public class MyApplication extends HbcApplication {
 
     public void initSensorsData() {
         try {
+            boolean isTest = "developer".equals(BuildConfig.FLAVOR) || "examination".equals(BuildConfig.FLAVOR);
             // 神策 初始化 SDK
             SensorsDataAPI.sharedInstance(
                     this,                               // 传入 Context
@@ -228,8 +232,10 @@ public class MyApplication extends HbcApplication {
             properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
             properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
             properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(this).getAnonymousId());
+            properties.put("isTest",isTest);
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
 
+            setSensorsAutoTrack();
             //初始化用户属性
             LoginActivity.setSensorsUserEvent();
         } catch (JSONException e) {
@@ -299,6 +305,20 @@ public class MyApplication extends HbcApplication {
     public void initXMpush() {
         MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
         Logger.disablePushFileLog(MyApplication.getAppContext());
+    }
+
+    private void setSensorsAutoTrack(){
+        // 打开自动采集, 并指定追踪哪些 AutoTrack 事件
+        List<SensorsDataAPI.AutoTrackEventType> eventTypeList = new ArrayList<>();
+        // $AppStart
+        eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_START);
+        // $AppEnd
+        eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_END);
+        // $AppViewScreen
+        eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_VIEW_SCREEN);
+        // $AppClick
+        eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_CLICK);
+        SensorsDataAPI.sharedInstance(this).enableAutoTrack(eventTypeList);
     }
 
 }
