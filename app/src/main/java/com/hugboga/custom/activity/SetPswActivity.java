@@ -263,10 +263,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
         }else if(request instanceof RequestAfterSetPwd){
             RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
             CommonUtils.showToast("密码设置成功");
-            //UserEntity.getUser().setWeakPassword(this, false);
-//            Bundle bundle = new Bundle();
-//            bundle.putString(KEY_FRAGMENT_NAME, SetPasswordActivity.class.getSimpleName());
-//            finishForResult(bundle);
+
             setResult(BindMobileActivity.REQUEST_CODE);
             finish();
         }
