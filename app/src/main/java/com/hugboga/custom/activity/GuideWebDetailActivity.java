@@ -45,9 +45,11 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GuideWebDetailBottomView;
 import com.hugboga.custom.widget.ShareDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -342,6 +344,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             } else {
                 bottomView.setVisibility(View.GONE);
             }
+            setSensorsEvent();
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;
             collectIV.setSelected(false);
@@ -402,6 +405,24 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     @Override
     public String getEventId() {
         return StatisticConstant.LAUNCH_GPROFILE;
+    }
+
+
+    //神策统计_浏览司导详情
+    private void setSensorsEvent() {
+        if (guideExtinfoBean == null) {
+            return;
+        }
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            properties.put("guideId", guideExtinfoBean.guideId);
+            properties.put("cityName", guideExtinfoBean.guideName);
+            properties.put("cityId", guideExtinfoBean.cityId);
+            SensorsDataAPI.sharedInstance(this).track("viewGuide", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

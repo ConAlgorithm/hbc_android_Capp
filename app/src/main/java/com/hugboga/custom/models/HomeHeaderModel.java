@@ -26,10 +26,12 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.nineoldandroids.view.ViewHelper;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -302,6 +304,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                     intent.putExtra(MediaPlayerActivity.KEY_URL, homeHeaderInfo.headVideo.videoUrl);
                     v.getContext().startActivity(intent);
                     MobClickUtils.onEvent(StatisticConstant.PLAY_VIDEO);
+                    SensorsUtils.track("play_video");
                 } else {
                     intent = new Intent(v.getContext(), WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, homeHeaderInfo.headVideo.videoUrl);

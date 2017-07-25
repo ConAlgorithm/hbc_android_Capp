@@ -14,6 +14,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,7 +71,7 @@ public class OrderCancelActivity extends BaseActivity{
         initDefaultTitleBar();
         fgTitle.setText("申请取消行程");
         mDialogUtil = DialogUtil.getInstance(this);
-        orderType.setText(orderBean.getOrderTypeStr());
+        orderType.setText(OrderUtils.getOrderTypeStr(orderBean.orderType));
         orderNoValue.setText(orderBean.orderNo);
         orderApplyValue.setText(orderBean.orderPriceInfo.actualPay+"元");
         orderBack.setText(orderBean.orderPriceInfo.cancelFee + "元");

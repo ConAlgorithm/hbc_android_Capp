@@ -79,7 +79,7 @@ public class ChooseGuideUtils implements HttpRequestListener {
             if (isFirstValidator) {
                 showDialogSucceed();
             } else {
-                intentOrderDetail();
+                intentOrderDetail(true);
             }
         } else if (messageBean.result == 0) {
             showDialogError(messageBean.message, "我知道了");
@@ -121,6 +121,13 @@ public class ChooseGuideUtils implements HttpRequestListener {
     }
 
     public void intentOrderDetail() {
+        intentOrderDetail(false);
+    }
+
+    public void intentOrderDetail(boolean isAppointGuideSucceed) {
+        if (isAppointGuideSucceed) {
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_GUIDE_SUCCEED, orderNo));
+        }
         EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderNo));
         OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
         orderParams.orderId = orderNo;

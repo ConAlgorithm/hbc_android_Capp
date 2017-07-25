@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
@@ -920,6 +921,36 @@ public class OrderUtils {
                 dialog.dismiss();
             }
         });
+    }
+
+    public static String getOrderTypeStr(int _orderType) {
+        int resID = -1;
+        switch (_orderType) {
+            case Constants.BUSINESS_TYPE_PICK://接机
+                resID = R.string.custom_pick_up;
+                break;
+            case Constants.BUSINESS_TYPE_SEND://送机
+                resID = R.string.custom_send;
+                break;
+            case Constants.BUSINESS_TYPE_DAILY://包车
+            case Constants.BUSINESS_TYPE_COMBINATION://组合单
+                resID = R.string.custom_chartered;
+                break;
+            case Constants.BUSINESS_TYPE_RENT://单次接送
+                resID = R.string.custom_single;
+                break;
+            case Constants.BUSINESS_TYPE_COMMEND://固定线路
+                resID = R.string.custom_fixed_line;
+                break;
+            case Constants.BUSINESS_TYPE_RECOMMEND://推荐线路
+                resID = R.string.custom_recommend_line;
+                break;
+        }
+        if (resID != -1) {
+            return MyApplication.getAppContext().getString(resID);
+        } else {
+            return "";
+        }
     }
 
 }

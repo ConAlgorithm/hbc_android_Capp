@@ -38,9 +38,11 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -404,6 +406,31 @@ public class CityListActivity extends BaseActivity {
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
                 HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
                 break;
+        }
+    }
+
+    //神策统计_浏览城市/国家页
+    private void setSensorsEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("refer", getIntentSource());
+            switch (paramsData.cityHomeType) {
+                case CITY:
+                    properties.put("cityId", paramsData.id);
+                    properties.put("cityName", paramsData.titleName);
+                    break;
+                case ROUTE:
+                    properties.put("lineGroupId", paramsData.id);
+                    properties.put("lineGroupName", paramsData.titleName);
+                    break;
+                case COUNTRY:
+                    properties.put("countryId", paramsData.id);
+                    properties.put("countryName", paramsData.titleName);
+                    break;
+            }
+            SensorsDataAPI.sharedInstance(this).track("viewCity", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

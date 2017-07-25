@@ -119,6 +119,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             JSONObject properties = new JSONObject();
             properties.put("hbc_channelId", BuildConfig.FLAVOR);
             properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
+            properties.put("is_login_id", UserEntity.getUser().isLogin(this));
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
         } catch (Exception e) {
             e.printStackTrace();

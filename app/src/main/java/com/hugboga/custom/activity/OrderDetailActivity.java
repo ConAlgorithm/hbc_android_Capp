@@ -59,6 +59,7 @@ import butterknife.Bind;
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int EVALUATE_TYPE = 1000;
+
     @Bind(R.id.order_detail_title_layout)
     OrderDetailTitleBar titleBar;
 
@@ -89,6 +90,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
     private DeliverInfoBean deliverInfoBean;
+
+    private boolean isAppointGuideSucceed = false;
 
     public static class Params implements Serializable {
         public String orderId;
@@ -201,6 +204,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     explainStr += orderBean.cancelRules.get(i);
                 }
                 explainTV.setText(explainStr);
+            }
+
+            if (isAppointGuideSucceed && orderBean.orderGuideInfo != null) {
+                isAppointGuideSucceed = false;
+                SensorsUtils.setSensorsAppointGuide("选择已收藏司导下单", orderBean.orderType, orderBean.orderGuideInfo.cityName, "");
             }
         } else if (_request instanceof RequestPayNo) {
             RequestPayNo mParser = (RequestPayNo) _request;
@@ -331,8 +339,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 requestData();
                 break;
-            case UNEVALUDATE_BACK:
-
+            case ORDER_DETAIL_GUIDE_SUCCEED:
+                if (!eventVerification(action)) {
+                    break;
+                }
+                isAppointGuideSucceed = true;
             default:
                 break;
         }

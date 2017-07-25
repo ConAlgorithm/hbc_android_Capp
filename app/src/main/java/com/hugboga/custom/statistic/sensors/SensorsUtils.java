@@ -4,14 +4,10 @@ import android.content.Context;
 import android.webkit.WebView;
 
 import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.activity.BargainActivity;
-import com.hugboga.custom.activity.EvaluateNewActivity;
-import com.hugboga.custom.activity.GuideWebDetailActivity;
-import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.utils.OrderUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -21,6 +17,14 @@ import org.json.JSONObject;
  * 神策统计
  */
 public class SensorsUtils {
+
+    public static void track(String eventName) {
+        try {
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track(eventName, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //支付结果
     public static void setSensorsPayResultEvent(EventPayBean eventPayBean, String payMethod, boolean payResult) {
@@ -172,6 +176,20 @@ public class SensorsUtils {
             properties.put("hbc_phone", UserEntity.getUser().getPhone(context));
             properties.put("hbc_realname", UserEntity.getUser().getUserName(context));
             SensorsDataAPI.sharedInstance(context).showUpWebView(webView, false, properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_指定司导下单
+    public static void setSensorsAppointGuide(String source, int orderType, String guideCity, String serviceCity) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_appoint_entrance", source);
+            properties.put("hbc_appoint_type", OrderUtils.getOrderTypeStr(orderType));
+            properties.put("guide_city", guideCity);
+            properties.put("service_city", serviceCity);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("appoint_guide", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

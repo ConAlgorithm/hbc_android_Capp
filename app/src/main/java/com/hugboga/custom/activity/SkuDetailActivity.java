@@ -518,6 +518,18 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_city_name", skuItemBean.depCityName);
             properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
+
+            JSONObject properties2 = new JSONObject();
+            properties2.put("refer", getIntentSource());
+            properties2.put("goodsNo", skuItemBean.goodsNo);
+            properties2.put("goodsName", skuItemBean.goodsName);
+            properties2.put("arrCityId", skuItemBean.arrCityId);
+            properties2.put("arrCityName", skuItemBean.arrCityName);
+            properties2.put("depCityId", skuItemBean.depCityId);
+            properties2.put("depCityName", skuItemBean.depCityName);
+            properties2.put("goodsClass", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
+            properties2.put("goodsType", skuItemBean.goodsType);
+            SensorsDataAPI.sharedInstance(this).track("viewSku", properties2);
         } catch (Exception e) {
             e.printStackTrace();
         }

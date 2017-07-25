@@ -188,58 +188,6 @@ public class OrderBean implements IBaseBean{
         return deliverCategory == 2 || deliverCategory == 3;
     }
 
-    @Deprecated
-    public String getOrderTypeStr(Context context) {
-        switch (orderGoodsType) {
-            case 1:
-                return context.getString(R.string.title_pick);
-            case 2:
-                return context.getString(R.string.title_send);
-            case 3:
-                return context.getString(R.string.title_daily_in_town);
-            case 4:
-                return context.getString(R.string.title_rent);
-            case 5:
-                return context.getString(R.string.title_commend);
-            case 6:
-                return context.getString(R.string.title_daily_small);
-            case 7:
-                return context.getString(R.string.title_daily_large);
-            default:
-                return "";
-        }
-    }
-
-    public String getOrderTypeStr() {
-        int resID = -1;
-        switch (orderType) {
-            case Constants.BUSINESS_TYPE_PICK://接机
-                resID = R.string.custom_pick_up;
-                break;
-            case Constants.BUSINESS_TYPE_SEND://送机
-                resID = R.string.custom_send;
-                break;
-            case Constants.BUSINESS_TYPE_DAILY://包车
-            case Constants.BUSINESS_TYPE_COMBINATION://组合单
-                resID = R.string.custom_chartered;
-                break;
-            case Constants.BUSINESS_TYPE_RENT://单次接送
-                resID = R.string.custom_single;
-                break;
-            case Constants.BUSINESS_TYPE_COMMEND://固定线路
-                resID = R.string.custom_fixed_line;
-                break;
-            case Constants.BUSINESS_TYPE_RECOMMEND://推荐线路
-                resID = R.string.custom_recommend_line;
-                break;
-        }
-        if (resID != -1) {
-            return MyApplication.getAppContext().getString(resID);
-        } else {
-            return "";
-        }
-    }
-
     public String getPayDeadTime() {
         if (TextUtils.isEmpty(payDeadTime)) {
             payDeadTime = "0";

@@ -52,6 +52,7 @@ public enum EventType {
     ORDER_DETAIL_UPDATE_INFO,//更新个人信息UI
     ORDER_DETAIL_UPDATE,//刷新数据
     ORDER_DETAIL_ROUTE,//路线详情
+    ORDER_DETAIL_GUIDE_SUCCEED,//指定司导成功
 
     SHOW_ORDER_DETAIL,//显示订单详情
     ORDER_GO_HOME,//支付成功回首页
@@ -112,7 +113,6 @@ public enum EventType {
     //EVALUTE_PIC_DELETE_ONLYONE//删除预览页到最后一张,直接返回
     REFRESH_TRAVEL_DATA,
     REFRESH_TRAVEL_DATA_UNEVALUDATE,
-    UNEVALUDATE_BACK,
     CHOOSE_AIR_FRAGMENT,//切换航班号或者是起降地fragment
     GET_LAST_AIR_DATA, //获得上一次的航班信息
     SHOW_EMPTY_WIFI_BY_HOT_OR_LINE,

@@ -48,6 +48,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestActivityBuyNow;
 import com.hugboga.custom.data.request.RequestWebInfo;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
@@ -731,6 +732,7 @@ public class WebAgent implements HttpRequestListener {
                         mActivity.startActivity(intent);
                         break;
                 }
+                SensorsUtils.setSensorsAppointGuide("司导个人页", data.orderType, data.guideCityId, null);
             }
         });
     }
