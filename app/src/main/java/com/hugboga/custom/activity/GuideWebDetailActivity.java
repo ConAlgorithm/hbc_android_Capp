@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CanServiceGuideBean;
@@ -45,9 +46,11 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GuideWebDetailBottomView;
 import com.hugboga.custom.widget.ShareDialog;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -352,6 +355,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             collectIV.setSelected(true);
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
             CommonUtils.showToast(getString(R.string.collect_succeed));
+            setSensorsShareEvent(guideExtinfoBean.guideId);
         }
     }
 
@@ -403,5 +407,15 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     public String getEventId() {
         return StatisticConstant.LAUNCH_GPROFILE;
     }
-
+    //收藏司导埋点
+    public static void setSensorsShareEvent(String guideId) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("guideId", guideId);
+            properties.put("favoriteType", "司导");
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,28 +22,23 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
-import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.parser.ParserUpLoadFile;
-import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.GuideItemUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -241,6 +235,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             saveGuild.setSelected(true);
             data.isCollected= 1;
             CommonUtils.showToast("收藏成功");
+            setSensorsShareEvent(data.guideId);
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast("已取消收藏");
         }
@@ -260,6 +255,17 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                 errorHandler = new ErrorHandler(activity, this);
             }
             errorHandler.onDataRequestError(errorInfo, request);
+        }
+    }
+    //收藏司导埋点
+    public static void setSensorsShareEvent(String guideId) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("guideId", guideId);
+            properties.put("favoriteType", "司导");
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
