@@ -319,9 +319,9 @@ public class MyApplication extends HbcApplication {
         // $AppEnd
         eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_END);
         // $AppViewScreen
-        eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_VIEW_SCREEN);
+        //eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_VIEW_SCREEN);
         // $AppClick
-        eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_CLICK);
+        //eventTypeList.add(SensorsDataAPI.AutoTrackEventType.APP_CLICK);
         SensorsDataAPI.sharedInstance(this).enableAutoTrack(eventTypeList);
     }
 

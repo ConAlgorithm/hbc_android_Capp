@@ -509,6 +509,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
         intent.putExtra("isHomeIn", true);
         intent.putExtra("source", "首页搜索框");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         this.getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
     }

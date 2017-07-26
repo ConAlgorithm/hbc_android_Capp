@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.LevelCityAdapter;
 import com.hugboga.custom.adapter.SearchNewAdapter;
@@ -30,12 +31,15 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,6 +140,9 @@ public class ChooseCityNewActivity extends BaseActivity {
                 map.put("source", getIntentSource());
                 map.put("searchinput", "输入内容后联想");
                 MobClickUtils.onEvent(StatisticConstant.SEARCH, map);
+                if(getIntentSource().equals("首页")){
+                    setSensorsShareEvent(headSearch.getText().toString(),false,true,true);
+                }
                 return true;
             }
         });
@@ -166,6 +173,9 @@ public class ChooseCityNewActivity extends BaseActivity {
                     map.put("source", getIntentSource());
                     map.put("searchinput", "输入内容后联想");
                     MobClickUtils.onEvent(StatisticConstant.SEARCH, map);
+                    if(getIntentSource().equals("首页")){
+                        setSensorsShareEvent(headSearch.getText().toString(),false,true,true);
+                    }
                 }
                 return true;
             }
@@ -260,6 +270,11 @@ public class ChooseCityNewActivity extends BaseActivity {
                     list = CityUtils.search(activity, headSearch.getText().toString());
                     LogUtils.e(list.size() + "====" + headSearch.getText().toString());
                     showSearchPop(list);
+                    if(list!= null && list.size() <= 0){
+                        if(getIntentSource().equals("首页")){
+                            setSensorsShareEvent(headSearch.getText().toString(),false,false,false);
+                        }
+                    }
                 } else {
                     headSearchClean.setVisibility(GONE);
                     expandableListView.setVisibility(GONE);
@@ -466,15 +481,18 @@ public class ChooseCityNewActivity extends BaseActivity {
                 TextView view = null;
                 for (int i = 0; i < list.size(); i++) {
                     view = new TextView(activity);
+                    final String name = CityUtils.getShowName(list.get(i));
                     view.setTag(list.get(i));
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             goCityList((SearchGroupBean) v.getTag());
+                            if(getIntentSource().equals("首页")){
+                                setSensorsShareEvent(name,true,true,true);
+                            }
                         }
                     });
                     view.setGravity(Gravity.CENTER_VERTICAL);
-                    String name = CityUtils.getShowName(list.get(i));
                     LogUtils.e(name);
                     view.setText(name);
                     view.setTextColor(Color.parseColor("#666666"));
@@ -579,4 +597,17 @@ public class ChooseCityNewActivity extends BaseActivity {
         return "搜索";
     }
 
+    //搜索埋点
+    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("keyWord", keyWord);
+            properties.put("isHistory", isHistory);
+            properties.put("isRecommend", isRecommend);
+            properties.put("hasResult", hasResult);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -369,3 +369,9 @@
  -keep class org.apache.http.**{*;}
 -keep class com.pili.pldroid.player.** { *; }
 -keep class tv.danmaku.ijk.media.player.** {*;}
+
+#神策
+-dontwarn com.sensorsdata.analytics.android.sdk.**
+-keep class com.sensorsdata.analytics.android.sdk.** {
+*;
+}
