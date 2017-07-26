@@ -92,7 +92,7 @@ public class OrderCancelActivity extends BaseActivity{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.head_btn_right:
-                mDialogUtil.showCallDialog();
+                mDialogUtil.showServiceDialog(activity,null,UnicornServiceActivity.SourceType.TYPE_ORDER,orderBean,null,getEventSource());
                 break;
             case R.id.head_btn_left:
                 goBackOrderFg();
@@ -146,5 +146,10 @@ public class OrderCancelActivity extends BaseActivity{
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "取消订单";
     }
 }

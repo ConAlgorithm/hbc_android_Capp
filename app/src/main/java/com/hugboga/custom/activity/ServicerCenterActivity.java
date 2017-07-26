@@ -121,7 +121,7 @@ public class ServicerCenterActivity extends BaseActivity {
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance(activity).showCallDialog();
+                DialogUtil.getInstance(activity).showDefaultServiceDialog(activity,getEventSource());
             }
         });
 
