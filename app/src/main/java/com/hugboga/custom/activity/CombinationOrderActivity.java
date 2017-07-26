@@ -212,6 +212,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 DialogUtil.getInstance(CombinationOrderActivity.this).showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
             }
         });
@@ -684,6 +685,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .travelerInfoBean(travelerInfoBean)
                 .build();
         requestSubmitOrder(requestParams);
+        SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
     }
 
     /*

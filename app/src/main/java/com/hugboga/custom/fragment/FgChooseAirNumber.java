@@ -358,6 +358,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
             case R.id.search:
                 startFlightByNo();
                 addHistoryData();
+                SensorsUtils.onAppClick(getEventSource(), "查询航班", source);
                 break;
             case R.id.clean_all_history:
                 historyLayout.removeAllViews();
@@ -517,6 +518,20 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
 
     @Override
     public String getEventSource() {
-        return "按航班号选航班";
+        if (getContext() instanceof PickSendActivity) {
+            return "接机";
+        } else {
+            return "选择航班";
+        }
+    }
+
+    public String getIntentSource() {
+        if (getContext() instanceof PickSendActivity) {
+            return ((PickSendActivity) getContext()).getIntentSource();
+        } else if (getContext() instanceof ChooseAirActivity) {
+            return ((ChooseAirActivity) getContext()).getIntentSource();
+        } else {
+           return "";
+        }
     }
 }

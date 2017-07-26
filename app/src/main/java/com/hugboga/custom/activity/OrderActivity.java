@@ -205,6 +205,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 DialogUtil.getInstance(OrderActivity.this).showServiceDialog(OrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
             }
         });
@@ -492,6 +493,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 break;
         }
         requestData(requestSubmitBase);
+        SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
     }
 
     private OrderBean getPickOrderByInput() {

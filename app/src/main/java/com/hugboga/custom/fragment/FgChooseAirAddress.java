@@ -23,6 +23,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.ChooseCityActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
+import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChooseDateBean;
 import com.hugboga.custom.data.bean.CityBean;
@@ -30,6 +31,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -391,6 +393,7 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
             case R.id.search:
                 addHistoryData();
                 startFlightByCity();
+                SensorsUtils.onAppClick(getEventSource(), "查询航班", source);
                 break;
             case R.id.clean_all_history:
                 historyLayout.removeAllViews();
@@ -495,6 +498,7 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
 //        fragment.setArguments(bundle);
 //        startFragment(fragment);
         Intent intent = new Intent(getActivity(),PickFlightListActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
     }
@@ -508,6 +512,25 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
         endCityName = fromCity.getText().toString();
         fromCity.setText(fromCityName);
         endCity.setText(endCityName);
+    }
+
+    @Override
+    public String getEventSource() {
+        if (getContext() instanceof PickSendActivity) {
+            return "接机";
+        } else {
+            return "选择航班";
+        }
+    }
+
+    public String getIntentSource() {
+        if (getContext() instanceof PickSendActivity) {
+            return ((PickSendActivity) getContext()).getIntentSource();
+        } else if (getContext() instanceof ChooseAirActivity) {
+            return ((ChooseAirActivity) getContext()).getIntentSource();
+        } else {
+            return "";
+        }
     }
 
 }

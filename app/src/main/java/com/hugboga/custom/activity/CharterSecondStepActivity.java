@@ -46,6 +46,7 @@ import com.hugboga.custom.data.request.RequestDirection;
 import com.hugboga.custom.models.CharterModelBehavior;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CharterFragmentAgent;
@@ -249,6 +250,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void showServiceDialog() {
+        SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
         DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
     }
 
@@ -522,6 +524,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM2_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
                     charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
             charterDataUtils.setSensorsConfirmEvent(this);
+            SensorsUtils.onAppClick(getEventSource(), "查看报价", getIntentSource());
         } else {
             final CityBean currentCityBean = charterDataUtils.getCurrentDayStartCityBean();
             charterDataUtils.currentDay++;
@@ -706,6 +709,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     private void onUnfoldMap(boolean isUnfold) {
+        SensorsUtils.onAppClick(getEventSource(), "展开地图", getIntentSource());
         this.isUnfoldMap = isUnfold;
         final int mapTopMargin = getMapTopMargin();
         if (isUnfold) {
