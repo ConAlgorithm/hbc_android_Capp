@@ -288,7 +288,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     @Override
     public String getEventSource() {
-        return "私聊页";
+        return "私聊";
     }
 
     @Override

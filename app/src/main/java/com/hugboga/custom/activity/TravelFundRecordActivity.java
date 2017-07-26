@@ -175,4 +175,13 @@ public class TravelFundRecordActivity extends BaseActivity{
             return StatisticConstant.LAUNCH_FOUNDRECORD;
         }
     }
+
+    @Override
+    public String getEventSource() {
+        if (type == TYPE_USE_Bill) {
+            return "基金明细";
+        } else {
+            return "邀请记录";
+        }
+    }
 }

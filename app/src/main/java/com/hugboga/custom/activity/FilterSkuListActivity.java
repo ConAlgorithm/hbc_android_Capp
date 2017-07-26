@@ -195,7 +195,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
 
     @Override
     public String getEventSource() {
-        return "商品列表页";
+        return "包车线路";
     }
 
     public void requestGuideList(boolean isThemes) {

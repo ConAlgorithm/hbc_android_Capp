@@ -593,6 +593,6 @@ public class ChoosePaymentActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "选择支付页";
+        return "收银台";
     }
 }

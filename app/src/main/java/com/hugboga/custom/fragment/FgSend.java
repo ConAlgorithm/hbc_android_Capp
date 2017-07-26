@@ -585,7 +585,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Override
     public String getEventSource() {
-        return "送机下单";
+        return "送机";
     }
 
     @Override

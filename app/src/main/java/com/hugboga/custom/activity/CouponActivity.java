@@ -108,6 +108,11 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     }
 
     @Override
+    public String getEventSource() {
+        return "我的优惠券";
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {

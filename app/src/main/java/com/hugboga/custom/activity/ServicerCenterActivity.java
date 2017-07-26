@@ -143,4 +143,9 @@ public class ServicerCenterActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    public String getEventSource() {
+        return "服务规则";
+    }
 }

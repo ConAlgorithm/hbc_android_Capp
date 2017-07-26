@@ -4,7 +4,6 @@ import android.content.Context;
 import android.webkit.WebView;
 
 import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.utils.OrderUtils;

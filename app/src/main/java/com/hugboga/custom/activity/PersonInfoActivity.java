@@ -109,7 +109,7 @@ public class PersonInfoActivity extends BaseActivity{
 
     @Override
     public String getEventSource() {
-        return "个人信息";
+        return "我的资料";
     }
 
     private void initView() {

@@ -326,13 +326,13 @@ public class CityListActivity extends BaseActivity {
         String result = "";
         switch (paramsData.cityHomeType) {
             case CITY:
-                result = "城市页";
+                result = "城市";
                 break;
             case ROUTE:
-                result = "线路页";
+                result = "线路圈";
                 break;
             case COUNTRY:
-                result = "国家页";
+                result = "国家";
                 break;
         }
         return result;
