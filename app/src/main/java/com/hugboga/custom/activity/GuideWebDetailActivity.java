@@ -439,4 +439,19 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             e.printStackTrace();
         }
     }
+
+    //神策埋点-联系司导
+    public void setSensorsContactGuide() {
+        if (guideExtinfoBean == null) {
+            return;
+        }
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("guideId", guideExtinfoBean.guideId);
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contactGuide", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -41,6 +41,7 @@ import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -117,6 +118,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
     private int airportId;
+
+    private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     private PickSendActivity.Params params;
 
@@ -215,6 +218,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @OnClick({R.id.send_airport_layout, R.id.send_poi_layout, R.id.send_time_layout})
     public void onClick(View view) {
+        setSensorsOnOperated();
         Intent intent;
         switch (view.getId()) {
             case R.id.send_airport_layout:
@@ -634,6 +638,14 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //神策统计_下单-有操作
+    private void setSensorsOnOperated() {
+        if (isOperated) {
+            isOperated = false;
+            SensorsUtils.onOperated(source, getEventSource());
         }
     }
 }

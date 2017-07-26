@@ -24,10 +24,12 @@ import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthVi
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.PickFlightListActivity;
+import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.SaveStartEndCity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
@@ -85,6 +87,8 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
     Calendar thisCalendar = Calendar.getInstance(); //日历当前显示日期
     String dateFormat="";
     FlightBean flightBean;
+
+    private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
     @Override
     public int getContentViewId() {
         return R.layout.fg_choose_air_number;
@@ -179,6 +183,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
 
     @Override
     public void onDayClick(CalendarDay calendarDay) {
+        setSensorsOnOperated();
         dateFormat = calendarDay.getDayString();
         checkNextBtnStatus();
         //CommonUtils.showToast(calendarDay.getDayString());
@@ -348,6 +353,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
 
     @OnClick({R.id.search, R.id.clean_all_history,/*R.id.address_tips,R.id.reserve_calendar_prover,R.id.reserve_calendar_next*/})
     public void onClick(View view) {
+        setSensorsOnOperated();
         switch (view.getId()) {
             case R.id.search:
                 startFlightByNo();
@@ -385,6 +391,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
     }
     @SuppressLint("WrongConstant")
     private void checkUpMonth(boolean isload) {
+        setSensorsOnOperated();
         Calendar startDate = Calendar.getInstance();
         Integer resultCode = CalendarUtils.isLostMonth(thisCalendar, startDate);
         switch (resultCode) {
@@ -406,6 +413,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
 
     @SuppressLint("WrongConstant")
     private void checkDownMonth(boolean isload) {
+        setSensorsOnOperated();
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 6);
         Integer resultCodeN = CalendarUtils.isMastMonth(thisCalendar, endDate);
@@ -499,4 +507,16 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
         hideInputMethod(numberTips);
     }
 
+    //神策统计_下单-有操作
+    private void setSensorsOnOperated() {
+        if (isOperated && getContext() instanceof PickSendActivity) {
+            isOperated = false;
+            SensorsUtils.onOperated(((PickSendActivity) getContext()).getIntentSource(), getEventSource());
+        }
+    }
+
+    @Override
+    public String getEventSource() {
+        return "按航班号选航班";
+    }
 }

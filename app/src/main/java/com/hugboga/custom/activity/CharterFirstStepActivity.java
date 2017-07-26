@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
@@ -94,6 +95,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private GuidesDetailData guidesDetailData;
     private boolean isEnabled = false;
     public SeckillsBean seckillsBean;//秒杀活动参数
+
+    private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     @Override
     public int getContentViewId() {
@@ -187,6 +190,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_city_layout})
     public void selectStartCity() {
+        setSensorsOnOperated();
         if (guidesDetailData != null) {
             Intent intent = new Intent(this, ChooseGuideCityActivity.class);
             intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
@@ -207,6 +211,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_bottom_service_layout, R.id.charter_first_bottom_online_layout})
     public void onService(View view) {
+        setSensorsOnOperated();
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
                 DialogUtil.showCallDialogTitle(this);
@@ -219,6 +224,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_date_layout})
     public void selectDate() {
+        setSensorsOnOperated();
         Intent intent = new Intent(activity, DatePickerActivity.class);
         if (guidesDetailData != null) {
             intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
@@ -584,6 +590,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //神策统计_下单-有操作
+    private void setSensorsOnOperated() {
+        if (isOperated) {
+            isOperated = false;
+            SensorsUtils.onOperated(getIntentSource(), getEventSource());
         }
     }
 }
