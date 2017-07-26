@@ -18,6 +18,23 @@ import org.json.JSONObject;
  */
 public class SensorsUtils {
 
+    public static void onAppClick(String pageName, String elementContent, String refer) {
+        onAppClick(pageName, pageName, elementContent, refer);
+    }
+
+    public static void onAppClick(String pageName, String pageTitle, String elementContent, String refer) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("pageName", pageName);
+            properties.put("pageTitle", pageTitle);
+            properties.put("element_content", elementContent);
+            properties.put("refer", refer);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("AppClick", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void track(String eventName) {
         try {
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track(eventName, null);
