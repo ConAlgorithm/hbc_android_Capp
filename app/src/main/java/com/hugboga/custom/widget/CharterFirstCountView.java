@@ -123,11 +123,9 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
     public void onSliderScrolled(int value, int type) {
         setHintViewVisibility();
         if (context instanceof CharterFirstStepActivity) {
-            if (((CharterFirstStepActivity) context).getIntentSource().equals("首页")){
-                if(firstClickCount == 1){
-                    SensorsUtils.onAppClick(((CharterFirstStepActivity) context).getEventSource(), "包车日期", ((CharterFirstStepActivity) context).getIntentSource());
-                    firstClickCount += 1;
-                }
+            if (firstClickCount == 1) {
+                SensorsUtils.onAppClick(((CharterFirstStepActivity) context).getEventSource(), "出行人数", ((CharterFirstStepActivity) context).getIntentSource());
+                firstClickCount += 1;
             }
         }
     }
