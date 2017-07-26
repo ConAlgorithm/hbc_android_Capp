@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CharterDataUtils;
@@ -202,6 +203,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             intent.putExtras(bundle);
             startActivity(intent);
         }
+        if(getIntentSource().equals("首页")){
+            SensorsUtils.onAppClick(getEventSource(),"开始城市",getIntentSource());
+        }
         overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
@@ -210,9 +214,15 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
                 DialogUtil.showCallDialogTitle(this);
+                if (getIntentSource().equals("首页")){
+                    SensorsUtils.onAppClick(getEventSource(), "联系客服", getIntentSource());
+                }
                 break;
             case R.id.charter_first_bottom_online_layout:
                 UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
+                if (getIntentSource().equals("首页")){
+                    SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
+                }
                 break;
         }
     }
@@ -229,6 +239,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
+        if(getIntentSource().equals("首页")){
+            SensorsUtils.onAppClick(getEventSource(),"包车日期",getIntentSource());
+        }
     }
 
     @OnClick({R.id.charter_first_bottom_next_tv})
@@ -277,6 +290,9 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), chooseDateBean.dayNums,
                 guidesDetailData != null, (countLayout.getAdultValue() + countLayout.getChildValue()) + "");
         setSensorsConfirmEvent();
+        if (getIntentSource().equals("首页")){
+            SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
+        }
     }
 
     @Subscribe

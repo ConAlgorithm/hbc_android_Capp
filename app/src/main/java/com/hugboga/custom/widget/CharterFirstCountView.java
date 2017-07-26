@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.OrderUtils;
 
 import butterknife.Bind;
@@ -34,6 +36,7 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
     private Context context;
 
     private OnOutRangeListener listener;
+    private int firstClickCount = 1;
 
     /**
      * 最大乘车人数
@@ -119,6 +122,14 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
     @Override
     public void onSliderScrolled(int value, int type) {
         setHintViewVisibility();
+        if (context instanceof CharterFirstStepActivity) {
+            if (((CharterFirstStepActivity) context).getIntentSource().equals("首页")){
+                if(firstClickCount == 1){
+                    SensorsUtils.onAppClick(((CharterFirstStepActivity) context).getEventSource(), "包车日期", ((CharterFirstStepActivity) context).getIntentSource());
+                    firstClickCount += 1;
+                }
+            }
+        }
     }
 
     @Override
