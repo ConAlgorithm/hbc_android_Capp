@@ -496,7 +496,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Override
     public String getEventSource() {
-        return getString(R.string.custom_chartered);
+        return "选择行程";
     }
 
     @Override

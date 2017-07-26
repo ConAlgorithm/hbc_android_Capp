@@ -415,6 +415,6 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
 
     @Override
     public String getEventSource() {
-        return "心愿单";
+        return "私人定制行程";
     }
 }

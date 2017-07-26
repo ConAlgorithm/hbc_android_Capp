@@ -248,4 +248,9 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
                 break;
         }
     }
+
+    @Override
+    public String getEventSource() {
+        return "目的地";
+    }
 }
