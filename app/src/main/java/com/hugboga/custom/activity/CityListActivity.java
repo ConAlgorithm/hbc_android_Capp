@@ -325,16 +325,18 @@ public class CityListActivity extends BaseActivity {
     @Override
     public String getEventSource() {
         String result = "";
-        switch (paramsData.cityHomeType) {
-            case CITY:
-                result = "城市";
-                break;
-            case ROUTE:
-                result = "线路圈";
-                break;
-            case COUNTRY:
-                result = "国家";
-                break;
+        if(paramsData!= null){
+            switch (paramsData.cityHomeType) {
+                case CITY:
+                    result = "城市";
+                    break;
+                case ROUTE:
+                    result = "线路圈";
+                    break;
+                case COUNTRY:
+                    result = "国家";
+                    break;
+            }
         }
         return result;
     }
