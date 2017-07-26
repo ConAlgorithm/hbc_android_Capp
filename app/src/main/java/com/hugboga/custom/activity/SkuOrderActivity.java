@@ -230,6 +230,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     }
 
     public void showServiceDialog() {
+        SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
         DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
     }
 
@@ -582,6 +583,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         requestSubmitOrder();
         setSensorsEvent();
         StatisticClickEvent.click(StatisticConstant.SUBMITORDER_SKU);
+        SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
     }
 
     /*

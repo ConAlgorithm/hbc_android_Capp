@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,6 +58,7 @@ public class ChooseAirActivity extends BaseActivity {
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 DialogUtil.getInstance(ChooseAirActivity.this).showServiceDialog(ChooseAirActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
             }
         });
@@ -91,5 +92,10 @@ public class ChooseAirActivity extends BaseActivity {
             return flightBean;
         }
         return null;
+    }
+
+    @Override
+    public String getEventSource() {
+        return "选择航班";
     }
 }

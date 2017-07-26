@@ -227,6 +227,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     intent.putExtra(ChooseAirPortActivity.KEY_CITY_ID, guidesDetailData.cityId);
                 }
                 getActivity().startActivity(intent);
+                SensorsUtils.onAppClick(getEventSource(), "送达机场", source);
                 break;
             case R.id.send_poi_layout:
                 if (airPortBean == null) {
@@ -238,6 +239,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     intent.putExtra(PoiSearchActivity.KEY_LOCATION, airPortBean.location);
                     intent.putExtra(PoiSearchActivity.PARAM_BUSINESS_TYPE, ORDER_TYPE);
                     getActivity().startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(), "出发地点", source);
                 }
                 break;
             case R.id.send_time_layout:
@@ -325,6 +327,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             }
         }
         getContext().startActivity(intent);
+        SensorsUtils.onAppClick(getEventSource(), "出发时间", source);
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
@@ -468,6 +471,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         } else {
             initOrderActivity();
         }
+        SensorsUtils.onAppClick(getEventSource(), "立即预定", source);
     }
 
     public void initOrderActivity() {

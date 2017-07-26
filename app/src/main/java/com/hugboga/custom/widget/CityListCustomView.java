@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
@@ -206,11 +207,9 @@ public class CityListCustomView extends LinearLayout {
     @OnClick({R.id.city_custom_charter_layout})
     public void intentCharter() {
         Intent intent = new Intent(getContext(), CharterFirstStepActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         if (cityListBean != null && cityListBean.cityContent != null) {
-            intent.putExtra(Constants.PARAMS_SOURCE, "城市页");
             intent.putExtra(Constants.PARAMS_START_CITY_BEAN, DatabaseManager.getCityBean("" + cityListBean.cityContent.cityId));
-        } else {
-            intent.putExtra(Constants.PARAMS_SOURCE, "国家页");
         }
         getContext().startActivity(intent);
     }
@@ -218,21 +217,29 @@ public class CityListCustomView extends LinearLayout {
     @OnClick({R.id.city_custom_picksend_layout})
     public void intentPickSend() {
         Intent intent = new Intent(getContext(), PickSendActivity.class);
-        intent.putExtra("source", "城市页");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         getContext().startActivity(intent);
     }
 
     @OnClick({R.id.city_custom_single_layout})
     public void intentSingle() {
         Intent intent = new Intent(getContext(), SingleActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         if (cityListBean != null && cityListBean.cityContent != null) {
-            intent.putExtra(Constants.PARAMS_SOURCE, "城市页");
             SingleActivity.Params singleParams = new SingleActivity.Params();
             singleParams.cityId = "" + cityListBean.cityContent.cityId;
             intent.putExtra(Constants.PARAMS_DATA, singleParams);
-        } else {
-            intent.putExtra(Constants.PARAMS_SOURCE, "国家页");
         }
         getContext().startActivity(intent);
+    }
+
+    public String getEventSource() {
+        if (getContext() instanceof CityListActivity) {
+            return ((CityListActivity) getContext()).getEventSource();
+        } else if (cityListBean != null && cityListBean.cityContent != null) {
+            return "城市";
+        } else {
+            return "国家";
+        }
     }
 }
