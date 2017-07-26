@@ -24,6 +24,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -81,6 +82,8 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), getIntentSource());
     }
 
     protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
@@ -93,6 +96,10 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    protected String getPageTitle() {
+        return "";
     }
 
     //获取输入法打开的状态

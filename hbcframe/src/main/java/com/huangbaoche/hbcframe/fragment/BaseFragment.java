@@ -492,4 +492,8 @@ public abstract class BaseFragment extends Fragment implements HttpRequestListen
         map.put("source", getEventSource());
         return map;
     }
+
+    protected String getPageTitle() {
+        return "";
+    }
 }

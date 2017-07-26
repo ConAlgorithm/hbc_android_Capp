@@ -176,6 +176,7 @@ public class CityListActivity extends BaseActivity {
         recyclerView.setAdapter(cityListAdapter);
         requestCityList();
         setOnScrollListener();
+        setSensorsEvent();
     }
 
     public void setOnScrollListener() {
@@ -336,6 +337,11 @@ public class CityListActivity extends BaseActivity {
                 break;
         }
         return result;
+    }
+
+    @Override
+    protected String getPageTitle() {
+        return paramsData != null ? paramsData.titleName : "";
     }
 
     private void setEmptyLayout(boolean isShow, boolean isDataNull) {
