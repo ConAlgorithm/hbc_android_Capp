@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -78,6 +79,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             fgRightBtn = (ImageView) contentView.findViewById(R.id.header_right_btn);
             if (fgRightTV != null) fgRightTV.setOnClickListener(this);
             if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
+            SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), source);
         }
         return contentView;
     }

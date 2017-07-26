@@ -1,6 +1,7 @@
 package com.hugboga.custom.statistic.sensors;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.hugboga.custom.MyApplication;
@@ -9,6 +10,7 @@ import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.utils.OrderUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -30,6 +32,21 @@ public class SensorsUtils {
             properties.put("refer", refer);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("AppClick", null);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setPageEvent(String eventSource, String pageTitle, String intentSource) {
+        try {
+            if (TextUtils.isEmpty(eventSource) || TextUtils.isEmpty(intentSource)) {
+                return;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("pageName", eventSource);
+            properties.put("pageTitle", TextUtils.isEmpty(pageTitle) ? eventSource : pageTitle);
+            properties.put("refer", intentSource);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("AppViewScreen", properties);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
