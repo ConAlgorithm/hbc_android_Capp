@@ -37,6 +37,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.OrderUtils;
@@ -407,7 +408,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
                 map.put("source", source);
                 MobclickAgent.onEvent(activity, "login_weixin", map);
-
+                SensorsUtils.onAppClick(getEventSource(),"微信登录",getIntentSource());
                 break;
             case R.id.shouji_layout:
                 intent = new Intent(this, AccountPwdLoginActivity.class);
@@ -454,6 +455,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
                 RequestVerity requestVerity = new RequestVerity(this,areaCode1,phone,4);
                 requestData(requestVerity);
+                SensorsUtils.onAppClick(getEventSource(),"获取验证码",getIntentSource());
                 break;
             case R.id.delete:
                 phoneEditText.setText("");
