@@ -421,7 +421,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     @Override
     public String getEventSource() {
-        return "个人中心";
+        return "我的";
     }
 
     @Override

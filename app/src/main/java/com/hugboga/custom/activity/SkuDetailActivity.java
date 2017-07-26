@@ -181,7 +181,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventSource() {
-        return "商品详情页";
+        return "线路详情";
     }
 
     public void goodsSoldOut() {
@@ -523,12 +523,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties2.put("refer", getIntentSource());
             properties2.put("goodsNo", skuItemBean.goodsNo);
             properties2.put("goodsName", skuItemBean.goodsName);
-            properties2.put("arrCityId", skuItemBean.arrCityId);
-            properties2.put("arrCityName", skuItemBean.arrCityName);
             properties2.put("depCityId", skuItemBean.depCityId);
             properties2.put("depCityName", skuItemBean.depCityName);
-            properties2.put("goodsClass", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            properties2.put("goodsType", skuItemBean.goodsType);
+            properties2.put("goodsType", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
             SensorsDataAPI.sharedInstance(this).track("viewSku", properties2);
         } catch (Exception e) {
             e.printStackTrace();

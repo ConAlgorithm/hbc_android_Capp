@@ -369,4 +369,9 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             CommonUtils.showToast("请选择投保人");
         }
     }
+
+    @Override
+    public String getEventSource() {
+        return "常用投保人";
+    }
 }

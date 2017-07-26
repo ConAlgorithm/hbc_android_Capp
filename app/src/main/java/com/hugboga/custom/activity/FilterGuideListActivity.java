@@ -140,7 +140,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     @Override
     public String getEventSource() {
-        return "司导列表页";
+        return "精选司导";
     }
 
     @Override

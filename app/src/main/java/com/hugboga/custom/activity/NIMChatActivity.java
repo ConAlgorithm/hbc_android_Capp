@@ -748,7 +748,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @Override
     public String getEventSource() {
-        return "IM聊天页";
+        return "司导IM";
     }
 
     ChatBean chatBean;

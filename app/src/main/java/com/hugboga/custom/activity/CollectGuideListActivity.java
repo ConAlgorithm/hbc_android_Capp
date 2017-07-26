@@ -115,7 +115,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
 
     @Override
     public String getEventSource() {
-        return "收藏司导列表";
+        return "已收藏司导";
     }
 
     @Override

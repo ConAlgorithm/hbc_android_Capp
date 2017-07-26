@@ -177,7 +177,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
 
     @Override
     public String getEventSource() {
-        return "行程页";
+        return "行程";
     }
 
     @Override

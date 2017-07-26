@@ -97,6 +97,11 @@ public class UnicornServiceActivity extends BaseActivity{
         hideSoftInput();
     }
 
+    @Override
+    public String getEventSource() {
+        return "皇包车客服";
+    }
+
     public static class SourceType {
         public static final int TYPE_DEFAULT = 0x000;   // 默认
         public static final int TYPE_CHARTERED = 0x001; // 自定义包车游
@@ -126,4 +131,5 @@ public class UnicornServiceActivity extends BaseActivity{
             return result;
         }
     }
+
 }

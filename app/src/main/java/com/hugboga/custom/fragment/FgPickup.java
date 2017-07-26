@@ -604,7 +604,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     @Override
     public String getEventSource() {
-        return "接机下单";
+        return "接机";
     }
 
     @Override
