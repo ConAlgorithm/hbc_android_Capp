@@ -121,6 +121,9 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (getContext() instanceof GuideWebDetailActivity) {
+                        ((GuideWebDetailActivity) getContext()).setSensorsContactGuide();
+                    }
                     if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
                         return;
                     }

@@ -59,6 +59,20 @@ public class SensorsUtils {
         }
     }
 
+    public static void onOperated(String refer, String pageName) {
+        try {
+            if (TextUtils.isEmpty(refer) || TextUtils.isEmpty(pageName)) {
+                return;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("refer", refer);
+            properties.put("pageName", pageName);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("buy_Operated", properties);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     //支付结果
     public static void setSensorsPayResultEvent(EventPayBean eventPayBean, String payMethod, boolean payResult) {
         try {

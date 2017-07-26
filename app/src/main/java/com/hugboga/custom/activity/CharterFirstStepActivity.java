@@ -96,6 +96,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private boolean isEnabled = false;
     public SeckillsBean seckillsBean;//秒杀活动参数
 
+    private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_charter_first;
@@ -188,6 +190,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_city_layout})
     public void selectStartCity() {
+        setSensorsOnOperated();
         if (guidesDetailData != null) {
             Intent intent = new Intent(this, ChooseGuideCityActivity.class);
             intent.putExtra(Constants.PARAMS_ID, guidesDetailData.guideId);
@@ -209,6 +212,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_bottom_service_layout, R.id.charter_first_bottom_online_layout})
     public void onService(View view) {
+        setSensorsOnOperated();
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
                 DialogUtil.showCallDialogTitle(this);
@@ -223,6 +227,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @OnClick({R.id.charter_first_date_layout})
     public void selectDate() {
+        setSensorsOnOperated();
         Intent intent = new Intent(activity, DatePickerActivity.class);
         if (guidesDetailData != null) {
             intent.putExtra(DatePickerActivity.PARAM_ASSIGN_GUIDE, true);
@@ -590,6 +595,14 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //神策统计_下单-有操作
+    private void setSensorsOnOperated() {
+        if (isOperated) {
+            isOperated = false;
+            SensorsUtils.onOperated(getIntentSource(), getEventSource());
         }
     }
 }

@@ -43,6 +43,7 @@ import com.hugboga.custom.data.request.RequestSeckillsPickupPrice;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -109,6 +110,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
+
+    private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     private PickSendActivity.Params params;
 
@@ -202,6 +205,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     @OnClick({R.id.pickup_flight_layout, R.id.pickup_city_layout})
     public void onClick(View view) {
+        setSensorsOnOperated();
         Intent intent;
         switch (view.getId()) {
             case R.id.pickup_flight_layout:
@@ -268,6 +272,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                     break;
                 }
                 setFlightBean(_flightBean);
+                isOperated = false;
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean _poiBean = (PoiBean) action.getData();
@@ -658,6 +663,14 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //神策统计_下单-有操作
+    private void setSensorsOnOperated() {
+        if (isOperated) {
+            isOperated = false;
+            SensorsUtils.onOperated(source, getEventSource());
         }
     }
 }

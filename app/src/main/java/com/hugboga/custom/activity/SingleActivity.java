@@ -108,6 +108,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private ArrayList<GuideCarBean> guideCarBeanList;
     private int guideCityId;
 
+    private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
+
     private SingleActivity.Params params;
 
     public static class Params implements Serializable {
@@ -207,6 +209,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     @OnClick({R.id.single_city_layout, R.id.single_time_layout})
     public void onClick(View view) {
+        setSensorsOnOperated();
         Intent intent;
         switch (view.getId()) {
             case R.id.single_city_layout:
@@ -381,12 +384,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     @Override
     public void onStartAddressClick() {
+        setSensorsOnOperated();
         intentPoiSearch("from");
         SensorsUtils.onAppClick(getEventSource(),"出发地",getIntentSource());
     }
 
     @Override
     public void onEndAddressClick() {
+        setSensorsOnOperated();
         intentPoiSearch("to");
         SensorsUtils.onAppClick(getEventSource(),"目的地",getIntentSource());
     }
@@ -692,6 +697,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             SensorsDataAPI.sharedInstance(this).track("buy_confirm", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    //神策统计_下单-有操作
+    private void setSensorsOnOperated() {
+        if (isOperated) {
+            isOperated = false;
+            SensorsUtils.onOperated(getIntentSource(), getEventSource());
         }
     }
 
