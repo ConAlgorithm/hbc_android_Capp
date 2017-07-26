@@ -124,42 +124,38 @@ public class SensorsUtils {
     }
 
     //联系客服
-    public static void setSensorsServiceEvent(int sourceType, int _type) {
-        String webTitle = "其它";
-        switch (sourceType) {
-            case UnicornServiceActivity.SourceType.TYPE_CHARTERED:
-                webTitle = "包车游详情";
-                break;
-            case UnicornServiceActivity.SourceType.TYPE_LINE:
-                webTitle = "商品详情";
-                break;
-            case UnicornServiceActivity.SourceType.TYPE_ORDER:
-                webTitle = "订单";
-                break;
-        }
-        setSensorsServiceEvent(webTitle, _type);
-    }
-
-    //联系客服
-    public static void setSensorsServiceEvent(String source, int _type) {
+    public static void setSensorsServiceEvent(int sourceType, String source, int _type) {
         try {
             String typeStr = "";
             switch (_type) {
                 case 0:
-                    typeStr = "在线";
+                    typeStr = "在线客服";
                     break;
                 case 1:
-                    typeStr = "境内";
+                    typeStr = "境内电话";
                     break;
                 case 2:
-                    typeStr = "境外";
+                    typeStr = "境外电话";
                     break;
             }
 
+            String serviceType = "";
+            switch (sourceType){
+                case 1:
+                    serviceType = "售后";
+                    break;
+                case 2:
+                    serviceType = "售前";
+                    break;
+                case 3:
+                    serviceType = "通用";
+                    break;
+            }
             JSONObject properties = new JSONObject();
-            properties.put("hbc_web_title", source);
-            properties.put("hbc_cs_type", typeStr);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contact_servicedesk", properties);
+            properties.put("pageName", source);
+            properties.put("serviceMethod", typeStr);
+            properties.put("serviceType", serviceType);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contactService", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

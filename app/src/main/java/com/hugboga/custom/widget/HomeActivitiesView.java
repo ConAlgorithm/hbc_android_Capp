@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.LoginActivity;
@@ -27,7 +28,10 @@ import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.viewpagerindicator.CirclePageIndicator;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -206,7 +210,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             if (itemList == null) {
                 return super.instantiateItem(container, position);
             }
@@ -238,9 +242,10 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                     if (itemData == null) {
                         return;
                     }
-
+                    setSensorsShareEvent(itemData.urlAddress,position);
                     //EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                     //StatisticClickEvent.click(StatisticConstant.LAUNCH_ACTIVITY, "首页活动详情展示");
+
                     if(itemData.requestType == 1){
                         Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
                         intent.putExtra(WebInfoActivity.WEB_URL, itemData.urlAddress);
@@ -267,6 +272,18 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             ((ViewGroup) container.getParent()).removeView((View)object);
+        }
+    }
+
+    //首页bannar
+    public static void setSensorsShareEvent(String bannerUrl,int position) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("bannerUrl", bannerUrl);
+            properties.put("bannerNo", position);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("clickBanner", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
