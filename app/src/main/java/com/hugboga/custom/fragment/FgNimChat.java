@@ -42,6 +42,7 @@ import com.hugboga.custom.data.request.RequestNIMChatList;
 import com.hugboga.custom.data.request.RequestNIMRemoveChat;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.IMUtil;
@@ -135,6 +136,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsUtils.onAppClick(getEventSource(),"客服",null);
                 DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
             }
         });

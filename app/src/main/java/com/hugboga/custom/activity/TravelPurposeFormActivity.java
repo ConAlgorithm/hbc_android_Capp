@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestTravelPurposeForm;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
@@ -140,6 +141,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         OrderUtils.genUserTravelPurposeForm(this,purposeConnect,new OrderUtils.MyCLickSpan.OnSpanClickListener(){
             @Override
             public void onSpanClick(View view) {
+                SensorsUtils.onAppClick(getEventSource(),"联系定制师",getIntentSource());
                 onCustomerService();
             }
         });
@@ -385,6 +387,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
 
         requestData(requestTravelPurposeForm);
         MobClickUtils.onEvent(StatisticConstant.YI_XIANG_SUCCEED);
+        SensorsUtils.onAppClick(getEventSource(),"提交",getIntentSource());
     }
 
     @Override
@@ -408,5 +411,10 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public String getEventSource() {
+        return "心愿单";
     }
 }

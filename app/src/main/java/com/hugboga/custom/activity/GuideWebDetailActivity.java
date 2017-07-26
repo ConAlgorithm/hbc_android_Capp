@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -379,6 +380,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             baseRequest = new RequestCollectGuidesId(this, guideExtinfoBean.guideId);
         }
         requestData(baseRequest);
+        SensorsUtils.onAppClick(getEventSource(),"收藏",getIntentSource());
     }
 
     @OnClick({R.id.titlebar_detail_right_2_btn})

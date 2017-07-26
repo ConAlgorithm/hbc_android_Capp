@@ -711,7 +711,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public String getEventSource() {
-        return "个人中心-用户信息";
+        return "首页";
     }
 
     @Override
