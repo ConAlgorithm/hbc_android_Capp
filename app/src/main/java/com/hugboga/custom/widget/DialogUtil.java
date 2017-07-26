@@ -503,7 +503,7 @@ public class DialogUtil implements DialogUtilInterface {
         showDefaultServiceDialog(mContext, "联系客服", source != null && source.length > 0 ? source[0] : "");
     }
 
-    public static AlertDialog showCallDialogTitle(final Context _context) {
+    public static AlertDialog showCallDialogTitle(final Context _context, final String source, final int sourceType) {
         String[] str = {"境内客服:" + Constants.CALL_NUMBER_IN, "境外客服:" + Constants.CALL_NUMBER_OUT, "取消"};
         AlertDialog dialog = new AlertDialog.Builder(_context)
                 .setItems(str, new DialogInterface.OnClickListener() {
@@ -518,6 +518,7 @@ public class DialogUtil implements DialogUtilInterface {
                         } else {
                             dialog.dismiss();
                         }
+                        SensorsUtils.setSensorsServiceEvent(sourceType, source, which);
                     }
                 }).create();
         dialog.setCancelable(true);

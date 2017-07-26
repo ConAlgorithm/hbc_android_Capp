@@ -206,9 +206,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
             intent.putExtras(bundle);
             startActivity(intent);
         }
-        if(getIntentSource().equals("首页")){
-            SensorsUtils.onAppClick(getEventSource(),"开始城市",getIntentSource());
-        }
+        SensorsUtils.onAppClick(getEventSource(),"开始城市",getIntentSource());
         overridePendingTransition(R.anim.push_bottom_in, 0);
     }
 
@@ -217,16 +215,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         setSensorsOnOperated();
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
-                DialogUtil.showCallDialogTitle(this);
-                if (getIntentSource().equals("首页")){
-                    SensorsUtils.onAppClick(getEventSource(), "联系客服", getIntentSource());
-                }
+                DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
+                SensorsUtils.onAppClick(getEventSource(), "联系客服", getIntentSource());
                 break;
             case R.id.charter_first_bottom_online_layout:
                 UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null);
-                if (getIntentSource().equals("首页")){
-                    SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
-                }
+                SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
                 break;
         }
     }
@@ -244,9 +238,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
-        if(getIntentSource().equals("首页")){
-            SensorsUtils.onAppClick(getEventSource(),"包车日期",getIntentSource());
-        }
+        SensorsUtils.onAppClick(getEventSource(),"包车日期",getIntentSource());
     }
 
     @OnClick({R.id.charter_first_bottom_next_tv})
@@ -295,9 +287,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), chooseDateBean.dayNums,
                 guidesDetailData != null, (countLayout.getAdultValue() + countLayout.getChildValue()) + "");
         setSensorsConfirmEvent();
-        if (getIntentSource().equals("首页")){
-            SensorsUtils.onAppClick(getEventSource(), "在线咨询", getIntentSource());
-        }
+        SensorsUtils.onAppClick(getEventSource(), "立即预定", getIntentSource());
     }
 
     @Subscribe
