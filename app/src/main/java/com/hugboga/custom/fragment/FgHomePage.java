@@ -41,6 +41,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
@@ -471,6 +472,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             case R.id.home_header_hot_tab:
                 selectHotExploerTab();
                 MobClickUtils.onEvent(StatisticConstant.CLICK_HOT);
+                SensorsUtils.onAppClick(getEventSource(),"热门线路",null);
                 break;
             case R.id.home_header_dest_tab:
                 selectDestionTab();
@@ -479,6 +481,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             case R.id.home_header_story_tab:
                 selectGuideTab();
                 MobClickUtils.onEvent(StatisticConstant.CLICK_GSTORY);
+                SensorsUtils.onAppClick(getEventSource(),"精选司导",null);
                 break;
             default:
                 break;

@@ -32,6 +32,7 @@ import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
@@ -222,6 +223,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     intent.putExtra(KEY_BUSINESS_TYPE, ORDER_TYPE);
                     startActivity(intent);
                 }
+                SensorsUtils.onAppClick(getEventSource(),"用车城市",getIntentSource());
                 break;
             case R.id.single_time_layout:
                 if (cityBean == null) {
@@ -233,6 +235,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 } else {
                     showTimePicker();
                 }
+                SensorsUtils.onAppClick(getEventSource(),"出发时间",getIntentSource());
                 break;
         }
     }
@@ -379,11 +382,13 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     @Override
     public void onStartAddressClick() {
         intentPoiSearch("from");
+        SensorsUtils.onAppClick(getEventSource(),"出发地",getIntentSource());
     }
 
     @Override
     public void onEndAddressClick() {
         intentPoiSearch("to");
+        SensorsUtils.onAppClick(getEventSource(),"目的地",getIntentSource());
     }
 
     private void intentPoiSearch(String keyFrom) {
@@ -495,6 +500,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         } else {
             initOrderActivity();
         }
+        SensorsUtils.onAppClick(getEventSource(),"立即预定",getIntentSource());
     }
 
     public void initOrderActivity() {

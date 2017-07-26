@@ -290,7 +290,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
                 }*/
                 Intent intentProPre = null;
                 intentProPre = new Intent(context, TravelPurposeFormActivity.class);
-
+                intentProPre.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 context.startActivity(intentProPre);
                 MobClickUtils.onEvent(StatisticConstant.YI_XIANG);
                 break;

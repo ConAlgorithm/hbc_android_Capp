@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyModel;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.FilterGuideListActivity;
@@ -16,6 +17,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 /**
  * Created by SPW on 2017/3/11.
@@ -56,6 +58,9 @@ public class HomeEndModel extends EpoxyModel<LinearLayout> {
                 switch (currentTab) {
                     case FgHomePage.TAB_HOTEXPLORE:
                         context.startActivity(new Intent(context, FilterSkuListActivity.class));
+                        if(context instanceof MainActivity){
+                            SensorsUtils.onAppClick(((MainActivity) context).getEventSource(),"查看更多包车线路",null);
+                        }
                         break;
                     case FgHomePage.TAB_DESTION:
                         intent = new Intent(context, ChooseCityNewActivity.class);
