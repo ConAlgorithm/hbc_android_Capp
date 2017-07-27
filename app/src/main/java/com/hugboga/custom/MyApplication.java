@@ -239,6 +239,9 @@ public class MyApplication extends HbcApplication {
             addSensorsCustomAppInstall();
             //初始化用户属性
             LoginActivity.setSensorsUserEvent();
+            if(UserEntity.getUser().isLogin(this)){
+                SensorsDataAPI.sharedInstance(this).login(UserEntity.getUser().getUserId(getApplicationContext()));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (Exception e) {

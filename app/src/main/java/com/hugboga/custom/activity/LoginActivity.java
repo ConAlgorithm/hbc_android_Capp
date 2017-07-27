@@ -317,6 +317,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             UserBean userBean = request1.getData();
             UserEntity.getUser().setUnionid(LoginActivity.this, userBean.unionid);
             setSensorsUserEvent();
+            try {
+                SensorsDataAPI.sharedInstance(this).login(UserEntity.getUser().getUserId(getApplicationContext()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (userBean.isNotRegister == 1) {//未注册，走注册流程
                 Bundle bundle = new Bundle();
                 bundle.putString("unionid", userBean.unionid);
