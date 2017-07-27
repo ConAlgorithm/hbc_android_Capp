@@ -268,7 +268,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 
     @Override
     public String getEventSource() {
-        return "";
+        return "账号密码登录";
     }
     @Override
     protected void onResume() {

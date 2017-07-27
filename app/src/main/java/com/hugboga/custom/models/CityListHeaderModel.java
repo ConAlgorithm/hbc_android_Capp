@@ -73,7 +73,7 @@ public class CityListHeaderModel extends EpoxyModel<RelativeLayout> {
                 Intent intent = new Intent(context, ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn", false);
-                intent.putExtra("source", "城市页");
+                intent.putExtra("source", "城市");
                 context.startActivity(intent);
             }
         });

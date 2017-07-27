@@ -500,7 +500,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public String getEventSource() {
-        return "登录页";
+        return "验证码登录";
     }
 
     @Override

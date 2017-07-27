@@ -192,18 +192,18 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                     if (paramsData != null) {
                         switch (paramsData.cityHomeType) {
                             case CITY:
-                                source = "城市页";
+                                source = "城市";
                                 break;
                             case ROUTE:
-                                source = "国家页";
+                                source = "国家";
                                 break;
                             case COUNTRY:
-                                source = "线路圈页";
+                                source = "线路圈";
                                 break;
                         }
                     }
                 } else {
-                    source = "精选司导页";
+                    source = "精选司导";
                 }
                 intent.putExtra(Constants.PARAMS_SOURCE, source);
                 getContext().startActivity(intent);
