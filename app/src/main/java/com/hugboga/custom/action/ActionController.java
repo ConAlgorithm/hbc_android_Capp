@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.hugboga.custom.action.constants.ActionPageType;
 import com.hugboga.custom.action.constants.ActionType;
 import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.action.data.ActionSkuDetailBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 
@@ -41,6 +42,21 @@ public class ActionController implements ActionControllerBehavior {
         }
         switch (CommonUtils.getCountInteger(_actionBean.type)) {
             case ActionType.WEB_ACTIVITY:
+                if (!TextUtils.isEmpty(_actionBean.url) && _actionBean.url.contains("app/detail.html?")) {//产片要求，临时兼容商品详情
+                    String goodsNo = CommonUtils.getUrlValue(_actionBean.url, "goodsNo");
+                    String cityId = CommonUtils.getUrlValue(_actionBean.url, "cityId");
+                    if (!TextUtils.isEmpty(goodsNo) && !TextUtils.isEmpty(cityId)) {
+                        ActionSkuDetailBean actionSkuDetailBean = new ActionSkuDetailBean();
+                        actionSkuDetailBean.goodsNo = goodsNo;
+                        actionSkuDetailBean.cityId = cityId;
+                        actionSkuDetailBean.url = _actionBean.url;
+                        _actionBean.type = "" + ActionType.NATIVE_PAGE;
+                        _actionBean.vcid = "" + ActionPageType.SKU_DETAIL;
+                        _actionBean.data = actionSkuDetailBean;
+                        doAction(context, _actionBean);
+                        break;
+                    }
+                }
                 _actionBean.type = "" + ActionType.NATIVE_PAGE;
                 _actionBean.vcid = "" + ActionPageType.WEBVIEW;
                 _actionBean.data = "{\"u\":\"" + _actionBean.url + "\"}";

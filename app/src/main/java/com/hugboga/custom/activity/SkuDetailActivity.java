@@ -170,7 +170,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (skuItemBean != null) {
             bottomLayout.setVisibility(View.VISIBLE);
             String unitStr = "起/人";
-            String priceStr = getString(R.string.sign_rmb) + skuItemBean.perPrice + " " + unitStr;
+            String priceStr = getString(R.string.sign_rmb) + CommonUtils.getCountInteger(skuItemBean.perPrice) + " " + unitStr;
             SpannableString spannableString = new SpannableString(priceStr);
             spannableString.setSpan(new RelativeSizeSpan(0.7f), priceStr.length() - unitStr.length(), priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             gotoOrder.setText(spannableString);

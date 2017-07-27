@@ -246,11 +246,22 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                     //EventUtil.onDefaultEvent(StatisticConstant.CLICK_ACTIVITY, "首页精选活动");
                     //StatisticClickEvent.click(StatisticConstant.LAUNCH_ACTIVITY, "首页活动详情展示");
 
-                    if(itemData.requestType == 1){
-                        Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
-                        intent.putExtra(WebInfoActivity.WEB_URL, itemData.urlAddress);
-                        v.getContext().startActivity(intent);
-                    }else if(itemData.requestType == 2){
+//                    if(itemData.requestType == 1){
+//                        Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+//                        intent.putExtra(WebInfoActivity.WEB_URL, itemData.urlAddress);
+//                        v.getContext().startActivity(intent);
+//                    }else if(itemData.requestType == 2){
+//                        ActionController actionFactory = ActionController.getInstance();
+//                        actionFactory.doAction(mContext, itemData.pushScheme);
+//                    }
+
+                    if (itemData.pushScheme == null) {
+                        if (!TextUtils.isEmpty(itemData.urlAddress)) {
+                            Intent intent = new Intent(v.getContext(), WebInfoActivity.class);
+                            intent.putExtra(WebInfoActivity.WEB_URL, itemData.urlAddress);
+                            v.getContext().startActivity(intent);
+                        }
+                    } else {
                         ActionController actionFactory = ActionController.getInstance();
                         actionFactory.doAction(mContext, itemData.pushScheme);
                     }
