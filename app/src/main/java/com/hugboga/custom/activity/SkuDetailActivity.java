@@ -152,7 +152,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             webView.loadUrl(url);
         }
 
-        SensorsUtils.setSensorsShowUpWebView(webView);
+        //SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     public void setGoodsOut() {// 商品已下架
