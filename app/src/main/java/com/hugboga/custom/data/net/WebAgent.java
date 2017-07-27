@@ -683,7 +683,11 @@ public class WebAgent implements HttpRequestListener {
     }
 
     public String getEventSource() {
-        return TextUtils.isEmpty(title) ? "web页面" : title;
+        String source = TextUtils.isEmpty(title) ? "web页面" : title;
+        if (mActivity instanceof WebInfoActivity) {
+            source = ((WebInfoActivity) mActivity).getEventSource();
+        }
+        return source;
     }
 
     @JavascriptInterface

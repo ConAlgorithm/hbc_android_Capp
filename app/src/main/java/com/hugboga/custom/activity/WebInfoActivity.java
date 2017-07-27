@@ -384,7 +384,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public String getEventSource() {
-        return TextUtils.isEmpty(title) ? "web页面" : title;
+        return TextUtils.isEmpty(url) ? "web页面" : url;
     }
 
     public void synCookies(String url, String value) {

@@ -70,7 +70,7 @@ public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior
                 params.cityHomeType = CityListActivity.CityHomeType.CITY;
                 Intent intent = new Intent(getContext(), CityListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, "国家热门城市");
+                intent.putExtra(Constants.PARAMS_SOURCE, "国家");
                 getContext().startActivity(intent);
             }
         });
