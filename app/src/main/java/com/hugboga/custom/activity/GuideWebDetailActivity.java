@@ -420,7 +420,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             JSONObject properties = new JSONObject();
             properties.put("refer", getIntentSource());
             properties.put("guideId", guideExtinfoBean.guideId);
-            properties.put("cityName", guideExtinfoBean.guideName);
+            properties.put("cityName", guideExtinfoBean.cityName);
             properties.put("cityId", guideExtinfoBean.cityId);
             SensorsDataAPI.sharedInstance(this).track("viewGuide", properties);
         } catch (Exception e) {
