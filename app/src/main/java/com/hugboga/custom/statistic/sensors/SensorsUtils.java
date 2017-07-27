@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.hugboga.custom.MyApplication;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.utils.OrderUtils;
@@ -186,18 +187,8 @@ public class SensorsUtils {
                     break;
             }
 
-            String serviceType = "";
-            switch (sourceType){
-                case 1:
-                    serviceType = "售后";
-                    break;
-                case 2:
-                    serviceType = "售前";
-                    break;
-                case 3:
-                    serviceType = "通用";
-                    break;
-            }
+            String serviceType = UnicornServiceActivity.SourceType.getRequsetTypeString(sourceType);
+
             JSONObject properties = new JSONObject();
             properties.put("pageName", source);
             properties.put("serviceMethod", typeStr);

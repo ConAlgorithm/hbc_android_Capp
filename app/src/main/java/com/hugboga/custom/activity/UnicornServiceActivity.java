@@ -130,6 +130,28 @@ public class UnicornServiceActivity extends BaseActivity{
             }
             return result;
         }
+
+        /*
+        * 返回请求所需的type(API_SERVICE_QUESTION_LIST)
+        * 场景id: 1订单售后，2商品售前，3默认通用
+        * */
+        public static String getRequsetTypeString(int _type) {
+            String result = "";
+            switch (_type) {
+                case TYPE_DEFAULT:
+                case TYPE_CHAT_LIST:
+                    result = "通用";
+                    break;
+                case TYPE_LINE:
+                case TYPE_CHARTERED:
+                    result = "售前";
+                    break;
+                case TYPE_ORDER:
+                    result = "售后";
+                    break;
+            }
+            return result;
+        }
     }
 
 }
