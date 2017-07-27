@@ -660,7 +660,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     @Override
     public String getEventSource() {
-        return "单次接送下单";
+        return "单次接送";
     }
 
     @Override
