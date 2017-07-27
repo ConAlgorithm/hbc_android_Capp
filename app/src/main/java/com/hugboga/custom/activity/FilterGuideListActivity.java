@@ -311,6 +311,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         emptyLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
         if (!isShow) {
             return;
+        } else {
+            mAdapter.clearData();
         }
         hideFilterView();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
