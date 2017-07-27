@@ -716,7 +716,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        NIMChatActivity.start(getContext(),imChatId);
+        NIMChatActivity.start(getContext(),imChatId,"订单列表");
     }
     /**
      * 设置聊一聊未读个数小红点

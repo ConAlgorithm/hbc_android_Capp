@@ -203,7 +203,7 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 if (!IMUtil.getInstance().isLogined() || TextUtils.isEmpty(chatBean.getNeTargetId())) {
                     return;
                 }
-                NIMChatActivity.start(getContext(), chatBean.getNeTargetId());
+                NIMChatActivity.start(getContext(), chatBean.getNeTargetId(), ((OrderDetailActivity) getContext()).getEventSource());
                 break;
             case R.id.ogi_call_layout:
                 if (orderBean == null || orderBean.orderGuideInfo == null) {

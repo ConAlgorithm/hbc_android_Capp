@@ -33,7 +33,7 @@ public class ActionPageImChat extends ActionPageBase {
         if (type == 3) {
             UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
         } else if (type == 1) {
-            NIMChatActivity.start(getContext(), bean.tid);
+            NIMChatActivity.start(getContext(), bean.tid, actionBean.source);
         }
     }
 
