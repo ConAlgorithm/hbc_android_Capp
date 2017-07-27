@@ -37,6 +37,7 @@ import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
 import com.hugboga.custom.data.request.RequestSubmitDaily;
 import com.hugboga.custom.data.request.RequestSubmitLine;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -186,6 +187,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         travelerInfoView.setOrderType(orderType);
 
         requestPriceSku(serverDate);
+
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_SKU);
     }
 
     public void initTitleBar() {
@@ -746,11 +749,6 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     @Override
     public String getEventSource() {
         return "确认订单";
-    }
-
-    @Override
-    public String getEventId() {
-        return StatisticConstant.LAUNCH_SKU;
     }
 
     //神策统计_确认行程
