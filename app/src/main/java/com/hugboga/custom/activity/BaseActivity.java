@@ -298,12 +298,19 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
                 return;
             }
             JSONObject properties = new JSONObject();
-            properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
-            properties.put("hbc_id", userEntity.getUserId(context));
-            properties.put("hbc_gender", userEntity.getGender(context));
-            properties.put("hbc_age", userEntity.getAgeType(context));
-            properties.put("hbc_phone", userEntity.getPhone(context));
-            properties.put("hbc_realname", userEntity.getUserName(context));
+            properties.put("name",userEntity.getUserName(context));
+            properties.put("mobile",userEntity.getPhone(context));
+            properties.put("travelFund",userEntity.getTravelFund(context));
+            properties.put("avatar",userEntity.getAvatar(context));
+            properties.put("userId",userEntity.getUserId(context));
+            properties.put("ageType",userEntity.getAgeType(context));
+            properties.put("nickName",userEntity.getNickname(context));
+            properties.put("userToken",userEntity.getUserToken(context));
+            properties.put("weakPassword", userEntity.isWeakPassword(context));
+            properties.put("coupons", userEntity.getCoupons(context));
+            properties.put("gender", userEntity.getGender(context));
+            properties.put("areaCode", userEntity.getAreaCode(context));
+            properties.put("needInitPwd", userEntity.getNeedInitPwd(context));
             // 设定用户属性
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).profileSet(properties);
         } catch (Exception e) {
