@@ -153,6 +153,11 @@ public class NewOrderActivity extends BaseActivity implements ZBaseAdapter.OnIte
         }
     }
 
+    @Override
+    public String getEventSource() {
+        return "历史订单";
+    }
+
     //    ===========枚举部分======================
     public enum SearchType {
 

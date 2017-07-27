@@ -121,13 +121,14 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getContext() instanceof GuideWebDetailActivity) {
-                        ((GuideWebDetailActivity) getContext()).setSensorsContactGuide();
-                    }
                     if (guideExtinfoBean == null || TextUtils.isEmpty(guideExtinfoBean.neUserId) || !IMUtil.getInstance().isLogined() || !UserEntity.getUser().isLogin(getContext())) {
                         return;
                     }
-                    NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId);
+                    String source = "司导个人页";
+                    if (getContext() instanceof GuideWebDetailActivity) {
+                        source = ((GuideWebDetailActivity) getContext()).getEventSource();
+                    }
+                    NIMChatActivity.start(getContext(), guideExtinfoBean.neUserId, source);
                     StatisticClickEvent.click(StatisticConstant.CLICK_CHATG);
                 }
             });

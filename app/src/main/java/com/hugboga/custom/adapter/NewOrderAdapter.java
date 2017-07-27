@@ -24,6 +24,7 @@ import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
+import com.hugboga.custom.activity.NewOrderActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.viewholder.NewOrderVH;
@@ -677,7 +678,11 @@ public class NewOrderAdapter extends ZBaseAdapter<OrderBean, NewOrderVH> {
         if(!IMUtil.getInstance().isLogined()){
             return;
         }
-        NIMChatActivity.start(context,imChatId);
+        String source = "订单列表";
+        if (context instanceof NewOrderActivity) {
+            source = ((NewOrderActivity) context).getEventSource();
+        }
+        NIMChatActivity.start(context,imChatId,source);
     }
 
 }

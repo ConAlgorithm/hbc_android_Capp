@@ -58,6 +58,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,9 +84,10 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
      * @param context
      * @param contactId
      */
-    public static void start(Context context, String contactId) {
+    public static void start(Context context, String contactId, String source) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
+        intent.putExtra(Constants.PARAMS_SOURCE, source);
         intent.setClass(context, NIMChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
@@ -758,6 +762,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             @Override
             public void onDataRequestSucceed(BaseRequest request) {
                 chatBean = (ChatBean) request.getData();
+                setSensorsContactGuide(chatBean.targetId);
                 setOrderData(chatBean);
             }
             @Override
@@ -813,6 +818,21 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                     emptyView.setVisibility(View.GONE);
                 }
             }
+        }
+    }
+
+    //神策埋点-联系司导
+    public void setSensorsContactGuide(String guideId) {
+        if (TextUtils.isEmpty(guideId)) {
+            return;
+        }
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("guideId", guideId);
+            properties.put("refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("contactGuide", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
