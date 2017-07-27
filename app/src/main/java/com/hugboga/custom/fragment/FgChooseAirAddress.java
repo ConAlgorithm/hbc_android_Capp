@@ -268,6 +268,7 @@ public class FgChooseAirAddress extends BaseFragment implements MonthView.OnDayC
                 addHistoryData();
                 genHistoryList();
             }
+            SensorsUtils.onAppClick("接机", "历史航班号", getIntentSource());
         }
     }
 

@@ -101,6 +101,12 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
 
     @Override
     protected void initView() {
+        numberTips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SensorsUtils.onAppClick("接机", "航班号", getIntentSource());
+            }
+        });
         numberTips.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -206,6 +212,7 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
                 addHistoryData();
                 genHistoryList();
             }
+            SensorsUtils.onAppClick("接机", "历史航班号", getIntentSource());
         }
     }
 
