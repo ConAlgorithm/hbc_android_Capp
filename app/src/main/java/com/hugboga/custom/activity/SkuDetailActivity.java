@@ -45,6 +45,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.WebAgent;
 import com.hugboga.custom.data.request.RequestGoodsById;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.event.EventUtil;
@@ -120,6 +121,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
 
     public void initView() {
+        MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
+
         headerRightBtn.setVisibility(WXShareUtils.getInstance(activity).isInstall(false) ? View.VISIBLE : View.VISIBLE);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,11 +175,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             spannableString.setSpan(new RelativeSizeSpan(0.7f), priceStr.length() - unitStr.length(), priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             gotoOrder.setText(spannableString);
         }
-    }
-
-    @Override
-    public String getEventId() {
-        return StatisticConstant.LAUNCH_DETAIL_SKU;
     }
 
     @Override
