@@ -128,7 +128,7 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
                     params.titleName = hotExploration.explorationName;
                     Intent intent = new Intent(v.getContext(), CityListActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA,params);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "首页当季热门探索");
+                    intent.putExtra(Constants.PARAMS_SOURCE, "热门线路");
                     v.getContext().startActivity(intent);
                 }else{
                     SkuItemBean skuItemBean1 = hotExplorations.get(position);
@@ -139,7 +139,7 @@ public class HomeHotSearchViewPagerAdapter extends PagerAdapter {
                     intent.putExtra("goodtype",skuItemBean1.goodsType);
                     intent.putExtra(Constants.PARAMS_ID, skuItemBean1.goodsNo);
                     intent.putExtra("type",type);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
+                    intent.putExtra(Constants.PARAMS_SOURCE, "热门线路");
                     v.getContext().startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");
                 }

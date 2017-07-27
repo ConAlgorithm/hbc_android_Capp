@@ -81,7 +81,7 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
                 params.titleName = hotExploration.explorationName;
                 Intent intent = new Intent(v.getContext(), CityListActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA,params);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页当季热门探索");
+                intent.putExtra(Constants.PARAMS_SOURCE, "热门线路");
                 v.getContext().startActivity(intent);
             }
         });
