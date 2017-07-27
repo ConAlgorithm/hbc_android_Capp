@@ -9,6 +9,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserLogin;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -59,6 +60,8 @@ public class RequestBindMobile extends BaseRequest<UserBean> {
         map.put("skip", skip);
         map.put("source", 1);
         map.put("fromChannel", 1);
+        map.put("distinctid", SensorsDataAPI.sharedInstance(getContext()).getAnonymousId());
+        map.put("loginChannel",1);//1:capp 2:m 3:pc
         return map;
     }
 
