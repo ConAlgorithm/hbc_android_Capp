@@ -31,7 +31,7 @@ public class SensorsUtils {
             properties.put("pageTitle", pageTitle);
             properties.put("element_content", elementContent);
             properties.put("refer", refer);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("AppClick", null);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("AppClick", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
