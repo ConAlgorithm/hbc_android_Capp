@@ -772,7 +772,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     @Override
     public String getEventSource() {
-        return "组合单下单页";
+        return "确认订单";
     }
 
     private void getGuideCars() {

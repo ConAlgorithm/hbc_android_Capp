@@ -745,7 +745,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
     @Override
     public String getEventSource() {
-        return "商品确认订单页";
+        return "确认订单";
     }
 
     @Override

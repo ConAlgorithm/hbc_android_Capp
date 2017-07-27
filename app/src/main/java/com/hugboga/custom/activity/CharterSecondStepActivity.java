@@ -920,7 +920,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 if(urbanList!=null && urbanList.size()>0){
                     mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                     if(!TextUtils.isEmpty(currentCityBean.name)){
-                        mapView.addText(currentCityBean.name,100,Color.argb(125,30,55,1),urbanList);
+                        mapView.addText(currentCityBean.name,UIUtils.dip2px(30),Color.argb(125,30,55,1),urbanList);
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList),0));
                     }
                 }
@@ -930,7 +930,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
                         mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                         if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
-                            mapView.addText(nextCityBean.name,100,Color.argb(125,30,55,1),nextHbcLantLngList);
+                            mapView.addText(nextCityBean.name,UIUtils.dip2px(30),Color.argb(125,30,55,1),nextHbcLantLngList);
                         }
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList,nextHbcLantLngList),0));
                     }
@@ -942,7 +942,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 if(urbanList!=null && urbanList.size()>0){
                     mapView.addPolygon(urbanList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                     if(!TextUtils.isEmpty(currentCityBean.name)){
-                        mapView.addText(currentCityBean.name,100,Color.argb(125,30,55,1),urbanList);
+                        mapView.addText(currentCityBean.name,UIUtils.dip2px(30),Color.argb(125,30,55,1),urbanList);
                         mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(urbanList),0));
                     }
                 }
@@ -971,7 +971,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                     if (nextHbcLantLngList!=null && nextHbcLantLngList.size()>0) {
                         mapView.addPolygon(nextHbcLantLngList,Color.argb(150,125,211,32),8,Color.argb(90,125,211,32));
                         if(nextCityBean != null && !TextUtils.isEmpty(nextCityBean.name)){
-                            mapView.addText(nextCityBean.name,100,Color.argb(125,30,55,1),nextHbcLantLngList);
+                            mapView.addText(nextCityBean.name,UIUtils.dip2px(30),Color.argb(125,30,55,1),nextHbcLantLngList);
                             mapView.getaMap().moveCamera(CameraUpdateFactory.newLatLngBounds(HbcMapViewTools.getMapLatLngBounds(nextHbcLantLngList),0));
                         }
                         CityBean cityBean = charterDataUtils.getCurrentDayStartCityBean();
