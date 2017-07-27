@@ -170,12 +170,6 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                 mContext.startActivity(new Intent(mContext, MainActivity.class));
             }
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
-            try {
-                // 用户退出清空 注册ID
-                SensorsDataAPI.sharedInstance(mContext).logout();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 

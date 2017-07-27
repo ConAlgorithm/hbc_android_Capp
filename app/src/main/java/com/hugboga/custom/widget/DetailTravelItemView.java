@@ -180,7 +180,7 @@ public class DetailTravelItemView extends LinearLayout implements HbcViewBehavio
             travelItemTimeLayout.setVisibility(View.GONE);
             travelItemStartLayout.setVisibility(View.GONE);
             travelItemEndLayout.setVisibility(View.GONE);
-            if (data.journey.type == 3) {//跨城市
+            if (data.journey.type != null && data.journey.type == 3) {//跨城市
                 title = data.journey.startCityName + "-" + data.journey.cityName;
             } else {//包车
                 title = data.journey.cityName;

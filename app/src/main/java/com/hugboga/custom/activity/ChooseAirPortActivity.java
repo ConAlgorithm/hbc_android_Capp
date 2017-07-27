@@ -305,13 +305,15 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         selector.limit(3);
         try {
             List<AirPort> hotAirportDate = selector.findAll();
-            for (AirPort bean : hotAirportDate) {
-                bean.cityFirstLetter = "热门机场";
+            if (hotAirportDate != null && hotAirportDate.size() > 0) {
+                for (AirPort bean : hotAirportDate) {
+                    bean.cityFirstLetter = "热门机场";
+                }
+                if (hotAirportDate.size() > 0l && hotAirportDate.get(0) != null) {
+                    hotAirportDate.get(0).isFirst = true;
+                }
+                sourceDateList.addAll(0, hotAirportDate);
             }
-            if (hotAirportDate.size() > 0l && hotAirportDate.get(0) != null) {
-                hotAirportDate.get(0).isFirst = true;
-            }
-            sourceDateList.addAll(0, hotAirportDate);
         } catch (DbException e) {
             e.printStackTrace();
         }

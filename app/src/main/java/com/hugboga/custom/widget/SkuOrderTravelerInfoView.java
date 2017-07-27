@@ -291,7 +291,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         this.orderType = orderType;
         if (orderType == 3) {//组合单
             CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
-            if (charterDataUtils.travelList != null && charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP) {// 只接机
+            if (charterDataUtils.travelList != null && charterDataUtils.travelList.size() > 0 && charterDataUtils.travelList.get(0).routeType == CityRouteBean.RouteType.PICKUP) {// 只接机
                 timeLayout.setVisibility(View.GONE);
                 addressLayout.setVisibility(View.GONE);
                 addressLineView.setVisibility(View.GONE);

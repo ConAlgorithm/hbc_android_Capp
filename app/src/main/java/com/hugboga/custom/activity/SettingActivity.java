@@ -171,12 +171,6 @@ public class SettingActivity extends BaseActivity {
                                 UserEntity.getUser().clean(activity);
                                 IMUtil.getInstance().logoutNim();
                                 EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-                                try {
-                                    // 用户退出清空 注册ID
-                                    SensorsDataAPI.sharedInstance(SettingActivity.this).logout();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
                                 finish();
                             }
 
