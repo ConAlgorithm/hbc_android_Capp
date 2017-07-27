@@ -293,12 +293,14 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
                 }
                 DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
+                SensorsUtils.onAppClick(getEventSource(),"联系客服",getIntentSource());
                 break;
             case R.id.sku_detail_bottom_online_layout://在线咨询
                 if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
                     StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
                 }
                 UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
+                SensorsUtils.onAppClick(getEventSource(),"在线咨询",getIntentSource());
                 break;
             case R.id.sku_detail_empty_tv:
                 startActivity(new Intent(activity, MainActivity.class));
