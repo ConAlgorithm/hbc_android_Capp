@@ -297,18 +297,35 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             if (!userEntity.isLogin(context)) {
                 return;
             }
+            int ageType = 0;
+            String ageStrs[] = {"00后", "90后","80后","70后","60后"};
+            String ageStr = userEntity.getAgeType(context);
+            for (int i = 0; i < ageStrs.length; i++) {
+                if (ageStrs.equals(ageStr)) {
+                    ageType = i;
+                    break;
+                }
+            }
+            int gender = 0;
+            String genderStr = userEntity.getGender(context);
+            if ("男".equals(genderStr)) {
+                gender = 1;
+            } else {
+                gender = 2;
+            }
+
             JSONObject properties = new JSONObject();
             properties.put("name",userEntity.getUserName(context));
             properties.put("mobile",userEntity.getPhone(context));
             properties.put("travelFund",userEntity.getTravelFund(context));
             properties.put("avatar",userEntity.getAvatar(context));
             properties.put("userId",userEntity.getUserId(context));
-            properties.put("ageType",userEntity.getAgeType(context));
+            properties.put("ageType",ageType);
             properties.put("nickName",userEntity.getNickname(context));
             properties.put("userToken",userEntity.getUserToken(context));
             properties.put("weakPassword", userEntity.isWeakPassword(context));
             properties.put("coupons", userEntity.getCoupons(context));
-            properties.put("gender", userEntity.getGender(context));
+            properties.put("gender", gender);
             properties.put("areaCode", userEntity.getAreaCode(context));
             properties.put("needInitPwd", userEntity.getNeedInitPwd(context));
             // 设定用户属性
