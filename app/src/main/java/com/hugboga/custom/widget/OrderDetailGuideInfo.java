@@ -27,6 +27,7 @@ import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.Tools;
@@ -209,7 +210,8 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                 if (orderBean == null || orderBean.orderGuideInfo == null) {
                     return;
                 }
-                PhoneInfo.CallDial(getContext(), orderBean.orderGuideInfo.guideTel);
+//                PhoneInfo.CallDial(getContext(), orderBean.orderGuideInfo.guideTel);
+                CommonUtils.callPhoneDialog(getContext(), orderBean.orderGuideInfo.guideID, orderBean.orderGuideInfo.guideTel);
                 break;
             case R.id.ogi_avatar_iv:
                 if (orderBean == null || orderBean.orderGuideInfo == null) {

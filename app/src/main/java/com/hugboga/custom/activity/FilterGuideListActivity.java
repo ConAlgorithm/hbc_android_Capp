@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +65,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
         public int id;
         public CityListActivity.CityHomeType cityHomeType;
         public String titleName;
+        public String goodsNo;
     }
 
     @Override
@@ -126,6 +128,9 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             params.id = paramsData.id;
             params.titleName = paramsData.titleName;
             filterLayout.initCityFilter(params);
+            if (isGoods()) {
+                filterLayout.hideCityLayout();
+            }
         }
 
         requestGuideFilterOptions();
@@ -134,8 +139,16 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("精选司导");
+        fgTitle.setText(isGoods() ? "可服务司导" : "精选司导");
         fgRightTV.setVisibility(View.GONE);
+    }
+
+    private boolean isGoods() {
+        if (paramsData != null && !TextUtils.isEmpty(paramsData.goodsNo)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -256,7 +269,10 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
                     builder.setCountryId("" + id);
                     break;
             }
+        } else if (isGoods()) {
+            builder.setGoodsNo(paramsData.goodsNo);
         }
+
         if (guideFilterBean != null) {
             builder.setGenders(guideFilterBean.getGendersRequestParams());
             builder.setServiceTypes(guideFilterBean.getCharterRequestParams());

@@ -735,6 +735,9 @@ public class WebAgent implements HttpRequestListener {
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;
+                    case 4://4：线路
+                        //TODO
+                        break;
                 }
                 SensorsUtils.setSensorsAppointGuide("司导个人页", data.orderType, data.guideCityId, null);
             }

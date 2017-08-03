@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:paddingBottom="12dp"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:paddingTop="12dp">
+
+    <net.grobas.view.PolygonImageView
+        android:id="@+id/choice_comment_avatar_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:background="#ff0000"
+        android:src="@mipmap/icon_avatar_user"
+        app:poly_vertices="0" />
+
+    <com.hugboga.custom.widget.SimpleRatingBar
+        android:id="@+id/choice_comment_ratingview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/choice_comment_avatar_iv"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        app:srb_borderColor="#00000000"
+        app:srb_fillColor="@color/default_yellow"
+        app:srb_isIndicator="true"
+        app:srb_numberOfStars="5"
+        app:srb_starBackgroundColor="#eeeeee"
+        app:srb_starSize="14dp"
+        app:srb_starsSeparation="1dp"
+        app:srb_stepSize="0.01" />
+
+    <TextView
+        android:id="@+id/choice_comment_user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/choice_comment_avatar_iv"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@id/choice_comment_ratingview"
+        android:layout_toRightOf="@id/choice_comment_avatar_iv"
+        android:ellipsize="end"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:text="孟晓雷晓晓晓晓晓晓晓晓endddd"
+        android:textColor="@color/basic_black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/choice_comment_location_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/choice_comment_user_name_tv"
+        android:layout_marginTop="5dp"
+        android:text="孟晓雷晓"
+        android:textColor="#66b3a1"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_below="@id/choice_comment_user_name_tv"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5.5dp"
+        android:layout_toLeftOf="@id/choice_comment_location_tv"
+        android:background="@mipmap/home_guide_location" />
+
+    <TextView
+        android:id="@+id/choice_comment_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choice_comment_user_name_tv"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/choice_comment_avatar_iv"
+        android:text="孟晓雷晓晓晓晓晓晓晓晓"
+        android:textColor="#949494"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/choice_comment_avatar_iv"
+        android:layout_below="@id/choice_comment_avatar_iv"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/choice_comment_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            android:text="孟晓雷晓大手大脚啊开了就达拉斯看见了开始巴萨罗纳家拉屎肯德基拉屎的啊收到了啊经十东路加速度；啊时间弹尽粮绝"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+        <HorizontalScrollView
+            android:id="@+id/choice_comment_imgs_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="-17dp"
+            android:background="#ff0000"
+            android:scrollbars="none">
+            <LinearLayout
+                android:id="@+id/choice_comment_imgs_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                />
+        </HorizontalScrollView>
+        <RelativeLayout
+            android:id="@+id/choice_comment_guide_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="#f6f6f6">
+            <net.grobas.view.PolygonImageView
+                android:id="@+id/choice_comment_guide_avatar_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="#ff0000"
+                android:src="@mipmap/icon_avatar_guide"
+                app:poly_vertices="0" />
+            <TextView
+                android:id="@+id/choice_comment_guide_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/choice_comment_guide_avatar_iv"
+                android:ellipsize="end"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:text="孟晓雷晓晓晓晓晓晓晓晓324234endddd"
+                android:textColor="@color/basic_black"
+                android:textSize="14sp" />
+
+            <com.hugboga.custom.widget.TagGroup
+                android:id="@+id/choice_comment_guide_taggroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/choice_comment_guide_name_tv"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/choice_comment_guide_avatar_iv"
+                app:horizontalSpacing="10dp"
+                app:isCenter="false"
+                app:verticalSpacing="2dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

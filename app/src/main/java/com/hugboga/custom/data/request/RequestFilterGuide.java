@@ -18,15 +18,20 @@ import java.util.HashMap;
 /**
  * Created by qingcha on 17/4/19.
  */
-@HttpRequest(path = UrlLibs.API_FILTER_GUIDES, builder = NewParamsBuilder.class)
+@HttpRequest(path = "", builder = NewParamsBuilder.class)
 public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
 
     public final static int MANDARIN_ID = 2052;//前端写死
     public final static String MANDARIN_STR = "中文（普通话）";//前端写死
+    private boolean isGoods = false;
 
     public RequestFilterGuide(Context context, Builder builder) {
         super(context);
         map = new HashMap<String, Object>();
+        if (!TextUtils.isEmpty(builder.goodsNo)) {
+            map.put("goodsNo", builder.goodsNo);                // 商品编号
+            this.isGoods = true;
+        }
         if (!TextUtils.isEmpty(builder.cityIds)) {
             map.put("cityIds", builder.cityIds);                // 城市标识,(多个用逗号隔开)
         }
@@ -69,15 +74,21 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_FILTER_GUIDES, FilterGuideListBean.class);
+        return new HbcParser(getUrl(), FilterGuideListBean.class);
     }
 
     @Override
     public String getUrlErrorCode() {
-        return "40138";
+        return isGoods ? "40170" : "40138";
+    }
+
+    @Override
+    public String getUrl() {
+        return isGoods ? UrlLibs.API_GOODS_GUIDE_INFO_LIST : UrlLibs.API_FILTER_GUIDES;
     }
 
     public static class Builder {
+        public String goodsNo;
         public String cityIds;
         public String countryId;
         public String lineGroupId;
@@ -91,6 +102,11 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         public int offset = 0;
         public String langCodes;
         public String labelIds;
+
+        public Builder setGoodsNo(String goodsNo) {
+            this.goodsNo = goodsNo;
+            return this;
+        }
 
         public Builder setLangCodes(String langCodes) {
             this.langCodes = langCodes;

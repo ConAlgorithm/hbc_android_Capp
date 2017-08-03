@@ -20,6 +20,7 @@
             android:id="@+id/filter_guide_type_city_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:gravity="center"
@@ -43,6 +44,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/filter_guide_type_left_line_view"
             android:layout_width="@dimen/default_line_height"
             android:layout_height="18dp"
             android:layout_gravity="center_vertical"

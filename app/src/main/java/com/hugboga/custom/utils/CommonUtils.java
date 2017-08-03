@@ -34,9 +34,9 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.widget.CallPhoneDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -170,6 +170,12 @@ public final class CommonUtils {
             shareDialog.setOnShareListener(listener);
         }
         shareDialog.show();
+    }
+
+    public static void callPhoneDialog(final Context context, final String guideId, final String guidePhone) {
+        CallPhoneDialog callPhoneDialog = new CallPhoneDialog(context);
+        callPhoneDialog.setParams(guideId, guidePhone);
+        callPhoneDialog.show();
     }
 
     public static void share(final Context context, final int type, final String picUrl, final String title, final String content, final String shareUrl) {
