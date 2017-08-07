@@ -17,7 +17,12 @@ public class HomeBeanV2 implements Serializable {
     public HotExplorationAggregation hotExplorationAggVo; //热门探索
     public DestinationAggregation destinationAggVo; //目的地
     public ArrayList<FilterGuideBean> qualityGuides; //旅行故事
-    public ArrayList<ActivityPageSetting> activityList;//首页活动页,轮播图使用
+    public ArrayList<ActivityPageSettingVo> bannerActivityList;//首页活动页,轮播图使用
+    public ArrayList<HomeAlbumInfoVo> hotAlbumList; //热门专辑
+    public ArrayList<HomeAlbumInfoVo> pastAlbumList;//往期专辑
+    public ArrayList<HomeCommentInfoVo> commentList;//游客说
+    public ArrayList<HomeCityContentVo2> cityGoodsList;//城市推荐
+    public ArrayList<ActivityPageSettingVo> excitingActivityList;//精彩活动列表
 
 
     /**
@@ -157,7 +162,7 @@ public class HomeBeanV2 implements Serializable {
         public String guidePic;                 //司导头像
     }
 
-    public static class ActivityPageSetting implements Serializable {
+    public static class ActivityPageSettingVo implements Serializable {
         public int startSettingId = 0;
         public String activityName = "";
         public String picture = "";

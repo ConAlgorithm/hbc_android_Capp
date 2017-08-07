@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/filter_guide_avr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/home_more" />
+
+            <ImageView
+                android:id="@+id/save_guild"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/save_guild_icon" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:id="@+id/star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5星"
+                    android:textSize="12sp"
+                    android:textColor="@color/allbg_white"/>
+
+                <View
+                    android:id="@+id/view_right_star"
+                    android:layout_width="1dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/allbg_white"
+                    android:layout_toRightOf="@+id/star" />
+
+                <TextView
+                    android:id="@+id/evaluate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/view_right_star"
+                    android:layout_marginLeft="5dp"
+                    android:text="评价 127"
+                    android:textSize="12sp"
+                    android:textColor="@color/allbg_white"/>
+
+            </RelativeLayout>
+
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/guide_des"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="司导描述"
+            android:textColor="#757575"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/filter_guide_item_bottom_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/filter_guide_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="zhangqiang"
+                android:textColor="#757575"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/filter_guide_location"
+                android:layout_toRightOf="@+id/filter_guide_name"
+                android:layout_marginLeft="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="xila"
+                android:textColor="#4a4a4a"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/yuding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/filter_guide_location"
+                android:layout_marginLeft="30dp"
+                android:layout_centerVertical="true"
+                android:paddingTop="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="2dp"
+                android:text="找Ta预定"
+                android:textColor="#4a4a4a"
+                android:textSize="14sp"
+                android:background="@drawable/filter_guide_yuding"/>
+        </RelativeLayout>
+</LinearLayout>

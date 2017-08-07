@@ -307,4 +307,5 @@ public class UrlLibs {
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
     public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.0/c/batchPrice";                             // 接机秒杀报价 164
 
+    public static final String API_HOME_NEW                     = "basicdata/v1.3/c/home/aggregation";                      // 首页170
 }

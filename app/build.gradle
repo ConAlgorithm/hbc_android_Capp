@@ -210,7 +210,7 @@ android {
             def outputFile = output.outputFile
             println 'default-pkg-name>>> ' + outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "CAPP_Developer_V${defaultConfig.versionName}_${defaultConfig.versionCode}_${name}.apk"
+                def fileName = "CAPP_V${defaultConfig.versionName}_${defaultConfig.versionCode}_${name}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
@@ -231,6 +231,7 @@ dependencies {
     compile 'com.android.support:design:25+'
     compile 'com.android.support:support-v4:25+'
     compile project(':hbcframe')
+    compile project(path: ':ultraviewpager')
     //compile project(':IMKit')
 
     //compile project(':nimlib')

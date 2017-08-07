@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.fragment.FgHomePage;
 import com.hugboga.custom.models.ChoicenessGuideModel;
@@ -12,6 +13,7 @@ import com.hugboga.custom.models.DestinationAggModel;
 import com.hugboga.custom.models.HomeEndModel;
 import com.hugboga.custom.models.HomeHeaderModel;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
+import com.hugboga.custom.models.HomeRecommendedRouteModel;
 import com.hugboga.custom.models.HotExplorationModel;
 import com.hugboga.custom.models.TravelStoryModel;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
@@ -19,14 +21,17 @@ import com.hugboga.custom.widget.home.HomeSearchTabView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
+
 /**
  * Created by SPW on 2017/3/9.
  */
 public class HomePageAdapter extends EpoxyAdapter {
 
     public HomeHeaderModel homeHeaderModel;
+    public HomeRecommendedRouteModel homeRecommendedRouteModel;
 
-    public void showHeader(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
+    public void showHeader(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSettingVo> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
         if(homeHeaderModel!=null){
             homeHeaderModel.setHomeHeaderInfo(context,homeHeaderInfo);
             homeHeaderModel.setHomeActivityPageSetting(activityPageSettings);
@@ -124,4 +129,12 @@ public class HomePageAdapter extends EpoxyAdapter {
         }
     }
 
+    /*public void addHomeRecommentRout(Context context){
+        if(homeRecommendedRouteModel == null){
+            homeRecommendedRouteModel = new HomeRecommendedRouteModel(context);
+            addModel(homeRecommendedRouteModel);
+        }else{
+            homeRecommendedRouteModel.update();
+        }
+    }*/
 }
