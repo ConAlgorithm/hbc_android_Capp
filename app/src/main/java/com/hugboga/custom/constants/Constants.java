@@ -48,6 +48,7 @@ public final class Constants {
     public static final String PARAMS_ORDER_TYPE = "orderType";
     public static final String PARAMS_START_CITY_BEAN = "startCityBean";
     public static final String PARAMS_SECKILLS = "seckills";
+    public static final String PARAMS_GUIDE = "guide";
 
     public static final String PARAMS_CITY_ID = "cityId";
 

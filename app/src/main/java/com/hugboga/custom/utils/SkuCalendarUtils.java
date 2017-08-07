@@ -31,6 +31,7 @@ public class SkuCalendarUtils {
 
     private Context context;
     private String goodsNo;
+    private String guideId;
     private String selectedYearMonthStr;
     private ArrayMap<String, CalendarGoodsBean> goodsCalendarMap;
     private ArrayMap<String, Integer> requestedMonthMap;
@@ -60,12 +61,16 @@ public class SkuCalendarUtils {
     @Retention(RetentionPolicy.SOURCE)
     public @interface RequestState {}
 
-    public void sendRequest(Context context, String goodsNo, Date _date) {
+    public void sendRequest(Context context, String goodsNo, String guideId, Date _date) {
         isDestory = false;
-        sendRequest(context, goodsNo, _date, ADVANCED_MONTH);
+        sendRequest(context, goodsNo, guideId, _date, ADVANCED_MONTH);
     }
 
-    private void sendRequest(Context context, String goodsNo, Date _date, int time) {
+    private void sendRequest(Context context, String goodsNo, String guideId, Date _date, int time) {
+        this.context = context;
+        this.goodsNo = goodsNo;
+        this.guideId = guideId;
+
         int requestedSize = requestedMonthMap.size();
 
         Calendar calendar = Calendar.getInstance();
@@ -91,7 +96,7 @@ public class SkuCalendarUtils {
         if (requestedMonthMap.containsKey(yearMonthStr)) {
             setLoadViewShow(isCurrentMonth, requestedMonthMap.get(yearMonthStr) == INIT);
             if (requestedSize < maxRequestCount && time > 0) {
-                sendRequest(context, goodsNo, DateUtils.addMonth(_date, 1), --time);
+                sendRequest(context, goodsNo, guideId, DateUtils.addMonth(_date, 1), --time);
             }
             return;
         } else {
@@ -99,9 +104,6 @@ public class SkuCalendarUtils {
             requestedMonthMap.put(yearMonthStr, INIT);
             requestedSize = requestedMonthMap.size();
         }
-
-        this.context = context;
-        this.goodsNo = goodsNo;
 
         if (TextUtils.equals(yearMonthStr, currentYearMonthsStr)) {
             getCalendarList(yearMonthStr, DateUtils.dateDateFormat.format(currentdate), getMonthLastDay(calendar));
@@ -118,13 +120,13 @@ public class SkuCalendarUtils {
         }
 
         if (requestedSize < maxRequestCount && time > 0) {
-            sendRequest(context, goodsNo, DateUtils.addMonth(_date, 1), --time);
+            sendRequest(context, goodsNo, guideId, DateUtils.addMonth(_date, 1), --time);
         }
     }
 
     private void getCalendarList(String yearMonthStr, String startServiceDate, String endServiceDate) {
         Log.i("aa", "yearMonthStr " + yearMonthStr + " startServiceDate " + startServiceDate + "    endServiceDate  " + endServiceDate);
-        RequestQueryGoodsStock requestCars = new RequestQueryGoodsStock(context, goodsNo, startServiceDate, endServiceDate, yearMonthStr);
+        RequestQueryGoodsStock requestCars = new RequestQueryGoodsStock(context, goodsNo, guideId, startServiceDate, endServiceDate, yearMonthStr);
         HttpRequestUtils.request(context, requestCars, new HttpRequestListener() {
             @Override
             public void onDataRequestSucceed(BaseRequest request) {

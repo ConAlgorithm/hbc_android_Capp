@@ -174,7 +174,11 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
     @Override
     public void onMonthChange(Date date) {
-        SkuCalendarUtils.getInstance().sendRequest(this, params.skuItemBean.goodsNo, date);
+        String guideId = "";
+        if (params.guidesDetailData != null) {
+            guideId = params.guidesDetailData.guideId;
+        }
+        SkuCalendarUtils.getInstance().sendRequest(this, params.skuItemBean.goodsNo, guideId, date);
     }
 
     @Override

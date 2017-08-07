@@ -19,7 +19,7 @@ public class ActionPageChatList extends ActionPageBase {
             return;
         }
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 1);
+        intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
         context.startActivity(intent);
     }
 }

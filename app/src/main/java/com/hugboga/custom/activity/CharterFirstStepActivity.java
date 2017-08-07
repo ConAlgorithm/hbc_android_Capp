@@ -108,13 +108,13 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             seckillsBean = (SeckillsBean) savedInstanceState.getSerializable(Constants.PARAMS_SECKILLS);
-            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
+            guidesDetailData = (GuidesDetailData) savedInstanceState.getSerializable(Constants.PARAMS_GUIDE);
             startBean = (CityBean) savedInstanceState.getSerializable(Constants.PARAMS_START_CITY_BEAN);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 seckillsBean = (SeckillsBean) bundle.getSerializable(Constants.PARAMS_SECKILLS);
-                guidesDetailData = (GuidesDetailData) bundle.getSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN);
+                guidesDetailData = (GuidesDetailData) bundle.getSerializable(Constants.PARAMS_GUIDE);
                 startBean = (CityBean) bundle.getSerializable(Constants.PARAMS_START_CITY_BEAN);
             }
         }
@@ -148,7 +148,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (guidesDetailData != null) {
-            outState.putSerializable(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+            outState.putSerializable(Constants.PARAMS_GUIDE, guidesDetailData);
         }
         if (startBean != null) {
             outState.putSerializable(Constants.PARAMS_START_CITY_BEAN, startBean);

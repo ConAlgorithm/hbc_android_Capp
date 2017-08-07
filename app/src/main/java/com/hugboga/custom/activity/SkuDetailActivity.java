@@ -39,6 +39,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -89,7 +90,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public static final String TAG = SkuDetailActivity.class.getSimpleName();
     public static final String WEB_SKU = "web_sku";
-    public static final String WEB_CITY = "web_city";
 
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
@@ -113,12 +113,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
     private String goodsNo;
+    private GuidesDetailData guidesDetailData;
 
     private boolean isPerformClick = false;
 
     private DialogUtil mDialogUtil;
     private WebAgent webAgent;
-
 
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
@@ -149,13 +149,23 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             WebView.setWebContentsDebuggingEnabled(true);
         }
         mDialogUtil = DialogUtil.getInstance(activity);
-        String url = getIntent().getStringExtra(WEB_URL);
-        if (!TextUtils.isEmpty(url)) {
-            url = CommonUtils.getBaseUrl(url) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
+
+        loadUrl();
+    }
+
+    public void loadUrl() {
+        String baseUrl = "";
+
+        String intentUrl = getIntent().getStringExtra(WEB_URL);
+        if (!TextUtils.isEmpty(intentUrl)) {
+            baseUrl = intentUrl;
+        } else if (skuItemBean != null) {
+            baseUrl = skuItemBean.skuDetailUrl;
+        }
+        if (!TextUtils.isEmpty(baseUrl)) {
+            String url = CommonUtils.getBaseUrl(baseUrl) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
         }
-
-        //SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     public void setGoodsOut() {// 商品已下架
@@ -191,7 +201,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         contentLayout.setVisibility(View.GONE);
     }
 
-    private void getSkuItemBean(boolean isShowLoading) {
+    private void getSkuItemBean(final boolean isShowLoading) {
         if (!TextUtils.isEmpty(goodsNo)) {//skuItemBean == null &&
             isPerformClick = isShowLoading;
             RequestGoodsById request = new RequestGoodsById(activity, goodsNo);
@@ -226,6 +236,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                                 webAgent.setCityBean(cityBean);
                             }
                             webAgent.setSkuItemBean(skuItemBean);
+                        }
+                        if (!isShowLoading) {
+                            loadUrl();
                         }
                         setSensorsEvent();
                     }
@@ -280,6 +293,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 SkuOrderActivity.Params params = new SkuOrderActivity.Params();
                 params.skuItemBean = skuItemBean;
                 params.cityBean = cityBean;
+                params.guidesDetailData = guidesDetailData;
                 Intent intent = new Intent(activity, SkuDateActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, getIntentSource());
@@ -287,16 +301,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 StatisticClickEvent.click(StatisticConstant.CLICK_SKUDATE);
                 break;
             case R.id.sku_detail_bottom_service_layout://联系客服
-                if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
-                    StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
-                }
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
                 DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
                 SensorsUtils.onAppClick(getEventSource(),"联系客服",getIntentSource());
                 break;
             case R.id.sku_detail_bottom_online_layout://在线咨询
-                if (TextUtils.isEmpty(getIntent().getStringExtra("type"))){
-                    StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT,"1".equals(getIntent().getStringExtra("type"))?"固定线路":"推荐线路");
-                }
+                StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
                 UnicornUtils.openServiceActivity(this, UnicornServiceActivity.SourceType.TYPE_LINE, null, skuItemBean);
                 SensorsUtils.onAppClick(getEventSource(),"在线咨询",getIntentSource());
                 break;
@@ -311,9 +321,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         CommonUtils.shareDialog(activity, goodsPicture, title, content, shareUrl, getClass().getSimpleName()
                 , new ShareDialog.OnShareListener() {
                     @Override
-                    public void onShare(int type) {
-                        EventUtil.onShareSkuEvent(StatisticConstant.SHARESKU_TYPE, "" + type, getCityName());
-                        SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),goodsNo,null);
+                    public void onShare(int _type) {
+                        EventUtil.onShareSkuEvent(StatisticConstant.SHARESKU_TYPE, "" + _type, getCityName());
+                        SensorsUtils.setSensorsShareEvent(_type == 1 ? "微信好友" : "朋友圈", getEventSource(),goodsNo,null);
                     }
                 });
     }
@@ -328,22 +338,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-//            super.onReceivedTitle(view, title);
             if (headerTitle == null) {
                 return;
             }
             if (!view.getTitle().startsWith("http:")) {
-//                headerTitle.setText(view.getTitle());
-//                if (!TextUtils.isEmpty(getIntent().getStringExtra("type"))){
-//                    if ("1".equals(getIntent().getStringExtra("type"))){
-//                        headerTitle.setText(R.string.route_goods_detial_title);
-//                    }
-//                    if(getIntent().getStringExtra("type").equals("2")){
-//                        headerTitle.setText(R.string.free_route_goods_detial_title);
-//                    }
-//                }else {
                     headerTitle.setText("线路详情");
-//                }
             } else {
                 headerTitle.setText("");
             }
@@ -474,16 +473,15 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (this.getIntent() != null) {
             skuItemBean = (SkuItemBean) getIntent().getSerializableExtra(WEB_SKU);
-            cityBean = (CityBean) getIntent().getSerializableExtra(WEB_CITY);
-            source = getIntent().getStringExtra("source");
             goodsNo = getIntent().getStringExtra(Constants.PARAMS_ID);
+            guidesDetailData = (GuidesDetailData)getIntent().getSerializableExtra(Constants.PARAMS_GUIDE);
         }
-        if (cityBean == null && skuItemBean != null && skuItemBean.arrCityId != 0) {
+        if (skuItemBean != null && skuItemBean.arrCityId != 0) {
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
-        super.onCreate(savedInstanceState);
         initView();
         setSensorsShowEvent();
     }

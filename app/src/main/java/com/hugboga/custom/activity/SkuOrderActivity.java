@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
@@ -129,6 +130,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         public SkuItemBean skuItemBean;
         public CityBean cityBean;
         public String serverDate;
+        public GuidesDetailData guidesDetailData;
     }
 
     @Override
