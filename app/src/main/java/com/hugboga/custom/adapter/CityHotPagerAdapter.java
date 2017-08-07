@@ -102,12 +102,8 @@ public class CityHotPagerAdapter extends PagerAdapter {
                 }else{
                     SkuItemBean skuItemBean1 = hotExplorations.get(position);
                     Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean1.skuDetailUrl);
-                    intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                     intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean1);
-                    intent.putExtra("goodtype",skuItemBean1.goodsType);
                     intent.putExtra(Constants.PARAMS_ID, skuItemBean1.goodsNo);
-                    intent.putExtra("type",type);
                     intent.putExtra(Constants.PARAMS_SOURCE, "首页线路列表");
                     v.getContext().startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.CLICK_RG, "首页");

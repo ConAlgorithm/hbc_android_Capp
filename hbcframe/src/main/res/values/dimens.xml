@@ -5,14 +5,4 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="default_padding">8dp</dimen>
-
-    <dimen name="default_month_row_height">32dp</dimen>
-    <dimen name="default_month_view_height">235dp</dimen>
-
-    <dimen name="default_expand_view_max_height">300dp</dimen>
-    <dimen name="default_expand_view_min_height">32dp</dimen>
-
-    <dimen name="si_default_text_size">14sp</dimen>
-    <dimen name="si_default_radius_max">18dp</dimen>
-    <dimen name="si_default_radius_min">8dp</dimen>
 </resources>

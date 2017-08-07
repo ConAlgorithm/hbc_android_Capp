@@ -55,11 +55,17 @@ public class CircularProgress extends View {
 
         float density = context.getResources().getDisplayMetrics().density;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircularProgress, defStyleAttr, 0);
-        mBorderWidth = a.getDimension(R.styleable.CircularProgress_borderWidth,
-                DEFAULT_BORDER_WIDTH * density);
+        mBorderWidth = a.getDimension(R.styleable.CircularProgress_borderWidth, DEFAULT_BORDER_WIDTH * density);
+        int mColor1 = a.getColor(R.styleable.CircularProgress_color1, 0xFFDBDBDB);
+        int mColor2 = a.getColor(R.styleable.CircularProgress_color2, 0xFFDBDBDB);
+        int mColor3 = a.getColor(R.styleable.CircularProgress_color3, 0xFFDBDBDB);
+        int mColor4 = a.getColor(R.styleable.CircularProgress_color4, 0xFFDBDBDB);
         a.recycle();
         mColors = new int[4];
-        mColors[0] = 0xFFDBDBDB;
+        mColors[0] = mColor1;
+        mColors[1] = mColor2;
+        mColors[2] = mColor3;
+        mColors[3] = mColor4;
         mCurrentColorIndex = 0;
         mNextColorIndex = 1;
 
@@ -140,8 +146,8 @@ public class CircularProgress extends View {
         float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset;
         float sweepAngle = mCurrentSweepAngle;
         if (mModeAppearing) {
-//            mPaint.setColor(gradient(mColors[mCurrentColorIndex], mColors[mNextColorIndex],
-//                    mCurrentSweepAngle / (360 - MIN_SWEEP_ANGLE * 2)));
+            mPaint.setColor(gradient(mColors[mCurrentColorIndex], mColors[mNextColorIndex],
+                    mCurrentSweepAngle / (360 - MIN_SWEEP_ANGLE * 2)));
             sweepAngle += MIN_SWEEP_ANGLE;
         } else {
             startAngle = startAngle + sweepAngle;

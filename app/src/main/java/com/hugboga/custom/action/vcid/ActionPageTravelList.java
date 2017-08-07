@@ -29,7 +29,7 @@ public class ActionPageTravelList extends ActionPageBase {
             return;
         }
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 2);
+        intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 3);
         context.startActivity(intent);
         if (actionBean.data != null) {
             ActionTravelListBean bean = (ActionTravelListBean) JsonUtils.fromJson(actionBean.data, ActionTravelListBean.class);

@@ -111,6 +111,10 @@
 
     <declare-styleable name="CircularProgress">
         <attr name="borderWidth" format="dimension" />
+        <attr name="color1" format="color" />
+        <attr name="color2" format="color" />
+        <attr name="color3" format="color" />
+        <attr name="color4" format="color" />
     </declare-styleable>
 
     <declare-styleable name="OrderInfoItemView">

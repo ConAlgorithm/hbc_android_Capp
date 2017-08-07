@@ -26,7 +26,6 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityListActivity;
-import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
@@ -731,7 +730,14 @@ public class WebAgent implements HttpRequestListener {
                         break;
                     case 3://3：包车
                         intent = new Intent(mActivity, CharterFirstStepActivity.class);
-                        intent.putExtra(GuideWebDetailActivity.PARAM_GUIDE_BEAN, guidesDetailData);
+                        intent.putExtra(Constants.PARAMS_GUIDE, guidesDetailData);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        mActivity.startActivity(intent);
+                        break;
+                    case 4://4：线路
+                        intent = new Intent(mActivity, SkuDetailActivity.class);
+                        intent.putExtra(Constants.PARAMS_GUIDE, guidesDetailData);
+                        intent.putExtra(Constants.PARAMS_ID, data.goodsNo);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         mActivity.startActivity(intent);
                         break;

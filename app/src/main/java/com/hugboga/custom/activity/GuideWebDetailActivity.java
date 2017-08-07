@@ -65,8 +65,6 @@ import butterknife.OnClick;
 
 public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyListener{
 
-    public final static String PARAM_GUIDE_BEAN = "guidesDetailData";
-
     @Bind(R.id.guide_web_detail_titlebar)
     RelativeLayout titlebar;
     @Bind(R.id.titlebar_detail_right_1_btn)

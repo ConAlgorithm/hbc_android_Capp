@@ -124,7 +124,6 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
                     }
                     Intent intent = new Intent(WebInfoActivity.this, SkuDetailActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, url);
-                    intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
                     intent.putExtra(Constants.PARAMS_ID, goodsNo);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     WebInfoActivity.this.startActivity(intent);

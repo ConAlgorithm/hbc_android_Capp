@@ -1,14 +1,16 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.adapter;
+package com.hugboga.custom.widget.monthpicker.monthswitchpager.adapter;
 
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
-import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthView;
-import com.huangbaoche.hbcframe.widget.monthpicker.util.DayUtils;
+import com.hugboga.custom.data.bean.CalendarGoodsBean;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
+import com.hugboga.custom.widget.monthpicker.util.DayUtils;
 
 import java.util.ArrayList;
 
@@ -24,12 +26,12 @@ public class MonthViewAdapter extends RecyclerView.Adapter<MonthViewAdapter.Mont
   private CalendarDay mSelectCalendarDay;
   private ArrayList<CalendarDay> mAbleCalendayDays;
   private MonthView.OnDayClickListener mOnDayClickListener;
+  private ArrayMap<String, CalendarGoodsBean> goodsCalendarMap;
 
   public MonthViewAdapter(Context context, MonthView.OnDayClickListener onDayClickListener) {
     mContext = context;
     mOnDayClickListener = onDayClickListener;
     mAbleCalendayDays = new ArrayList<>();
-    mSelectCalendarDay = new CalendarDay(System.currentTimeMillis());
   }
 
   public void setData(CalendarDay startDay, CalendarDay endDay, ArrayList<CalendarDay> calendarDayArrayList) {
@@ -61,6 +63,12 @@ public class MonthViewAdapter extends RecyclerView.Adapter<MonthViewAdapter.Mont
     notifyDataSetChanged();
   }
 
+  public void setGoodsCalendarMap(ArrayMap<String, CalendarGoodsBean> goodsCalendarMap) {
+    if (goodsCalendarMap == null && goodsCalendarMap.size() <= 0) return;
+    this.goodsCalendarMap = goodsCalendarMap;
+    notifyDataSetChanged();
+  }
+
   @Override
   public int getItemCount() {
     if (mStartDay == null || mEndDay == null) {
@@ -84,7 +92,7 @@ public class MonthViewAdapter extends RecyclerView.Adapter<MonthViewAdapter.Mont
 
   @Override
   public void onBindViewHolder(final MonthViewHolder viewHolder, final int position) {
-    viewHolder.bind(position, mSelectCalendarDay);
+    viewHolder.bind(position, mStartDay, mSelectCalendarDay, goodsCalendarMap);
   }
 
   @Override public void onDayClick(CalendarDay calendarDay) {
@@ -103,9 +111,10 @@ public class MonthViewAdapter extends RecyclerView.Adapter<MonthViewAdapter.Mont
       monthView.setFirstDay(startDay);
     }
 
-    public void bind(int position, CalendarDay calendarDay) {
+    public void bind(int position, CalendarDay startDay, CalendarDay calendarDay, ArrayMap<String, CalendarGoodsBean> goodsCalendarMap) {
+      monthView.setFirstDay(startDay);
       monthView.setSelectDay(calendarDay);
-      monthView.setMonthPosition(position);
+      monthView.setMonthPosition(goodsCalendarMap, position);
     }
 
   }

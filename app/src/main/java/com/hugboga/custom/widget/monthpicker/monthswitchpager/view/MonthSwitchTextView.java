@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view;
+package com.hugboga.custom.widget.monthpicker.monthswitchpager.view;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -9,13 +9,16 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
-import com.huangbaoche.hbcframe.widget.monthpicker.util.DayUtils;
+import com.hugboga.custom.data.bean.CalendarGoodsBean;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
+import com.hugboga.custom.widget.monthpicker.util.DayUtils;
 
-import com.huangbaoche.hbcframe.R;
+import com.hugboga.custom.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -35,6 +38,7 @@ public class MonthSwitchTextView extends RelativeLayout implements View.OnClickL
   private int mCount;
   private MonthRecyclerView mMonthRecyclerView;
   private int mPrePosition;
+  private MonthChangeListener listener;
 
   public MonthSwitchTextView(Context context) {
     this(context, null);
@@ -136,5 +140,12 @@ public class MonthSwitchTextView extends RelativeLayout implements View.OnClickL
         DateUtils.FORMAT_NO_MONTH_DAY + DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR;
     Log.e(TAG, DateUtils.formatDateTime(getContext(), calendar.getTimeInMillis(), flags));
     mTextTitle.setText(new SimpleDateFormat("yyyy年M月").format(calendar.getTime()));
+    if (listener != null) {
+      listener.onMonthChange(calendar.getTime());
+    }
+  }
+
+  public void setMonthChangeListener(MonthChangeListener listener) {
+    this.listener = listener;
   }
 }

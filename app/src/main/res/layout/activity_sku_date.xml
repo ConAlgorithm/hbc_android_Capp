@@ -31,7 +31,7 @@
             android:textColor="#4a4a4a"
             android:textSize="13sp" />
 
-        <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchView
+        <com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView
             android:id="@+id/sku_date_month_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -61,6 +61,7 @@
         android:background="#88000000" />
 
     <RelativeLayout
+        android:id="@+id/sku_date_info_layout"
         android:layout_width="match_parent"
         android:layout_height="108dp"
         android:layout_above="@id/sku_date_content_layout">
@@ -110,5 +111,25 @@
             android:textColor="@color/default_black"
             android:textSize="15sp" />
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/sku_date_calendar_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="65dp"
+        android:layout_below="@id/sku_date_info_layout"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="#AAFFFFFF">
+        <com.hugboga.custom.widget.CircularProgress
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:color1="#FF0000"
+            app:color2="#FFFF00"
+            app:color3="#00FF00"
+            app:color4="#0000FF"
+            app:borderWidth="3dp" />
+    </FrameLayout>
 
 </RelativeLayout>

@@ -183,7 +183,7 @@
                  android:layout_height="wrap_content"
                  android:background="@color/basic_white"
                  android:listSelector="@drawable/ring_cell" />-->
-            <com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchView
+            <com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView
                 android:id="@+id/view_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

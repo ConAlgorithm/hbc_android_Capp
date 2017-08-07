@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg">
+    android:orientation="vertical">
 
     <include
-        android:id="@+id/guide_list_titlebar"
+        android:id="@+id/choice_comment_titlebar"
         layout="@layout/include_header" />
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/guide_list_recyclerview"
+        android:id="@+id/choice_comment_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/guide_list_titlebar"
-        android:layout_marginTop="44dp"
+        android:layout_below="@id/choice_comment_titlebar"
         android:clipChildren="false"
         android:clipToPadding="false" />
 
-    <com.hugboga.custom.widget.GuideFilterLayout
-        android:id="@+id/guide_list_filter_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/guide_list_titlebar" />
-
     <LinearLayout
-        android:id="@+id/guide_list_empty_layout"
+        android:id="@+id/choice_comment_empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/guide_list_filter_layout"
-        android:gravity="center_horizontal"
-        android:visibility="gone"
         android:background="@color/default_bg"
-        android:orientation="vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/guide_list_empty_iv"
+            android:id="@+id/choice_comment_empty_iv"
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:layout_marginTop="50dip"
             android:background="@drawable/empty_wifi" />
 
         <TextView
-            android:id="@+id/guide_list_empty_hint_tv"
+            android:id="@+id/choice_comment_empty_hint_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -51,4 +43,4 @@
             android:textColor="#a8a8a8"
             android:textSize="13sp" />
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

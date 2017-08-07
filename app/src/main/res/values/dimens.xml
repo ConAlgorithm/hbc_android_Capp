@@ -134,7 +134,6 @@
 
     <dimen name="city_list_margin_left">20dip</dimen>
     <dimen name="city_list_margin_vertical">12dip</dimen>
-
     <dimen name="home_filter_avr_hor">240dp</dimen>
     <dimen name="home_filter_avr_ver">160dp</dimen>
     <dimen name="home_filter_avr_space">10dp</dimen>
@@ -144,4 +143,11 @@
     <dimen name="home_past_album_hor">208dp</dimen>
     <dimen name="home_past_album_ver">106dp</dimen>
     <dimen name="home_past_album_space">10dp</dimen>
+    <dimen name="default_month_row_height">32dp</dimen>
+    <dimen name="default_month_view_height">235dp</dimen>
+    <dimen name="default_expand_view_max_height">300dp</dimen>
+    <dimen name="default_expand_view_min_height">32dp</dimen>
+    <dimen name="si_default_text_size">14sp</dimen>
+    <dimen name="si_default_radius_max">18dp</dimen>
+    <dimen name="si_default_radius_min">8dp</dimen>
 </resources>

@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.model;
+package com.hugboga.custom.widget.monthpicker.model;
 
 import android.text.TextUtils;
 import java.text.DateFormat;
@@ -17,6 +17,8 @@ public class CalendarDay {
   public int month;
   public int year;
 
+  public int stockStatus;
+
   public CalendarDay() {
     setTime(System.currentTimeMillis());
   }
@@ -29,13 +31,14 @@ public class CalendarDay {
     setTime(timeInMillis);
   }
 
-  public CalendarDay(Calendar calendar) {
+  public CalendarDay(Calendar calendar, int stockStatus) {
     if (this.calendar == null) {
       this.calendar = calendar;
     }
     year = calendar.get(Calendar.YEAR);
     month = calendar.get(Calendar.MONTH);
     day = calendar.get(Calendar.DAY_OF_MONTH);
+    this.stockStatus = stockStatus;
   }
 
   private void setTime(long timeInMillis) {
@@ -99,5 +102,14 @@ public class CalendarDay {
   public String getDayString() {
     DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     return df1.format(new Date(getTime()));
+  }
+
+  public String getDayString2() {
+    DateFormat df1 = new SimpleDateFormat("yyyy-MM", Locale.ENGLISH);
+    return df1.format(new Date(getTime()));
+  }
+
+  public boolean isCanService() {
+    return stockStatus == 0 || stockStatus == 101;
   }
 }

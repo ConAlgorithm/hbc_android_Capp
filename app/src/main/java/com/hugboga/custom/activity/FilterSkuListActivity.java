@@ -144,11 +144,8 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         if(mAdapter!= null && mAdapter.getDatas().size() > 0){
             SkuItemBean skuItemBean = mAdapter.getDatas().get(position);
             Intent intent = new Intent(FilterSkuListActivity.this, SkuDetailActivity.class);
-            intent.putExtra(WebInfoActivity.WEB_URL, skuItemBean.skuDetailUrl);
-            intent.putExtra(WebInfoActivity.CONTACT_SERVICE, true);
             intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
             intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
-            intent.putExtra("type", 1);
             startActivity(intent);
             if (skuItemBean.goodsClass == 1) {
                 StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());

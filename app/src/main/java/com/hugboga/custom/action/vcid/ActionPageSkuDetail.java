@@ -30,7 +30,6 @@ public class ActionPageSkuDetail extends ActionPageBase {
         }
         Intent intent = new Intent(context, SkuDetailActivity.class);
         intent.putExtra(Constants.PARAMS_ID, bean.goodsNo);
-        intent.putExtra(WebInfoActivity.WEB_URL, bean.url);
         intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
         context.startActivity(intent);
     }

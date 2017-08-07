@@ -38,6 +38,9 @@ public class GuideFilterLayout extends LinearLayout {
     @Bind(R.id.filter_guide_type_sort_layout)
     LinearLayout sortLayout;
 
+    @Bind(R.id.filter_guide_type_left_line_view)
+    View leftLineView;
+
     @Bind(R.id.filter_guide_viewpager)
     NoScrollViewPager viewPager;
 
@@ -147,6 +150,11 @@ public class GuideFilterLayout extends LinearLayout {
     public void hideFilterView() {
         viewPager.setVisibility(View.GONE);
         updateSelectStatus(pagerPosition, false);
+    }
+
+    public void hideCityLayout() {
+        cityLayout.setVisibility(View.GONE);
+        leftLineView.setVisibility(View.GONE);
     }
 
     public boolean isShowFilterView() {

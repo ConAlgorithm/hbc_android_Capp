@@ -2,7 +2,7 @@
  * Created by YuGang Yang on April 08, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view;
+package com.hugboga.custom.widget.monthpicker.monthswitchpager.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
