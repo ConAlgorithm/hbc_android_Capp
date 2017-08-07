@@ -35,6 +35,6 @@ public class RequestHomeNew extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "500170";
+        return "40173";
     }
 }
