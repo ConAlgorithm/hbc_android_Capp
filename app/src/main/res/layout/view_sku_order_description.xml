@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:paddingTop="18dp"
-    android:paddingBottom="18dp">
+    android:paddingBottom="16dp">
     <ImageView
         android:id="@+id/sku_order_itinerary_iv"
         android:layout_width="100dp"
@@ -33,7 +33,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
         android:textColor="@color/default_black"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/sku_order_itinerary_end_date_tv"
@@ -43,5 +43,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#b6b6b6"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/sku_order_itinerary_guide_name_tv"
+        android:layout_below="@id/sku_order_itinerary_end_date_tv"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textColor="@color/default_black"
+        android:textSize="13sp" />
 </RelativeLayout>

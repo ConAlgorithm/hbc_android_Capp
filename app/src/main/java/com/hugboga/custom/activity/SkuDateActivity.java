@@ -9,8 +9,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
@@ -45,8 +47,12 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     TextView descriptionTV;
     @Bind(R.id.sku_date_month_view)
     MonthSwitchView monthView;
+    @Bind(R.id.sku_date_info_layout)
+    RelativeLayout infoLayout;
     @Bind(R.id.sku_date_calendar_loading_layout)
     FrameLayout calendarLoadingLayout;
+    @Bind(R.id.sku_date_guide_name_tv)
+    TextView guideNameTV;
 
     private SkuOrderActivity.Params params;
     private String serverDate;
@@ -69,6 +75,14 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
         Tools.showImage(displayIV, params.skuItemBean.goodsPicture, R.mipmap.line_goods_dafault);
         descriptionTV.setText(params.skuItemBean.goodsName);
+
+        if (params.guidesDetailData != null) {
+            RelativeLayout.LayoutParams infoLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, UIUtils.dip2px(120));
+            infoLayoutParams.addRule(RelativeLayout.ABOVE, R.id.sku_date_content_layout);
+            infoLayout.setLayoutParams(infoLayoutParams);
+            guideNameTV.setVisibility(View.VISIBLE);
+            guideNameTV.setText("已选司导：" + params.guidesDetailData.guideName);
+        }
     }
 
     @Override

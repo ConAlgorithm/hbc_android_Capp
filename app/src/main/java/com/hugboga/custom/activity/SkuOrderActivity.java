@@ -177,12 +177,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         serverDate = params.serverDate;
 
         initTitleBar();
-        descriptionView.update(params.skuItemBean, serverDate);
+        descriptionView.update(params.skuItemBean, serverDate, params.guidesDetailData);
         carTypeView.setOnSelectedCarListener(this);
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setHintTV(orderType, false, false);
+        bottomView.setHintTV(orderType, params.guidesDetailData != null, false);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
