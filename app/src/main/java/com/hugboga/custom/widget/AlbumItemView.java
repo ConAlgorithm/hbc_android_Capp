@@ -1,6 +1,7 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -9,7 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeAlbumRelGoodsVo;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.Tools;
 
 import butterknife.Bind;
@@ -38,9 +41,17 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
 
     @Override
     public void update(Object data) {
-        HomeAlbumRelGoodsVo homeAlbumRelGoodsVo = (HomeAlbumRelGoodsVo) data;
+        final HomeAlbumRelGoodsVo homeAlbumRelGoodsVo = (HomeAlbumRelGoodsVo) data;
         if(homeAlbumRelGoodsVo != null){
             Tools.showImage(albumImgItem,homeAlbumRelGoodsVo.goodsPic);
+            albumImgItem.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, homeAlbumRelGoodsVo.goodsDetailUrl);
+                    getContext().startActivity(intent);
+                }
+            });
             albumPurchseItem.setText("¥" + homeAlbumRelGoodsVo.perPrice +"起/人");
             albumTitleItem.setText(homeAlbumRelGoodsVo.goodsName);
         }
