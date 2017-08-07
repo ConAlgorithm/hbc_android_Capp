@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="@color/allbg_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/title_ablum"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="热门专辑"
+            android:textColor="#4a4a4a"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/album_img_layout"
+        android:layout_width="match_parent"
+        android:layout_height="185dp">
+
+        <ImageView
+            android:id="@+id/img_album"
+            android:layout_width="match_parent"
+            android:layout_height="185dp"
+            android:scaleType="centerCrop"
+            android:src="@color/all_bg_yellow" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="14dp"
+            android:src="@mipmap/home_album_arrow"
+            android:scaleType="centerCrop"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="32dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/name_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="威尼斯｜大街上行走的刚朵拉"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/purchse_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="9dp"
+                android:text="2000人已体验"
+                android:textColor="#ffffff"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </FrameLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/album_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="6dp"/>
+</LinearLayout>

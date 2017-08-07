@@ -54,7 +54,7 @@ import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgDestination;
-import com.hugboga.custom.fragment.FgHomePage;
+import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
@@ -78,7 +78,6 @@ import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
 import com.hugboga.im.ImAnalysisUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -135,7 +134,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public int lastPagerPosition = 0;
 
     //private FgHome fgHome;
-    private FgHomePage fgHomePage;
+    private FgHome fgHome;
     private FgDestination fgDestination;
     private FgNimChat fgChat;
     private FgTravel fgTravel;
@@ -371,13 +370,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void initAdapterContent() {
         //fgHome = new FgHome();
-        fgHomePage = new FgHomePage();
+        fgHome = new FgHome();
         fgDestination = new FgDestination();
         fgTravel = new FgTravel();
         fgChat = new FgNimChat();
         fgMySpace = new FgMySpace();
-        //addFragment(fgHome);
-        addFragment(fgHomePage);
+        addFragment(fgHome);
+        //addFragment(fgHomePage);
         addFragment(fgDestination);
         addFragment(fgChat);
         addFragment(fgTravel);
@@ -747,7 +746,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: {
-                    return fgHomePage;
+                    return fgHome;
                 }
                 case 1: {
                     return fgDestination;

@@ -133,7 +133,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
         homeListView.setLayoutManager(layoutManager);
         homeListView.setHasFixedSize(true);
         homeListView.setAdapter(homePageAdapter);
-        homePageAdapter.showHeader(getContext(),new HomeBeanV2.HomeHeaderInfo(),new ArrayList<HomeBeanV2.ActivityPageSetting>(),this);
+        homePageAdapter.showHeader(getContext(),new HomeBeanV2.HomeHeaderInfo(),new ArrayList<HomeBeanV2.ActivityPageSettingVo>(),this);
         setListViewScrollerListener();
         addTabView();
     }
@@ -331,8 +331,8 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             if (homeBean != null) {
                 homePageAdapter.removeAfterHeader();
                 if (homeBean.headAggVo != null ) {
-                    if(homeBean.activityList !=null){
-                        addHeader(getContext(),homeBean.activityList,homeBean.headAggVo);
+                    if(homeBean.bannerActivityList !=null){
+                        addHeader(getContext(),homeBean.bannerActivityList,homeBean.headAggVo);
                     }else{
                         addHeader(getContext(),null,homeBean.headAggVo);
                     }
@@ -376,6 +376,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             if (hotExplorationAggregation != null && hotExplorationAggregation.hotExplorations != null) {
                 addMoreHotExplorations(hotExplorationAggregation.hotExplorations);
             }
+            //homePageAdapter.addHomeRecommentRout(getContext());
         } else if (_request instanceof RequestDestinations) {
             HomeBeanV2.DestinationAggregation destinationAggregation = ((RequestDestinations) _request).getData();
             if (destinationAggregation != null && destinationAggregation.lineGroupAggVos != null) {
@@ -386,6 +387,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
             if (filterGuideListBean != null && filterGuideListBean.listData != null) {
                 addMoreGuides(filterGuideListBean.listData);
             }
+            //homePageAdapter.addHomeRecommentRout(getContext());
         }else if (_request instanceof FavoriteGuideSaved){
             for(int j=0;j<homeBean.qualityGuides.size();j++){
                 homeBean.qualityGuides.get(j).isCollected  = 0;
@@ -418,7 +420,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     }
 
 
-    private void addHeader(Context context, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
+    private void addHeader(Context context, ArrayList<HomeBeanV2.ActivityPageSettingVo> activityPageSettings, HomeBeanV2.HomeHeaderInfo homeHeaderInfo) {
         homePageAdapter.showHeader(context,homeHeaderInfo, activityPageSettings,this);
     }
 

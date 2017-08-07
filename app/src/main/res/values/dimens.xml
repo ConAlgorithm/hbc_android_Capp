@@ -134,4 +134,14 @@
 
     <dimen name="city_list_margin_left">20dip</dimen>
     <dimen name="city_list_margin_vertical">12dip</dimen>
+
+    <dimen name="home_filter_avr_hor">240dp</dimen>
+    <dimen name="home_filter_avr_ver">160dp</dimen>
+    <dimen name="home_filter_avr_space">10dp</dimen>
+    <dimen name="home_album_hor">150dp</dimen>
+    <dimen name="home_album_ver">100dp</dimen>
+    <dimen name="home_album_space">10dp</dimen>
+    <dimen name="home_past_album_hor">208dp</dimen>
+    <dimen name="home_past_album_ver">106dp</dimen>
+    <dimen name="home_past_album_space">10dp</dimen>
 </resources>

@@ -52,7 +52,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     private int autoCurrIndex = 0;
 
     HomeBeanV2.HomeHeaderInfo homeHeaderInfo;
-    ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings;
+    ArrayList<HomeBeanV2.ActivityPageSettingVo> activityPageSettings;
     HomeSearchTabView.HomeTabClickListener homeTabClickListener;
 
     private HomeSearchTabView tabView;
@@ -62,7 +62,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     private View animateBaseLineView;
     private View animateServiceInnerView;
 
-    public HomeHeaderModel(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
+    public HomeHeaderModel(Context context, HomeBeanV2.HomeHeaderInfo homeHeaderInfo, ArrayList<HomeBeanV2.ActivityPageSettingVo> activityPageSettings, HomeSearchTabView.HomeTabClickListener homeTabClickListener) {
         this.context = context;
         this.homeHeaderInfo = homeHeaderInfo;
         this.activityPageSettings = activityPageSettings;
@@ -75,7 +75,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
         this.homeHeaderInfo = homeHeaderInfo;
     }
 
-    public void setHomeActivityPageSetting(ArrayList<HomeBeanV2.ActivityPageSetting> activityPageSettings){
+    public void setHomeActivityPageSetting(ArrayList<HomeBeanV2.ActivityPageSettingVo> activityPageSettings){
         this.activityPageSettings = activityPageSettings;
     }
     @Override
@@ -97,8 +97,8 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     private void init(){
 
         if (activityPageSettings != null && activityPageSettings.size() == 0) {
-            activityPageSettings = new ArrayList<HomeBeanV2.ActivityPageSetting>();
-            HomeBeanV2.ActivityPageSetting activityPageSetting = new HomeBeanV2.ActivityPageSetting();
+            activityPageSettings = new ArrayList<HomeBeanV2.ActivityPageSettingVo>();
+            HomeBeanV2.ActivityPageSettingVo activityPageSetting = new HomeBeanV2.ActivityPageSettingVo();
             activityPageSettings.add(activityPageSetting);
 
             homeHeaderHolder.activitiesView.update(activityPageSettings);
@@ -184,6 +184,7 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
             ViewHelper.setScaleY(animateServiceView, finalScaleY);
             ViewHelper.setAlpha(animateServiceInnerView, 0f);
             ViewHelper.setAlpha(animateServiceView, 0f);
+
         } else {
             float scaleX = 1.0f - (1.0f - finalScaleX) * ((max - animateViewTop) / ((float) (max - min)));
             float scaleY = 1.0f - (1.0f - finalScaleY) * ((max - animateViewTop) / ((float) (max - min)));

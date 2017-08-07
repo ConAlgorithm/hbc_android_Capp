@@ -118,4 +118,5 @@ public enum EventType {
     SHOW_EMPTY_WIFI_BY_HOT_OR_LINE,
     SHOW_EMPTY_WIFI_BY_TAB,
     SHOW_DATA,
+    REFRESH_POSITION
 }

@@ -19,6 +19,7 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -60,7 +61,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
     CirclePageIndicator mIndicator;
 
     private int cutIndex;
-    private ArrayList<HomeBeanV2.ActivityPageSetting> activitiesList;
+    private ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activitiesList;
     private HomeBannerAdapter mAdapter;
     private Runnable cutRunnable;
     private Handler cutHandler;
@@ -89,7 +90,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
 
     @Override
     public void update(Object _data) {
-        activitiesList = (ArrayList<HomeBeanV2.ActivityPageSetting>) _data;
+        activitiesList = (ArrayList<HomeAggregationVo4.ActivityPageSettingVo>) _data;
         if (activitiesList == null || activitiesList.size() <= 0) {
             this.setVisibility(View.GONE);
             return;
@@ -200,10 +201,10 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
     public static class HomeBannerAdapter extends PagerAdapter {
 
         private Context mContext;
-        private ArrayList<HomeBeanV2.ActivityPageSetting> itemList;
+        private ArrayList<HomeAggregationVo4.ActivityPageSettingVo> itemList;
         private ViewGroup.LayoutParams itemParams;
 
-        public HomeBannerAdapter(Context mContext, ArrayList<HomeBeanV2.ActivityPageSetting> _itemParams) {
+        public HomeBannerAdapter(Context mContext, ArrayList<HomeAggregationVo4.ActivityPageSettingVo> _itemParams) {
             this.mContext = mContext;
             this.itemList = _itemParams;
             itemParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -214,7 +215,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
             if (itemList == null) {
                 return super.instantiateItem(container, position);
             }
-            final HomeBeanV2.ActivityPageSetting itemData = itemList.get(position);
+            final HomeAggregationVo4.ActivityPageSettingVo itemData = itemList.get(position);
             ImageView itemView = new ImageView(mContext);
             itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (itemData != null && !TextUtils.isEmpty(itemData.picture)) {
