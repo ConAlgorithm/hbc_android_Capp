@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 172
+    //current urlErrorCode 173
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -274,6 +274,7 @@ public class UrlLibs {
     public static final String API_DESTINATIONS_TAB         = "basicdata/v1.0/c/home/destlist";                         // 目的地列表  167
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
+    public static final String API_HOME_NEW                 = "basicdata/v1.3/c/home/aggregation";                      // 首页173
 
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
@@ -307,5 +308,4 @@ public class UrlLibs {
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
     public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.0/c/batchPrice";                             // 接机秒杀报价 164
 
-    public static final String API_HOME_NEW                     = "basicdata/v1.3/c/home/aggregation";                      // 首页170
 }

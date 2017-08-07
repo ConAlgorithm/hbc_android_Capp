@@ -86,6 +86,18 @@
             app:shape="round_rectangle"
             app:sides="4"/>
 
+        <TextView
+            android:id="@+id/sku_date_guide_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/order_padding_left"
+            android:paddingBottom="2dp"
+            android:layout_below="@id/sku_date_display_iv"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:textColor="@color/default_black"
+            android:textSize="12sp" />
+
         <ImageView
             android:id="@+id/sku_date_close_iv"
             android:layout_width="18dp"
@@ -118,6 +130,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="65dp"
         android:layout_below="@id/sku_date_info_layout"
+        android:visibility="gone"
         android:focusable="true"
         android:clickable="true"
         android:background="#AAFFFFFF">
