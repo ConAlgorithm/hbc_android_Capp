@@ -1,6 +1,6 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.util;
+package com.hugboga.custom.widget.monthpicker.util;
 
-import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,13 +50,13 @@ public class DayUtils {
     return 0;
   }
 
-  public static CalendarDay calculateFirstShowDay(CalendarDay startDay) {
-    int day = startDay.calendar.get(Calendar.DAY_OF_WEEK);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(startDay.getTime());
-    calendar.roll(Calendar.DAY_OF_YEAR, -day + 1);
-    return new CalendarDay(calendar);
-  }
+//  public static CalendarDay calculateFirstShowDay(CalendarDay startDay) {
+//    int day = startDay.calendar.get(Calendar.DAY_OF_WEEK);
+//    Calendar calendar = Calendar.getInstance();
+//    calendar.setTimeInMillis(startDay.getTime());
+//    calendar.roll(Calendar.DAY_OF_YEAR, -day + 1);
+//    return new CalendarDay(calendar);
+//  }
 
   public static int calculateDayPosition(CalendarDay startDay, CalendarDay day) {
     long x = day.getTime() - startDay.getTime();

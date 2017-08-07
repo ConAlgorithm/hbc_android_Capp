@@ -592,6 +592,12 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static Date addMonth(Date date, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, month);
+        return calendar.getTime();
+    }
 
     public static int compareDate(String startDate,String endDate){
         try {
@@ -848,6 +854,14 @@ public class DateUtils {
             return dateSimpleDateFormat.format(date.getTime());
         } catch (Exception e) {
             return dateStr;
+        }
+    }
+
+    public static Date getFormatDate(String source){
+        try {
+            return dateDateFormat.parse(source);
+        } catch (Exception e) {
+            return null;
         }
     }
 

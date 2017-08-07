@@ -1,14 +1,16 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view;
-
+package com.hugboga.custom.widget.monthpicker.monthswitchpager.view;
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.huangbaoche.hbcframe.R;
-import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
-import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.adapter.MonthViewAdapter;
-import com.huangbaoche.hbcframe.widget.monthpicker.util.DayUtils;
+import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CalendarGoodsBean;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.adapter.MonthViewAdapter;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
+import com.hugboga.custom.widget.monthpicker.util.DayUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +66,15 @@ public class MonthSwitchView extends LinearLayout implements MonthView.OnDayClic
     mOnDayClickListener = onDayClickListener;
   }
 
+  public void setGoodsCalendarMap(ArrayMap<String, CalendarGoodsBean> goodsCalendarMap) {
+    mMonthAdapter.setGoodsCalendarMap(goodsCalendarMap);
+  }
+
   @Override public void onDayClick(CalendarDay calendarDay) {
     mOnDayClickListener.onDayClick(calendarDay);
+  }
+
+  public void setMonthChangeListener(MonthChangeListener listener) {
+    mSwitchText.setMonthChangeListener(listener);
   }
 }

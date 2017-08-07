@@ -1,18 +1,20 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view;
+package com.hugboga.custom.widget.monthpicker.monthswitchpager.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.v4.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.huangbaoche.hbcframe.R;
-import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
-import com.huangbaoche.hbcframe.widget.monthpicker.util.DayUtils;
+import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.CalendarGoodsBean;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.util.DayUtils;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -33,6 +35,7 @@ public class MonthView extends View {
 
   private Paint mPaintNormal;
   private Paint mPaintSelect;
+  private Paint mPaintScore;
   private int mCircleColor;
   private int mTextNormalColor;
   private int mTextSundaySaturdayColor;
@@ -44,6 +47,7 @@ public class MonthView extends View {
 
   private OnDayClickListener mOnDayClickListener;
 
+  private ArrayMap<String, CalendarGoodsBean> goodsCalendarMap;
 
   public MonthView(Context context) {
     this(context, null);
@@ -74,6 +78,10 @@ public class MonthView extends View {
     mPaintSelect.setColor(mCircleColor);
     mPaintSelect.setStyle(Paint.Style.FILL);
 
+    mPaintScore = new Paint(Paint.ANTI_ALIAS_FLAG);
+    mPaintScore.setColor(mTextNotClickColor);
+    mPaintScore.setStrokeWidth(UIUtils.dip2px(1));
+
   }
 
   private void initData() {
@@ -83,9 +91,11 @@ public class MonthView extends View {
 
   public void setFirstDay(CalendarDay calendarDay) {
     mFirstDay = calendarDay;
+    invalidate();
   }
 
-  public void setMonthPosition(int position) {
+  public void setMonthPosition(ArrayMap<String, CalendarGoodsBean> goodsCalendarMap, int position) {
+    this.goodsCalendarMap = goodsCalendarMap;
     mMonthPosition = position;
     createDays();
     invalidate();
@@ -93,6 +103,7 @@ public class MonthView extends View {
 
   public void setSelectDay(CalendarDay calendarDay) {
     mSelectDay = calendarDay;
+    invalidate();
   }
 
   private void createDays() {
@@ -106,10 +117,27 @@ public class MonthView extends View {
     int month = calendar.get(Calendar.MONTH);
     Log.e(TAG, month + " yue " + year);
     int daysNum = DayUtils.getDaysInMonth(month, year);
+    int goodsCalendarMapSize = goodsCalendarMap != null ? goodsCalendarMap.size() : 0;
     for (int i = 0; i < daysNum; i++) {
-      mDays.add(new CalendarDay(calendar));
+      int stockStatus = 0;
+      if (goodsCalendarMapSize > 0) {
+        String dateStr = getDateStr(year, month + 1, calendar.get(Calendar.DATE));
+        if (goodsCalendarMap.containsKey(dateStr)) {
+          stockStatus = goodsCalendarMap.get(dateStr).stockStatus;
+          Log.i("bb", "dateStr " + dateStr + " stockStatus" +stockStatus);
+        }else {
+          Log.i("bb", "dateStr22  " + dateStr);
+        }
+      }
+      mDays.add(new CalendarDay(calendar, stockStatus));
       calendar.roll(Calendar.DAY_OF_MONTH, 1);
     }
+  }
+
+  public String getDateStr(int year, int month, int day) {
+    String leftDivide = month < 10 ? "-0" : "-";
+    String rightDivide = day < 10 ? "-0" : "-";
+    return year + leftDivide + month + rightDivide + day;
   }
 
   @Override protected void onDraw(Canvas canvas) {
@@ -162,13 +190,20 @@ public class MonthView extends View {
       float x = getResources().getDimension(R.dimen.activity_horizontal_margin)
           + parentWidth / DAY_IN_WEEK * (weekDay - 1)
           + parentWidth / DAY_IN_WEEK / 2 - textWidth / 2;
+      float x2 = getResources().getDimension(R.dimen.activity_horizontal_margin)
+              + parentWidth / DAY_IN_WEEK * (weekDay - 1)
+              + parentWidth / DAY_IN_WEEK / 2 - mPaintNormal.measureText("00") / 2;
 
       //Log.e(TAG, "i :  " + i + "   weekday: " + weekDay + "      rownum: " + rowNum + "   y: " + y);
-      if (mSelectDay.getDayString().equals(calendarDay.getDayString())) {
+      if (mSelectDay != null && mSelectDay.getDayString().equals(calendarDay.getDayString()) && calendarDay.isCanService()) {
+        Log.i("aa", "画圆圆 " );
         canvas.drawCircle(getResources().getDimension(R.dimen.activity_horizontal_margin)
                 + parentWidth / DAY_IN_WEEK * (weekDay - 1)
                 + parentWidth / DAY_IN_WEEK / 2, mRowHeight  * rowNum + mRowHeight / 2, mRowHeight * 2 / 4, mPaintSelect
         );
+      }else {
+        if (mSelectDay != null)
+        Log.i("aa", "画圆圆  选中：" + mSelectDay.getDayString() + "  calendarDay.getDayString() " + calendarDay.getDayString() + "  " + calendarDay.isCanService());
       }
 
 
@@ -183,11 +218,19 @@ public class MonthView extends View {
       }else if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
         if(!DayUtils.isBeforeStartEnable(calendar,firstDayCalendar) || DayUtils.isAfterEndDate(calendar,endDate)){
           //do nothing. Befor has drawed not click color.
-        }else{
+        } else if (!calendarDay.isCanService()) {
+          mPaintNormal.setColor(mTextNotClickColor);
+          canvas.drawText(content, x, y, mPaintNormal);
+          canvas.drawLine(x2 + UIUtils.dip2px(15) + UIUtils.dip2px(5), y - mRowHeight / 2, x2 - UIUtils.dip2px(5), y + mRowHeight / 3 - UIUtils.dip2px(5), mPaintScore);
+        } else {
           mPaintNormal.setColor(mTextSundaySaturdayColor);
           canvas.drawText(content, x, y, mPaintNormal);
         }
-      }else{
+      } else if (!calendarDay.isCanService()) {
+        mPaintNormal.setColor(mTextNotClickColor);
+        canvas.drawText(content, x, y, mPaintNormal);
+        canvas.drawLine(x2 + UIUtils.dip2px(15) + UIUtils.dip2px(5), y - mRowHeight / 2, x2 - UIUtils.dip2px(5), y + mRowHeight / 3 - UIUtils.dip2px(5), mPaintScore);
+      } else{
         mPaintNormal.setColor(mTextNormalColor);
         canvas.drawText(content, x, y, mPaintNormal);
       }
@@ -203,6 +246,9 @@ public class MonthView extends View {
   public boolean onTouchEvent(MotionEvent event) {
     if (event.getAction() == MotionEvent.ACTION_UP) {
       CalendarDay calendarDay = getDayFromLocation(event.getX(), event.getY());
+      if (!calendarDay.isCanService()) {
+        return true;
+      }
       Calendar calendar = Calendar.getInstance();
       Calendar endDate = Calendar.getInstance();
       endDate.add(Calendar.MONTH, 6);

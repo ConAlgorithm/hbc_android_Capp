@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 170
+    //current urlErrorCode 171
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -216,6 +216,7 @@ public class UrlLibs {
     public static final String API_COUNTRY_GROUP            = "goods/v1.0/c/home/countryGroup";                         // 国家线路圈页 137
     public static final String API_GOODS_FILTER             = "goods/v1.0/c/home/goods/search";                         // 商品列表页筛选 139
     public static final String API_GOODS_GUIDE_INFO_LIST    = "goods/v1.0/c/goodsguideinfolist";                        // C端关联商品的可服务司导列表170
+    public static final String API_QUERY_GOODS_STOCK        = "goods/v1.0/c/queryGoodsStock";                           // 商品库存171
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154

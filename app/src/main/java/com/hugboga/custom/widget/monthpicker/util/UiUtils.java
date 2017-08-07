@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.util;
+package com.hugboga.custom.widget.monthpicker.util;
 
 import android.graphics.Paint;
 

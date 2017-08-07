@@ -4,33 +4,40 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.widget.monthpicker.model.CalendarDay;
-import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
-import com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view.MonthView;
+import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthSwitchView;
+import com.hugboga.custom.widget.monthpicker.monthswitchpager.view.MonthView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.CalendarGoodsBean;
 import com.hugboga.custom.data.bean.GoodsBookDateBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
+import com.hugboga.custom.utils.SkuCalendarUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.EffectiveShapeView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SkuDateActivity extends Activity implements MonthView.OnDayClickListener{
+public class SkuDateActivity extends Activity implements MonthView.OnDayClickListener, MonthChangeListener, SkuCalendarUtils.SkuCalendarListenr {
 
     @Bind(R.id.sku_date_display_iv)
     EffectiveShapeView displayIV;
@@ -38,6 +45,8 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     TextView descriptionTV;
     @Bind(R.id.sku_date_month_view)
     MonthSwitchView monthView;
+    @Bind(R.id.sku_date_calendar_loading_layout)
+    FrameLayout calendarLoadingLayout;
 
     private SkuOrderActivity.Params params;
     private String serverDate;
@@ -70,34 +79,42 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SkuCalendarUtils.getInstance().onDestory();
+    }
+
     private void initMonthView() {
-        GoodsBookDateBean bookDateInfo = params.skuItemBean.bookDateInfo;
+        SkuCalendarUtils.getInstance().setSkuCalendarListenr(this);
+
         Calendar beginDate = Calendar.getInstance();
-        try {
-            beginDate.setTime(DateUtils.dateDateFormat.parse(bookDateInfo.bookDates[0]));
-        } catch (Exception e){
-            e.printStackTrace();
+        if (params.skuItemBean != null) {
+            GoodsBookDateBean bookDateInfo = params.skuItemBean.bookDateInfo;
+            try {
+                beginDate.setTime(DateUtils.dateDateFormat.parse(bookDateInfo.bookDates[0]));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
         int year = beginDate.get(Calendar.YEAR);
         int month = beginDate.get(Calendar.MONTH) + 1;
         int day = beginDate.get(Calendar.DAY_OF_MONTH);
         CalendarDay startCalendarDay = new CalendarDay(year, month, day);
 
-        Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.MONTH, 6);
-        int endYear = endDate.get(Calendar.YEAR);
-        int endMonth = endDate.get(Calendar.MONTH) + 1;
-        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
+        monthView.setData(startCalendarDay, getEndCalendarDay());
 
-        monthView.setData(startCalendarDay, new CalendarDay(endYear, endMonth, endDay));
         monthView.setOnDayClickListener(this);
-        monthView.setSelectDay(startCalendarDay);
-        serverDate = startCalendarDay.getDayString();
+        monthView.setMonthChangeListener(this);
     }
 
     @OnClick(R.id.sku_date_confirm_tv)
     public void onConfirm() {
         if (!CommonUtils.isLogin(this)) {
+            return;
+        }
+        if (TextUtils.isEmpty(serverDate)) {
+            CommonUtils.showToast("请先选择日期");
             return;
         }
         params.serverDate = serverDate;
@@ -114,12 +131,22 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
     @OnClick({R.id.sku_date_out_side_view, R.id.sku_date_display_iv})
     public void onClose() {
+        SkuCalendarUtils.getInstance().onDestory();
         finish();
     }
 
     @Override
     public void onDayClick(CalendarDay calendarDay) {
         serverDate = calendarDay.getDayString();
+    }
+
+    public CalendarDay getEndCalendarDay() {
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        int endYear = endDate.get(Calendar.YEAR);
+        int endMonth = endDate.get(Calendar.MONTH) + 1;
+        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
+        return new CalendarDay(endYear, endMonth, endDay);
     }
 
     //获取上个界面的来源
@@ -145,5 +172,33 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         }
     }
 
+    @Override
+    public void onMonthChange(Date date) {
+        SkuCalendarUtils.getInstance().sendRequest(this, params.skuItemBean.goodsNo, date);
+    }
 
+    @Override
+    public void onCalendarInit(Calendar startCalendar) {
+        if (startCalendar != null) {
+            int year = startCalendar.get(Calendar.YEAR);
+            int month = startCalendar.get(Calendar.MONTH) + 1;
+            int day = startCalendar.get(Calendar.DAY_OF_MONTH);
+            CalendarDay startCalendarDay = new CalendarDay(year, month, day);
+            monthView.setData(startCalendarDay, getEndCalendarDay());
+            monthView.setSelectDay(startCalendarDay);
+            serverDate = startCalendarDay.getDayString();
+            Log.i("aa", "onCalendarInit " + year + " month " + month + " day " +day);
+        }
+    }
+
+    @Override
+    public void onCalendarRequestSucceed(boolean isCurrentMonth, ArrayMap<String, CalendarGoodsBean> guideCalendarMap) {
+        monthView.setGoodsCalendarMap(guideCalendarMap);
+    }
+
+    @Override
+    public void onLoadViewShow(boolean isShow) {
+        Log.i("aa", "onLoadViewShow " + isShow);
+        calendarLoadingLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
 }

@@ -1,4 +1,4 @@
-package com.huangbaoche.hbcframe.widget.monthpicker.monthswitchpager.view;
+package com.hugboga.custom.widget.monthpicker.monthswitchpager.view;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,7 +30,12 @@ public class MonthRecyclerView extends RecyclerView {
   }
 
   private void initData() {
-    mManager = new LinearLayoutManager(getContext());
+    mManager = new LinearLayoutManager(getContext()){
+//        @Override
+//        public boolean canScrollHorizontally() {
+//          return false;
+//        }
+    };
     mManager.setOrientation(LinearLayoutManager.HORIZONTAL);
     setLayoutManager(mManager);
 
