@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class CalendarGoodsBeanList implements Serializable {
 
-    @SerializedName(value = "goodsStockList", alternate = {"goodsStockList", "guideGoodsStockList"})
+    @SerializedName(value = "goodsStockList", alternate = {"guideGoodsStockList"})
     public ArrayList<CalendarGoodsBean> goodsStockList;
 
     public Map<String, CalendarGoodsBean> getMonthMap() {

@@ -192,16 +192,20 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
     }
 
     public void requestGuideFilterOptions() {
-        CityListActivity.CityHomeType cityHomeType = null;
-        String id = "";
-        if (cityParams != null) {
-            cityHomeType = cityParams.cityHomeType;
-            id = "" + cityParams.id;
-        } else if (paramsData != null) {
-            cityHomeType = paramsData.cityHomeType;
-            id = "" + paramsData.id;
+        if (isGoods()) {
+            requestData(new RequestGuideFilterOptions(this, paramsData.goodsNo));
+        } else {
+            CityListActivity.CityHomeType cityHomeType = null;
+            String id = "";
+            if (cityParams != null) {
+                cityHomeType = cityParams.cityHomeType;
+                id = "" + cityParams.id;
+            } else if (paramsData != null) {
+                cityHomeType = paramsData.cityHomeType;
+                id = "" + paramsData.id;
+            }
+            requestData(new RequestGuideFilterOptions(this, cityHomeType, id));
         }
-        requestData(new RequestGuideFilterOptions(this, cityHomeType, id));
     }
 
     public boolean isShowCity() {

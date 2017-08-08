@@ -34,4 +34,5 @@ public class ActionPageType {
     public static final int PURPOSE_FORM = 33;                // 33：意向单页
     public static final int CHOOSE_PAY = 34;                  // 34：支付收银台（登录、orderId、payPrice、apiType、isWechat、isAlipay、isUnionpay）
     public static final int EVALUATE = 35;                    // 35: 已评价界面 (orderId)
+    public static final int SKU_GUIDE = 38;                   // 38: 商品可服务司导 (goodsNo)
 }

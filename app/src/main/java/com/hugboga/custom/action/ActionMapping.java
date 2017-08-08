@@ -23,6 +23,7 @@ import com.hugboga.custom.action.vcid.ActionPageSend;
 import com.hugboga.custom.action.vcid.ActionPageServicerCenter;
 import com.hugboga.custom.action.vcid.ActionPageSingle;
 import com.hugboga.custom.action.vcid.ActionPageSkuDetail;
+import com.hugboga.custom.action.vcid.ActionPageSkuGuide;
 import com.hugboga.custom.action.vcid.ActionPageSkuList;
 import com.hugboga.custom.action.vcid.ActionPageTravelFund;
 import com.hugboga.custom.action.vcid.ActionPageTravelList;
@@ -64,6 +65,7 @@ public class ActionMapping {
         arrayMap.put(ActionPageType.PURPOSE_FORM, ActionPagePurposeForm.class);               // 33：意向单页
         arrayMap.put(ActionPageType.CHOOSE_PAY, ActionPageChoosePay.class);                   // 34：支付收银台（登录、orderId、payPrice、apiType、isWechat、isAlipay、isUnionpay）
         arrayMap.put(ActionPageType.EVALUATE, ActionPageEvaluate.class);                      // 35: 已评价界面 (orderId)
+        arrayMap.put(ActionPageType.SKU_GUIDE, ActionPageSkuGuide.class);                     // 38: 商品可服务司导 (goodsNo)
         return arrayMap;
     }
 }
