@@ -1,7 +1,9 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,13 @@ import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
+import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.utils.Tools;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,14 +34,13 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
     public int displayImgWidth, displayImgHeight;
     Context context;
     private LayoutInflater mInflater;
+    ArrayList<HomeAlbumInfoVo> pastAlbumList;
 
-    final private static int[] PIC_RES = new int[] {
-            R.mipmap.pic1, R.mipmap.pic2, R.mipmap.pic3, R.mipmap.pic4, R.mipmap.pic5
-    };
-    public HomePastAlbumAdapter(Context context,int displayImgWidth,int displayImgHeight){
+    public HomePastAlbumAdapter(Context context,int displayImgWidth,int displayImgHeight,ArrayList<HomeAlbumInfoVo> pastAlbumList){
         this.context = context;
         this.displayImgHeight = displayImgHeight;
         this.displayImgWidth = displayImgWidth;
+        this.pastAlbumList = pastAlbumList;
         mInflater = LayoutInflater.from(context);
     }
     @Override
@@ -47,13 +55,19 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mImg.setImageResource(PIC_RES[position]);
+        Tools.showImage(holder.mImg,pastAlbumList.get(position).albumImageUrl);
+        holder.mImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intentActivity(context, WebInfoActivity.class,getEventSource());
+            }
+        });
         //holder.desPast.setText("");
     }
 
     @Override
     public int getItemCount() {
-        return PIC_RES.length;
+        return pastAlbumList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,5 +84,17 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
 
     public void setData(){
         notifyDataSetChanged();
+    }
+
+    private void intentActivity(Context context, Class<?> cls, String eventId) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        context.startActivity(intent);
+        if (!TextUtils.isEmpty(eventId)) {
+            MobClickUtils.onEvent(eventId);
+        }
+    }
+    public String getEventSource() {
+        return "首页";
     }
 }

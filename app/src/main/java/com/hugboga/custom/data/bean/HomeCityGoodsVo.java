@@ -15,4 +15,5 @@ public class HomeCityGoodsVo implements Serializable {
     public int perPrice	= 0;//	人均单价
     public String goodsPic	 = "";//	商品图片
     public String guidePic = "";//司导头像
+    public String goodsDetailUrl = ""; //跳转
 }

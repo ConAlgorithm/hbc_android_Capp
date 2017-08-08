@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -11,6 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FilterSkuListActivity;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.data.bean.HomeCityGoodsVo;
 import com.hugboga.custom.data.event.EventAction;
@@ -48,7 +53,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
         //EventBus.getDefault().post(new EventAction(EventType.REFRESH_POSITION,position));
         if(onChangedLister != null){
             onChangedLister.lister(position,homeCityContentVo2.cityName,homeCityContentVo2.cityGoodsList);
@@ -61,6 +66,16 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
         //textView.setText(position + "");
         //linearLayout.setId(R.id.item_id);
         Tools.showImage(imageView,homeCityContentVo2.cityGoodsList.get(position).goodsPic);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, homeCityContentVo2.cityGoodsList.get(position).goodsDetailUrl);
+                intent.putExtra(Constants.PARAMS_ID, homeCityContentVo2.cityGoodsList.get(position).goodsNo);
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                context.startActivity(intent);
+            }
+        });
         container.addView(linearLayout);
         linearLayout.getLayoutParams().height = imageView.getLayoutParams().height +UIUtils.dip2px(15);
 //        linearLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, container.getContext().getResources().getDisplayMetrics());
@@ -85,5 +100,9 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
 
     public interface OnChangedLister {
         public void lister(int position,String cityName, ArrayList<HomeCityGoodsVo> homeCityGoodsVos);
+    }
+
+    public String getEventSource() {
+        return "首页";
     }
 }

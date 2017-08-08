@@ -2,8 +2,10 @@ package com.hugboga.custom.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,8 +15,12 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FilterGuideListActivity;
+import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.adapter.HomeFilterGuideAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.List;
@@ -35,8 +41,10 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
     RecyclerView recyclerView;
     HomeFilterGuideAdapter homeFilterGuideAdapter;
     public int displayImgWidth, displayImgHeight;
+    Context context;
     public HomeFilterGuideView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         View view = inflate(context, R.layout.view_filter_guide, this);
         ButterKnife.bind(view);
 
@@ -90,10 +98,24 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
             @Override
             public void onClick(View v) {
                 //更多todo!
+                intentActivity(context, FilterGuideListActivity.class,null);
             }
         });
     }
     public void setActivity(Activity activity){
         this.activity = activity;
+    }
+
+    private void intentActivity(Context context, Class<?> cls, String eventId) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        context.startActivity(intent);
+        if (!TextUtils.isEmpty(eventId)) {
+            MobClickUtils.onEvent(eventId);
+        }
+    }
+
+    public String getEventSource() {
+        return "首页";
     }
 }

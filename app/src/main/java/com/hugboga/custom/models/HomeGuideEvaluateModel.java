@@ -1,6 +1,7 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChoiceCommentActivity;
 import com.hugboga.custom.adapter.HomeGuideEvaluateAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCommentInfoVo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
@@ -72,6 +75,10 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
         TextView guideName;
         @Bind(R.id.evaluate_img)
         ImageView imageView;
+        @Bind(R.id.img_count)
+        TextView imgCount;
+        @Bind(R.id.filter_guide_more)
+        TextView filterGuideMore;
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
@@ -100,7 +107,7 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
             homeGuideEvaluateHolder.guideName.setText(homeCommentInfoVo.guideName);
             homeGuideEvaluateHolder.evaluateContent.setText(homeCommentInfoVo.comment);
             if (homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() > 0) {
-                Tools.showImage(homeGuideEvaluateHolder.imageView, homeCommentInfoVo.commentPics.get(0), R.mipmap.icon_avatar_user);
+                Tools.showImage(homeGuideEvaluateHolder.imageView, homeCommentInfoVo.commentPics.get(0));
                 homeGuideEvaluateHolder.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -110,8 +117,22 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                     }
                 });
             }else if(homeCommentInfoVo.commentPics == null || homeCommentInfoVo.commentPics.size() == 0){
-                homeGuideEvaluateHolder.imageView.setImageResource(R.mipmap.icon_avatar_user);
+                //homeGuideEvaluateHolder.imageView.setImageResource(R.mipmap.icon_avatar_user);
             }
+            if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() >0){
+                homeGuideEvaluateHolder.imgCount.setText(homeCommentInfoVo.commentPics.size() + "图");
+            }
+            homeGuideEvaluateHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ChoiceCommentActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    context.startActivity(intent);
+                }
+            });
         }
+    }
+    public String getEventSource() {
+        return "首页";
     }
 }

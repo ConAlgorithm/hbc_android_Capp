@@ -18,6 +18,7 @@ import com.hugboga.custom.adapter.HomeAlbumAdapter;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.ArrayList;
@@ -62,7 +63,8 @@ public class HomeAlbumView extends LinearLayout {
         displayImgHeight = getContext().getResources().getDimensionPixelOffset(R.dimen.home_album_ver);
         int viewHeight = displayImgHeight + ScreenUtil.dip2px(114);
         recyclerView.getLayoutParams().height = viewHeight;
-
+        imgAlum.getLayoutParams().width = UIUtils.getScreenWidth();
+        imgAlum.getLayoutParams().height = imgAlum.getLayoutParams().width *185/360;
         recyclerView.setFocusable(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -88,7 +90,11 @@ public class HomeAlbumView extends LinearLayout {
             title.setVisibility(GONE);
         }
 
-        Tools.showImage(imgAlum,homeAlbumInfoVo.albumImageUrl);
+        if(homeAlbumInfoVo.albumImageUrl == null || homeAlbumInfoVo.albumImageUrl.isEmpty()){
+
+        }else{
+            Tools.showImage(imgAlum,homeAlbumInfoVo.albumImageUrl);
+        }
         nameAlbum.setText(homeAlbumInfoVo.albumName);
         purchseAlbum.setText(homeAlbumInfoVo.albumPurchases + "人已体验");
         albumImgLayout.setOnClickListener(new OnClickListener() {

@@ -7,7 +7,7 @@
         android:id="@+id/album_img_item"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:src="@color/all_bg_yellow"
+        android:src="#f5f5f5"
         android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/album_purchse_item"

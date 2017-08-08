@@ -36,7 +36,7 @@ public class FilterGuideBean implements Serializable{
 
     public int isCollected;             // 是否收藏过司导,1收藏 0 未收藏
     public boolean isShowCity = true;   // 本地字段 筛选当前城市不显示城市
-
+    public String orderUrl;             // 跳转预订页面url
     public String getServiceType() {
         if (serviceDaily == 0 && serviceJsc == 0) {
             return "";

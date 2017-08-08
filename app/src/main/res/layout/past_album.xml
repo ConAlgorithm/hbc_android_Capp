@@ -12,7 +12,8 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="#f5f5f5"/>
 
         <TextView
             android:id="@+id/des_past"

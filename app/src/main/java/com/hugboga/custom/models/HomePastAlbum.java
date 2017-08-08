@@ -15,6 +15,8 @@ import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.widget.SpaceItemDecoration;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -27,14 +29,14 @@ public class HomePastAlbum extends EpoxyModelWithHolder {
     HomePastAlbumAdapter homePastAlbumAdapter;
     public int displayImgWidth, displayImgHeight;
     Context context;
-    HomeAlbumInfoVo homeAlbumInfoVo;
+    ArrayList<HomeAlbumInfoVo> pastAlbumList;
 
     public HomePastAlbum(Context context) {
         this.context = context;
     }
-    public HomePastAlbum(Context context, HomeAlbumInfoVo homeAlbumInfoVo) {
+    public HomePastAlbum(Context context, ArrayList<HomeAlbumInfoVo> pastAlbumList) {
         this.context = context;
-        this.homeAlbumInfoVo = homeAlbumInfoVo;
+        this.pastAlbumList = pastAlbumList;
     }
 
     @Override
@@ -83,7 +85,7 @@ public class HomePastAlbum extends EpoxyModelWithHolder {
             SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
             itemDecoration.setItemOffsets(paddingLeft, 0, 0, 0, LinearLayout.HORIZONTAL);
             homePastAlbumHolder.pastAlbumRecyclerview.addItemDecoration(itemDecoration);
-            homePastAlbumAdapter = new HomePastAlbumAdapter(context, displayImgWidth, displayImgHeight);
+            homePastAlbumAdapter = new HomePastAlbumAdapter(context, displayImgWidth, displayImgHeight,pastAlbumList);
             homePastAlbumHolder.pastAlbumRecyclerview.setAdapter(homePastAlbumAdapter);
         }else{
             homePastAlbumAdapter.setData();

@@ -92,8 +92,8 @@ public class HomeAdapter extends EpoxyAdapter {
         addModel(homePastAlbum);
     }
 
-    public void addPastAlbum(Context context, HomeAlbumInfoVo homeAlbumInfoVo) {
-        homePastAlbum = new HomePastAlbum(context, homeAlbumInfoVo);
+    public void addPastAlbum(Context context, ArrayList<HomeAlbumInfoVo> pastAlbumList) {
+        homePastAlbum = new HomePastAlbum(context, pastAlbumList);
         addModel(homePastAlbum);
     }
 

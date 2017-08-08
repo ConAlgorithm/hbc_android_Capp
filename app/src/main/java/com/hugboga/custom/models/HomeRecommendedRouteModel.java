@@ -1,6 +1,7 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -11,19 +12,20 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomeRecommendedRoutAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.data.bean.HomeCityGoodsVo;
-import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.tmall.ultraviewpager.UltraViewPager;
 import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 
 import net.grobas.view.PolygonImageView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -48,7 +50,6 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
     public HomeRecommendedRouteModel(Context context, HomeCityContentVo2 homeCityContentVo2) {
         this.context = context;
         this.homeCityContentVo2 = homeCityContentVo2;
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -64,11 +65,24 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
         }
         homeRecommendedRouteHolder = (HomeRecommendedRouteHolder) holder;
 
-        if(homeRecommendedRouteHolder != null){
+        if (homeRecommendedRouteHolder != null) {
             //if (adapter == null) {
-                homeRecommendedRouteHolder.ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-
-                //if(homeCityContentVo2.cityGoodsList.size() > 1){
+            homeRecommendedRouteHolder.ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
+            if(homeCityContentVo2.cityGoodsList.size() == 1){
+                homeRecommendedRouteHolder.ultraViewPager.disableIndicator();
+                homeRecommendedRouteHolder.ultraViewPager.setInfiniteLoop(false);
+                homeRecommendedRouteHolder.ultraViewPager.setAutoMeasureHeight(true);
+                //initialize UltraPagerAdapter，and add child view to UltraViewPager
+                adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
+                ((HomeRecommendedRoutAdapter) adapter).setOnChangedLister(new HomeRecommendedRoutAdapter.OnChangedLister() {
+                    @Override
+                    public void lister(int position, String cityName, ArrayList<HomeCityGoodsVo> homeCityGoodsVos) {
+                        setData(cityName, homeCityGoodsVos.get(position));
+                    }
+                });
+                homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
+                setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
+            }else if (homeCityContentVo2.cityGoodsList.size() > 1) {
                 //initialize built-in indicator
                 homeRecommendedRouteHolder.ultraViewPager.initIndicator();
                 //set style of indicators
@@ -91,8 +105,8 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 homeRecommendedRouteHolder.ultraViewPager.setPageTransformer(false, new UltraScaleTransformer());
 
                 //initialize UltraPagerAdapter，and add child view to UltraViewPager
-                adapter = new HomeRecommendedRoutAdapter(context,homeCityContentVo2);
-                ((HomeRecommendedRoutAdapter)adapter).setOnChangedLister(new HomeRecommendedRoutAdapter.OnChangedLister(){
+                adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
+                ((HomeRecommendedRoutAdapter) adapter).setOnChangedLister(new HomeRecommendedRoutAdapter.OnChangedLister() {
                     @Override
                     public void lister(int position, String cityName, ArrayList<HomeCityGoodsVo> homeCityGoodsVos) {
                         setData(cityName, homeCityGoodsVos.get(position));
@@ -100,11 +114,13 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 });
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
 
-            //} else {
-            //    ((HomeRecommendedRoutAdapter) adapter).setData(homeCityContentVo2);
-            //}
+                //} else {
+                //    ((HomeRecommendedRoutAdapter) adapter).setData(homeCityContentVo2);
+                //}
 
-            setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
+                setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
+            }
+
         }
 
     }
@@ -133,18 +149,21 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
         TextView filter_guide;
         @Bind(R.id.avr)
         PolygonImageView polygonImageView;
+        @Bind(R.id.filter_guide_more)
+        TextView filterGuideMore;
+
 
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
-            int imageWidth = UIUtils.getScreenWidth()-2*UIUtils.dip2px(16);
-            int imageHeight = imageWidth * 189 /330;
+            int imageWidth = UIUtils.getScreenWidth() - 2 * UIUtils.dip2px(16);
+            int imageHeight = imageWidth * 189 / 330;
             ultraViewPager.getLayoutParams().height = imageHeight + UIUtils.dip2px(15);
         }
     }
 
-    private void setData(String cityName, HomeCityGoodsVo homeCityGoodsVo) {
+    private void setData(String cityName, final HomeCityGoodsVo homeCityGoodsVo) {
         if (homeRecommendedRouteHolder != null) {
             homeRecommendedRouteHolder.des1.setText(homeCityGoodsVo.goodsName);
             homeRecommendedRouteHolder.cityName.setText(cityName + "司导推荐");
@@ -156,22 +175,42 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
             if (!TextUtils.isEmpty(homeCityGoodsVo.goodsPic)) {
                 Tools.showImage(homeRecommendedRouteHolder.polygonImageView, homeCityGoodsVo.guidePic, R.mipmap.icon_avatar_guide);
             }
+            homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CityListActivity.Params params = new CityListActivity.Params();
+                    params.id = homeCityContentVo2.cityId;
+                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    params.titleName = homeCityContentVo2.cityName;
+                    intentActivity(context, CityListActivity.class, getEventSource(), params);
+                }
+            });
+            homeRecommendedRouteHolder.perPrice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, SkuDetailActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, homeCityGoodsVo.goodsDetailUrl);
+                    intent.putExtra(Constants.PARAMS_ID, homeCityGoodsVo.goodsNo);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    context.startActivity(intent);
+                }
+            });
+
         }
 
     }
 
-    @Subscribe
-    public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case REFRESH_POSITION:
-                if (action.getData() != null) {
-                    int position = (Integer) action.getData();
-                    //setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(position));
-                }
-                break;
-
-            default:
-                break;
+    private void intentActivity(Context context, Class<?> cls, String eventId, CityListActivity.Params params) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
+        if (!TextUtils.isEmpty(eventId)) {
+            MobClickUtils.onEvent(eventId);
         }
+    }
+
+    public String getEventSource() {
+        return "首页";
     }
 }

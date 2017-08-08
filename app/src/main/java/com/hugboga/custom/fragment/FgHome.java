@@ -1,8 +1,11 @@
 package com.hugboga.custom.fragment;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -52,7 +56,7 @@ import butterknife.OnClick;
  * Created by zhangqiang on 17/8/1.
  */
 
-public class FgHome extends BaseFragment implements HomeNetworkErrorModel.ReloadListener{
+public class FgHome extends BaseFragment implements HomeNetworkErrorModel.ReloadListener {
 
     private static final int CHOICENESS_GUIDES_COUNT = 40;
     HomeAdapter homeAdapter;
@@ -66,6 +70,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
     int viewTopBegin;
     int viewTopEnd;
     boolean firstEnter = false;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_home;
@@ -90,6 +95,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     protected void initView() {
         homeAdapter = new HomeAdapter();
@@ -102,7 +108,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
     }
 
     private void setListViewScrollerListener() {
-        if(homeAdapter == null){
+        if (homeAdapter == null) {
             return;
         }
         homeListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -110,76 +116,118 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState==RecyclerView.SCROLL_STATE_IDLE){
 
-                }
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//
+//                    int statusBarHeight = UIUtils.getStatusBarHeight();
+//                    int titleBarHeight = UIUtils.dip2px(50);
+//                    int totalTitle = statusBarHeight + titleBarHeight;
+//                    int scrollY = homeAdapter.homeServiceModel.getViewTop();
+//                    if (scrollY <= viewTopEnd) {
+//                        setAnimatorForSearch1();
+//                    } else if (scrollY > viewTopEnd) {
+//                        //恢复原样
+//                        setAnimatorForSearch2();
+//
+//                    }
+//
+//                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                if(firstEnter){
+                if (firstEnter) {
                     viewTopBegin = homeAdapter.homeServiceModel.getViewTop();
-                    viewTopEnd = viewTopBegin - 50;
+                    viewTopEnd = viewTopBegin - UIUtils.dip2px(100);
+                    firstEnter = false;
                 }
-                int statusBarHeight = UIUtils.getStatusBarHeight();
-                int titleBarHeight = UIUtils.dip2px(50);
-                int totalTitle = statusBarHeight + titleBarHeight;
                 int scrollY = homeAdapter.homeServiceModel.getViewTop();
-                int lastScrollY = scrollY;
-                /*if(scrollY <totalTitle && scrollY >0){
-                    if(lastScrollY - scrollY > 0){
-                        //向上滑动
-                        int m = lastScrollY - scrollY;
-                    }else{
-                        //向下滑动
-                        int n = lastScrollY - scrollY;
+                if(dy >0){
+                    if (scrollY <= viewTopEnd && scrollY >0) {
+                        setAnimatorForSearch1();
                     }
-                }else */if(scrollY == viewTopEnd){
-                    //隐藏黄包车
-                    //appIcon.setVisibility(View.GONE);
-                    //setAnimatorForSearch1();
+                }else{
+                    if (scrollY > viewTopEnd) {
+                        //恢复原样
+                        setAnimatorForSearch2();
 
-                }else if(scrollY == viewTopBegin){
-                    //恢复原样
-                    //appIcon.setVisibility(View.VISIBLE);
-                    if(!firstEnter){
-                        //setAnimatorForSearch2();
-                    }else{
-                        firstEnter = false;
                     }
-
                 }
-
             }
         });
     }
-    private void setAnimatorForSearch1(){
-        ViewHelper.setPivotX(searchIcon,0f);
-        float searchIconWBegin = UIUtils.getScreenWidth() -UIUtils.dip2px(10)*2 - UIUtils.dip2px(64)- UIUtils.dip2px(20);
-        float searchIconWEnd = UIUtils.getScreenWidth() -UIUtils.dip2px(10)*2;
-        float X = searchIconWEnd/searchIconWBegin;
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(searchIcon, "scaleX", 1f, X);
-        scaleX.setDuration(200);//设置动画时间
-        scaleX.setInterpolator(new DecelerateInterpolator());//设置动画插入器，减速
-        //alpha.setRepeatCount(-1);//设置动画重复次数，这里-1代表无限
-        //alpha.setRepeatMode(Animation.REVERSE);//设置动画循环模式。
-        scaleX.start();//启动动画。
+
+    private void setAnimatorForSearch1() {
+        //icon动画
+        FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) appIcon.getLayoutParams();
+        int width = lp1.width;
+        ValueAnimator animator1 = ValueAnimator.ofInt(width, 0);
+        animator1.setDuration(200);
+        animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) appIcon.getLayoutParams();
+                lp.width = value;
+                appIcon.setLayoutParams(lp);
+            }
+        });
+        animator1.start(); // 开始播放动画
+
+        //search动画
+        FrameLayout.LayoutParams lp2 = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
+        int marginLeft = lp2.leftMargin;
+        ValueAnimator animator2 = ValueAnimator.ofInt(marginLeft, UIUtils.dip2px(10));
+        animator2.setDuration(200);
+        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
+                lp.setMargins(value,0,UIUtils.dip2px(10),0);
+                searchIcon.setLayoutParams(lp);
+            }
+        });
+        animator2.start(); // 开始播放动画
 
     }
-    private void setAnimatorForSearch2(){
-        ViewHelper.setPivotX(searchIcon,0f);
-        float searchIconWBegin = UIUtils.getScreenWidth() -UIUtils.dip2px(10)*2 - UIUtils.dip2px(64)- UIUtils.dip2px(20);
-        float searchIconWEnd = UIUtils.getScreenWidth() -UIUtils.dip2px(10)*2;
-        float X = searchIconWEnd/searchIconWBegin;
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(searchIcon, "scaleX", X, 1f);
-        scaleX.setDuration(200);//设置动画时间
-        scaleX.setInterpolator(new DecelerateInterpolator());//设置动画插入器，减速
-        //alpha.setRepeatCount(-1);//设置动画重复次数，这里-1代表无限
-        //alpha.setRepeatMode(Animation.REVERSE);//设置动画循环模式。
-        scaleX.start();//启动动画。
+
+    private void setAnimatorForSearch2() {
+
+        //icon动画
+        FrameLayout.LayoutParams lp1 = (FrameLayout.LayoutParams) appIcon.getLayoutParams();
+        int width = lp1.width;
+        ValueAnimator animator1 = ValueAnimator.ofInt(width, UIUtils.dip2px(64)); // 产生一个从0到100变化的整数的动画
+        animator1.setDuration(200);
+        animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) appIcon.getLayoutParams();
+                lp.width = value;
+                appIcon.setLayoutParams(lp);
+            }
+        });
+        animator1.start(); // 开始播放动画
+
+        //search动画
+        FrameLayout.LayoutParams lp2 = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
+        int marginLeft = lp2.leftMargin;
+        ValueAnimator animator2 = ValueAnimator.ofInt(marginLeft, UIUtils.dip2px(94)); // 产生一个从0到100变化的整数的动画
+        animator2.setDuration(200);
+        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
+                lp.setMargins(value,0,UIUtils.dip2px(10),0);
+                searchIcon.setLayoutParams(lp);
+            }
+        });
+        animator2.start(); // 开始播放动画
     }
+
     @Override
     public String getEventSource() {
         return "首页";
@@ -198,13 +246,13 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
-            Toast.makeText(MyApplication.getAppContext(),R.string.net_broken,Toast.LENGTH_LONG).show();
+        if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
+            Toast.makeText(MyApplication.getAppContext(), R.string.net_broken, Toast.LENGTH_LONG).show();
         }
-        if(request instanceof RequestHomeNew){
+        if (request instanceof RequestHomeNew) {
             //homePageAdapter.addNetworkErrorModel(this);
-        }else if (request instanceof FavoriteGuideSaved){
-            Log.d("FavoriteGuideSaved",errorInfo.toString());
+        } else if (request instanceof FavoriteGuideSaved) {
+            Log.d("FavoriteGuideSaved", errorInfo.toString());
         }
     }
 
@@ -214,45 +262,42 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         if (request instanceof RequestHomeNew) {
             homeBean = (HomeAggregationVo4) request.getData();
             if (homeBean != null) {
-                    if(homeBean.bannerActivityList !=null && homeBean.bannerActivityList.size() >0){
-                        homeAdapter.addHomeTitleBannar(getContext(),homeBean.bannerActivityList);
-                    }
+                if (homeBean.bannerActivityList != null && homeBean.bannerActivityList.size() > 0) {
+                    homeAdapter.addHomeTitleBannar(getContext(), homeBean.bannerActivityList);
+                }
 
-                    homeAdapter.addHomeService(getContext());
-                    homeAdapter.addGuideModels(getActivity(),homeBean.qualityGuides);
-                    homeAdapter.addHomeH5(getContext());
-                    if(homeBean!= null && homeBean.hotAlbumList.size()>0){
-                        for (int i= 0; i<homeBean.hotAlbumList.size();i++){
-                            homeAdapter.addHotAlbum(getActivity(),homeBean.hotAlbumList.get(i),i);
-                        }
+                homeAdapter.addHomeService(getContext());
+                homeAdapter.addGuideModels(getActivity(), homeBean.qualityGuides);
+                homeAdapter.addHomeH5(getContext());
+                if (homeBean != null && homeBean.hotAlbumList.size() > 0) {
+                    for (int i = 0; i < homeBean.hotAlbumList.size(); i++) {
+                        homeAdapter.addHotAlbum(getActivity(), homeBean.hotAlbumList.get(i), i);
                     }
-//                if(homeBean!= null && homeBean.pastAlbumList.size()>0){
-//                    for (int i= 0; i<homeBean.pastAlbumList.size();i++){
-//                        homeAdapter.addPastAlbum(getContext(),homeBean.pastAlbumList.get(i));
-//                    }
-//                }
-                    homeAdapter.addPastAlbum(getContext());
+                }
+
+                //往期专辑
+                homeAdapter.addPastAlbum(getContext(),homeBean.pastAlbumList);
 
                 //游客说
-                if(homeBean != null && homeBean.commentList.size()>0){
-                    for (int i = 0;i< homeBean.commentList.size(); i++){
-                        homeAdapter.addHomeGuideEvaluate(getContext(),homeBean.commentList.get(i),i);
+                if (homeBean != null && homeBean.commentList.size() > 0) {
+                    for (int i = 0; i < homeBean.commentList.size(); i++) {
+                        homeAdapter.addHomeGuideEvaluate(getContext(), homeBean.commentList.get(i), i);
                     }
                 }
 
                 //推荐线路
-                if(homeBean.cityGoodsList.size() >=2){
+                if (homeBean.cityGoodsList.size() >= 2) {
                     for (int i = 0; i < 2; i++) {
                         homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(i));
                     }
                 }
 
                 //推荐线路广告
-                homeAdapter.addHomeBanner(getContext(),homeBean.excitingActivityList);
+                homeAdapter.addHomeBanner(getContext(), homeBean.excitingActivityList);
 
                 //其余城市线路推荐
-                if(homeBean.cityGoodsList.size() >2){
-                    for(int j = 2;j< homeBean.cityGoodsList.size();j++){
+                if (homeBean.cityGoodsList.size() > 2) {
+                    for (int j = 2; j < homeBean.cityGoodsList.size(); j++) {
                         homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(j));
                     }
                 }
@@ -262,21 +307,21 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
 
             }
             //重新请求已收藏司导状态
-            if(UserEntity.getUser().isLogin(getContext())){
-                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),null);
-                HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
+            if (UserEntity.getUser().isLogin(getContext())) {
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), null);
+                HttpRequestUtils.request(getContext(), favoriteGuideSaved, this, false);
             }
 
-        }else if (request instanceof FavoriteGuideSaved){
+        } else if (request instanceof FavoriteGuideSaved) {
 
-            if(homeBean==null){
+            if (homeBean == null) {
                 return;
             }
 
-            for(int j=0;j<homeBean.qualityGuides.size();j++){
-                homeBean.qualityGuides.get(j).isCollected  = 0;
+            for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
+                homeBean.qualityGuides.get(j).isCollected = 0;
             }
-            if(request.getData() instanceof UserFavoriteGuideListVo3){
+            if (request.getData() instanceof UserFavoriteGuideListVo3) {
                 UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3) request.getData();
                 for (int i = 0; i < favoriteGuideSavedBean.guides.size(); i++) {
                     for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
@@ -308,7 +353,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             case CLICK_USER_LOGIN:
                 StringBuilder tempUploadGuilds = new StringBuilder();
                 String uploadGuilds = "";
-                if(homeBean!= null && homeBean.qualityGuides != null  && homeBean.qualityGuides.size() > 0){
+                if (homeBean != null && homeBean.qualityGuides != null && homeBean.qualityGuides.size() > 0) {
                     for (FilterGuideBean guild : homeBean.qualityGuides) {
                         tempUploadGuilds.append(guild.guideId).append(",");
                     }
@@ -317,14 +362,14 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                             uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
                         }
                     }
-                    Log.d("uploadGuilds",uploadGuilds.toString());
-                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),uploadGuilds);
-                    HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
+                    Log.d("uploadGuilds", uploadGuilds.toString());
+                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), uploadGuilds);
+                    HttpRequestUtils.request(getContext(), favoriteGuideSaved, this, false);
                 }
                 break;
             case CLICK_USER_LOOUT:
-                if(homeBean!= null){
-                    for(int i=0;i<homeBean.qualityGuides.size();i++){
+                if (homeBean != null) {
+                    for (int i = 0; i < homeBean.qualityGuides.size(); i++) {
                         homeBean.qualityGuides.get(i).isCollected = 0;
                     }
 
@@ -332,8 +377,8 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT:
-                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),null);
-                HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
+                FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), null);
+                HttpRequestUtils.request(getContext(), favoriteGuideSaved, this, false);
                 break;
         }
     }
@@ -350,7 +395,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
 
     @OnClick({R.id.search_icon_layout})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.search_icon_layout:
                 goChooseCity();
                 break;

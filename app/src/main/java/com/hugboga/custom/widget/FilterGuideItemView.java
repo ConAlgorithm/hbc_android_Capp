@@ -20,9 +20,11 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.utils.CommonUtils;
@@ -53,8 +55,12 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     TextView name;
     @Bind(R.id.filter_guide_location)
     TextView location;
+    @Bind(R.id.yuding)
+    TextView yuDing;
+    Context context;
     public FilterGuideItemView(Context context) {
         this(context,null);
+        this.context = context;
     }
     public FilterGuideItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -132,6 +138,14 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         } else {
             location.setVisibility(View.GONE);
         }
+        yuDing.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, filterGuideBean.orderUrl);
+                context.startActivity(intent);
+            }
+        });
 //
 //        String serviceType = data.getServiceType();
 //        if (TextUtils.isEmpty(serviceType)) {
