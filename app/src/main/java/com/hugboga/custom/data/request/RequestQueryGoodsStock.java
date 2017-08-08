@@ -29,9 +29,8 @@ public class RequestQueryGoodsStock extends BaseRequest<CalendarGoodsBeanList> {
         map = new HashMap<String, Object>();
         if (!TextUtils.isEmpty(guideId)) {
             map.put("guideNo", guideId);               // 司导编号
-        } else {
-            map.put("goodsNo", goodsNo);               // 商品编号
         }
+        map.put("goodsNo", goodsNo);                   // 商品编号
         map.put("startServiceDate", startServiceDate); // 开始服务日期 格式 yyyy-MM-dd
         map.put("endServiceDate", endServiceDate);     // 结束服务日期 格式 yyyy-MM-dd
         tag = yearMonthStr;

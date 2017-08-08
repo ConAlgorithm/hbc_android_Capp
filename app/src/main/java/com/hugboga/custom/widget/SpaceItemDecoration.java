@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
 /**
  * Created by qingcha on 16/6/19.
  */
@@ -54,6 +56,10 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
             } else {
                 outRect.top = top;
             }
+        }
+
+        if (pos == 0 && parent instanceof XRecyclerView && orientation == LinearLayout.VERTICAL) {
+            outRect.top = 0;
         }
     }
 }

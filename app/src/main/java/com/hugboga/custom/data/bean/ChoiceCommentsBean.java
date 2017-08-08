@@ -12,7 +12,7 @@ import java.util.List;
 public class ChoiceCommentsBean implements Serializable{
 
     @SerializedName("resultBean")
-    public ArrayList<ChoiceCommentsItemBean> choiceCommentsBeanList;
+    public ArrayList<ChoiceCommentsItemBean> listData;
     public int totalSize;
 
     public static class ChoiceCommentsItemBean implements Serializable {
