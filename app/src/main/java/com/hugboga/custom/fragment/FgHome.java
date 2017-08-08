@@ -1,6 +1,7 @@
 package com.hugboga.custom.fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +20,9 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -29,6 +32,8 @@ import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestHomeNew;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
+import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
@@ -41,6 +46,7 @@ import org.xutils.common.Callback;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by zhangqiang on 17/8/1.
@@ -208,7 +214,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         if (request instanceof RequestHomeNew) {
             homeBean = (HomeAggregationVo4) request.getData();
             if (homeBean != null) {
-                    if(homeBean.bannerActivityList !=null){
+                    if(homeBean.bannerActivityList !=null && homeBean.bannerActivityList.size() >0){
                         homeAdapter.addHomeTitleBannar(getContext(),homeBean.bannerActivityList);
                     }
 
@@ -330,5 +336,26 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
                 break;
         }
+    }
+
+    private void goChooseCity() {
+        Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+        intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
+        intent.putExtra("isHomeIn", true);
+        intent.putExtra("source", "首页搜索框");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        this.getContext().startActivity(intent);
+        StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
+    }
+
+    @OnClick({R.id.search_icon_layout})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.search_icon_layout:
+                goChooseCity();
+                break;
+
+        }
+
     }
 }

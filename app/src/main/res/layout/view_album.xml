@@ -52,6 +52,8 @@
                 android:id="@+id/name_album"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="威尼斯｜大街上行走的刚朵拉"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
@@ -59,6 +61,7 @@
                 android:id="@+id/purchse_album"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="9dp"
                 android:text="2000人已体验"
