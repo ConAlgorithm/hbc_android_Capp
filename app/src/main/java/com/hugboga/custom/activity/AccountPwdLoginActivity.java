@@ -69,12 +69,11 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     @Bind(R.id.login_submit)
     Button loginButton;
     @Bind(R.id.delete)
-            ImageView delete;
+    ImageView delete;
     boolean isPwdVisibility = false;
     String phone;
     String areaCode;
     private SharedPre sharedPre;
-    private String source = "";
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
     public ActionBean actionBean;
@@ -147,6 +146,11 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 return false;
             }
         });
+        if(phoneEditText.getText().toString().length() == 0){
+            phoneEditText.requestFocus();
+        }else if(passwordEditText.getText().toString().length() == 0){
+            passwordEditText.requestFocus();
+        }
     }
 
     @Override

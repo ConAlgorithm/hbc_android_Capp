@@ -165,6 +165,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 finish();
             }
         });
+        if(phoneEditText.getText().toString().length() == 0){
+            phoneEditText.requestFocus();
+        }else if(loginPassword.getText().toString().length() == 0){
+            loginPassword.requestFocus();
+        }
+
     }
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -441,6 +447,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 login_submit.setEnabled(false);
                 collapseSoftInputMethod(phoneEditText); //隐藏键盘
                 collapseSoftInputMethod(loginPassword);
+                loginPassword.requestFocus();
                 String areaCode1 = areaCodeTextView.getText().toString();
                 if(TextUtils.isEmpty(areaCode1)){
                     CommonUtils.showToast("区号不能为空");

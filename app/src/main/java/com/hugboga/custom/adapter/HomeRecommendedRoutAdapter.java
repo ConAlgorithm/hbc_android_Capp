@@ -35,7 +35,6 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
 
     HomeCityContentVo2 homeCityContentVo2;
     Context context;
-    public OnChangedLister onChangedLister;
     public HomeRecommendedRoutAdapter(Context context,HomeCityContentVo2 homeCityContentVo2) {
         this.homeCityContentVo2 = homeCityContentVo2;
         this.context = context;
@@ -54,10 +53,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        //EventBus.getDefault().post(new EventAction(EventType.REFRESH_POSITION,position));
-        if(onChangedLister != null){
-            onChangedLister.lister(position,homeCityContentVo2.cityName,homeCityContentVo2.cityGoodsList);
-        }
+
         LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_child, null);
         //new LinearLayout(container.getContext());
         ImageView imageView = (ImageView) linearLayout.findViewById(R.id.pager_img);
@@ -92,14 +88,6 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
     public void setData(HomeCityContentVo2 homeCityContentVo2){
         this.homeCityContentVo2 = homeCityContentVo2;
         notifyDataSetChanged();
-    }
-
-    public void setOnChangedLister(OnChangedLister onChangedLister ){
-        this.onChangedLister = onChangedLister;
-    }
-
-    public interface OnChangedLister {
-        public void lister(int position,String cityName, ArrayList<HomeCityGoodsVo> homeCityGoodsVos);
     }
 
     public String getEventSource() {

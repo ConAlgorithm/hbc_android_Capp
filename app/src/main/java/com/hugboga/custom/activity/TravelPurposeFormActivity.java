@@ -40,6 +40,8 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.HomeActivitiesView;
+import com.hugboga.custom.widget.PurposeFormImgView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -85,7 +87,9 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     @Bind(R.id.submit_btn)
     Button submitBtn;//提交按钮
     @Bind(R.id.travel_purpose_connect)
-            TextView purposeConnect;
+    TextView purposeConnect;
+    @Bind(R.id.purpose_img)
+    PurposeFormImgView purposeImg;
     //CityBean cityBean;
     AreaCodeBean areaCodeBean;
     DateTimePicker picker;
@@ -204,6 +208,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
             cityName.setText(getCityName);
             startDate.setText(getStartDate);
         }
+        purposeImg.update(null);
     }
 
 
