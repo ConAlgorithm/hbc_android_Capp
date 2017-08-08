@@ -127,7 +127,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 173
+    //current urlErrorCode 175
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -217,7 +217,8 @@ public class UrlLibs {
     public static final String API_GOODS_FILTER             = "goods/v1.0/c/home/goods/search";                         // 商品列表页筛选 139
     public static final String API_GOODS_GUIDE_INFO_LIST    = "goods/v1.0/c/goodsguideinfolist";                        // C端关联商品的可服务司导列表170
     public static final String API_QUERY_GOODS_STOCK        = "goods/v1.0/c/queryGoodsStock";                           // 商品库存171
-    public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideStock";                           // 商品司导库存172
+    public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideGoodsStock";                      // 商品司导库存172
+    public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
@@ -260,6 +261,7 @@ public class UrlLibs {
     public static final String API_GUIDE_EXTINFO            = "supplier/v2.0/c/guide/guidePersonalPageExtInfo";         // 司导个人页附加信息141
     public static final String API_GUIDE_AVAILABLE_CHECK    = "supplier/v2.0/c/guides/availableCheck";                  // 下单前校验司导是否可用 143
     public static final String API_GUIDE_FILTER_OPTIONS     = "supplier/v1.0/c/guide/screening/conditions";             // 精选司导筛选条件 153
+    public static final String API_CHOICE_COMMENTS          = "supplier/v1.0/c/index/comments";                         // 精选司导筛选条件 174
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144

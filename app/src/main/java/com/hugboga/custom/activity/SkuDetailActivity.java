@@ -120,6 +120,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private DialogUtil mDialogUtil;
     private WebAgent webAgent;
 
+    private boolean isLoaded = false;
+
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
 
@@ -165,6 +167,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (!TextUtils.isEmpty(baseUrl)) {
             String url = CommonUtils.getBaseUrl(baseUrl) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
             webView.loadUrl(url);
+            isLoaded = true;
         }
     }
 
@@ -177,7 +180,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     public void setBottomLayoutShow() {
-        if (skuItemBean != null) {
+        if (skuItemBean != null && bottomLayout != null) {
             bottomLayout.setVisibility(View.VISIBLE);
             String unitStr = "起/人";
             String priceStr = getString(R.string.sign_rmb) + CommonUtils.getCountInteger(skuItemBean.perPrice) + " " + unitStr;
@@ -237,7 +240,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                             }
                             webAgent.setSkuItemBean(skuItemBean);
                         }
-                        if (!isShowLoading) {
+                        if (!isLoaded && !isShowLoading) {
                             loadUrl();
                         }
                         setSensorsEvent();

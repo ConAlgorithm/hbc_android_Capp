@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -121,6 +122,7 @@ public class LargerImageActivity extends BaseActivity{
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
+            photoView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             if (params.isLocalPic) {
                 File dir = new File(params.imageUrlList.get(position));
                 Uri dirUri = Uri.fromFile(dir);

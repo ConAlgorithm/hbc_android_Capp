@@ -2,21 +2,33 @@ package com.hugboga.custom.activity;
 
 import android.os.Bundle;
 import android.view.View;
-
+import android.widget.LinearLayout;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
-import java.io.Serializable;
+import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
+import com.hugboga.custom.data.bean.ChoiceCommentsBean;
+import com.hugboga.custom.data.request.RequestChoiceComments;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
+import com.hugboga.custom.widget.ChoiceCommentView;
+import com.hugboga.custom.widget.HbcLoadingMoreFooter;
+import com.hugboga.custom.widget.SpaceItemDecoration;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import butterknife.Bind;
 
 /**
  * Created by qingcha on 17/8/3.
  */
-public class ChoiceCommentActivity extends BaseActivity{
+public class ChoiceCommentActivity extends BaseActivity implements XRecyclerView.LoadingListener{
 
-    private Params paramsData;
+    @Bind(R.id.choice_comment_recyclerview)
+    XRecyclerView mRecyclerView;
+    @Bind(R.id.choice_comment_empty_layout)
+    LinearLayout emptyLayout;
 
-    public static class Params implements Serializable {
-        public int id;
-    }
+    private HbcRecyclerSingleTypeAdpater<ChoiceCommentsBean.ChoiceCommentsItemBean> mAdapter;
 
     @Override
     public int getContentViewId() {
@@ -26,23 +38,7 @@ public class ChoiceCommentActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            paramsData = (Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
-        } else {
-            Bundle bundle = this.getIntent().getExtras();
-            if (bundle != null) {
-                paramsData = (Params) bundle.getSerializable(Constants.PARAMS_DATA);
-            }
-        }
         initView();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (paramsData != null) {
-            outState.putSerializable(Constants.PARAMS_DATA, paramsData);
-        }
     }
 
     public void initView() {
@@ -53,6 +49,61 @@ public class ChoiceCommentActivity extends BaseActivity{
         initDefaultTitleBar();
         fgTitle.setText("游客说");
         fgRightTV.setVisibility(View.GONE);
+
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
+        mRecyclerView.setLoadingListener(this);
+        SpaceItemDecoration itemDecoration = new SpaceItemDecoration();
+        itemDecoration.setItemOffsets(0, UIUtils.dip2px(10), 0, 0, LinearLayout.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
+        mAdapter = new HbcRecyclerSingleTypeAdpater(this, ChoiceCommentView.class);
+        mRecyclerView.setAdapter(mAdapter);
+
+        requestChoiceComments(0, true);
+    }
+
+    public void requestChoiceComments(int offset, boolean isShowLoading) {
+        RequestChoiceComments requestChoiceComments = new RequestChoiceComments(this, offset);
+        requestData(requestChoiceComments, isShowLoading);
+    }
+
+    @Override
+    public void onLoadMore() {
+        requestChoiceComments(mAdapter.getListCount(), false);
+    }
+
+    @Override
+    public void onRefresh() {
+        requestChoiceComments(0, false);
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
+        if (_request instanceof RequestChoiceComments) {
+            ChoiceCommentsBean choiceCommentsBean = ((RequestChoiceComments) _request).getData();
+            emptyLayout.setVisibility(View.GONE);
+            int offset = _request.getOffset();
+            mAdapter.addData(choiceCommentsBean.listData, offset > 0);
+            if (offset == 0) {
+                mRecyclerView.smoothScrollToPosition(0);
+            }
+            mRecyclerView.refreshComplete();
+            mRecyclerView.setNoMore(mAdapter.getListCount() >= choiceCommentsBean.totalSize);
+        }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        emptyLayout.setVisibility(View.VISIBLE);
+        emptyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestChoiceComments(0, true);
+            }
+        });
     }
 
     @Override

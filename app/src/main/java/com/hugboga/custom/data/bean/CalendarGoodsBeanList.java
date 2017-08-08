@@ -3,6 +3,7 @@ package com.hugboga.custom.data.bean;
 
 import android.support.v4.util.ArrayMap;
 
+import com.google.gson.annotations.SerializedName;
 import com.hugboga.custom.utils.DateUtils;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.util.Map;
  */
 public class CalendarGoodsBeanList implements Serializable {
 
+    @SerializedName(value = "goodsStockList", alternate = {"guideGoodsStockList"})
     public ArrayList<CalendarGoodsBean> goodsStockList;
 
     public Map<String, CalendarGoodsBean> getMonthMap() {

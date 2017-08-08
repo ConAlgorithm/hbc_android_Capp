@@ -161,6 +161,15 @@ public class DateUtils {
         return dateSimpleDateFormat.format(date2);
     }
 
+    public static String getDateFromSimpleStr2(String _date) {
+        try {
+            Date date = dateTimeFormat.parse(_date);
+            return dateSimpleDateFormat.format(date);
+        } catch (ParseException e) {
+            return _date;
+        }
+    }
+
     /**
      * 格式化年月日，时分格式的时间
      * yyyy-MM-dd HH:mm
