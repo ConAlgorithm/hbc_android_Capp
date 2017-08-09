@@ -1,22 +1,16 @@
 package com.hugboga.custom.fragment;
 
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -41,7 +35,6 @@ import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.nineoldandroids.view.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -105,6 +98,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         homeListView.setAdapter(homeAdapter);
         //homeListView.getRecycledViewPool().setMaxRecycledViews(0,20);
         setListViewScrollerListener();
+        requestFgHomeData();
     }
 
     private void setListViewScrollerListener() {
@@ -116,38 +110,25 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//
-//                    int statusBarHeight = UIUtils.getStatusBarHeight();
-//                    int titleBarHeight = UIUtils.dip2px(50);
-//                    int totalTitle = statusBarHeight + titleBarHeight;
-//                    int scrollY = homeAdapter.homeServiceModel.getViewTop();
-//                    if (scrollY <= viewTopEnd) {
-//                        setAnimatorForSearch1();
-//                    } else if (scrollY > viewTopEnd) {
-//                        //恢复原样
-//                        setAnimatorForSearch2();
-//
-//                    }
-//
-//                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (homeAdapter.homeServiceModel == null) {
+                    return;
+                }
                 if (firstEnter) {
                     viewTopBegin = homeAdapter.homeServiceModel.getViewTop();
                     viewTopEnd = viewTopBegin - UIUtils.dip2px(100);
                     firstEnter = false;
                 }
                 int scrollY = homeAdapter.homeServiceModel.getViewTop();
-                if(dy >0){
-                    if (scrollY <= viewTopEnd && scrollY >0) {
+                if (dy > 0) {
+                    if (scrollY <= viewTopEnd && scrollY > 0) {
                         setAnimatorForSearch1();
                     }
-                }else{
+                } else {
                     if (scrollY > viewTopEnd) {
                         //恢复原样
                         setAnimatorForSearch2();
@@ -185,7 +166,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
-                lp.setMargins(value,0,UIUtils.dip2px(10),0);
+                lp.setMargins(value, 0, UIUtils.dip2px(10), 0);
                 searchIcon.setLayoutParams(lp);
             }
         });
@@ -221,7 +202,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
-                lp.setMargins(value,0,UIUtils.dip2px(10),0);
+                lp.setMargins(value, 0, UIUtils.dip2px(10), 0);
                 searchIcon.setLayoutParams(lp);
             }
         });
@@ -235,24 +216,28 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
 
     @Override
     public void reload() {
-        //requestData();
+        requestFgHomeData();
     }
 
-    protected Callback.Cancelable requestData() {
-        //替换新的接口todo!
+    protected Callback.Cancelable requestFgHomeData() {
         return requestData(new RequestHomeNew(getActivity()));
     }
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (!NetWork.isNetworkAvailable(MyApplication.getAppContext())) {
-            Toast.makeText(MyApplication.getAppContext(), R.string.net_broken, Toast.LENGTH_LONG).show();
-        }
         if (request instanceof RequestHomeNew) {
-            //homePageAdapter.addNetworkErrorModel(this);
-        } else if (request instanceof FavoriteGuideSaved) {
-            Log.d("FavoriteGuideSaved", errorInfo.toString());
+            if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
+                homeAdapter.removeModels();
+                //服务类型
+                homeAdapter.addHomeService(getContext());
+                //广告
+                homeAdapter.addHomeH5(getContext());
+                //底部活动
+                homeAdapter.addHomeBottomBanner(getContext());
+                //添加错误提示
+                homeAdapter.addNetworkErrorModel(this);
+            }
         }
     }
 
@@ -260,15 +245,25 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestHomeNew) {
+            homeAdapter.removeModels();
             homeBean = (HomeAggregationVo4) request.getData();
             if (homeBean != null) {
+                //顶部活动
                 if (homeBean.bannerActivityList != null && homeBean.bannerActivityList.size() > 0) {
                     homeAdapter.addHomeTitleBannar(getContext(), homeBean.bannerActivityList);
                 }
 
+                //服务类型
                 homeAdapter.addHomeService(getContext());
-                homeAdapter.addGuideModels(getActivity(), homeBean.qualityGuides);
+
+                //心仪司导
+                if (homeBean.qualityGuides != null && homeBean.qualityGuides.size() > 0) {
+                    homeAdapter.addGuideModels(getActivity(), homeBean.qualityGuides);
+                }
+
+                //广告
                 homeAdapter.addHomeH5(getContext());
+
                 if (homeBean != null && homeBean.hotAlbumList.size() > 0) {
                     for (int i = 0; i < homeBean.hotAlbumList.size(); i++) {
                         homeAdapter.addHotAlbum(getActivity(), homeBean.hotAlbumList.get(i), i);
@@ -276,7 +271,9 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
 
                 //往期专辑
-                homeAdapter.addPastAlbum(getContext(),homeBean.pastAlbumList);
+                if (homeBean.pastAlbumList != null && homeBean.pastAlbumList.size() > 0) {
+                    homeAdapter.addPastAlbum(getContext(), homeBean.pastAlbumList);
+                }
 
                 //游客说
                 if (homeBean != null && homeBean.commentList.size() > 0) {
@@ -293,7 +290,9 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
 
                 //推荐线路广告
-                homeAdapter.addHomeBanner(getContext(), homeBean.excitingActivityList);
+                if (homeBean.excitingActivityList != null && homeBean.excitingActivityList.size() > 0) {
+                    homeAdapter.addHomeBanner(getContext(), homeBean.excitingActivityList);
+                }
 
                 //其余城市线路推荐
                 if (homeBean.cityGoodsList.size() > 2) {

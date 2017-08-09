@@ -33,7 +33,8 @@ public class UserEntity {
     private boolean needInitPwd;//是否需要设置密码 仅当返回true时需要
     public String gender;//性别
     public String ageType;//年龄
-
+    public double longitude;//经度
+    public double latitude;//维度
 
     private String rimUserId;
     private String nimUserId;
@@ -249,6 +250,23 @@ public class UserEntity {
         SharedPre shared = new SharedPre(active);
         shared.saveStringValue(SharedPre.LOGIN_PHONE, phone);
         this.loginPhone = loginPhone;
+    }
+
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public Integer getOrderPoint(Context activity) {

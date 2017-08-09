@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.ScreenUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -25,9 +27,7 @@ import butterknife.ButterKnife;
  */
 
 public class PurposeFormImgView extends LinearLayout implements HbcViewBehavior {
-    /**
-     * banner默认高宽比  height/width = 240/646
-     */
+
     private static final float BANNER_RATIO_DEFAULT = 0.371f;
 
     /**
@@ -45,14 +45,13 @@ public class PurposeFormImgView extends LinearLayout implements HbcViewBehavior 
     private Runnable cutRunnable;
     private Handler cutHandler;
     private boolean isAutoLoops = true;
-
     public PurposeFormImgView(Context context) {
         this(context, null);
     }
 
     public PurposeFormImgView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_home_activities, this);
+        View view = inflate(context, R.layout.purpose_form_activitues, this);
         ButterKnife.bind(this, view);
 
         mViewPager.setScanScroll(true);
@@ -66,7 +65,8 @@ public class PurposeFormImgView extends LinearLayout implements HbcViewBehavior 
 
         mAdapter = new PurposeAdapter(getContext());
         mViewPager.setAdapter(mAdapter);
-
+        mViewPager.getLayoutParams().width = UIUtils.getScreenWidth();
+        mViewPager.getLayoutParams().height = mViewPager.getLayoutParams().width *192/360;
         mIndicator.setVisibility(VISIBLE);
         mIndicator.setViewPager(mViewPager);
         mViewPager.setScanScroll(true);

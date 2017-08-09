@@ -7,6 +7,11 @@
     android:background="@color/allbg_white"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/viewtop"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f3f3f3"/>
     <LinearLayout
         android:id="@+id/title_ablum"
         android:layout_width="match_parent"

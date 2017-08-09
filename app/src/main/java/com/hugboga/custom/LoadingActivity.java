@@ -423,11 +423,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        if (errorHandler == null) {
-            errorHandler = new ErrorHandler(this, this);
-        }
-        errorHandler.onDataRequestError(errorInfo, request);
-        errorHandler = null;
         DialogUtil.getInstance(this).dismissLoadingDialog();
         handler.sendEmptyMessage(200);
     }

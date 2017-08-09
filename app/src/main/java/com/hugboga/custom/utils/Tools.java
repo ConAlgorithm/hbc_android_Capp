@@ -198,6 +198,31 @@ public class Tools {
                 .into(imageView);
     }
 
+    public static void showRoundImage(final ImageView imageView, String url, float radius, final int resId) {
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .transform(new GlideRoundTransform(MyApplication.getAppContext(), radius))
+                .error(resId)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                        if (imageView != null && resId != 0) {
+//                            imageView.setBackgroundResource(0);
+                        imageView.setImageResource(resId);
+//                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        imageView.setBackgroundResource(0);
+                        return false;
+                    }
+                })
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
     public static void showBlurryImage(final ImageView imageView, String url, final int resId, final int radius, final int sampling) {
         if (TextUtils.isEmpty(url)) {
             return;

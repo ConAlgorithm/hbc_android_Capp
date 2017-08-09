@@ -46,21 +46,16 @@ public class HomeAdapter extends EpoxyAdapter {
 
 
     public void addHomeTitleBannar(Context context, ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activityPageSettings) {
-        if (homeTitleBannarModel == null) {
+        if(activityPageSettings != null && activityPageSettings.size()>0){
             homeTitleBannarModel = new HomeTitleBannarModel(context, activityPageSettings);
             addModel(homeTitleBannarModel);
-        } else {
-            homeTitleBannarModel.update();
         }
+
     }
 
     public void addHomeService(Context context) {
-        if (homeServiceModel == null) {
-            homeServiceModel = new HomeServiceModel(context);
-            addModel(homeServiceModel);
-        } else {
-            homeServiceModel.update();
-        }
+        homeServiceModel = new HomeServiceModel(context);
+        addModel(homeServiceModel);
     }
 
     public void addGuideModels(Activity activity, List<FilterGuideBean> guideList) {
@@ -73,43 +68,44 @@ public class HomeAdapter extends EpoxyAdapter {
     }
 
     public void addHomeH5(Context context) {
-        if (homeH5Model == null) {
-            homeH5Model = new HomeH5Model(context);
-            addModel(homeH5Model);
-        } else {
-            homeH5Model.update();
-        }
+        homeH5Model = new HomeH5Model(context);
+        addModel(homeH5Model);
     }
 
     public void addHotAlbum(Activity activity, HomeAlbumInfoVo homeAlbumInfoVo, int position) {
-        homeHotAlnum = new HomeHotAlnum(activity);
-        homeHotAlnum.setAlbumData(homeAlbumInfoVo, position);
-        addModel(homeHotAlnum);
-    }
-
-    public void addPastAlbum(Context context) {
-        homePastAlbum = new HomePastAlbum(context);
-        addModel(homePastAlbum);
+        if(homeAlbumInfoVo != null){
+            homeHotAlnum = new HomeHotAlnum(activity);
+            homeHotAlnum.setAlbumData(homeAlbumInfoVo, position);
+            addModel(homeHotAlnum);
+        }
     }
 
     public void addPastAlbum(Context context, ArrayList<HomeAlbumInfoVo> pastAlbumList) {
-        homePastAlbum = new HomePastAlbum(context, pastAlbumList);
-        addModel(homePastAlbum);
+        if(pastAlbumList!= null && pastAlbumList.size()>0){
+            homePastAlbum = new HomePastAlbum(context, pastAlbumList);
+            addModel(homePastAlbum);
+        }
     }
 
     public void addHomeGuideEvaluate(Context context, HomeCommentInfoVo homeCommentInfoVo, int position) {
-        homeGuideEvaluateModel = new HomeGuideEvaluateModel(context, homeCommentInfoVo, position);
-        addModel(homeGuideEvaluateModel);
+        if(homeCommentInfoVo != null){
+            homeGuideEvaluateModel = new HomeGuideEvaluateModel(context, homeCommentInfoVo, position);
+            addModel(homeGuideEvaluateModel);
+        }
     }
 
     public void addHomeRecommentRout(Context context, HomeCityContentVo2 cityGoodsList) {
-        homeRecommendedRouteModel = new HomeRecommendedRouteModel(context, cityGoodsList);
-        addModel(homeRecommendedRouteModel);
+        if (cityGoodsList != null) {
+            homeRecommendedRouteModel = new HomeRecommendedRouteModel(context, cityGoodsList);
+            addModel(homeRecommendedRouteModel);
+        }
     }
 
     public void addHomeBanner(Context context, ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activityPageSettings) {
-        homeBannerModel = new HomeBannerModel(context, activityPageSettings);
-        addModel(homeBannerModel);
+        if(activityPageSettings != null && activityPageSettings.size()>0) {
+            homeBannerModel = new HomeBannerModel(context, activityPageSettings);
+            addModel(homeBannerModel);
+        }
     }
 
     public void addHomeBottomBanner(Context context) {
@@ -128,6 +124,12 @@ public class HomeAdapter extends EpoxyAdapter {
     public void removeNetworkErrorModel() {
         if (homeNetworkErrorModel != null) {
             removeModel(homeNetworkErrorModel);
+        }
+    }
+
+    public void removeModels(){
+        if(getItemCount() > 0){
+            removeAllModels();
         }
     }
 }

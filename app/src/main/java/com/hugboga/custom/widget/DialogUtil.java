@@ -207,7 +207,17 @@ public class DialogUtil implements DialogUtilInterface {
         return settingDialog;
     }
 
+    public void  dismissSettingDialog(){
+        if (settingDialog != null ) {
+            if(settingDialog.isShowing()){
+                return;
+            }else{
+                settingDialog.dismiss();
+                settingDialog = null;
+            }
+        }
 
+    }
     /**
      * @return void    返回类型
      * @throws
