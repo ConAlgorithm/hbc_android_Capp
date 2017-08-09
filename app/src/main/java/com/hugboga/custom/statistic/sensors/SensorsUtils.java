@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.webkit.WebView;
 
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -13,6 +14,8 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by on 16/11/25.
@@ -201,6 +204,8 @@ public class SensorsUtils {
 
     public static void setSensorsShowUpWebView(WebView webView) {
         Context context = MyApplication.getAppContext();
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date =  sDateFormat.format(new java.util.Date());
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).getAnonymousId());
@@ -209,6 +214,11 @@ public class SensorsUtils {
             properties.put("hbc_age", UserEntity.getUser().getAgeType(context));
             properties.put("hbc_phone", UserEntity.getUser().getPhone(context));
             properties.put("hbc_realname", UserEntity.getUser().getUserName(context));
+            properties.put("hbc_plateform_type", "Android");        // 平台类型
+            properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
+            properties.put("hbc_longitude",UserEntity.getUser().getLongitude());
+            properties.put("hbc_latitude",UserEntity.getUser().getLatitude());
+            properties.put("hbc_time", date);
             SensorsDataAPI.sharedInstance(context).showUpWebView(webView, false, properties);
         } catch (Exception e) {
             e.printStackTrace();

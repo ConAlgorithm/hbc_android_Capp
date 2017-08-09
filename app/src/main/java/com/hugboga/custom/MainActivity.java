@@ -927,6 +927,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
                 LocationUtils.saveLocationInfo(MainActivity.this,location.getLatitude()+"",location.getLongitude()+"");
 
+                UserEntity.getUser().setLongitude(location.getLongitude());
+                UserEntity.getUser().setLatitude(location.getLatitude());
 
                 // 神策 公共属性
                 try {
