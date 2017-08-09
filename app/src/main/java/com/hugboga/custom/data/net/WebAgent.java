@@ -26,6 +26,7 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;
@@ -682,9 +683,13 @@ public class WebAgent implements HttpRequestListener {
     }
 
     public String getEventSource() {
-        String source = TextUtils.isEmpty(title) ? "web页面" : title;
+        String source = "";
         if (mActivity instanceof WebInfoActivity) {
             source = ((WebInfoActivity) mActivity).getEventSource();
+        } else if (mActivity instanceof GuideWebDetailActivity) {
+            source = ((GuideWebDetailActivity) mActivity).getEventSource();
+        } else if (mActivity instanceof SkuDetailActivity) {
+            source = ((SkuDetailActivity) mActivity).getEventSource();
         }
         return source;
     }
