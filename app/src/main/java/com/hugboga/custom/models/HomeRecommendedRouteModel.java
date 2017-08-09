@@ -3,7 +3,9 @@ package com.hugboga.custom.models;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -50,6 +52,22 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
     public HomeRecommendedRouteModel(Context context, HomeCityContentVo2 homeCityContentVo2) {
         this.context = context;
         this.homeCityContentVo2 = homeCityContentVo2;
+//        HomeCityGoodsVo homeCityGoodsVo = new HomeCityGoodsVo();
+//        homeCityGoodsVo.goodsPic = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502203816939&di=6a7715d7258c8901c3499e792d144c30&imgtype=0&src=http%3A%2F%2Fwww.qq1234.org%2Fuploads%2Fallimg%2F140426%2F155540J58-13.jpg";
+//        homeCityGoodsVo.perPrice = 2000;
+//        homeCityGoodsVo.recommendedReason = " woaini";
+//        homeCityContentVo2.cityGoodsList.add(homeCityGoodsVo);
+//        HomeCityGoodsVo homeCityGoodsVo1 = new HomeCityGoodsVo();
+//        homeCityGoodsVo1.goodsPic = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502203952492&di=8afaf487b80fa05969c467ba55cb48c8&imgtype=0&src=http%3A%2F%2Fimg.jsqq.net%2Fuploads%2Fallimg%2F150111%2F1_150111080328_19.jpg";
+//        homeCityGoodsVo1.perPrice = 3000;
+//        homeCityGoodsVo1.recommendedReason = " 疯子";
+//        homeCityContentVo2.cityGoodsList.add(homeCityGoodsVo1);
+//        HomeCityGoodsVo homeCityGoodsVo2 = new HomeCityGoodsVo();
+//        homeCityGoodsVo2.goodsPic = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502204002679&di=638ef89607cce6a40e4506dec045d60e&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2Fface01%2Fface06%2Ffacejunyong%2Fjunyong04.jpg";
+//        homeCityGoodsVo2.perPrice = 4000;
+//        homeCityGoodsVo2.recommendedReason = " 张强";
+//        homeCityContentVo2.cityGoodsList.add(homeCityGoodsVo2);
+
     }
 
     @Override
@@ -74,10 +92,22 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 homeRecommendedRouteHolder.ultraViewPager.setAutoMeasureHeight(true);
                 //initialize UltraPagerAdapter，and add child view to UltraViewPager
                 adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
-                ((HomeRecommendedRoutAdapter) adapter).setOnChangedLister(new HomeRecommendedRoutAdapter.OnChangedLister() {
+                homeRecommendedRouteHolder.ultraViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
-                    public void lister(int position, String cityName, ArrayList<HomeCityGoodsVo> homeCityGoodsVos) {
-                        setData(cityName, homeCityGoodsVos.get(position));
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        Log.i("aa", "position" + position);
+                        int index = homeRecommendedRouteHolder.ultraViewPager.getCurrentItem();
+                        setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
                     }
                 });
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
@@ -103,20 +133,27 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
 
                 homeRecommendedRouteHolder.ultraViewPager.setMultiScreen(0.9f);
                 homeRecommendedRouteHolder.ultraViewPager.setPageTransformer(false, new UltraScaleTransformer());
-
-                //initialize UltraPagerAdapter，and add child view to UltraViewPager
-                adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
-                ((HomeRecommendedRoutAdapter) adapter).setOnChangedLister(new HomeRecommendedRoutAdapter.OnChangedLister() {
+                homeRecommendedRouteHolder.ultraViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
-                    public void lister(int position, String cityName, ArrayList<HomeCityGoodsVo> homeCityGoodsVos) {
-                        setData(cityName, homeCityGoodsVos.get(position));
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        Log.i("aa", "position" + position);
+                        int index = homeRecommendedRouteHolder.ultraViewPager.getCurrentItem();
+                        setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
                     }
                 });
+                //initialize UltraPagerAdapter，and add child view to UltraViewPager
+                adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
-
-                //} else {
-                //    ((HomeRecommendedRoutAdapter) adapter).setData(homeCityContentVo2);
-                //}
 
                 setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
             }

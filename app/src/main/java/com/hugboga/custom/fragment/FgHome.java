@@ -303,7 +303,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
 
                 //底部活动
-                homeAdapter.addHomeBottomBanner();
+                homeAdapter.addHomeBottomBanner(getContext());
 
             }
             //重新请求已收藏司导状态

@@ -112,8 +112,8 @@ public class HomeAdapter extends EpoxyAdapter {
         addModel(homeBannerModel);
     }
 
-    public void addHomeBottomBanner() {
-        homeBottomBannerModel = new HomeBottomBannerModel();
+    public void addHomeBottomBanner(Context context) {
+        homeBottomBannerModel = new HomeBottomBannerModel(context);
         addModel(homeBottomBannerModel);
     }
 
