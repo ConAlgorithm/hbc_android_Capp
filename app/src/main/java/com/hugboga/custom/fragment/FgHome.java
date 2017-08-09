@@ -238,8 +238,6 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 //添加错误提示
                 homeAdapter.addNetworkErrorModel(this);
             }
-        } else if (request instanceof FavoriteGuideSaved) {
-            Log.d("FavoriteGuideSaved", errorInfo.toString());
         }
     }
 
