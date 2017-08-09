@@ -18,6 +18,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCommentInfoVo;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
@@ -99,7 +100,7 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                 return;
             }
             if (!TextUtils.isEmpty(homeCommentInfoVo.userAvatar)) {
-                Tools.showImage(homeGuideEvaluateHolder.polygonImageView, homeCommentInfoVo.userAvatar, R.mipmap.icon_avatar_user);
+                Tools.showRoundImage(homeGuideEvaluateHolder.polygonImageView, homeCommentInfoVo.userAvatar, UIUtils.dip2px(5),R.mipmap.icon_avatar_user);
             }
             homeGuideEvaluateHolder.userName.setText(homeCommentInfoVo.userName);
             homeGuideEvaluateHolder.location.setText(homeCommentInfoVo.serviceCityName);

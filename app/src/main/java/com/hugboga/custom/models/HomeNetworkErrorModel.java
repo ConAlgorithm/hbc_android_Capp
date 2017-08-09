@@ -5,16 +5,10 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.Common;
-import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by SPW on 2017/3/15.
- */
 
 public class HomeNetworkErrorModel extends EpoxyModelWithHolder {
 
@@ -32,7 +26,6 @@ public class HomeNetworkErrorModel extends EpoxyModelWithHolder {
     public void bind(EpoxyHolder holder) {
         super.bind(holder);
         NetWorkErrorHolder netWorkErrorHolder = (NetWorkErrorHolder)holder;
-        netWorkErrorHolder.reload.getLayoutParams().height = UIUtils.screenHeight-UIUtils.dip2px(143)-UIUtils.statusBarHeight;
         netWorkErrorHolder.reload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

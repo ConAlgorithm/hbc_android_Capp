@@ -34,6 +34,8 @@ import butterknife.ButterKnife;
 public class HomeAlbumView extends LinearLayout {
     Activity activity;
     public int displayImgWidth, displayImgHeight;
+    @Bind(R.id.viewtop)
+    View viewtop;
     @Bind(R.id.album_recyclerview)
     RecyclerView recyclerView;
     @Bind(R.id.title_ablum)
@@ -86,8 +88,10 @@ public class HomeAlbumView extends LinearLayout {
         }
         if(position == 0){
             title.setVisibility(VISIBLE);
+            viewtop.setVisibility(VISIBLE);
         }else {
             title.setVisibility(GONE);
+            viewtop.setVisibility(GONE);
         }
 
         if(homeAlbumInfoVo.albumImageUrl == null || homeAlbumInfoVo.albumImageUrl.isEmpty()){

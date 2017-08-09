@@ -201,4 +201,12 @@ public  class ErrorHandler implements HttpRequestListener{
         }
         return handler;
     }
+
+    //获取diaglod实例
+    public DialogUtilInterface getmDialogUtil(){
+        if(mDialogUtil != null){
+            return mDialogUtil;
+        }
+        return null;
+    }
 }

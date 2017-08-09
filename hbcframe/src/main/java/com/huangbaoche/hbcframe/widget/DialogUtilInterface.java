@@ -15,5 +15,6 @@ public interface DialogUtilInterface {
     public void   dismissLoadingDialog();
     public Dialog showSettingDialog();
     public Dialog showOvertimeDialog(BaseRequest baseRequest,HttpRequestListener listener);
+    public void  dismissSettingDialog();
 
 }

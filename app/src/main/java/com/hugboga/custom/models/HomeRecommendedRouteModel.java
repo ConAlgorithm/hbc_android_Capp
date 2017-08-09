@@ -102,7 +102,9 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     public void onPageSelected(int position) {
                         Log.i("aa", "position" + position);
                         int index = homeRecommendedRouteHolder.ultraViewPager.getCurrentItem();
-                        setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
+                        if(index < homeCityContentVo2.cityGoodsList.size()){
+                            setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
+                        }
                     }
 
                     @Override
@@ -210,7 +212,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
             homeRecommendedRouteHolder.perPrice.setText("¥" + homeCityGoodsVo.perPrice + "起/人");
             homeRecommendedRouteHolder.filter_guide.setText(cityName + "推荐线路");
             if (!TextUtils.isEmpty(homeCityGoodsVo.goodsPic)) {
-                Tools.showImage(homeRecommendedRouteHolder.polygonImageView, homeCityGoodsVo.guidePic, R.mipmap.icon_avatar_guide);
+                Tools.showRoundImage(homeRecommendedRouteHolder.polygonImageView, homeCityGoodsVo.guidePic, UIUtils.dip2px(5),R.mipmap.icon_avatar_guide);
             }
             homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
