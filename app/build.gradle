@@ -64,7 +64,7 @@ android {
         targetSdkVersion 23
         //version start
         versionCode 102540
-        versionName "4.3.1"
+        versionName "5.0.0"
         //version end
         //signingConfig signingConfigs.hbcSign
         //signingConfig signingConfigs.hbcSignGp
