@@ -378,7 +378,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         }
         MLog.e("url=" + url);
 
-        //SensorsUtils.setSensorsShowUpWebView(webView);
+//        SensorsUtils.setSensorsShowUpWebView(webView);
     }
 
     @Override

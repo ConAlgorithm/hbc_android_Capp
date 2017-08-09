@@ -180,6 +180,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         }
         carTypeView.setOnSelectedCarListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        carTypeView.showLuggageExplain();
         bottomView.setOnConfirmListener(this);
         emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
             @Override
