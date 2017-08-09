@@ -14,6 +14,8 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.widget.HackyViewPager;
 
+import org.xutils.image.ImageOptions;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
@@ -122,17 +124,21 @@ public class LargerImageActivity extends BaseActivity{
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            photoView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             if (params.isLocalPic) {
                 File dir = new File(params.imageUrlList.get(position));
                 Uri dirUri = Uri.fromFile(dir);
                 photoView.setImageURI(dirUri);
             } else {
-                Glide.with(LargerImageActivity.this)
-                        .load(params.imageUrlList.get(position))
-                        .placeholder(R.mipmap.guide_car_default)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(photoView);
+//                Glide.with(LargerImageActivity.this)
+//                        .load(params.imageUrlList.get(position))
+//                        .fitCenter()
+//                        .placeholder(R.mipmap.guide_car_default)
+//                        .into(photoView);
+                ImageOptions options = new ImageOptions.Builder()
+                        .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
+                        .build();
+                org.xutils.x.image().bind(photoView, params.imageUrlList.get(position), options);
             }
             photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
@@ -145,7 +151,7 @@ public class LargerImageActivity extends BaseActivity{
                     LargerImageActivity.this.finish();
                 }
             });
-            container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            container.addView(photoView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             return photoView;
         }
 
