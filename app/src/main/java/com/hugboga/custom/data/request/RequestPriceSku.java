@@ -27,7 +27,7 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
      * @param goodsNo     商品ID
      * @param serviceDate 服务时间 yyyy-MM-dd HH:mm:ss
      */
-    public RequestPriceSku(Context context, String goodsNo, String serviceDate,String cityId) {
+    public RequestPriceSku(Context context, String goodsNo, String serviceDate,String cityId,String carIds,int premiumMark) {
         super(context);
         map = new TreeMap();
         map.put("goodsNo", goodsNo);
@@ -35,6 +35,10 @@ public class RequestPriceSku extends BaseRequest<CarListBean> {
         map.put("channelId", Config.channelId);
         map.put("cityId", cityId);
         map.put("specialCarsIncluded","1");
+        if(null != carIds) {
+            map.put("carIds", carIds);
+            map.put("premiumMark", premiumMark);// 优质司导溢价标记 1.溢价 0.不溢价
+        }
         errorType = ERROR_TYPE_IGNORE;
     }
 

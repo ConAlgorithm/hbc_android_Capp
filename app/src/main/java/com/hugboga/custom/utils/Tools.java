@@ -43,7 +43,6 @@ public class Tools {
 
     }
 
-    //placeholder 显示有问题
     public static void showImage(final ImageView imageView, String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
 //            imageView.setBackgroundResource(resId);
@@ -54,6 +53,38 @@ public class Tools {
         Glide.with(MyApplication.getAppContext())
                 .load(url)
                 .centerCrop()
+                .error(resId)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                        if (imageView != null && resId != 0) {
+//                            imageView.setBackgroundResource(0);
+                        imageView.setImageResource(resId);
+//                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        imageView.setBackgroundResource(0);
+                        return false;
+                    }
+                })
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+    //placeholder 显示有问题
+    public static void showImageFitCenter(final ImageView imageView, String url, final int resId) {
+        if (TextUtils.isEmpty(url)) {
+//            imageView.setBackgroundResource(resId);
+            imageView.setImageResource(resId);
+            return;
+        }
+//        imageView.setBackgroundResource(resId);
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .fitCenter()
                 .error(resId)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override

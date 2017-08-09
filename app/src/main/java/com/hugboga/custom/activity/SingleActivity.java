@@ -52,12 +52,10 @@ import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.title.TitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.squareup.timessquare.CalendarListBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -179,6 +177,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
         carTypeView.setOnSelectedCarListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
+        carTypeView.showLuggageExplain();
         bottomView.setOnConfirmListener(this);
         addressLayout.setOnAddressClickListener(this);
 

@@ -11,6 +11,8 @@ import android.widget.ScrollView;
 
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -20,6 +22,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
+import com.hugboga.custom.data.bean.GuideCarBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
@@ -31,8 +34,10 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestCancleTips;
+import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestDeduction;
 import com.hugboga.custom.data.request.RequestMostFit;
+import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestPriceSku;
 import com.hugboga.custom.data.request.RequestSubmitBase;
@@ -43,7 +48,10 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
@@ -118,6 +126,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private CouponBean couponBean;
     private String couponId;
 
+    private GuidesDetailData guidesDetailData;
+    private ArrayList<GuideCarBean> guideCarBeanList;
+
     private double sensorsActualPrice = 0;
 
     private int requestCouponTag = 0;
@@ -188,7 +199,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
         travelerInfoView.setOrderType(orderType);
 
-        requestPriceSku(serverDate);
+        if (params.guidesDetailData != null) {
+            guidesDetailData = params.guidesDetailData;
+            getGuideCars();
+        } else {
+            requestPriceSku(serverDate);
+        }
 
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_SKU);
     }
@@ -295,7 +311,14 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestPriceSku) {
             carListBean = ((RequestPriceSku) _request).getData();
-            if (!checkDataIsEmpty(carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
+            if (!checkDataIsEmpty(carListBean == null ? null : carListBean.carList, carListBean.noneCarsState, carListBean.noneCarsReason)) {
+                if (guidesDetailData != null && guideCarBeanList != null) {
+                    ArrayList<CarBean> carList = CarUtils.getCarBeanList(carListBean.carList, guideCarBeanList);
+                    if (checkDataIsEmpty(carList)) {
+                        return;
+                    }
+                    carListBean.carList = carList;
+                }
                 carTypeView.update(carListBean);
             }
             scrollToTop();
@@ -386,6 +409,10 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         } else {
             requestedSubmit = false;
         }
+    }
+
+    private boolean checkDataIsEmpty(ArrayList<CarBean> _carList) {
+        return checkDataIsEmpty(_carList, 0, null);
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
@@ -585,8 +612,11 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         if (!CommonUtils.isLogin(this)) {
             return;
         }
-        requestSubmitOrder();
-        setSensorsEvent();
+        if (guidesDetailData != null) {
+            checkGuideCoflict();
+        } else {
+            requestSubmitOrder();
+        }
         StatisticClickEvent.click(StatisticConstant.SUBMITORDER_SKU);
         SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
     }
@@ -598,7 +628,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private void requestPriceSku(String serverDate) {
         this.serverDate = serverDate;
         String serverDayTime = serverDate + " " + SERVER_TIME + ":00";
-        RequestPriceSku request = new RequestPriceSku(this, params.skuItemBean.goodsNo, serverDayTime, "" + params.cityBean.cityId);
+        RequestPriceSku request = new RequestPriceSku(this
+                , params.skuItemBean.goodsNo
+                , serverDayTime
+                , "" + params.cityBean.cityId
+                , guidesDetailData == null ? "" : guidesDetailData.getCarIds()
+                , guidesDetailData == null ? 0 : guidesDetailData.isQuality);
         requestData(request);
     }
 
@@ -655,6 +690,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 requestData(requestSubmitLine);
                 break;
         }
+        setSensorsEvent();
     }
 
     /*
@@ -663,6 +699,70 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private void requestPayNo(String orderNo) {
         RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
         requestData(pequestPayNo);
+    }
+
+    private void getGuideCars() {
+        RequestNewCars requestCars = new RequestNewCars(this, 5, guidesDetailData.guideId, null);
+        HttpRequestUtils.request(this, requestCars, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                guideCarBeanList = ((RequestNewCars) request).getData();
+                if (guideCarBeanList == null || guideCarBeanList.size() <= 0) {
+                    checkDataIsEmpty(null);
+                    return;
+                }
+                guidesDetailData.guideCars = guideCarBeanList;
+                guidesDetailData.guideCarCount = guideCarBeanList.size();
+                requestPriceSku(serverDate);
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (isFinishing()) {
+                    return;
+                }
+                if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
+                    checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                }
+            }
+        }, true);
+    }
+
+    private void checkGuideCoflict() {
+        RequestCheckGuide.CheckGuideBean checkGuideBean = new RequestCheckGuide.CheckGuideBean();
+        checkGuideBean.startTime = serverDate + " " + "00:00:00";
+        checkGuideBean.endTime = DateUtils.getDay(serverDate, params.skuItemBean.daysCount - 1) + " " + "23:59:59";
+        checkGuideBean.cityId = params.cityBean != null ? params.cityBean.cityId : params.skuItemBean.arrCityId;
+        checkGuideBean.guideId = guidesDetailData.guideId;
+        checkGuideBean.orderType = orderType;
+
+        RequestCheckGuide requestCheckGuide = new RequestCheckGuide(this, checkGuideBean, params.skuItemBean.goodsNo);
+        HttpRequestUtils.request(this, requestCheckGuide, new HttpRequestListener() {
+            @Override
+            public void onDataRequestSucceed(BaseRequest request) {
+                ApiReportHelper.getInstance().addReport(request);
+                requestSubmitOrder();
+            }
+
+            @Override
+            public void onDataRequestCancel(BaseRequest request) {
+
+            }
+
+            @Override
+            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                if (isFinishing()) {
+                    return;
+                }
+                CommonUtils.apiErrorShowService(SkuOrderActivity.this, errorInfo, request, SkuOrderActivity.this.getEventSource(), false);
+            }
+        }, true);
     }
 
     /*
@@ -691,7 +791,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         ManLuggageBean manLuggageBean = countView.getManLuggageBean();
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
 
-        return new OrderUtils().getSKUOrderByInput(""
+        return new OrderUtils().getSKUOrderByInput(params.guidesDetailData != null ? params.guidesDetailData.guideId : ""
                 , params.skuItemBean
                 , serverDate
                 , TextUtils.isEmpty(travelerInfoBean.serverTime) ? SERVER_TIME : travelerInfoBean.serverTime

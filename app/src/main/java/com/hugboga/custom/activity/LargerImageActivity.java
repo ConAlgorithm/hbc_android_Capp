@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.HackyViewPager;
 
 import org.xutils.image.ImageOptions;
@@ -130,15 +129,7 @@ public class LargerImageActivity extends BaseActivity{
                 Uri dirUri = Uri.fromFile(dir);
                 photoView.setImageURI(dirUri);
             } else {
-//                Glide.with(LargerImageActivity.this)
-//                        .load(params.imageUrlList.get(position))
-//                        .fitCenter()
-//                        .placeholder(R.mipmap.guide_car_default)
-//                        .into(photoView);
-                ImageOptions options = new ImageOptions.Builder()
-                        .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
-                        .build();
-                org.xutils.x.image().bind(photoView, params.imageUrlList.get(position), options);
+                Tools.showImageFitCenter(photoView,  params.imageUrlList.get(position), R.mipmap.guide_car_default);
             }
             photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override

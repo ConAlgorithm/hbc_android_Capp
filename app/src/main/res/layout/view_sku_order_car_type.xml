@@ -15,6 +15,15 @@
             style="@style/SkuOrderSubtitleTextView"
             android:text="选择车型" />
 
+        <ImageView
+            android:id="@+id/sku_order_car_type_luggage_explain_iv"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/order_luggage_instruction" />
+
         <TextView
             android:id="@+id/sku_order_car_type_luggage_explain_tv"
             android:layout_width="wrap_content"
@@ -22,21 +31,13 @@
             android:paddingTop="13.7dp"
             android:paddingBottom="2dp"
             android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="1dp"
+            android:layout_toLeftOf="@id/sku_order_car_type_luggage_explain_iv"
+            android:layout_marginRight="2dp"
             android:gravity="center_vertical"
-            android:text="行李标准说明"
+            android:text="一个空座可加一个行李"
             android:textColor="@color/default_highlight_blue"
             android:textSize="12sp" />
 
-        <ImageView
-            android:id="@+id/sku_order_car_type_luggage_explain_iv"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"
-            android:layout_toLeftOf="@id/sku_order_car_type_luggage_explain_tv"
-            android:background="@mipmap/icon_order_info" />
     </RelativeLayout>
 
     <LinearLayout

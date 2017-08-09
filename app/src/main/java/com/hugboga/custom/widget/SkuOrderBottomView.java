@@ -35,7 +35,12 @@ public class SkuOrderBottomView extends LinearLayout {
     @Bind(R.id.sku_order_bottom_progress_layout)
     FrameLayout progressLayout;
 
-    public OnSubmitOrderListener listener;
+    private OnSubmitOrderListener listener;
+
+    private int orderType;
+    private boolean isGuides;
+    private boolean isSeckills;
+    private double shouldPrice;
 
     public SkuOrderBottomView(Context context) {
         this(context, null);
@@ -49,6 +54,7 @@ public class SkuOrderBottomView extends LinearLayout {
     }
 
     public void updatePrice(double shouldPrice, double discountPrice) {
+        this.shouldPrice = shouldPrice;
         shouldPriceTV.setText(getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(shouldPrice));
         totalPriceTV.setText(String.format("总额: ¥%1$s","" + CommonUtils.doubleTrans(shouldPrice + discountPrice)));
         if (discountPrice <= 0) {
@@ -56,6 +62,10 @@ public class SkuOrderBottomView extends LinearLayout {
         } else {
             discountPriceTV.setVisibility(View.VISIBLE);
             discountPriceTV.setText(String.format("已减: ¥%1$s","" + CommonUtils.doubleTrans(discountPrice)));
+        }
+
+        if (orderType != 0) {
+            setHintTV(orderType, isGuides, isSeckills);
         }
     }
 
@@ -89,9 +99,14 @@ public class SkuOrderBottomView extends LinearLayout {
     }
 
     public void setHintTV(int orderType, boolean isGuides, boolean isSeckills) {
-        String hint1 = "支付后参与砍价活动，还能再减200元哦！";
+        this.orderType = orderType;
+        this.isGuides = isGuides;
+        this.isSeckills = isSeckills;
+
+        String hint1 = "支付后参与砍价活动，最多可减200元哦！";
         String hint2 = "支付后还可以挑选司导哦~";
         String showText = "";
+        boolean isShowHint1 = shouldPrice > 200;
 
         boolean isDaily = orderType == 3 || orderType == 888 || orderType == 5 || orderType == 6;
 
@@ -102,11 +117,11 @@ public class SkuOrderBottomView extends LinearLayout {
                 showText = null;
             }
         } else if (isGuides) {
-            showText = hint1;
+            showText = isShowHint1 ? hint1 : null;
         } else if (isDaily) {
             showText = hint2;
         } else {
-            showText = hint1;
+            showText = isShowHint1 ? hint1 : null;
         }
         selectedGuideHintTV.setText(showText);
         selectedGuideHintTV.setVisibility(showText == null ? GONE : VISIBLE);

@@ -16,8 +16,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@HttpRequest(path = UrlLibs.API_GUIDE_AVAILABLE_CHECK, builder = NewParamsBuilder.class)
+@HttpRequest(path = "", builder = NewParamsBuilder.class)
 public class RequestCheckGuide extends BaseRequest {
+
+    private String goodsNo;
 
     public RequestCheckGuide(Context context, CheckGuideBeanList checkGuideBeanList) {
         super(context);
@@ -26,13 +28,19 @@ public class RequestCheckGuide extends BaseRequest {
         errorType = ERROR_TYPE_IGNORE;
     }
 
-    public RequestCheckGuide(Context context, CheckGuideBean checkGuideBean) {
+    public RequestCheckGuide(Context context, CheckGuideBean checkGuideBean, String goodsNo) {
         super(context);
+        this.goodsNo = goodsNo;
         map = new HashMap<String, Object>();
         CheckGuideBeanList checkGuideBeanList = new CheckGuideBeanList();
         checkGuideBeanList.guideCheckInfos.add(checkGuideBean);
+        checkGuideBeanList.goodsNo = goodsNo;
         bodyEntity = JsonUtils.toJson(checkGuideBeanList);
         errorType = ERROR_TYPE_IGNORE;
+    }
+
+    public RequestCheckGuide(Context context, CheckGuideBean checkGuideBean) {
+        this(context, checkGuideBean, null);
     }
 
     @Override
@@ -47,12 +55,18 @@ public class RequestCheckGuide extends BaseRequest {
 
     @Override
     public String getUrlErrorCode() {
-        return "40143";
+        return TextUtils.isEmpty(goodsNo) ? "40143" : "40176";
+    }
+
+    @Override
+    public String getUrl() {
+        return TextUtils.isEmpty(goodsNo) ? UrlLibs.API_GUIDE_AVAILABLE_CHECK : UrlLibs.API_CHECK_SKU;
     }
 
     public static class CheckGuideBeanList implements Serializable {
         public ArrayList<CheckGuideBean> guideCheckInfos;
         public ArrayList<CheckGuideBean> guideSubOrderInfos;
+        public String goodsNo;
 
         public CheckGuideBeanList() {
             guideCheckInfos = new ArrayList<CheckGuideBean>();
