@@ -13,9 +13,12 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChoiceCommentActivity;
+import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.adapter.HomeGuideEvaluateAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCommentInfoVo;
+import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -104,8 +107,29 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
             }
             homeGuideEvaluateHolder.userName.setText(homeCommentInfoVo.userName);
             homeGuideEvaluateHolder.location.setText(homeCommentInfoVo.serviceCityName);
+            homeGuideEvaluateHolder.location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CityListActivity.Params params = new CityListActivity.Params();
+                    params.id = homeCommentInfoVo.serviceCityId;
+                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    params.titleName = homeCommentInfoVo.serviceCityName;
+                    intentActivity(context, CityListActivity.class, getEventSource(), params);
+                }
+            });
             homeGuideEvaluateHolder.serviceType.setText(homeCommentInfoVo.orderTypeName);
             homeGuideEvaluateHolder.guideName.setText(homeCommentInfoVo.guideName);
+            homeGuideEvaluateHolder.guideName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
+                    params.guideId = homeCommentInfoVo.guideId;
+                    Intent intent = new Intent(context, GuideWebDetailActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    context.startActivity(intent);
+                }
+            });
             homeGuideEvaluateHolder.evaluateContent.setText(homeCommentInfoVo.comment);
             if (homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() > 0) {
                 Tools.showImage(homeGuideEvaluateHolder.imageView, homeCommentInfoVo.commentPics.get(0));
@@ -126,14 +150,28 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
             homeGuideEvaluateHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, ChoiceCommentActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    context.startActivity(intent);
+                    intentActivity(context,ChoiceCommentActivity.class,getEventSource(),null);
+                }
+            });
+            homeGuideEvaluateHolder.evaluateContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intentActivity(context,ChoiceCommentActivity.class,getEventSource(),null);
                 }
             });
         }
     }
     public String getEventSource() {
         return "首页";
+    }
+
+    private void intentActivity(Context context, Class<?> cls, String eventId, CityListActivity.Params params) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        context.startActivity(intent);
+        if (!TextUtils.isEmpty(eventId)) {
+            MobClickUtils.onEvent(eventId);
+        }
     }
 }
