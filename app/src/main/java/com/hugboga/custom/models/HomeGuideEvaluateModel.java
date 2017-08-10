@@ -150,6 +150,11 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
             }
             if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() >0){
                 homeGuideEvaluateHolder.imgCount.setText(homeCommentInfoVo.commentPics.size() + "图");
+                homeGuideEvaluateHolder.imageView.setVisibility(View.VISIBLE);
+            }else if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() == 0){
+                homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
+            }else if(homeCommentInfoVo.commentPics == null){
+                homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
             }
             homeGuideEvaluateHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
