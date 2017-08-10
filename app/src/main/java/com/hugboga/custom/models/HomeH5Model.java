@@ -82,23 +82,24 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.view1:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"https://www.baidu.com");
             break;
             case R.id.view2:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.163.com");
                 break;
             case R.id.view3:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.sina.com");
                 break;
             case R.id.view4:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.qq.com");
                 break;
         }
 
     }
-    private void intentActivity(Context context, Class<?> cls, String eventId,String Url) {
+    private void intentActivity(Context context, Class<?> cls, String eventId,String url) {
         Intent intent = new Intent(context, cls);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(WebInfoActivity.WEB_URL,url);
         context.startActivity(intent);
         if (!TextUtils.isEmpty(eventId)) {
             MobClickUtils.onEvent(eventId);

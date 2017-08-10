@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.activity.PickSendActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.TravelPurposeFormActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -49,7 +51,8 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
 
     static class HomeServiceHolder extends EpoxyHolder{
         View itemView;
-
+        @Bind(R.id.charter_id_img)
+        ImageView charterImg;
         @Bind(R.id.view1)
         View view;
         @Bind(R.id.daystravel)
@@ -89,6 +92,7 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
             homeServiceHolder.singlePickSend.setOnClickListener(this);
             homeServiceHolder.privateOrdering.setOnClickListener(this);
             homeServiceHolder.homeLine.setOnClickListener(this);
+            homeServiceHolder.charterImg.setOnClickListener(this);
         }
     }
     public int getViewTop() {
@@ -97,7 +101,7 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
         }
         return 0;
     }
-    @OnClick({R.id.daystravel,R.id.single_pick_send,R.id.pick_send,R.id.private_ordering,R.id.home_line})
+    @OnClick({R.id.daystravel,R.id.single_pick_send,R.id.pick_send,R.id.private_ordering,R.id.home_line,R.id.charter_id_img})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.daystravel:
@@ -115,6 +119,10 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
             case R.id.home_line:
                 intentActivity(context, FilterSkuListActivity.class,null);
                 break;
+            case R.id.charter_id_img:
+                String url = "https://act.huangbaoche.com/h5/cactivity/chineseGuide/index.html";
+                intentWebInfoActivity(context, url);
+                break;
         }
 
     }
@@ -125,6 +133,15 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
         if (!TextUtils.isEmpty(eventId)) {
             MobClickUtils.onEvent(eventId);
         }
+    }
+
+    private void intentWebInfoActivity(Context context,String _url) {
+        if (context == null || TextUtils.isEmpty(_url)) {
+            return;
+        }
+        Intent intent = new Intent(context, WebInfoActivity.class);
+        intent.putExtra(WebInfoActivity.WEB_URL, _url);
+        context.startActivity(intent);
     }
     public String getEventSource() {
         return "首页";
