@@ -145,7 +145,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
                 Intent intent = new Intent(context, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, filterGuideBean.orderUrl);
                 context.startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
         });
 //
@@ -166,7 +166,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                 getContext().startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
         });
     }

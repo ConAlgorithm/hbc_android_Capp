@@ -64,7 +64,7 @@ public class HomeBottomBannerModel extends EpoxyModelWithHolder {
                 Intent intent = new Intent(context, TravelFundActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 context.startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(),"活动",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"活动","首页-活动");
             }
         });
     }

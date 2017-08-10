@@ -16,6 +16,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -72,6 +73,7 @@ public class HomeBannerAdapter extends PagerAdapter {
                     ActionController actionFactory = ActionController.getInstance();
                     actionFactory.doAction(mContext, activityPageSettingVo.pushScheme);
                 }
+                SensorsUtils.onAppClick(getEventSource(),"广告","首页-广告");
             }
         });
         container.addView(linearLayout);
@@ -88,5 +90,9 @@ public class HomeBannerAdapter extends PagerAdapter {
     public void setData(ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activityPageSettings){
         this.activityPageSettings = activityPageSettings;
         notifyDataSetChanged();
+    }
+
+    public String getEventSource() {
+        return "首页";
     }
 }

@@ -391,7 +391,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         this.getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
-        SensorsUtils.onAppClick(getEventSource(),"搜索",getEventSource());
+        SensorsUtils.onAppClick(getEventSource(),"搜索","首页－搜索");
     }
 
     @OnClick({R.id.search_icon_layout})

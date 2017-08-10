@@ -61,7 +61,7 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
             @Override
             public void onClick(View view) {
                 intentActivity(context, WebInfoActivity.class,getEventSource());
-                SensorsUtils.onAppClick(getEventSource(),"往期专辑",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"往期专辑","首页-往期专辑");
             }
         });
         //holder.desPast.setText("");

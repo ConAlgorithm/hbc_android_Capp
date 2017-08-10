@@ -84,19 +84,19 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
         switch (view.getId()){
             case R.id.view1:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"https://www.baidu.com");
-                SensorsUtils.onAppClick(getEventSource(),"一价全包",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"一价全包","首页-一价全包");
             break;
             case R.id.view2:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"www.163.com");
-                SensorsUtils.onAppClick(getEventSource(),"服务保障",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"服务保障","首页-服务保障");
                 break;
             case R.id.view3:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"www.sina.com");
-                SensorsUtils.onAppClick(getEventSource(),"先行赔付",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"先行赔付","首页-先行赔付");
                 break;
             case R.id.view4:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"www.qq.com");
-                SensorsUtils.onAppClick(getEventSource(),"免费保险",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"免费保险","首页-免费保险");
                 break;
         }
 

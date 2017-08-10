@@ -108,7 +108,7 @@ public class HomeAlbumView extends LinearLayout {
                 Intent intent = new Intent(activity,WebInfoActivity.class);
                 intent.putExtra("web_url", homeAlbumInfoVo.albumLinkUrl);
                 activity.startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(),"热门专辑",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
             }
         });
 

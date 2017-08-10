@@ -107,28 +107,28 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
         switch (view.getId()){
             case R.id.daystravel:
                 intentActivity(context, CharterFirstStepActivity.class, StatisticConstant.LAUNCH_DETAIL_R);
-                SensorsUtils.onAppClick(getEventSource(),"按天畅游",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"按天畅游","首页-按天畅游");
                 break;
             case R.id.single_pick_send:
                 intentActivity(context, SingleActivity.class, StatisticConstant.LAUNCH_C);
-                SensorsUtils.onAppClick(getEventSource(),"单次接送",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"单次接送","首页-单次接送");
                 break;
             case R.id.pick_send:
                 intentActivity(context, PickSendActivity.class, StatisticConstant.LAUNCH_J);
-                SensorsUtils.onAppClick(getEventSource(),"接送机",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"接送机","首页-接送机");
                 break;
             case R.id.private_ordering:
                 intentActivity(context, TravelPurposeFormActivity.class, StatisticConstant.YI_XIANG);
-                SensorsUtils.onAppClick(getEventSource(),"私人订制",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"私人订制","首页-私人订制");
                 break;
             case R.id.home_line:
                 intentActivity(context, FilterSkuListActivity.class,null);
-                SensorsUtils.onAppClick(getEventSource(),"精品线路游",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"精品线路游","首页-精品线路游");
                 break;
             case R.id.charter_id_img:
                 String url = "https://act.huangbaoche.com/h5/cactivity/chineseGuide/index.html";
                 intentWebInfoActivity(context, url);
-                SensorsUtils.onAppClick(getEventSource(),"中文包车游",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"中文包车游","首页-中文包车游");
                 break;
         }
 

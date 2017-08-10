@@ -51,7 +51,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
                     Intent intent = new Intent(getContext(), WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, homeAlbumRelGoodsVo.goodsDetailUrl);
                     getContext().startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(),"热门专辑",getEventSource());
+                    SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
                 }
             });
             albumPurchseItem.setText("¥" + homeAlbumRelGoodsVo.perPrice +"起/人");

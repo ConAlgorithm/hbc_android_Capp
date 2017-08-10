@@ -100,7 +100,7 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
             public void onClick(View v) {
                 //更多todo!
                 intentActivity(context, FilterGuideListActivity.class,null);
-                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务",getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
         });
     }
