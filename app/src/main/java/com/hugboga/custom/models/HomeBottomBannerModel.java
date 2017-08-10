@@ -10,9 +10,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +41,8 @@ public class HomeBottomBannerModel extends EpoxyModelWithHolder {
         protected void bindView(View itemView) {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
+            img.getLayoutParams().width = UIUtils.getScreenWidth() - UIUtils.dip2px(32);
+            img.getLayoutParams().height = img.getLayoutParams().width*160/328;
         }
     }
 

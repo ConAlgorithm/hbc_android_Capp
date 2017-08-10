@@ -158,7 +158,7 @@ public class PurposeFormImgView extends LinearLayout implements HbcViewBehavior 
     public static class PurposeAdapter extends PagerAdapter {
 
         private Context mContext;
-        private Integer[] Pics = {R.mipmap.baoche_tips, R.mipmap.activity_pay_failure, R.mipmap.bargain_entr_bg};
+        private Integer[] Pics = {R.mipmap.wish_banner_a, R.mipmap.wish_banner_b, R.mipmap.wish_banner_c, R.mipmap.wish_banner_d};
         private ViewGroup.LayoutParams itemParams;
 
         public PurposeAdapter(Context mContext) {
