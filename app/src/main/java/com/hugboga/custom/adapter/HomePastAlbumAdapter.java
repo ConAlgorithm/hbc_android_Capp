@@ -18,6 +18,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
             @Override
             public void onClick(View view) {
                 intentActivity(context, WebInfoActivity.class,getEventSource());
+                SensorsUtils.onAppClick(getEventSource(),"往期专辑",getEventSource());
             }
         });
         //holder.desPast.setText("");

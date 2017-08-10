@@ -12,6 +12,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -83,15 +84,19 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
         switch (view.getId()){
             case R.id.view1:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"https://www.baidu.com");
+                SensorsUtils.onAppClick(getEventSource(),"一价全包",getEventSource());
             break;
             case R.id.view2:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"www.163.com");
+                SensorsUtils.onAppClick(getEventSource(),"服务保障",getEventSource());
                 break;
             case R.id.view3:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"www.sina.com");
+                SensorsUtils.onAppClick(getEventSource(),"先行赔付",getEventSource());
                 break;
             case R.id.view4:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),"www.qq.com");
+                SensorsUtils.onAppClick(getEventSource(),"免费保险",getEventSource());
                 break;
         }
 

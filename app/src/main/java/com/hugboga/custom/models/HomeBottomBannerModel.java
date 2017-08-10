@@ -10,6 +10,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
@@ -63,6 +64,7 @@ public class HomeBottomBannerModel extends EpoxyModelWithHolder {
                 Intent intent = new Intent(context, TravelFundActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 context.startActivity(intent);
+                SensorsUtils.onAppClick(getEventSource(),"活动",getEventSource());
             }
         });
     }

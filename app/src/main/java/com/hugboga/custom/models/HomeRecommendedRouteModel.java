@@ -22,6 +22,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.data.bean.HomeCityGoodsVo;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.tmall.ultraviewpager.UltraViewPager;
@@ -222,6 +223,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     params.cityHomeType = CityListActivity.CityHomeType.CITY;
                     params.titleName = homeCityContentVo2.cityName;
                     intentActivity(context, CityListActivity.class, getEventSource(), params);
+                    SensorsUtils.onAppClick(getEventSource(),"推荐线路",getEventSource());
                 }
             });
             homeRecommendedRouteHolder.perPrice.setOnClickListener(new View.OnClickListener() {
@@ -232,6 +234,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     intent.putExtra(Constants.PARAMS_ID, homeCityGoodsVo.goodsNo);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     context.startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(),"推荐线路",getEventSource());
                 }
             });
 

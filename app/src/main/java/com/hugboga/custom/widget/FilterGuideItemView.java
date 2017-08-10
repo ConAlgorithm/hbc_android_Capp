@@ -27,6 +27,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -144,6 +145,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
                 Intent intent = new Intent(context, WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, filterGuideBean.orderUrl);
                 context.startActivity(intent);
+                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务",getEventSource());
             }
         });
 //
@@ -164,6 +166,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, "首页");
                 getContext().startActivity(intent);
+                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务",getEventSource());
             }
         });
     }
@@ -227,4 +230,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         }
     }
 
+    private String getEventSource(){
+        return "首页";
+    }
 }
