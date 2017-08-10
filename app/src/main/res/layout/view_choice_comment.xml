@@ -61,11 +61,12 @@
         android:textSize="12sp" />
 
     <ImageView
+        android:id="@+id/choice_comment_location_iv"
         android:layout_width="13dp"
         android:layout_height="13dp"
         android:layout_below="@id/choice_comment_user_name_tv"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="4.5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="4.5dp"
         android:layout_toLeftOf="@id/choice_comment_location_tv"
         android:background="@mipmap/home_guide_location" />
 

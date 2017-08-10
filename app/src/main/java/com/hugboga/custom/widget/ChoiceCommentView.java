@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.ChoiceCommentsBean;
@@ -117,6 +118,22 @@ public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior
         Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
         intent.putExtra(Constants.PARAMS_SOURCE, "游客说");
         intent.putExtra(Constants.PARAMS_DATA, params);
+        getContext().startActivity(intent);
+    }
+
+    @OnClick({R.id.choice_comment_location_tv, R.id.choice_comment_location_iv})
+    public void intentCityList() {
+        int cityId = CommonUtils.getCountInteger("" + itemBean.serviceCityId);
+        if (cityId == 0) {
+            return;
+        }
+        CityListActivity.Params params = new CityListActivity.Params();
+        params.id = cityId;
+        params.titleName = itemBean.serviceCityName;
+        params.cityHomeType = CityListActivity.CityHomeType.CITY;
+        Intent intent = new Intent(getContext(), CityListActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        intent.putExtra(Constants.PARAMS_SOURCE, "游客说");
         getContext().startActivity(intent);
     }
 
