@@ -33,6 +33,7 @@ import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
@@ -334,18 +335,6 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         }
     }
 
-    private void requestChoicenessGuides() {
-        ArrayList<FilterGuideBean> storyAggVo = homeBean.qualityGuides;
-        if (storyAggVo != null && storyAggVo.size() < CHOICENESS_GUIDES_COUNT) {
-            RequestFilterGuide.Builder builder = new RequestFilterGuide.Builder();
-            builder.isQuality = 1;
-            builder.limit = 10;
-            builder.offset = storyAggVo.size();
-            RequestFilterGuide requestFilterGuide = new RequestFilterGuide(getActivity(), builder);
-            HttpRequestUtils.request(getActivity(), requestFilterGuide, this, false);
-        }
-    }
-
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
@@ -390,6 +379,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         this.getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
+        SensorsUtils.onAppClick(getEventSource(),"搜索","首页－搜索");
     }
 
     @OnClick({R.id.search_icon_layout})

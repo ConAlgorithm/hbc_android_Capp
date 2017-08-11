@@ -11,20 +11,28 @@
         android:layout_marginLeft="16dp">
 
         <RelativeLayout
-            android:id="@+id/charter_id"
+            android:id="@+id/charter_id_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/charter_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="中文包车游"
                 android:textSize="17sp"
                 android:textColor="#ff4a4a4a"
-                android:gravity="center"
-                android:drawableRight="@mipmap/home_explain"
-                android:drawablePadding="5dp"/>
-
+                android:gravity="center" />
+            
+            <ImageView
+                android:id="@+id/charter_id_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/charter_id"
+                android:background="@mipmap/home_explain"
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                />
         </RelativeLayout>
 
         <ImageView

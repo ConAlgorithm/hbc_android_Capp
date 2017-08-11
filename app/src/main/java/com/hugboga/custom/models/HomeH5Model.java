@@ -12,6 +12,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -82,23 +83,28 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.view1:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"https://www.baidu.com");
+                SensorsUtils.onAppClick(getEventSource(),"一价全包","首页-一价全包");
             break;
             case R.id.view2:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.163.com");
+                SensorsUtils.onAppClick(getEventSource(),"服务保障","首页-服务保障");
                 break;
             case R.id.view3:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.sina.com");
+                SensorsUtils.onAppClick(getEventSource(),"先行赔付","首页-先行赔付");
                 break;
             case R.id.view4:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.qq.com");
+                SensorsUtils.onAppClick(getEventSource(),"免费保险","首页-免费保险");
                 break;
         }
 
     }
-    private void intentActivity(Context context, Class<?> cls, String eventId,String Url) {
+    private void intentActivity(Context context, Class<?> cls, String eventId,String url) {
         Intent intent = new Intent(context, cls);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(WebInfoActivity.WEB_URL,url);
         context.startActivity(intent);
         if (!TextUtils.isEmpty(eventId)) {
             MobClickUtils.onEvent(eventId);

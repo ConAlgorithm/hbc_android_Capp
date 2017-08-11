@@ -19,6 +19,7 @@ import com.hugboga.custom.adapter.HomeGuideEvaluateAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCommentInfoVo;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -115,6 +116,7 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                     params.cityHomeType = CityListActivity.CityHomeType.CITY;
                     params.titleName = homeCommentInfoVo.serviceCityName;
                     intentActivity(context, CityListActivity.class, getEventSource(), params);
+                    SensorsUtils.onAppClick(getEventSource(),"游客说","首页-游客说");
                 }
             });
             homeGuideEvaluateHolder.serviceType.setText(homeCommentInfoVo.orderTypeName);
@@ -128,6 +130,7 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     context.startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(),"游客说","首页-游客说");
                 }
             });
             homeGuideEvaluateHolder.evaluateContent.setText(homeCommentInfoVo.comment);
@@ -138,6 +141,7 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                     public void onClick(View view) {
                         if(homeCommentInfoVo.commentPicsL != null && homeCommentInfoVo.commentPicsL.size() > 0){
                             CommonUtils.showLargerImages(context, homeCommentInfoVo.commentPicsL, 0);
+                            SensorsUtils.onAppClick(getEventSource(),"游客说","首页-游客说");
                         }
                     }
                 });
@@ -146,17 +150,24 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
             }
             if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() >0){
                 homeGuideEvaluateHolder.imgCount.setText(homeCommentInfoVo.commentPics.size() + "图");
+                homeGuideEvaluateHolder.imageView.setVisibility(View.VISIBLE);
+            }else if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() == 0){
+                homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
+            }else if(homeCommentInfoVo.commentPics == null){
+                homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
             }
             homeGuideEvaluateHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     intentActivity(context,ChoiceCommentActivity.class,getEventSource(),null);
+                    SensorsUtils.onAppClick(getEventSource(),"游客说","首页-游客说");
                 }
             });
             homeGuideEvaluateHolder.evaluateContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     intentActivity(context,ChoiceCommentActivity.class,getEventSource(),null);
+                    SensorsUtils.onAppClick(getEventSource(),"游客说","首页-游客说");
                 }
             });
         }

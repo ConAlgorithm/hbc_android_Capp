@@ -21,6 +21,7 @@ import com.hugboga.custom.adapter.HomeFilterGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.statistic.MobClickUtils;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.List;
@@ -99,6 +100,7 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
             public void onClick(View v) {
                 //更多todo!
                 intentActivity(context, FilterGuideListActivity.class,null);
+                SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
         });
     }

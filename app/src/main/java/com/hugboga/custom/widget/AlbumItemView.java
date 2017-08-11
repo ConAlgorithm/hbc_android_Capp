@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeAlbumRelGoodsVo;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
 
 import butterknife.Bind;
@@ -50,6 +51,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
                     Intent intent = new Intent(getContext(), WebInfoActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, homeAlbumRelGoodsVo.goodsDetailUrl);
                     getContext().startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
                 }
             });
             albumPurchseItem.setText("¥" + homeAlbumRelGoodsVo.perPrice +"起/人");
@@ -61,5 +63,8 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
     public void setImageBound(int displayImgWidth, int displayImgHeight) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(displayImgWidth, displayImgHeight);
         albumImgItem.setLayoutParams(params);
+    }
+    private String getEventSource(){
+        return "首页";
     }
 }
