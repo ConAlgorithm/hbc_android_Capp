@@ -193,7 +193,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setHintTV(orderType, params.guidesDetailData != null, false);
+        bottomView.setData(orderType, params.guidesDetailData != null, false);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);

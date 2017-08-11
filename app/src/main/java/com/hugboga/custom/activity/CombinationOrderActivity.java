@@ -166,7 +166,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
-        bottomView.setHintTV(3, charterDataUtils.guidesDetailData != null, charterDataUtils.isSeckills());
+        bottomView.setData(3, charterDataUtils.guidesDetailData != null, charterDataUtils.isSeckills());
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
