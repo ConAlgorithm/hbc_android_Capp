@@ -55,12 +55,12 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Tools.showImage(holder.mImg,pastAlbumList.get(position).albumImageUrl);
         holder.mImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intentActivity(context, WebInfoActivity.class,getEventSource());
+                intentActivity(context, WebInfoActivity.class,getEventSource(),pastAlbumList.get(position).albumLinkUrl);
                 SensorsUtils.onAppClick(getEventSource(),"往期专辑","首页-往期专辑");
             }
         });
@@ -88,9 +88,10 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
         notifyDataSetChanged();
     }
 
-    private void intentActivity(Context context, Class<?> cls, String eventId) {
+    private void intentActivity(Context context, Class<?> cls, String eventId,String url) {
         Intent intent = new Intent(context, cls);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(WebInfoActivity.WEB_URL,url);
         context.startActivity(intent);
         if (!TextUtils.isEmpty(eventId)) {
             MobClickUtils.onEvent(eventId);
