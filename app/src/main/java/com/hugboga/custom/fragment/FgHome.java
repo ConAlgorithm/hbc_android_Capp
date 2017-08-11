@@ -335,18 +335,6 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         }
     }
 
-    private void requestChoicenessGuides() {
-        ArrayList<FilterGuideBean> storyAggVo = homeBean.qualityGuides;
-        if (storyAggVo != null && storyAggVo.size() < CHOICENESS_GUIDES_COUNT) {
-            RequestFilterGuide.Builder builder = new RequestFilterGuide.Builder();
-            builder.isQuality = 1;
-            builder.limit = 10;
-            builder.offset = storyAggVo.size();
-            RequestFilterGuide requestFilterGuide = new RequestFilterGuide(getActivity(), builder);
-            HttpRequestUtils.request(getActivity(), requestFilterGuide, this, false);
-        }
-    }
-
     @Subscribe
     public void onEventMainThread(EventAction action) {
         switch (action.getType()) {
