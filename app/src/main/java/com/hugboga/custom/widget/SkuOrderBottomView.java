@@ -65,7 +65,7 @@ public class SkuOrderBottomView extends LinearLayout {
         }
 
         if (orderType != 0) {
-            setHintTV(orderType, isGuides, isSeckills);
+            setHintTV();
         }
     }
 
@@ -98,11 +98,17 @@ public class SkuOrderBottomView extends LinearLayout {
         return selectedGuideHintTV;
     }
 
-    public void setHintTV(int orderType, boolean isGuides, boolean isSeckills) {
+
+    public void setData(int orderType, boolean isGuides, boolean isSeckills) {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
+    }
 
+    public void setHintTV() {
+        if (orderType == 0) {
+            selectedGuideHintTV.setVisibility(GONE);
+        }
         String hint1 = "支付后参与砍价活动，最多可减200元哦！";
         String hint2 = "支付后还可以挑选司导哦~";
         String showText = "";

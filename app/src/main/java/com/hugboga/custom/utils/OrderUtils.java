@@ -716,6 +716,7 @@ public class OrderUtils {
         orderBean.capOfPerson = carBean.capOfPerson;
         orderBean.special = carBean.special;
         orderBean.userWechat = userWechat;
+        orderBean.guideCarId = carBean.id;
 
         if (contactUsersBean.isForOther) {
             orderBean.isRealUser = "2";
