@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
             android:drawablePadding="4dp"
             android:drawableRight="@mipmap/home_icon_back"
             android:text="更多"
@@ -57,8 +56,8 @@
 
             <net.grobas.view.PolygonImageView
                 android:id="@+id/avr"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@color/all_bg_yellow"
                 android:scaleType="centerCrop"
                 android:layout_marginLeft="16dp"
@@ -86,10 +85,39 @@
                     android:textColor="#151515"/>
 
                 <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp">
+
+                    <TextView
+                        android:id="@+id/service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务司导"
+                        android:textSize="10sp"
+                        android:textColor="#929292"/>
+
+                    <TextView
+                        android:id="@+id/guideName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/service"
+                        android:layout_marginLeft="3dp"
+                        android:text="zhangqiang"
+                        android:textSize="10sp"
+                        android:maxLength="5"
+                        android:ellipsize="end"
+                        android:textColor="#4a4a4a"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/userName"
-                    android:layout_marginTop="7dp">
+                    android:layout_marginTop="5dp">
 
                     <TextView
                         android:id="@+id/location"
@@ -98,45 +126,28 @@
                         android:text="埃塞俄比亚"
                         android:textColor="#61b09e"
                         android:drawableLeft="@mipmap/home_guide_location"
-                        android:drawablePadding="7dp"
-                        android:textSize="10sp"/>
+                        android:drawablePadding="4dp"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:textSize="10sp"
+                        android:background="@drawable/guide_evulate_bg"/>
 
                     <TextView
                         android:id="@+id/serviceType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/location"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="6dp"
                         android:text="接机服务"
                         android:textColor="#929292"
-                        android:textSize="10sp"/>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp">
-
-                        <TextView
-                            android:id="@+id/service"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="服务司导"
-                            android:textSize="10sp"
-                            android:textColor="#929292"/>
-
-                        <TextView
-                            android:id="@+id/guideName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/service"
-                            android:layout_marginLeft="3dp"
-                            android:text="zhangqiang"
-                            android:textSize="10sp"
-                            android:textColor="#4a4a4a"/>
-
-
-                    </RelativeLayout>
+                        android:textSize="10sp"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:background="@drawable/filter_guide_yuding"/>
 
 
                 </RelativeLayout>
@@ -159,7 +170,7 @@
                 android:layout_marginBottom="3dp"
                 android:gravity="left"
                 android:layout_toLeftOf="@+id/evaluate_img_layout"
-                android:layout_marginRight="13dp"
+                android:layout_marginRight="16dp"
                 android:text="这次的旅行实在是舒适了，主要找了一个特别靠谱的司导，全程贴心服务，吃遍了各种地道的当地食物，去景点吃了好多的好吃的好吃的多好…"
                 android:textColor="#6a6a6a"
                 android:textSize="14sp"/>
