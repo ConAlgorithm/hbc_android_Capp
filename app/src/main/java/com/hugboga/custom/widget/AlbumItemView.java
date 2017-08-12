@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeAlbumRelGoodsVo;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
@@ -48,8 +50,10 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
             albumImgItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), WebInfoActivity.class);
+                    Intent intent = new Intent(getContext(), SkuDetailActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, homeAlbumRelGoodsVo.goodsDetailUrl);
+                    intent.putExtra(Constants.PARAMS_ID, homeAlbumRelGoodsVo.goodsNo);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     getContext().startActivity(intent);
                     SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
                 }

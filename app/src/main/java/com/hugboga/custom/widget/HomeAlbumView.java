@@ -102,7 +102,7 @@ public class HomeAlbumView extends LinearLayout {
         }
         nameAlbum.setText(homeAlbumInfoVo.albumName);
         purchseAlbum.setText(homeAlbumInfoVo.albumPurchases + "人已体验");
-        albumImgLayout.setOnClickListener(new OnClickListener() {
+        /*albumImgLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity,WebInfoActivity.class);
@@ -110,7 +110,7 @@ public class HomeAlbumView extends LinearLayout {
                 activity.startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
             }
-        });
+        });*/
 
     }
     public void setActivity(Activity activity){
