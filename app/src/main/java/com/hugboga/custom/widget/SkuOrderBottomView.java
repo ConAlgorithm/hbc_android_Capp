@@ -63,10 +63,6 @@ public class SkuOrderBottomView extends LinearLayout {
             discountPriceTV.setVisibility(View.VISIBLE);
             discountPriceTV.setText(String.format("已减: ¥%1$s","" + CommonUtils.doubleTrans(discountPrice)));
         }
-
-        if (orderType != 0) {
-            setHintTV();
-        }
     }
 
     public void onLoading() {
@@ -103,6 +99,9 @@ public class SkuOrderBottomView extends LinearLayout {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
+        if (isSeckills) {
+            setHintTV();
+        }
     }
 
     public void setHintTV() {

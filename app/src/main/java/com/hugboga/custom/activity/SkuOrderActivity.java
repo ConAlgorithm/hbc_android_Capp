@@ -134,6 +134,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private int requestCouponTag = 0;
     private int requestCancleTipsTag = 0;
     private int requestSucceedCount = 0;
+    private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
 
@@ -328,6 +329,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 return;
             }
             onLoadSucceed();
+            requestCouponCount--;
             mostFitBean = requestMostFit.getData();
             discountView.setMostFitBean(mostFitBean);
         } else if (_request instanceof RequestDeduction) {
@@ -336,6 +338,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 return;
             }
             onLoadSucceed();
+            requestCouponCount--;
             deductionBean = requestDeduction.getData();
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestSubmitBase) {
@@ -487,6 +490,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         countView.update(carBean, carListBean, serverDate, params.skuItemBean);
         double additionalPrice = countView.getAdditionalPrice();
         requestSucceedCount = 3;
+        requestCouponCount = 2;
         onBottomLoading(!carBean.isCallOnClick);
         requestCouponTag++;
         requestCancleTipsTag ++;
@@ -516,6 +520,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     @Override
     public void onAdditionalPriceChange(double price) {
         requestSucceedCount = 2;
+        requestCouponCount = 2;
         onBottomLoading(true);
         requestCouponTag++;
         requestMostFit(price, requestCouponTag);
@@ -555,6 +560,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
         sensorsActualPrice = actualPrice;
+        if (requestCouponCount == 0) {
+            bottomView.setHintTV();
+        }
     }
 
     /* 进入优惠券列表 */

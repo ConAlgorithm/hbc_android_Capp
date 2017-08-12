@@ -108,6 +108,8 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private CouponBean couponBean;
     private String couponId;
 
+    private int requestCouponCount = 0;
+
     private boolean requestedSubmit = false;
 
     public static class Params implements Serializable {
@@ -181,6 +183,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             seckillsLayout.setVisibility(View.VISIBLE);
             bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
         } else {
+            requestCouponCount = 2;
             requestMostFit(additionalPrice);
             requestTravelFund(additionalPrice);
         }
@@ -294,6 +297,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (params.carListBean.isSeckills) {
             bottomView.updatePrice(params.carBean.seckillingPrice, params.carBean.price + additionalPrice - params.carBean.seckillingPrice);
         } else {
+            requestCouponCount = 2;
             requestMostFit(additionalPrice);
             requestTravelFund(additionalPrice);
         }
@@ -311,6 +315,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 boolean isSend = params.orderType == 2 && CommonUtils.getCountInteger(additionalServicePrice.checkInPrice) > 0;
                 if (isPickup || isSend) {
                     double additionalPrice = _additionalPrice + countView.getAdditionalPrice();
+                    requestCouponCount = 2;
                     requestMostFit(additionalPrice);
                     requestTravelFund(additionalPrice);
                 }
@@ -350,6 +355,9 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 break;
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
+        if (requestCouponCount == 0) {
+            bottomView.setHintTV();
+        }
     }
 
     /* 滚动到顶部 */
@@ -611,9 +619,11 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestMostFit) {
             mostFitBean = ((RequestMostFit) _request).getData();
+            requestCouponCount--;
             discountView.setMostFitBean(mostFitBean);
         } else if (_request instanceof RequestDeduction) {
             deductionBean = ((RequestDeduction) _request).getData();
+            requestCouponCount--;
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestSubmitBase) {
             requestedSubmit = false;
