@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/order_discount_insurance_choose_iv"
-            android:text="平安境外用车险"
+            android:text="平安境外意外险"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
