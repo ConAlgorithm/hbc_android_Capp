@@ -116,6 +116,8 @@
             android:layout_marginTop="7dp"
             android:text="这里有非常古老的修道院和修道院图书馆,老城区非常漂亮.要参观馆需要拐到照片中这大教堂的后面, 买门票时建议音频…"
             android:textColor="#4a4a4a"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="12sp" />
 
         <RelativeLayout
