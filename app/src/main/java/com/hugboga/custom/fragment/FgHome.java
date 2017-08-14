@@ -288,6 +288,8 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                     for (int i = 0; i < 2; i++) {
                         homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(i));
                     }
+                }else if(homeBean.cityGoodsList.size() == 1){
+                    homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(0));
                 }
 
                 //推荐线路广告

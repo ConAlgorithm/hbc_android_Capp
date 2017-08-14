@@ -16,7 +16,7 @@
             android:layout_marginBottom="35dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:src="@color/all_bg_yellow"
+            android:src="#959595"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
@@ -40,7 +40,8 @@
                 android:layout_marginTop="9dp"
                 android:text="2000人已体验"
                 android:textColor="#ffffff"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:visibility="gone"/>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>
