@@ -42,7 +42,16 @@ public class Tools {
                 .into(imageView);
 
     }
+    public static void showAdImage(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
 
+    }
     public static void showImage(final ImageView imageView, String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
 //            imageView.setBackgroundResource(resId);
