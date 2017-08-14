@@ -88,11 +88,11 @@ public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior
         locationTV.setText(itemBean.serviceCityName);//服务城市
 
         //描述信息
-        if (TextUtils.isEmpty(itemBean.content)) {
+        if (TextUtils.isEmpty(itemBean.comment)) {
             descriptionTV.setVisibility(View.GONE);
         } else {
             descriptionTV.setVisibility(View.VISIBLE);
-            descriptionTV.setText(itemBean.content);
+            descriptionTV.setText(itemBean.comment);
         }
 
         //评价图片
@@ -180,6 +180,7 @@ public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior
 
     public ImageView getCommentImageView(int position) {
         ImageView imageView = new ImageView(getContext());
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(itemWidth, itemHight);
         params.rightMargin = UIUtils.dip2px(10);
         imageView.setLayoutParams(params);

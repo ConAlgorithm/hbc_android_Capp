@@ -128,6 +128,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private int requestCouponTag = 0;
     private int requestCancleTipsTag = 0;
     private int requestSucceedCount = 0;
+    private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
 
@@ -300,6 +301,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 return;
             }
             onLoadSucceed();
+            requestCouponCount--;
             mostFitBean = requestMostFit.getData();
             discountView.setMostFitBean(mostFitBean);
         } else if (_request instanceof RequestDeduction) {
@@ -308,6 +310,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 return;
             }
             onLoadSucceed();
+            requestCouponCount--;
             deductionBean = requestDeduction.getData();
             discountView.setDeductionBean(deductionBean);
         } else if (_request instanceof RequestCancleTips) {
@@ -532,6 +535,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             bottomView.updatePrice(carBean.seckillingPrice, carBean.price + additionalPrice - carBean.seckillingPrice);
         } else {
             requestSucceedCount = 3;
+            requestCouponCount = 2;
             onBottomLoading(!carBean.isCallOnClick);
             requestCouponTag++;
             requestCancleTipsTag ++;
@@ -565,6 +569,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onAdditionalPriceChange(double price) {
         requestSucceedCount = 2;
+        requestCouponCount = 2;
         onBottomLoading(true);
         requestCouponTag++;
         requestMostFit(price, requestCouponTag);
@@ -603,6 +608,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 break;
         }
         bottomView.updatePrice(actualPrice, deductionPrice);
+        if (requestCouponCount == 0) {
+            bottomView.setHintTV();
+        }
     }
 
     /* 进入优惠券列表 */

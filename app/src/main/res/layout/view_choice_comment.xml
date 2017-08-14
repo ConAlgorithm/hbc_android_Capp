@@ -6,7 +6,6 @@
     android:background="#ffffff"
     android:clipToPadding="false"
     android:clipChildren="false"
-    android:paddingBottom="17dp"
     android:paddingLeft="15dp"
     android:paddingRight="16dp"
     android:paddingTop="17dp">
@@ -62,11 +61,11 @@
 
     <ImageView
         android:id="@+id/choice_comment_location_iv"
-        android:layout_width="13dp"
+        android:layout_width="11dp"
         android:layout_height="13dp"
         android:layout_below="@id/choice_comment_user_name_tv"
-        android:paddingRight="5dp"
-        android:paddingTop="4.5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="4.5dp"
         android:layout_toLeftOf="@id/choice_comment_location_tv"
         android:background="@mipmap/home_guide_location" />
 
@@ -81,6 +80,7 @@
         android:textSize="12sp" />
 
     <LinearLayout
+        android:id="@+id/choice_comment_guide_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/choice_comment_avatar_iv"
@@ -155,11 +155,19 @@
                     android:id="@+id/choice_comment_guide_label_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#F9B900"
+                    android:textColor="#898989"
                     android:lineSpacingExtra="2dp"
                     android:layout_marginLeft="3dp"
                     android:textSize="13sp" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
+
+    <View
+        android:layout_below="@id/choice_comment_guide_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:background="@color/default_dividing_line"
+        android:layout_marginTop="17dp"
+        />
 </RelativeLayout>

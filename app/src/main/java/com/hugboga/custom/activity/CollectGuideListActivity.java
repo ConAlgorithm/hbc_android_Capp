@@ -40,7 +40,6 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
     LinearLayout emptyLayout;
 
     private HbcRecyclerSingleTypeAdpater<FilterGuideBean> mAdapter;
-    private List<FilterGuideBean> guideList;
 
     @Override
     public int getContentViewId() {
@@ -98,7 +97,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
             } else {
                 emptyLayout.setVisibility(View.GONE);
             }
-            guideList = collectGuideNewBean.guideList;
+            List<FilterGuideBean> guideList = collectGuideNewBean.guideList;
             mAdapter.addData(guideList, offset > 0);
             if (offset == 0) {
                 mRecyclerView.smoothScrollToPosition(0);
@@ -130,6 +129,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
 
     @Override
     public void onItemClick(View view, int position, Object itemData) {
+        List<FilterGuideBean> guideList = mAdapter.getDatas();
         FilterGuideBean filterGuideBean = guideList.get(position);
         if (filterGuideBean == null || !filterGuideBean.isCanService()) {
             return;

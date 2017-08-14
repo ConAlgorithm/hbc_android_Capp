@@ -32,7 +32,7 @@ public class ChoiceCommentsBean implements Serializable{
 
         // 评价信息
         public Integer totalScore; // 评价星级
-        public String content; // 评价内容
+        public String comment; // 评价内容
         public String commentPics; // 评价图片
         public List<String> commentPic; // 后补字段，评价图片列表
         public List<String> commentPicL; // 后补字段，评价图片大图列表
