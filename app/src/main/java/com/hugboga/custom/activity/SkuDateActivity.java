@@ -196,16 +196,15 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     }
 
     @Override
-    public void onCalendarInit(Calendar startCalendar) {
-        if (startCalendar != null) {
-            int year = startCalendar.get(Calendar.YEAR);
-            int month = startCalendar.get(Calendar.MONTH) + 1;
-            int day = startCalendar.get(Calendar.DAY_OF_MONTH);
-            CalendarDay startCalendarDay = new CalendarDay(year, month, day);
+    public void onCalendarInit(Calendar _startCalendar, Calendar _selectedCalendar) {
+        if (_startCalendar != null) {
+            CalendarDay startCalendarDay = new CalendarDay(_startCalendar.get(Calendar.YEAR), _startCalendar.get(Calendar.MONTH) + 1, _startCalendar.get(Calendar.DAY_OF_MONTH));
             monthView.setData(startCalendarDay, getEndCalendarDay());
-            monthView.setSelectDay(startCalendarDay);
-            serverDate = startCalendarDay.getDayString();
-            Log.i("aa", "onCalendarInit " + year + " month " + month + " day " +day);
+        }
+        if (_selectedCalendar != null) {
+            CalendarDay selectedCalendarDay = new CalendarDay(_selectedCalendar.get(Calendar.YEAR), _selectedCalendar.get(Calendar.MONTH) + 1, _selectedCalendar.get(Calendar.DAY_OF_MONTH));
+            monthView.setSelectDay(selectedCalendarDay);
+            serverDate = selectedCalendarDay.getDayString();
         }
     }
 

@@ -42,6 +42,24 @@ public class CalendarGoodsBeanList implements Serializable {
             Date date = DateUtils.getFormatDate(item.serviceDate);
             if (date != null) {
                 Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                return calendar;
+            }
+        }
+        return null;
+    }
+
+    public Calendar getSelectedCalendar() {
+        if (goodsStockList == null || goodsStockList.size() <= 0) {
+            return null;
+        }
+        for (CalendarGoodsBean item : goodsStockList) {
+            if (!item.isCanService()) {
+                continue;
+            }
+            Date date = DateUtils.getFormatDate(item.serviceDate);
+            if (date != null) {
+                Calendar calendar = Calendar.getInstance();
                 int currentMonth = calendar.get(Calendar.MONTH) + 1;
                 calendar.setTime(date);
                 int month = calendar.get(Calendar.MONTH) + 1;
