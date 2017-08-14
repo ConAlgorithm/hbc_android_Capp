@@ -168,11 +168,13 @@
                 android:layout_height="92dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:gravity="left"
+                android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/evaluate_img_layout"
                 android:layout_marginRight="16dp"
                 android:text="这次的旅行实在是舒适了，主要找了一个特别靠谱的司导，全程贴心服务，吃遍了各种地道的当地食物，去景点吃了好多的好吃的好吃的多好…"
                 android:textColor="#6a6a6a"
+                android:maxLength="4"
+                android:ellipsize="end"
                 android:textSize="14sp"/>
 
             <FrameLayout

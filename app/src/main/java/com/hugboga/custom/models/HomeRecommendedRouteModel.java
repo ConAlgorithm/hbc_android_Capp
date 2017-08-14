@@ -93,26 +93,26 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 homeRecommendedRouteHolder.ultraViewPager.setAutoMeasureHeight(true);
                 //initialize UltraPagerAdapter，and add child view to UltraViewPager
                 adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
-                homeRecommendedRouteHolder.ultraViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        Log.i("aa", "position" + position);
-                        int index = homeRecommendedRouteHolder.ultraViewPager.getCurrentItem();
-                        if(index < homeCityContentVo2.cityGoodsList.size()){
-                            setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
-                        }
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                });
+//                homeRecommendedRouteHolder.ultraViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//                    @Override
+//                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onPageSelected(int position) {
+//                        Log.i("aa", "position" + position);
+//                        int index = homeRecommendedRouteHolder.ultraViewPager.getCurrentItem();
+//                        if(index < homeCityContentVo2.cityGoodsList.size()){
+//                            setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onPageScrollStateChanged(int state) {
+//
+//                    }
+//                });
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
                 setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
             }else if (homeCityContentVo2.cityGoodsList.size() > 1) {
