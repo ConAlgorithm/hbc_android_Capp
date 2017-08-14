@@ -394,7 +394,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && (request instanceof RequestPriceSku || request instanceof RequestSubmitBase)) {
+        if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestPriceSku) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
             String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
@@ -403,14 +403,15 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         if (request instanceof RequestPayNo) {
             return;
         }
-        if (!(request instanceof RequestSubmitBase)) {
+        if (request instanceof RequestSubmitBase) {
+            requestedSubmit = false;
+            CommonUtils.apiErrorShowService(SkuOrderActivity.this, errorInfo, request, SkuOrderActivity.this.getEventSource());
+        } else {
             if (emptyLayout != null) {
                 emptyLayout.setErrorVisibility(View.VISIBLE);
                 progressView.setVisibility(View.GONE);
                 setItemVisibility(View.GONE);
             }
-        } else {
-            requestedSubmit = false;
         }
     }
 

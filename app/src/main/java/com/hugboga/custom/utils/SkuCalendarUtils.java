@@ -137,7 +137,7 @@ public class SkuCalendarUtils {
                 Log.i("aa", "onDataRequestSucceed  请求成功  " + requestCalendarList.tag);
 
                 if (skuCalendarListenr != null && getDateYearMonthStr(Calendar.getInstance()).equals(requestCalendarList.tag)) {
-                    skuCalendarListenr.onCalendarInit(calendarGoodsBeanList.getStartCalendar());
+                    skuCalendarListenr.onCalendarInit(calendarGoodsBeanList.getStartCalendar(), calendarGoodsBeanList.getSelectedCalendar());
                 }
                 goodsCalendarMap.putAll(calendarGoodsBeanList.getMonthMap());
                 requestedMonthMap.put(requestCalendarList.tag, SUCCEED);
@@ -165,7 +165,7 @@ public class SkuCalendarUtils {
     }
 
     public interface SkuCalendarListenr {
-        public void onCalendarInit(Calendar startCalendar);
+        public void onCalendarInit(Calendar startCalendar, Calendar selectedCalendar);
         public void onCalendarRequestSucceed(boolean isCurrentMonth, ArrayMap<String, CalendarGoodsBean> guideCalendarMap);
         public void onLoadViewShow(boolean isShow);
     }
