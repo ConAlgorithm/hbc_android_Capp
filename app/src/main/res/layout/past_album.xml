@@ -14,12 +14,19 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="#f5f5f5"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="#30000000"
+            android:scaleType="centerCrop"/>
         <ImageView
             android:id="@+id/left_name"
             android:layout_width="55dp"
             android:layout_height="18dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/home_special_label"/>
+
         <TextView
             android:id="@+id/des_past"
             android:layout_width="wrap_content"
