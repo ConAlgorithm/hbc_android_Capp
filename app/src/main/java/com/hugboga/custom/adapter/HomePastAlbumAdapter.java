@@ -64,7 +64,7 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
                 SensorsUtils.onAppClick(getEventSource(),"往期专辑","首页-往期专辑");
             }
         });
-        //holder.desPast.setText("");
+        holder.desPast.setText(pastAlbumList.get(position).albumName);
     }
 
     @Override
