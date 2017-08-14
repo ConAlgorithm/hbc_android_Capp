@@ -265,7 +265,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 //广告
                 homeAdapter.addHomeH5(getContext());
 
-                if (homeBean != null && homeBean.hotAlbumList.size() > 0) {
+                if (homeBean.hotAlbumList != null && homeBean.hotAlbumList.size() > 0) {
                     for (int i = 0; i < homeBean.hotAlbumList.size(); i++) {
                         homeAdapter.addHotAlbum(getActivity(), homeBean.hotAlbumList.get(i), i);
                     }
@@ -277,14 +277,14 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
 
                 //游客说
-                if (homeBean != null && homeBean.commentList.size() > 0) {
+                if (homeBean.commentList != null && homeBean.commentList.size() > 0) {
                     for (int i = 0; i < homeBean.commentList.size(); i++) {
                         homeAdapter.addHomeGuideEvaluate(getContext(), homeBean.commentList.get(i), i);
                     }
                 }
 
                 //推荐线路
-                if (homeBean.cityGoodsList.size() >= 2) {
+                if (homeBean.cityGoodsList != null && homeBean.cityGoodsList.size() >= 2) {
                     for (int i = 0; i < 2; i++) {
                         homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(i));
                     }
@@ -298,7 +298,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
 
                 //其余城市线路推荐
-                if (homeBean.cityGoodsList.size() > 2) {
+                if (homeBean.cityGoodsList != null && homeBean.cityGoodsList.size() > 2) {
                     for (int j = 2; j < homeBean.cityGoodsList.size(); j++) {
                         homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(j));
                     }

@@ -134,26 +134,26 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                 }
             });
             homeGuideEvaluateHolder.evaluateContent.setText(homeCommentInfoVo.comment);
-            if (homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() > 0) {
-                Tools.showImage(homeGuideEvaluateHolder.imageView, homeCommentInfoVo.commentPics.get(0));
+            if (homeCommentInfoVo.commentPic != null && homeCommentInfoVo.commentPic.size() > 0) {
+                Tools.showImage(homeGuideEvaluateHolder.imageView, homeCommentInfoVo.commentPic.get(0));
                 homeGuideEvaluateHolder.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(homeCommentInfoVo.commentPicsL != null && homeCommentInfoVo.commentPicsL.size() > 0){
-                            CommonUtils.showLargerImages(context, homeCommentInfoVo.commentPicsL, 0);
+                        if(homeCommentInfoVo.commentPicL != null && homeCommentInfoVo.commentPicL.size() > 0){
+                            CommonUtils.showLargerImages(context, homeCommentInfoVo.commentPicL, 0);
                             SensorsUtils.onAppClick(getEventSource(),"游客说","首页-游客说");
                         }
                     }
                 });
-            }else if(homeCommentInfoVo.commentPics == null || homeCommentInfoVo.commentPics.size() == 0){
+            }else if(homeCommentInfoVo.commentPic == null || homeCommentInfoVo.commentPic.size() == 0){
                 //homeGuideEvaluateHolder.imageView.setImageResource(R.mipmap.icon_avatar_user);
             }
-            if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() >0){
-                homeGuideEvaluateHolder.imgCount.setText(homeCommentInfoVo.commentPics.size() + "图");
+            if(homeCommentInfoVo.commentPic != null && homeCommentInfoVo.commentPic.size() >0){
+                homeGuideEvaluateHolder.imgCount.setText(homeCommentInfoVo.commentPic.size() + "图");
                 homeGuideEvaluateHolder.imageView.setVisibility(View.VISIBLE);
-            }else if(homeCommentInfoVo.commentPics != null && homeCommentInfoVo.commentPics.size() == 0){
+            }else if(homeCommentInfoVo.commentPic != null && homeCommentInfoVo.commentPic.size() == 0){
                 homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
-            }else if(homeCommentInfoVo.commentPics == null){
+            }else if(homeCommentInfoVo.commentPic == null){
                 homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
             }
             homeGuideEvaluateHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {

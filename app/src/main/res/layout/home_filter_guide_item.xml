@@ -15,6 +15,12 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/home_more" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/filter_guide_gradient"
+            android:layout_gravity="bottom"/>
+
         <ImageView
             android:id="@+id/save_guild"
             android:layout_width="20dp"
