@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -39,6 +40,10 @@ public class OrderCancelActivity extends BaseActivity{
     View orderCancelLayout;//可退金额layout
     @Bind(R.id.order_cancel_cancel_value)
     TextView orderCancel;//可退金额
+    @Bind(R.id.order_cancel_travel_fund_layout)
+    FrameLayout travelFundLyout;//可退旅游基金
+    @Bind(R.id.order_cancel_travel_fund_value)
+    TextView travelFundTV;
 
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
@@ -75,6 +80,11 @@ public class OrderCancelActivity extends BaseActivity{
         orderNoValue.setText(orderBean.orderNo);
         orderApplyValue.setText(orderBean.orderPriceInfo.actualPay+"元");
         orderBack.setText(orderBean.orderPriceInfo.cancelFee + "元");
+        if (orderBean.orderPriceInfo.travelFundRefundable > 0) {
+            travelFundLyout.setVisibility(View.VISIBLE);
+            travelFundTV.setText(orderBean.orderPriceInfo.travelFundRefundable + "元");
+        }
+
         if(orderBean.cancelable){
             findViewById(R.id.order_cancel_btn).setVisibility(View.VISIBLE);
         }else{

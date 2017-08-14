@@ -114,6 +114,29 @@
             android:textSize="16sp"
             />
     </FrameLayout>
+    <FrameLayout
+        android:id="@+id/order_cancel_travel_fund_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:padding="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="可退旅游基金"
+            />
+        <TextView
+            android:id="@+id/order_cancel_travel_fund_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="232323元"
+            android:textSize="16sp"
+            />
+    </FrameLayout>
 </LinearLayout>
 
     <TextView

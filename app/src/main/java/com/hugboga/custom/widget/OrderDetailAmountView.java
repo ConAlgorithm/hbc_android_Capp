@@ -120,7 +120,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
             if (priceInfo.isRefund == 1) {//全部退款
                 addBillView(refundItemLayout, "全部行程", "" + (int)priceInfo.refundPrice);
-                setRefundPriceLayout((int)priceInfo.cancelFee, priceInfo.payGatewayName);
+                setRefundPriceLayout((int)priceInfo.cancelFee, priceInfo.payGatewayName, (int) priceInfo.refundTravelFund);
             } else {
                 List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
                 int size = subOrderList.size();
@@ -132,21 +132,23 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                     allRefundPrice += (int)childPriceInfo.refundPrice;
                     allCancelFee += (int)childPriceInfo.cancelFee;
                 }
-                setRefundPriceLayout(allCancelFee, priceInfo.payGatewayName);
+                setRefundPriceLayout(allCancelFee, priceInfo.payGatewayName, (int) priceInfo.refundTravelFund);
             }
 
         } else if (priceInfo.isRefund == 1) {//已经退款
             refundLayout.setVisibility(View.VISIBLE);
             refundItemLayout.removeAllViews();
-
             addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice, false);//退款金额
-            setRefundPriceLayout((int) priceInfo.cancelFee, priceInfo.payGatewayName);
+            setRefundPriceLayout((int) priceInfo.cancelFee, priceInfo.payGatewayName, (int) priceInfo.refundTravelFund);
         } else {
             refundLayout.setVisibility(View.GONE);
         }
     }
 
-    private void setRefundPriceLayout(int cancelFee, String payGatewayName) {
+    private void setRefundPriceLayout(int cancelFee, String payGatewayName, int refundTravelFund) {
+        if (refundTravelFund > 0) {
+            addGroupView(refundItemLayout, R.string.order_detail_cost_travelfund, "" + refundTravelFund, false, true);//旅游基金退款
+        }
         String description = null;
         if (cancelFee <= 0) {//退款金额为0
             description = getContext().getString(R.string.order_detail_refund_pattern_payment, payGatewayName);
@@ -156,7 +158,6 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
         }
         refundDescriptionTV.setText(description);
     }
-
 
     private View getBillView(String title, String price) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.include_order_detail_amount_item, null, false);
@@ -184,10 +185,10 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
     }
 
     private View getGroupView(int titleID, String price) {
-        return getGroupView(titleID, price, false);
+        return getGroupView(titleID, price, false, false);
     }
 
-    private View getGroupView(int titleID, String price, boolean isHideSubTitle) {
+    private View getGroupView(int titleID, String price, boolean isHideSubTitle, boolean isRefund) {
         View itemView = LayoutInflater.from(getContext()).inflate(R.layout.include_order_detail_amount_item, null, false);
         itemView.findViewById(R.id.order_detail_amount_line_view).setVisibility(View.GONE);
         TextView titleTV = (TextView) itemView.findViewById(R.id.order_detail_amount_title_tv);
@@ -201,7 +202,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 price = "0";
             }
             String priceText = getContext().getString(R.string.sign_rmb) + price;
-            if (titleID == R.string.order_detail_cost_coupon || titleID == R.string.order_detail_cost_travelfund) {//旅游基金和优惠券需要加减号
+            if (!isRefund && (titleID == R.string.order_detail_cost_coupon || titleID == R.string.order_detail_cost_travelfund)) {//旅游基金和优惠券需要加减号
                 priceText =  "- " + getContext().getString(R.string.sign_rmb) + price;
             } else if (titleID == R.string.order_detail_cost_realpay) {
                 priceTV.setTextColor(0xFFFF6633);
@@ -212,15 +213,19 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
     }
 
     private void addGroupView(int titleID, String price) {
-        addGroupView(groupLayout, titleID, price, false);
+        addGroupView(groupLayout, titleID, price, false, false);
     }
 
     private void addGroupView(int titleID, String price, boolean isHideSubTitle) {
-        addGroupView(groupLayout, titleID, price, isHideSubTitle);
+        addGroupView(groupLayout, titleID, price, isHideSubTitle, false);
     }
 
     private void addGroupView(LinearLayout parentLayout, int titleID, String price, boolean isHideSubTitle) {
+        addGroupView(parentLayout, titleID, price, isHideSubTitle, false);
+    }
+
+    private void addGroupView(LinearLayout parentLayout, int titleID, String price, boolean isHideSubTitle, boolean isRefund) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.dip2px(26));
-        parentLayout.addView(getGroupView(titleID, price, isHideSubTitle), params);
+        parentLayout.addView(getGroupView(titleID, price, isHideSubTitle, isRefund), params);
     }
 }

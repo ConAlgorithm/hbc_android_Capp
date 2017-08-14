@@ -23,6 +23,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
     public double refundPrice;        // 退款金额
     public double cancelFee;//退改费用
     public double priceHotel;// 住宿总费用(单价 * hotelRoom * hotelDays)
+    public double refundTravelFund;//退旅游基金金额
+    public double travelFundRefundable;//旅游基金可退
 
     public int isRefund;//是否已经退款 0没有退款 1 已经退款
     public int payGateway;//支付方式 1:支付宝,2:微信,3:内部账户支付,4:券支付,5:旅游基金,6:百付宝,17:QUNA渠道,20:携程渠道,19:去啊渠道,
@@ -45,6 +47,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         isRefund = jsonObj.optInt("isRefund");
         payGateway = jsonObj.optInt("payGateway");
         payGatewayName = jsonObj.optString("payGatewayName");
+        refundTravelFund = jsonObj.optDouble("refundTravelFund", 0);
+        travelFundRefundable = jsonObj.optDouble("travelFundRefundable", 0);
     }
 
     @Override
@@ -69,6 +73,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         dest.writeInt(this.isRefund);
         dest.writeInt(this.payGateway);
         dest.writeString(this.payGatewayName);
+        dest.writeDouble(this.refundTravelFund);
+        dest.writeDouble(this.travelFundRefundable);
     }
 
     public OrderPriceInfo() {
@@ -90,6 +96,8 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         this.isRefund = in.readInt();
         this.payGateway = in.readInt();
         this.payGatewayName = in.readString();
+        this.refundTravelFund = in.readDouble();
+        this.travelFundRefundable = in.readDouble();
     }
 
     public static final Creator<OrderPriceInfo> CREATOR = new Creator<OrderPriceInfo>() {

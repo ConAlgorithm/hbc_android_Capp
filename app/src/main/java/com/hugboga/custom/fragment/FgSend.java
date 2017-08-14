@@ -529,48 +529,49 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     private void checkGuideTimeCoflict() {
-        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext()
-                , ORDER_TYPE
-                , airPortBean.cityId
-                , guidesDetailData.guideId
-                , serverDate + " " + serverTime + ":00"
-                , airPortBean.location
-                , poiBean.location
-                , cityBean != null ? cityBean.placeId : "");
-        HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-                ApiReportHelper.getInstance().addReport(request);
-                getCars();
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                if (checkActivityIsFinished()) {
-                    return;
-                }
-                AlertDialogUtils.showAlertDialogCancelable(getContext(), "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((Activity) getContext()).finish();
-                        dialog.dismiss();
-                    }
-                }, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        guidesDetailData = null;
-                        guideLayout.setVisibility(View.GONE);
-                        getCars();
-                        dialog.dismiss();
-                    }
-                });
-            }
-        }, true);
+        getCars();
+//        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(getContext()
+//                , ORDER_TYPE
+//                , airPortBean.cityId
+//                , guidesDetailData.guideId
+//                , serverDate + " " + serverTime + ":00"
+//                , airPortBean.location
+//                , poiBean.location
+//                , cityBean != null ? cityBean.placeId : "");
+//        HttpRequestUtils.request(getContext(), requestGuideConflict, new HttpRequestListener() {
+//            @Override
+//            public void onDataRequestSucceed(BaseRequest request) {
+//                ApiReportHelper.getInstance().addReport(request);
+//                getCars();
+//            }
+//
+//            @Override
+//            public void onDataRequestCancel(BaseRequest request) {
+//
+//            }
+//
+//            @Override
+//            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+//                if (checkActivityIsFinished()) {
+//                    return;
+//                }
+//                AlertDialogUtils.showAlertDialogCancelable(getContext(), "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        ((Activity) getContext()).finish();
+//                        dialog.dismiss();
+//                    }
+//                }, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        guidesDetailData = null;
+//                        guideLayout.setVisibility(View.GONE);
+//                        getCars();
+//                        dialog.dismiss();
+//                    }
+//                });
+//            }
+//        }, true);
     }
 
     public void updateConponsTipView() {
