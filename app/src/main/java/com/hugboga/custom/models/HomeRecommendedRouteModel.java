@@ -114,7 +114,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
 //                    }
 //                });
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
-                setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
+                //setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
             }else if (homeCityContentVo2.cityGoodsList.size() > 1) {
                 //initialize built-in indicator
                 homeRecommendedRouteHolder.ultraViewPager.initIndicator();
@@ -125,7 +125,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                         .setNormalColor(0xFFDBDBDB)
                         .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
                 //set the alignment
-                homeRecommendedRouteHolder.ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+                homeRecommendedRouteHolder.ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0,0,0, UIUtils.dip2px(10));
                 //construct built-in indicator, and add it to  UltraViewPager
                 homeRecommendedRouteHolder.ultraViewPager.getIndicator().build();
 
@@ -133,9 +133,11 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 homeRecommendedRouteHolder.ultraViewPager.setInfiniteLoop(true);
                 homeRecommendedRouteHolder.ultraViewPager.setAutoScroll(3000);
                 homeRecommendedRouteHolder.ultraViewPager.setAutoMeasureHeight(true);
+                homeRecommendedRouteHolder.ultraViewPager.setOffscreenPageLimit(3);
 
-                homeRecommendedRouteHolder.ultraViewPager.setMultiScreen(0.9f);
-                homeRecommendedRouteHolder.ultraViewPager.setPageTransformer(false, new UltraScaleTransformer());
+                //homeRecommendedRouteHolder.ultraViewPager.setMultiScreen(0.9f);
+                homeRecommendedRouteHolder.ultraViewPager.setPageMargin();
+                //homeRecommendedRouteHolder.ultraViewPager.setPageTransformer(false, new UltraScaleTransformer());
                 homeRecommendedRouteHolder.ultraViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -146,7 +148,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     public void onPageSelected(int position) {
                         Log.i("aa", "position" + position);
                         int index = homeRecommendedRouteHolder.ultraViewPager.getCurrentItem();
-                        setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
+                        //setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(index));
                     }
 
                     @Override
@@ -158,9 +160,20 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
 
-                setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
+                //setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
             }
-
+            homeRecommendedRouteHolder.filter_guide.setText(homeCityContentVo2.cityName + "推荐线路");
+            homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CityListActivity.Params params = new CityListActivity.Params();
+                    params.id = homeCityContentVo2.cityId;
+                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                    params.titleName = homeCityContentVo2.cityName;
+                    intentActivity(context, CityListActivity.class, getEventSource(), params);
+                    SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
+                }
+            });
         }
 
     }
@@ -173,24 +186,10 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
         View itemView;
         @Bind(R.id.ultra_viewpager)
         UltraViewPager ultraViewPager;
-        @Bind(R.id.des1)
-        TextView des1;
-        @Bind(R.id.cityName)
-        TextView cityName;
-        @Bind(R.id.guidesNum)
-        TextView guidesNum;
-        @Bind(R.id.des2)
-        TextView des2;
-        @Bind(R.id.tiyan)
-        TextView tiyan;
-        @Bind(R.id.perPrice)
-        TextView perPrice;
-        @Bind(R.id.filter_guide)
-        TextView filter_guide;
-        @Bind(R.id.avr)
-        PolygonImageView polygonImageView;
         @Bind(R.id.filter_guide_more)
         TextView filterGuideMore;
+        @Bind(R.id.filter_guide)
+        TextView filter_guide;
 
 
         @Override
@@ -199,48 +198,48 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
             ButterKnife.bind(this, itemView);
             int imageWidth = UIUtils.getScreenWidth() - 2 * UIUtils.dip2px(16);
             int imageHeight = imageWidth * 189 / 330;
-            ultraViewPager.getLayoutParams().height = imageHeight + UIUtils.dip2px(15);
+            ultraViewPager.getLayoutParams().height = imageHeight + UIUtils.dip2px(256);
         }
     }
 
-    private void setData(String cityName, final HomeCityGoodsVo homeCityGoodsVo) {
-        if (homeRecommendedRouteHolder != null) {
-            homeRecommendedRouteHolder.des1.setText(homeCityGoodsVo.goodsName);
-            homeRecommendedRouteHolder.cityName.setText(cityName + "司导推荐");
-            homeRecommendedRouteHolder.guidesNum.setText(homeCityGoodsVo.guidesNum + "位中文司导可服务");
-            homeRecommendedRouteHolder.des2.setText(homeCityGoodsVo.recommendedReason);
-            homeRecommendedRouteHolder.tiyan.setText("已体验" + homeCityGoodsVo.purchases);
-            homeRecommendedRouteHolder.perPrice.setText("¥" + homeCityGoodsVo.perPrice + "起/人");
-            homeRecommendedRouteHolder.filter_guide.setText(cityName + "推荐线路");
-            if (!TextUtils.isEmpty(homeCityGoodsVo.goodsPic)) {
-                Tools.showRoundImage(homeRecommendedRouteHolder.polygonImageView, homeCityGoodsVo.guidePic, UIUtils.dip2px(5),R.mipmap.icon_avatar_guide);
-            }
-            homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CityListActivity.Params params = new CityListActivity.Params();
-                    params.id = homeCityContentVo2.cityId;
-                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
-                    params.titleName = homeCityContentVo2.cityName;
-                    intentActivity(context, CityListActivity.class, getEventSource(), params);
-                    SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
-                }
-            });
-            homeRecommendedRouteHolder.perPrice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, SkuDetailActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL, homeCityGoodsVo.goodsDetailUrl);
-                    intent.putExtra(Constants.PARAMS_ID, homeCityGoodsVo.goodsNo);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    context.startActivity(intent);
-                    SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
-                }
-            });
-
-        }
-
-    }
+//    private void setData(String cityName, final HomeCityGoodsVo homeCityGoodsVo) {
+//        if (homeRecommendedRouteHolder != null) {
+//            homeRecommendedRouteHolder.des1.setText(homeCityGoodsVo.goodsName);
+//            homeRecommendedRouteHolder.cityName.setText(cityName + "司导推荐");
+//            homeRecommendedRouteHolder.guidesNum.setText(homeCityGoodsVo.guidesNum + "位中文司导可服务");
+//            homeRecommendedRouteHolder.des2.setText(homeCityGoodsVo.recommendedReason);
+//            homeRecommendedRouteHolder.tiyan.setText("已体验" + homeCityGoodsVo.purchases);
+//            homeRecommendedRouteHolder.perPrice.setText("¥" + homeCityGoodsVo.perPrice + "起/人");
+//            homeRecommendedRouteHolder.filter_guide.setText(cityName + "推荐线路");
+//            if (!TextUtils.isEmpty(homeCityGoodsVo.goodsPic)) {
+//                Tools.showRoundImage(homeRecommendedRouteHolder.polygonImageView, homeCityGoodsVo.guidePic, UIUtils.dip2px(5),R.mipmap.icon_avatar_guide);
+//            }
+//            homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    CityListActivity.Params params = new CityListActivity.Params();
+//                    params.id = homeCityContentVo2.cityId;
+//                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
+//                    params.titleName = homeCityContentVo2.cityName;
+//                    intentActivity(context, CityListActivity.class, getEventSource(), params);
+//                    SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
+//                }
+//            });
+//            homeRecommendedRouteHolder.perPrice.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(context, SkuDetailActivity.class);
+//                    intent.putExtra(WebInfoActivity.WEB_URL, homeCityGoodsVo.goodsDetailUrl);
+//                    intent.putExtra(Constants.PARAMS_ID, homeCityGoodsVo.goodsNo);
+//                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+//                    context.startActivity(intent);
+//                    SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
+//                }
+//            });
+//
+//        }
+//
+//    }
 
     private void intentActivity(Context context, Class<?> cls, String eventId, CityListActivity.Params params) {
         Intent intent = new Intent(context, cls);
