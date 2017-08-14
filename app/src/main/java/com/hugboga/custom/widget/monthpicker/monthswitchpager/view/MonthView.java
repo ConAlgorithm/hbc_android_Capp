@@ -246,7 +246,7 @@ public class MonthView extends View {
   public boolean onTouchEvent(MotionEvent event) {
     if (event.getAction() == MotionEvent.ACTION_UP) {
       CalendarDay calendarDay = getDayFromLocation(event.getX(), event.getY());
-      if (!calendarDay.isCanService()) {
+      if (calendarDay != null && !calendarDay.isCanService()) {
         return true;
       }
       Calendar calendar = Calendar.getInstance();
