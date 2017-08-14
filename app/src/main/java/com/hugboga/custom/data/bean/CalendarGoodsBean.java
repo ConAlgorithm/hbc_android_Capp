@@ -13,4 +13,8 @@ public class CalendarGoodsBean implements Serializable {
     public boolean isCanService() {
         return stockStatus == 101;
     }
+
+    public boolean isPastDate() {
+        return stockStatus == 301;
+    }
 }

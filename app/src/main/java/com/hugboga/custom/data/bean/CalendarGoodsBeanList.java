@@ -36,7 +36,7 @@ public class CalendarGoodsBeanList implements Serializable {
             return null;
         }
         for (CalendarGoodsBean item : goodsStockList) {
-            if (!item.isCanService()) {
+            if (item.isPastDate()) {
                 continue;
             }
             Date date = DateUtils.getFormatDate(item.serviceDate);
