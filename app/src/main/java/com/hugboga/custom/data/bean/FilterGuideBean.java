@@ -31,6 +31,7 @@ public class FilterGuideBean implements Serializable{
     public String serviceTypes;         // 提供的服务,(服务标识，逗号隔开)
     public int isQuality;               // 是否优质司导, 1-是，0-否
     public int availableStatus;         // 是否可用司导：1-是，0-否
+    public int isOffline;               // 是否被审核下线状态，默认0：0否，1是
     public int serviceDaily;            // 是否可服务包车，0否，1是
     public int serviceJsc;              // 是否可服务接送机、单次接送，0否，1是
 
@@ -53,7 +54,7 @@ public class FilterGuideBean implements Serializable{
     }
 
     public boolean isCanService() {
-        return availableStatus == 1;
+        return availableStatus == 1 && isOffline == 0;
     }
 
     public double getServiceStar() {

@@ -281,7 +281,8 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
             builder.setGenders(guideFilterBean.getGendersRequestParams());
             builder.setServiceTypes(guideFilterBean.getCharterRequestParams());
             builder.setGuestNum("" + guideFilterBean.travelerCount);
-            builder.setLangCodes(guideFilterBean.getLanguageRequestParams());
+            builder.setForeignLanguageIds(guideFilterBean.getForeignLanguageRequestParams());
+            builder.setLocalLanguageIds(guideFilterBean.getLocalLanguageRequestParams());
             builder.setLabelIds(guideFilterBean.getSkillRequestParams());
         }
         if (sortTypeBean != null) {

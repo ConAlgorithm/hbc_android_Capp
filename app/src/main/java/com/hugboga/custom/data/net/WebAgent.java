@@ -741,6 +741,7 @@ public class WebAgent implements HttpRequestListener {
                         break;
                     case 4://4：线路
                         intent = new Intent(mActivity, SkuDetailActivity.class);
+                        intent.putExtra(WebInfoActivity.WEB_URL, data.skuUrl);
                         intent.putExtra(Constants.PARAMS_GUIDE, guidesDetailData);
                         intent.putExtra(Constants.PARAMS_ID, data.goodsNo);
                         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());

@@ -10,6 +10,7 @@ import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
+
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
@@ -38,9 +39,12 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         if (!TextUtils.isEmpty(builder.countryId)) {
             map.put("countryId", builder.countryId);            // 国家ID
         }
-        if (!TextUtils.isEmpty(builder.lineGroupId)) {
-            map.put("lineGroupId", builder.lineGroupId);        // 线路圈ID
+
+        if (!TextUtils.isEmpty(builder.lineGroupId)) {          // 线路圈ID
+            map.put(isGoods ? "groupId" : "lineGroupId", builder.lineGroupId);
         }
+        map.put(isGoods ? "sortType" : "orderByType", builder.orderByType);   // 排序类型:0-默认排序; 1-按星级排序;2-按评分排序;3-按单数排序
+
         if (!TextUtils.isEmpty(builder.genders)) {
             map.put("genders", builder.genders);                // 性别标识,(多个用逗号隔开)
         }
@@ -50,7 +54,6 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         if (!TextUtils.isEmpty(builder.guestNum)) {
             map.put("guestNum", builder.guestNum);              // 可接待人数
         }
-        map.put("orderByType", builder.orderByType);            // 排序类型:0-默认排序; 1-按星级排序;2-按评分排序;3-按单数排序
         map.put("orderDesc", builder.orderDesc);                // 排序方式,desc-从高到低, asc-从低到高
         if (builder.isQuality != null) {
             map.put("isQuality", builder.isQuality);            // 是否优质司导, 1-是，0-否
@@ -58,12 +61,32 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         map.put("limit", builder.limit);
         map.put("offset", builder.offset);
 
-        if (!TextUtils.isEmpty(builder.langCodes)) {
-            map.put("langCodes", builder.langCodes);            // 语言代码,多个用逗号隔开(包括方言和外语)
+
+        if (isGoods) {
+            if (!TextUtils.isEmpty(builder.localLanguageIds)) {
+                map.put("dialects", builder.localLanguageIds);           // 普通话/方言，可传多个，使用英文逗号分隔
+            }
+            if (!TextUtils.isEmpty(builder.foreignLanguageIds)) {
+                map.put("foreignLanguages", builder.foreignLanguageIds); // 精通外语，可传多个，使用英文逗号分隔
+            }
+        } else {
+            String foreignIds = builder.foreignLanguageIds;
+            String localIds = builder.localLanguageIds;
+            String ids = "";
+            if (!TextUtils.isEmpty(foreignIds) && !TextUtils.isEmpty(localIds)) {
+                ids = foreignIds + "," + localIds;
+            } else if (!TextUtils.isEmpty(foreignIds)) {
+                ids = foreignIds;
+            } else {
+                ids = localIds;
+            }
+            if (!TextUtils.isEmpty(ids)) {
+                map.put("langCodes", ids);        // 语言代码,多个用逗号隔开(包括方言和外语)
+            }
         }
 
         if (!TextUtils.isEmpty(builder.labelIds)) {
-            map.put("labelIds", builder.labelIds);              // 技能标签标识,多个用逗号隔开
+            map.put(isGoods ? "labels" : "labelIds", builder.labelIds); // 技能标签标识,多个用逗号隔开
         }
     }
 
@@ -100,7 +123,8 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
         public Integer isQuality;
         public int limit = Constants.DEFAULT_PAGESIZE;
         public int offset = 0;
-        public String langCodes;
+        public String foreignLanguageIds;
+        public String localLanguageIds;
         public String labelIds;
 
         public Builder setGoodsNo(String goodsNo) {
@@ -108,8 +132,13 @@ public class RequestFilterGuide extends BaseRequest<FilterGuideListBean> {
             return this;
         }
 
-        public Builder setLangCodes(String langCodes) {
-            this.langCodes = langCodes;
+        public Builder setForeignLanguageIds(String foreignLanguageIds) {
+            this.foreignLanguageIds = foreignLanguageIds;
+            return this;
+        }
+
+        public Builder setLocalLanguageIds(String localLanguageIds) {
+            this.localLanguageIds = localLanguageIds;
             return this;
         }
 
