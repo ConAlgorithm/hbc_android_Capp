@@ -130,8 +130,8 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 homeRecommendedRouteHolder.ultraViewPager.getIndicator().build();
 
                 //set an infinite loop
-                homeRecommendedRouteHolder.ultraViewPager.setInfiniteLoop(false);
-                homeRecommendedRouteHolder.ultraViewPager.setAutoScroll(3000);
+                homeRecommendedRouteHolder.ultraViewPager.setInfiniteLoop(true);
+                //homeRecommendedRouteHolder.ultraViewPager.setAutoScroll(3000);
                 homeRecommendedRouteHolder.ultraViewPager.setAutoMeasureHeight(true);
                 homeRecommendedRouteHolder.ultraViewPager.setOffscreenPageLimit(3);
 

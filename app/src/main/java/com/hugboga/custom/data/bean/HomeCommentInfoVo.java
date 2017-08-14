@@ -23,8 +23,8 @@ public class HomeCommentInfoVo implements Serializable {
     // 评价信息
     public Integer star; // 评价星级
     public String comment; // 评价内容
-    public ArrayList<String> commentPics; // 评价图片
-    public ArrayList<String> commentPicsL; // 评价图片大图
+    public ArrayList<String> commentPic; // 评价图片
+    public ArrayList<String> commentPicL; // 评价图片大图
     public String guideReply; // 司导回复
 
     // 司导信息
