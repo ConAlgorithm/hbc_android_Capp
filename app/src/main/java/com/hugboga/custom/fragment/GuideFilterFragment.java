@@ -425,18 +425,12 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
             return stringBuilder.toString();
         }
 
-        public String getLanguageRequestParams() {
-            String foreignIds = FilterTagUtils.getIds(guideForeignLangs);
-            String localIds = FilterTagUtils.getLocalLangsIds(guideLocalLangs);
-            String ids = "";
-            if (!TextUtils.isEmpty(foreignIds) && !TextUtils.isEmpty(localIds)) {
-                ids = foreignIds + "," + localIds;
-            } else if (!TextUtils.isEmpty(foreignIds)) {
-                ids = foreignIds;
-            } else {
-                ids = localIds;
-            }
-            return ids;
+        public String getForeignLanguageRequestParams() {
+            return FilterTagUtils.getIds(guideForeignLangs);
+        }
+
+        public String getLocalLanguageRequestParams() {
+            return FilterTagUtils.getLocalLangsIds(guideLocalLangs);
         }
 
         public String getSkillRequestParams() {

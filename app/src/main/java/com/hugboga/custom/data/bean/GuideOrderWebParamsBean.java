@@ -13,5 +13,6 @@ public class GuideOrderWebParamsBean implements Serializable{
     public String guideCityName;
     public int isQuality; //是否优质司导, 1-是，0-否
     public String goodsNo;//orderType=4，必传 商品ID
+    public String skuUrl;
 
 }
