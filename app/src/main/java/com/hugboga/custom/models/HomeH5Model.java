@@ -25,6 +25,11 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
 
     Context context;
     HomeH5Holder homeH5Holder;
+    final static String url1= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${0}";
+    final static String url2= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${1}";
+    final static String url3= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${2}";
+    final static String url4= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${3}";
+
     public HomeH5Model(Context context){
         this.context = context;
     }
@@ -83,19 +88,19 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.view1:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"https://www.baidu.com");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),url1);
                 SensorsUtils.onAppClick(getEventSource(),"一价全包","首页-一价全包");
             break;
             case R.id.view2:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.163.com");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),url2);
                 SensorsUtils.onAppClick(getEventSource(),"服务保障","首页-服务保障");
                 break;
             case R.id.view3:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.sina.com");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),url3);
                 SensorsUtils.onAppClick(getEventSource(),"先行赔付","首页-先行赔付");
                 break;
             case R.id.view4:
-                intentActivity(context, WebInfoActivity.class,getEventSource(),"www.qq.com");
+                intentActivity(context, WebInfoActivity.class,getEventSource(),url4);
                 SensorsUtils.onAppClick(getEventSource(),"免费保险","首页-免费保险");
                 break;
         }

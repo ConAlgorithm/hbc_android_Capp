@@ -278,7 +278,7 @@ public class UltraViewPagerView extends ViewPager implements UltraViewPagerAdapt
             //setPageMargin((int) (pageMargin));
         }else{
             //setPageMargin((int) (-(pageMargin + convertDp2Px(getContext(), 10f))));
-            setPageMargin(getResources().getDimensionPixelOffset(R.dimen.img_margin)/2);
+            setPageMargin(-70);
         }
 
 
