@@ -375,17 +375,21 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     boolean adClick = false;
     private void showAd(final ADPictureBean adPictureBean) {
         String imgUrl;
-        Animation animation= AnimationUtils.loadAnimation(this,R.anim.loading);
+        //Animation animation= AnimationUtils.loadAnimation(this,R.anim.loading);
         try {
             if (ImageUtils.getScreenWidth(this) <= 720) {
                 imgUrl = adPictureBean.picList.get(0).picture;
-            } else if (ImageUtils.getScreenWidth(this) > 1080) {
+            } else if (ImageUtils.getScreenWidth(this) > 1080 && adPictureBean.picList.size() >= 3) {
                 imgUrl = adPictureBean.picList.get(2).picture;
             } else {
-                imgUrl = adPictureBean.picList.get(1).picture;
+                if(adPictureBean.picList.size() >=2){
+                    imgUrl = adPictureBean.picList.get(1).picture;
+                }else{
+                    imgUrl = adPictureBean.picList.get(0).picture;
+                }
             }
             if(!imgUrl.isEmpty()){
-                Tools.showAdImageWithAnim(this,show_ad,imgUrl,animation);
+                Tools.showAdImage(show_ad,imgUrl);
                 show_ad.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
