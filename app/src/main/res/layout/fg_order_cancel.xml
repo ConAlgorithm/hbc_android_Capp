@@ -123,6 +123,7 @@
         android:padding="10dp"
         >
         <TextView
+            android:id="@+id/order_cancel_travel_fund_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

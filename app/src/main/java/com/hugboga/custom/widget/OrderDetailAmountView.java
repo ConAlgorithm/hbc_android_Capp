@@ -120,7 +120,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
             if (priceInfo.isRefund == 1) {//全部退款
                 addBillView(refundItemLayout, "全部行程", "" + (int)priceInfo.refundPrice);
-                setRefundPriceLayout((int)priceInfo.refundPrice, (int)priceInfo.cancelFee, priceInfo.payGatewayName, (int) priceInfo.refundTravelFund);
+                setRefundPriceLayout((int)priceInfo.refundPrice, (int)priceInfo.cancelFee, priceInfo.payGatewayName, (int)priceInfo.refundTravelFund, (int)priceInfo.couponPrice, priceInfo.couponRefundStatus);
             } else {
                 List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
                 int size = subOrderList.size();
@@ -132,23 +132,27 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                     allRefundPrice += childPriceInfo.refundPrice;
                     allCancelFee += childPriceInfo.cancelFee;
                 }
-                setRefundPriceLayout(allRefundPrice, allCancelFee, priceInfo.payGatewayName, (int) priceInfo.refundTravelFund);
+                setRefundPriceLayout(allRefundPrice, allCancelFee, priceInfo.payGatewayName, (int)priceInfo.refundTravelFund, (int)priceInfo.couponPrice, priceInfo.couponRefundStatus);
             }
 
         } else if (priceInfo.isRefund == 1) {//已经退款
             refundLayout.setVisibility(View.VISIBLE);
             refundItemLayout.removeAllViews();
             addGroupView(refundItemLayout, R.string.order_detail_cost_refund, "" + (int) priceInfo.refundPrice, false);//退款金额
-            setRefundPriceLayout((int) priceInfo.refundPrice, (int) priceInfo.cancelFee, priceInfo.payGatewayName, (int) priceInfo.refundTravelFund);
+            setRefundPriceLayout((int) priceInfo.refundPrice, (int) priceInfo.cancelFee, priceInfo.payGatewayName, (int)priceInfo.refundTravelFund, (int)priceInfo.couponPrice, priceInfo.couponRefundStatus);
         } else {
             refundLayout.setVisibility(View.GONE);
         }
     }
 
-    private void setRefundPriceLayout(int allRefundPrice, int cancelFee, String payGatewayName, int refundTravelFund) {
+    private void setRefundPriceLayout(int allRefundPrice, int cancelFee, String payGatewayName, int refundTravelFund, int couponPrice, int couponRefundStatus) {
         if (refundTravelFund > 0) {
             addGroupView(refundItemLayout, R.string.order_detail_cost_travelfund, "" + refundTravelFund, false, true);//旅游基金退款
+        } else if (couponPrice > 0) {
+            int titleID = couponRefundStatus == 1 ? R.string.order_detail_refund_coupon2 : R.string.order_detail_refund_coupon;
+            addGroupView(refundItemLayout, titleID, "" + couponPrice, false, true);//优惠券退改
         }
+
         //优惠券抵扣金额（券不可退）xx元；优惠券抵扣金额（券可退）xx元
         String description = null;
         if (allRefundPrice <= 0) {//退款金额为0

@@ -685,6 +685,8 @@
     <string name="order_detail_bargain_end">共砍掉</string>
     <string name="order_detail_bargain">已砍掉</string>
     <string name="order_detail_up">上车</string>
+    <string name="order_detail_refund_coupon">优惠券抵扣金额（券不可退）</string>
+    <string name="order_detail_refund_coupon2">优惠券抵扣金额（券可退）</string>
 
     <string name="alert_del_after_edit">请在删除指定司导后，再修改出行信息</string>
 
