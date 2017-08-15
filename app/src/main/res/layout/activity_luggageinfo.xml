@@ -36,18 +36,22 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
+                    android:lineSpacingExtra="5dp"
                     android:gravity="left|top"
-                    android:text="●"
-                    android:textSize="15sp" />
+                    android:textColor="@color/default_black"
+                    android:layout_marginTop="-2dp"
+                    android:text="•"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:textColor="@color/default_black"
                     android:text="@string/man_luggage_tips1"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,18 +66,20 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:gravity="left|top"
-                    android:text="●"
-                    android:textSize="15sp" />
+                    android:textColor="@color/default_black"
+                    android:text="•"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:textColor="@color/default_black"
                     android:text="@string/man_luggage_tips2"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -88,18 +94,20 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:gravity="left|top"
-                    android:text="●"
-                    android:textSize="15sp" />
+                    android:textColor="@color/default_black"
+                    android:text="•"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:textColor="@color/default_black"
                     android:text="@string/man_luggage_tips3"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -114,27 +122,30 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:gravity="left|top"
-                    android:text="●"
-                    android:textSize="15sp" />
+                    android:textColor="@color/default_black"
+                    android:text="•"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:textColor="@color/default_black"
                     android:text="@string/man_luggage_tips4"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:textColor="#b2b2b2"
+                android:textColor="#7f868c"
+                android:lineSpacingExtra="3dp"
                 android:text="@string/man_luggage_tips5"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
