@@ -82,19 +82,11 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <ImageView
-        android:id="@id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:layout_below="@+id/service_title"
-        android:background="#fff3f3f3"
-        android:layout_marginTop="21dp"/>
-
     <LinearLayout
         android:id="@+id/service_content"
         android:layout_width="match_parent"
         android:layout_height="112dp"
-        android:layout_below="@+id/view1"
+        android:layout_below="@+id/service_title"
         android:gravity="center">
 
         <TextView

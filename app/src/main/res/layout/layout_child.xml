@@ -15,7 +15,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#979797" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/filter_guide_gradient"
+            android:layout_gravity="bottom"/>
         <TextView
             android:id="@+id/guidesNum"
             android:layout_width="wrap_content"

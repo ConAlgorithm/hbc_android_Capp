@@ -54,7 +54,7 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
         View itemView;
         @Bind(R.id.charter_id_img)
         ImageView charterImg;
-        @Bind(R.id.view1)
+        @Bind(R.id.view2)
         View view;
         @Bind(R.id.daystravel)
         TextView daystravel;
