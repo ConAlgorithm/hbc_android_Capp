@@ -142,7 +142,7 @@ public class UltraViewPager extends RelativeLayout implements IUltraViewPagerFea
         setRatio(ta.getFloat(R.styleable.UltraViewPager_upv_ratio, Float.NaN));
         setScrollMode(ScrollMode.getScrollMode(ta.getInt(R.styleable.UltraViewPager_upv_scrollmode, 0)));
         disableScrollDirection(ScrollDirection.getScrollDirection(ta.getInt(R.styleable.UltraViewPager_upv_disablescroll, 0)));
-        setMultiScreen(ta.getFloat(R.styleable.UltraViewPager_upv_multiscreen, 1f));
+        //setMultiScreen(ta.getFloat(R.styleable.UltraViewPager_upv_multiscreen, 1f));
         setAutoMeasureHeight(ta.getBoolean(R.styleable.UltraViewPager_upv_automeasure, false));
         setItemRatio(ta.getFloat(R.styleable.UltraViewPager_upv_itemratio, Float.NaN));
         ta.recycle();
