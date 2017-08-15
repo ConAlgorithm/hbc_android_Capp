@@ -56,6 +56,9 @@
             android:layout_centerVertical="true"
             android:text="zhangqiang"
             android:textColor="#757575"
+            android:maxEms="9"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textSize="14sp" />
 
         <RelativeLayout

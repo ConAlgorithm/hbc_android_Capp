@@ -48,6 +48,7 @@ public class HomeBannerAdapter extends PagerAdapter {
     ArrayList<HomeAggregationVo4.ActivityPageSettingVo> activityPageSettings;
     Context context;
     ImageView imageView;
+    ImageView color_on_img;
     LinearLayout linearLayout;
     TextView name_album;
     TextView purchse_album;
@@ -78,9 +79,14 @@ public class HomeBannerAdapter extends PagerAdapter {
         imageView = (ImageView) linearLayout.findViewById(R.id.home_banner_img);
         imageView.getLayoutParams().width = UIUtils.getScreenWidth()-2*UIUtils.dip2px(16);
         imageView.getLayoutParams().height = imageView.getLayoutParams().width * 160 /328;
+        color_on_img = (ImageView) linearLayout.findViewById(R.id.color_on_img);
+        color_on_img.getLayoutParams().width = UIUtils.getScreenWidth()-2*UIUtils.dip2px(16);
+        color_on_img.getLayoutParams().height = color_on_img.getLayoutParams().width * 160 /328;
+
         if(position == activityPageSettings.size()-1){
             imageView.setImageResource(R.mipmap.home_banner_more);
             name_album.setText("");
+            color_on_img.setVisibility(View.GONE);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -90,6 +96,7 @@ public class HomeBannerAdapter extends PagerAdapter {
         }else if(position < activityPageSettings.size() -1){
             Tools.showImage(imageView,activityPageSettingVo.getPicture(),R.mipmap.evaluate_dafault);
             name_album.setText(activityPageSettings.get(position).activityName);
+            color_on_img.setVisibility(View.VISIBLE);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
