@@ -90,12 +90,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
-                    android:background="@color/allbg_gray" />
+                    android:background="@color/allbg_gray"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginLeft="8dp">
+                    android:layout_marginLeft="8dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/name_tv"
