@@ -465,7 +465,7 @@
     <string name="man_luggage_tips2">行李大小计算标准为24寸行李箱</string>
     <string name="man_luggage_tips3">每减少1位乘客，可增加1个24寸行李</string>
     <string name="man_luggage_tips4">随身行李请酌情携带，大小参考行李箱</string>
-    <string name="man_luggage_tips5">携带行李不要超过容量限制，以免造成车辆空间不足无法服务。此类情况司导可拒绝服务，请客人自行承担后果。</string>
+    <string name="man_luggage_tips5">如果司导到场发现行李超出所订车型容量限制，无法提供服务，您只能重新预订更大车型。\n请您在预订时考虑携带行李情况，以免出现上述情况</string>
 
 
     <string name="man_luggage_not_have">很抱歉，该城市暂不提供儿童座椅</string>
