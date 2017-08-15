@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="退改费用"
+            android:text="订单退改扣款"
             />
         <TextView
             android:id="@+id/order_cancel_back_value"
