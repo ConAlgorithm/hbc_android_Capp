@@ -7,10 +7,14 @@
     <dimen name="ysf_title_bar_icon_size">22.5dp</dimen>
     <dimen name="ysf_avatar_size">50dp</dimen>
     <dimen name="ysf_divider_height">0.5dp</dimen>
+    <dimen name="ysf_dialog_radius">2dp</dimen>
+    <dimen name="ysf_button_height">45dp</dimen>
+    <dimen name="ysf_button_small_height">35dp</dimen>
 
     <!-- bubble -->
-    <dimen name="ysf_bubble_content_max_width">228dp</dimen>
+    <!-- 360 - 125 = 235 -->
     <dimen name="ysf_bubble_max_width">235dp</dimen>
+    <dimen name="ysf_bubble_content_max_width">228dp</dimen>
     <dimen name="ysf_bottom_component_margin_horizontal">6dp</dimen>
     <dimen name="ysf_bottom_component_margin_vertical">8dp</dimen>
     <dimen name="ysf_bubble_time_layout_margin_top">18dp</dimen>

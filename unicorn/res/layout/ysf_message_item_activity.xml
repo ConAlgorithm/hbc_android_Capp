@@ -11,26 +11,25 @@
         android:layout_height="92dp"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        android:src="@drawable/ysf_image_default" />
+        android:src="@drawable/ysf_image_placeholder_grey" />
 
     <TextView
         android:id="@+id/ysf_tv_activity_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="考拉针对新手用户，提供新手大礼包活动！赠送全场满100减30劵，首单全场包邮"
         android:textColor="@color/ysf_black_222222"
         android:textSize="@dimen/ysf_text_size_15" />
 
-    <Button
+    <TextView
         android:id="@+id/ysf_btn_activity_action"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="@dimen/ysf_button_small_height"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/ysf_btn_white_blue_bg_selector"
-        android:text="查看新手大礼包活动具体规则"
+        android:gravity="center"
         android:textColor="@color/ysf_blue_5092e1"
         android:textSize="@dimen/ysf_text_size_15" />
 </LinearLayout>

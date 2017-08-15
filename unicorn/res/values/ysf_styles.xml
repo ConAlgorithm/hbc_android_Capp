@@ -1,13 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="ysf_window_theme" parent="android:Theme">
-        <item name="android:windowTitleSize">@dimen/ysf_title_bar_height</item>
-        <item name="android:windowTitleBackgroundStyle">@style/ysf_title_bar_background</item>
-        <item name="android:windowBackground">@color/ysf_message_default_bg</item>
-    </style>
-
-    <style name="ysf_title_bar_background">
-        <item name="android:background">@drawable/ysf_title_bar_bg</item>
+    <style name="ysf_window_theme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowBackground">@color/ysf_window_background</item>
     </style>
 
     <style name="ysf_list_view" parent="@android:style/Widget.ListView">
@@ -33,6 +27,10 @@
     </style>
 
     <style name="ysf_popup_dialog_style" parent="@style/ysf_dialog_default_style">
+        <item name="android:windowAnimationStyle">@style/ysf_dialog_window_animation_style</item>
+    </style>
+
+    <style name="ysf_form_dialog_style" parent="@android:style/Theme.Panel">
         <item name="android:windowAnimationStyle">@style/ysf_dialog_window_animation_style</item>
     </style>
 

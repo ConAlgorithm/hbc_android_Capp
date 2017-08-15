@@ -12,7 +12,6 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="10dp"
-        android:text="你的订单信息如下："
         android:textColor="@color/ysf_black_222222"
         android:textSize="@dimen/ysf_text_size_16" />
 
@@ -45,7 +44,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:text="卖家已发货"
                 android:textColor="@color/ysf_black_222222"
                 android:textSize="@dimen/ysf_text_size_14" />
         </LinearLayout>
@@ -74,7 +72,6 @@
                     android:id="@+id/ysf_tv_order_detail_person"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="收货人：李东岳"
                     android:textColor="@color/ysf_black_222222"
                     android:textSize="@dimen/ysf_text_size_14" />
 
@@ -83,7 +80,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:text="收货地址：浙江省 杭州市 滨江区 长河街道秋溢路 606号西科科技园8号楼8楼"
                     android:textColor="@color/ysf_grey_666666"
                     android:textSize="@dimen/ysf_text_size_14" />
             </LinearLayout>
@@ -114,7 +110,6 @@
                     android:id="@+id/ysf_tv_order_detail_order"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="订单编号：235423423442141324142"
                     android:textColor="@color/ysf_black_222222"
                     android:textSize="@dimen/ysf_text_size_14" />
 

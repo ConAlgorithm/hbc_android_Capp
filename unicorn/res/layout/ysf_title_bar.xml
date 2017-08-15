@@ -3,8 +3,7 @@
     android:id="@+id/ysf_title_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/ysf_title_bar_height"
-    android:background="@drawable/ysf_title_bar_bg"
-    android:paddingBottom="1dp">
+    android:background="@drawable/ysf_title_bar_bg">
 
     <LinearLayout
         android:id="@+id/ysf_title_bar_actions_layout"
@@ -34,7 +33,6 @@
                 android:id="@+id/ysf_title_bar_back_view"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="6dp"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/ysf_title_bar_back_icon" />
@@ -42,10 +40,9 @@
             <TextView
                 android:id="@+id/ysf_title_bar_title"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="4dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:ellipsize="end"
-                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:textColor="@color/ysf_title_bar_title_color"
                 android:textSize="@dimen/ysf_title_bar_text_size" />
