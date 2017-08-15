@@ -53,14 +53,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/des1"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
                     android:layout_marginTop="12dp"
                     android:text="深度瑞士｜瑞士全景环游之路超豪华 8日包车游特别好玩啊好好玩"
                     android:maxLines="2"
@@ -72,9 +72,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
                     android:gravity="left"
+                    android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:background="@drawable/home_kuang">
 
@@ -127,8 +126,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp">
 
 
