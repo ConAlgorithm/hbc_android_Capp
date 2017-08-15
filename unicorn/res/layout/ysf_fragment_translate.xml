@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ysf_window_background"
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
@@ -33,13 +34,12 @@
             android:visibility="visible" />
     </LinearLayout>
 
-
     <Button
         android:id="@+id/ysf_translate_cancel_button"
         android:layout_width="80dp"
-        android:layout_height="34dp"
+        android:layout_height="35dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="35dp"
-        android:background="@drawable/ysf_border_button_background"
+        android:background="@drawable/ysf_btn_white_round_bg"
         android:text="@string/ysf_cancel" />
 </FrameLayout>

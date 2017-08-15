@@ -32,14 +32,12 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="店铺名称店铺名称店铺名称"
             android:textSize="@dimen/ysf_text_size_13" />
 
         <TextView
             android:id="@+id/ysf_tv_order_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="卖家已发货"
             android:textColor="#FF611B"
             android:textSize="@dimen/ysf_text_size_14" />
     </LinearLayout>

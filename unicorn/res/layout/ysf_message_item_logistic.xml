@@ -12,7 +12,6 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="10dp"
-        android:text="你的快递单物流信息如下："
         android:textColor="@color/ysf_black_222222"
         android:textSize="@dimen/ysf_text_size_16" />
 
@@ -26,7 +25,6 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="10dp"
-        android:text="中通快递 运单号:120213123213"
         android:textColor="@color/ysf_black_222222"
         android:textSize="@dimen/ysf_text_size_15" />
 
@@ -49,13 +47,12 @@
             android:id="@+id/ysf_tv_logistic_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ysf_list_item_selector"
+            android:background="@drawable/ysf_message_inner_item_selector"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="10dp"
-            android:text="更多物流信息"
             android:textColor="@color/ysf_grey_999999"
             android:textSize="@dimen/ysf_text_size_14" />
     </LinearLayout>

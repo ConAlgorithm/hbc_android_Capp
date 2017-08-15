@@ -72,7 +72,6 @@
             android:layout_toLeftOf="@+id/emoji_button"
             android:layout_toRightOf="@+id/switchLayout"
             android:background="@drawable/ysf_message_input_edit_text"
-            android:hint="@string/ysf_input_message_hint_normal"
             android:imeOptions="flagNoExtractUi"
             android:maxHeight="72dp"
             android:maxLength="4500"

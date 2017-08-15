@@ -12,7 +12,6 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="10dp"
-        android:text="您的订单退款信息如下："
         android:textColor="@color/ysf_black_222222"
         android:textSize="@dimen/ysf_text_size_16" />
 
@@ -45,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="退款完成"
                 android:textColor="#4CAC35" />
         </LinearLayout>
 

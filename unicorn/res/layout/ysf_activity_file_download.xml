@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            app:ysf_fntMaxLines="2"
             app:ysf_fntText="网易七鱼客户案例列表.psd"
             app:ysf_fntTextColor="@color/ysf_black_222222"
             app:ysf_fntTextSize="18sp" />

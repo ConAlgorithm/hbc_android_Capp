@@ -38,7 +38,7 @@
             android:name="com.qiyukf.nimlib.service.NimService$Aux"
             android:process=":core" />
         <service
-            android:name=".analytics.AnalyticsService"
+            android:name="com.qiyukf.unicorn.analytics.AnalyticsService"
             android:process=":core" />
 
         <!-- 云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录 -->
@@ -54,6 +54,17 @@
 
         <!-- 云信进程间通信receiver -->
         <service android:name="com.qiyukf.nimlib.service.WakeupService" />
+
+        <!--如果使用eclipse集成，需要将${applicationId}替换为你的应用包名-->
+        <provider
+            android:name="com.qiyukf.nim.uikit.provider.UnicornProvider"
+            android:authorities="${applicationId}.unicorn.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ysf_provider" />
+        </provider>
 
         <activity
             android:name="com.qiyukf.unicorn.ui.activity.ServiceMessageActivity"
@@ -92,20 +103,15 @@
             android:theme="@style/ysf_window_theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".ui.activity.FileDownloadActivity"
+            android:name="com.qiyukf.unicorn.ui.activity.FileDownloadActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/ysf_activity_file_download"
             android:screenOrientation="portrait"
             android:theme="@style/ysf_window_theme" />
-
-        <provider
-            android:name="com.qiyukf.nim.uikit.provider.CaptureImageProvider"
-            android:authorities="${applicationId}.unicorn.capture.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/capture_image"/>
-        </provider>
-
+        <activity
+            android:name="com.qiyukf.unicorn.ui.activity.UrlImagePreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ysf_window_theme" />
     </application>
 </manifest>

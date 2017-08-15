@@ -7,19 +7,17 @@
 
     <ImageView
         android:id="@+id/imageViewPreview"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:contentDescription="@string/ysf_empty" />
+        android:contentDescription="@null" />
 
     <com.qiyukf.unicorn.widget.StylableTextView
         android:id="@+id/buttonSend"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:text="@string/ysf_send"
         android:textSize="@dimen/ysf_text_size_17" />

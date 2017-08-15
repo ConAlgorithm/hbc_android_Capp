@@ -82,7 +82,7 @@ public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior
     public void update(Object _data) {
         itemBean = (ChoiceCommentsBean.ChoiceCommentsItemBean) _data;
         Tools.showImage(avatarIV, itemBean.userAvatar, R.mipmap.icon_avatar_user);//用户头像
-        userNameTV.setText(itemBean.nickName);//用户名称
+        userNameTV.setText(itemBean.userName);//用户名称
         ratingView.setRating(itemBean.totalScore);//评价星级
         dateTV.setText(String.format("%1$s %2$s", DateUtils.getDateFromSimpleStr2(itemBean.serviceTime), getOrderStateStr()));//时间及天数 2017年6月22日 x日包车游
         locationTV.setText(itemBean.serviceCityName);//服务城市

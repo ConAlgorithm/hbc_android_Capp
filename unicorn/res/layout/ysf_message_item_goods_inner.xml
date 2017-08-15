@@ -11,7 +11,7 @@
         android:layout_height="60dp"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        android:src="@drawable/ysf_message_product_default_thumb" />
+        android:src="@drawable/ysf_image_placeholder_loading" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -30,7 +30,6 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="lily2016秋新高领修身百高领修身百高领修身百高领修"
                 android:textColor="@color/ysf_black_222222"
                 android:textSize="@dimen/ysf_text_size_14" />
 
@@ -46,7 +45,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="￥236"
                     android:textColor="@color/ysf_black_222222"
                     android:textSize="@dimen/ysf_text_size_14" />
 
@@ -55,7 +53,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="x1"
                     android:textColor="@color/ysf_grey_666666"
                     android:textSize="@dimen/ysf_text_size_14" />
             </LinearLayout>
@@ -73,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:maxLines="1"
-                android:text="尺寸：M"
                 android:textColor="@color/ysf_grey_999999"
                 android:textSize="@dimen/ysf_text_size_14" />
 
@@ -84,7 +80,6 @@
                 android:layout_gravity="end"
                 android:layout_marginLeft="8dp"
                 android:maxLines="1"
-                android:text="卖家已发货"
                 android:textColor="@color/ysf_grey_999999"
                 android:textSize="@dimen/ysf_text_size_14" />
         </LinearLayout>

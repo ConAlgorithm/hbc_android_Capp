@@ -13,7 +13,7 @@
         android:contentDescription="@null"
         android:gravity="center_horizontal"
         android:scaleType="centerCrop"
-        android:src="@drawable/ysf_message_product_default_thumb" />
+        android:src="@drawable/ysf_image_placeholder_loading" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -12,5 +12,6 @@
         <attr name="ysf_fntText" format="string" />
         <attr name="ysf_fntTextColor" format="color" />
         <attr name="ysf_fntTextSize" format="dimension" />
+        <attr name="ysf_fntMaxLines" format="integer" />
     </declare-styleable>
 </resources>

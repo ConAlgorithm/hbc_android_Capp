@@ -45,7 +45,6 @@
             android:id="@+id/ysf_tv_logistic_transport_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="[杭州闲林] [杭州市] 快件已到达[杭州闲林],业务员二片区岸上蓝山正在第1次派件 电话:18667676767 请保持电话通畅、耐心等待"
             android:textColor="@color/ysf_bot_logistic_text_color_selector"
             android:textSize="@dimen/ysf_text_size_14" />
 
@@ -54,7 +53,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="2017-02-17 07:51:30"
             android:textColor="@color/ysf_bot_logistic_time_color_selector"
             android:textSize="@dimen/ysf_text_size_14" />
     </LinearLayout>

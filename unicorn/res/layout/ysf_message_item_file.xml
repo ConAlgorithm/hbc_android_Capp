@@ -17,7 +17,7 @@
             android:id="@+id/message_item_file_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="2"
+            app:ysf_fntMaxLines="2"
             app:ysf_fntText="网易七鱼客户案例列表案例列表.psd"
             app:ysf_fntTextColor="@color/ysf_black_222222"
             app:ysf_fntTextSize="@dimen/ysf_text_size_16" />
