@@ -9,7 +9,7 @@
         android:id="@+id/app_icon"
         android:layout_width="64dp"
         android:layout_height="21dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
         android:src="@mipmap/home_hbc_logo_icon"/>
@@ -18,8 +18,8 @@
         android:id="@+id/search_icon_layout"
         android:layout_width="match_parent"
         android:layout_height="27dp"
-        android:layout_marginLeft="94dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/home_title_search"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical">
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/search_icon"
             android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
+            android:gravity=""
             android:text="想要去哪里?"
             android:textColor="#9b9b9b"
             android:textSize="12sp" />
