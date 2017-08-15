@@ -87,7 +87,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:scaleType="centerCrop"
-                            android:src="@color/all_bg_yellow"
+                            android:src="@mipmap/home_head_portrait"
                             app:poly_border="false"
                             app:poly_border_color="@android:color/white"
                             app:poly_border_width="5dp"

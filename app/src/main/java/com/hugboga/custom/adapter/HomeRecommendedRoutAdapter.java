@@ -104,7 +104,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
             tiyan.setText("已体验" + homeCityContentVo2.cityGoodsList.get(position).purchases);
             perPrice.setText("¥" + homeCityContentVo2.cityGoodsList.get(position).perPrice + "起/人");
             if (!TextUtils.isEmpty(homeCityContentVo2.cityGoodsList.get(position).goodsPic)) {
-                Tools.showRoundImage(polygonImageView, homeCityContentVo2.cityGoodsList.get(position).guidePic, UIUtils.dip2px(5),R.mipmap.icon_avatar_guide);
+                Tools.showRoundImage(polygonImageView, homeCityContentVo2.cityGoodsList.get(position).guidePic, UIUtils.dip2px(5),R.mipmap.home_head_portrait);
             }
 
             perPrice.setOnClickListener(new View.OnClickListener() {
