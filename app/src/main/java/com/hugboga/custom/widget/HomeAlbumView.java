@@ -46,6 +46,8 @@ public class HomeAlbumView extends LinearLayout {
 
     @Bind(R.id.img_album)
     ImageView imgAlum;
+    @Bind(R.id.color_on_img)
+    ImageView colorOnImg;
     @Bind(R.id.name_album)
     TextView nameAlbum;
     @Bind(R.id.purchse_album)
@@ -68,6 +70,9 @@ public class HomeAlbumView extends LinearLayout {
         recyclerView.getLayoutParams().height = viewHeight;
         imgAlum.getLayoutParams().width = UIUtils.getScreenWidth();
         imgAlum.getLayoutParams().height = imgAlum.getLayoutParams().width *185/360;
+        colorOnImg.getLayoutParams().width = UIUtils.getScreenWidth();
+        colorOnImg.getLayoutParams().height = colorOnImg.getLayoutParams().width *185/360;
+
         recyclerView.setFocusable(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -96,13 +101,14 @@ public class HomeAlbumView extends LinearLayout {
         }
 
         if(homeAlbumInfoVo.albumImageUrl == null || homeAlbumInfoVo.albumImageUrl.isEmpty()){
-
+            colorOnImg.setVisibility(GONE);
         }else{
-            Tools.showImage(imgAlum,homeAlbumInfoVo.albumImageUrl);
+            Tools.showImage(imgAlum,homeAlbumInfoVo.albumImageUrl,R.mipmap.morentu_02);
+            colorOnImg.setVisibility(VISIBLE);
         }
         nameAlbum.setText(homeAlbumInfoVo.albumName);
         purchseAlbum.setText(homeAlbumInfoVo.albumPurchases + "人已体验");
-        /*albumImgLayout.setOnClickListener(new OnClickListener() {
+        albumImgLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity,WebInfoActivity.class);
@@ -110,7 +116,7 @@ public class HomeAlbumView extends LinearLayout {
                 activity.startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
             }
-        });*/
+        });
 
     }
     public void setActivity(Activity activity){
