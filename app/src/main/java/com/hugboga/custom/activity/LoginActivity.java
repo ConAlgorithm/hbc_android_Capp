@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,6 +58,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
@@ -166,12 +169,26 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             }
         });
         if(phoneEditText.getText().toString().length() == 0){
+            phoneEditText.setFocusable(true);
+            phoneEditText.setFocusableInTouchMode(true);
             phoneEditText.requestFocus();
         }else if(loginPassword.getText().toString().length() == 0){
+            loginPassword.setFocusable(true);
+            loginPassword.setFocusableInTouchMode(true);
             loginPassword.requestFocus();
         }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
 
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+            }
+
+        }, 200);
     }
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         if(phoneEditText.hasFocus()){

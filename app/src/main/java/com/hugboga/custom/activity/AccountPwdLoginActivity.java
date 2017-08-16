@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +43,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
@@ -147,10 +151,25 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             }
         });
         if(phoneEditText.getText().toString().length() == 0){
+            phoneEditText.setFocusable(true);
+            phoneEditText.setFocusableInTouchMode(true);
             phoneEditText.requestFocus();
         }else if(passwordEditText.getText().toString().length() == 0){
+            passwordEditText.setFocusable(true);
+            passwordEditText.setFocusableInTouchMode(true);
             passwordEditText.requestFocus();
         }
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+            }
+
+        }, 200);
     }
 
     @Override
