@@ -38,6 +38,13 @@
             android:src="#f5f5f5" />
 
         <ImageView
+            android:id="@+id/color_on_img"
+            android:layout_width="match_parent"
+            android:layout_height="185dp"
+            android:src="#4a000000"
+            android:scaleType="centerCrop" />
+
+        <ImageView
             android:layout_width="20dp"
             android:layout_height="14dp"
             android:src="@mipmap/home_album_arrow"

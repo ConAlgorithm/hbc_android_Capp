@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/empty_wifi" />
+        android:background="@mipmap/empty_wifi" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
