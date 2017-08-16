@@ -807,7 +807,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             @Override
             public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
                 if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
-                    checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                    checkDataIsEmpty(null, ErrorHandler.getServerErrorCode(errorInfo, request), ErrorHandler.getErrorMessage(errorInfo, request));
                 }
             }
         }, true);

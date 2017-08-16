@@ -737,7 +737,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                     return;
                 }
                 if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
-                    checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                    checkDataIsEmpty(null, ErrorHandler.getServerErrorCode(errorInfo, request), ErrorHandler.getErrorMessage(errorInfo, request));
                 }
             }
         }, true);

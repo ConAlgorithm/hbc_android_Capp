@@ -148,17 +148,20 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
     private void setRefundPriceLayout(int allRefundPrice, int cancelFee, String payGatewayName, int refundTravelFund, int couponPrice, int couponRefundStatus) {
         if (refundTravelFund > 0) {
             addGroupView(refundItemLayout, R.string.order_detail_cost_travelfund, "" + refundTravelFund, false, true);//旅游基金退款
-        } else if (couponPrice > 0) {
-            int titleID = couponRefundStatus == 1 ? R.string.order_detail_refund_coupon2 : R.string.order_detail_refund_coupon;
-            addGroupView(refundItemLayout, titleID, "" + couponPrice, false, true);//优惠券退改
+        }
+//        else if (couponPrice > 0) {//优惠券抵扣金额（券不可退）xx元；优惠券抵扣金额（券可退）xx元
+//            int titleID = couponRefundStatus == 1 ? R.string.order_detail_refund_coupon2 : R.string.order_detail_refund_coupon;
+//            addGroupView(refundItemLayout, titleID, "" + couponPrice, false, true);//优惠券退改
+//        }
+
+        if (cancelFee > 0) {
+            addGroupView(refundItemLayout, R.string.order_detail_cost_withhold, "" + cancelFee, false);//订单退改扣款
         }
 
-        //优惠券抵扣金额（券不可退）xx元；优惠券抵扣金额（券可退）xx元
         String description = null;
-        if (allRefundPrice <= 0) {//退款金额为0
+        if (allRefundPrice <= 0 && refundTravelFund <= 0) {
             description = getContext().getString(R.string.order_detail_refund_pattern_payment, payGatewayName);
         } else {
-            addGroupView(refundItemLayout, R.string.order_detail_cost_withhold, "" + cancelFee, false);//订单退改扣款
             description = getContext().getString(R.string.order_detail_refund_description) + getContext().getString(R.string.order_detail_refund_pattern_payment, payGatewayName);
         }
         refundDescriptionTV.setText(description);
