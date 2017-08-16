@@ -61,7 +61,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) linearLayout.findViewById(R.id.pager_img);
         imageView.getLayoutParams().width = UIUtils.getScreenWidth() - 2 * UIUtils.dip2px(16);
         imageView.getLayoutParams().height = imageView.getLayoutParams().width * 189 / 330;
-        Tools.showImage(imageView, homeCityContentVo2.cityGoodsList.get(position).goodsPic);
+        Tools.showImage(imageView, homeCityContentVo2.cityGoodsList.get(position).goodsPic,R.mipmap.morentu_02);
 
         des1 = (TextView) linearLayout.findViewById(R.id.des1);
         cityName = (TextView) linearLayout.findViewById(R.id.cityName);

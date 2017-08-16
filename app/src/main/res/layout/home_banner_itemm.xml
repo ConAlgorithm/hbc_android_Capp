@@ -16,7 +16,7 @@
             android:layout_marginBottom="35dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:src="#959595"
+            android:src="@mipmap/morentu_02"
             android:scaleType="centerCrop"/>
 
         <ImageView
