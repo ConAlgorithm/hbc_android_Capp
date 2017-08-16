@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
             android:drawableRight="@mipmap/home_icon_back"
             android:drawablePadding="4dp"
             android:text="更多"
