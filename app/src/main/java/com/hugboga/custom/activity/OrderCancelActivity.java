@@ -87,10 +87,10 @@ public class OrderCancelActivity extends BaseActivity{
             travelFundLyout.setVisibility(View.VISIBLE);
             travelFundTitleTV.setText("可退旅游基金");
             travelFundTV.setText(orderBean.orderPriceInfo.travelFundRefundable + "元");
-        } else if (orderBean.orderPriceInfo.couponPrice > 0) {////可退优惠劵
-            travelFundLyout.setVisibility(View.VISIBLE);
-            travelFundTitleTV.setText(orderBean.orderPriceInfo.couponRefundStatus == 1 ? R.string.order_detail_refund_coupon2 : R.string.order_detail_refund_coupon);
-            travelFundTV.setText(orderBean.orderPriceInfo.couponPrice + "元");
+//        } else if (orderBean.orderPriceInfo.couponPrice > 0) {////可退优惠劵
+//            travelFundLyout.setVisibility(View.VISIBLE);
+//            travelFundTitleTV.setText(orderBean.orderPriceInfo.couponRefundStatus == 1 ? R.string.order_detail_refund_coupon2 : R.string.order_detail_refund_coupon);
+//            travelFundTV.setText(orderBean.orderPriceInfo.couponPrice + "元");
         } else {
             travelFundLyout.setVisibility(View.GONE);
         }

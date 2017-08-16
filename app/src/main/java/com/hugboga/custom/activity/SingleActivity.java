@@ -556,7 +556,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     return;
                 }
                 if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED) {
-                    checkDataIsEmpty(null, 0, ErrorHandler.getErrorMessage(errorInfo, request));
+                    checkDataIsEmpty(null, ErrorHandler.getServerErrorCode(errorInfo, request), ErrorHandler.getErrorMessage(errorInfo, request));
                 }
             }
         }, true);
