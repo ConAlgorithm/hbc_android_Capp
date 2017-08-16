@@ -6,102 +6,118 @@
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingTop="10dp"
-        android:background="#ffffff"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="环境切换:"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        />
-    <RadioGroup
-        android:id="@+id/developer_options_environment_rg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:paddingLeft="20dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/developer_options_dev_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:checked="true"
-            android:text="开发(dev)"/>
-
-        <RadioButton
-            android:id="@+id/developer_options_test_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:layout_marginLeft="15dp"
-            android:text="测试(test)"/>
-
-        <RadioButton
-            android:id="@+id/developer_options_release_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:layout_marginLeft="15dp"
-            android:text="线上(release)"/>
-    </RadioGroup>
-    <TextView
-        android:id="@+id/developer_options_hint_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
-        android:text="注: 1.切换完环境后一定要杀死应用,重新进入才会生效!!!\n      2.push的环境不会做切换\n      3.打包时环境: "
-        android:textColor="#ff9999"
-        android:textSize="12sp"
-        />
-    <TextView
-        android:id="@+id/developer_options_close_tv"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#fcce00"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="保存"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        />
     <RelativeLayout
-        android:id="@+id/developer_options_action_layout"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:visibility="gone"
+        android:layout_height="@dimen/order_min_item_hight"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/order_padding_left"
+        android:paddingRight="@dimen/order_padding_left"
         android:background="#ffffff">
-
         <TextView
-            android:id="@+id/about_update_tv"
+            android:id="@+id/developer_orderdetail_hint_tv"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="订单详情:"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/developer_orderdetail_confirm_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="#ffffff"
+            android:text="跳转"
+            android:background="@drawable/shape_rounded_yellow_btn"/>
+        <EditText
+            android:id="@+id/developer_orderdetail_et"
+            android:layout_toRightOf="@id/developer_orderdetail_hint_tv"
+            android:layout_toLeftOf="@id/developer_orderdetail_confirm_tv"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="Action"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
+            android:background="#00000000"
+            android:gravity="center_vertical"
+            android:hint="订单编号"
+            android:singleLine="true"
+            android:textColor="@color/default_black"
+            android:textColorHint="#cccccc"
+            android:textSize="14sp" />
         <View
+            android:layout_toRightOf="@id/developer_orderdetail_hint_tv"
+            android:layout_toLeftOf="@id/developer_orderdetail_confirm_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-2dp"
+            android:layout_below="@id/developer_orderdetail_et"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:background="@color/default_dividing_line" />
+            android:layout_height="@dimen/default_line_height"
+            android:background="@color/default_dividing_line"
+            />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/order_min_item_hight"
+        android:paddingLeft="@dimen/order_padding_left"
+        android:paddingRight="@dimen/order_padding_left"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff">
+        <TextView
+            android:id="@+id/developer_guidedetail_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="司导个人页:"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/developer_guidedetail_confirm_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="#ffffff"
+            android:text="跳转"
+            android:background="@drawable/shape_rounded_yellow_btn"/>
+        <EditText
+            android:id="@+id/developer_guidedetail_et"
+            android:layout_toRightOf="@id/developer_guidedetail_hint_tv"
+            android:layout_toLeftOf="@id/developer_guidedetail_confirm_tv"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:gravity="center_vertical"
+            android:hint="司导ID"
+            android:singleLine="true"
+            android:textColor="@color/default_black"
+            android:textColorHint="#cccccc"
+            android:textSize="14sp" />
+        <View
+            android:layout_toRightOf="@id/developer_guidedetail_hint_tv"
+            android:layout_toLeftOf="@id/developer_guidedetail_confirm_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-2dp"
+            android:layout_below="@id/developer_guidedetail_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:background="@color/default_dividing_line"
+            />
+    </RelativeLayout>
 </LinearLayout>

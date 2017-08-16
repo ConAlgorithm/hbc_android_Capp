@@ -1,36 +1,22 @@
 package com.hugboga.custom.developer;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.action.ActionUtils;
+import com.hugboga.custom.action.constants.ActionPageType;
+import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.action.data.ActionGuideDetailBean;
+import com.hugboga.custom.action.data.ActionOrderDetailBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.SharedPre;
-
-import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
  * Created by qingcha on 16/8/15.
  */
 public class DeveloperOptionsActivity extends BaseActivity{
-
-
-    @Bind(R.id.developer_options_environment_rg)
-    RadioGroup environmentRG;
-    @Bind(R.id.developer_options_dev_rb)
-    RadioButton devRB;
-    @Bind(R.id.developer_options_test_rb)
-    RadioButton testRB;
-    @Bind(R.id.developer_options_release_rb)
-    RadioButton releaseRB;
-    @Bind(R.id.developer_options_hint_tv)
-    TextView hintTV;
 
     @Override
     public int getContentViewId() {
@@ -42,6 +28,29 @@ public class DeveloperOptionsActivity extends BaseActivity{
         super.onCreate(arg0);
         initDefaultTitleBar();
         fgTitle.setText("Developer Options");
+    }
 
+    @OnClick(R.id.developer_orderdetail_confirm_tv)
+    public void intentOrderDetail() {
+        EditText editText = (EditText) findViewById(R.id.developer_orderdetail_et);
+        if (editText.getText() == null || editText.getText().toString() == null) {
+            CommonUtils.showToast("订单编号不能为空");
+        }
+        ActionOrderDetailBean actionOrderDetailBean = new ActionOrderDetailBean();
+        actionOrderDetailBean.orderNo = editText.getText().toString();
+        ActionBean actionBean = new ActionBean(ActionPageType.ORDER_DETAIL, actionOrderDetailBean, "");
+        ActionUtils.doAction(this, actionBean);
+    }
+
+    @OnClick(R.id.developer_guidedetail_confirm_tv)
+    public void intentGuideDetail() {
+        EditText editText = (EditText) findViewById(R.id.developer_guidedetail_et);
+        if (editText.getText() == null || editText.getText().toString() == null) {
+            CommonUtils.showToast("司导ID不能为空");
+        }
+        ActionGuideDetailBean actionGuideDetailBean = new ActionGuideDetailBean();
+        actionGuideDetailBean.guideId = editText.getText().toString();
+        ActionBean actionBean = new ActionBean(ActionPageType.GUIDE_DETAIL, actionGuideDetailBean, "");
+        ActionUtils.doAction(this, actionBean);
     }
 }
