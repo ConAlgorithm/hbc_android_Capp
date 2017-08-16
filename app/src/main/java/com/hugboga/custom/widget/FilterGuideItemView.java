@@ -176,6 +176,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     public void setImageBound(int displayImgWidth, int displayImgHeight) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(displayImgWidth, displayImgHeight);
         imageView.setLayoutParams(params);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
     /**
