@@ -77,9 +77,7 @@ public class UrlLibs {
     public static String H5_ADDFEE_X = H5_HOST+"/cinfos/addfee_x.html"; // 后付费用说明
     public static String H5_CANCEL = H5_HOST+"/cinfos/cancel.html"; // 取消规则
     public static String H5_INSURANCE = H5_HOST+"/cinfos/insurance.html"; // 皇包车免费赠送保险说明
-    public static String H5_NOTICE = H5_HOST+"/cinfos/notice.html";  //预订须知
     public static String H5_NOTICE_V2_2 = H5_HOST+"/cinfos/notice_v2_2.html"; // 预订须知
-    public static String H5_PRICE = H5_HOST+"/cinfos/price.html";  //费用说明
     public static String H5_PRICE_V2_2 = H5_HOST+"/cinfos/price_v2_2.html"; // 费用说明
     public static String H5_PROBLEM = H5_HOST+"/cinfos/problem.html"; //常见问题
     public static String H5_PROTOCOL = H5_HOST+"/cinfos/protocol.html"; // 用户协议

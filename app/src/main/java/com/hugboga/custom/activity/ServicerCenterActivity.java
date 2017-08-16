@@ -65,7 +65,7 @@ public class ServicerCenterActivity extends BaseActivity {
                 break;
             case R.id.service_center_btn1:
                 //预订须知
-                toWebInfo(UrlLibs.H5_NOTICE);
+                toWebInfo(UrlLibs.H5_NOTICE_V2_2);
                 break;
             case R.id.service_center_btn2:
                 //服务承诺

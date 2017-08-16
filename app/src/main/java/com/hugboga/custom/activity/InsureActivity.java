@@ -87,10 +87,10 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         adapter = new InSureListAdapter(beanList, activity);
         list.setAdapter(adapter);
         if (null != this.getIntent()) {
-            headerTitle.setText("添加投保人");
             orderBean = (OrderBean) this.getIntent().getSerializableExtra("orderBean");
             from = this.getIntent().getStringExtra("from");
             if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
+                headerTitle.setText("添加投保人");
                 insureListSize = orderBean.insuranceList == null ? 0 : orderBean.insuranceList.size();
                 bottom.setVisibility(View.VISIBLE);
                 peopleNum.setText(insureListSize + "");
