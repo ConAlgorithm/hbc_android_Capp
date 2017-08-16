@@ -18,17 +18,24 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/filter_guide_gradient"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:background="@drawable/filter_guide_gradient" />
 
-        <ImageView
-            android:id="@+id/save_guild"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/save_guild_icon" />
+        <LinearLayout
+            android:id="@+id/save_guild_layout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|right">
+
+            <ImageView
+                android:id="@+id/save_guild"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/save_guild_icon" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/filter_guide_location"
@@ -44,6 +51,7 @@
 
 
     </FrameLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,11 +62,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:maxLines="1"
             android:text="zhangqiang"
             android:textColor="#757575"
-            android:maxEms="9"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:textSize="14sp" />
 
         <RelativeLayout
@@ -98,7 +106,6 @@
     </RelativeLayout>
 
 
-
     <TextView
         android:id="@+id/guide_des"
         android:layout_width="match_parent"
@@ -117,8 +124,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="12dp">
 
 
         <TextView
