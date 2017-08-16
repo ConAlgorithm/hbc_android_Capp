@@ -41,7 +41,7 @@
             android:id="@+id/color_on_img"
             android:layout_width="match_parent"
             android:layout_height="185dp"
-            android:src="#4a000000"
+            android:src="#20000000"
             android:scaleType="centerCrop"
             android:visibility="gone"/>
 
