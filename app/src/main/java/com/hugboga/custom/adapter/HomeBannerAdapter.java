@@ -86,7 +86,7 @@ public class HomeBannerAdapter extends PagerAdapter {
         if(position == activityPageSettings.size()-1){
             imageView.setImageResource(R.mipmap.home_banner_more);
             name_album.setText("");
-            color_on_img.setVisibility(View.GONE);
+            //color_on_img.setVisibility(View.GONE);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,7 +96,7 @@ public class HomeBannerAdapter extends PagerAdapter {
         }else if(position < activityPageSettings.size() -1){
             Tools.showImage(imageView,activityPageSettingVo.getPicture(),R.mipmap.morentu_02);
             name_album.setText(activityPageSettings.get(position).activityName);
-            color_on_img.setVisibility(View.VISIBLE);
+            //color_on_img.setVisibility(View.VISIBLE);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
