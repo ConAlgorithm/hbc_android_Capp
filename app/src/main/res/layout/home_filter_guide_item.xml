@@ -131,7 +131,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="2dp"
-            android:text="找Ta预定"
+            android:text="找Ta预订"
             android:textColor="#4a4a4a"
             android:textSize="14sp" />
     </RelativeLayout>

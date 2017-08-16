@@ -11,6 +11,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
@@ -61,10 +62,13 @@ public class HomeBottomBannerModel extends EpoxyModelWithHolder {
         ((HomeBottomBannerHolder)holder).img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, TravelFundActivity.class);
-                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                context.startActivity(intent);
-                SensorsUtils.onAppClick(getEventSource(),"活动","首页-活动");
+                if(CommonUtils.isLogin(context)){
+                    Intent intent = new Intent(context, TravelFundActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    context.startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(),"活动","首页-活动");
+                }
+
             }
         });
     }

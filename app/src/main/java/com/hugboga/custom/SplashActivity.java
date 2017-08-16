@@ -38,7 +38,7 @@ public class SplashActivity extends BaseActivity {
     ViewPager viewPager;
     @Bind(R.id.indicator)
     CirclePageIndicator mIndicator;
-    TextView enter;
+    //TextView enter;
 
     private ActionBean actionBean;
 
@@ -107,7 +107,6 @@ public class SplashActivity extends BaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         for (int i = 0; i < pics.length; i++) {
             ImageView iv = new ImageView(this);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             iv.setLayoutParams(mParams);
             iv.setImageResource(pics[i]);
             views.add(iv);
@@ -126,23 +125,23 @@ public class SplashActivity extends BaseActivity {
         //mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
         //mIndicator.setViewPager(viewPager);
 
-        enter = (TextView)findViewById(R.id.enter);
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishHandler.sendEmptyMessageDelayed(0,0);
-            }
-        });
+        //enter = (TextView)findViewById(R.id.enter);
+//        enter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finishHandler.sendEmptyMessageDelayed(0,0);
+//            }
+//        });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {
                 if (arg0 == 2) {
-                    enter.setVisibility(View.VISIBLE);
-                    AnimationUtils.showAnimationAlpha(enter,500,null);
+                    //enter.setVisibility(View.VISIBLE);
+                    //AnimationUtils.showAnimationAlpha(enter,500,null);
                 }else{
-                    enter.setVisibility(GONE);
+                    //enter.setVisibility(GONE);
                 }
             }
 
@@ -209,15 +208,15 @@ public class SplashActivity extends BaseActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = views.get(position);
-//            if (position == 3) {
+            if (position == 2) {
                 view.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-//                        finishHandler.sendEmptyMessage(0);
+                        finishHandler.sendEmptyMessage(0);
                     }
                 });
-//            }
+            }
             ((ViewPager) container).addView(view, 0);
             return views.get(position);
         }

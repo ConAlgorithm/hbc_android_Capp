@@ -108,7 +108,7 @@
                         android:textSize="10sp"
                         android:maxLength="5"
                         android:ellipsize="end"
-                        android:textColor="#4a4a4a"/>
+                        android:textColor="#e98100"/>
 
 
                 </RelativeLayout>

@@ -160,14 +160,14 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         //search动画
         FrameLayout.LayoutParams lp2 = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
         int marginLeft = lp2.leftMargin;
-        ValueAnimator animator2 = ValueAnimator.ofInt(marginLeft, UIUtils.dip2px(10));
+        ValueAnimator animator2 = ValueAnimator.ofInt(marginLeft, UIUtils.dip2px(16));
         animator2.setDuration(200);
         animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
-                lp.setMargins(value, 0, UIUtils.dip2px(10), 0);
+                lp.setMargins(value, 0, UIUtils.dip2px(16), 0);
                 searchIcon.setLayoutParams(lp);
             }
         });
@@ -196,14 +196,14 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         //search动画
         FrameLayout.LayoutParams lp2 = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
         int marginLeft = lp2.leftMargin;
-        ValueAnimator animator2 = ValueAnimator.ofInt(marginLeft, UIUtils.dip2px(94)); // 产生一个从0到100变化的整数的动画
+        ValueAnimator animator2 = ValueAnimator.ofInt(marginLeft, UIUtils.dip2px(85)); // 产生一个从0到100变化的整数的动画
         animator2.setDuration(200);
         animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue(); // 动态的获取当前运行到的属性值
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) searchIcon.getLayoutParams();
-                lp.setMargins(value, 0, UIUtils.dip2px(10), 0);
+                lp.setMargins(value, 0, UIUtils.dip2px(16), 0);
                 searchIcon.setLayoutParams(lp);
             }
         });
