@@ -226,6 +226,9 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 break;
             case R.id.delete:
                 phoneEditText.setText("");
+                phoneEditText.setFocusable(true);
+                phoneEditText.setFocusableInTouchMode(true);
+                phoneEditText.requestFocus();
                 break;
             default:
                 break;
