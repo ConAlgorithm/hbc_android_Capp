@@ -22,7 +22,8 @@
         android:layout_marginBottom="10dp"
         android:background="@mipmap/loading_msg"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/time_second"
@@ -36,6 +37,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>
