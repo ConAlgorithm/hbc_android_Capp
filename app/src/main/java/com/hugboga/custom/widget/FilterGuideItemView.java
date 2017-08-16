@@ -46,6 +46,8 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     ImageView imageView;
     @Bind(R.id.save_guild)
     ImageView saveGuild;
+    @Bind(R.id.save_guild_layout)
+    LinearLayout save_guide_layout;
     @Bind(R.id.star)
     TextView star;
     @Bind(R.id.evaluate)
@@ -85,7 +87,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         }else if(filterGuideBean.isCollected == 0){
             saveGuild.setSelected(false);
         }
-        saveGuild.setOnClickListener(new OnClickListener() {
+        save_guide_layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isLogin()) {

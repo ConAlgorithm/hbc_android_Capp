@@ -25,10 +25,10 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
 
     Context context;
     HomeH5Holder homeH5Holder;
-    final static String url1= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${0}";
-    final static String url2= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${1}";
-    final static String url3= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${2}";
-    final static String url4= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=${3}";
+    final static String url1= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=0";
+    final static String url2= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=1";
+    final static String url3= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=2";
+    final static String url4= "https://act.huangbaoche.com/h5/cactivity/serPromise/index.html?type=3";
 
     public HomeH5Model(Context context){
         this.context = context;
