@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="私人订制"
+            android:text="私人定制"
             android:layout_weight="1"
             android:textSize="12sp"
             android:textColor="#ff444444"
