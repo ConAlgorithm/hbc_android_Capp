@@ -63,7 +63,6 @@ public class Tools {
                 .load(url)
                 .centerCrop()
                 .error(resId)
-                .placeholder(resId)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {

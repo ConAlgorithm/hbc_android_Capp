@@ -168,7 +168,13 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
             ft.add(R.id.pick_send_container_layout, fragment, tag);
         } else {
             ft.show(fragment);
+            if (FgPickup.TAG.equals(tag)) {
+                ((FgPickup) fragment).hintConponsTipView();
+            } else if(FgSend.TAG.equals(tag)) {
+                ((FgSend) fragment).hintConponsTipView();
+            }
         }
+
         currentFragment = fragment;
         ft.commitAllowingStateLoss();
     }
