@@ -141,7 +141,7 @@
     <dimen name="home_album_ver">100dp</dimen>
     <dimen name="home_album_space">10dp</dimen>
     <dimen name="home_past_album_hor">208dp</dimen>
-    <dimen name="home_past_album_ver">106dp</dimen>
+    <dimen name="home_past_album_ver">102dp</dimen>
     <dimen name="home_past_album_space">10dp</dimen>
     <dimen name="default_month_row_height">32dp</dimen>
     <dimen name="default_month_view_height">235dp</dimen>
