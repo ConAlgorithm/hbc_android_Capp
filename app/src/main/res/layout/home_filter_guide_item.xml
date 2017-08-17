@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@mipmap/home_more" />
+            android:src="@mipmap/empty_home_guide" />
 
         <View
             android:layout_width="match_parent"
