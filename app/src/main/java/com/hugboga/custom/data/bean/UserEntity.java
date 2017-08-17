@@ -458,6 +458,8 @@ public class UserEntity {
         avatar = null;
         nickname = null;
         weakPassword = false;
+        coupons = 0;
+        travelFund = 0;
     }
     public void setEvaluateReTurnMoneyBackFlag(Context activity, Integer backFlag) {
         SharedPre shared = new SharedPre(activity);
