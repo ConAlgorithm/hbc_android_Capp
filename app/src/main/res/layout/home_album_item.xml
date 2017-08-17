@@ -7,7 +7,7 @@
         android:id="@+id/album_img_item"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:src="@mipmap/morentu_03"
+        android:src="@mipmap/hotalbumitem"
         android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/album_purchse_item"

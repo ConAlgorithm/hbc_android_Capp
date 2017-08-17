@@ -94,7 +94,7 @@ public class HomeBannerAdapter extends PagerAdapter {
                 }
             });
         }else if(position < activityPageSettings.size() -1){
-            Tools.showImageForHomePage(imageView,activityPageSettingVo.getPicture(),R.mipmap.morentu_02);
+            Tools.showImageForHomePage(imageView,activityPageSettingVo.getPicture(),R.mipmap.bannaritem);
             name_album.setText(activityPageSettings.get(position).activityName);
             //color_on_img.setVisibility(View.VISIBLE);
             imageView.setOnClickListener(new View.OnClickListener() {

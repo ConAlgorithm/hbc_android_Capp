@@ -56,7 +56,7 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Tools.showImageForHomePage(holder.mImg,pastAlbumList.get(position).albumImageUrl,R.mipmap.morentu_02);
+        Tools.showImageForHomePage(holder.mImg,pastAlbumList.get(position).albumImageUrl,R.mipmap.pastalbum);
         holder.mImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
