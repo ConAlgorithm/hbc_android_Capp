@@ -84,7 +84,7 @@ public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior
         Tools.showImage(avatarIV, itemBean.userAvatar, R.mipmap.icon_avatar_user);//用户头像
         userNameTV.setText(itemBean.userName);//用户名称
         ratingView.setRating(itemBean.totalScore);//评价星级
-        dateTV.setText(String.format("%1$s %2$s", DateUtils.getDateFromSimpleStr2(itemBean.serviceTime), getOrderStateStr()));//时间及天数 2017年6月22日 x日包车游
+        dateTV.setText(String.format("%1$s %2$s", DateUtils.getDateFromSimpleStr2(itemBean.serviceTime), itemBean.orderTypeName));//时间及天数 2017年6月22日 x日包车游
         locationTV.setText(itemBean.serviceCityName);//服务城市
 
         //描述信息
@@ -135,23 +135,6 @@ public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, "游客说");
         getContext().startActivity(intent);
-    }
-
-    private String getOrderStateStr() {
-        switch (itemBean.orderType) {
-            case 1:
-                return "接机服务";
-            case 2:
-                return "送机服务";
-            case 4:
-                return "单次接送服务";
-            default:
-                if (itemBean.totalDays != null) {
-                    return String.format("%1$s日包车游", itemBean.totalDays);
-                } else {
-                    return "";
-                }
-        }
     }
 
     public void addCommentImageView(List<String> commentPictures) {
