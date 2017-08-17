@@ -74,7 +74,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     @Override
     public void update(Object data) {
         filterGuideBean = (FilterGuideBean)data;
-        Tools.showImage(imageView, filterGuideBean.guideCover, R.mipmap.empty_home_guide);
+        Tools.showImageForHomePage(imageView, filterGuideBean.guideCover, R.mipmap.empty_home_guide);
 
         evaluate.setText("评价 " +filterGuideBean.commentNum);
         name.setText(filterGuideBean.guideName);

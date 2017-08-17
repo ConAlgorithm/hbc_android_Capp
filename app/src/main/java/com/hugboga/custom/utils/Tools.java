@@ -52,6 +52,32 @@ public class Tools {
                 .into(imageView);
 
     }
+
+    public static void showImageForHomePage(final ImageView imageView, String url, final int resId) {
+
+        imageView.setImageResource(resId);
+        Glide.with(MyApplication.getAppContext())
+                .load(url)
+                .centerCrop()
+                .error(resId)
+                .placeholder(resId)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        imageView.setImageResource(resId);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        imageView.setBackgroundResource(0);
+                        return false;
+                    }
+                })
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
     public static void showImage(final ImageView imageView, String url, final int resId) {
         if (TextUtils.isEmpty(url)) {
 //            imageView.setBackgroundResource(resId);
