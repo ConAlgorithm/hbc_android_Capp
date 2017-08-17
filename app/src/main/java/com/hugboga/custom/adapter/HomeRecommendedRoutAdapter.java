@@ -62,7 +62,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter {
         imageView.getLayoutParams().width = UIUtils.getScreenWidth() - 2 * UIUtils.dip2px(16);
         imageView.getLayoutParams().height = imageView.getLayoutParams().width * 189 / 330;
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Tools.showImageForHomePage(imageView, homeCityContentVo2.cityGoodsList.get(position).goodsPic,R.mipmap.morentu_02);
+        Tools.showImageForHomePage(imageView, homeCityContentVo2.cityGoodsList.get(position).goodsPic,R.mipmap.tuijianxianlu);
 
         des1 = (TextView) linearLayout.findViewById(R.id.des1);
         cityName = (TextView) linearLayout.findViewById(R.id.cityName);

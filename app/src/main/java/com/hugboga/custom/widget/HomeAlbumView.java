@@ -103,7 +103,7 @@ public class HomeAlbumView extends LinearLayout {
         if(homeAlbumInfoVo.albumImageUrl == null || homeAlbumInfoVo.albumImageUrl.isEmpty()){
             colorOnImg.setVisibility(GONE);
         }else{
-            Tools.showImageForHomePage(imgAlum,homeAlbumInfoVo.albumImageUrl,R.mipmap.morentu_02);
+            Tools.showImageForHomePage(imgAlum,homeAlbumInfoVo.albumImageUrl,R.mipmap.hotalbum);
             colorOnImg.setVisibility(VISIBLE);
         }
         nameAlbum.setText(homeAlbumInfoVo.albumName);

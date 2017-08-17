@@ -46,7 +46,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
     public void update(Object data) {
         final HomeAlbumRelGoodsVo homeAlbumRelGoodsVo = (HomeAlbumRelGoodsVo) data;
         if(homeAlbumRelGoodsVo != null){
-            Tools.showImageForHomePage(albumImgItem,homeAlbumRelGoodsVo.goodsPic,R.mipmap.morentu_03);
+            Tools.showImageForHomePage(albumImgItem,homeAlbumRelGoodsVo.goodsPic,R.mipmap.hotalbumitem);
             albumImgItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
