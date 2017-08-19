@@ -42,6 +42,7 @@ import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.widget.CountryLocalTimeView;
@@ -732,7 +733,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public void onSendMessageFailed(int code, String message) {
         if(code!=7101){
-            Toast.makeText(MyApplication.getAppContext(),"发送消息失败请稍候重试",Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("发送消息失败请稍候重试");
            // ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
         }
 

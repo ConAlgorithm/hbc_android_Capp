@@ -362,7 +362,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     public void gotoNext(){
         if ("+86".equals(areaCode.getText().toString().trim())){
             if (!phone.getText().toString().startsWith("1") || !(11 == phone.getText().toString().length())){
-                Toast.makeText(this,R.string.phone_format_incorrect,Toast.LENGTH_SHORT).show();
+                CommonUtils.showToast(R.string.phone_format_incorrect);
                 phone.setFocusable(true);
                 return;
             }

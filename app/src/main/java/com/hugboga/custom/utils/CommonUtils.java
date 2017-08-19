@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
@@ -58,32 +59,12 @@ public final class CommonUtils {
 
     private CommonUtils() {}
 
-    private static Toast toast;
-
     public static void showToast(int resId) {
-        try {
-            if (toast == null) {
-                toast = Toast.makeText(MyApplication.getAppContext(), resId, Toast.LENGTH_SHORT);
-            } else {
-                toast.setText(resId);
-            }
-            toast.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ToastUtils.showToast(MyApplication.getAppContext(), resId);
     }
 
     public static void showToast(String msg) {
-        try {
-            if (toast == null) {
-                toast = Toast.makeText(MyApplication.getAppContext(), msg, Toast.LENGTH_SHORT);
-            } else {
-                toast.setText(msg);
-            }
-            toast.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ToastUtils.showToast(MyApplication.getAppContext(), msg);
     }
 
     public static String getCountString(String count) {
@@ -465,7 +446,7 @@ public final class CommonUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             MyApplication.getAppContext().startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(MyApplication.getAppContext(), "您可能没有安装谷歌应用商店", Toast.LENGTH_LONG).show();
+            CommonUtils.showToast("您可能没有安装谷歌应用商店");
         }
 
     }

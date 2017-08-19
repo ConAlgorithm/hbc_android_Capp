@@ -74,7 +74,7 @@ public class UnicornUtils {
     public static void openServiceActivity(final Context context, final int sourceType, final OrderBean orderBean, final SkuItemBean skuItemBean) {
         if(!Unicorn.isServiceAvailable()){
             initUnicorn();
-            Toast.makeText(MyApplication.getAppContext(),"连接客服失败，请稍候重试",Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("连接客服失败，请稍候重试");
             return;
         }
         if ((sourceType == UnicornServiceActivity.SourceType.TYPE_LINE && skuItemBean == null)

@@ -30,6 +30,7 @@ import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.payeco.android.plugin.PayecoPluginPayCallBack;
 import com.payeco.android.plugin.PayecoPluginPayIn;
@@ -166,9 +167,7 @@ public class YiLianPay {
                                 MLog.e("支付结果+++++++："+result);
 
                                 //支付操作发错错误
-                                Toast.makeText(payContext,
-                                        String.format("发生异常，错误码：%s，错误描述：%s", errCode, errMsg),
-                                        Toast.LENGTH_LONG).show();
+                                CommonUtils.showToast(String.format("发生异常，错误码：%s，错误描述：%s", errCode, errMsg));
                                 return;
                             }
 
@@ -185,14 +184,14 @@ public class YiLianPay {
                                 String code = obj.getString("respCode");
                                 String msg = obj.getString("respDesc");
                                 if("W101".equals(code)){
-                                    Toast.makeText(payContext, msg, Toast.LENGTH_SHORT).show();
+                                    CommonUtils.showToast(msg);
                                     return;
                                 }
                                 if (!"0000".equals(code)) { //非0000，订单支付响应异常
                                     if (!TextUtils.isEmpty(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"))) {
                                         JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(payContext, "yilianErrorCode.json"));
                                         if (jsonObject.has(code)) {
-                                            Toast.makeText(payContext, msg, Toast.LENGTH_LONG).show();
+                                            CommonUtils.showToast(msg);
                                             params1.payResult = false;
                                             intent.putExtra(Constants.PARAMS_DATA, params1);
                                             payContext.startActivity(intent);

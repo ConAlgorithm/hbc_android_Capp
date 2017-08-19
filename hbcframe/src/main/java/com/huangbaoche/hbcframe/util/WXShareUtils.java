@@ -181,7 +181,7 @@ public class WXShareUtils {
 //                });
 
         }else{
-            Toast.makeText(mContext,"未安装微信",Toast.LENGTH_LONG).show();
+            ToastUtils.showToast(mContext, "未安装微信");
         }
     }
 

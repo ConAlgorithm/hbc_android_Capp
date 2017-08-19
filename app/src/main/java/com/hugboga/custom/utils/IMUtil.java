@@ -166,16 +166,16 @@ public class IMUtil {
      */
     public boolean isLogined(){
         if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
-            Toast.makeText(MyApplication.getAppContext(), R.string.net_broken,Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast(R.string.net_broken);
             return false;
         }
         StatusCode statusCode = NIMClient.getStatus();
         if(statusCode==StatusCode.LOGINING){
-            Toast.makeText(MyApplication.getAppContext(),"正在登录聊天服务器",Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("正在登录聊天服务器");
             return false;
         }
         if(statusCode!=StatusCode.LOGINED){
-            Toast.makeText(MyApplication.getAppContext(),"正在登录聊天服务器",Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("正在登录聊天服务器");
             connect();
             return false;
         }

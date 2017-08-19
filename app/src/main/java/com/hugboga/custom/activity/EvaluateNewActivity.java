@@ -963,7 +963,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
                 /*if (onChildUploadListener != null) {
                     onChildUploadListener.onChildOneUploadFail();
                 }*/
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                CommonUtils.showToast(message);
             }
 
             @Override
@@ -977,7 +977,7 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
             @Override
             public void onPostUploadCancleAll() {
-                Toast.makeText(getApplicationContext(), "上传取消", Toast.LENGTH_SHORT).show();
+                CommonUtils.showToast("上传取消");
             }
         };
     }

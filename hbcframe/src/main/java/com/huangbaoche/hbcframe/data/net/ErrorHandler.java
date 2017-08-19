@@ -12,6 +12,7 @@ import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
 
 /**
@@ -67,7 +68,7 @@ public  class ErrorHandler implements HttpRequestListener{
                 ServerCodeHandlerInterface serverCodeHandler = getServerCodeHandler(mActivity);
                 if(!serverCodeHandler.handleServerCode(mActivity,serverException.getMessage(),serverException.getCode(),request,mListener)) {
                     if (request.errorType == BaseRequest.ERROR_TYPE_DEFAULT) {
-                        Toast.makeText(mActivity, serverException.getMessage(), Toast.LENGTH_LONG).show();
+                        ToastUtils.showToast(mActivity, serverException.getMessage());
                     } else if (request.errorType == BaseRequest.ERROR_TYPE_SHOW_DIALOG) {
                         showAlertDialog(mActivity, null, serverException.getMessage(), "知道了", new DialogInterface.OnClickListener() {
 
@@ -101,7 +102,7 @@ public  class ErrorHandler implements HttpRequestListener{
         MLog.e("mActivity = "+mActivity);
         if(mActivity!=null){
             if(errorInfo.state == ExceptionErrorCode.ERROR_CODE_NET){
-                Toast.makeText(mActivity, "请检查您的网络连接是否正常", Toast.LENGTH_LONG).show();
+                ToastUtils.showToast(mActivity, "请检查您的网络连接是否正常");
             }else {
                 if (!HbcConfig.IS_DEBUG && request.getData() != null && request.getData() instanceof String) {
                     if (((String) request.getData()).contains("\"status\":200")) {
@@ -116,7 +117,7 @@ public  class ErrorHandler implements HttpRequestListener{
                     errorStr += " - " + errorInfo.errorCode;
                 }
                 if (request.errorType == BaseRequest.ERROR_TYPE_DEFAULT) {
-                    Toast.makeText(mActivity, mActivity.getString(R.string.request_error, errorStr), Toast.LENGTH_LONG).show();
+                    ToastUtils.showToast(mActivity, mActivity.getString(R.string.request_error, errorStr));
                 } else if (request.errorType == BaseRequest.ERROR_TYPE_SHOW_DIALOG) {
                     showAlertDialog(mActivity, null, mActivity.getString(R.string.request_error, errorStr), "知道了", new DialogInterface.OnClickListener() {
 

@@ -42,6 +42,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
@@ -410,7 +411,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
         if(!NetWork.isNetworkAvailable(MyApplication.getAppContext())){
-            Toast.makeText(MyApplication.getAppContext(),R.string.net_broken,Toast.LENGTH_LONG).show();
+            CommonUtils.showToast(R.string.net_broken);
         }
         if(request instanceof RequestHome){
             homePageAdapter.addNetworkErrorModel(this);

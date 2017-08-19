@@ -32,6 +32,7 @@ import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestAddCreditCard;
 import com.hugboga.custom.data.request.RequestCreditCardPay;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -252,20 +253,20 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
                         code = strCode11[0];                 //截取错误code
                     }
                     if (TextUtils.isEmpty(mesg) || TextUtils.isEmpty(code)) {
-                        Toast.makeText(this, errResult, Toast.LENGTH_LONG).show();
+                        CommonUtils.showToast(errResult);
                         dialogUtil.dismissLoadingDialog();
                         return;
                     } else {
                         if (!TextUtils.isEmpty(JsonUtils.getJsonStr(this, "yilianErrorCode.json"))) {
                             JSONObject jsonObject = new JSONObject(JsonUtils.getJsonStr(this, "yilianErrorCode.json"));
                             jsonObject.has(code);
-                            Toast.makeText(this, mesg, Toast.LENGTH_LONG).show();
+                            CommonUtils.showToast(mesg);
                             dialogUtil.dismissLoadingDialog();
                             return;
                         }
                     }
                 } catch (Exception e) {
-                    Toast.makeText(this, errResult, Toast.LENGTH_LONG).show();
+                    CommonUtils.showToast(errResult);
                     if (dialogUtil != null) {
                         dialogUtil.dismissLoadingDialog();
                     }
