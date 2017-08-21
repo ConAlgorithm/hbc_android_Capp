@@ -38,6 +38,7 @@ public class RequestUploadLocationV11 extends BaseRequest<LocationData> {
         } catch (Exception e) {
             MLog.e(e.toString());
         }
+        errorType = ERROR_TYPE_IGNORE;
         return map;
     }
 
