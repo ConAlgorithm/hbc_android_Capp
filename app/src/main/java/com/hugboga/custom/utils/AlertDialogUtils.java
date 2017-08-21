@@ -54,7 +54,7 @@ public class AlertDialogUtils {
         return dialog;
     }
 
-    public static AlertDialog showAlertDialog(Context context, String title, String content, String okText, String cancleText, boolean cancelable
+    public static AlertDialog showAlertDialog(Context context, boolean cancelable, String title, String content, String okText, String cancleText
                                               ,DialogInterface.OnClickListener okClick, DialogInterface.OnClickListener cancleClick){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog dialog = builder.create();
@@ -106,10 +106,10 @@ public class AlertDialogUtils {
         return dialog;
     }
 
-    public static void showAlertDialog(Context context,String title,String content,String okText,DialogInterface.OnClickListener onClick){
+    public static void showAlertDialog(Context context,boolean cancelable, String title,String content,String okText,DialogInterface.OnClickListener onClick){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog dialog = builder.create();
-        dialog.setCancelable(false);
+        dialog.setCancelable(cancelable);
         dialog.setTitle(title);
         dialog.setMessage(content);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, okText, onClick);

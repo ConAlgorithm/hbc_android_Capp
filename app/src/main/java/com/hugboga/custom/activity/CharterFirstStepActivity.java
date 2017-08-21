@@ -458,7 +458,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     public void showIntentionDialog(String content) {
-        AlertDialogUtils.showAlertDialog(this, "提示", content, "好", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, false, "提示", content, "好", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 requestTravelPurposeForm();

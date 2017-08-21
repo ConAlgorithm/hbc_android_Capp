@@ -316,7 +316,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             final int size = searchWord.length();
             for(int i = 0; i < size; i++) {
                 if (!Tools.isEmojiCharacter(searchWord.charAt(i))) {
-                    AlertDialogUtils.showAlertDialog(PoiSearchActivity.this, null, "提交的内容中不能包含表情字符哦", "知道了", null);
+                    AlertDialogUtils.showAlertDialog(PoiSearchActivity.this, false, null, "提交的内容中不能包含表情字符哦", "知道了", null);
                     return;
                 }
             }

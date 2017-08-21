@@ -341,27 +341,30 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneFailed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
+            AlertDialogUtils.showAlertDialog(MainActivity.this, false, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1)
+                    , getString(R.string.grant_fail_btn_exit)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    });
         } else {
-            dialog.setMessage(R.string.grant_fail_phone);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    grantPhone();
-                }
-            });
+            AlertDialogUtils.showAlertDialog(MainActivity.this, false, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone)
+                    ,getString(R.string.grant_fail_btn), getString(R.string.grant_fail_btn_exit)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            grantPhone();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    });
         }
-        dialog.setNegativeButton(R.string.grant_fail_btn_exit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                System.exit(0);
-            }
-        });
-        dialog.show();
     }
 
     private void uploadPushClick(String pushId) {
