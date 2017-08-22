@@ -290,21 +290,18 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionFailed(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
+            AlertDialogUtils.showAlertDialog(this, true, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1));
         } else {
-            dialog.setMessage(R.string.grant_fail_im);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    requestBasicPermission();
-                }
-            });
+            AlertDialogUtils.showAlertDialog(this, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_im)
+                    , getString(R.string.grant_fail_btn)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestBasicPermission();
+                        }
+                    });
         }
-        dialog.show();
     }
 
     /**

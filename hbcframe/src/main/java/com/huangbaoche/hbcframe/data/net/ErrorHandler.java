@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.R;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.DialogUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
@@ -175,15 +176,7 @@ public  class ErrorHandler implements HttpRequestListener{
     }
 
     public void showAlertDialog(Context context,String title,String content,String okText,DialogInterface.OnClickListener onClick){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        AlertDialog dialog = builder.create();
-        dialog.setCancelable(false);
-        if (!TextUtils.isEmpty(title)) {
-            dialog.setTitle(title);
-        }
-        dialog.setMessage(content);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, okText, onClick);
-        dialog.show();
+        DialogUtils.showAlertDialog(context, false, title, content, okText, onClick);
     }
 
 
