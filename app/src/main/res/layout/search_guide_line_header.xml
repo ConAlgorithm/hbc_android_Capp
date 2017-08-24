@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/allbg_white"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="相关司导"
+        android:textColor="#7f7f7f"
+        android:layout_marginLeft="15dp"
+        android:textSize="13sp"
+        android:gravity="center_vertical" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:text="查看全部(236)"
+        android:textColor="#ffaf00"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:drawableRight="@mipmap/icon_more"
+        android:drawablePadding="3dp"/>
+</RelativeLayout>
