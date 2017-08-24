@@ -61,7 +61,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             return;
         }
         orderBean = (OrderBean) _data;
-        nameTV.setText(orderBean.userName);
+        nameTV.setText(orderBean.getTravelUserName());
         editTV.setVisibility(orderBean.orderStatus.code > 5 ? View.GONE : View.VISIBLE);// 1-5显示修改
 
         final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;

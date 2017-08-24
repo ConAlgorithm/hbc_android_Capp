@@ -277,6 +277,14 @@ public class OrderBean implements IBaseBean{
         }
     }
 
+    public String getTravelUserName() {
+        if ("2".equals(isRealUser) && realUserList != null && realUserList.size() > 0 && !TextUtils.isEmpty(realUserList.get(0).name)) {
+            return realUserList.get(0).name;
+        } else {
+            return userName;
+        }
+    }
+
     /**
      *  判断组合单是否有退款
      * */
