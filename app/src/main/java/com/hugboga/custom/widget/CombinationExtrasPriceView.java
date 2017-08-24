@@ -157,6 +157,12 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
                 checkinBottomLine.setVisibility(View.GONE);
             }
         }
+
+        if (isShowChildSeat || isShowPickup || isShowCheckIn) {
+            setVisibility(View.VISIBLE);
+        } else {
+            setVisibility(View.GONE);
+        }
     }
 
     private void calculatePrice() {
