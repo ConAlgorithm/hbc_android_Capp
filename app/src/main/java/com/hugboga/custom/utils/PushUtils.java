@@ -259,7 +259,7 @@ public class PushUtils {
             });
         }else{
             //存储设备不存在，是否考虑用浏览器打开
-            new AlertDialog.Builder(activity).setTitle("存储设备不存在 ").setMessage("点击用浏览器打开").setPositiveButton("前去更新", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(activity, true, "存储设备不存在", "点击用浏览器打开", "前去更新", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -269,7 +269,7 @@ public class PushUtils {
                         CommonUtils.showToast("版本更新地址不存在");
                     }
                 }
-            }).show();
+            });
         }
     }
 

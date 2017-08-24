@@ -23,6 +23,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestLogout;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
@@ -155,57 +156,65 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.setting_exit:
                 //退出登录
-                new AlertDialog.Builder(activity).setTitle("退出登录").setMessage("退出后不会删除任何历史数据，下次登录依然可以使用本账号")
-                        .setNegativeButton("取消", null).setPositiveButton("退出", new DialogInterface.OnClickListener() {
+                AlertDialogUtils.showAlertDialog(activity, "退出登录", "退出后不会删除任何历史数据，下次登录依然可以使用本账号", "退出", "取消"
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mDialogUtil = DialogUtil.getInstance(activity);
+                                mDialogUtil.showLoadingDialog();
+                                RequestLogout requestLogout = new RequestLogout(activity);
+                                HttpRequestUtils.request(activity, requestLogout, new HttpRequestListener() {
+                                    @Override
+                                    public void onDataRequestSucceed(BaseRequest request) {
+                                        ApiReportHelper.getInstance().addReport(request);
+                                        mDialogUtil.dismissLoadingDialog();
+                                        UserEntity.getUser().clean(activity);
+                                        IMUtil.getInstance().logoutNim();
+                                        EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onDataRequestCancel(BaseRequest request) {
+
+                                    }
+
+                                    @Override
+                                    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+                                        mDialogUtil.dismissLoadingDialog();
+                                        UserEntity.getUser().clean(activity);
+                                        EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
+                                        Unicorn.setUserInfo(null);
+                                        IMUtil.getInstance().logoutNim();
+                                        finish();
+                                    }
+                                },false);
+                            }
+                        }, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                break;
+            case R.id.setting_menu_layout7:
+                AlertDialogUtils.showAlertDialog(activity, "清除缓存", "将删除" + getCacheSize() + "图片和系统预填信息", "确认", "取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Tools.deleteCache();
+                        cacheSize = 0L;
+                        cacheSizeTextView.setText(getCacheSize());
+                        sharedPre.saveLongValue(SharedPre.CACHE_SIZE, 0);
+                    }
+                }, new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        mDialogUtil = DialogUtil.getInstance(activity);
-                        mDialogUtil.showLoadingDialog();
-                        RequestLogout requestLogout = new RequestLogout(activity);
-                        HttpRequestUtils.request(activity, requestLogout, new HttpRequestListener() {
-                            @Override
-                            public void onDataRequestSucceed(BaseRequest request) {
-                                ApiReportHelper.getInstance().addReport(request);
-                                mDialogUtil.dismissLoadingDialog();
-                                UserEntity.getUser().clean(activity);
-                                IMUtil.getInstance().logoutNim();
-                                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-                                finish();
-                            }
-
-                            @Override
-                            public void onDataRequestCancel(BaseRequest request) {
-
-                            }
-
-                            @Override
-                            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-                                mDialogUtil.dismissLoadingDialog();
-                                UserEntity.getUser().clean(activity);
-                                EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
-                                Unicorn.setUserInfo(null);
-                                IMUtil.getInstance().logoutNim();
-                                finish();
-                            }
-                        },false);
                     }
-                }).show();
-                break;
-            case R.id.setting_menu_layout7:
-                new AlertDialog.Builder(activity)
-                        .setTitle("清除缓存")
-                        .setMessage("将删除" + getCacheSize() + "图片和系统预填信息")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Tools.deleteCache();
-                                cacheSize = 0L;
-                                cacheSizeTextView.setText(getCacheSize());
-                                sharedPre.saveLongValue(SharedPre.CACHE_SIZE, 0);
-                            }
-                        }).show();
+                });
                 break;
             case R.id.setting_menu_developer_layout:
                 intent = new Intent(activity, DeveloperOptionsActivity.class);

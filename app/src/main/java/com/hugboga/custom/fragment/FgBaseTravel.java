@@ -16,6 +16,7 @@ import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.xutils.common.Callback;
 
@@ -105,7 +106,7 @@ public abstract class FgBaseTravel extends BaseFragment {
 
     protected void showToast(String message) {
         if (!TextUtils.isEmpty(message)) {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast(message);
         }
 
     }

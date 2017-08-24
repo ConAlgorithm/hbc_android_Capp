@@ -42,6 +42,7 @@ import com.hugboga.custom.data.request.RequestNIMUnBlackMan;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.widget.CountryLocalTimeView;
@@ -289,21 +290,18 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
     @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionFailed(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
+            AlertDialogUtils.showAlertDialog(this, true, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1));
         } else {
-            dialog.setMessage(R.string.grant_fail_im);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    requestBasicPermission();
-                }
-            });
+            AlertDialogUtils.showAlertDialog(this, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_im)
+                    , getString(R.string.grant_fail_btn)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestBasicPermission();
+                        }
+                    });
         }
-        dialog.show();
     }
 
     /**
@@ -732,7 +730,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public void onSendMessageFailed(int code, String message) {
         if(code!=7101){
-            Toast.makeText(MyApplication.getAppContext(),"发送消息失败请稍候重试",Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast("发送消息失败请稍候重试");
            // ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
         }
 

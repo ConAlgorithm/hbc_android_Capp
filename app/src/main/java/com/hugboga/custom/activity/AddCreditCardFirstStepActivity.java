@@ -25,6 +25,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestAddCreditCard;
 import com.hugboga.custom.data.request.RequestTypeQueryCreditCard;
 import com.hugboga.custom.utils.BankCardNumEditText;
+import com.hugboga.custom.utils.CommonUtils;
 
 
 import butterknife.Bind;
@@ -121,7 +122,7 @@ public class AddCreditCardFirstStepActivity extends BaseActivity {
             }
             creditCardInfoBean = ((RequestTypeQueryCreditCard) request).getData();
             if ("01".equals(creditCardInfoBean.accType)){
-                Toast.makeText(this, "暂不支持该银行卡", Toast.LENGTH_SHORT).show();
+                CommonUtils.showToast("暂不支持该银行卡");
                 return;
             }
             Intent intent = new Intent(this, AddCreditCardSecondStepActivity.class);
@@ -146,7 +147,7 @@ public class AddCreditCardFirstStepActivity extends BaseActivity {
 //                    StringBuffer buffer = new StringBuffer(serverException.getMessage());
 //                    String msg = buffer.subSequence(buffer.indexOf("<RETMSG>"),buffer.indexOf("<RETMSG>",1)).toString();
 //                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "暂不支持该银行卡", Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("暂不支持该银行卡");
                 }
             }
             return;
@@ -177,7 +178,7 @@ public class AddCreditCardFirstStepActivity extends BaseActivity {
             case R.id.next_step:
                 //信用卡添加完下一步
                 if (creditCardNumber.getTextWithoutSpace().length() < 16 || creditCardNumber.getTextWithoutSpace().length() > 19 ){
-                    Toast.makeText(this,"卡号有误，请检查您输入的卡号",Toast.LENGTH_SHORT).show();
+                    CommonUtils.showToast("卡号有误，请检查您输入的卡号");
                     return;
                 }
                 initCreditCardRequest();

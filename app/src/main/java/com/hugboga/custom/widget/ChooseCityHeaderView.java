@@ -471,13 +471,12 @@ public class ChooseCityHeaderView extends LinearLayout{
 
     private void checkGpsOpen() {
         if (!gpsIsOpen(getContext())) {
-            new android.app.AlertDialog.Builder(getContext()).setMessage("没有开启GPS定位,请到设置里开启")
-                    .setNegativeButton("取消", null).setPositiveButton("设置", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(getContext(), "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     openGPSSeting(getContext());
                 }
-            }).show();
+            }, null);
         }
     }
 

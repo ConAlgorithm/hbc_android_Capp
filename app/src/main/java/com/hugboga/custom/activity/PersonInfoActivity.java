@@ -33,6 +33,7 @@ import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlbumUploadHelper;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.FileUtil;
 import com.hugboga.custom.utils.ImageUtils;
@@ -419,24 +420,18 @@ public class PersonInfoActivity extends BaseActivity{
 
     @PermissionDenied(PermissionRes.WRITE_EXTERNAL_STORAGE)
     public void requestSdcardFailed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            builder.setMessage(R.string.grant_fail_phone1);
+            AlertDialogUtils.showAlertDialog(this, true, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1));
         } else {
-            builder.setMessage(R.string.grant_fail_sdcard);
-            builder.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    grantSdcard();
-                }
-            });
+            AlertDialogUtils.showAlertDialog(this, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_sdcard)
+                    , getString(R.string.grant_fail_btn)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            grantSdcard();
+                        }
+                    });
         }
-        AlertDialog dialog = builder.create();
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
     }
 
     /**
@@ -458,25 +453,18 @@ public class PersonInfoActivity extends BaseActivity{
 
     @PermissionDenied(PermissionRes.CAMERA)
     public void requestPhoneFailed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)) {
-            builder.setMessage(R.string.grant_fail_phone1);
+            AlertDialogUtils.showAlertDialog(this, true, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1));
         } else {
-            builder.setMessage(R.string.grant_fail_camera);
-            builder.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    grantCamera();
-                }
-            });
+            AlertDialogUtils.showAlertDialog(this, true, getString(R.string.grant_fail_title), getString(R.string.grant_fail_camera)
+                    , getString(R.string.grant_fail_btn)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            grantCamera();
+                        }
+                    });
         }
-        builder.show();
-        AlertDialog dialog = builder.create();
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
     }
 
     /**

@@ -64,13 +64,13 @@ public class WXShareUtils {
         if (!iwxapi.isWXAppInstalled()) {
             MLog.e("手机未安装微信");
             if(isShow)
-                new AlertDialog.Builder(mContext).setTitle("手机未安装微信").setPositiveButton("知道了", null).show();
+                DialogUtils.showAlertDialog(mContext, true, "手机未安装微信", null, "知道了", null);
             return false;
         }
         if (!iwxapi.isWXAppSupportAPI()) {
             MLog.e("微信版本太低");
             if(isShow)
-                new AlertDialog.Builder(mContext).setTitle("微信版本太低").setPositiveButton("知道了", null).show();
+                DialogUtils.showAlertDialog(mContext, true, "微信版本太低", null, "知道了", null);
             return false;
         }
         return true;
@@ -181,7 +181,7 @@ public class WXShareUtils {
 //                });
 
         }else{
-            Toast.makeText(mContext,"未安装微信",Toast.LENGTH_LONG).show();
+            ToastUtils.showToast(mContext, "未安装微信");
         }
     }
 

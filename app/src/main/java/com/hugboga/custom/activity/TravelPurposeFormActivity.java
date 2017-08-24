@@ -362,7 +362,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     public void gotoNext(){
         if ("+86".equals(areaCode.getText().toString().trim())){
             if (!phone.getText().toString().startsWith("1") || !(11 == phone.getText().toString().length())){
-                Toast.makeText(this,R.string.phone_format_incorrect,Toast.LENGTH_SHORT).show();
+                CommonUtils.showToast(R.string.phone_format_incorrect);
                 phone.setFocusable(true);
                 return;
             }
@@ -398,7 +398,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
-        AlertDialogUtils.showAlertDialog(this, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, false, getResources().getString(R.string.submit_success), getResources().getString(R.string.alert_submit_success), "确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(isFromOrder){

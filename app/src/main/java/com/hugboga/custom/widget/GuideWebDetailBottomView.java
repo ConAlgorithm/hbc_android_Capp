@@ -141,7 +141,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialogUtils.showAlertDialog(v.getContext(), "需要先下单并支付才能找Ta聊天呢", "优秀司导都在服务用户的路上，预订后沟通更高效~", "我知道了", new DialogInterface.OnClickListener() {
+                    AlertDialogUtils.showAlertDialog(v.getContext(), false, "需要先下单并支付才能找Ta聊天呢", "优秀司导都在服务用户的路上，预订后沟通更高效~", "我知道了", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

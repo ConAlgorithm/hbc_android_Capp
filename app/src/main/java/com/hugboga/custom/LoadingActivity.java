@@ -43,6 +43,7 @@ import com.hugboga.custom.service.ImAnalysisService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.DeepLinkHelper;
 import com.hugboga.custom.utils.ImageUtils;
@@ -239,27 +240,31 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
 
     @PermissionDenied(PermissionRes.READ_PHONE_STATE)
     public void requestPhoneFailed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(LoadingActivity.this);
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.grant_fail_title);
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
-            dialog.setMessage(R.string.grant_fail_phone1);
+            AlertDialogUtils.showAlertDialog(LoadingActivity.this, false
+                    , getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone1), getString(R.string.grant_fail_btn_exit)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    });
         } else {
-            dialog.setMessage(R.string.grant_fail_phone);
-            dialog.setPositiveButton(R.string.grant_fail_btn, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    grantPhone();
-                }
-            });
+            AlertDialogUtils.showAlertDialog(LoadingActivity.this, false
+                    , getString(R.string.grant_fail_title), getString(R.string.grant_fail_phone)
+                    , getString(R.string.grant_fail_btn), getString(R.string.grant_fail_btn_exit)
+                    , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            grantPhone();
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    });
         }
-        dialog.setNegativeButton(R.string.grant_fail_btn_exit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                System.exit(0);
-            }
-        });
-        dialog.show();
     }
 
     @SuppressLint("NewApi")
