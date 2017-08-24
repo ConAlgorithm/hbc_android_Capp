@@ -2,24 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:gravity="center_vertical"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="@color/allbg_white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/left_name"
-        android:textSize="18sp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/city_location"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"/>
 
-    <TextView
-        android:id="@+id/right_name"
-        android:textSize="14sp"
-        android:textColor="#666666"
-        android:lines="1"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp" />
+        <TextView
+            android:id="@+id/left_name"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="大阪"/>
+
+        <TextView
+            android:id="@+id/right_name"
+            android:textSize="12sp"
+            android:textColor="#7f7f7f"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="日本"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_gravity="bottom"
+        android:background="#dbdbdb"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
 </LinearLayout>

@@ -14,6 +14,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.TravelPurposeFormActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
@@ -97,7 +98,7 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
         }
     }
     public int getViewTop() {
-        if (homeServiceHolder.view != null) {
+        if (homeServiceHolder != null && homeServiceHolder.view != null) {
             return UIUtils.getViewTop(homeServiceHolder.view);
         }
         return 0;
@@ -122,7 +123,7 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
                 SensorsUtils.onAppClick(getEventSource(),"私人订制","首页-私人订制");
                 break;
             case R.id.home_line:
-                intentActivity(context, FilterSkuListActivity.class,null);
+                intentActivity(context, SearchDestinationGuideLineActivity.class,null);
                 SensorsUtils.onAppClick(getEventSource(),"精品线路游","首页-精品线路游");
                 break;
             case R.id.charter_id_img:

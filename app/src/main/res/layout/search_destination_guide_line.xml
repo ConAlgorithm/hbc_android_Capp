@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#dbdbdb"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/header_left_btn"
+                android:layout_width="45dip"
+                android:layout_height="45dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@mipmap/top_back_black" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:background="#dbdbdb" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/head_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="12dp"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@mipmap/top_search"
+                    android:drawablePadding="@dimen/basic_margin_small"
+                    android:hint="搜索国家或区号"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:text=""
+                    android:textColorHint="#cccccc"
+                    android:textSize="@dimen/text_size_mediumx" />
+
+                <ImageView
+                    android:id="@+id/head_search_clean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/login_delete"
+                    android:visibility="gone" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#dbdbdb" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dbdbdb" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/firstEnter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white"
+        >
+
+        <LinearLayout
+            android:id="@+id/history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="历史记录"
+                    android:textColor="#747474"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/search_remove"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/search_remove"
+                    android:scaleType="centerCrop"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.hugboga.custom.widget.MultipleTextViewGroup
+                    android:id="@+id/history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    app:overspread="false"
+                    app:textBackground="@drawable/search_history_and_hot_item"
+                    app:textColor="@color/color_7f7f7f"
+                    app:textLineMargin="15dp"
+                    app:textPaddingBottom="6dp"
+                    app:textPaddingLeft="10dp"
+                    app:textPaddingRight="10dp"
+                    app:textPaddingTop="6dp"
+                    app:textSize="12sp"
+                    app:textWordMargin="15dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/below_history"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/history_layout"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#dbdbdb" />
+
+        <LinearLayout
+            android:id="@+id/hot_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history_layout"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="热门搜索"
+                    android:textColor="#747474"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.hugboga.custom.widget.MultipleTextViewGroup
+                    android:id="@+id/hotitem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    app:overspread="false"
+                    app:textBackground="@drawable/search_history_and_hot_item"
+                    app:textColor="@color/color_7f7f7f"
+                    app:textLineMargin="15dp"
+                    app:textPaddingBottom="6dp"
+                    app:textPaddingLeft="10dp"
+                    app:textPaddingRight="10dp"
+                    app:textPaddingTop="6dp"
+                    app:textSize="12sp"
+                    app:textWordMargin="15dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_first_list"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_after_list"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/allbg_white"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+    </android.support.v7.widget.RecyclerView>
+    <!--<ExpandableListView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basic_white"
+        android:listSelector="@android:color/transparent"
+        android:divider="@null"
+        android:visibility="gone" />-->
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/guide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/allbg_white"
+        android:visibility="gone"/>
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/line_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/allbg_white"
+        android:visibility="gone"/>
+
+    <include
+        layout="@layout/search_destination_footer_layout"
+        android:id="@+id/empty_association"
+        android:visibility="gone"/>
+</LinearLayout>
