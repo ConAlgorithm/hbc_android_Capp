@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
@@ -21,27 +22,36 @@ import butterknife.ButterKnife;
 /**
  * Created by qingcha on 17/2/22.
  */
-public class CharterFirstCountView extends LinearLayout implements SliderView.OnValueChangedListener{
+public class CharterFirstCountView extends LinearLayout implements ChooseCountView.OnCountChangeListener, ChooseCountView.OnInvalidClickListener {
 
-    public static final int SLIDER_TYPE_ADULT = 1;
-    public static final int SLIDER_TYPE_CHILD = 2;
+    @Bind(R.id.charter_first_count_adult_choose_count_view)
+    ChooseCountView adultCountView;
+    @Bind(R.id.charter_first_count_child_choose_count_view)
+    ChooseCountView childCountView;
 
-    @Bind(R.id.charter_first_count_adult_slider_layout)
-    SliderLayout adultSlider;
-    @Bind(R.id.charter_first_count_child_slider_layout)
-    SliderLayout childSlider;
+    @Bind(R.id.charter_first_count_child_seat_layout)
+    RelativeLayout childSeatLayout;
+    @Bind(R.id.charter_first_count_child_seat_choose_count_view)
+    ChooseCountView childSeatCountView;
+
+    @Bind(R.id.charter_first_count_child_seat_hint_layout)
+    LinearLayout childSeatHintLayout;
+    @Bind(R.id.charter_first_count_child_seat_hint_tv)
+    TextView childSeathintTV;
+
     @Bind(R.id.charter_first_count_hint_tv)
     TextView hintTV;
 
     private Context context;
 
-    private OnOutRangeListener listener;
-    private int firstClickCount = 1;
+    private int adultCount = 0;      // 成人数
+    private int childCount = 0;      // 儿童数
+    private int childSeatCount = 0;  // 儿童座椅数
+    private int maxPassengers = 10;  // 最大乘车人数
 
-    /**
-     * 最大乘车人数
-     * */
-    private int maxPassengers = 10;
+    private OnOutRangeListener listener;
+    private boolean isSupportChildSeat;
+    private int firstClickCount = 1;
 
     public CharterFirstCountView(Context context) {
         this(context, null);
@@ -54,48 +64,127 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
         View view = inflate(context, R.layout.view_charter_first_count, this);
         ButterKnife.bind(view);
 
-        adultSlider.setMax(11);
-        adultSlider.setValue(0);
-        adultSlider.setType(SLIDER_TYPE_ADULT);
-        adultSlider.setOnValueChangedListener(this);
-        adultSlider.setShowNumberIndicator(false);
-
-        childSlider.setMin(0);
-        childSlider.setMax(11);
-        childSlider.setType(SLIDER_TYPE_CHILD);
-        childSlider.setOnValueChangedListener(this);
-        childSlider.setShowNumberIndicator(false);
-
-        setSliderEnabled(false);
+        adultCountView.setOnCountChangeListener(this);
+        childCountView.setOnCountChangeListener(this);
+        childSeatCountView.setOnCountChangeListener(this);
+        childSeatCountView.setOnInvalidClickListener(this);
+        setCountViewEnabled(false);
     }
 
-    public void setSliderEnabled(boolean isEnabled) {
-        adultSlider.setSliderEnabled(isEnabled);
-        childSlider.setSliderEnabled(isEnabled);
+    @Override
+    public void onCountChange(View view, int count) {
+        if (context instanceof CharterFirstStepActivity) {
+            if (firstClickCount == 1) {
+                SensorsUtils.onAppClick(((CharterFirstStepActivity) context).getEventSource(), "出行人数", ((CharterFirstStepActivity) context).getIntentSource());
+                firstClickCount += 1;
+            }
+        }
+        switch (view.getId()) {
+            case R.id.charter_first_count_adult_choose_count_view://成人数
+                this.adultCount = count;
+                checkCountView();
+                break;
+            case R.id.charter_first_count_child_choose_count_view://儿童数
+                this.childCount = count;
+                checkCountView();
+
+                if (childSeatCount > childCount) {
+                    childSeatCount--;
+                    childSeatCountView.setCount(childSeatCount);
+                }
+
+                if (childCount > 0) {
+                    if (isSupportChildSeat) {
+                        childSeatLayout.setVisibility(View.VISIBLE);
+                        childSeatHintLayout.setVisibility(View.GONE);
+                    } else {
+                        childSeatLayout.setVisibility(View.GONE);
+                        childSeatHintLayout.setVisibility(View.VISIBLE);
+                        childSeathintTV.setText("很抱歉，该城市暂不提供儿童座椅");
+                    }
+                } else {
+                    childSeatLayout.setVisibility(View.GONE);
+                    childSeatHintLayout.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.charter_first_count_child_seat_choose_count_view://儿童座椅
+                this.childSeatCount = count;
+                checkCountView();
+                break;
+        }
+        setHintViewVisibility();
     }
 
-    public void setMaxPassengers(int maxPassengers, boolean isGuide, boolean isSeckills) {
+    @Override
+    public void onInvalidClick(View view, int count, boolean isPlus) {
+        switch (view.getId()) {
+            case R.id.charter_first_count_child_seat_choose_count_view://儿童座椅
+                if (childSeatCount == childCount) {
+                    return;
+                }
+                if (isPlus) {
+                    setHintViewVisibility(true);
+                }
+                break;
+        }
+    }
+
+    public void setCountViewEnabled(boolean isEnabled) {
+        adultCountView.setEnabled(isEnabled);
+        childCountView.setEnabled(isEnabled);
+        if (!isEnabled) {
+            childSeatLayout.setVisibility(View.GONE);
+            childSeatHintLayout.setVisibility(View.GONE);
+            hintTV.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * type 1:成人、2:儿童、3:儿童座椅(1.5)
+     * 乘车人数 =（成人数 + 儿童座椅数 * 1.5 + 不用座椅儿童数）
+     * */
+    private boolean checkCount(int type) {
+        switch (type) {
+            case 1:
+            case 2:
+                return (adultCount + Math.round(childSeatCount * 1.5) + (childCount - childSeatCount) < maxPassengers);
+            case 3:
+                double count = adultCount + childSeatCount * 1.5 + (childCount - childSeatCount);
+                return maxPassengers - count > 0.5 && childSeatCount < childCount;
+            default:
+                return false;
+        }
+    }
+
+    private void checkCountView() {
+        adultCountView.setIsCanAdd(checkCount(1));
+        childCountView.setIsCanAdd(checkCount(2));
+        childSeatCountView.setIsCanAdd(checkCount(3));
+    }
+
+    private boolean isResetCountView() {
+        return  adultCount + childSeatCount * 1.5 + (childCount - childSeatCount) > maxPassengers;
+    }
+
+    public void setMaxPassengers(boolean isInit, int maxPassengers, boolean isSupportChildSeat, boolean isGuide, boolean isSeckills) {
         if (maxPassengers <= 0) {
-            adultSlider.setValue(0);
-            childSlider.setValue(0);
-            setSliderEnabled(false);
+            setCountViewEnabled(false);
             return;
         }
-        if (adultSlider.getValue() == 0) {
-            adultSlider.setMin(1);
-            adultSlider.setValue(2);
-        } else {
-            if (adultSlider.getValue() > maxPassengers) {
-                adultSlider.setValue(2);
-            }
-            if (childSlider.getValue() > maxPassengers) {
-                childSlider.setValue(0);
-            }
-        }
-        adultSlider.setMax(maxPassengers);
-        childSlider.setMax(maxPassengers);
         this.maxPassengers = maxPassengers;
-        setHintViewVisibility();
+        this.isSupportChildSeat = isSupportChildSeat;
+
+        if (isInit || isResetCountView()) {
+            adultCount = maxPassengers >= 2 ? 2 : 1;
+            childCount = 0;
+            childSeatCount = 0;
+
+            adultCountView.setMinCount(1).setCount(adultCount, false);
+            childCountView.setCount(0, false);
+            childSeatCountView.setCount(0, false);
+            childSeatLayout.setVisibility(View.GONE);
+            childSeatHintLayout.setVisibility(View.GONE);
+        }
         if (isSeckills) {
             hintTV.setText(context.getResources().getString(R.string.charter_first_max_passengers_hint3, "" + maxPassengers));
         } else {
@@ -116,38 +205,29 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
                 hintTV.setText(contentStr);
             }
         }
-        setSliderEnabled(true);
-    }
-
-    @Override
-    public void onSliderScrolled(int value, int type) {
         setHintViewVisibility();
-        if (context instanceof CharterFirstStepActivity) {
-            if (firstClickCount == 1) {
-                SensorsUtils.onAppClick(((CharterFirstStepActivity) context).getEventSource(), "出行人数", ((CharterFirstStepActivity) context).getIntentSource());
-                firstClickCount += 1;
-            }
-        }
-    }
-
-    @Override
-    public void onValueChanged(int value, int type) {
+        setCountViewEnabled(true);
     }
 
     private void setHintViewVisibility() {
+        setHintViewVisibility(false);
+    }
+
+    private void setHintViewVisibility(boolean isToughShow) {
         if (maxPassengers <= 0) {
             hintTV.setVisibility(View.INVISIBLE);
             return;
         }
-        final boolean isOutRange = childSlider.getValue() + adultSlider.getValue() > maxPassengers;
-        if (isOutRange) {
+        final boolean isOutRange = (adultCount + Math.round(childSeatCount * 1.5) + (childCount - childSeatCount)) >= maxPassengers;
+        boolean isShow = isOutRange || isToughShow;
+        if (isShow) {
             hintTV.setVisibility(View.VISIBLE);
         } else {
             hintTV.setVisibility(View.INVISIBLE);
         }
 
         if (listener != null) {
-            listener.onOutRangeChange(isOutRange);
+            listener.onOutRangeChange(isShow);
         }
     }
 
@@ -156,19 +236,23 @@ public class CharterFirstCountView extends LinearLayout implements SliderView.On
     }
 
     public int getAdultValue() {
-        return adultSlider.getValue();
+        return adultCountView.getCount();
     }
 
     public int getChildValue() {
-        return childSlider.getValue();
+        return childCountView.getCount();
+    }
+
+    public int getChildSeatValue() {
+        return childSeatCountView.getCount();
     }
 
     public void setAdultValue(int value) {
-        adultSlider.setValue(value);
+        this.adultCount = value;
     }
 
     public void setChildValue(int value) {
-        childSlider.setValue(value);
+        this.childCount = value;
     }
 
     public int getPassengers() {

@@ -243,6 +243,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         BatchPriceListBean batchPriceListBean = new BatchPriceListBean();
         batchPriceListBean.batchPrice = batchPriceList;
         batchPriceListBean.adultNum = charterDataUtils.adultCount;
+        batchPriceListBean.childNum = charterDataUtils.childCount;
 
         batchPriceListBean.userId = UserEntity.getUser().getUserId(context);
         if (charterDataUtils.isSeckills()) {

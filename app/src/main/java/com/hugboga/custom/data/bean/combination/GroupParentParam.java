@@ -61,4 +61,11 @@ public class GroupParentParam implements Serializable {
     public Double priceTicket;
     public String limitedSaleNo;                // 秒杀活动编号
     public String limitedSaleScheduleNo;        // 秒杀活动场次编号
+
+    public Integer isFlightSign;                // 是否举牌接机
+    public String flightBrandSign;              // 举牌接机姓名
+    public Double priceFlightBrandSign;         // 举牌接机费用
+    public Double checkInPrice;                 // checkin 费用
+    public Integer isCheckin;                   // 是否checkin 服务
+
 }

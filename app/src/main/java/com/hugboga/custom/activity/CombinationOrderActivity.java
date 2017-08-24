@@ -51,9 +51,9 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
+import com.hugboga.custom.widget.CombinationExtrasPriceView;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
@@ -77,8 +77,8 @@ import butterknife.Bind;
  * Created by qingcha on 17/3/4.
  */
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
-        , SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener
-        , SkuOrderEmptyView.OnRefreshDataListener, SkuOrderEmptyView.OnClickServicesListener{
+        , SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener
+        , SkuOrderEmptyView.OnClickServicesListener, CombinationExtrasPriceView.OnAdditionalPriceChangeListener{
 
     public static final String TAG = CombinationOrderActivity.class.getSimpleName();
 
@@ -91,8 +91,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     CombinationOrderDescriptionView descriptionLayout;
     @Bind(R.id.combination_order_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.combination_order_count_view)
-    SkuOrderCountView countView;
+    @Bind(R.id.combination_order_extras_price_view)
+    CombinationExtrasPriceView extrasPriceView;
     @Bind(R.id.combination_order_traveler_info_view)
     SkuOrderTravelerInfoView travelerInfoView;
     @Bind(R.id.combination_order_discount_view)
@@ -165,9 +165,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         carTypeView.setOnSelectedCarListener(this);
         carTypeView.showLuggageExplain();
         discountView.setDiscountOnClickListener(this);
-        countView.setOnCountChangeListener(this);
+        extrasPriceView.setOnAdditionalPriceChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
         bottomView.setData(3, charterDataUtils.guidesDetailData != null, charterDataUtils.isSeckills());
+        insuranceView.setInsuranceCount(charterDataUtils.adultCount + charterDataUtils.childCount);
         emptyLayout.setOnRefreshDataListener(this);
         emptyLayout.setOnClickServicesListener(this);
         explainView.setTermsTextViewVisibility("去支付", View.VISIBLE);
@@ -446,7 +447,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     private void setItemVisibility(int visibility) {
         carTypeView.setVisibility(visibility);
-//        countView.setVisibility(visibility);//包车下单不要出行人数
+        extrasPriceView.setVisibility(visibility);
         travelerInfoView.setVisibility(visibility);
         if (charterDataUtils.isSeckills()) {
             discountView.setVisibility(View.GONE);
@@ -528,8 +529,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onSelectedCar(CarBean carBean) {
         this.carBean = carBean;
-        countView.update(carBean, charterDataUtils, charterDataUtils.chooseDateBean.start_date);
-        double additionalPrice = countView.getAdditionalPrice();
+        extrasPriceView.update(carBean, charterDataUtils);
+        double additionalPrice = extrasPriceView.getAdditionalPrice();
 
         if (charterDataUtils.isSeckills()) {
             bottomView.updatePrice(carBean.seckillingPrice, carBean.price + additionalPrice - carBean.seckillingPrice);
@@ -554,18 +555,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         }
     }
 
-    /* 出行人数改变 */
-    @Override
-    public void onCountChange(ManLuggageBean bean) {
-        if (bean == null) {
-            return;
-        }
-        insuranceView.setInsuranceCount(bean.mans + bean.childs);
-        charterDataUtils.adultCount = bean.mans;
-        charterDataUtils.childCount = bean.childs;
-    }
-
-    /* 儿童座椅价格发生改变 */
     @Override
     public void onAdditionalPriceChange(double price) {
         requestSucceedCount = 2;
@@ -582,7 +571,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (carBean == null) {
             return;
         }
-        final double additionalPrice = countView.getAdditionalPrice();
+        final double additionalPrice = extrasPriceView.getAdditionalPrice();
         double totalPrice = carBean.price + additionalPrice;
         double actualPrice = totalPrice;
         double deductionPrice = 0;
@@ -624,7 +613,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.expectedCompTime = carBean.expectedCompTime == null ? "" : carBean.expectedCompTime;
         mostFitAvailableBean.limit = 20 + "";
         mostFitAvailableBean.offset = 0 + "";
-        mostFitAvailableBean.priceChannel = "" + (carBean.price + countView.getAdditionalPrice());
+        mostFitAvailableBean.priceChannel = "" + (carBean.price + extrasPriceView.getAdditionalPrice());
         mostFitAvailableBean.useOrderPrice = "" + carBean.price;
         mostFitAvailableBean.serviceCityId = startCityBean.cityId + "";
         mostFitAvailableBean.serviceCountryId = startCityBean.areaCode + "";
@@ -666,6 +655,9 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (!CommonUtils.isLogin(this)) {
             return;
         }
+        if (!extrasPriceView.checkFlightBrandSign()) {
+            return;
+        }
         if (charterDataUtils.guidesDetailData != null) {
             checkGuideCoflict();
         } else {
@@ -675,21 +667,21 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     public void onSubmit() {
         StatisticClickEvent.selectCarClick(StatisticConstant.SUBMITORDER_R, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
-                charterDataUtils.guidesDetailData != null, carBean.carDesc, countView.getTotalPeople() + "");
+                charterDataUtils.guidesDetailData != null, carBean.carDesc, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
 
         SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean = travelerInfoView.getTravelerInfoBean();
 
         GroupParamBuilder groupParamBuilder = new GroupParamBuilder();
         String requestParams = groupParamBuilder.charterDataUtils(charterDataUtils)
                 .carBean(carBean)
-                .manLuggageBean(countView.getManLuggageBean())
+                .additionalPriceBean(extrasPriceView.getAdditionalPriceBean())
                 .contactUsersBean(travelerInfoBean.getContactUsersBean())
                 .isCheckedTravelFund(discountView.isCheckedTravelFund())
                 .travelFund(deductionBean != null ? CommonUtils.getCountDouble(deductionBean.deduction) : 0)
                 .couponBean(couponBean)
                 .mostFitBean(mostFitBean)
                 .startPoiBean(travelerInfoBean.poiBean)
-                .allChildSeatPrice(countView.getAdditionalPrice())
+                .allAdditionalPrice(extrasPriceView.getAdditionalPrice())
                 .travelerInfoBean(travelerInfoBean)
                 .build();
         requestSubmitOrder(requestParams);

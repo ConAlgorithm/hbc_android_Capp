@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/SkuOrderSubtitleTextView"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:layout_marginRight="@dimen/sku_order_padding_left"
+        android:text="附加服务费用" />
+
+    <RelativeLayout
+        android:id="@+id/extras_price_pickup_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingLeft="@dimen/sku_order_padding_left">
+        <TextView
+            android:id="@+id/extras_price_pickup_star_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="-10dp"
+            android:paddingTop="3dp"
+            android:visibility="gone"
+            android:text="*"
+            android:textColor="@color/default_price_red"
+            android:textSize="14sp" />
+
+        <com.sevenheaven.iosswitch.ShSwitchView
+            android:id="@+id/extras_price_pickup_switch_view"
+            android:layout_width="58dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            app:shadowSpace="7dip"
+            app:tintColor="@color/default_yellow" />
+
+        <TextView
+            android:id="@+id/extras_price_pickup_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/extras_price_pickup_switch_view"
+            android:gravity="center_vertical"
+            android:text="34343434"
+            android:textColor="@color/default_price_red"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/extras_price_pickup_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="接机举牌等待"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/extras_price_pickup_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toLeftOf="@id/extras_price_pickup_price_tv"
+            android:layout_toRightOf="@id/extras_price_pickup_title_tv"
+            android:background="#00000000"
+            android:gravity="center_vertical"
+            android:hint="接机牌姓名"
+            android:visibility="gone"
+            android:singleLine="true"
+            android:textColor="@color/default_black"
+            android:textColorHint="#cccccc"
+            android:textSize="14sp"
+            />
+
+        <View
+            android:id="@+id/extras_price_pickup_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/extras_price_checkin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:paddingLeft="@dimen/sku_order_padding_left">
+
+        <com.sevenheaven.iosswitch.ShSwitchView
+            android:id="@+id/extras_price_checkin_switch_view"
+            android:layout_width="58dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            app:shadowSpace="7dip"
+            app:tintColor="@color/default_yellow" />
+
+        <TextView
+            android:id="@+id/extras_price_checkin_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/extras_price_checkin_switch_view"
+            android:gravity="center_vertical"
+            android:text="34343434"
+            android:textColor="@color/default_price_red"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/extras_price_checkin_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="送机协助办理登机"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <View
+            android:id="@+id/extras_price_checkin_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/extras_price_child_seat_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:layout_marginRight="4dp">
+
+        <TextView
+            android:id="@+id/extras_price_child_seat_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="儿童座椅"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/extras_price_child_seat_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/extras_price_child_seat_title_tv"
+            android:text="(34343434)"
+            android:textColor="@color/default_price_red"
+            android:textSize="12sp" />
+
+        <com.hugboga.custom.widget.ChooseCountView
+            android:id="@+id/extras_price_child_seat_choose_countview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/extras_price_child_seat_price_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
+        android:layout_marginTop="-10dp"
+        android:gravity="top"
+        android:text="3434232424"
+        android:textColor="#cccccc"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/extras_price_child_seat_hint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/shape_sku_order_count_dash"
+            android:layerType="software" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="#fff8e7"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/sku_order_padding_left"
+            android:text="请在出行前告诉司导需要何种年龄段的儿童座椅"
+            android:textColor="@color/default_yellow"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/shape_sku_order_count_dash"
+            android:layerType="software" />
+    </LinearLayout>
+</LinearLayout>

@@ -29,7 +29,8 @@ public class ChooseCountView extends LinearLayout{
     private int minCount = 0;
     private int count;
     private boolean isCanAdd = true;
-    private OnCountChangeListener listener;
+    private OnCountChangeListener onCountChangeListener;
+    private OnInvalidClickListener onInvalidClickListener;
 
     public ChooseCountView(Context context) {
         this(context, null);
@@ -47,12 +48,18 @@ public class ChooseCountView extends LinearLayout{
         switch (view.getId()) {
             case R.id.choose_count_subtract_tv:
                 if (count == minCount) {
+                    if (onInvalidClickListener != null) {
+                        onInvalidClickListener.onInvalidClick(this, count, false);
+                    }
                     return;
                 }
                 --count;
                 break;
             case R.id.choose_count_plus_tv:
                 if (count == maxCount || !isCanAdd) {
+                    if (onInvalidClickListener != null) {
+                        onInvalidClickListener.onInvalidClick(this, count, true);
+                    }
                     return;
                 }
                 ++count;
@@ -61,13 +68,11 @@ public class ChooseCountView extends LinearLayout{
         setCount(count);
     }
 
-
     public ChooseCountView setIsCanAdd(boolean isCanAdd) {
         this.isCanAdd = isCanAdd;
         resetUI();
         return this;
     }
-
 
     public ChooseCountView setMaxCount(int maxCount) {
         this.maxCount = maxCount;
@@ -90,8 +95,8 @@ public class ChooseCountView extends LinearLayout{
         this.count = count;
         resetUI();
         countTV.setText("" + count);
-        if (listener != null && isCallListener) {
-            listener.onCountChange(this, count);
+        if (onCountChangeListener != null && isCallListener) {
+            onCountChangeListener.onCountChange(this, count);
         }
         return this;
     }
@@ -117,11 +122,33 @@ public class ChooseCountView extends LinearLayout{
         }
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (!enabled) {
+            minCount = 0;
+            maxCount = 0;
+            setCount(0, false);
+            countTV.setTextColor(0xFFCCCCCC);
+        } else {
+            maxCount = Integer.MAX_VALUE;
+            countTV.setTextColor(getContext().getResources().getColor(R.color.default_black));
+        }
+    }
+
     public interface OnCountChangeListener {
         public void onCountChange(View view, int count);
     }
 
-    public void setOnCountChangeListener(OnCountChangeListener listener) {
-        this.listener = listener;
+    public void setOnCountChangeListener(OnCountChangeListener onCountChangeListener) {
+        this.onCountChangeListener = onCountChangeListener;
+    }
+
+    public interface OnInvalidClickListener {
+        public void onInvalidClick(View view, int count, boolean isPlus);
+    }
+
+    public void setOnInvalidClickListener(OnInvalidClickListener onInvalidClickListener) {
+        this.onInvalidClickListener = onInvalidClickListener;
     }
 }

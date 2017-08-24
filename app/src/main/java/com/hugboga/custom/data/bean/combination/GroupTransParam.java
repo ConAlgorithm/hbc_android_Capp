@@ -36,8 +36,8 @@ public class GroupTransParam implements Serializable{
 
     public Integer expectedCompTime;               // 预计服务完成时间 接送次 必填
     public Double distance;                        // 服务距离
-    public Integer isCheckin;
-    public Double checkInPrice;
+    public Double checkInPrice;                    // checkin 费用
+    public Integer isCheckin;                      // 是否checkin 服务
 
     public OrderBean.ChildSeats childSeatInfo;
 }

@@ -37,6 +37,8 @@ public class CharterDataUtils {
     public ChooseDateBean chooseDateBean;
     public int adultCount;
     public int childCount;
+    public int childSeatCount;
+    public boolean isSupportChildSeat = false;
     public int maxPassengers;
 
     public GuidesDetailData guidesDetailData;                   // 指定司导的信息
@@ -81,17 +83,6 @@ public class CharterDataUtils {
             charterDataUtils = new CharterDataUtils();
         }
         return charterDataUtils;
-    }
-
-    /*
-     * 待优化
-     * */
-    public void init(CharterSecondStepActivity.Params params) {
-        this.chooseDateBean = params.chooseDateBean;
-        this.adultCount = params.adultCount;
-        this.childCount = params.childCount;
-        this.maxPassengers = params.maxPassengers;
-        addStartCityBean(1, params.startBean);
     }
 
     public boolean isFirstDay() {
@@ -264,6 +255,10 @@ public class CharterDataUtils {
         } else {
             return null;
         }
+    }
+
+    public int getTotalPeopleCount() {
+        return (int) (adultCount + Math.round(childSeatCount * 1.5) + (childCount - childSeatCount));
     }
 
     public boolean checkInfo(int routeType, int currentDay, boolean isShowToast) {
@@ -440,6 +435,14 @@ public class CharterDataUtils {
         } else {
             return 2;
         }
+    }
+
+    public boolean isPickup() {
+        return flightBean != null && isSelectedPickUp;
+    }
+
+    public boolean isTransfer() {
+        return airPortBean != null && isSelectedSend;
     }
 
     public static ArrayList<HbcLantLng> getHbcLantLngList(int cityId,CityRouteBean.Fence _fence) {

@@ -58,16 +58,16 @@
                 android:background="#ffffff"
                 android:visibility="gone" />
 
-            <com.hugboga.custom.widget.SkuOrderCountView
-                android:id="@+id/combination_order_count_view"
+            <com.hugboga.custom.widget.SkuOrderTravelerInfoView
+                android:id="@+id/combination_order_traveler_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"
                 android:background="#ffffff"
                 android:visibility="gone" />
 
-            <com.hugboga.custom.widget.SkuOrderTravelerInfoView
-                android:id="@+id/combination_order_traveler_info_view"
+            <com.hugboga.custom.widget.CombinationExtrasPriceView
+                android:id="@+id/combination_order_extras_price_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/sku_order_margin_vertical"

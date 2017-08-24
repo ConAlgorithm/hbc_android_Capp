@@ -146,6 +146,14 @@ public class OrderUtils {
         return (manLuggageBean.childSeats >= 1 ? (manLuggageBean.childSeats - 1) : 0);
     }
 
+    public static int getSeat1Count(int childSeats){
+        return (childSeats >= 1 ? 1 : 0);
+    }
+
+    public static int getSeat2Count(int childSeats){
+        return (childSeats >= 1 ? (childSeats - 1) : 0);
+    }
+
     private String getServiceEndTime(String date, int day) {
         try {
             String[] ymd = date.split("-");

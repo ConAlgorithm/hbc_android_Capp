@@ -184,7 +184,7 @@
             <TextView
                 android:id="@+id/sku_order_count_hint_tv"
                 android:layout_width="match_parent"
-                android:layout_height="26dp"
+                android:layout_height="24dp"
                 android:background="#fff8e7"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/sku_order_padding_left"

@@ -320,7 +320,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                 return (adultCount + Math.round(childSeatCount * 1.5) + (childCount - childSeatCount) < carBean.capOfPerson);
             case 3:
                 double count = adultCount + childSeatCount * 1.5 + (childCount - childSeatCount);
-                return carBean.capOfPerson - count >= 0.5 && childSeatCount < childCount;
+                return carBean.capOfPerson - count > 0.5 && childSeatCount < childCount;
             default:
                 return false;
         }
