@@ -321,8 +321,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 isSupportChildSeat = charterDataUtils.isSupportChildSeat;
                 cityLayout.setDesc(startBean.name);
                 setDateViewText();
-//                countLayout.setAdultValue(charterDataUtils.adultCount);
-//                countLayout.setChildValue(charterDataUtils.childCount);
                 countLayout.setMaxPassengers(false, maxPassengers, isSupportChildSeat, guidesDetailData != null, charterDataUtils.isSeckills());
                 break;
             case FROM_PURPOSER:

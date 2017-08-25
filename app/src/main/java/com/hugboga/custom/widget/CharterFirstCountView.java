@@ -118,7 +118,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
     @Override
     public void onInvalidClick(View view, int count, boolean isPlus) {
         switch (view.getId()) {
-            case R.id.charter_first_count_child_seat_choose_count_view://儿童座椅
+            case R.id.charter_first_count_child_seat_choose_count_view://儿童座椅，应该不会出现这种情况（儿童座椅能添加，人数不能添加）
                 if (childSeatCount == childCount) {
                     return;
                 }
