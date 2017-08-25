@@ -49,6 +49,21 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/sku_order_bottom_price_detail_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            android:paddingRight="10dp"
+            android:layout_toRightOf="@id/sku_order_bottom_should_price_layout"
+            android:gravity="center"
+            android:text="明细"
+            android:textColor="@color/default_black"
+            android:textSize="13sp" />
+
+        <TextView
             android:id="@+id/sku_order_bottom_total_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

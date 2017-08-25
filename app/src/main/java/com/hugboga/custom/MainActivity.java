@@ -42,6 +42,7 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChoiceCommentActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.OrderPriceInfoActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
@@ -652,7 +653,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
                 break;
             case R.id.tab_text_2:
-                mViewPager.setCurrentItem(1);
+//                mViewPager.setCurrentItem(1);
+                startActivity(new Intent(this, OrderPriceInfoActivity.class));
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
