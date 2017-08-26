@@ -573,7 +573,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:minEms="4"
-                        android:text="预定后短信通知乘车人"
+                        android:text="预订后短信通知乘车人"
                         android:textColor="@color/basic_black"
                         android:textSize="14sp" />
 

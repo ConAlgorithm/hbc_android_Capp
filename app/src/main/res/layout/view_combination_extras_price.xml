@@ -157,7 +157,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/extras_price_child_seat_title_tv"
             android:text="(34343434)"
             android:textColor="@color/default_price_red"

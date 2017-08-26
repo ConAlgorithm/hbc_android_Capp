@@ -79,8 +79,6 @@ public  class ErrorHandler implements HttpRequestListener{
                             }
                         });
                     }
-                } else {
-                    request.errorType = BaseRequest.ERROR_TYPE_PROCESSED;
                 }
                 return;
             case ExceptionErrorCode.ERROR_CODE_NET_NOTFOUND:

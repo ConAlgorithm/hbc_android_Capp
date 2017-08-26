@@ -283,7 +283,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), chooseDateBean.dayNums,
                 guidesDetailData != null, (countLayout.getAdultValue() + countLayout.getChildValue()) + "");
         setSensorsConfirmEvent();
-        SensorsUtils.onAppClick(getEventSource(), "立即预定", getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "立即预订", getIntentSource());
     }
 
     @Subscribe

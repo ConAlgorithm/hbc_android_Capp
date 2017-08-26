@@ -66,6 +66,9 @@ public class RequestSubmitDaily extends RequestSubmitBase {
         if (!isDaily) {//固定线路一口价 价格验证需要
             map.put("promationDetailCheck", 1);
         }
+        if (orderBean.goodsOtherPrice > 0) {
+            map.put("goodsOtherPrice", orderBean.goodsOtherPrice);
+        }
 
 //        childSeatNum 儿童座椅数
 //        luggageNum 行李数

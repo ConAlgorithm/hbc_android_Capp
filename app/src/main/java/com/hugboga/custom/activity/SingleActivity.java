@@ -504,7 +504,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         } else {
             initOrderActivity();
         }
-        SensorsUtils.onAppClick(getEventSource(),"立即预定",getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(),"立即预订",getIntentSource());
     }
 
     public void initOrderActivity() {
