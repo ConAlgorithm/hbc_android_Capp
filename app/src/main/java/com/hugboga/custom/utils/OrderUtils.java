@@ -684,7 +684,7 @@ public class OrderUtils {
                                         boolean dreamLeftischeck,
                                         String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
                                         CarListBean carListBean, ManLuggageBean manLuggageBean, int hotelRoom, double priceHotel,
-                                        int orderType, String luggageNum, String userWechat, double goodsOtherPrice) {
+                                        int orderType, String luggageNum, String userWechat, double goodsOtherPrice, double allGoodsOtherPrice) {
         OrderBean orderBean = new OrderBean();//订单
 
         if (!TextUtils.isEmpty(guideCollectId)) {
@@ -773,7 +773,7 @@ public class OrderUtils {
         orderBean.outTownDays = skuBean.goodsType == 3 ? 0 : skuBean.daysCount;
         orderBean.skuPoi = "";
         orderBean.stayCityListStr = getPassCityStr;
-        orderBean.priceChannel = (carBean.price + priceHotel) + "";
+        orderBean.priceChannel = (carBean.price + priceHotel + allGoodsOtherPrice) + "";
         orderBean.userName = userName;//manName.getText().toString();
         orderBean.userRemark = userRemark;//mark.getText().toString();
 
@@ -781,18 +781,18 @@ public class OrderUtils {
                 && null == carListBean.additionalServicePrice.childSeatPrice2) {
             orderBean.orderPrice  = carBean.price;
             orderBean.childSeatStr = "";
-            orderBean.priceChannel = (carBean.price + priceHotel)  + "";
+            orderBean.priceChannel = (carBean.price + priceHotel + allGoodsOtherPrice)  + "";
         } else {
             if(manLuggageBean.childSeats != 0) {
                 orderBean.orderPrice = carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)
                         + getSeat2PriceTotal(carListBean,manLuggageBean);
-                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)  + priceHotel
+                orderBean.priceChannel = (carBean.price + getSeat1PriceTotal(carListBean,manLuggageBean)  + priceHotel + allGoodsOtherPrice
                         + getSeat2PriceTotal(carListBean,manLuggageBean)) + "";
                 orderBean.childSeatStr = getChileSeatJson(carListBean,manLuggageBean);
             }else{
                 orderBean.orderPrice  = carBean.price;
                 orderBean.childSeatStr = "";
-                orderBean.priceChannel = (carBean.price + priceHotel) + "";
+                orderBean.priceChannel = (carBean.price + priceHotel + allGoodsOtherPrice) + "";
             }
         }
 

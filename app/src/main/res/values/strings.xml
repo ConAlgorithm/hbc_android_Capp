@@ -661,8 +661,9 @@
     <string name="order_detail_cost_chartered">包车费用</string>
     <string name="order_detail_cost_child_seats">儿童座椅</string>
     <string name="order_detail_cost_hotel">住宿费用</string>
-    <string name="order_detail_cost_placards">举牌接机费用</string>
-    <string name="order_detail_cost_checkin">Check in 服务费用</string>
+    <string name="order_detail_cost_other">其他费用</string>
+    <string name="order_detail_cost_placards">接机举牌费用</string>
+    <string name="order_detail_cost_checkin">送机协助办理登机</string>
     <string name="order_detail_cost_total">费用总计</string>
     <string name="order_detail_cost_coupon">优惠金额</string>
     <string name="order_detail_cost_travelfund">旅游基金</string>

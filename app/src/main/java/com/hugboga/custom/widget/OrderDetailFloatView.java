@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,8 +24,6 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
 
     @Bind(R.id.order_detail_pay_price_tv)
     public TextView needPayTV;
-    @Bind(R.id.order_detail_price_detail_tv)
-    public TextView priceDetailTV;
 
     public OrderDetailFloatView(Context context) {
         this(context, null);
@@ -38,9 +35,6 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
         setVisibility(View.GONE);
         View view = inflate(getContext(), R.layout.view_order_detail_pay, this);
         ButterKnife.bind(view);
-
-        priceDetailTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        priceDetailTV.getPaint().setAntiAlias(true);
     }
 
     @Override
@@ -59,18 +53,8 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
                     EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_PAY, orderBean.orderNo));
                 }
             });
-            if (orderBean.orderType == 3 || orderBean.orderType == 888) {
-                priceDetailTV.setVisibility(View.VISIBLE);
-            } else {
-                priceDetailTV.setVisibility(View.GONE);
-            }
-
         } else {
             setVisibility(View.GONE);
         }
-    }
-
-    @OnClick({R.id.order_detail_price_detail_tv})
-    public void intentPriceInfo() {
     }
 }

@@ -135,31 +135,40 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         // 车型描述
-        String childSeatCount = "";
-        if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
-            childSeatCount = String.format("（儿童座椅%1$s个）", orderBean.childSeats.getChildSeatCount());
+        if (!TextUtils.isEmpty(orderBean.carDesc)) {
+            addItemView(R.mipmap.trip_icon_car, orderBean.carDesc);
         }
-        addItemView(R.mipmap.trip_icon_car, orderBean.carDesc + childSeatCount);
 
         // 出行人数
         String passengerCount = String.format("成人%1$s位", orderBean.adult);
         if (orderBean.child != null && orderBean.child > 0) {
             passengerCount += String.format("，儿童%1$s位", orderBean.child);
         }
-        if (CommonUtils.getCountInteger(orderBean.luggageNum) > 0) {
-            passengerCount += String.format("，行李%1$s件", orderBean.luggageNum);
+        addItemView(R.mipmap.trip_icon_people, passengerCount);
+
+        String luggageStr = "";
+        if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
+            luggageStr += String.format("儿童座椅%1$s个，", orderBean.childSeats.getChildSeatCount());
         }
-        addCarDescView(R.mipmap.trip_icon_people, passengerCount);
+//        if (CommonUtils.getCountInteger(orderBean.luggageNum) > 0) {
+            luggageStr += String.format("最多携带行李%1$s件", orderBean.luggageNum);
+//        }
+        addLuggageView(luggageStr);
 
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
             addItemView(R.mipmap.trip_icon_addition, "接机举牌等待");
         } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
-            addItemView(R.mipmap.trip_icon_addition, "Check in 服务");
+            addItemView(R.mipmap.trip_icon_addition, "送机协助办理登机");
         }
 
         //酒店预订
         if (orderBean.hotelStatus == 1) {
             addItemView(R.mipmap.trip_icon_hotel, getContext().getString(R.string.order_detail_hotle_subscribe, "" + orderBean.hotelDays, "" + orderBean.hotelRoom));
+        }
+
+        //其他费用
+        if (orderBean.orderPriceInfo != null && orderBean.orderPriceInfo.goodsOtherPrice > 0) {
+            addItemView(R.mipmap.other_fees_icon, String.format("其他费用%1$s × %2$s人", orderBean.orderPriceInfo.goodsOtherPrice, orderBean.getTravelerCount()));
         }
 
         // 订单号
@@ -222,36 +231,17 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
     }
 
-    private void addCarDescView(int iconId, String title) {
-        LinearLayout itemView = addItemView(iconId, title);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.leftMargin = UIUtils.dip2px(6);
-
-        LinearLayout luggageItemLayout = new LinearLayout(getContext());
-        luggageItemLayout.setOrientation(LinearLayout.HORIZONTAL);
-        luggageItemLayout.setGravity(Gravity.CENTER_VERTICAL);
-
-        ImageView iconIV = new ImageView(getContext());
-        iconIV.setBackgroundResource(R.mipmap.icon_order_info);
-        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(UIUtils.dip2px(14), UIUtils.dip2px(14));
-        iconParams.topMargin = UIUtils.dip2px(1);
-        luggageItemLayout.addView(iconIV, iconParams);
-
-        TextView textView = new TextView(getContext());
-        textView.setPadding(UIUtils.dip2px(1.2f), 0, 0, 0);
-        textView.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
-        textView.setTextSize(12);
-        textView.setText("行李标准");
-        luggageItemLayout.addView(textView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-        itemView.addView(luggageItemLayout, params);
-
-        luggageItemLayout.setOnClickListener(new OnClickListener() {
+    private void addLuggageView(String title) {
+        RelativeLayout itemView = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_order_detail_itinerary_luggage, null, false);
+        TextView textView = (TextView) itemView.findViewById(R.id.item_itinerary_luggage_title_tv);
+        textView.setText(title);
+        itemView.findViewById(R.id.item_itinerary_luggage_info_layout).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 getContext().startActivity(new Intent(getContext(), LuggageInfoActivity.class));
             }
         });
+        itineraryLayout.addView(itemView, LayoutParams.MATCH_PARENT, UIUtils.dip2px(22));
     }
 
     private LinearLayout addLocationItem() {

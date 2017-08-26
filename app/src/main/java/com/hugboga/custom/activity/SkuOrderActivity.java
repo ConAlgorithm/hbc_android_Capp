@@ -825,7 +825,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 , orderType
                 , manLuggageBean.luggages + ""
                 , travelerInfoBean.wechatNo
-                , countView.getExtrasPrice());
+                , countView.getExtrasPrice()
+                , countView.getTotalExtrasPrice());
     }
 
     /*
