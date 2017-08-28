@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 179
+    //current urlErrorCode 180
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
