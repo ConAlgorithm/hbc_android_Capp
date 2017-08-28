@@ -79,6 +79,8 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                     @Override
                     public void onClick(View view) {
                         if(context instanceof SearchDestinationGuideLineActivity){
+                            ((SearchDestinationGuideLineActivity)context).searchAdapter.removeModels();
+                            ((SearchDestinationGuideLineActivity)context).searchAfterAdapter.removeModels();
                             ((SearchDestinationGuideLineActivity)context).search_after_list.setVisibility(VISIBLE);
                             ((SearchDestinationGuideLineActivity)context).search_first_list.setVisibility(GONE);
                             ((SearchDestinationGuideLineActivity)context).addAfterSearchDestinationModel(list,keyword);

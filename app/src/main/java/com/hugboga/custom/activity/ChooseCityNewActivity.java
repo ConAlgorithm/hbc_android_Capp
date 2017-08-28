@@ -48,6 +48,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.qqtheme.framework.entity.City;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -420,7 +421,9 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     private void showRightData(int position) {
         levelCityAdapterRight = new LevelCityAdapter(activity, 3);
-        List<SearchGroupBean> list3 = CityUtils.getLevel3City(activity, groupList2.get(position).sub_place_id);
+        List<SearchGroupBean> list3 = CityUtils.getCountrySearch(activity,groupList2.get(position).sub_place_id);
+        list3.addAll(CityUtils.getLevel3City(activity, groupList2.get(position).sub_place_id));
+
         if (null == list3 || list3.size() == 0) {
             if(isFromTravelPurposeForm){
                 if(groupList2.get(position).sub_place_name != null){

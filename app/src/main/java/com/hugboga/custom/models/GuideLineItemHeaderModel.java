@@ -1,11 +1,15 @@
 package com.hugboga.custom.models;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SearchGuideActivity;
+import com.hugboga.custom.activity.SearchLineActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,7 +19,18 @@ import butterknife.ButterKnife;
  */
 
 public class GuideLineItemHeaderModel extends EpoxyModelWithHolder<GuideLineItemHeaderModel.GuideLineItemHeaderHolder> {
+
+    int count;
+    String title;
     GuideLineItemHeaderHolder guideLineItemHeaderHolder;
+    String keyword;
+    Context context;
+    public GuideLineItemHeaderModel(Context context,int count, String title, String keyword){
+        this.context = context;
+        this.count = count;
+        this.title = title;
+        this.keyword = keyword;
+    }
     @Override
     protected GuideLineItemHeaderHolder createNewHolder() {
         return new GuideLineItemHeaderHolder();
@@ -38,6 +53,10 @@ public class GuideLineItemHeaderModel extends EpoxyModelWithHolder<GuideLineItem
 
     static class GuideLineItemHeaderHolder extends EpoxyHolder {
         View itemView;
+        @Bind(R.id.more_count_line)
+        TextView moreCountLine;
+        @Bind(R.id.title_search)
+        TextView title;
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
@@ -46,6 +65,29 @@ public class GuideLineItemHeaderModel extends EpoxyModelWithHolder<GuideLineItem
     }
 
     private void init(){
+        if(guideLineItemHeaderHolder!= null){
+            if(count <= 3){
+                guideLineItemHeaderHolder.moreCountLine.setVisibility(View.GONE);
+                return;
+            }
+            guideLineItemHeaderHolder.moreCountLine.setText("查看全部(" + count + ")");
+            guideLineItemHeaderHolder.moreCountLine.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(title.equals("相关线路")){
+                        Intent intent = new Intent(context,SearchLineActivity.class);
+                        intent.putExtra("keyword",keyword);
+                        context.startActivity(intent);
+                    }else if(title.equals("相关司导")){
+                        Intent intent = new Intent(context,SearchGuideActivity.class);
+                        intent.putExtra("keyword",keyword);
+                        context.startActivity(intent);
+                    }
 
+
+                }
+            });
+            guideLineItemHeaderHolder.title.setText(title);
+        }
     }
 }

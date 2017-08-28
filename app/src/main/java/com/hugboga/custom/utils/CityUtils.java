@@ -202,7 +202,7 @@ public class CityUtils {
 
 
     //获取国家(搜索用)国家下面的线路
-    public static List<SearchGroupBean> getCountrySearch(Activity activity, String sub_place_id) {
+    public static List<SearchGroupBean> getCountrySearch(Activity activity, int sub_place_id) {
         try {
             DbManager mDbManager = new DBHelper(activity).getDbManager();
 
@@ -382,7 +382,7 @@ public class CityUtils {
 
         if (bean.type == 2) {
 
-            List<SearchGroupBean> lineList = getCountrySearch(activity, bean.sub_place_id + "");
+            List<SearchGroupBean> lineList = getCountrySearch(activity, bean.sub_place_id);
             List<SearchGroupBean> lineListTmp = new ArrayList<>();
 
             if(lineList.size() < max_line_num) {

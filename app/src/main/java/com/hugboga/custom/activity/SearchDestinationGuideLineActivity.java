@@ -1,6 +1,7 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,12 +18,14 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.SearchAdapter;
 import com.hugboga.custom.adapter.SearchAfterAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.data.request.RequestHotSearch;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
@@ -70,20 +73,22 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
     RelativeLayout firstEnter;
 
 
-    @Bind(R.id.guide_layout)
-    XRecyclerView guideLayout;
-    HbcRecyclerSingleTypeAdpater guideLayoutAdapter;
-    @Bind(R.id.line_layout)
-    XRecyclerView lineLayout;
+//    @Bind(R.id.guide_layout)
+//    XRecyclerView guideLayout;
+//    HbcRecyclerSingleTypeAdpater guideLayoutAdapter;
+//    @Bind(R.id.line_layout)
+//    XRecyclerView lineLayout;
     HbcRecyclerSingleTypeAdpater lineLayoutAdapter;
     @Bind(R.id.search_first_list)
     public RecyclerView search_first_list;
-    SearchAdapter searchAdapter;
+    public SearchAdapter searchAdapter;
     @Bind(R.id.search_after_list)
     public RecyclerView search_after_list;
     @Bind(R.id.search_remove)
     ImageView search_remove;
-    SearchAfterAdapter searchAfterAdapter;
+    public SearchAfterAdapter searchAfterAdapter;
+
+    Handler handler;
     @Override
     public int getContentViewId() {
         return R.layout.search_destination_guide_line;
@@ -94,6 +99,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         super.onCreate(arg0);
         initHeader();
         initView();
+        requestHotSearch();
     }
 
     @Override
@@ -104,8 +110,15 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
 
     public void initView() {
         firstEnter.setVisibility(VISIBLE);
+        search_first_list.setVisibility(GONE);
+        search_after_list.setVisibility(GONE);
+        if(searchAdapter != null){
+            searchAdapter.removeModels();
+        }
+        if(searchAfterAdapter!= null){
+            searchAfterAdapter.removeModels();
 
-
+        }
         initSearchAdapter();
         initSearchAfterAdapter();
 
@@ -126,11 +139,11 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
             public void afterTextChanged(Editable s) {
                 searchAdapter.removeModels();
                 searchAfterAdapter.removeModels();
-                search_first_list.setVisibility(VISIBLE);
-                search_after_list.setVisibility(GONE);
 
                 if (!TextUtils.isEmpty(headSearch.getText())) {
                     firstEnter.setVisibility(GONE);
+                    search_first_list.setVisibility(VISIBLE);
+                    search_after_list.setVisibility(GONE);
                     headSearchClean.setVisibility(VISIBLE);
                     listAll = CityUtils.search(activity, headSearch.getText().toString());
                     if (listAll.size() >= 5) {
@@ -148,10 +161,13 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
 
                 } else {
                     firstEnter.setVisibility(VISIBLE);
+                    search_first_list.setVisibility(GONE);
+                    search_after_list.setVisibility(GONE);
+                    //每次关键字发生变化,都要重新展示历史记录
+                    changHistory();
+                    requestHotSearch();
                 }
 
-                //每次关键字发生变化,都要重新展示历史记录
-                changHistory();
             }
         });
         search_remove.setOnClickListener(new View.OnClickListener() {
@@ -203,32 +219,30 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
 
         changHistory();
 
-        List<String> dataList1 = new ArrayList<String>();
-
-
-        dataList1.add("天盟天盟天盟天盟");
-        dataList1.add("Mason Mason Mason");
-
-        dataList1.add("Mason Liu 天盟天盟天盟 天盟天");
-        dataList1.add("天盟");
-        dataList1.add("天盟天盟天盟");
-        dataList1.add("Mason Mason");
-
-        dataList1.add("Mason");
-        dataList1.add("天adsf");
-        dataList1.add("天adf");
-
-
-        //通过接口
-        hotitem.setTextViews(dataList1);
-        hotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
-            @Override
-            public void onMultipleTVItemClick(View view, int position) {
-                //点击事件 // TODO: 17/8/19
-            }
-        });
-
-        //initGuideAndLineView();
+//        List<String> dataList1 = new ArrayList<String>();
+//
+//
+//        dataList1.add("天盟天盟天盟天盟");
+//        dataList1.add("Mason Mason Mason");
+//
+//        dataList1.add("Mason Liu 天盟天盟天盟 天盟天");
+//        dataList1.add("天盟");
+//        dataList1.add("天盟天盟天盟");
+//        dataList1.add("Mason Mason");
+//
+//        dataList1.add("Mason");
+//        dataList1.add("天adsf");
+//        dataList1.add("天adf");
+//
+//
+//        //通过接口
+//        hotitem.setTextViews(dataList1);
+//        hotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
+//            @Override
+//            public void onMultipleTVItemClick(View view, int position) {
+//                //点击事件 // TODO: 17/8/19
+//            }
+//        });
     }
 
     public void initHeader() {
@@ -244,6 +258,9 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
     }
 
     public void addSearchDestinationModel(List<SearchGroupBean> list) {
+        if(search_first_list.getChildCount()>0){
+            search_first_list.removeAllViews();
+        }
         searchAdapter.addSearchDestinationModel(this,list,headSearch.getText().toString());
 
     }
@@ -263,41 +280,64 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         searchAfterAdapter.showAllData();
     }
 
-    private void initGuideView() {
-        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
-        guideLayout.setLayoutManager(layoutManager);
-        guideLayoutAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideSearchListItem.class);
-        guideLayout.setAdapter(guideLayoutAdapter);
-        guideLayout.setLoadingMoreEnabled(false);
-        guideLayout.setPullRefreshEnabled(false);
-        guideLayout.addHeaderView(getGuideLineHeaderView(guideLayout));
-        guideLayout.setVisibility(GONE);
-        //guideLayoutAdapter.addData();
+//    private void initGuideView() {
+//        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
+//        guideLayout.setLayoutManager(layoutManager);
+//        guideLayoutAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideSearchListItem.class);
+//        guideLayout.setAdapter(guideLayoutAdapter);
+//        guideLayout.setLoadingMoreEnabled(false);
+//        guideLayout.setPullRefreshEnabled(false);
+//        guideLayout.addHeaderView(getGuideLineHeaderView(guideLayout));
+//        guideLayout.setVisibility(GONE);
+//        //guideLayoutAdapter.addData();
+//
+//    }
+//
+//    private void initLineView() {
+//        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
+//        lineLayout.setLayoutManager(layoutManager);
+//        lineLayoutAdapter = new HbcRecyclerSingleTypeAdpater(this, LineSearchListItem.class);
+//        lineLayout.setAdapter(lineLayoutAdapter);
+//        lineLayout.setLoadingMoreEnabled(false);
+//        lineLayout.setPullRefreshEnabled(false);
+//        lineLayout.addHeaderView(getGuideLineHeaderView(lineLayout));
+//        lineLayout.setVisibility(GONE);
+//    }
 
-    }
-
-    private void initLineView() {
-        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
-        lineLayout.setLayoutManager(layoutManager);
-        lineLayoutAdapter = new HbcRecyclerSingleTypeAdpater(this, LineSearchListItem.class);
-        lineLayout.setAdapter(lineLayoutAdapter);
-        lineLayout.setLoadingMoreEnabled(false);
-        lineLayout.setPullRefreshEnabled(false);
-        lineLayout.addHeaderView(getGuideLineHeaderView(lineLayout));
-        lineLayout.setVisibility(GONE);
-    }
-
-    private void requestGuideData() {
-        guideLayout.setVisibility(VISIBLE);
-    }
-
-    private void requestLineData() {
-        lineLayout.setVisibility(VISIBLE);
-    }
+//    private void requestGuideData() {
+//        guideLayout.setVisibility(VISIBLE);
+//    }
+//
+//    private void requestLineData() {
+//        lineLayout.setVisibility(VISIBLE);
+//    }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
+        if(request instanceof RequestHotSearch){
+            final ArrayList<String> dataList = (ArrayList<String>) request.getData();
+            if(dataList!= null && dataList.size()>0){
+                //通过接口
+                firstEnter.setVisibility(VISIBLE);
+                hotitem.setVisibility(VISIBLE);
+                hotitem.setTextViews(dataList);
+                hotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
+                    @Override
+                    public void onMultipleTVItemClick(View view, int position) {
+                        searchAdapter.removeModels();
+                        searchAfterAdapter.removeModels();
+                        firstEnter.setVisibility(GONE);
+                        search_after_list.setVisibility(VISIBLE);
+                        search_first_list.setVisibility(GONE);
+                        List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
+                        addAfterSearchDestinationModel(list,dataList.get(position));
+                    }
+                });
+            }else{
+                hotitem.setVisibility(GONE);
+            }
+        }
     }
 
     @Override
@@ -316,16 +356,16 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         return headerView;
     }
 
-    private void requestGuideAndLine() {
-        //请求司导和线路接口
-        requestGuideData();
-        requestLineData();
-    }
+//    private void requestGuideAndLine() {
+//        //请求司导和线路接口
+//        requestGuideData();
+//        requestLineData();
+//    }
 
-    private void initGuideAndLineView() {
-        initGuideView();
-        initLineView();
-    }
+//    private void initGuideAndLineView() {
+//        initGuideView();
+//        initLineView();
+//    }
 
     //倒序展示
     private List<String> showHistory(List<String> history) {
@@ -384,4 +424,10 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         search_after_list.setHasFixedSize(true);
         search_after_list.setAdapter(searchAfterAdapter);
     }
+
+    private void requestHotSearch(){
+        RequestHotSearch requestHotSearch = new RequestHotSearch(this);
+        HttpRequestUtils.request(this,requestHotSearch,this,false);
+    }
+
 }

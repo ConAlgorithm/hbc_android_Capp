@@ -3,7 +3,15 @@ package com.hugboga.custom.adapter;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.data.bean.SearchGuideBean;
+import com.hugboga.custom.data.bean.SearchLineBean;
+import com.hugboga.custom.data.request.RequestSearchGuide;
+import com.hugboga.custom.data.request.RequestSearchLine;
 import com.hugboga.custom.models.EmptyDataModel;
 import com.hugboga.custom.models.GuideItemModel;
 import com.hugboga.custom.models.GuideLineItemHeaderModel;
@@ -19,7 +27,7 @@ import java.util.List;
  * Created by zhangqiang on 17/8/23.
  */
 
-public class SearchAfterAdapter extends EpoxyAdapter {
+public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListener{
     SearchDestinationModel searchDestinationModel;
     SearchMoreModel searchMoreModel;
     GuideLineItemHeaderModel guideLineItemHeaderModel;
@@ -28,11 +36,22 @@ public class SearchAfterAdapter extends EpoxyAdapter {
     LoadingModel loadingModel;
     EmptyDataModel emptyDataModel;
     Context context;
+    String keyword;
     List<SearchDestinationModel> searchDestinationModels = new ArrayList<>();
+    List<SearchGroupBean> listDestination = null;
+    List<SearchGuideBean.GuideSearchItemBean> resultBean = null;
+    List<SearchLineBean.GoodsPublishStatusVo>  goods = null;
+    int typeNo = 2;
     public void addAfterSearchDestinationModel(Context context, List<SearchGroupBean> list, String keyword) {
         this.context = context;
+        this.keyword = keyword;
+        this.listDestination = list;
+        typeNo =2;
         if(getItemCount() >0){
             removeModels();
+        }
+        if(listDestination == null || listDestination.size() == 0){
+            listDestination = null;
         }
         if(searchDestinationModels!= null && searchDestinationModels.size()>0){
             searchDestinationModels.clear();
@@ -63,21 +82,8 @@ public class SearchAfterAdapter extends EpoxyAdapter {
         loadingModel = new LoadingModel();
         addModel(loadingModel);
 
-//        guideLineItemHeaderModel = new GuideLineItemHeaderModel();
-//        addModel(guideLineItemHeaderModel);
-//
-//        guideItemModel = new GuideItemModel();
-//        addModel(guideItemModel);
-//        addModel(guideItemModel);
-//        addModel(guideItemModel);
-//
-//        guideLineItemHeaderModel = new GuideLineItemHeaderModel();
-//        addModel(guideLineItemHeaderModel);
-//
-//        lineItemModel = new LineItemModel();
-//        addModel(lineItemModel);
-//        addModel(lineItemModel);
-//        addModel(lineItemModel);
+        RequestSearchGuide requestSearchGuide = new RequestSearchGuide(context,keyword,0,3);
+        HttpRequestUtils.request(context,requestSearchGuide,this,false);
     }
 
     public void removeModels(){
@@ -95,5 +101,77 @@ public class SearchAfterAdapter extends EpoxyAdapter {
         if(searchMoreModel!= null){
             hideModel(searchMoreModel);
         }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        if (request instanceof RequestSearchLine) {
+            SearchLineBean searchLineBean = (SearchLineBean) request.getData();
+            if(loadingModel != null){
+                removeModel(loadingModel);
+            }
+//            if(searchLineBean!= null && searchLineBean.goods!= null && searchLineBean.goods.size() == 0){
+//                typeNo--;
+//            }
+//            if(typeNo == 0){
+//
+//               emptyDataModel = new EmptyDataModel();
+//                addModel(emptyDataModel);
+//            }
+            if(searchLineBean == null || searchLineBean.goods == null || searchLineBean.count == 0 || searchLineBean.goods.size() == 0){
+                this.goods = null;
+            }
+            if(searchLineBean!= null && searchLineBean.goods!= null && searchLineBean.goods.size() >0){
+                this.goods = searchLineBean.goods;
+                guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchLineBean.count,"相关线路",keyword);
+                addModel(guideLineItemHeaderModel);
+                for(int i=0;i<searchLineBean.goods.size();i++) {
+                    LineItemModel lineItemModel = new LineItemModel(context,searchLineBean.goods.get(i),keyword);
+                    addModel(lineItemModel);
+                }
+
+            }
+            if(listDestination== null && goods == null && resultBean == null){
+                emptyDataModel = new EmptyDataModel();
+                addModel(emptyDataModel);
+            }
+        }else if(request instanceof RequestSearchGuide){
+            SearchGuideBean searchGuideBean = (SearchGuideBean) request.getData();
+            if(loadingModel != null){
+                removeModel(loadingModel);
+            }
+//            if(typeNo == 1){
+//                emptyDataModel = new EmptyDataModel();
+//                addModel(emptyDataModel);
+//            }
+            if(searchGuideBean == null || searchGuideBean.resultBean== null ||searchGuideBean.totalSize == 0 || searchGuideBean.resultBean.size() == 0){
+                this.resultBean = null;
+            }
+            if(searchGuideBean!= null && searchGuideBean.resultBean!= null && searchGuideBean.resultBean.size() >0){
+                this.resultBean = searchGuideBean.resultBean;
+                guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchGuideBean.totalSize,"相关司导",keyword);
+                addModel(guideLineItemHeaderModel);
+                for(int i=0;i<searchGuideBean.resultBean.size();i++) {
+                    GuideItemModel guideItemModel = new GuideItemModel(context,searchGuideBean.resultBean.get(i),keyword);
+                    addModel(guideItemModel);
+                }
+
+            }
+            RequestSearchLine requestSearchLine = new RequestSearchLine(context,keyword,0,3);
+            HttpRequestUtils.request(context,requestSearchLine,this,false);
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if(loadingModel != null){
+            removeModel(loadingModel);
+        }
+        typeNo = 2;
     }
 }

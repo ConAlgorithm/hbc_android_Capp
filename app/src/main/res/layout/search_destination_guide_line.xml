@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#dbdbdb"
+    android:layout_height="match_parent"
+    android:background="#f4f4f4"
     android:orientation="vertical">
 
     <LinearLayout
@@ -54,8 +54,8 @@
                     android:drawablePadding="@dimen/basic_margin_small"
                     android:hint="搜索国家或区号"
                     android:imeOptions="actionSearch"
-                    android:maxLines="1"
                     android:inputType="text"
+                    android:maxLines="1"
                     android:text=""
                     android:textColorHint="#cccccc"
                     android:textSize="@dimen/text_size_mediumx" />
@@ -92,9 +92,8 @@
     <RelativeLayout
         android:id="@+id/firstEnter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/allbg_white"
-        >
+        android:layout_height="match_parent"
+        android:background="#f4f4f4">
 
         <LinearLayout
             android:id="@+id/history_layout"
@@ -124,8 +123,8 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:src="@mipmap/search_remove"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/search_remove" />
             </RelativeLayout>
 
             <LinearLayout
@@ -136,7 +135,7 @@
 
                 <com.hugboga.custom.widget.MultipleTextViewGroup
                     android:id="@+id/history"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
@@ -195,7 +194,7 @@
                 <com.hugboga.custom.widget.MultipleTextViewGroup
                     android:id="@+id/hotitem"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="300dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     app:overspread="false"
@@ -212,53 +211,26 @@
 
         </LinearLayout>
     </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_first_list"
-        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/allbg_white"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:descendantFocusability="blocksDescendants"
+        android:visibility="gone">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_after_list"
-        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/allbg_white"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:visibility="gone">
 
     </android.support.v7.widget.RecyclerView>
-    <!--<ExpandableListView
-        android:id="@+id/search_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/basic_white"
-        android:listSelector="@android:color/transparent"
-        android:divider="@null"
-        android:visibility="gone" />-->
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/guide_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/allbg_white"
-        android:visibility="gone"/>
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/line_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/allbg_white"
-        android:visibility="gone"/>
-
-    <include
-        layout="@layout/search_destination_footer_layout"
-        android:id="@+id/empty_association"
-        android:visibility="gone"/>
 </LinearLayout>

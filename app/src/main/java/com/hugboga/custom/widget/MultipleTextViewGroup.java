@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,6 +99,7 @@ public class MultipleTextViewGroup extends RelativeLayout {
     }
 
     public void setTextViews(final List<String> dataList) {
+        layout_width = UIUtils.getScreenWidth() - UIUtils.dip2px(15)*2;
         if (layout_width >= 0) {
             setTextViewsTrue(dataList);
         } else {
@@ -145,6 +147,7 @@ public class MultipleTextViewGroup extends RelativeLayout {
             tv.setTextColor(textColor);
             tv.setPadding(textPaddingLeft, textPaddingTop, textPaddingRight, textPaddingBottom);
             tv.setTag(i);// 标记position
+            //tv.setMaxLines(1);
             tv.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
