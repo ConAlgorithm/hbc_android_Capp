@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 176
+    //current urlErrorCode 179
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -217,6 +217,7 @@ public class UrlLibs {
     public static final String API_QUERY_GOODS_STOCK        = "goods/v1.0/c/queryGoodsStock";                           // 商品库存171
     public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
+    public static final String API_GOODS_LINE_SEARCH        = "goods/v1.0/c/goodsSearch";                               // 线路搜索 177
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
@@ -261,6 +262,7 @@ public class UrlLibs {
     public static final String API_GUIDE_FILTER_OPTIONS     = "supplier/v1.0/c/guide/screening/conditions";             // 精选司导筛选条件 153
     public static final String API_CHOICE_COMMENTS          = "supplier/v1.0/c/index/comments";                         // 精选司导筛选条件 174
     public static final String API_CHECK_SKU                = "supplier/v2.0/c/guides/check/sku";                       // 商品下单指定司导校验 176
+    public static final String API_GOODS_GUIDE_SEARCH       = "supplier/v1.0/c/search/guide?";                          //搜索司导 178
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
@@ -276,7 +278,7 @@ public class UrlLibs {
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
     public static final String API_HOME_NEW                 = "basicdata/v1.3/c/home/aggregation";                      // 首页173
-
+    public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    //热词搜索 179
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息

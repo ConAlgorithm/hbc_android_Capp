@@ -17,12 +17,14 @@
             android:layout_gravity="center_vertical">
 
             <net.grobas.view.PolygonImageView
+                android:id="@+id/avatar_guide"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/icon_avatar_guide"
                 app:poly_vertices="0"/>
             <net.grobas.view.PolygonImageView
+                android:id="@+id/gender"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:src="@mipmap/icon_woman"
