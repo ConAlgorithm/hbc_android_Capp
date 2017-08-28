@@ -472,7 +472,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         } else {
             initOrderActivity();
         }
-        SensorsUtils.onAppClick(getEventSource(), "立即预定", source);
+        SensorsUtils.onAppClick(getEventSource(), "立即预订", source);
     }
 
     public void initOrderActivity() {

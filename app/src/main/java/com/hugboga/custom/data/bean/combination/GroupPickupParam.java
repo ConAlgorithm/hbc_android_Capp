@@ -32,4 +32,6 @@ public class GroupPickupParam implements Serializable {
     public Double distance;                    // 服务距离 必填
     public Integer expectedCompTime;           // 预计服务完成时间 接送次 必填
     public OrderBean.ChildSeats childSeatInfo;
+    public Integer isFlightSign;               // 是否举牌接机
+    public String flightBrandSign;             // 举牌接机姓名
 }

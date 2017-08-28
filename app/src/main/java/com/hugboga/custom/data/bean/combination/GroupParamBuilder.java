@@ -27,6 +27,7 @@ import com.hugboga.custom.utils.Config;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.CombinationExtrasPriceView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
 
 import java.util.ArrayList;
@@ -40,15 +41,15 @@ public class GroupParamBuilder {
     private Context context;
     private CharterDataUtils charterDataUtils;
     private CarBean carBean;
-    private ManLuggageBean manLuggageBean;
     private ContactUsersBean contactUsersBean;
     private boolean isCheckedTravelFund;
     private double travelFund;
     private CouponBean couponBean;
     private MostFitBean mostFitBean;
     private PoiBean startPoiBean;
-    private double allChildSeatPrice;
+    private double allAdditionalPrice;
     private SkuOrderTravelerInfoView.TravelerInfoBean travelerInfoBean;
+    private CombinationExtrasPriceView.AdditionalPriceBean additionalPriceBean;
 
     public GroupParamBuilder() {
         context = MyApplication.getAppContext();
@@ -64,8 +65,8 @@ public class GroupParamBuilder {
         return this;
     }
 
-    public GroupParamBuilder manLuggageBean(ManLuggageBean manLuggageBean) {
-        this.manLuggageBean = manLuggageBean;
+    public GroupParamBuilder additionalPriceBean(CombinationExtrasPriceView.AdditionalPriceBean additionalPriceBean) {
+        this.additionalPriceBean = additionalPriceBean;
         return this;
     }
 
@@ -99,8 +100,8 @@ public class GroupParamBuilder {
         return this;
     }
 
-    public GroupParamBuilder allChildSeatPrice(double allChildSeatPrice) {
-        this.allChildSeatPrice = allChildSeatPrice;
+    public GroupParamBuilder allAdditionalPrice(double allAdditionalPrice) {
+        this.allAdditionalPrice = allAdditionalPrice;
         return this;
     }
 
@@ -193,12 +194,17 @@ public class GroupParamBuilder {
                 groupParentParam.guideLabel = commentLabels;
             }
         }
-        groupParentParam.adultNum = manLuggageBean.mans;
-        groupParentParam.childNum = manLuggageBean.childs;
-        groupParentParam.luggageNumber = manLuggageBean.luggages;
-
-        if (!charterDataUtils.isGroupOrder) {
-            groupParentParam.childSeatInfo = getAllChileSeatBean(carBean, manLuggageBean);
+        groupParentParam.adultNum = charterDataUtils.adultCount;
+        groupParentParam.childNum = charterDataUtils.childCount;
+        if (additionalPriceBean != null) {
+//            if (charterDataUtils.isSupportChildSeat && additionalPriceBean.childSeatCount > 0) {
+//                groupParentParam.childSeatInfo = getAllChileSeatBean(additionalPriceBean);
+//            }
+            groupParentParam.isFlightSign = additionalPriceBean.isFlightSign;
+            groupParentParam.flightBrandSign = additionalPriceBean.flightBrandSign;
+            groupParentParam.priceFlightBrandSign = (double) additionalPriceBean.pickupSignPrice;
+            groupParentParam.isCheckin = additionalPriceBean.isCheckin;
+            groupParentParam.checkInPrice = (double) additionalPriceBean.checkInPrice;
         }
         groupParentParam.userId = UserEntity.getUser().getUserId(context);
         groupParentParam.realSendSms = contactUsersBean.isSendMessage ? 1 : 0;
@@ -220,7 +226,7 @@ public class GroupParamBuilder {
             groupParentParam.userRemark = travelerInfoBean.mark;
             groupParentParam.userWechat = travelerInfoBean.wechatNo;
         }
-        groupParentParam.priceChannel = carBean.price + allChildSeatPrice;
+        groupParentParam.priceChannel = carBean.price + allAdditionalPrice;
         if (isCheckedTravelFund) {
             groupParentParam.travelFund = travelFund;
         } else {
@@ -288,37 +294,16 @@ public class GroupParamBuilder {
         return groupParentParam;
     }
 
-    private OrderBean.ChildSeats getAllChileSeatBean(CarBean _carBean, ManLuggageBean manLuggageBean) {
+    private OrderBean.ChildSeats getAllChileSeatBean(CombinationExtrasPriceView.AdditionalPriceBean additionalPriceBean) {
         OrderBean.ChildSeats childSeats = new OrderBean.ChildSeats();
-        int allChildSeatPrice1 = 0;
-        int allChildSeatPrice2 = 0;
-        ArrayList<GroupQuotesBean> quotes = _carBean.quotes;
-        int size = quotes.size();
-        for (int i = 0; i < size; i++) {
-            GroupQuotesBean groupQuotesBean = quotes.get(i);
-            if (groupQuotesBean.additionalServicePrice != null) {
-                CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-                if (additionalServicePrice == null) {
-                    continue;
-                }
-                int childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-                int childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
-                if (childSeatPrice1 > 0) {
-                    allChildSeatPrice1 += childSeatPrice1;
-                }
-                if (childSeatPrice2 > 0) {
-                    allChildSeatPrice2 += childSeatPrice2;
-                }
-            }
-        }
-        childSeats.childSeatPrice1 = allChildSeatPrice1;
-        childSeats.childSeatPrice2 = allChildSeatPrice2;
-        childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(manLuggageBean);
-        childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(manLuggageBean);
+        childSeats.childSeatPrice1 = additionalPriceBean.childSeatPrice1;
+        childSeats.childSeatPrice2 = additionalPriceBean.childSeatPrice2;
+        childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(additionalPriceBean.childSeatCount);
+        childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(additionalPriceBean.childSeatCount);
         return childSeats;
     }
 
-    private OrderBean.ChildSeats getChileSeatBean(GroupQuotesBean groupQuotesBean, ManLuggageBean manLuggageBean) {
+    private OrderBean.ChildSeats getChileSeatBean(GroupQuotesBean groupQuotesBean, int childSeatCount) {
         if (groupQuotesBean == null || groupQuotesBean.additionalServicePrice == null) {
             return null;
         }
@@ -326,8 +311,8 @@ public class GroupParamBuilder {
         CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
         childSeats.childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
         childSeats.childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
-        childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(manLuggageBean);
-        childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(manLuggageBean);
+        childSeats.childSeatPrice1Count = OrderUtils.getSeat1Count(childSeatCount);
+        childSeats.childSeatPrice2Count = OrderUtils.getSeat2Count(childSeatCount);
         return childSeats;
     }
 
@@ -377,6 +362,7 @@ public class GroupParamBuilder {
 
     private GroupPickupParam getGroupPickupParam(CityRouteBean.CityRouteScope cityRouteScope) {
         GroupPickupParam groupPickupParam = new GroupPickupParam();
+        groupPickupParam.priceChannel = 0d;
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(0);
         CityBean startCityBean = charterDataUtils.getStartCityBean(1);
         FlightBean flightBean = charterDataUtils.flightBean;
@@ -406,9 +392,18 @@ public class GroupParamBuilder {
         groupPickupParam.priceMark = groupQuotesBean.pricemark;
         groupPickupParam.distance = groupQuotesBean.transferDistance;
         groupPickupParam.expectedCompTime = (int)groupQuotesBean.transferEstTime;
-        if (!charterDataUtils.isGroupOrder && groupQuotesBean.additionalServicePrice != null) {
-            groupPickupParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
-            groupPickupParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, manLuggageBean.childSeats);
+
+        if (groupQuotesBean.additionalServicePrice != null && additionalPriceBean != null) {
+//            groupPickupParam.isFlightSign = additionalPriceBean.isFlightSign;
+//            groupPickupParam.flightBrandSign = additionalPriceBean.flightBrandSign;
+//            groupPickupParam.priceFlightBrandSign = (double)additionalPriceBean.pickupSignPrice;
+            if (additionalPriceBean.childSeatCount > 0) {
+                groupPickupParam.childSeatInfo = getChileSeatBean(groupQuotesBean, additionalPriceBean.childSeatCount);
+            }
+            groupPickupParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, additionalPriceBean.childSeatCount);
+            if (additionalPriceBean.isFlightSign == 1) {
+                groupPickupParam.priceChannel += additionalPriceBean.pickupSignPrice;
+            }
         } else {
             groupPickupParam.priceChannel = groupQuotesBean.price;
         }
@@ -418,6 +413,7 @@ public class GroupParamBuilder {
     private GroupTransParam getGroupTransParam(CityRouteBean.CityRouteScope cityRouteScope) {
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(carBean.quotes.size() - 1);
         GroupTransParam groupTransParam = new GroupTransParam();
+        groupTransParam.priceChannel = 0d;
         AirPort airPort = charterDataUtils.airPortBean;
         CityBean startCityBean = charterDataUtils.getStartCityBean(charterDataUtils.chooseDateBean.dayNums);
         groupTransParam.serviceCityId = startCityBean.cityId;
@@ -431,10 +427,16 @@ public class GroupParamBuilder {
         groupTransParam.destAddress = airPort.airportName;
         groupTransParam.destAddressPoi = airPort.location;
         groupTransParam.priceMark = groupQuotesBean.pricemark;
-        groupTransParam.isCheckin = 0;//当前版本不支持isCheckin
-        if (!charterDataUtils.isGroupOrder && groupQuotesBean.additionalServicePrice != null) {
-            groupTransParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
-            groupTransParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, manLuggageBean.childSeats);
+        if (groupQuotesBean.additionalServicePrice != null && additionalPriceBean != null) {
+            if (additionalPriceBean.childSeatCount > 0) {
+                groupTransParam.childSeatInfo = getChileSeatBean(groupQuotesBean, additionalPriceBean.childSeatCount);
+            }
+//            groupTransParam.checkInPrice = (double) additionalPriceBean.checkInPrice;
+//            groupTransParam.isCheckin = additionalPriceBean.isCheckin;
+            groupTransParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, additionalPriceBean.childSeatCount);
+            if (additionalPriceBean.isCheckin == 1) {
+                groupTransParam.priceChannel += additionalPriceBean.checkInPrice;
+            }
         } else {
             groupTransParam.priceChannel = groupQuotesBean.price;
         }
@@ -451,6 +453,7 @@ public class GroupParamBuilder {
         croupDailyParam.serviceTime = DateUtils.getDay(charterDataUtils.chooseDateBean.start_date, groupDailyParamIndex) + " " + serverTime;
 
         GroupQuotesBean groupQuotesBean = carBean.quotes.get(orderIndex);
+        croupDailyParam.priceChannel = 0d;
         //0 默认只 1 包含接机 2 包含送机 3 接机和送机 必填
         croupDailyParam.complexType = 0;
         if (groupDailyParamIndex == 0 && charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
@@ -474,6 +477,14 @@ public class GroupParamBuilder {
             travelFlightParam.flightAirportName = flightBean.depAirportName;
             travelFlightParam.flightAirportBuiding = flightBean.depTerminal;
             travelFlightParam.flightDestBuilding = flightBean.arrTerminal;
+            if (additionalPriceBean != null) {
+                travelFlightParam.flightBrandSign = additionalPriceBean.flightBrandSign;
+                travelFlightParam.pickupSignPrice = (double) additionalPriceBean.pickupSignPrice;
+                travelFlightParam.pickupFlag = additionalPriceBean.isFlightSign;
+                if (additionalPriceBean.isFlightSign == 1) {
+                    croupDailyParam.priceChannel += (double) additionalPriceBean.pickupSignPrice;
+                }
+            }
             croupDailyParam.setTravelFlightParam(travelFlightParam, true);
 
             croupDailyParam.serviceTime = travelFlightParam.serviceTime;
@@ -490,6 +501,13 @@ public class GroupParamBuilder {
             travelFlightParam.flightAirportCode = airPortBean.airportCode;
             travelFlightParam.flightAriportPoi = airPortBean.location;
             travelFlightParam.flightAirportName =  airPortBean.airportName;
+            if (additionalPriceBean != null) {
+                travelFlightParam.checkInPrice = (double) additionalPriceBean.checkInPrice;
+                travelFlightParam.checkInFlag = additionalPriceBean.isCheckin;
+                if (additionalPriceBean.isCheckin == 1) {
+                    croupDailyParam.priceChannel += (double) additionalPriceBean.checkInPrice;
+                }
+            }
             croupDailyParam.setTravelFlightParam(travelFlightParam, false);
 
             croupDailyParam.serviceEndCityname = airPortBean.cityName;
@@ -521,9 +539,11 @@ public class GroupParamBuilder {
         if (croupDailyParam.servicePassDetailList != null && croupDailyParam.servicePassDetailList.size() == 1 && cityRouteScope.routeType == CityRouteBean.RouteType.HALFDAY) {
             croupDailyParam.halfDaily = 1;
         }
-        if (!charterDataUtils.isGroupOrder && groupQuotesBean.additionalServicePrice != null) {
-            croupDailyParam.childSeatInfo = getChileSeatBean(groupQuotesBean, manLuggageBean);
-            croupDailyParam.priceChannel = groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, manLuggageBean.childSeats);
+        if (groupQuotesBean.additionalServicePrice != null && additionalPriceBean != null) {
+            if (additionalPriceBean.childSeatCount > 0) {
+                croupDailyParam.childSeatInfo = getChileSeatBean(groupQuotesBean, additionalPriceBean.childSeatCount);
+            }
+            croupDailyParam.priceChannel += (groupQuotesBean.price + getSeatTotalPrice(groupQuotesBean.additionalServicePrice, additionalPriceBean.childSeatCount));
         } else {
             croupDailyParam.priceChannel = groupQuotesBean.price;
         }

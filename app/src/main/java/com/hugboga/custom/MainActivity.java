@@ -42,6 +42,7 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ChoiceCommentActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.OrderPriceInfoActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;

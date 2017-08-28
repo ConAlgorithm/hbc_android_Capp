@@ -185,7 +185,7 @@ public class UrlLibs {
     public static final String ORDER_LIST_DOING             = "trade/v1.4/c/order/list/doing";                          // 订单列表 进行中 116
     public static final String ORDER_LIST_UNEVALUDATE       = "trade/v1.4/c/order/list/unevaludate";                    // 订单列表 待评价 117
     public static final String GUIDE_CHOOSE                 = "trade/v1.0/c/order/guide/choose";                        // 指派司导接口 111
-    public static final String API_ORDER_GROUP              = "trade/v2.1/c/order/group";                               // 组合单下单c  122
+    public static final String API_ORDER_GROUP              = "trade/v2.2/c/order/group";                               // 组合单下单c  122
     public static final String API_BIND_CREDIT_CARD         = "trade/v1.0/c/yilian/bindcard";                           // 易联支付绑定卡127
     public static final String API_QUERY_CREDIT_CARD        = "trade/v1.0/c/yilian/querycard";                          // 易联支付查询已绑定的卡128
     public static final String API_QUERY_BANK_BELONG        = "trade/v1.0/c/yilian/querybank";                          // 易联查询银行卡所属银行129
@@ -204,7 +204,7 @@ public class UrlLibs {
     public static final String API_CAR_MAX_CAPACITY         = "price/v1.0/c/car/max/capacity";                          // 可服务车型最大可乘坐人数 118
     public static final String API_CAR_MAX_CAPACITY_SECKILLS= "price/v1.1/c/car/max/capacity";                          // 秒杀可服务车型最大可乘坐人数 166
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
-    public static final String API_BATCH_PRICE              = "price/v1.4/c/batchPrice";                                // 组合单报价  121
+    public static final String API_BATCH_PRICE              = "price/v1.6/c/batchPrice";                                // 组合单报价  121
 
     public static final String API_CITY_HOME_LIST           = "goods/v1.5/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
@@ -309,6 +309,6 @@ public class UrlLibs {
 
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
-    public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.0/c/batchPrice";                             // 接机秒杀报价 164
+    public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.1/c/batchPrice";                             // 接机秒杀报价 164
 
 }

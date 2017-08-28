@@ -13,11 +13,16 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import org.greenrobot.eventbus.EventBus;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by qingcha on 16/6/2.
  */
 public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavior {
 
+    @Bind(R.id.order_detail_pay_price_tv)
     public TextView needPayTV;
 
     public OrderDetailFloatView(Context context) {
@@ -28,9 +33,8 @@ public class OrderDetailFloatView extends LinearLayout implements HbcViewBehavio
         super(context, attrs);
         setOrientation(LinearLayout.VERTICAL);
         setVisibility(View.GONE);
-
-        inflate(getContext(), R.layout.view_order_detail_pay, this);
-        needPayTV = (TextView) findViewById(R.id.order_detail_pay_price_tv);
+        View view = inflate(getContext(), R.layout.view_order_detail_pay, this);
+        ButterKnife.bind(view);
     }
 
     @Override

@@ -129,6 +129,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     private ContactUsersBean contactUsersBean;
     private OrderBean orderBean;
+    private PoiBean startPoiBean;
     RequestOrderEdit.Params requestParams;
 
     @Override
@@ -502,6 +503,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                     break;
                 }
                 PoiBean poiBean = (PoiBean) action.getData();
+                this.startPoiBean = poiBean;
                 if (poiBean == null) {
                     break;
                 }
@@ -654,6 +656,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         requestParams.serviceRecTime = orderBean.serviceStartTime;//上车时间
         requestParams.startAddress = TextUtils.isEmpty(addressTV.getText()) ? "" : addressTV.getText().toString();//上车地点
         requestParams.startAddressDetail = TextUtils.isEmpty(addressDescriptionTV.getText()) ? "" : addressDescriptionTV.getText().toString();
+        requestParams.startAddressPoi = startPoiBean == null ? "" : startPoiBean.location;
         requestParams.userWechat = TextUtils.isEmpty(wechatET.getText()) ? "" : wechatET.getText().toString();
         requestParams.userEx = getUserExJson();
         requestParams.realUserEx = getRealUserExJson();

@@ -83,18 +83,24 @@ public class GroupDailyParam implements Serializable{
     }
 
     public static class TravelFlightParam {
-        public String serviceTime;         // 服务开始时间
-        public String flightDestCode;      // 降落机场三字码
-        public String flightDestName;      // 降落机场名称
+        public String serviceTime;          // 服务开始时间
+        public String flightDestCode;       // 降落机场三字码
+        public String flightDestName;       // 降落机场名称
         public String flightDestPoi;
         public String flightNo;
         public String flightArriveTime;
-        public String flightAirportCode;   // 起飞机场三字码
+        public String flightAirportCode;    // 起飞机场三字码
         public String flightAriportPoi;
         public String flightFlyTime;
         public String flightAirportName;
         public String flightAirportBuiding;
-        public String flightDestBuilding;  // 降落机场航站楼
+        public String flightDestBuilding;   // 降落机场航站楼
+
+        public String flightBrandSign;      // 举牌接机姓名
+        public Double checkInPrice;         // checkin 费用
+        public Integer pickupFlag;          // 字段名和父单中不一致 是否举牌接机
+        public Double pickupSignPrice;      // 字段名和父单中不一致 举牌接机费用
+        public Integer checkInFlag;         // 字段名和父单中不一致 是否checkin 服务
     }
 }
 

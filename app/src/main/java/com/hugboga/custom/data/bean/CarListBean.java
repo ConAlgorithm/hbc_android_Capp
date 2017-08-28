@@ -33,6 +33,9 @@ public class CarListBean implements IBaseBean {
     public int hotelNum;//几天
     public int hourseNum;//几间房
 
+    public Double goodsOtherPrice;//商品其他费用价格(如果有)
+    public String goodsOtherPriceComment;//商品其他费用说明(如果有)
+
     public boolean isSeckills = false;       // 本地字段，是否是秒杀
     public String timeLimitedSaleNo;         // 本地字段，秒杀活动编号
     public String timeLimitedSaleScheduleNo; // 本地字段，秒杀活动场次编号

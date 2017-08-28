@@ -2,25 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/order_bottom_height"
-    android:background="#ffffff"
-    >
+    android:background="#ffffff">
+
     <TextView
         android:id="@+id/order_detail_pay_price_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/sku_order_padding_left"
         android:layout_centerVertical="true"
-        android:textSize="20sp"
+        android:layout_marginLeft="@dimen/sku_order_padding_left"
         android:text="¥0"
-        android:textColor="@color/default_price_red"/>
+        android:textColor="@color/default_price_red"
+        android:textSize="20sp" />
+
     <TextView
         android:id="@+id/order_detail_pay_tv"
-        android:text="@string/order_detail_pay"
         style="@style/OrderBottomConfirm"
-        />
+        android:text="@string/order_detail_pay" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/default_dividing_line"
-        />
+        android:background="@color/default_dividing_line" />
 </RelativeLayout>

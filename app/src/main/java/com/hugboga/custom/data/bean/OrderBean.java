@@ -47,6 +47,7 @@ public class OrderBean implements IBaseBean{
     public int capOfPerson;
     public int orderIndex;//标识是第几段行程 1开始
     public int guideCarId;
+    public double goodsOtherPrice;//其他费用
 
     public boolean isSeckills = false;       // 是否是秒杀
     public String timeLimitedSaleNo;         // 秒杀活动编号
@@ -274,6 +275,14 @@ public class OrderBean implements IBaseBean{
             return orderGuideInfo.contact;
         } else {
             return orderGuideInfo.guideName;
+        }
+    }
+
+    public String getTravelUserName() {
+        if ("2".equals(isRealUser) && realUserList != null && realUserList.size() > 0 && !TextUtils.isEmpty(realUserList.get(0).name)) {
+            return realUserList.get(0).name;
+        } else {
+            return userName;
         }
     }
 

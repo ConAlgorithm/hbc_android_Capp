@@ -106,7 +106,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     private CharterFragmentAgent fragmentAgent;
 
-    private CharterSecondStepActivity.Params params;
     private CharterDataUtils charterDataUtils;
     private CityRouteBean cityRouteBean;
     private int currentDay;
@@ -119,14 +118,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private LayoutInflater mLayoutInflater;
 
     private boolean isUnfoldMap = false;
-
-    public static class Params implements Serializable {
-        public CityBean startBean;
-        public ChooseDateBean chooseDateBean;
-        public int adultCount;
-        public int childCount;
-        public int maxPassengers;
-    }
 
     @Override
     public int getContentViewId() {
@@ -141,14 +132,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            params = (CharterSecondStepActivity.Params) savedInstanceState.getSerializable(Constants.PARAMS_DATA);
-        } else {
-            Bundle bundle = getIntent().getExtras();
-            if (bundle != null) {
-                params = (CharterSecondStepActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
-            }
-        }
         EventBus.getDefault().register(this);
         initView(savedInstanceState);
     }
@@ -167,9 +150,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
-        if (params != null) {
-            outState.putSerializable(Constants.PARAMS_DATA, params);
-        }
     }
 
     @Override
@@ -201,7 +181,6 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public void initView(Bundle savedInstanceState) {
         charterDataUtils = CharterDataUtils.getInstance();
-        charterDataUtils.init(params);
         currentDay = charterDataUtils.currentDay;
 
         titleBar.getLeftView().setOnClickListener(new View.OnClickListener() {
@@ -347,7 +326,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             updateDrawFences();
         } else if (_request instanceof RequestCarMaxCapaCity) {
             final CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
-            if ((charterDataUtils.adultCount + charterDataUtils.childCount) > carMaxCapaCityBean.numOfPerson) {
+            if (charterDataUtils.getTotalPeopleCount() > carMaxCapaCityBean.numOfPerson) {
                 String title = String.format("您选择的乘客人数，超过了当地可用车型的最大载客人数（%1$s人）如需预订多车服务，请联系客服", carMaxCapaCityBean.numOfPerson);
                 AlertDialogUtils.showAlertDialogCancelable(this, title, "返回上一步", "联系客服", new DialogInterface.OnClickListener() {
                     @Override
@@ -356,6 +335,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                         CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                         charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                         charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
+                        charterDataUtils.isSupportChildSeat = carMaxCapaCityBean.isSupportChildSeat();
                         charterDataUtils.flightBean = flightBean;
                         finishActivity();
                     }
@@ -380,6 +360,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest _request) {
+        super.onDataRequestError(errorInfo, _request);
         if (isFinishing()) {
             return;
         }
@@ -1086,9 +1067,5 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         //离开接送机界面,将选航班号的类型初始化按选航班号类型=1
         SharedPre sharedPre = new SharedPre(CharterSecondStepActivity.this);
         sharedPre.saveIntValue("chooseAirType",1);
-        if(charterDataUtils!= null){
-            charterDataUtils.flightBean = null;
-            charterDataUtils.isSelectedPickUp = false;
-        }
     }
 }

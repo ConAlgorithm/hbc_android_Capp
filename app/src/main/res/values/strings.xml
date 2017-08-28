@@ -661,8 +661,9 @@
     <string name="order_detail_cost_chartered">包车费用</string>
     <string name="order_detail_cost_child_seats">儿童座椅</string>
     <string name="order_detail_cost_hotel">住宿费用</string>
-    <string name="order_detail_cost_placards">举牌接机费用</string>
-    <string name="order_detail_cost_checkin">Check in 服务费用</string>
+    <string name="order_detail_cost_other">其他费用</string>
+    <string name="order_detail_cost_placards">接机举牌费用</string>
+    <string name="order_detail_cost_checkin">送机协助办理登机</string>
     <string name="order_detail_cost_total">费用总计</string>
     <string name="order_detail_cost_coupon">优惠金额</string>
     <string name="order_detail_cost_travelfund">旅游基金</string>
@@ -828,7 +829,7 @@
     <string name="route_goods_detial_title">线路游详情</string>
     <string name="free_route_goods_detial_title">畅游详情</string>
 
-    <string name="charter_first_max_passengers_hint">当地可用车型的最大载客人数为%1$s人\n如需预订多车服务，请联系客服</string>
+    <string name="charter_first_max_passengers_hint">当地最大车型仅承载%1$s人\n如需预订多车服务，请联系客服</string>
     <string name="charter_first_max_passengers_hint2">该司导车辆的最大载客人数为%1$s人\n如需预订多车服务，请联系客服</string>
     <string name="charter_first_max_passengers_hint3">参与活动车型最大载客人数为%1$s人</string>
     <string name="charter_first_max_passengers_service">联系客服</string>

@@ -58,6 +58,9 @@ public class RequestSubmitLine extends RequestSubmitBase {
 
         map.put("coupId", orderBean.coupId);
         map.put("coupPriceInfo", orderBean.coupPriceInfo);
+        if (orderBean.goodsOtherPrice > 0) {
+            map.put("goodsOtherPrice", orderBean.goodsOtherPrice);
+        }
 
 //        map.put("priceHotel", orderBean.priceHotel);
 //        map.put("hotelRoom", orderBean.hotelRoom);

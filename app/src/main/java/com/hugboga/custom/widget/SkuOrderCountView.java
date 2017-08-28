@@ -16,13 +16,9 @@ import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.data.bean.CarAdditionalServicePrice;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
-import com.hugboga.custom.data.bean.GroupQuotesBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,12 +54,21 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
 
     @Bind(R.id.sku_order_count_room_layout)
     LinearLayout roomLayout;
-    @Bind(R.id.sku_order_count_room_title_tv)
-    TextView roomTitleTV;
     @Bind(R.id.sku_order_count_room_price_tv)
     TextView roomPriceTV;
     @Bind(R.id.sku_order_count_room_choose_count_view)
     ChooseCountView roomCountView;
+    @Bind(R.id.sku_order_count_room_description_tv)
+    TextView roomDescriptionTV;
+
+    @Bind(R.id.sku_order_count_extrasprice_layout)
+    LinearLayout extrasPriceLayout;
+    @Bind(R.id.sku_order_count_extrasprice_title_tv)
+    TextView extrasPriceTitleTV;
+    @Bind(R.id.sku_order_count_extrasprice_price_tv)
+    TextView extrasPricePriceTV;
+    @Bind(R.id.sku_order_count_extrasprice_description_tv)
+    TextView extrasPriceDescriptionTV;
 
     private ManLuggageBean manLuggageBean;
     private boolean supportChildseat = true;
@@ -72,6 +77,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     private CarBean carBean;
     private CarListBean carListBean;
     private String serverDate;
+    private boolean isHasExtrasPrice = false;
 
     private int adultCount = 0;      // 成人数
     private int childCount = 0;      // 儿童数
@@ -83,7 +89,6 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     private double seatTotalPrice = 0;  // 儿童座椅总价
     private double hotelTotalPrice = 0; // 酒店总价
 
-    private boolean isGroupOrder;
     private OnCountChangeListener listener;
 
     public SkuOrderCountView(Context context) {
@@ -105,86 +110,6 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
 
         roomCount = 1;
         roomCountView.setMinCount(1).setCount(roomCount, false);
-    }
-
-    //组合单
-    public void update(CarBean _carBean, CharterDataUtils charterDataUtils, String _serverDate) {
-        if (_carBean == null) {
-            return;
-        }
-
-        this.carBean = _carBean;
-        this.isGroupOrder = charterDataUtils.isGroupOrder;
-
-        int allChildSeatPrice1 = -1;
-        int allChildSeatPrice2 = -1;
-        ArrayList<GroupQuotesBean> quotes = carBean.quotes;
-        int size = quotes.size();
-        for (int i = 0; i < size; i++) {
-            GroupQuotesBean groupQuotesBean = quotes.get(i);
-            if (groupQuotesBean.additionalServicePrice != null) {
-                CarAdditionalServicePrice additionalServicePrice = groupQuotesBean.additionalServicePrice;
-                if (additionalServicePrice == null ||
-                        TextUtils.isEmpty(additionalServicePrice.childSeatPrice1)
-                        || TextUtils.isEmpty(additionalServicePrice.childSeatPrice2)) {
-                    continue;
-                }
-                int childSeatPrice1 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice1);
-                int childSeatPrice2 = CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2);
-                if (childSeatPrice1 == -1 || childSeatPrice2 == -1) {
-                    continue;
-                }
-                if (allChildSeatPrice1 == -1 && childSeatPrice1 >= 0) {
-                    allChildSeatPrice1 = 0;
-                }
-                if (allChildSeatPrice2 == -1 && childSeatPrice2 >= 0) {
-                    allChildSeatPrice2 = 0;
-                }
-                allChildSeatPrice1 += childSeatPrice1;
-                allChildSeatPrice2 += childSeatPrice2;
-            }
-        }
-
-        if (allChildSeatPrice1 == -1 || allChildSeatPrice2 == -1 || charterDataUtils.isGroupOrder) {
-            supportChildseat = false;
-        } else {
-            this.childSeatPrice1 = allChildSeatPrice1 + "";
-            this.childSeatPrice2 = allChildSeatPrice2 + "";
-        }
-
-        if (!TextUtils.equals(serverDate, _serverDate) || isResetCountView()) {
-            boolean isInit = false;
-            if (serverDate == null) {
-                isInit = true;
-            }
-            this.serverDate = _serverDate;
-
-            if (isInit) {
-                adultCount = charterDataUtils.adultCount;
-                childCount = charterDataUtils.childCount;
-                if (charterDataUtils.isGroupOrder) {
-                    childSeatLayout.setVisibility(View.GONE);
-                } else {
-                    childSeatLayout.setVisibility(supportChildseat && childCount > 0 ? View.VISIBLE : View.GONE);
-                }
-            } else {
-                adultCount = carBean.capOfPerson >= 2 ? 2 : 1;
-                childCount = 0;
-                childSeatLayout.setVisibility(View.GONE);
-            }
-            adultCountView.setMinCount(1).setCount(adultCount, false);
-            childCountView.setCount(childCount, false);
-            childSeatCount = 0;
-            childSeatCountView.setCount(0, false);
-            hintLayout.setVisibility(View.GONE);
-            if (listener != null) {
-                listener.onCountChange(getManLuggageBean());
-            }
-        }
-        checkCountView();
-
-        //可携带行李数
-        setMaxLuggage();
     }
 
     //线路
@@ -225,13 +150,29 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         //可携带行李数
         setMaxLuggage();
 
-        //酒店
-        if (skuItemBean != null && skuItemBean.hotelStatus == 1) {
-            roomLayout.setVisibility(View.VISIBLE);
-            roomTitleTV.setText(String.format("%1$s晚", "" + skuItemBean.hotelCostAmount));
-            setPriceText(roomPriceTV, getHotelTotalPrice(), roomCount);
-        } else {
-            roomLayout.setVisibility(View.GONE);
+        //当前只有线路有酒店和其它费用，skuItemBean != null为线路
+        boolean isSkuOrder = skuItemBean != null;
+
+        if (isSkuOrder) {
+            //酒店
+            if (skuItemBean.hotelStatus == 1) {
+                roomLayout.setVisibility(View.VISIBLE);
+                setPriceText(roomPriceTV, getHotelTotalPrice(), roomCount);
+                roomDescriptionTV.setText(String.format("单价¥%1$s/间 | 含%2$s晚", CommonUtils.doubleTrans(carListBean.hotelPrice), "" + skuItemBean.hotelCostAmount));
+            } else {
+                roomLayout.setVisibility(View.GONE);
+            }
+
+            //其他费用
+            if (carListBean.goodsOtherPrice != null && carListBean.goodsOtherPrice > 0 && !TextUtils.isEmpty(carListBean.goodsOtherPriceComment)) {
+                extrasPriceLayout.setVisibility(View.VISIBLE);
+                updateExtrasPriceText();
+                extrasPriceDescriptionTV.setText(String.format("单价¥%1$s/人 | %2$s", CommonUtils.doubleTrans(carListBean.goodsOtherPrice), carListBean.goodsOtherPriceComment));
+                isHasExtrasPrice = true;
+            } else {
+                isHasExtrasPrice = false;
+                extrasPriceLayout.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -247,6 +188,10 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                 this.adultCount = count;
                 checkCountView();
                 setMaxLuggage();
+                if (isHasExtrasPrice) {
+                    updateExtrasPriceText();
+                    checkPrice();
+                }
                 break;
             case R.id.sku_order_count_child_choose_count_view://儿童数
                 this.childCount = count;
@@ -271,6 +216,10 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                     hintLayout.setVisibility(View.GONE);
                 }
                 setMaxLuggage();
+                if (isHasExtrasPrice) {
+                    updateExtrasPriceText();
+                    checkPrice();
+                }
                 break;
             case R.id.sku_order_count_child_seat_choose_count_view://儿童座椅
                 this.childSeatCount = count;
@@ -292,12 +241,19 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         }
     }
 
-    private void setPriceText(TextView textView, double price, int count) {
+    private void setPriceText(TextView textView, double totalPrice, int count) {
         String priceStr = "";
         if (count > 0) {
-            priceStr = String.format("（%1$s）", price <= 0 ? "免费" : getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(price));
+            priceStr = String.format("（%1$s）", totalPrice <= 0 ? "免费" : getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(totalPrice));
         }
         textView.setText(priceStr);
+    }
+
+    private void updateExtrasPriceText() {
+        double totalPrice = getTotalExtrasPrice();
+        int peopleCount = getTotalPeople();
+        setPriceText(extrasPricePriceTV, totalPrice, peopleCount);
+        extrasPriceTitleTV.setText(String.format("出行人数×%1$s人", peopleCount));
     }
 
     @OnClick({R.id.sku_order_count_luggage_explain_tv})
@@ -320,7 +276,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                 return (adultCount + Math.round(childSeatCount * 1.5) + (childCount - childSeatCount) < carBean.capOfPerson);
             case 3:
                 double count = adultCount + childSeatCount * 1.5 + (childCount - childSeatCount);
-                return carBean.capOfPerson - count >= 0.5 && childSeatCount < childCount;
+                return carBean.capOfPerson - count > 0.5 && childSeatCount < childCount;
             default:
                 return false;
         }
@@ -346,10 +302,11 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     private void checkPrice() {
-        if (additionalPrice == seatTotalPrice + hotelTotalPrice) {
+        double allPrice = seatTotalPrice + hotelTotalPrice + getTotalExtrasPrice();
+        if (additionalPrice == allPrice) {
             return;
         }
-        additionalPrice = seatTotalPrice + hotelTotalPrice;
+        additionalPrice = allPrice;
         if (listener != null) {
             listener.onAdditionalPriceChange(additionalPrice);
         }
@@ -367,11 +324,19 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     public double getHotelTotalPrice() {
-        return hotelTotalPrice = carListBean == null ? 0 :carListBean.hotelPrice * roomCount;
+        return hotelTotalPrice = carListBean == null ? 0 : carListBean.hotelPrice * roomCount;
+    }
+
+    public double getTotalExtrasPrice() {
+        return carListBean == null ? 0 : carListBean.goodsOtherPrice * getTotalPeople();
+    }
+
+    public double getExtrasPrice() {
+        return carListBean == null ? 0 : carListBean.goodsOtherPrice;
     }
 
     public double getAdditionalPrice() {
-        return additionalPrice = getSeatTotalPrice() + getHotelTotalPrice();
+        return additionalPrice = getSeatTotalPrice() + getHotelTotalPrice() + getTotalExtrasPrice();
     }
 
     public int getTotalPeople() {

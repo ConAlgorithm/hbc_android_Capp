@@ -184,7 +184,7 @@
             <TextView
                 android:id="@+id/sku_order_count_hint_tv"
                 android:layout_width="match_parent"
-                android:layout_height="26dp"
+                android:layout_height="24dp"
                 android:background="#fff8e7"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/sku_order_padding_left"
@@ -204,19 +204,19 @@
         android:id="@+id/sku_order_count_room_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/input_panel_image_margin_top"
+            android:layout_height="@dimen/sku_order_margin_vertical"
             android:background="@color/default_bg" />
 
         <TextView
             style="@style/SkuOrderSubtitleTextView"
             android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:text="预定酒店" />
+            android:text="预订酒店" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -225,31 +225,11 @@
             android:layout_marginRight="4dp">
 
             <TextView
-                android:id="@+id/sku_order_count_room_title_tv1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="房间数"
-                android:textColor="@color/default_black"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/sku_order_count_room_title_tv2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/sku_order_count_room_title_tv1"
-                android:paddingBottom="1.5dp"
-                android:text=" | "
-                android:textColor="@color/default_black"
-                android:textSize="14sp" />
-
-            <TextView
                 android:id="@+id/sku_order_count_room_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/sku_order_count_room_title_tv2"
+                android:text="房间数"
                 android:textColor="@color/default_black"
                 android:textSize="14sp" />
 
@@ -259,6 +239,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/sku_order_count_room_title_tv"
+                android:text="(34343434)"
                 android:textColor="@color/default_price_red"
                 android:textSize="12sp" />
 
@@ -269,5 +250,72 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/sku_order_count_room_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:layout_marginTop="-10dp"
+            android:gravity="top"
+            android:text="3434232424"
+            android:textColor="#cccccc"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sku_order_count_extrasprice_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sku_order_margin_vertical"
+            android:background="@color/default_bg" />
+
+        <TextView
+            style="@style/SkuOrderSubtitleTextView"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:layout_marginRight="@dimen/sku_order_padding_left"
+            android:text="其他费用" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sku_order_min_item_hight"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:layout_marginRight="4dp">
+
+            <TextView
+                android:id="@+id/sku_order_count_extrasprice_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="出行人数*2"
+                android:textColor="@color/default_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sku_order_count_extrasprice_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/sku_order_count_extrasprice_title_tv"
+                android:text="(34343434)"
+                android:textColor="@color/default_price_red"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/sku_order_count_extrasprice_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/sku_order_padding_left"
+            android:layout_marginTop="-10dp"
+            android:gravity="top"
+            android:text="3434232424"
+            android:textColor="#cccccc"
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

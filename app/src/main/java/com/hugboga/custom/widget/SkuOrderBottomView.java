@@ -1,6 +1,8 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -8,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.OrderPriceInfoActivity;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -21,6 +24,9 @@ public class SkuOrderBottomView extends LinearLayout {
 
     @Bind(R.id.sku_order_bottom_pay_tv)
     TextView payTV;
+
+    @Bind(R.id.sku_order_bottom_price_detail_tv)
+    TextView priceDetailTV;
 
     @Bind(R.id.sku_order_bottom_should_price_tv)
     TextView shouldPriceTV;
@@ -51,6 +57,9 @@ public class SkuOrderBottomView extends LinearLayout {
         setOrientation(LinearLayout.VERTICAL);
         View view = inflate(context, R.layout.view_sku_order_bottom, this);
         ButterKnife.bind(view);
+
+        priceDetailTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        priceDetailTV.getPaint().setAntiAlias(true);
     }
 
     public void updatePrice(double shouldPrice, double discountPrice) {
@@ -95,12 +104,23 @@ public class SkuOrderBottomView extends LinearLayout {
     }
 
 
+    @OnClick({R.id.sku_order_bottom_price_detail_tv})
+    public void intentPriceInfo() {
+        getContext().startActivity(new Intent(getContext(), OrderPriceInfoActivity.class));
+    }
+
+
     public void setData(int orderType, boolean isGuides, boolean isSeckills) {
         this.orderType = orderType;
         this.isGuides = isGuides;
         this.isSeckills = isSeckills;
         if (isSeckills) {
             setHintTV();
+        }
+        if (orderType == 3 || orderType == 888) {
+            priceDetailTV.setVisibility(View.VISIBLE);
+        } else {
+            priceDetailTV.setVisibility(View.GONE);
         }
     }
 

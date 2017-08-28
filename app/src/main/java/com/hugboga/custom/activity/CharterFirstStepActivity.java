@@ -3,8 +3,6 @@ package com.hugboga.custom.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -48,11 +46,9 @@ import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
 import com.hugboga.custom.widget.title.TitleBar;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -91,6 +87,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     private CityBean startBean;
     private ChooseDateBean chooseDateBean;
     private int maxPassengers;
+    private boolean isSupportChildSeat;
     private CharterDataUtils charterDataUtils;
     private GuidesDetailData guidesDetailData;
     private boolean isEnabled = false;
@@ -272,22 +269,21 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 }
             }
         }
-
-        CharterSecondStepActivity.Params params = new CharterSecondStepActivity.Params();
-        params.startBean = startBean;
-        params.chooseDateBean = chooseDateBean;
-        params.adultCount = countLayout.getAdultValue();
-        params.childCount = countLayout.getChildValue();
-        params.maxPassengers = maxPassengers;
+        charterDataUtils.chooseDateBean = chooseDateBean;
+        charterDataUtils.adultCount = countLayout.getAdultValue();
+        charterDataUtils.childCount = countLayout.getChildValue();
+        charterDataUtils.childSeatCount = countLayout.getChildSeatValue();
+        charterDataUtils.isSupportChildSeat = isSupportChildSeat;
+        charterDataUtils.maxPassengers = maxPassengers;
+        charterDataUtils.addStartCityBean(1, startBean);
 
         Intent intent = new Intent(this, CharterSecondStepActivity.class);
-        intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
 
         StatisticClickEvent.dailyClick(StatisticConstant.CONFIRM_R, getIntentSource(), chooseDateBean.dayNums,
                 guidesDetailData != null, (countLayout.getAdultValue() + countLayout.getChildValue()) + "");
         setSensorsConfirmEvent();
-        SensorsUtils.onAppClick(getEventSource(), "立即预定", getIntentSource());
+        SensorsUtils.onAppClick(getEventSource(), "立即预订", getIntentSource());
     }
 
     @Subscribe
@@ -322,11 +318,10 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 startBean = charterDataUtils.getStartCityBean(1);
                 chooseDateBean = charterDataUtils.chooseDateBean;
                 maxPassengers = charterDataUtils.maxPassengers;
+                isSupportChildSeat = charterDataUtils.isSupportChildSeat;
                 cityLayout.setDesc(startBean.name);
                 setDateViewText();
-                countLayout.setAdultValue(charterDataUtils.adultCount);
-                countLayout.setChildValue(charterDataUtils.childCount);
-                countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
+                countLayout.setMaxPassengers(false, maxPassengers, isSupportChildSeat, guidesDetailData != null, charterDataUtils.isSeckills());
                 break;
             case FROM_PURPOSER:
                 finish();
@@ -344,11 +339,13 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (_request instanceof RequestCarMaxCapaCity) {
             CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             maxPassengers = carMaxCapaCityBean.numOfPerson;
+            isSupportChildSeat = carMaxCapaCityBean.isSupportChildSeat();
+            countLayout.setCountViewEnabled(true);
             countLayout.post(new Runnable() {
                 @Override
                 public void run() {
                     if (!isFinishing() && countLayout != null) {
-                        countLayout.setMaxPassengers(maxPassengers, guidesDetailData != null, charterDataUtils.isSeckills());
+                        countLayout.setMaxPassengers(true, maxPassengers, isSupportChildSeat, guidesDetailData != null, charterDataUtils.isSeckills());
                     }
                 }
             });
@@ -365,10 +362,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         if (!isFinishing() && _request instanceof RequestCarMaxCapaCity) {
             if (countLayout != null) {
                 setNextViewEnabled(false);
-                countLayout.setAdultValue(0);
-                countLayout.setChildValue(0);
-                countLayout.setSliderEnabled(false);
-                countLayout.setHintViewVisibility(View.GONE);
+                countLayout.setCountViewEnabled(false);
                 isEnabled = false;
             }
         }
@@ -407,7 +401,6 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     @Override
     public void onOutRangeChange(boolean isOut) {
-        setNextViewEnabled(!isOut);
         if (isOut) {
             scrollView.post(new Runnable() {
                 @Override

@@ -26,6 +26,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
     public double refundTravelFund;//退旅游基金金额
     public double travelFundRefundable;//旅游基金可退
     public int couponRefundStatus;//0= 无损显示-优惠券抵扣金额（券不可退） 1=有损显示-优惠券抵扣金额（券可退）
+    public double goodsOtherPrice;// 固定线路其他费用
 
     public int isRefund;//是否已经退款 0没有退款 1 已经退款
     public int payGateway;//支付方式 1:支付宝,2:微信,3:内部账户支付,4:券支付,5:旅游基金,6:百付宝,17:QUNA渠道,20:携程渠道,19:去啊渠道,
@@ -36,7 +37,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         orderPrice = jsonObj.optDouble("orderPrice", 0);
         shouldPay = jsonObj.optDouble("shouldPay", 0);
         actualPay = jsonObj.optDouble("actualPay", 0);
-        checkInPrice = jsonObj.optDouble("checkInPrice");
+        checkInPrice = jsonObj.optDouble("checkInPrice", 0);
         refundPrice = jsonObj.optDouble("refundPrice", 0);
         refundablePrice = jsonObj.optDouble("refundablePrice", 0);
         cancelFee = jsonObj.optDouble("cancelFee", 0);
@@ -51,6 +52,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         refundTravelFund = jsonObj.optDouble("refundTravelFund", 0);
         travelFundRefundable = jsonObj.optDouble("travelFundRefundable", 0);
         couponRefundStatus = jsonObj.optInt("couponRefundStatus", 0);
+        goodsOtherPrice = jsonObj.optDouble("goodsOtherPrice", 0);
     }
 
     @Override
@@ -78,6 +80,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         dest.writeDouble(this.refundTravelFund);
         dest.writeDouble(this.travelFundRefundable);
         dest.writeInt(this.couponRefundStatus);
+        dest.writeDouble(this.goodsOtherPrice);
     }
 
     public OrderPriceInfo() {
@@ -102,6 +105,7 @@ public class OrderPriceInfo implements IBaseBean ,Parcelable{
         this.refundTravelFund = in.readDouble();
         this.travelFundRefundable = in.readDouble();
         this.couponRefundStatus = in.readInt();
+        this.goodsOtherPrice = in.readDouble();
     }
 
     public static final Creator<OrderPriceInfo> CREATOR = new Creator<OrderPriceInfo>() {

@@ -77,9 +77,10 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 addGroupView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
             }
 
-            if (orderBean.orderGoodsType == 1 && priceInfo.flightBrandSignPrice > 0) {//接机 举牌费用
+            if (priceInfo.flightBrandSignPrice > 0) {//举牌费用
                 addGroupView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
-            } else if(orderBean.orderGoodsType == 2 && !Double.isNaN(priceInfo.checkInPrice) && priceInfo.checkInPrice > 0) {//送机 checkin费用
+            }
+            if (priceInfo.checkInPrice > 0) {//checkin费用
                 addGroupView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
             }
             if (priceInfo.childSeatPrice > 0) {
@@ -87,6 +88,9 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             }
             if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
                 addGroupView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
+            }
+            if (priceInfo.goodsOtherPrice > 0) {//其他费用
+                addGroupView(R.string.order_detail_cost_other, "" + (int)(priceInfo.goodsOtherPrice * orderBean.getTravelerCount()));
             }
 
             addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计
