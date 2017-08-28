@@ -63,6 +63,9 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
         OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
         if (orderBean.orderSource == 1) {
+            double flightBrandSignPrice = 0;
+            double checkInPrice = 0;
+            double childSeatPrice = 0;
             if (orderBean.orderType == 888) {
                 lineView.setVisibility(View.VISIBLE);
                 addGroupView(billLayout, R.string.order_detail_cost_chartered, "", true);//包车费用
@@ -71,21 +74,29 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 for (int i = 0; i < size; i++) {
                     OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
                     addBillView("行程 " + (i + 1), "" + (int)childPriceInfo.shouldPay);
+                    childSeatPrice += childPriceInfo.childSeatPrice;
+                    flightBrandSignPrice += priceInfo.flightBrandSignPrice;
+                    checkInPrice += priceInfo.checkInPrice;
                 }
             } else {
                 lineView.setVisibility(View.GONE);
                 addGroupView(R.string.order_detail_cost_chartered, "" + (int)priceInfo.orderPrice);//包车费用
+
+                flightBrandSignPrice = priceInfo.flightBrandSignPrice;
+                checkInPrice = priceInfo.checkInPrice;
+                childSeatPrice = priceInfo.childSeatPrice;
             }
 
-            if (priceInfo.flightBrandSignPrice > 0) {//举牌费用
-                addGroupView(R.string.order_detail_cost_placards, "" + (int)priceInfo.flightBrandSignPrice);
+            if (flightBrandSignPrice > 0) {//举牌费用
+                addGroupView(R.string.order_detail_cost_placards, "" + (int)flightBrandSignPrice);
             }
-            if (priceInfo.checkInPrice > 0) {//checkin费用
-                addGroupView(R.string.order_detail_cost_checkin, "" + (int)priceInfo.checkInPrice);
+            if (checkInPrice > 0) {//checkin费用
+                addGroupView(R.string.order_detail_cost_checkin, "" + (int)checkInPrice);
             }
-            if (priceInfo.childSeatPrice > 0) {
-                addGroupView(R.string.order_detail_cost_child_seats, "" + (int)priceInfo.childSeatPrice);//儿童座椅
+            if (childSeatPrice > 0) {//儿童座椅
+                addGroupView(R.string.order_detail_cost_child_seats, "" + (int)childSeatPrice);
             }
+
             if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
                 addGroupView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
             }
