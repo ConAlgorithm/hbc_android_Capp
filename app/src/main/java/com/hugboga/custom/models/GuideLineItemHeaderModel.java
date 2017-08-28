@@ -66,6 +66,10 @@ public class GuideLineItemHeaderModel extends EpoxyModelWithHolder<GuideLineItem
 
     private void init(){
         if(guideLineItemHeaderHolder!= null){
+            if(count <= 3){
+                guideLineItemHeaderHolder.moreCountLine.setVisibility(View.GONE);
+                return;
+            }
             guideLineItemHeaderHolder.moreCountLine.setText("查看全部(" + count + ")");
             guideLineItemHeaderHolder.moreCountLine.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -9,7 +9,7 @@
         android:text="没有找到相关结果"
         android:textColor="#b9bdc6"
         android:textSize="16sp"
-        android:drawableTop="@mipmap/empty_car"
+        android:drawableTop="@drawable/empty_city"
         android:drawablePadding="10dp"
         android:gravity="center"
         android:layout_gravity="center"
