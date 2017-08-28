@@ -118,7 +118,7 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
 
         if (isShowPickup) {
             pickupLayout.setVisibility(View.VISIBLE);
-            pickupPriceTV.setText(pickupSignPrice > 0 ? String.format("¥%1$s", pickupSignPrice) : "免费");
+            pickupPriceTV.setText(String.format("¥%1$s", pickupSignPrice > 0 ? pickupSignPrice : 0));
             pickupSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
                 @Override
                 public void onSwitchStateChange(boolean b) {
@@ -136,7 +136,7 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
 
         if (isShowCheckIn) {
             checkinLayout.setVisibility(View.VISIBLE);
-            checkinPriceTV.setText(checkInPrice > 0 ? String.format("¥%1$s", checkInPrice) : "免费");
+            checkinPriceTV.setText(String.format("¥%1$s", checkInPrice > 0 ? checkInPrice : 0));
             checkinSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
                 @Override
                 public void onSwitchStateChange(boolean b) {

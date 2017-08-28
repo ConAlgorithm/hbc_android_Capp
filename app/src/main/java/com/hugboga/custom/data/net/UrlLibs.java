@@ -205,6 +205,8 @@ public class UrlLibs {
     public static final String API_CAR_MAX_CAPACITY_SECKILLS= "price/v1.1/c/car/max/capacity";                          // 秒杀可服务车型最大可乘坐人数 166
     public static final String API_CITY_ROUTE               = "price/v1.0/c/queryCityRoute";                            // 查询城市行程  119
     public static final String API_BATCH_PRICE              = "price/v1.6/c/batchPrice";                                // 组合单报价  121
+    public static final String API_BATCH_PRICE_CONTAINSFEE  = "price/v1.0/c/batchPriceContainsFee";                     // 组合单费用包含详细 180
+
 
     public static final String API_CITY_HOME_LIST           = "goods/v1.5/c/home/cityGoods?";                           // 城市商品列表
     public static final String API_CITY_HOME_COUNTRY_LIST   = "goods/v1.4/c/home/countryGoods?";                        // 国家列表
@@ -307,6 +309,6 @@ public class UrlLibs {
 
     public static final String API_ACTIVITY_BUYNOW          = "activity/v1.0/c/buyNow";                                 // 参与接机秒杀活动详情 147
     public static final String API_AIRPORT_PICKUP_PRICE     = "activity/v1.0/c/airportPickupPrice";                     // 接机秒杀报价 148
-    public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.1/c/batchPrice";                             // 接机秒杀报价 164
+    public static final String API_SECKILLS_BATCH_PRICE     = "activity/v1.1/c/batchPrice";                             // 秒杀报价 164
 
 }

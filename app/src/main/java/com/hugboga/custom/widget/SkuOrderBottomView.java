@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.OrderPriceInfoActivity;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -42,11 +40,14 @@ public class SkuOrderBottomView extends LinearLayout {
     FrameLayout progressLayout;
 
     private OnSubmitOrderListener listener;
+    private OnIntentPriceInfoListener onIntentPriceInfoListener;
 
     private int orderType;
     private boolean isGuides;
     private boolean isSeckills;
     private double shouldPrice;
+
+
 
     public SkuOrderBottomView(Context context) {
         this(context, null);
@@ -103,10 +104,11 @@ public class SkuOrderBottomView extends LinearLayout {
         return selectedGuideHintTV;
     }
 
-
     @OnClick({R.id.sku_order_bottom_price_detail_tv})
     public void intentPriceInfo() {
-        getContext().startActivity(new Intent(getContext(), OrderPriceInfoActivity.class));
+        if (onIntentPriceInfoListener != null) {
+            onIntentPriceInfoListener.intentPriceInfo();
+        }
     }
 
 
@@ -150,6 +152,14 @@ public class SkuOrderBottomView extends LinearLayout {
         }
         selectedGuideHintTV.setText(showText);
         selectedGuideHintTV.setVisibility(showText == null ? GONE : VISIBLE);
+    }
+
+    public interface OnIntentPriceInfoListener {
+        public void intentPriceInfo();
+    }
+
+    public void setOnIntentPriceInfoListener(OnIntentPriceInfoListener listener) {
+        this.onIntentPriceInfoListener = listener;
     }
 
 }

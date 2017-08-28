@@ -1,5 +1,7 @@
 package com.hugboga.custom.data.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,10 +11,9 @@ import java.util.List;
 
 public class OrderPriceInfoBean implements Serializable{
 
-    public List<OrderPriceInfoItemBean> priceInfoList;
+    @SerializedName("containsFeeName")
+    public String title;
+    @SerializedName("containsFeeDetail")
+    public List<String> labelList;
 
-    public static class OrderPriceInfoItemBean implements Serializable {
-        public String title;
-        public List<String> labelList;
-    }
 }
