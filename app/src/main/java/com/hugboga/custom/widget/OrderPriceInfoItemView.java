@@ -42,8 +42,8 @@ public class OrderPriceInfoItemView extends LinearLayout implements HbcViewBehav
 
     @Override
     public void update(Object _data) {
-        if (_data instanceof OrderPriceInfoBean.OrderPriceInfoItemBean) {
-            OrderPriceInfoBean.OrderPriceInfoItemBean itemBean = (OrderPriceInfoBean.OrderPriceInfoItemBean) _data;
+        if (_data instanceof OrderPriceInfoBean) {
+            OrderPriceInfoBean itemBean = (OrderPriceInfoBean) _data;
             titleTV.setText(itemBean.title);
             setTag(tagGroup, itemBean.labelList);
         }

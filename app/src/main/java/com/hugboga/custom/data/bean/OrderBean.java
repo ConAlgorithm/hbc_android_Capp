@@ -47,12 +47,11 @@ public class OrderBean implements IBaseBean{
     public int capOfPerson;
     public int orderIndex;//标识是第几段行程 1开始
     public int guideCarId;
-    public double goodsOtherPrice;//其他费用
 
     public boolean isSeckills = false;       // 是否是秒杀
     public String timeLimitedSaleNo;         // 秒杀活动编号
     public String timeLimitedSaleScheduleNo; // 秒杀活动场次编号
-    public double priceTicket;                  // 秒杀原价
+    public double priceTicket;               // 秒杀原价
 
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息
@@ -87,6 +86,7 @@ public class OrderBean implements IBaseBean{
     public boolean isPhone;                 // 是否可以打电话：0-隐藏、1-显示；
     public ArrayList<String> cancelRules;   // 订单退改规则
     public String priceActual;              // 使用券时，实际支付价格
+    public double goodsOtherPrice;          // 其他费用
 
     public Integer imcount; // IM未读消息数
     public boolean canChat; // 是否可聊天

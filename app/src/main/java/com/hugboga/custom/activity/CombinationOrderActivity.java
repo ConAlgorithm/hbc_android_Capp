@@ -77,7 +77,7 @@ import butterknife.Bind;
  * Created by qingcha on 17/3/4.
  */
 public class CombinationOrderActivity extends BaseActivity implements SkuOrderCarTypeView.OnSelectedCarListener, SkuOrderDiscountView.DiscountOnClickListener
-        , SkuOrderBottomView.OnSubmitOrderListener, SkuOrderEmptyView.OnRefreshDataListener
+        , SkuOrderBottomView.OnSubmitOrderListener, SkuOrderBottomView.OnIntentPriceInfoListener, SkuOrderEmptyView.OnRefreshDataListener
         , SkuOrderEmptyView.OnClickServicesListener, CombinationExtrasPriceView.OnAdditionalPriceChangeListener{
 
     public static final String TAG = CombinationOrderActivity.class.getSimpleName();
@@ -167,6 +167,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         discountView.setDiscountOnClickListener(this);
         extrasPriceView.setOnAdditionalPriceChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
+        bottomView.setOnIntentPriceInfoListener(this);
         bottomView.setData(3, charterDataUtils.guidesDetailData != null, charterDataUtils.isSeckills());
         insuranceView.setInsuranceCount(charterDataUtils.adultCount + charterDataUtils.childCount);
         emptyLayout.setOnRefreshDataListener(this);
@@ -543,7 +544,6 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             requestMostFit(additionalPrice, requestCouponTag);
             requestTravelFund(additionalPrice, requestCouponTag);
         }
-
         requestCancleTips(requestCancleTipsTag);
     }
 
@@ -773,6 +773,23 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public String getEventSource() {
         return "确认订单";
+    }
+
+    @Override
+    public void intentPriceInfo() {
+        if (carBean == null) {
+            return;
+        }
+        CombinationExtrasPriceView.AdditionalPriceBean additionalPriceBean = extrasPriceView.getAdditionalPriceBean();
+        OrderPriceInfoActivity.Params params = new OrderPriceInfoActivity.Params();
+        params.batchNo = carBean.batchNo;
+        params.carId = carBean.carId;
+        params.pickUpFlag = additionalPriceBean.isFlightSign;
+        params.checkInFlag = additionalPriceBean.isCheckin;
+        params.childSeatFlag = additionalPriceBean.childSeatCount > 0 ? 1 : 0;
+        Intent intent = new Intent(this, OrderPriceInfoActivity.class);
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     private void getGuideCars() {

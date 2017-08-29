@@ -150,9 +150,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
             luggageStr += String.format("儿童座椅%1$s个，", orderBean.childSeats.getChildSeatCount());
         }
-//        if (CommonUtils.getCountInteger(orderBean.luggageNum) > 0) {
-            luggageStr += String.format("最多携带行李%1$s件", orderBean.luggageNum);
-//        }
+        luggageStr += String.format("最多携带行李%1$s件", orderBean.luggageNum);
         addLuggageView(luggageStr);
 
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
@@ -167,8 +165,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         //其他费用
-        if (orderBean.orderPriceInfo != null && orderBean.orderPriceInfo.goodsOtherPrice > 0) {
-            addItemView(R.mipmap.other_fees_icon, String.format("其他费用%1$s × %2$s人", orderBean.orderPriceInfo.goodsOtherPrice, orderBean.getTravelerCount()));
+        if (orderBean.orderPriceInfo != null && orderBean.goodsOtherPrice > 0) {
+            addItemView(R.mipmap.other_fees_icon, String.format("其他费用%1$s × %2$s人", orderBean.goodsOtherPrice, orderBean.getTravelerCount()));
         }
 
         // 订单号

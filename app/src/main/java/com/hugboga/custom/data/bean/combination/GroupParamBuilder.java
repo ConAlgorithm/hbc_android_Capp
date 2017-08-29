@@ -15,7 +15,6 @@ import com.hugboga.custom.data.bean.ContactUsersBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.bean.GroupQuotesBean;
-import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.PoiBean;
@@ -196,6 +195,7 @@ public class GroupParamBuilder {
         }
         groupParentParam.adultNum = charterDataUtils.adultCount;
         groupParentParam.childNum = charterDataUtils.childCount;
+        groupParentParam.luggageNumber = getMaxLuggage();
         if (additionalPriceBean != null) {
 //            if (charterDataUtils.isSupportChildSeat && additionalPriceBean.childSeatCount > 0) {
 //                groupParentParam.childSeatInfo = getAllChileSeatBean(additionalPriceBean);
@@ -328,6 +328,17 @@ public class GroupParamBuilder {
             result += (CommonUtils.getCountInteger(additionalServicePrice.childSeatPrice2) * (childSeatCount - 1));
         }
         return result;
+    }
+
+    private int getMaxLuggage() {
+        int childSeatCount = 0;
+        if (additionalPriceBean != null) {
+            childSeatCount = additionalPriceBean.childSeatCount;
+        } else {
+            childSeatCount = charterDataUtils.childSeatCount;
+        }
+        int maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson) - (charterDataUtils.adultCount + (int)Math.round(childSeatCount * 1.5) + (charterDataUtils.childCount - childSeatCount));
+        return maxLuuages;
     }
 
     private ContactUserBean getUserExBean(ContactUsersBean contactUsersBean) {
