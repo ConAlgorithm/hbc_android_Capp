@@ -31,15 +31,17 @@
                 android:id="@+id/home_hot_search_city_icon_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginBottom="2dp"
-                android:layout_gravity="bottom|right">
+                android:layout_gravity="bottom|left">
 
                 <TextView
                     android:id="@+id/home_hot_search_city_bottom_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="17dp"
                     android:paddingLeft="10dp"
                     android:background="@drawable/home_gnumber_bg"
                     android:textColor="@android:color/white" />
@@ -47,8 +49,6 @@
                 <net.grobas.view.PolygonImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="-8dp"
-                    android:layout_toRightOf="@id/home_hot_search_city_bottom_text"
                     android:src="@drawable/guide_head"
                     app:poly_vertices="0"
                     app:poly_border="true"
@@ -56,6 +56,21 @@
                     app:poly_border_width="2dp" />
             </RelativeLayout>
 
+
+            <LinearLayout
+                android:id="@+id/save_guild_layout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|right">
+
+                <ImageView
+                    android:id="@+id/save_line"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/save_guild_icon" />
+
+            </LinearLayout>
         </FrameLayout>
 
         <TextView

@@ -16,4 +16,5 @@ public class HomeCityGoodsVo implements Serializable {
     public String goodsPic	 = "";//	商品图片
     public String guidePic = "";//司导头像
     public String goodsDetailUrl = ""; //跳转
+    public int isCollected;     // 非接口返回,本地判断用,是否收藏过线路,1收藏 0 未收藏
 }

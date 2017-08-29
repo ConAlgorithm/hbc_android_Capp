@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <include
+        android:id="@+id/collect_list_header"
+        layout="@layout/include_header" />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/collect_line_list_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/collect_list_header" />
+
+    <LinearLayout
+        android:id="@+id/collect_line_listview_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/collect_list_header"
+        android:background="@color/coupon_empty_color"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/empty_trip" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="暂无满足当前筛选条件的线路"
+            android:textColor="#b9bdc6"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/next_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="去首页转转"
+            android:textColor="#24bcff"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+</RelativeLayout>

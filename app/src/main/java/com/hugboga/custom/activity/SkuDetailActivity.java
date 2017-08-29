@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -45,7 +44,9 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestGoodsById;
+import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
@@ -61,15 +62,10 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.DbManager;
-import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
 
 import java.io.InputStream;
@@ -86,7 +82,7 @@ import butterknife.OnClick;
 import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
 
 
-public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener  {
+public class SkuDetailActivity extends BaseActivity implements View.OnKeyListener,HttpRequestListener  {
 
     public static final String TAG = SkuDetailActivity.class.getSimpleName();
     public static final String WEB_SKU = "web_sku";
@@ -110,6 +106,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     @Bind(R.id.goto_order_lay)
     LinearLayout bottomLayout;
 
+    @Bind(R.id.header_right_2_btn)
+    ImageView collectImg;
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;
     private String goodsNo;
@@ -132,6 +130,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 finish();
             }
         });
+
         setBottomLayoutShow();
         getSkuItemBean(false);
         // 启用javaScript
@@ -208,45 +207,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (!TextUtils.isEmpty(goodsNo)) {//skuItemBean == null &&
             isPerformClick = isShowLoading;
             RequestGoodsById request = new RequestGoodsById(activity, goodsNo, guidesDetailData != null ?  guidesDetailData.guideId : "");
-            HttpRequestUtils.request(activity, request, new HttpRequestListener() {
-                @Override
-                public void onDataRequestCancel(BaseRequest request) {
-
-                }
-
-                @Override
-                public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
-                }
-
-                public void onDataRequestSucceed(BaseRequest _request) {
-                    ApiReportHelper.getInstance().addReport(_request);
-                    if (_request instanceof RequestGoodsById) {
-                        RequestGoodsById requestGoodsById = (RequestGoodsById) _request;
-                        skuItemBean = requestGoodsById.getData();
-                        if (skuItemBean == null) {
-                            return;
-                        }
-                        setBottomLayoutShow();
-                        if (cityBean == null) {
-                            cityBean = findCityById("" + skuItemBean.arrCityId);
-                        }
-                        if (isPerformClick) {
-                            gotoOrder.performClick();
-                        }
-                        if (webAgent!= null) {
-                            if (cityBean != null) {
-                                webAgent.setCityBean(cityBean);
-                            }
-                            webAgent.setSkuItemBean(skuItemBean);
-                        }
-                        if (!isLoaded && !isShowLoading) {
-                            loadUrl();
-                        }
-                        setSensorsEvent();
-                    }
-                }
-            }, isShowLoading);
+            HttpRequestUtils.request(activity, request, SkuDetailActivity.this, isShowLoading);
         } else {
             setSensorsEvent();
         }
@@ -271,7 +232,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
-    @OnClick({R.id.header_right_btn, R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
+    @OnClick({R.id.header_right_btn, R.id.header_right_2_btn,R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (view.getId()) {
@@ -284,6 +245,20 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                     skuShare(skuItemBean.goodsPicture, title, content, shareUrl);
                     StatisticClickEvent.click(StatisticConstant.SHARESKU);
                 }
+                break;
+            case R.id.header_right_2_btn:
+                if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this)) {
+                    return;
+                }
+                //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
+                mDialogUtil.showLoadingDialog();
+                BaseRequest baseRequest = null;
+                if (skuItemBean.favorited == 1) {
+                    baseRequest = new RequestUncollectLinesNo(this, skuItemBean.goodsNo);
+                } else if(skuItemBean.favorited == 0){
+                    baseRequest = new RequestCollectLineNo(this, skuItemBean.goodsNo);
+                }
+                requestData(baseRequest);
                 break;
             case R.id.goto_order:
                 if (skuItemBean == null) {
@@ -531,5 +506,61 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest _request) {
+        super.onDataRequestSucceed(_request);
+        ApiReportHelper.getInstance().addReport(_request);
+        if (_request instanceof RequestGoodsById) {
+            RequestGoodsById requestGoodsById = (RequestGoodsById) _request;
+            skuItemBean = requestGoodsById.getData();
+            if (skuItemBean == null) {
+                return;
+            }
+            if (UserEntity.getUser().isLogin(this)) {
+                if (skuItemBean != null) {
+                    collectImg.setSelected(skuItemBean.favorited == 1);
+                }
+            }
+            setBottomLayoutShow();
+            if (cityBean == null) {
+                cityBean = findCityById("" + skuItemBean.arrCityId);
+            }
+            if (isPerformClick) {
+                gotoOrder.performClick();
+            }
+            if (webAgent!= null) {
+                if (cityBean != null) {
+                    webAgent.setCityBean(cityBean);
+                }
+                webAgent.setSkuItemBean(skuItemBean);
+            }
+            if (!isLoaded && !isPerformClick) {
+                loadUrl();
+            }
+            setSensorsEvent();
+        }else if(_request instanceof RequestUncollectLinesNo){
+            skuItemBean.favorited = 0;
+            collectImg.setSelected(false);
+            EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, 0));
+            CommonUtils.showToast(getString(R.string.collect_cancel));
+        }else if(_request instanceof RequestCollectLineNo){
+            skuItemBean.favorited = 1;
+            collectImg.setSelected(true);
+            EventBus.getDefault().post(new EventAction(EventType.LINE_UPDATE_COLLECT, 1));
+            CommonUtils.showToast(getString(R.string.collect_succeed));
+            //setSensorsShareEvent(guideExtinfoBean.guideId);
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+        super.onDataRequestCancel(request);
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
     }
 }

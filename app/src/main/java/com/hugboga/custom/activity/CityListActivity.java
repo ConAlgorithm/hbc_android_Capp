@@ -27,8 +27,10 @@ import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.FilterGuideListBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
+import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
+import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
@@ -266,11 +268,19 @@ public class CityListActivity extends BaseActivity {
             } else {
                 setEmptyLayout(true, true);
             }
+            if(UserEntity.getUser().isLogin(this)){
+                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
+                HttpRequestUtils.request(this,favoriteLinesaved,this,false);
+            }
         } else if (_request instanceof RequestCountryGroup) {
             setEmptyLayout(false, true);
             countryGroupBean = ((RequestCountryGroup) _request).getData();
             if (!countryGroupBean.isEmpty()) {
                 cityListAdapter.setCountryGroupData(countryGroupBean);
+            }
+            if(UserEntity.getUser().isLogin(this)){
+                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
+                HttpRequestUtils.request(this,favoriteLinesaved,this,false);
             }
             requestGuideList();
         } else if (_request instanceof RequestFilterGuide) {
@@ -311,6 +321,60 @@ public class CityListActivity extends BaseActivity {
                 cityListAdapter.notifyDataSetChanged();
             }
 
+        }else if(_request instanceof FavoriteLinesaved){
+            if(_request.getData() instanceof UserFavoriteLineList){
+                if(countryGroupBean!= null){
+                    //国家页深度线路
+                    if(countryGroupBean.deepLines != null && countryGroupBean.deepLines.size() >0){
+                        for(int m = 0;m< countryGroupBean.deepLines.size();m++){
+                            countryGroupBean.deepLines.get(m).favorited = 0;
+                        }
+                        UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
+                        for(int n = 0;n<userFavoriteLineList.goodsNos.size();n++){
+                            for(int q=0;q<countryGroupBean.deepLines.size();q++){
+                                if(userFavoriteLineList.goodsNos.get(n).equals(countryGroupBean.deepLines.get(q).goodsNo)){
+                                    countryGroupBean.deepLines.get(q).favorited =1;
+                                }
+                            }
+                        }
+                    }
+
+                    //国家页浅度线路
+                    if(countryGroupBean.shortLines != null && countryGroupBean.shortLines.size()>0){
+                        for(int m = 0;m< countryGroupBean.shortLines.size();m++){
+                            countryGroupBean.shortLines.get(m).favorited = 0;
+                        }
+                        UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
+                        for(int n = 0;n<userFavoriteLineList.goodsNos.size();n++){
+                            for(int q=0;q<countryGroupBean.shortLines.size();q++){
+                                if(userFavoriteLineList.goodsNos.get(n).equals(countryGroupBean.shortLines.get(q).goodsNo)){
+                                    countryGroupBean.shortLines.get(q).favorited =1;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                //城市页热门线路
+                if(cityListBean!= null){
+                    if(cityListBean.hotLines!= null && cityListBean.hotLines.size()>0){
+                        for(int x=0;x<cityListBean.hotLines.size();x++){
+                            cityListBean.hotLines.get(x).favorited = 0;
+                        }
+                        UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
+                        for(int n = 0;n<userFavoriteLineList.goodsNos.size();n++){
+                            for(int q=0;q<cityListBean.hotLines.size();q++){
+                                if(userFavoriteLineList.goodsNos.get(n).equals(cityListBean.hotLines.get(q).goodsNo)){
+                                    cityListBean.hotLines.get(q).favorited =1;
+                                }
+                            }
+                        }
+                    }
+
+                }
+                cityListAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -414,6 +478,11 @@ public class CityListActivity extends BaseActivity {
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this,UserEntity.getUser().getUserId(this),null);
                 HttpRequestUtils.request(this,favoriteGuideSaved,this,false);
                 break;
+            case LINE_UPDATE_COLLECT:
+                if(UserEntity.getUser().isLogin(this)){
+                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
+                    HttpRequestUtils.request(this,favoriteLinesaved,this,false);
+                }
         }
     }
 

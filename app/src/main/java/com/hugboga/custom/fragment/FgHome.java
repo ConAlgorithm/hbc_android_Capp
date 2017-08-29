@@ -25,8 +25,10 @@ import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
+import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
+import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestHomeNew;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
@@ -313,6 +315,10 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), null);
                 HttpRequestUtils.request(getContext(), favoriteGuideSaved, this, false);
             }
+            if(UserEntity.getUser().isLogin(getContext())){
+                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(),UserEntity.getUser().getUserId(getContext()));
+                HttpRequestUtils.request(getContext(),favoriteLinesaved,this,false);
+            }
 
         } else if (request instanceof FavoriteGuideSaved) {
 
@@ -334,6 +340,28 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 }
                 homeAdapter.notifyDataSetChanged();
             }
+        } else if(request instanceof FavoriteLinesaved){
+            if (homeBean == null) {
+                return;
+            }
+            for(int k = 0;k <homeBean.cityGoodsList.size();k++){
+                for(int m = 0;m<homeBean.cityGoodsList.get(k).cityGoodsList.size();m++){
+                    homeBean.cityGoodsList.get(k).cityGoodsList.get(m).isCollected = 0;
+                }
+            }
+            if(request.getData() instanceof UserFavoriteLineList){
+                UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) request.getData();
+                for (int o = 0; o<userFavoriteLineList.goodsNos.size();o++){
+                    for(int k = 0;k <homeBean.cityGoodsList.size();k++){
+                        for(int m = 0;m<homeBean.cityGoodsList.get(k).cityGoodsList.size();m++){
+                            if(userFavoriteLineList.goodsNos.get(o).equals(homeBean.cityGoodsList.get(k).cityGoodsList.get(m).goodsNo)){
+                                homeBean.cityGoodsList.get(k).cityGoodsList.get(m).isCollected = 1;
+                            }
+                        }
+                    }
+                }
+                homeAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -344,31 +372,43 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 StringBuilder tempUploadGuilds = new StringBuilder();
                 String uploadGuilds = "";
                 if (homeBean != null && homeBean.qualityGuides != null && homeBean.qualityGuides.size() > 0) {
-                    for (FilterGuideBean guild : homeBean.qualityGuides) {
-                        tempUploadGuilds.append(guild.guideId).append(",");
-                    }
-                    if (tempUploadGuilds.length() > 0) {
-                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
-                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
-                        }
-                    }
+//                    for (FilterGuideBean guild : homeBean.qualityGuides) {
+//                        tempUploadGuilds.append(guild.guideId).append(",");
+//                    }
+//                    if (tempUploadGuilds.length() > 0) {
+//                        if (tempUploadGuilds.charAt(tempUploadGuilds.length() - 1) == ',') {
+//                            uploadGuilds = (String) tempUploadGuilds.subSequence(0, tempUploadGuilds.length() - 1);
+//                        }
+//                    }
                     Log.d("uploadGuilds", uploadGuilds.toString());
-                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), uploadGuilds);
+                    FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), null);
                     HttpRequestUtils.request(getContext(), favoriteGuideSaved, this, false);
+
+                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(),UserEntity.getUser().getUserId(getContext()));
+                    HttpRequestUtils.request(getContext(),favoriteLinesaved,this,false);
                 }
+
                 break;
             case CLICK_USER_LOOUT:
                 if (homeBean != null) {
                     for (int i = 0; i < homeBean.qualityGuides.size(); i++) {
                         homeBean.qualityGuides.get(i).isCollected = 0;
                     }
-
+                    for(int k = 0;k <homeBean.cityGoodsList.size();k++){
+                        for(int m = 0;m<homeBean.cityGoodsList.get(k).cityGoodsList.size();m++){
+                            homeBean.cityGoodsList.get(k).cityGoodsList.get(m).isCollected = 0;
+                        }
+                    }
                     homeAdapter.notifyDataSetChanged();
                 }
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT:
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(), UserEntity.getUser().getUserId(getContext()), null);
                 HttpRequestUtils.request(getContext(), favoriteGuideSaved, this, false);
+                break;
+            case LINE_UPDATE_COLLECT:
+                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(),UserEntity.getUser().getUserId(getContext()));
+                HttpRequestUtils.request(getContext(),favoriteLinesaved,this,false);
                 break;
         }
     }

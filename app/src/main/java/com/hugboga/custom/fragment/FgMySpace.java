@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CollectGuideListActivity;
+import com.hugboga.custom.activity.CollectLineListActivity;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.InsureActivity;
@@ -92,6 +93,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
                     new LvMenuItem(R.mipmap.personal_icon_policy_holder, "常用投保人"),
                     new LvMenuItem(R.mipmap.personal_icon_collect, "我收藏的司导"),
+                    new LvMenuItem(R.mipmap.personal_icon_collect_line,"我收藏的线路"),
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
                     //new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
                     //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
@@ -276,6 +278,13 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             case Constants.PERSONAL_CENTER_COLLECT://收藏司导
                 if (isLogin("个人中心-收藏司导")) {
                     Intent intent = new Intent(getContext(), CollectGuideListActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    startActivity(intent);
+                }
+                break;
+            case Constants.PERSONAL_CENTER_COLLECT_LINE://收藏线路
+                if (isLogin("个人中心-收藏线路")) {
+                    Intent intent = new Intent(getContext(), CollectLineListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
