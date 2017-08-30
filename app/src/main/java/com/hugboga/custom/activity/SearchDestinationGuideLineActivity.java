@@ -187,11 +187,14 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                 if (keyCode == event.KEYCODE_ENTER) {
                     switch (event.getAction()) {
                         case KeyEvent.ACTION_DOWN:
-                            searchAdapter.removeModels();
-                            searchAfterAdapter.removeModels();
-                            search_after_list.setVisibility(VISIBLE);
-                            search_first_list.setVisibility(GONE);
-                            addAfterSearchDestinationModel(listAll,headSearch.getText().toString());
+                            if(headSearch.getText().toString().length() >0){
+                                searchAdapter.removeModels();
+                                searchAfterAdapter.removeModels();
+                                search_after_list.setVisibility(VISIBLE);
+                                search_first_list.setVisibility(GONE);
+                                addAfterSearchDestinationModel(listAll,headSearch.getText().toString());
+                                SearchUtils.addCityHistorySearch(headSearch.getText().toString());
+                            }
                             break;
                     }
                     return true;

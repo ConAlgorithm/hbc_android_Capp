@@ -72,7 +72,7 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
                 hideModel(searchDestinationModels.get(i));
             }
         }
-        if(list.size()>3){
+        if(list!= null && list.size()>3){
             String searchMoreString = "展开更多";
             searchMoreModel = new SearchMoreModel(context,searchMoreString,list,keyword);
             addModel(searchMoreModel);
