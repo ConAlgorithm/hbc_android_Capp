@@ -46,7 +46,7 @@ public class SearchlineGuideLoadingMoreFooter extends LoadingMoreFooter {
     @Override
     public void initView() {
         setGravity(Gravity.CENTER_HORIZONTAL);
-        setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dip2px(120)));
+        setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dip2px(25)));
         progressCon = new SimpleViewSwitcher(getContext());
         progressCon.setLayoutParams(new ViewGroup.LayoutParams(UIUtils.dip2px(25), UIUtils.dip2px(25)));
 

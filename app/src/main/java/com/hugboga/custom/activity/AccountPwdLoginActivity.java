@@ -74,6 +74,8 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     Button loginButton;
     @Bind(R.id.delete)
     ImageView delete;
+    @Bind(R.id.delete1)
+    ImageView delete1;
     boolean isPwdVisibility = false;
     String phone;
     String areaCode;
@@ -126,6 +128,14 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 delete.setVisibility(View.GONE);
             }
         }
+        if(passwordEditText.getText().toString()!= null){
+            if(passwordEditText.getText().toString().length() >0){
+                delete1.setVisibility(View.VISIBLE);
+            }else{
+                delete1.setVisibility(View.GONE);
+            }
+        }
+
         phoneEditText.addTextChangedListener(this);
         passwordEditText.addTextChangedListener(this);
 
@@ -177,7 +187,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         super.onNewIntent(intent);
         initView(intent);
     }
-    @OnClick({R.id.header_left_btn,R.id.change_mobile_areacode,R.id.iv_pwd_visible,R.id.change_mobile_diepwd,R.id.login_submit,R.id.login_phone,R.id.delete})
+    @OnClick({R.id.header_left_btn,R.id.change_mobile_areacode,R.id.iv_pwd_visible,R.id.change_mobile_diepwd,R.id.login_submit,R.id.login_phone,R.id.delete,R.id.delete1})
     public void onClick(View view) {
         Intent intent = null;
         HashMap<String, String> map = new HashMap<String, String>();
@@ -230,6 +240,11 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
                 phoneEditText.setFocusableInTouchMode(true);
                 phoneEditText.requestFocus();
                 break;
+            case R.id.delete1:
+                passwordEditText.setText("");
+                passwordEditText.setFocusable(true);
+                passwordEditText.setFocusableInTouchMode(true);
+                passwordEditText.requestFocus();
             default:
                 break;
         }
@@ -392,6 +407,15 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         }else{
             delete.setVisibility(View.GONE);
         }
+
+        if(passwordEditText.getText().toString()!= null){
+            if(passwordEditText.getText().toString().length() >0){
+                delete1.setVisibility(View.VISIBLE);
+            }else{
+                delete1.setVisibility(View.GONE);
+            }
+        }
+
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(phone)
                 && !TextUtils.isEmpty(password)
                 && Pattern.matches("[\\w]{4,16}", password)) {
