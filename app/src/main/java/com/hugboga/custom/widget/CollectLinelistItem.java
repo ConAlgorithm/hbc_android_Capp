@@ -40,10 +40,7 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
     View offline_view;
     @Bind(R.id.offline_icon)
     TextView offline_icon;
-    Context context;
-    Activity activity;
     CollectLineBean.CollectLineItemBean collectLineItemBean;
-    String keyword;
 
     public CollectLinelistItem(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -75,40 +72,15 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(activity, SkuDetailActivity.class);
+                    Intent intent = new Intent(view.getContext(), SkuDetailActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, collectLineItemBean.goodsDetailUrl);
                     intent.putExtra(Constants.PARAMS_ID, collectLineItemBean.no);
                     //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-                    activity.startActivity(intent);
+                    view.getContext().startActivity(intent);
                 }
             });
         }
-//        setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(activity instanceof SearchDestinationGuideLineActivity) {
-//                    Intent intent = new Intent(activity, SkuDetailActivity.class);
-//                    intent.putExtra(WebInfoActivity.WEB_URL, collectLineItemBean.goodsDetailUrl);
-//                    intent.putExtra(Constants.PARAMS_ID, collectLineItemBean.no);
-//                    //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-//                    activity.startActivity(intent);
-//                }
-//            }
-//        });
+
     }
 
-//    public void setkeyWord(String keyword){
-//        this.keyword = keyword;
-//    }
-//    private void interClick(int position) {
-//        Intent intent = new Intent(context, SkuDetailActivity.class);
-//        intent.putExtra(WebInfoActivity.WEB_URL, collectLineItemBean.goodsDetailUrl);
-//        intent.putExtra(Constants.PARAMS_ID, collectLineItemBean.no);
-//        //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-//        context.startActivity(intent);
-//        //SensorsUtils.onAppClick(getEventSource(), "推荐线路", "首页-推荐线路");
-//    }
-    public void setActivity(Activity activity){
-        this.activity = activity;
-    }
 }
