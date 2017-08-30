@@ -63,6 +63,7 @@ public class MultipleTextViewGroup extends RelativeLayout {
         textPaddingBottom = array.getDimensionPixelSize(R.styleable.MultipleTextViewGroup_textPaddingBottom, 0);
         overspread = array.getBoolean(R.styleable.MultipleTextViewGroup_overspread, false);
         columnNum = array.getInteger(R.styleable.MultipleTextViewGroup_columnNum, 1000);
+        isOnlyoneLine = array.getBoolean(R.styleable.MultipleTextViewGroup_onlyOneLine,false);
         array.recycle();
         //下边是获取系统属性
         int[] attrsArray = new int[]{android.R.attr.id, // 0
@@ -180,7 +181,7 @@ public class MultipleTextViewGroup extends RelativeLayout {
         }
 
         //是否只显示一行
-        if(isOnlyOneLine()){
+        if(isOnlyoneLine){
             line = 0;
         }
         for (int i = 0; i <= line; i++) {
@@ -230,12 +231,5 @@ public class MultipleTextViewGroup extends RelativeLayout {
 
     public interface OnMultipleTVItemClickListener {
         void onMultipleTVItemClick(View view, int position);
-    }
-
-    public boolean isOnlyOneLine(){
-        return isOnlyoneLine;
-    }
-    public void setIsOnlyOneLine(boolean isOnlyoneLine){
-        isOnlyoneLine = isOnlyoneLine;
     }
 }

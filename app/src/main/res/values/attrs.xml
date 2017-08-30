@@ -158,5 +158,6 @@
 
         <attr name="overspread" format="boolean" />
         <attr name="columnNum" format="integer" />
+        <attr name="onlyOneLine" format="boolean" />
     </declare-styleable>
 </resources>

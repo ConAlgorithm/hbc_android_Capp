@@ -148,7 +148,9 @@
                     app:textPaddingRight="10dp"
                     app:textPaddingTop="6dp"
                     app:textSize="12sp"
-                    app:textWordMargin="15dp" />
+                    app:textWordMargin="15dp"
+                    app:onlyOneLine="true"
+                 />
             </LinearLayout>
 
         </LinearLayout>

@@ -297,7 +297,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         if (dataList != null && dataList.size() > 0) {
             historyLayout.setVisibility(VISIBLE);
             belowHistory.setVisibility(VISIBLE);
-            history.setIsOnlyOneLine(true);
+            //history.setIsOnlyOneLine(true);
             history.setTextViews(dataList);
             history.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
                 @Override
