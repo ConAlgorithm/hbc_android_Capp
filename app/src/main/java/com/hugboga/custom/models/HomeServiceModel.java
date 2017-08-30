@@ -123,8 +123,8 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
                 SensorsUtils.onAppClick(getEventSource(),"私人订制","首页-私人订制");
                 break;
             case R.id.home_line:
-                //intentActivity(context, FilterSkuListActivity.class,null);
-                intentActivity(context, SearchDestinationGuideLineActivity.class,null);
+                intentActivity(context, FilterSkuListActivity.class,null);
+                //intentActivity(context, SearchDestinationGuideLineActivity.class,null);
                 SensorsUtils.onAppClick(getEventSource(),"精品线路游","首页-精品线路游");
                 break;
             case R.id.charter_id_img:

@@ -20,6 +20,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.SearchAdapter;
@@ -35,6 +36,9 @@ import com.hugboga.custom.widget.GuideSearchListItem;
 import com.hugboga.custom.widget.LineSearchListItem;
 import com.hugboga.custom.widget.MultipleTextViewGroup;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -429,5 +433,17 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         RequestHotSearch requestHotSearch = new RequestHotSearch(this);
         HttpRequestUtils.request(this,requestHotSearch,this,false);
     }
-
+    //搜索埋点
+    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("keyWord", keyWord);
+            properties.put("isHistory", isHistory);
+            properties.put("isRecommend", isRecommend);
+            properties.put("hasResult", hasResult);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -19,6 +19,7 @@
         android:background="@color/coupon_empty_color"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <ImageView
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="去首页转转"
+            android:text="@string/gotomain"
             android:textColor="#24bcff"
             android:textSize="13sp" />
 

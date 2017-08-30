@@ -2,10 +2,15 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
@@ -18,6 +23,7 @@ import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectLineList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.CollectGuideItemView;
 import com.hugboga.custom.widget.CollectLinelistItem;
@@ -58,10 +64,17 @@ public class CollectLineListActivity extends BaseActivity implements HbcRecycler
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
+        mRecyclerView.setEmptyView(emptyLayout);
+        mRecyclerView.getEmptyView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CollectLineListActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, CollectLinelistItem.class);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
-
         requestCollectLineList(0, true);
         //setSensorsDefaultEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
     }
@@ -91,12 +104,6 @@ public class CollectLineListActivity extends BaseActivity implements HbcRecycler
         if (_request instanceof RequestCollectLineList) {
             CollectLineBean collectLineBean = (CollectLineBean)_request.getData();
             int offset = _request.getOffset();
-            if (offset == 0 && (collectLineBean == null || collectLineBean.goodsList == null || collectLineBean.count <= 0)) {
-                emptyLayout.setVisibility(View.VISIBLE);
-                return;
-            } else {
-                emptyLayout.setVisibility(View.GONE);
-            }
             List<CollectLineBean.CollectLineItemBean> collectLineItemBeanList = collectLineBean.goodsList;
             mAdapter.addData(collectLineItemBeanList, offset > 0);
             if (offset == 0) {

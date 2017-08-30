@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
@@ -414,7 +415,8 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
     }
 
     private void goChooseCity() {
-        Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+        //Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+        Intent intent = new Intent(this.getContext(), SearchDestinationGuideLineActivity.class);
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
         intent.putExtra("isHomeIn", true);
         intent.putExtra("source", "首页搜索框");

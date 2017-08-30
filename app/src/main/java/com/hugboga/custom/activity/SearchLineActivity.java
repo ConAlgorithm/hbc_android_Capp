@@ -26,6 +26,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.Bind;
 
+import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
 import static java.security.AccessController.getContext;
 
 /**
@@ -44,6 +45,7 @@ public class SearchLineActivity extends BaseActivity {
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;
     String keyword;
+    int totalsize;
     @Override
     public int getContentViewId() {
         return R.layout.search_line_activity;
@@ -52,7 +54,7 @@ public class SearchLineActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        keyword = getIntent().getStringExtra("keyword");
+        keyword = getIntent().getStringExtra(PARAMS_SEARCH_KEYWORD);
         initView();
     }
 
@@ -78,10 +80,10 @@ public class SearchLineActivity extends BaseActivity {
         hbcRecyclerSingleTypeAdpater.setOnItemClickListener(new HbcRecyclerTypeBaseAdpater.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object itemData) {
-                SearchLineBean searchLineBean = (SearchLineBean) itemData;
+                SearchLineBean.GoodsPublishStatusVo goodsPublishStatusVo = (SearchLineBean.GoodsPublishStatusVo) itemData;
                 Intent intent = new Intent(SearchLineActivity.this, SkuDetailActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, searchLineBean.goods.get(position).goodsDetailUrl);
-                intent.putExtra(Constants.PARAMS_ID, searchLineBean.goods.get(position).no);
+                intent.putExtra(WebInfoActivity.WEB_URL, goodsPublishStatusVo.goodsDetailUrl);
+                intent.putExtra(Constants.PARAMS_ID, goodsPublishStatusVo.no);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 startActivity(intent);
             }
@@ -96,7 +98,7 @@ public class SearchLineActivity extends BaseActivity {
             @Override
             public void onLoadMore() {
                 refreshOrNot = 2;
-                if (hbcRecyclerSingleTypeAdpater.getListCount() > 0) {
+                if (hbcRecyclerSingleTypeAdpater.getListCount() < totalsize) {
                     runData(hbcRecyclerSingleTypeAdpater == null ? 0 : hbcRecyclerSingleTypeAdpater.getListCount(), 10);
                 }
             }
@@ -128,6 +130,7 @@ public class SearchLineActivity extends BaseActivity {
         if(request instanceof RequestSearchLine){
             if (hbcRecyclerSingleTypeAdpater != null) {
                 SearchLineBean searchLineBean = (SearchLineBean) request.getData();
+                totalsize = searchLineBean.count;
                 if (request!=null && request.getOffset() == 0) {
                     mXRecyclerView.smoothScrollToPosition(0);
                 }
