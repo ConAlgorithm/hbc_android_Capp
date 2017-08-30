@@ -222,7 +222,7 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
             rootLayout.addView(lineView);
         }
         if(fromAgeOrSexPicker()){
-            rootLayout.addView(makeBlankView());
+            //rootLayout.addView(makeBlankView());
         }
         rootLayout.addView(makeCenterView(), new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f));
         View footerView = makeFooterView();

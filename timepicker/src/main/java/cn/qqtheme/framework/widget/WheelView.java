@@ -283,7 +283,7 @@ public class WheelView extends ScrollView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         LogUtils.verbose(this, "onSizeChanged viewWidth=" + w);
-        if (null == lineConfig) {
+        /*if (null == lineConfig) {
             lineConfig = new LineConfig();
             lineConfig.setColor(LINE_COLOR);
             lineConfig.setWidth(w);
@@ -294,7 +294,7 @@ public class WheelView extends ScrollView {
         area[0] = itemHeight * offset;
         area[1] = itemHeight * (offset + 1);
         lineConfig.setArea(area);
-        changeBackgroundLineDrawable(true);
+        changeBackgroundLineDrawable(true);*/
     }
 
     @Override

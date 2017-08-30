@@ -130,15 +130,15 @@ public class SinglePicker<T> extends WheelPicker {
 
         wheelView.setTextSize(textSize);
         wheelView.setTextColor(textColorNormal, textColorFocus);
-        wheelView.setLineConfig(lineConfig);
+        //wheelView.setLineConfig(lineConfig);
         wheelView.setOffset(offset);
         wheelView.setCycleDisable(cycleDisable);
         if(fromAgeOrSexPicker()){
-            wheelView.setTextFocusSize(22);
-            wheelView.setTextNormalSize(19);
+            wheelView.setTextFocusSize(20);
+            wheelView.setTextNormalSize(17);
             wheelView.setTextColor(0xffaaaaaa,0xff151515);
-            lineConfig.setRatio(0f);
-            wheelView.setLineConfig(lineConfig);
+            //lineConfig.setRatio(1f);
+            //wheelView.setLineConfig(lineConfig);
         }
         layout.addView(wheelView);
         TextView labelView = new TextView(activity);

@@ -20,6 +20,7 @@
                 android:id="@+id/pic_line"
                 android:layout_width="90dp"
                 android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/line_search_default"/>
 
