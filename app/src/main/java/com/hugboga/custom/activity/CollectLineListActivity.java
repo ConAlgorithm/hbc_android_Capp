@@ -19,6 +19,7 @@ import com.hugboga.custom.data.bean.CollectGuideNewBean;
 import com.hugboga.custom.data.bean.CollectLineBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectLineList;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -42,7 +43,7 @@ import butterknife.Bind;
  * Created by zhangqiang on 17/8/28.
  */
 
-public class CollectLineListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
+public class CollectLineListActivity extends BaseActivity implements XRecyclerView.LoadingListener{
     @Bind(R.id.collect_line_list_recyclerview)
     XRecyclerView mRecyclerView;
     @Bind(R.id.collect_line_listview_empty)
@@ -70,10 +71,10 @@ public class CollectLineListActivity extends BaseActivity implements HbcRecycler
             public void onClick(View view) {
                 Intent intent = new Intent(CollectLineListActivity.this, MainActivity.class);
                 startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
             }
         });
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, CollectLinelistItem.class);
-        mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         requestCollectLineList(0, true);
         //setSensorsDefaultEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
@@ -134,17 +135,4 @@ public class CollectLineListActivity extends BaseActivity implements HbcRecycler
         requestCollectLineList(mAdapter.getListCount(), false);
     }
 
-    @Override
-    public void onItemClick(View view, int position, Object itemData) {
-        List<CollectLineBean.CollectLineItemBean> collectLineItemBeanList = mAdapter.getDatas();
-        CollectLineBean.CollectLineItemBean collectLineItemBean = collectLineItemBeanList.get(position);
-        if (collectLineItemBean == null) {
-            return;
-        }
-        Intent intent = new Intent(activity, SkuDetailActivity.class);
-        intent.putExtra(WebInfoActivity.WEB_URL, collectLineItemBean.goodsDetailUrl);
-        intent.putExtra(Constants.PARAMS_ID, collectLineItemBean.no);
-        //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        activity.startActivity(intent);
-    }
 }

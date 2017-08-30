@@ -36,6 +36,10 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
     ImageView picLine;
     @Bind(R.id.price_per)
     TextView pricePer;
+    @Bind(R.id.offline_view)
+    View offline_view;
+    @Bind(R.id.offline_icon)
+    TextView offline_icon;
     Context context;
     Activity activity;
     CollectLineBean.CollectLineItemBean collectLineItemBean;
@@ -63,6 +67,22 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
         location.setText(allLocation);
         pricePer.setText("¥" + collectLineItemBean.prePrice + "起/人");
         Tools.showImage(picLine,collectLineItemBean.pics,R.mipmap.line_search_default);
+        if(collectLineItemBean.publishStatus == -1){
+            offline_icon.setVisibility(VISIBLE);
+            offline_view.setVisibility(VISIBLE);
+        }
+        if (collectLineItemBean.publishStatus == 1) {
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, SkuDetailActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, collectLineItemBean.goodsDetailUrl);
+                    intent.putExtra(Constants.PARAMS_ID, collectLineItemBean.no);
+                    //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    activity.startActivity(intent);
+                }
+            });
+        }
 //        setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
