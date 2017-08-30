@@ -2,34 +2,21 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
-import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CollectGuideNewBean;
 import com.hugboga.custom.data.bean.CollectLineBean;
-import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.data.request.RequestCollectLineList;
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.CollectGuideItemView;
 import com.hugboga.custom.widget.CollectLinelistItem;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
-import com.hugboga.custom.widget.LineSearchListItem;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;

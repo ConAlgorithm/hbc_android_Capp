@@ -9,12 +9,10 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -27,15 +25,11 @@ import com.hugboga.custom.adapter.SearchAdapter;
 import com.hugboga.custom.adapter.SearchAfterAdapter;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.request.RequestHotSearch;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.GuideSearchListItem;
-import com.hugboga.custom.widget.LineSearchListItem;
 import com.hugboga.custom.widget.MultipleTextViewGroup;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
@@ -72,16 +66,8 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
     List<SearchGroupBean> listAll;
     List<SearchGroupBean> listfirst;
     List<SearchGroupBean> listAfter;
-    int showListType = 0;//1:first 2:after 3:all
     @Bind(R.id.firstEnter)
     RelativeLayout firstEnter;
-
-
-//    @Bind(R.id.guide_layout)
-//    XRecyclerView guideLayout;
-//    HbcRecyclerSingleTypeAdpater guideLayoutAdapter;
-//    @Bind(R.id.line_layout)
-//    XRecyclerView lineLayout;
     HbcRecyclerSingleTypeAdpater lineLayoutAdapter;
     @Bind(R.id.search_first_list)
     public RecyclerView search_first_list;
@@ -202,20 +188,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                 return false;
             }
         });
-//        headSearch.setOnEditorActionListener(new TextView.OnEditorActionListener(){
-//            @Override
-//            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-//                if (i == EditorInfo.IME_ACTION_SEARCH){
-//                    searchAdapter.removeModels();
-//                    searchAfterAdapter.removeModels();
-//                    search_after_list.setVisibility(VISIBLE);
-//                    search_first_list.setVisibility(GONE);
-//                    addAfterSearchDestinationModel(listAll);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
+
 
         headSearchClean.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,30 +199,6 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
 
         changHistory();
 
-//        List<String> dataList1 = new ArrayList<String>();
-//
-//
-//        dataList1.add("天盟天盟天盟天盟");
-//        dataList1.add("Mason Mason Mason");
-//
-//        dataList1.add("Mason Liu 天盟天盟天盟 天盟天");
-//        dataList1.add("天盟");
-//        dataList1.add("天盟天盟天盟");
-//        dataList1.add("Mason Mason");
-//
-//        dataList1.add("Mason");
-//        dataList1.add("天adsf");
-//        dataList1.add("天adf");
-//
-//
-//        //通过接口
-//        hotitem.setTextViews(dataList1);
-//        hotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
-//            @Override
-//            public void onMultipleTVItemClick(View view, int position) {
-//                //点击事件 // TODO: 17/8/19
-//            }
-//        });
     }
 
     public void initHeader() {
@@ -286,38 +235,6 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         }
         searchAfterAdapter.showAllData();
     }
-
-//    private void initGuideView() {
-//        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
-//        guideLayout.setLayoutManager(layoutManager);
-//        guideLayoutAdapter = new HbcRecyclerSingleTypeAdpater(this, GuideSearchListItem.class);
-//        guideLayout.setAdapter(guideLayoutAdapter);
-//        guideLayout.setLoadingMoreEnabled(false);
-//        guideLayout.setPullRefreshEnabled(false);
-//        guideLayout.addHeaderView(getGuideLineHeaderView(guideLayout));
-//        guideLayout.setVisibility(GONE);
-//        //guideLayoutAdapter.addData();
-//
-//    }
-//
-//    private void initLineView() {
-//        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
-//        lineLayout.setLayoutManager(layoutManager);
-//        lineLayoutAdapter = new HbcRecyclerSingleTypeAdpater(this, LineSearchListItem.class);
-//        lineLayout.setAdapter(lineLayoutAdapter);
-//        lineLayout.setLoadingMoreEnabled(false);
-//        lineLayout.setPullRefreshEnabled(false);
-//        lineLayout.addHeaderView(getGuideLineHeaderView(lineLayout));
-//        lineLayout.setVisibility(GONE);
-//    }
-
-//    private void requestGuideData() {
-//        guideLayout.setVisibility(VISIBLE);
-//    }
-//
-//    private void requestLineData() {
-//        lineLayout.setVisibility(VISIBLE);
-//    }
 
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
@@ -362,17 +279,6 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         RelativeLayout headerView = (RelativeLayout) inflater.inflate(R.layout.search_guide_line_header, recyclerView, false);
         return headerView;
     }
-
-//    private void requestGuideAndLine() {
-//        //请求司导和线路接口
-//        requestGuideData();
-//        requestLineData();
-//    }
-
-//    private void initGuideAndLineView() {
-//        initGuideView();
-//        initLineView();
-//    }
 
     //倒序展示
     private List<String> showHistory(List<String> history) {
