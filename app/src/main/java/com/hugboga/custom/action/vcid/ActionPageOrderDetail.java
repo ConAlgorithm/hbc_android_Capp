@@ -33,8 +33,6 @@ public class ActionPageOrderDetail extends ActionPageBase {
         params.orderType = CommonUtils.getCountInteger(bean.orderType);
         params.orderId = bean.orderNo;
         params.source = actionBean.source;
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.PARAMS_DATA, params);
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);

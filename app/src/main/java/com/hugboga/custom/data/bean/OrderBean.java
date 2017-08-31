@@ -87,6 +87,7 @@ public class OrderBean implements IBaseBean{
     public ArrayList<String> cancelRules;   // 订单退改规则
     public String priceActual;              // 使用券时，实际支付价格
     public double goodsOtherPrice;          // 其他费用
+    public String goodsOtherPriceComment;   // 其他费用说明
 
     public Integer imcount; // IM未读消息数
     public boolean canChat; // 是否可聊天

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/view_pay_result_recommend_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp">
+
+        <TextView
+            android:id="@+id/view_pay_result_recommend_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="猜你喜欢"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/view_pay_result_recommend_oval_left_iv"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/view_pay_result_recommend_title_tv"
+            android:background="@drawable/oval_pay_result_gray" />
+
+        <ImageView
+            android:id="@+id/view_pay_result_recommend_oval_right_iv"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/view_pay_result_recommend_title_tv"
+            android:background="@drawable/oval_pay_result_gray" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/view_pay_result_recommend_oval_left_iv"
+            android:background="@color/default_dividing_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_height"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/view_pay_result_recommend_oval_right_iv"
+            android:background="@color/default_dividing_line" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/view_pay_result_recommend_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="#ffffff"
+        android:orientation="vertical"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view_pay_result_footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/view_pay_result_footer_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看更多东京线路和司导"
+            android:textColor="@color/default_yellow"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="4dp"
+            android:layout_height="6dp"
+            android:layout_marginLeft="3dp"
+            android:background="@mipmap/icon_yellow_arrow_right" />
+    </LinearLayout>
+</LinearLayout>

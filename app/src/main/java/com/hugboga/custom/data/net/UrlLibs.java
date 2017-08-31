@@ -67,7 +67,7 @@ public class UrlLibs {
 //    http://m.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
     public static String H5_DAIRY = BuildConfig.SHARE_BASE_URL_4 + "/app/dailyDetail.html";
 
-
+    public static String H5_INSUREXPLA = BuildConfig.SHARE_BASE_URL_4 + "/app/insurExpla.html"; //保险说明
     public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
@@ -164,7 +164,7 @@ public class UrlLibs {
     public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.4/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
     public static final String RECOMMENDLIN                 = "trade/v1.0/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
-    public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.2/c/order/detail?";                             // 订单详情
+    public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.4/c/order/detail?";                             // 订单详情
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
     public static final String GET_USER_COUPON              = "trade/v1.0/c/order/home?";                               // 获取用户优惠卷
     public static final String SERVER_IP_GUIDES_COMMENTS    = "trade/v1.3/c/order/evaluate?";                           // 对车导评价 *** 1.0
@@ -220,6 +220,7 @@ public class UrlLibs {
     public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
     public static final String API_GOODS_LINE_SEARCH        = "goods/v1.0/c/goodsSearch";                               // 线路搜索 177
+    public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154

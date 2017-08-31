@@ -164,7 +164,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
             }
 
             //其他费用
-            if (carListBean.goodsOtherPrice != null && carListBean.goodsOtherPrice > 0 && !TextUtils.isEmpty(carListBean.goodsOtherPriceComment)) {
+            if (carListBean.goodsOtherPrice != null && carListBean.goodsOtherPrice >= 0 && !TextUtils.isEmpty(carListBean.goodsOtherPriceComment)) {
                 extrasPriceLayout.setVisibility(View.VISIBLE);
                 updateExtrasPriceText();
                 extrasPriceDescriptionTV.setText(String.format("单价¥%1$s/人 | %2$s", CommonUtils.doubleTrans(carListBean.goodsOtherPrice), carListBean.goodsOtherPriceComment));

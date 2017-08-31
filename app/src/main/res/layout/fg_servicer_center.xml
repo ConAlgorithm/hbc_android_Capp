@@ -151,10 +151,10 @@
                             android:background="@color/servicer_center_content_line" />
 
                         <TextView
+                            android:id="@+id/service_insurance_btn6"
                             style="@style/ServicerCenterBtn"
-                            android:visibility="invisible"
-                            android:drawableTop="@mipmap/call_center_fingerpost"
-                            android:text="软件指南" />
+                            android:drawableTop="@mipmap/service_insurance_icon"
+                            android:text="保险说明" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

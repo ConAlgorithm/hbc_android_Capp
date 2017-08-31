@@ -310,11 +310,13 @@
         <TextView
             android:id="@+id/sku_order_count_extrasprice_description_tv"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:layout_marginTop="-10dp"
             android:gravity="top"
-            android:text="3434232424"
+            android:text="3434234"
             android:textColor="#cccccc"
             android:textSize="12sp" />
     </LinearLayout>

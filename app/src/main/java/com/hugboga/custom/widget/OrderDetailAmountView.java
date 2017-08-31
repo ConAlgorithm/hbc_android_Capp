@@ -100,8 +100,8 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
             if (orderBean.hotelStatus == 1 && priceInfo.priceHotel > 0) {//是否有酒店
                 addGroupView(R.string.order_detail_cost_hotel, "" + (int)priceInfo.priceHotel);
             }
-            if (orderBean.goodsOtherPrice > 0) {//其他费用
-                addGroupView(R.string.order_detail_cost_other, "" + (int)(orderBean.goodsOtherPrice * orderBean.getTravelerCount()));
+            if (priceInfo.goodsOtherPriceTotal > 0) {//其他费用
+                addGroupView(R.string.order_detail_cost_other, "" + (int)(priceInfo.goodsOtherPriceTotal));
             }
 
             addGroupView(R.string.order_detail_cost_total, "" + (int)priceInfo.shouldPay);//费用总计

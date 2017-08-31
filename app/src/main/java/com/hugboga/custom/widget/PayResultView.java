@@ -3,11 +3,8 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
+import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ErrorHandler;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -23,8 +19,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.BargainActivity;
-import com.hugboga.custom.activity.CityListActivity;
+import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.PaySucceedBean;
@@ -35,8 +30,8 @@ import com.hugboga.custom.data.request.RequestPaySucceed;
 import com.hugboga.custom.data.request.RequestPickupCouponOpen;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,15 +44,26 @@ import butterknife.OnClick;
  */
 public class PayResultView extends RelativeLayout implements HttpRequestListener {
 
-    @Bind(R.id.view_pay_result_succeed_prompt_layout)
-    LinearLayout succeedPromptLayout;
+    @Bind(R.id.view_pay_result_state_iv)
+    ImageView stateIV;
+    @Bind(R.id.view_pay_result_state_tv)
+    TextView stateTV;
+    @Bind(R.id.view_pay_result_order_tv)
+    TextView orderTV;
+    @Bind(R.id.view_pay_result_service_layout)
+    LinearLayout serviceLayout;
+    @Bind(R.id.view_pay_result_desc_layout)
+    LinearLayout descLayout;
+    @Bind(R.id.view_pay_result_recommend_layout)
+    PayResultRecommendLayout recommendView;
     @Bind(R.id.view_pay_result_bargain_layout)
-    LinearLayout bargainLayout;
-    @Bind(R.id.view_pay_result_line_tv)
-    TextView lineTV;
+    PayResultBargainLayout bargainLayout;
+    @Bind(R.id.view_pay_result_bargain_bottom_space)
+    View bargainBottomSpace;
 
     private boolean isPaySucceed; //支付结果
     private String orderId;
+    private int orderType;
     private PaySucceedBean paySucceedBean;
     private ErrorHandler errorHandler;
 
@@ -71,28 +77,12 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         ButterKnife.bind(view);
     }
 
-    /**
-     * 按钮状态
-     * 支付成功: 返回首页 | 查看订单
-     * 支付失败: 查看订单 | 重新支付
-     * */
-    @OnClick({R.id.view_pay_result_left_tv
-            , R.id.view_pay_result_right_tv
+    @OnClick({R.id.view_pay_result_order_tv
             , R.id.view_pay_result_domestic_service_layout
-            , R.id.view_pay_result_overseas_service_layout
-            , R.id.view_pay_result_bargain_layout
-            , R.id.view_pay_result_line_tv})
+            , R.id.view_pay_result_overseas_service_layout})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.view_pay_result_left_tv:
-                if (isPaySucceed) {
-                    intentHome();
-                } else {
-                    DefaultSSLSocketFactory.resetSSLSocketFactory(getContext());
-                    intentOrderDetail();
-                }
-                break;
-            case R.id.view_pay_result_right_tv:
+            case R.id.view_pay_result_order_tv:
                 if (isPaySucceed) {
                     intentOrderDetail();
                 } else {
@@ -106,70 +96,35 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             case R.id.view_pay_result_overseas_service_layout:
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
                 break;
-            case R.id.view_pay_result_bargain_layout: //砍价
-                Intent intentBargain = new Intent(getContext(), BargainActivity.class);
-                intentBargain.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
-                intentBargain.putExtra("orderNo", orderId);
-                getContext().startActivity(intentBargain);
-                break;
-            case R.id.view_pay_result_line_tv: //城市列表
-                if (paySucceedBean != null && paySucceedBean.getCityId() != 0) {
-                    CityListActivity.Params params = new CityListActivity.Params();
-                    params.id = paySucceedBean.getCityId();
-                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
-                    params.titleName = paySucceedBean.getCityName();
-                    Intent intent = new Intent(getContext(), CityListActivity.class);
-                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
-                    intent.putExtra(Constants.PARAMS_DATA, params);
-                    getContext().startActivity(intent);
-                }
-                break;
         }
     }
 
     public void initView(boolean _isPaySucceed, String _orderId, int orderType) {
         this.isPaySucceed = _isPaySucceed;
         this.orderId = _orderId;
+        this.orderType = orderType;
 
         EventBus.getDefault().post(new EventAction(EventType.PAY_RESULT, isPaySucceed));
 
-        TextView leftTV = (TextView)findViewById(R.id.view_pay_result_left_tv);
-        TextView rightTV = (TextView)findViewById(R.id.view_pay_result_right_tv);
-        leftTV.setText(getContext().getString(isPaySucceed ? R.string.par_result_back : R.string.par_result_detail));
-        rightTV.setText(getContext().getString(isPaySucceed ? R.string.par_result_detail : R.string.par_result_repay));
-
-        updateStateLayout();
-        updateServiceLayout();
-
-        succeedPromptLayout.setVisibility(View.GONE);
-        bargainLayout.setVisibility(View.GONE);
-        lineTV.setText("");
         if (isPaySucceed) {
+            stateIV.setBackgroundResource(R.mipmap.pay_succeed_icon);
+            stateTV.setVisibility(GONE);
+            orderTV.setText("查看订单");
             RequestPaySucceed request = new RequestPaySucceed(getContext(), orderId);
             HttpRequestUtils.request(getContext(), request, this);
             if (orderType == 1) {
                 HttpRequestUtils.request(getContext(), new RequestPickupCouponOpen(getContext()), this, false);
             }
+            bargainLayout.setOrderNo(orderId);
+        } else {
+            stateIV.setBackgroundResource(R.mipmap.pay_failure_icon);
+            stateTV.setText("支付遇到了问题......");
+            orderTV.setText("重新支付");
+            serviceLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    private void updateStateLayout() {
-        ImageView stateIV = (ImageView)findViewById(R.id.view_pay_result_state_iv);
-        TextView stateTV = (TextView)findViewById(R.id.view_pay_result_state_tv);
-        TextView promptTV = (TextView)findViewById(R.id.view_pay_result_prompt_tv);
-        stateIV.setBackgroundResource(isPaySucceed ? R.mipmap.payment_success : R.mipmap.payment_fail);
-        stateTV.setText(getContext().getString(isPaySucceed ? R.string.par_result_succeed : R.string.par_result_failure));
-        promptTV.setText(getContext().getString(isPaySucceed ? R.string.par_result_succeed_prompt : R.string.par_result_failure_prompt));
-    }
-
-    private void updateServiceLayout() {
-        final int visibility = isPaySucceed ? View.GONE : View.VISIBLE;
-        findViewById(R.id.view_pay_result_service_title_layout).setVisibility(visibility);
-        findViewById(R.id.view_pay_result_domestic_service_layout).setVisibility(visibility);
-        findViewById(R.id.view_pay_result_overseas_service_layout).setVisibility(visibility);
-    }
-
-    private void intentOrderDetail() {
+    public void intentOrderDetail() {
         intentHome();
 
         OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
@@ -199,25 +154,46 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 return;
             }
 
-            String succeedPrompt = paySucceedBean.getSucceedPrompt();
-            if (TextUtils.isEmpty(succeedPrompt)) {
-                succeedPromptLayout.setVisibility(View.GONE);
-            } else {
-                succeedPromptLayout.setVisibility(View.VISIBLE);
-                TextView promptTV = (TextView) findViewById(R.id.view_pay_result_succeed_prompt_tv);
-                if (!TextUtils.isEmpty(paySucceedBean.getHighLightStr())) {
-                    int startIndex = succeedPrompt.indexOf(paySucceedBean.getHighLightStr());
-                    int endIndex = startIndex + paySucceedBean.getHighLightStr().length();
-                    SpannableStringBuilder ssb = new SpannableStringBuilder(succeedPrompt);
-                    ForegroundColorSpan yellowSpan = new ForegroundColorSpan(Color.parseColor("#ff6633"));
-                    ssb.setSpan(yellowSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    promptTV.setText(ssb);
-                } else {
-                    promptTV.setText(succeedPrompt);
-                }
+            String stateStr = paySucceedBean.getStateStr();
+            if (!TextUtils.isEmpty(stateStr)) {
+                stateTV.setVisibility(View.VISIBLE);
+                stateTV.setText(stateStr);
             }
+
+            descLayout.setVisibility(View.VISIBLE);
+
+            String descStr = paySucceedBean.getDescStr();
+            if (!TextUtils.isEmpty(descStr)) {
+                TextView descTV = (TextView) descLayout.findViewById(R.id.view_pay_result_desc_tv);
+                descTV.setVisibility(View.VISIBLE);
+                descTV.setText(descStr);
+            }
+
+            TextView insuranceTV = (TextView) descLayout.findViewById(R.id.view_pay_result_desc_insurance_tv);
+            String insuranceStr = "添加投保信息获得免费保险";
+            String insuranceFocusStr = "添加投保信息";
+            if (getContext() instanceof Activity) {
+                insuranceTV.setVisibility(View.VISIBLE);
+                OrderUtils.genCLickSpan((Activity) getContext(), insuranceTV, insuranceStr, insuranceFocusStr, null
+                        , getContext().getResources().getColor(R.color.default_highlight_blue)
+                        , new OrderUtils.MyCLickSpan.OnSpanClickListener() {
+                            @Override
+                            public void onSpanClick(View view) {
+                                Bundle insureBundle = new Bundle();
+                                insureBundle.putString(Constants.PARAMS_ID, orderId);
+                                Intent intent = new Intent(getContext(), InsureActivity.class);
+                                intent.putExtras(insureBundle);
+                                getContext().startActivity(intent);
+                            }
+                        });
+            } else {
+                insuranceTV.setVisibility(View.GONE);
+            }
+
             bargainLayout.setVisibility(paySucceedBean.getBargainStatus() ? View.VISIBLE : View.GONE);
-            lineTV.setText(paySucceedBean.getGoodMsg());
+            bargainBottomSpace.setVisibility(paySucceedBean.getBargainStatus() ? View.VISIBLE : View.GONE);
+
+            recommendView.setRequestParams(paySucceedBean.getCityName(), "" + paySucceedBean.getCityId(), paySucceedBean.getGoodsNo(), orderType);
         } else if (_request instanceof RequestPickupCouponOpen) {
             PickupCouponOpenBean pickupCouponOpenBean = ((RequestPickupCouponOpen)_request).getData();
             if (pickupCouponOpenBean != null && pickupCouponOpenBean.isOpen) {
