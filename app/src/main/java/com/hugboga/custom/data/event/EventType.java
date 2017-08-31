@@ -23,6 +23,7 @@ public enum EventType {
     CONTACT, //通讯录选取联系人
     CONTACT_BACK, //通讯录选取联系人返回显示
     WECHAT_SHARE_SUCCEED,//微信分享成功
+    WECHAT_SHARE,//微信分享
     PAY_RESULT,//支付回调
     TRAVEL_LIST_TYPE,//行程列表分类
     TRAVEL_LIST_NUMBER,//行程个数

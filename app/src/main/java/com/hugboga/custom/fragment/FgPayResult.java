@@ -12,10 +12,12 @@ import android.widget.RelativeLayout;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.widget.CouponPayResultView;
 import com.hugboga.custom.widget.PayResultView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 
@@ -31,6 +33,19 @@ public class FgPayResult extends BaseFragment{
 
     private boolean isPaySucceed;
     public int apiType;//0：正常  1：买券
+    public boolean isInWechat = false;//微信好友分享BUG，在微信点击物理返回会调用支付结果页的回调
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public int getContentViewId() {
@@ -96,6 +111,10 @@ public class FgPayResult extends BaseFragment{
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (isInWechat) {//在微信中不处理该回调
+            isInWechat = false;
+            return false;
+        }
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             if (apiType == 1) {
                 if (isPaySucceed) {
@@ -111,5 +130,17 @@ public class FgPayResult extends BaseFragment{
             }
         }
         return false;
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case WECHAT_SHARE:
+                int shareType = (int)action.getData();
+                if (shareType == 1) {
+                    isInWechat = true;
+                }
+                break;
+        }
     }
 }

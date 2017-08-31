@@ -27,10 +27,10 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.BarginBean;
 import com.hugboga.custom.data.bean.BarginWebchatList;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestBargin;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -347,6 +347,8 @@ public class BargainActivity extends BaseActivity {
         setHintText(cuteHintTv2, "砍价人数达到30人以上，总金额X2.0");
 
         orderBargainAmount = getIntent().getDoubleExtra("bargainAmount", 0);
+
+        userName = UserEntity.getUser().getUserName(this);
     }
 
     private void setHintText(TextView textView, String hint) {
@@ -369,6 +371,7 @@ public class BargainActivity extends BaseActivity {
         popupView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonUtils.hideSoftInputMethod(nameEdit);
                 popupWindow.dismiss();
             }
         });
@@ -387,12 +390,15 @@ public class BargainActivity extends BaseActivity {
                     }
                 }
                 name = name.replaceAll(" ", "");
+                final String requestName = name;
                 //真实姓名
                 RequestChangeUserInfo request = new RequestChangeUserInfo(activity, null, null, null, null, null, name);
                 HttpRequestUtils.request(activity, request, new HttpRequestListener() {
                     @Override
                     public void onDataRequestSucceed(BaseRequest request) {
                         ApiReportHelper.getInstance().addReport(request);
+                        UserEntity.getUser().setUserName(activity, requestName);
+                        CommonUtils.hideSoftInputMethod(nameEdit);
                         popupWindow.dismiss();
                     }
 
@@ -403,7 +409,10 @@ public class BargainActivity extends BaseActivity {
 
                     @Override
                     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+                        if (popupWindow != null) {
+                            CommonUtils.hideSoftInputMethod(nameEdit);
+                            popupWindow.dismiss();
+                        }
                     }
                 });
             }
