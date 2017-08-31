@@ -10,6 +10,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.data.bean.SearchGroupBean;
+import com.hugboga.custom.utils.SearchUtils;
 
 import java.util.List;
 
@@ -84,6 +85,7 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                             ((SearchDestinationGuideLineActivity)context).search_after_list.setVisibility(VISIBLE);
                             ((SearchDestinationGuideLineActivity)context).search_first_list.setVisibility(GONE);
                             ((SearchDestinationGuideLineActivity)context).addAfterSearchDestinationModel(list,keyword);
+                            SearchUtils.addCityHistorySearch(keyword);
                         }
                     }
                 });

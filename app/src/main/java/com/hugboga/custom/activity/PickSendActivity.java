@@ -16,6 +16,7 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgPickup;
 import com.hugboga.custom.fragment.FgSend;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.DialogUtil;
@@ -138,7 +139,8 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     public void onCustomerService() {
         String eventSource = currentFragment instanceof FgPickup ? "接机" : "送机";
         SensorsUtils.onAppClick(eventSource, "客服", getIntentSource());
-        DialogUtil.getInstance(PickSendActivity.this).showServiceDialog(PickSendActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, eventSource);
+        //DialogUtil.getInstance(PickSendActivity.this).showServiceDialog(PickSendActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, eventSource);
+        CommonUtils.csDialog(PickSendActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,eventSource);
     }
 
     @Override

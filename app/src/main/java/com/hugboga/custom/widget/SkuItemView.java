@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Spannable;
@@ -13,20 +14,30 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ErrorHandler;
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.request.RequestCollectLineNo;
+import com.hugboga.custom.data.request.RequestUncollectLinesNo;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SkuItemView extends LinearLayout implements HbcViewBehavior{
+public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpRequestListener{
 
     @Bind(R.id.home_hot_search_city_img)
     ImageView imageView;
@@ -42,13 +53,18 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior{
     TextView perPrice;
     @Bind(R.id.home_hot_search_city_item_bottom_layout)
     RelativeLayout bottomLayout;
-
+    @Bind(R.id.save_guild_layout)
+    LinearLayout save_guild_layout;
+    @Bind(R.id.save_line)
+    ImageView saveLine;
+    Context context;
     public SkuItemView(Context context) {
         this(context, null);
     }
 
     public SkuItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         View view = inflate(context, R.layout.view_sku_item, this);
         ButterKnife.bind(view);
         setOrientation(LinearLayout.VERTICAL);
@@ -61,36 +77,111 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior{
         imageView.setLayoutParams(params);
         filterView.setLayoutParams(params);
     }
-
+    SkuItemBean skuItemBean;
     @Override
     public void update(Object _data) {
-        final SkuItemBean skuItemBean = (SkuItemBean) _data;
-        Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
-        customCount.setText(skuItemBean.transactionVolumes + "人已体验");
-        bottomTitle.setText(skuItemBean.goodsName);
-        guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
+        skuItemBean = (SkuItemBean) _data;
+        if(skuItemBean!= null) {
+            Tools.showImage(imageView, skuItemBean.goodsPicture, R.mipmap.home_default_route_item);
+            customCount.setText(skuItemBean.transactionVolumes + "人已体验");
+            bottomTitle.setText(skuItemBean.goodsName);
+            guideCountView.setText(skuItemBean.guideAmount + "位中文司导可服务");
 
-        String price = "￥" + skuItemBean.perPrice;
-        String count = "/人起";
-        SpannableString spannableString = new SpannableString(price + count);
-        spannableString.setSpan(new AbsoluteSizeSpan(15, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new AbsoluteSizeSpan(12, true), price.length(), count.length() + price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        perPrice.setText(spannableString);
+            String price = "￥" + skuItemBean.perPrice;
+            String count = "/人起";
+            SpannableString spannableString = new SpannableString(price + count);
+            spannableString.setSpan(new AbsoluteSizeSpan(15, true), 0, price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(12, true), price.length(), count.length() + price.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            perPrice.setText(spannableString);
 
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
-                intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
-                intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
-                intent.putExtra(Constants.PARAMS_SOURCE, "商品列表页");
-                v.getContext().startActivity(intent);
-                if (skuItemBean.goodsClass == 1) {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RG, "商品列表页");
-                } else {
-                    StatisticClickEvent.click(StatisticConstant.CLICK_RT, "商品列表页");
+            this.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
+                    intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
+                    intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
+                    intent.putExtra(Constants.PARAMS_SOURCE, "商品列表页");
+                    v.getContext().startActivity(intent);
+                    if (skuItemBean.goodsClass == 1) {
+                        StatisticClickEvent.click(StatisticConstant.CLICK_RG, "商品列表页");
+                    } else {
+                        StatisticClickEvent.click(StatisticConstant.CLICK_RT, "商品列表页");
+                    }
                 }
+            });
+            if(!UserEntity.getUser().isLogin(context)){
+                saveLine.setSelected(false);
+            }else if(skuItemBean.favorited == 1){
+                saveLine.setSelected(true);
+
+            }else if(skuItemBean.favorited == 0){
+                saveLine.setSelected(false);
             }
-        });
+            save_guild_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(isLogin()) {
+                        ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
+                        if(saveLine.isSelected()){
+                            skuItemBean.favorited = 0;
+                            saveLine.setSelected(false);
+                            RequestUncollectLinesNo requestUncollectLinesNo = new RequestUncollectLinesNo(context, skuItemBean.goodsNo);
+                            HttpRequestUtils.request(context,requestUncollectLinesNo,SkuItemView.this,false);
+                        }else{
+                            saveLine.setSelected(true);
+                            //data.isCollected= 1;
+                            HttpRequestUtils.request(context,new RequestCollectLineNo(context, skuItemBean.goodsNo),SkuItemView.this,false);
+                        }
+                    }
+                }
+            });
+        }
+    }
+    /**
+     * 判断是否登录
+     */
+    private boolean isLogin() {
+        if (UserEntity.getUser().isLogin(context)) {
+            return true;
+        } else {
+            Intent intent = new Intent(context, LoginActivity.class);
+            //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+            context.startActivity(intent);
+            return false;
+        }
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        if(request instanceof RequestCollectLineNo){
+            if(skuItemBean!= null){
+                saveLine.setSelected(true);
+                skuItemBean.favorited= 1;
+                CommonUtils.showToast("收藏成功");
+            }
+            //setSensorsShareEvent(filterGuideBean.guideId);
+        }else if(request instanceof RequestUncollectLinesNo){
+            CommonUtils.showToast("已取消收藏");
+        }
+    }
+
+    @Override
+    public void onDataRequestCancel(BaseRequest request) {
+
+    }
+
+    private ErrorHandler errorHandler;
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        if(request instanceof RequestCollectLineNo){
+            if(skuItemBean!= null){
+                saveLine.setSelected(false);
+                skuItemBean.favorited= 0;
+                if (errorHandler == null) {
+                    errorHandler = new ErrorHandler((Activity) context, this);
+                }
+                errorHandler.onDataRequestError(errorInfo, request);
+            }
+        }
     }
 }

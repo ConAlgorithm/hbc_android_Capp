@@ -161,7 +161,8 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
         isFromOrder = getIntent().getBooleanExtra("isFromOrder",false);
     }
     public void onCustomerService() {
-        DialogUtil.showServiceDialog(TravelPurposeFormActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        //DialogUtil.showServiceDialog(TravelPurposeFormActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        CommonUtils.csDialog(TravelPurposeFormActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
     }
     public void init(){
         title.setText(getString(R.string.travel_purpose_title));

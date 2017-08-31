@@ -230,7 +230,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public void showServiceDialog() {
         SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
-        DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        //DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        CommonUtils.csDialog(CharterSecondStepActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+
     }
 
     public void finishActivity() {

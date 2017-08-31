@@ -228,6 +228,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
+            android:name=".activity.CollectLineListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
             android:name=".activity.EvaluateNewActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

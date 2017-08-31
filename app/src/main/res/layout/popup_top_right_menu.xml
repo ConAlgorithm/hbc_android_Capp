@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
         android:background="#ffffff"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -36,8 +37,8 @@
         <View
             android:layout_width="118dp"
             android:layout_height="1px"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="#DBDBDB" />
 
         <TextView

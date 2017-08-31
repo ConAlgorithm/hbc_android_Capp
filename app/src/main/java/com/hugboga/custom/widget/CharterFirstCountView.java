@@ -14,6 +14,7 @@ import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 
 import butterknife.Bind;
@@ -198,7 +199,9 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
                         new OrderUtils.MyCLickSpan.OnSpanClickListener() {
                             @Override
                             public void onSpanClick(View view) {
-                                DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, ((BaseActivity)context).getEventSource());
+                                //DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, ((BaseActivity)context).getEventSource());
+                                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,((BaseActivity)context).getEventSource());
+
                             }
                         });
             } else {

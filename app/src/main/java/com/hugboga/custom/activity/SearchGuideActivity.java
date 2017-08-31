@@ -24,6 +24,8 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.Bind;
 
+import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
+
 /**
  * Created by zhangqiang on 17/8/24.
  */
@@ -40,6 +42,7 @@ public class SearchGuideActivity extends BaseActivity {
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;
     String keyword;
+    int totalsize;
     @Override
     public int getContentViewId() {
         return R.layout.search_guide_activity;
@@ -48,7 +51,7 @@ public class SearchGuideActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        keyword = getIntent().getStringExtra("keyword");
+        keyword = getIntent().getStringExtra(PARAMS_SEARCH_KEYWORD);
         initView();
     }
 
@@ -92,7 +95,7 @@ public class SearchGuideActivity extends BaseActivity {
             @Override
             public void onLoadMore() {
                 refreshOrNot = 2;
-                if (hbcRecyclerSingleTypeAdpater.getListCount() > 0) {
+                if (hbcRecyclerSingleTypeAdpater.getListCount() < totalsize) {
                     runData(hbcRecyclerSingleTypeAdpater == null ? 0 : hbcRecyclerSingleTypeAdpater.getListCount(), 10);
                 }
             }
@@ -123,6 +126,7 @@ public class SearchGuideActivity extends BaseActivity {
         if(request instanceof RequestSearchGuide){
             if (hbcRecyclerSingleTypeAdpater != null) {
                 SearchGuideBean searchGuideBean = (SearchGuideBean) request.getData();
+                this.totalsize = searchGuideBean.totalSize;
                 if (request!=null && request.getOffset() == 0) {
                     mXRecyclerView.smoothScrollToPosition(0);
                 }

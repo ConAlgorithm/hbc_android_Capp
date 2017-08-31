@@ -177,7 +177,9 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
 
     @OnClick({R.id.arrival_empty_service_tv})
     public void onService() {
-        DialogUtil.showServiceDialog(ChooseAirPortActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+        //DialogUtil.showServiceDialog(ChooseAirPortActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+        CommonUtils.csDialog(ChooseAirPortActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+
     }
 
     private void getGPSAirport() {

@@ -15,6 +15,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.DialogUtil;
 
@@ -112,7 +113,8 @@ public class OrderCancelActivity extends BaseActivity{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.head_btn_right:
-                mDialogUtil.showServiceDialog(activity,null,UnicornServiceActivity.SourceType.TYPE_ORDER,orderBean,null,getEventSource());
+                //mDialogUtil.showServiceDialog(activity,null,UnicornServiceActivity.SourceType.TYPE_ORDER,orderBean,null,getEventSource());
+                CommonUtils.csDialog(activity,orderBean,null,null, UnicornServiceActivity.SourceType.TYPE_ORDER,getEventSource());
                 break;
             case R.id.head_btn_left:
                 goBackOrderFg();

@@ -222,7 +222,7 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
             rootLayout.addView(lineView);
         }
         if(fromAgeOrSexPicker()){
-            rootLayout.addView(makeBlankView());
+            //rootLayout.addView(makeBlankView());
         }
         rootLayout.addView(makeCenterView(), new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f));
         View footerView = makeFooterView();
@@ -280,7 +280,7 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         if (!TextUtils.isEmpty(cancelText)) {
             cancelButton.setText(cancelText);
         }
-        cancelButton.setTextColor(ConvertUtils.toColorStateList(cancelTextColor, pressedTextColor));
+        cancelButton.setTextColor(cancelTextColor/*ConvertUtils.toColorStateList(cancelTextColor, pressedTextColor)*/);
         if (cancelTextSize != 0) {
             cancelButton.setTextSize(cancelTextSize);
         }
@@ -322,7 +322,7 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         if (!TextUtils.isEmpty(submitText)) {
             submitButton.setText(submitText);
         }
-        submitButton.setTextColor(ConvertUtils.toColorStateList(submitTextColor, pressedTextColor));
+        submitButton.setTextColor(submitTextColor/*ConvertUtils.toColorStateList(submitTextColor, pressedTextColor)*/);
         if (submitTextSize != 0) {
             submitButton.setTextSize(submitTextSize);
         }

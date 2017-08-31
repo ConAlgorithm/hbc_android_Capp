@@ -32,10 +32,13 @@ import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.widget.CallPhoneDialog;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
 
@@ -182,7 +185,12 @@ public final class CommonUtils {
         }
     }
 
-
+    public static void csDialog(final Context context, final OrderBean orderBean
+            , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source) {
+        CsDialog csDialog = new CsDialog(context);
+        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
+        csDialog.show();
+    }
     public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {
             return "";
@@ -422,7 +430,8 @@ public final class CommonUtils {
         }, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, source);
+                //DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, source);
+
                 dialog.dismiss();
             }
         });

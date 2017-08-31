@@ -28,6 +28,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
+import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.adapter.NewOrderAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -313,7 +314,8 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
+                //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
+                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
             }
         });
 

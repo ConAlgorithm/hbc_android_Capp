@@ -257,17 +257,18 @@ public class PersonInfoActivity extends BaseActivity{
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();*/
                 agePicker = new AgePicker(PersonInfoActivity.this, items3);
-                agePicker.setTitleText("性别");
-                agePicker.setTitleTextSize(16);
-                agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
+                //agePicker.setTitleText("性别");
+                //agePicker.setTitleTextSize(16);
+                //agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
                 agePicker.setCancelText("取消");
                 agePicker.setSubmitText("确定");
-                agePicker.setTopLineHeight(0.5f);
-                agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
-                agePicker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
+                //agePicker.setTopLineHeight(0.5f);
+                //agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
+                agePicker.setTopLineVisible(false);
+                agePicker.setCancelTextColor(getResources().getColor(R.color.guildsaved));
                 agePicker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
                 agePicker.setTopBackgroundColor(getResources().getColor(R.color.allbg_white));
-                agePicker.setLineColor(getResources().getColor(R.color.text_hint_color));
+                agePicker.setLineConfig(null);
                 agePicker.setOnItemPickListener(
                         new SinglePicker.OnItemPickListener<String>() {
                             @Override
@@ -299,17 +300,19 @@ public class PersonInfoActivity extends BaseActivity{
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();*/
                 agePicker = new AgePicker(PersonInfoActivity.this, ages);
-                agePicker.setTitleText("年龄");
-                agePicker.setTitleTextSize(16);
-                agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
+                //agePicker.setTitleText("年龄");
+                //agePicker.setTitleTextSize(16);
+                //agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
                 agePicker.setCancelText("取消");
                 agePicker.setSubmitText("确定");
-                agePicker.setTopLineHeight(0.5f);
-                agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
-                agePicker.setCancelTextColor(getResources().getColor(R.color.default_yellow));
+                //agePicker.setTopLineHeight(0.5f);
+                //agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
+                agePicker.setTopLineVisible(false);
+                agePicker.setCancelTextColor(getResources().getColor(R.color.guildsaved));
                 agePicker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
                 agePicker.setTopBackgroundColor(getResources().getColor(R.color.allbg_white));
-                agePicker.setLineColor(getResources().getColor(R.color.text_hint_color));
+                //agePicker.setLineColor(getResources().getColor(R.color.text_hint_color));
+                agePicker.setLineConfig(null);
                 agePicker.setOnItemPickListener(
                         new SinglePicker.OnItemPickListener<String>() {
                             @Override

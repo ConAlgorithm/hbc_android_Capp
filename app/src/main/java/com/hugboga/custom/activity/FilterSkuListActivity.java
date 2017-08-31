@@ -9,18 +9,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
-import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.GoodsFilterBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestGoodsFilter;
 import com.hugboga.custom.fragment.SkuScopeFilterFragment;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.HbcLoadingMoreFooter;
@@ -36,7 +37,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
-public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
+public class FilterSkuListActivity extends BaseActivity implements XRecyclerView.LoadingListener{
 
     @Bind(R.id.filter_sku_list_filter_layout)
     SkuFilterLayout filterLayout;
@@ -119,7 +120,7 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, SkuItemView.class);
-        mAdapter.setOnItemClickListener(this);
+        //mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         if (paramsData != null) {
             CityListActivity.Params params = new CityListActivity.Params();
@@ -137,22 +138,6 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
         initDefaultTitleBar();
         fgTitle.setText("包车线路");
         fgRightTV.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onItemClick(View view, int position, Object itemData) {
-        if(mAdapter!= null && mAdapter.getDatas().size() > 0){
-            SkuItemBean skuItemBean = mAdapter.getDatas().get(position);
-            Intent intent = new Intent(FilterSkuListActivity.this, SkuDetailActivity.class);
-            intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
-            intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
-            startActivity(intent);
-            if (skuItemBean.goodsClass == 1) {
-                StatisticClickEvent.click(StatisticConstant.CLICK_RG, getEventSource());
-            } else {
-                StatisticClickEvent.click(StatisticConstant.CLICK_RT, getEventSource());
-            }
-        }
     }
 
     @Subscribe
@@ -176,6 +161,12 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
                 break;
             case FILTER_CLOSE:
                 filterLayout.hideFilterView();
+                break;
+            case LINE_UPDATE_COLLECT:
+                if(UserEntity.getUser().isLogin(this)){
+                    FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
+                    HttpRequestUtils.request(this,favoriteLinesaved,this,false);
+                }
                 break;
         }
     }
@@ -270,6 +261,27 @@ public class FilterSkuListActivity extends BaseActivity implements HbcRecyclerTy
             }
             mRecyclerView.refreshComplete();
             mRecyclerView.setNoMore(mAdapter.getListCount() >= goodsFilterBean.listCount);
+
+            if(UserEntity.getUser().isLogin(this)){
+                FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this,UserEntity.getUser().getUserId(this));
+                HttpRequestUtils.request(this,favoriteLinesaved,this,false);
+            }
+        }else if(_request instanceof FavoriteLinesaved){
+            UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) _request.getData();
+            if(userFavoriteLineList!= null){
+                for(int i= 0;i<listData.size();i++){
+                    listData.get(i).favorited = 0;
+                }
+                for(int j=0;j<listData.size();j++){
+                    for (int k=0;k<userFavoriteLineList.goodsNos.size();k++){
+                        if(userFavoriteLineList.goodsNos.get(k).equals(listData.get(j).goodsNo)){
+                            listData.get(j).favorited = 1;
+                        }
+                    }
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 

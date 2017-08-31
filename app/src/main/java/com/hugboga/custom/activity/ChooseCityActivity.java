@@ -497,7 +497,8 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         emptyServiceTV.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                DialogUtil.showServiceDialog(ChooseCityActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+                                //DialogUtil.showServiceDialog(ChooseCityActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
+                                CommonUtils.csDialog(ChooseCityActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
                             }
                         });
                     }

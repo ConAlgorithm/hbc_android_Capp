@@ -508,6 +508,7 @@
     <string name="collect_guide_appointments">预约</string>
     <string name="collect_guide_unappointments">不可预约</string>
     <string name="collect_guide_title">已收藏司导</string>
+    <string name="collect_line_title">已收藏线路</string>
     <string name="collect_guide_empty_prompt1">陛下，您当前暂时还没有收藏司导呢！</string>
     <string name="collect_guide_empty_prompt2">您可以在完成一段行程后收藏喜欢的司导</string>
     <string name="collect_guide_empty_prompt3">或收藏朋友给您推荐的司导</string>
@@ -857,4 +858,5 @@
     5. 如果用户对优惠券使用规则或在使用皇包车下单和／或在相关服务过程中有任何疑问或需要任何帮助，请及时与皇包车客服联系，联系电话：400-610-0009;\n\n
     6. 对于不符合领取及使用优惠券规则的领取账户，皇包车有权收回已领取的优惠券;\n\n
     7. 优惠券最终解释权归北京纯粹旅行有限公司（品牌名称：皇包车）所有。</string>
+    <string name = "gotomain"><u>去首页转转</u></string>
 </resources>
