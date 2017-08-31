@@ -115,7 +115,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             if (orderType == 1) {
                 HttpRequestUtils.request(getContext(), new RequestPickupCouponOpen(getContext()), this, false);
             }
-            bargainLayout.setOrderNo(orderId);
+            bargainLayout.setParams(orderId, orderType);
         } else {
             stateIV.setBackgroundResource(R.mipmap.pay_failure_icon);
             stateTV.setText("支付遇到了问题......");

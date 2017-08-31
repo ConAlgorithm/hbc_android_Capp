@@ -42,11 +42,13 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/pay_result_bargain_share_wechat"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:background="@mipmap/pay_banner_wechat" />
 
             <ImageView
+                android:id="@+id/pay_result_bargain_share_moments"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:layout_marginLeft="60dp"
