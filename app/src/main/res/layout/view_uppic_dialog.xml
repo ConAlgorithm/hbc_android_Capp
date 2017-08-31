@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/dialog_uppic_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textColor="#151515"
+            android:textSize="14sp"
+            android:text="拍照"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5"/>
+        <TextView
+            android:id="@+id/choose_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textColor="#151515"
+            android:textSize="14sp"
+            android:text="从手机相册选择"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="#f4f4f4"/>
+        <TextView
+            android:id="@+id/dissmis"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textColor="#151515"
+            android:textSize="14sp"
+            android:text="取消"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/dialog_uppic_shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/dialog_uppic_layout" />
+</RelativeLayout>

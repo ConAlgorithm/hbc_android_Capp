@@ -41,6 +41,7 @@ import com.hugboga.custom.widget.CallPhoneDialog;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
+import com.hugboga.custom.widget.UpPicDialog;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -190,6 +191,11 @@ public final class CommonUtils {
         CsDialog csDialog = new CsDialog(context);
         csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
         csDialog.show();
+    }
+
+    public static void uppicDialog(final Context context) {
+        UpPicDialog upPicDialog = new UpPicDialog(context);
+        upPicDialog.show();
     }
     public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {

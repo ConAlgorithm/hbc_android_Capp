@@ -399,25 +399,24 @@ public class PersonInfoActivity extends BaseActivity{
     @PermissionGrant(PermissionRes.WRITE_EXTERNAL_STORAGE)
     public void requestSdcardSuccess() {
         cropPic = ImageUtils.getPhotoFileName();
-        newPic = "new"+cropPic;cropPic = ImageUtils.getPhotoFileName();
+        newPic = "new"+cropPic;
         //修改头像
-        final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
-        AlertDialog.Builder builder1= new AlertDialog.Builder(this)/*.setTitle("上传头像")*/.setItems(items, new DialogInterface.OnClickListener() {
+        /*final CharSequence[] items = getResources().getStringArray(R.array.my_info_phone_type);
+        AlertDialog.Builder builder1= new AlertDialog.Builder(this)*//*.setTitle("上传头像")*//*.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     grantCamera();
                 } else if (which == 1) {
-                    Intent phoneIntent = new Intent(Intent.ACTION_PICK, null);
-                    phoneIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                    startActivityForResult(phoneIntent, 2);
+                    choosePhoto();
                 }
             }
         });
         AlertDialog dialog = builder1.create();
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+        dialog.show();*/
+        CommonUtils.uppicDialog(this);
     }
 
 
@@ -437,10 +436,15 @@ public class PersonInfoActivity extends BaseActivity{
         }
     }
 
+    public void choosePhoto(){
+        Intent phoneIntent = new Intent(Intent.ACTION_PICK, null);
+        phoneIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(phoneIntent, 2);
+    }
     /**
      * 授权获取照相机权限
      */
-    private void grantCamera() {
+    public void grantCamera() {
         MPermissions.requestPermissions(this, PermissionRes.CAMERA, android.Manifest.permission.CAMERA);
     }
 
