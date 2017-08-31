@@ -76,14 +76,14 @@
 
                     <ImageView
                         android:id="@+id/icon_location"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/name"
                         android:gravity="center_vertical"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/city_location" />
+                        android:src="@mipmap/search_location" />
 
                     <TextView
                         android:id="@+id/search_guide_location"
