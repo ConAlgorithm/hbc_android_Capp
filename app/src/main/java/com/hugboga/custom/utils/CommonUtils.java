@@ -193,9 +193,10 @@ public final class CommonUtils {
         csDialog.show();
     }
 
-    public static void uppicDialog(final Context context) {
+    public static UpPicDialog uppicDialog(final Context context) {
         UpPicDialog upPicDialog = new UpPicDialog(context);
         upPicDialog.show();
+        return upPicDialog;
     }
     public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {

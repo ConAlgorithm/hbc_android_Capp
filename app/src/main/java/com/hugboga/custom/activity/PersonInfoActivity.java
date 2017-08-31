@@ -40,6 +40,7 @@ import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UploadPicUtils;
+import com.hugboga.custom.widget.UpPicDialog;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.yalantis.ucrop.UCrop;
 import com.zhy.m.permission.MPermissions;
@@ -395,7 +396,7 @@ public class PersonInfoActivity extends BaseActivity{
     private void grantSdcard() {
         MPermissions.requestPermissions(this, PermissionRes.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
-
+    UpPicDialog upPicDialog;
     @PermissionGrant(PermissionRes.WRITE_EXTERNAL_STORAGE)
     public void requestSdcardSuccess() {
         cropPic = ImageUtils.getPhotoFileName();
@@ -416,7 +417,7 @@ public class PersonInfoActivity extends BaseActivity{
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();*/
-        CommonUtils.uppicDialog(this);
+        upPicDialog =  CommonUtils.uppicDialog(this);
     }
 
 
@@ -661,6 +662,9 @@ public class PersonInfoActivity extends BaseActivity{
                 } else if (resultCode == UCrop.RESULT_ERROR) {
                     final Throwable cropError = UCrop.getError(data);
                     cropError.printStackTrace();
+                }
+                if(upPicDialog!=null && upPicDialog.isShowing()){
+                    upPicDialog.dismiss();
                 }
                 break;
             default:
