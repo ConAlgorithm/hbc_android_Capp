@@ -78,7 +78,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
     ImageView search_remove;
     public SearchAfterAdapter searchAfterAdapter;
 
-    Handler handler;
+    Handler handler = new Handler();
     @Override
     public int getContentViewId() {
         return R.layout.search_destination_guide_line;
@@ -173,14 +173,20 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                 if (keyCode == event.KEYCODE_ENTER) {
                     switch (event.getAction()) {
                         case KeyEvent.ACTION_DOWN:
-                            if(headSearch.getText().toString().length() >0){
-                                searchAdapter.removeModels();
-                                searchAfterAdapter.removeModels();
-                                search_after_list.setVisibility(VISIBLE);
-                                search_first_list.setVisibility(GONE);
-                                addAfterSearchDestinationModel(listAll,headSearch.getText().toString());
-                                SearchUtils.addCityHistorySearch(headSearch.getText().toString());
-                            }
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (headSearch.getText().toString().length() > 0) {
+                                        searchAdapter.removeModels();
+                                        searchAfterAdapter.removeModels();
+                                        search_after_list.setVisibility(VISIBLE);
+                                        search_first_list.setVisibility(GONE);
+                                        addAfterSearchDestinationModel(listAll, headSearch.getText().toString());
+                                        SearchUtils.addCityHistorySearch(headSearch.getText().toString());
+                                    }
+                                }
+                            },300);
+
                             break;
                     }
                     return true;
