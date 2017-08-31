@@ -45,7 +45,7 @@ public class RequestRecommendedGoods extends BaseRequest<RecommendedGoodsBean> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40048";
+        return "40185";
     }
 
 }
