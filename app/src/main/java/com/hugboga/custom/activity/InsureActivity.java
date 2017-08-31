@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -15,8 +16,10 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.InSureListAdapter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 import com.hugboga.custom.data.bean.OrderBean;
@@ -25,6 +28,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestDelInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
+import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
 import com.hugboga.custom.utils.CommonUtils;
 
@@ -59,6 +63,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
 
     OrderBean orderBean;
     String from = "";
+    String orderNo;
 
     int insureListSize = 0;
     @Bind(R.id.people_num_all)
@@ -78,7 +83,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBack();
             }
         });
 
@@ -88,14 +93,22 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         list.setAdapter(adapter);
         if (null != this.getIntent()) {
             orderBean = (OrderBean) this.getIntent().getSerializableExtra("orderBean");
-            from = this.getIntent().getStringExtra("from");
-            if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
-                headerTitle.setText("添加投保人");
-                insureListSize = orderBean.insuranceList == null ? 0 : orderBean.insuranceList.size();
-                bottom.setVisibility(View.VISIBLE);
-                peopleNum.setText(insureListSize + "");
-                peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));
+            orderNo = this.getIntent().getStringExtra(Constants.PARAMS_ID);
+            if (orderBean == null && !TextUtils.isEmpty(orderNo)) {
+                requestData(new RequestOrderDetail(this, orderNo));
             }
+            from = this.getIntent().getStringExtra("from");
+            update();
+        }
+    }
+
+    public void update() {
+        if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
+            headerTitle.setText("添加投保人");
+            insureListSize = orderBean.insuranceList == null ? 0 : orderBean.insuranceList.size();
+            bottom.setVisibility(View.VISIBLE);
+            peopleNum.setText(insureListSize + "");
+            peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));
         }
     }
 
@@ -326,6 +339,10 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             }
             adapter.notifyDataSetChanged();
 
+        } else if (request instanceof RequestOrderDetail) {
+            RequestOrderDetail mParser = (RequestOrderDetail) request;
+            orderBean = mParser.getData();
+            update();
         } else if (request instanceof RequestDelInsure) {
             for (int i = beanList.size() - 1; i >= 0; i--) {
                 if (beanList.get(i).isCheck == 1) {
@@ -373,5 +390,31 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @Override
     public String getEventSource() {
         return "常用投保人";
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            onBack();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    public void onBack() {
+        if (orderNo != null) {
+            startActivity(new Intent(InsureActivity.this, MainActivity.class));
+            EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+            EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
+
+            OrderDetailActivity.Params params = new OrderDetailActivity.Params();
+            params.orderId = orderNo;
+            params.source = getEventSource();
+            Intent intent = new Intent(InsureActivity.this, OrderDetailActivity.class);
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            InsureActivity.this.startActivity(intent);
+        } else {
+            finish();
+        }
     }
 }

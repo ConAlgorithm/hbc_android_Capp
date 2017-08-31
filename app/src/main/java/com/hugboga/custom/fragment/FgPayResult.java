@@ -9,10 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
-import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CouponPayResultView;
 import com.hugboga.custom.widget.PayResultView;
 
@@ -56,10 +55,25 @@ public class FgPayResult extends BaseFragment{
         payResultView.setVisibility(View.VISIBLE);
         payResultView.initView(_isPaySucceed, _orderId, orderType);
 
-        fgLeftBtn.setOnClickListener(null);
-        fgLeftBtn.setVisibility(View.INVISIBLE);
-        RelativeLayout.LayoutParams titleLeftBtnParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(10), RelativeLayout.LayoutParams.MATCH_PARENT);
-        fgLeftBtn.setLayoutParams(titleLeftBtnParams);
+        fgLeftBtn.setVisibility(View.GONE);
+        RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        titleParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        fgTitle.setLayoutParams(titleParams);
+        fgTitle.setText(_isPaySucceed ? "支付成功" : "支付失败");
+
+        fgRightTV.setVisibility(View.VISIBLE);
+        fgRightTV.setText(isPaySucceed ? "返回首页" : "查看订单");
+        fgRightTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isPaySucceed) {
+                    payResultView.intentHome();
+                } else {
+                    DefaultSSLSocketFactory.resetSSLSocketFactory(getContext());
+                    payResultView.intentOrderDetail();
+                }
+            }
+        });
     }
 
     public void initCouponView(boolean _isPaySucceed) {

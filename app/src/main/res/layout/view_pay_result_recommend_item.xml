@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recommend_item_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/recommend_item_bg_iv"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:id="@+id/recommend_item_city_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/recommend_item_bg_iv"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="3dp"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/recommend_item_desc_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/recommend_item_bg_iv"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
+        android:textColor="#4a4a4a"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/recommend_item_price_tv"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@id/recommend_item_desc_tv"
+        android:textColor="#e98100"
+        android:textSize="12sp" />
+</RelativeLayout>

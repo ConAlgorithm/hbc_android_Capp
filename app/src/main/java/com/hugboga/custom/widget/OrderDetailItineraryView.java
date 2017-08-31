@@ -165,8 +165,8 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         }
 
         //其他费用
-        if (orderBean.orderPriceInfo != null && orderBean.goodsOtherPrice > 0) {
-            addItemView(R.mipmap.other_fees_icon, String.format("其他费用%1$s × %2$s人", orderBean.goodsOtherPrice, orderBean.getTravelerCount()));
+        if (!TextUtils.isEmpty(orderBean.goodsOtherPriceComment)) {
+            addItemView(R.mipmap.other_fees_icon, String.format("其他费用(%1$s) × %2$s人", orderBean.goodsOtherPriceComment, orderBean.getTravelerCount()));
         }
 
         // 订单号

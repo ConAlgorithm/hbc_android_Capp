@@ -137,6 +137,7 @@ public class ParserOrder extends ImplParser {
         orderbean.isFlightSign = jsonObj.optString("isFlightSign");
         orderbean.isCheckin = jsonObj.optString("isCheckin");
         orderbean.goodsOtherPrice = jsonObj.optDouble("goodsOtherPrice", 0);
+        orderbean.goodsOtherPriceComment = jsonObj.optString("goodsOtherPriceComment");
 
         orderbean.insuranceEnable = jsonObj.optBoolean("insuranceEnable");
         orderbean.insuranceTips = jsonObj.optString("insuranceTips");

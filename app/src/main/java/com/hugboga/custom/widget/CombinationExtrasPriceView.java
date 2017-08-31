@@ -177,9 +177,10 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
                 if (additionalServicePrice == null) {
                     continue;
                 }
-                if (i == 0 && !TextUtils.isEmpty(additionalServicePrice.pickupSignPrice)) {//只有第一天行程有接机
+                if (!TextUtils.isEmpty(additionalServicePrice.pickupSignPrice)) {
                     pickupSignPrice = CommonUtils.getCountInteger(additionalServicePrice.pickupSignPrice);
-                } else if (i == size - 1 && !TextUtils.isEmpty(additionalServicePrice.checkInPrice)) {//只有最后一天行程有送机
+                }
+                if (!TextUtils.isEmpty(additionalServicePrice.checkInPrice)) {
                     checkInPrice = CommonUtils.getCountInteger(additionalServicePrice.checkInPrice);
                 }
 

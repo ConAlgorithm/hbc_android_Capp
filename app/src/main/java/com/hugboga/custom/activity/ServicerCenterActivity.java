@@ -52,7 +52,7 @@ public class ServicerCenterActivity extends BaseActivity {
     @Bind(R.id.service_center_btn5)
     TextView serviceCenterBtn5;
 
-    @OnClick({R.id.servicer_center_top_btn1, R.id.servicer_center_top_btn2, R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5})
+    @OnClick({R.id.servicer_center_top_btn1, R.id.servicer_center_top_btn2, R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5, R.id.service_insurance_btn6})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.servicer_center_top_btn1:
@@ -82,6 +82,10 @@ public class ServicerCenterActivity extends BaseActivity {
             case R.id.service_center_btn5:
                 //常见问题
                 toWebInfo(UrlLibs.H5_PROBLEM);
+                break;
+            case R.id.service_insurance_btn6:
+                //保险说明
+                toWebInfo(UrlLibs.H5_INSUREXPLA);
                 break;
             default:
                 break;

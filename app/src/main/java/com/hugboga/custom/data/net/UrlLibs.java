@@ -67,7 +67,7 @@ public class UrlLibs {
 //    http://m.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
     public static String H5_DAIRY = BuildConfig.SHARE_BASE_URL_4 + "/app/dailyDetail.html";
 
-
+    public static String H5_INSUREXPLA = BuildConfig.SHARE_BASE_URL_4 + "/app/insurExpla.html"; //保险说明
     public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明
@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 184
+    //current urlErrorCode 185
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -133,13 +133,13 @@ public class UrlLibs {
     public static final String SERVER_IP_CAPTCHA            = SERVER_IP_PUBLIC_UER_CENTER + "captcha?";                      // 发送验证码
     public static final String SERVER_IP_REGISTER           = SERVER_IP_PUBLIC_UER_CENTER + "register?";                     // 注册
     public static final String SERVER_IP_LOGIN              = SERVER_IP_PUBLIC_UER_CENTER + "login?";                        // 登录
-    public static final String SERVER_IP_LOGIN_BYCAPTCHA    = SERVER_IP_PUBLIC_UER_CENTER + "login/bycaptcha?";              //免密登录145
+    public static final String SERVER_IP_LOGIN_BYCAPTCHA    = SERVER_IP_PUBLIC_UER_CENTER + "login/bycaptcha?";              // 免密登录145
     public static final String SERVER_IP_LOGOUT             = SERVER_IP_PUBLIC_UER_CENTER + "logout?";                       // 退出登录
     public static final String SERVER_IP_INFORMATION        = SERVER_IP_PUBLIC_UER_CENTER + "information?";                  // 获取用户信息
     public static final String SERVER_IP_INFORMATION_UPDATE = SERVER_IP_PUBLIC_UER_CENTER + "information/update?";           // 修改个人信息
     public static final String SERVER_IP_PASSWORD_RESET     = SERVER_IP_PUBLIC_UER_CENTER + "password/reset?";               // 重置密码
     public static final String SERVER_IP_PASSWORD_UPDATE    = SERVER_IP_PUBLIC_UER_CENTER + "password/update?";              // 修改密码
-    public static final String SERVER_IP_PASSWORD_SET       = SERVER_IP_PUBLIC_UER_CENTER + "password/init?";                //设置初始密码146
+    public static final String SERVER_IP_PASSWORD_SET       = SERVER_IP_PUBLIC_UER_CENTER + "password/init?";                // 设置初始密码146
     public static final String SERVER_IP_MOBILE_UPDATE      = SERVER_IP_PUBLIC_UER_CENTER + "mobile/update?";                // 修改手机号 ???? 未使用
     public static final String SERVER_IP_FEEDBACK_SAVE      = SERVER_IP_PUBLIC_UER_CENTER + "feedback/save?";                // 意见反馈
     public static final String GET_ACCESS_TOKEN             = SERVER_IP_PUBLIC_UER_CENTER + "wechat/login/check/unionid?";   // 微信登录校验openid是否已注册
@@ -168,7 +168,7 @@ public class UrlLibs {
     public static final String SERVER_IP_SUBMIT_DAILY12     = "trade/v1.4/c/order/daily?";                              // 提交订单 日租包车 ???? 2个
     public static final String RECOMMENDLIN                 = "trade/v1.0/c/order/recommendline?";                      // 提交订单 推荐线路
     public static final String API_ORDER_EDIT               = "trade/v1.2/c/order/edit";                                // 修改订单
-    public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.2/c/order/detail?";                             // 订单详情
+    public static final String SERVER_IP_ORDER_DETAIL       = "trade/v1.4/c/order/detail?";                             // 订单详情
     public static final String SERVER_IP_ORDER_CANCEL       = "trade/v1.0/c/order/cancel?";                             // 取消订单
     public static final String GET_USER_COUPON              = "trade/v1.0/c/order/home?";                               // 获取用户优惠卷
     public static final String SERVER_IP_GUIDES_COMMENTS    = "trade/v1.3/c/order/evaluate?";                           // 对车导评价 *** 1.0
@@ -224,6 +224,7 @@ public class UrlLibs {
     public static final String API_QUERY_GUIDE_STOCK        = "goods/v1.0/c/queryGuideGoodsStock";                      // 商品司导库存172
     public static final String API_GOODS_GUIDE_FILTER_OPTIONS= "goods/v1.0/c/goodsguidecondition";                      // 关联商品的可服务司导过滤条件 175
     public static final String API_GOODS_LINE_SEARCH        = "goods/v1.0/c/goodsSearch";                               // 线路搜索 177
+    public static final String API_RECOMMENDED_GOODS        = "goods/v1.0/c/crossRecommendedGoods";                     // 根据订单城市交叉推荐商品列表v1.0 185
 
     public static final String SERVER_IP_COUPONS            = "marketing/v2.0/c/coupons?";                              // 优惠券(弃用)
     public static final String SERVER_IP_COUPONS_UNUSED     = "marketing/v2.0/c/coupons/unused?";                       // 优惠券未使用(我的,未使用)154
@@ -236,7 +237,7 @@ public class UrlLibs {
     public static final String COUPON_ACTIVITY              = "marketing/v1.0/c/activity/couponactivity";               // CApp3.2领券礼物活动
     public static final String ACQUIRE_PACKET               = "marketing/v1.0/p/coupon/acquirePacket";                  // 未登陆领取礼包
     public static final String API_PICKUP_COUPON_OPEN       = "marketing/v1.0/c/coupons/pickupCouponOpen";              // 接机支付成功 绑定送机包车券 开关 149
-    public static final String API_COUPONS_ORDERTIP         = "marketing/v1.1/c/coupons/orderTip";                      // 下单第一部获取优惠信息 163
+    public static final String API_COUPONS_ORDERTIP         = "marketing/v1.1/c/coupons/orderTip";                      // 下单第一步获取优惠信息 163
 
     public static final String ADD_INSURE                   = "insurance/v1.0/c/user/add";                              // 新增投保人
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
@@ -268,7 +269,7 @@ public class UrlLibs {
     public static final String API_GUIDE_FILTER_OPTIONS     = "supplier/v1.0/c/guide/screening/conditions";             // 精选司导筛选条件 153
     public static final String API_CHOICE_COMMENTS          = "supplier/v1.0/c/index/comments";                         // 精选司导筛选条件 174
     public static final String API_CHECK_SKU                = "supplier/v2.0/c/guides/check/sku";                       // 商品下单指定司导校验 176
-    public static final String API_GOODS_GUIDE_SEARCH       = "supplier/v1.0/c/search/guide?";                          //搜索司导 178
+    public static final String API_GOODS_GUIDE_SEARCH       = "supplier/v1.0/c/search/guide?";                          // 搜索司导 178
 
     public static final String SERVER_IP_ACCESSKEY          = "passport/v1.0/getAccessKey?";                            // 获取accessKey
     public static final String UPDATE_DEVICE_INFO           = "passport/v1.0/updateDeviceInfo";                         // 更新设备信息接口144
@@ -284,7 +285,7 @@ public class UrlLibs {
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
     public static final String API_HOME_NEW                 = "basicdata/v1.3/c/home/aggregation";                      // 首页173
-    public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    //热词搜索 179
+    public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    // 热词搜索 179
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
     public static final String API_ERROR_FEEDBACK           = "communication/v2.0/c/biz/error";                         // 反馈app业务异常信息

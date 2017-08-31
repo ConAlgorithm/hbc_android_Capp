@@ -37,9 +37,9 @@
     <string name="collect_succeed">收藏成功</string>
     <string name="collect_cancel">已取消收藏</string>
     <string name="platenumber">车牌：</string>
-    <string name="domestic_call">境内拨打:</string>
-    <string name="overseas_call">境外拨打:</string>
-    <string name="domestic_phone">4006100009</string>
+    <string name="domestic_call">境内请拨打:</string>
+    <string name="overseas_call">境外请拨打:</string>
+    <string name="domestic_phone">400-610-0009</string>
     <string name="overseas_phone">+86&#160;1059715436</string>
     <string name="call">打电话</string>
     <string name="private_chat">发私聊</string>
