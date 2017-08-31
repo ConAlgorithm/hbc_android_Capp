@@ -216,7 +216,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
-                DialogUtil.getInstance(CombinationOrderActivity.this).showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                //DialogUtil.getInstance(CombinationOrderActivity.this).showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                CommonUtils.csDialog(CombinationOrderActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
             }
         });
     }
@@ -483,7 +484,8 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     @Override
     public void onClickServices() {
-        DialogUtil.showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        //DialogUtil.showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        CommonUtils.csDialog(CombinationOrderActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
     }
 
     /* 滚动到顶部 */

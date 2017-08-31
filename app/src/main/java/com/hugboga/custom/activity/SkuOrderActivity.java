@@ -253,7 +253,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
     public void showServiceDialog() {
         SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
-        DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
+        //DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
+        CommonUtils.csDialog(SkuOrderActivity.this,null,null,params.skuItemBean, UnicornServiceActivity.SourceType.TYPE_LINE,getEventSource());
     }
 
     @Subscribe

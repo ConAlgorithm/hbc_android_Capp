@@ -11,7 +11,7 @@
         android:background="#ffffff"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="34dp">
+        android:paddingTop="25dp">
 
 
         <LinearLayout
@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/dialog_share_wechat_layout"
+                android:id="@+id/online_cs_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -31,35 +31,59 @@
                 <ImageView
                     android:layout_width="66dp"
                     android:layout_height="66dp"
-                    android:background="@mipmap/popover_wechat" />
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/popover_online" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="@string/wechat"
+                    android:text="在线客服"
                     android:textColor="#373737"
                     android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/dialog_share_moments_layout"
+                android:id="@+id/china_cs_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="40dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="66dp"
                     android:layout_height="66dp"
-                    android:background="@mipmap/popover_friend" />
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/popover_churchyard_service" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="@string/moments"
+                    android:text="境内客服热线"
+                    android:textColor="#373737"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/adroad_cs_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="66dp"
+                    android:layout_height="66dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/popover_overseas_service" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="境外客服专线"
                     android:textColor="#373737"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -76,8 +100,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_share_dialog_cancel"
             android:gravity="center"
-            android:paddingBottom="18dp"
-            android:paddingTop="18dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
             android:text="@string/cancel"
             android:textColor="#151515"
             android:textSize="15sp" />

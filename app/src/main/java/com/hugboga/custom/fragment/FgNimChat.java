@@ -45,6 +45,7 @@ import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiFeedbackUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
@@ -137,7 +138,8 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             @Override
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(),"客服",null);
-                DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
+                //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
+                CommonUtils.csDialog(getContext(),null,null,null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
             }
         });
     }

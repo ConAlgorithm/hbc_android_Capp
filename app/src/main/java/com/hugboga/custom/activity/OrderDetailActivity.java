@@ -32,6 +32,7 @@ import com.hugboga.custom.statistic.event.EventBase;
 import com.hugboga.custom.statistic.event.EventCancelOrder;
 import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.CompatPopupWindow;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
@@ -252,7 +253,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 showPopupWindow();
                 break;
             case ORDER_DETAIL_CALL://联系客服
-                DialogUtil.showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
+                //DialogUtil.showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
+                CommonUtils.csDialog(this,orderBean,null,null, UnicornServiceActivity.SourceType.TYPE_ORDER,getEventSource());
                 break;
             case ORDER_DETAIL_PAY://立即支付
                 if (!eventVerification(action)) {
@@ -410,7 +412,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     if (orderBean.orderStatus == OrderStatus.INITSTATE) {
                         tip = getString(R.string.order_cancel_tip);
                     } else if (orderBean.isChangeManual) {//需要人工取消订单
-                        DialogUtil.showDefaultServiceDialog(OrderDetailActivity.this, "如需要取消订单，请联系客服处理", getEventSource());
+                        //DialogUtil.showDefaultServiceDialog(OrderDetailActivity.this, "如需要取消订单，请联系客服处理", getEventSource());
+                        CommonUtils.csDialog(OrderDetailActivity.this,null,"如需要取消订单，请联系客服处理",null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
                         return;
                     } else {
                         tip = orderBean.cancelTip;

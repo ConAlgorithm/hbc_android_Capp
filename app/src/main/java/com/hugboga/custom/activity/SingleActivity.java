@@ -320,7 +320,8 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     }
 
     public void showServiceDialog() {
-        DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        //DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        CommonUtils.csDialog(SingleActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
     }
 
     public void showTimePicker() {

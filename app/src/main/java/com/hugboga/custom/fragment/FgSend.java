@@ -17,6 +17,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
+import com.hugboga.custom.activity.CombinationOrderActivity;
 import com.hugboga.custom.activity.DatePickerActivity;
 import com.hugboga.custom.activity.OrderActivity;
 import com.hugboga.custom.activity.PickSendActivity;
@@ -185,7 +186,8 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
             @Override
             public void onClickServices() {
-                DialogUtil.getInstance((Activity) getContext()).showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                //DialogUtil.getInstance((Activity) getContext()).showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
             }
         });
         emptyLayout.setOnRefreshDataListener(new SkuOrderEmptyView.OnRefreshDataListener() {

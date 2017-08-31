@@ -35,6 +35,7 @@ import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.models.ChoicenessGuideModel;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
@@ -443,7 +444,8 @@ public class CityListActivity extends BaseActivity {
 
     @OnClick(R.id.city_list_service_tv)
     public void showServiceDialog() {
-        DialogUtil.showServiceDialog(CityListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        //DialogUtil.showServiceDialog(CityListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
+        CommonUtils.csDialog(CityListActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
     }
 
     @Subscribe
