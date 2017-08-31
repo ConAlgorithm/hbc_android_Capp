@@ -346,6 +346,19 @@ public class CharterDataUtils {
         return citiesId;
     }
 
+    //除了"随便转转"以外的包车天数
+    public int getRealCharterDayNums() {
+        int result = 0;
+        final int travelListSize = travelList.size();
+        for (int i = 0; i < travelListSize; i++) {
+            if (travelList.get(i).routeType == CityRouteBean.RouteType.AT_WILL) {
+                continue;
+            }
+            ++result;
+        }
+        return result;
+    }
+
     public boolean isSeckills() {
         return charterDataUtils.seckillsBean != null
                 && charterDataUtils.seckillsBean.isSeckills

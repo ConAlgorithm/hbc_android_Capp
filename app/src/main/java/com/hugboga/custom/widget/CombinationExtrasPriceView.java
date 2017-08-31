@@ -70,6 +70,8 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
     public int checkInPrice = -1;
     public int childSeatCount = -1;
 
+    public double realCharterDayNums = 0;
+
     public CombinationExtrasPriceView(Context context) {
         this(context, null);
     }
@@ -85,7 +87,7 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
         if (_carBean == null) {
             return;
         }
-
+        this.realCharterDayNums = charterDataUtils.getRealCharterDayNums();
         this.carBean = _carBean;
 
         calculatePrice();
@@ -106,8 +108,8 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
 
             updateChildSeatTextView();
 
-            String childSeatPrice1Str = additionalPriceBean.childSeatPrice1 > 0 ? String.format("单价¥%1$s/天", additionalPriceBean.childSeatPrice1) : "免费";
-            String childSeatPrice2Str = additionalPriceBean.childSeatPrice2 > 0 ? String.format("及以上单价¥%1$s/天", additionalPriceBean.childSeatPrice2) : "免费";
+            String childSeatPrice1Str = additionalPriceBean.childSeatPrice1 > 0 ? String.format("单价¥%1$s/天", (int)(additionalPriceBean.childSeatPrice1 / realCharterDayNums)) : "免费";
+            String childSeatPrice2Str = additionalPriceBean.childSeatPrice2 > 0 ? String.format("及以上单价¥%1$s/天", (int)(additionalPriceBean.childSeatPrice2 / realCharterDayNums)) : "免费";
             String priceHintTV = String.format("第一个%1$s，第二个%2$s", childSeatPrice1Str, childSeatPrice2Str);
             childSeatPriceHintTV.setText(priceHintTV);
         } else {
