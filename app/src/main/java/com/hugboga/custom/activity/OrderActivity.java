@@ -246,8 +246,12 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 if (couponBean == null) {
                     couponId = null;
                     couponBean = null;
-                } else if (couponBean.couponID.equalsIgnoreCase(couponId)) {
-                    break;
+                } else {
+                    if (couponBean.couponID.equalsIgnoreCase(couponId)) {
+                        break;
+                    } else {
+                        couponId = couponBean.couponID;
+                    }
                 }
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
@@ -260,6 +264,15 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 showCheckSeckillsDialog(errorMessage);
                 break;
         }
+    }
+
+    public String getCouponId() {
+        if (null != mostFitBean) {
+            couponId = mostFitBean.couponId;
+        } else if (null != couponBean) {
+            couponId = couponBean.couponID;
+        }
+        return couponId;
     }
 
     private void showCheckSeckillsDialog(String content) {
@@ -401,15 +414,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         mostFitAvailableBean.orderType = params.orderType + "";
         mostFitAvailableBean.carModelId = params.carBean.carId + "";
         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
-        if (null != mostFitBean) {
-            couponId = mostFitBean.couponId;
-            bundle.putString("idStr", mostFitBean.couponId);
-        } else if (null != couponBean) {
-            couponId = couponBean.couponID;
-            bundle.putString("idStr", couponBean.couponID);
-        } else {
-            bundle.putString("idStr", "");
-        }
+        bundle.putString("idStr", getCouponId());
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, CouponActivity.class);
         intent.putExtras(bundle);
@@ -459,7 +464,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
      * 金额为零，直接请求支付接口（支付宝）
      * */
     private void requestPayNo(String orderNo) {
-        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
+        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, getCouponId());
         requestData(pequestPayNo);
     }
 
@@ -641,7 +646,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.couponId = couponId;
+                requestParams.couponId = getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
