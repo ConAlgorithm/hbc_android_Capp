@@ -55,6 +55,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.OrderInsuranceView;
@@ -137,7 +138,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public SkuItemBean skuItemBean;
         public CityBean cityBean;
@@ -254,7 +255,14 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     public void showServiceDialog() {
         SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
         //DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
-        CommonUtils.csDialog(SkuOrderActivity.this,null,null,params.skuItemBean, UnicornServiceActivity.SourceType.TYPE_LINE,getEventSource());
+        csDialog = CommonUtils.csDialog(SkuOrderActivity.this, null, null, params.skuItemBean, UnicornServiceActivity.SourceType.TYPE_LINE, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     @Subscribe

@@ -52,6 +52,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.widget.ConponsTipView;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -115,7 +116,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     private PickSendActivity.Params params;
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.fg_pickup;
@@ -175,7 +176,14 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             @Override
             public void onClickServices() {
                 //DialogUtil.getInstance((Activity) getContext()).showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
         emptyLayout.setOnRefreshDataListener(new SkuOrderEmptyView.OnRefreshDataListener() {

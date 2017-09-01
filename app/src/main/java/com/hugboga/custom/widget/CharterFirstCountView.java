@@ -53,7 +53,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
     private OnOutRangeListener listener;
     private boolean isSupportChildSeat;
     private int firstClickCount = 1;
-
+    CsDialog csDialog;
     public CharterFirstCountView(Context context) {
         this(context, null);
     }
@@ -200,7 +200,14 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
                             @Override
                             public void onSpanClick(View view) {
                                 //DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, ((BaseActivity)context).getEventSource());
-                                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,((BaseActivity)context).getEventSource());
+                                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, ((BaseActivity) context).getEventSource(), new CsDialog.OnCsListener() {
+                                    @Override
+                                    public void onCs() {
+                                        if (csDialog != null && csDialog.isShowing()) {
+                                            csDialog.dismiss();
+                                        }
+                                    }
+                                });
 
                             }
                         });

@@ -34,6 +34,7 @@ import com.hugboga.custom.statistic.event.EventPay;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.CompatPopupWindow;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.OrderDetailBargainEntr;
@@ -93,7 +94,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private DeliverInfoBean deliverInfoBean;
 
     private boolean isAppointGuideSucceed = false;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public String orderId;
         public String source;
@@ -254,7 +255,14 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case ORDER_DETAIL_CALL://联系客服
                 //DialogUtil.showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_ORDER, orderBean, null, getEventSource());
-                CommonUtils.csDialog(this,orderBean,null,null, UnicornServiceActivity.SourceType.TYPE_ORDER,getEventSource());
+                csDialog = CommonUtils.csDialog(this, orderBean, null, null, UnicornServiceActivity.SourceType.TYPE_ORDER, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
                 break;
             case ORDER_DETAIL_PAY://立即支付
                 if (!eventVerification(action)) {
@@ -413,7 +421,14 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                         tip = getString(R.string.order_cancel_tip);
                     } else if (orderBean.isChangeManual) {//需要人工取消订单
                         //DialogUtil.showDefaultServiceDialog(OrderDetailActivity.this, "如需要取消订单，请联系客服处理", getEventSource());
-                        CommonUtils.csDialog(OrderDetailActivity.this,null,"如需要取消订单，请联系客服处理",null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                        csDialog = CommonUtils.csDialog(OrderDetailActivity.this, null, "如需要取消订单，请联系客服处理", null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                            @Override
+                            public void onCs() {
+                                if (csDialog != null && csDialog.isShowing()) {
+                                    csDialog.dismiss();
+                                }
+                            }
+                        });
                         return;
                     } else {
                         tip = orderBean.cancelTip;

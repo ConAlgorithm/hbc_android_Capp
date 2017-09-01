@@ -194,6 +194,16 @@ public final class CommonUtils {
         return csDialog;
     }
 
+    public static CsDialog csDialog(final Context context, final OrderBean orderBean
+            , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source,CsDialog.OnCsListener listener) {
+        CsDialog csDialog = new CsDialog(context);
+        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
+        if(listener!=null){
+            csDialog.setOnCsListener(listener);
+        }
+        csDialog.show();
+        return csDialog;
+    }
     public static UpPicDialog uppicDialog(final Context context) {
         UpPicDialog upPicDialog = new UpPicDialog(context);
         upPicDialog.show();
