@@ -86,6 +86,8 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                             ((SearchDestinationGuideLineActivity)context).search_first_list.setVisibility(GONE);
                             ((SearchDestinationGuideLineActivity)context).addAfterSearchDestinationModel(list,keyword);
                             SearchUtils.addCityHistorySearch(keyword);
+                            SearchUtils.isHistory = false;
+                            SearchUtils.isRecommend = false;
                         }
                     }
                 });

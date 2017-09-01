@@ -207,6 +207,8 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                                         addAfterSearchDestinationModel(listAll, headSearch.getText().toString());
                                         SearchUtils.addCityHistorySearch(headSearch.getText().toString());
                                         hideInputMethod(headSearch);
+                                        SearchUtils.isHistory = false;
+                                        SearchUtils.isRecommend = false;
                                     }
                                 }
                             },300);
@@ -288,6 +290,8 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                         List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                         addAfterSearchDestinationModel(list,dataList.get(position));
                         hideInputMethod(headSearch);
+                        SearchUtils.isRecommend = true;
+                        SearchUtils.isHistory = false;
                     }
                 });
             }else{
@@ -344,6 +348,8 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                     List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                     addAfterSearchDestinationModel(list,dataList.get(position));
                     hideInputMethod(headSearch);
+                    SearchUtils.isHistory = true;
+                    SearchUtils.isRecommend = false;
                 }
             });
         } else {
@@ -376,17 +382,5 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         RequestHotSearch requestHotSearch = new RequestHotSearch(this);
         HttpRequestUtils.request(this,requestHotSearch,this,false);
     }
-    //搜索埋点
-    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("keyWord", keyWord);
-            properties.put("isHistory", isHistory);
-            properties.put("isRecommend", isRecommend);
-            properties.put("hasResult", hasResult);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 }

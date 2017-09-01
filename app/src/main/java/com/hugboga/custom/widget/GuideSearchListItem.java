@@ -115,7 +115,7 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
                     GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
                     params.guideId = guideSearchItemBean.guideId;
                     Intent intent = new Intent(activity, GuideWebDetailActivity.class);
-                    //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     activity.startActivity(intent);
                 }
@@ -129,5 +129,8 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
     }
     public void setActivity(Activity activity){
         this.activity = activity;
+    }
+    public String getEventSource(){
+        return "搜索";
     }
 }

@@ -19,6 +19,7 @@ import com.hugboga.custom.models.LineItemModel;
 import com.hugboga.custom.models.LoadingModel;
 import com.hugboga.custom.models.SearchDestinationModel;
 import com.hugboga.custom.models.SearchMoreModel;
+import com.hugboga.custom.utils.SearchUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,9 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
     List<SearchGroupBean> listDestination = null;
     List<SearchGuideBean.GuideSearchItemBean> resultBean = null;
     List<SearchLineBean.GoodsPublishStatusVo>  goods = null;
+    boolean hasListDestination;
+    boolean hasResultBean;
+    boolean hasGoods;
     int typeNo = 2;
     public void addAfterSearchDestinationModel(Context context, List<SearchGroupBean> list, String keyword) {
         this.context = context;
@@ -52,7 +56,11 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
         }
         if(listDestination == null || listDestination.size() == 0){
             listDestination = null;
+            hasListDestination = false;
+        }else if(listDestination!= null && listDestination.size() >0){
+            hasListDestination = true;
         }
+
         if(searchDestinationModels!= null && searchDestinationModels.size()>0){
             searchDestinationModels.clear();
         }
@@ -120,6 +128,9 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
 //            }
             if(searchLineBean == null || searchLineBean.goods == null || searchLineBean.count == 0 || searchLineBean.goods.size() == 0){
                 this.goods = null;
+                hasGoods = false;
+            }else{
+                hasGoods = true;
             }
             if(searchLineBean!= null && searchLineBean.goods!= null && searchLineBean.goods.size() >0){
                 this.goods = searchLineBean.goods;
@@ -135,6 +146,12 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
                 emptyDataModel = new EmptyDataModel();
                 addModel(emptyDataModel);
             }
+            //搜索结果埋点
+            if(hasListDestination || hasGoods || hasResultBean){
+                SearchUtils.setSensorsShareEvent(keyword,SearchUtils.isHistory,SearchUtils.isRecommend,true);
+            }else{
+                SearchUtils.setSensorsShareEvent(keyword,SearchUtils.isHistory,SearchUtils.isRecommend,false);
+            }
         }else if(request instanceof RequestSearchGuide){
             SearchGuideBean searchGuideBean = (SearchGuideBean) request.getData();
             if(loadingModel != null){
@@ -146,6 +163,9 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
 //            }
             if(searchGuideBean == null || searchGuideBean.resultBean== null ||searchGuideBean.totalSize == 0 || searchGuideBean.resultBean.size() == 0){
                 this.resultBean = null;
+                hasResultBean = false;
+            }else{
+                hasResultBean =true;
             }
             if(searchGuideBean!= null && searchGuideBean.resultBean!= null && searchGuideBean.resultBean.size() >0){
                 this.resultBean = searchGuideBean.resultBean;
