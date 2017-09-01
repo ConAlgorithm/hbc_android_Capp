@@ -15,6 +15,11 @@ import butterknife.ButterKnife;
  */
 
 public class LoadingModel extends EpoxyModelWithHolder<LoadingModel.LoadingHolder> {
+
+    String text;
+    public LoadingModel(String text){
+        this.text = text;
+    }
     @Override
     protected LoadingHolder createNewHolder() {
         return new LoadingHolder();
@@ -31,13 +36,18 @@ public class LoadingModel extends EpoxyModelWithHolder<LoadingModel.LoadingHolde
         if (holder == null) {
             return;
         }
+        holder.loading_text.setText(text);
     }
 
     static class LoadingHolder extends EpoxyHolder {
         View itemView;
+        @Bind(R.id.loading_text)
+        TextView loading_text;
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
+            ButterKnife.bind(this, itemView);
         }
     }
+
 }
