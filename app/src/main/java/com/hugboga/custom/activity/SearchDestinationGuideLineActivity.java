@@ -206,6 +206,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                                         search_first_list.setVisibility(GONE);
                                         addAfterSearchDestinationModel(listAll, headSearch.getText().toString());
                                         SearchUtils.addCityHistorySearch(headSearch.getText().toString());
+                                        hideInputMethod(headSearch);
                                     }
                                 }
                             },300);
@@ -286,6 +287,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                         search_first_list.setVisibility(GONE);
                         List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                         addAfterSearchDestinationModel(list,dataList.get(position));
+                        hideInputMethod(headSearch);
                     }
                 });
             }else{
@@ -341,6 +343,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                     search_first_list.setVisibility(GONE);
                     List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                     addAfterSearchDestinationModel(list,dataList.get(position));
+                    hideInputMethod(headSearch);
                 }
             });
         } else {
