@@ -245,8 +245,12 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 if (couponBean == null) {
                     couponId = null;
                     couponBean = null;
-                } else if (couponBean.couponID.equalsIgnoreCase(couponId)) {
-                    break;
+                } else {
+                    if (couponBean.couponID.equalsIgnoreCase(couponId)) {
+                        break;
+                    } else {
+                        couponId = couponBean.couponID;
+                    }
                 }
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
@@ -331,7 +335,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.couponId = couponId;
+                requestParams.couponId = getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
@@ -494,6 +498,15 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         });
     }
 
+    public String getCouponId() {
+        if (null != mostFitBean) {
+            couponId = mostFitBean.couponId;
+        } else if (null != couponBean) {
+            couponId = couponBean.couponID;
+        }
+        return couponId;
+    }
+
     public void onBottomLoading(boolean isLoading) {
         if (isLoading) {
             bottomView.onLoading();
@@ -622,15 +635,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.carModelId = carBean.carId + "";
         mostFitAvailableBean.isPickupTransfer = charterDataUtils.isPickupTransfer();
         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
-        if (null != mostFitBean) {
-            couponId = mostFitBean.couponId;
-            bundle.putString("idStr", mostFitBean.couponId);
-        } else if (null != couponBean) {
-            couponId = couponBean.couponID;
-            bundle.putString("idStr", couponBean.couponID);
-        } else {
-            bundle.putString("idStr", "");
-        }
+        bundle.putString("idStr", getCouponId());
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, CouponActivity.class);
         intent.putExtras(bundle);
@@ -745,7 +750,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 金额为零，直接请求支付接口（支付宝）
      * */
     private void requestPayNo(String orderNo) {
-        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
+        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, getCouponId());
         requestData(pequestPayNo);
     }
 
