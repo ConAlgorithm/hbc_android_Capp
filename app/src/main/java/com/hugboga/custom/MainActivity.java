@@ -79,6 +79,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
 import com.hugboga.im.ImAnalysisUtils;
+import com.ishumei.smantifraud.SmAntiFraud;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;

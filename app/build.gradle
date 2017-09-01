@@ -267,4 +267,5 @@ dependencies {
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
     compile 'com.7heaven.ioswidget:iosswitch:0.6'
     compile 'com.androidkun:XTabLayout:1.1.1'
+    compile files('libs/smantifraud.jar')
 }
