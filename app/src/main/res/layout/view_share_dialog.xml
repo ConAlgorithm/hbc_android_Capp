@@ -11,7 +11,7 @@
         android:background="#ffffff"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="34dp">
+        android:paddingTop="25dp">
 
 
         <LinearLayout
@@ -37,8 +37,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="@string/wechat"
-                    android:textColor="#373737"
+                    android:text="给微信好友"
+                    android:textColor="#7f7f7f"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -59,8 +59,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="@string/moments"
-                    android:textColor="#373737"
+                    android:text="发到朋友圈"
+                    android:textColor="#7f7f7f"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>

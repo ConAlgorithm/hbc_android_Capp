@@ -209,7 +209,7 @@ public class TravelFundActivity extends BaseActivity {
                             @Override
                             public void onShare(int type) {
                                 EventUtil.onShareDefaultEvent(StatisticConstant.CLICK_SHAREFOUND, "" + type);
-                                SensorsUtils.setSensorsShareEvent(type == 1 ? "给微信好友" : "发到朋友圈", getEventSource(),null,null);
+                                SensorsUtils.setSensorsShareEvent(type == 1 ? "微信好友" : "朋友圈", getEventSource(),null,null);
                             }
                         });
                 break;
