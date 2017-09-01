@@ -4,24 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
-import com.hugboga.custom.adapter.SearchNewAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.SearchUtils;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-
-import org.json.JSONObject;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,13 +25,7 @@ import butterknife.ButterKnife;
 public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinationModel.SearchDestinationHolder> {
     Context context;
     SearchDestinationHolder searchDestinationHolder;
-    SearchNewAdapter searchNewAdapter;
-    LinearLayout tv_footer;
-    List<SearchGroupBean> listAll;
-    List<SearchGroupBean> listfirst;
-    List<SearchGroupBean> listAfter;
     String keyword;
-    int showListType = 0;//1:first 2:after 3:all
     SearchGroupBean searchGroupBean;
     public SearchDestinationModel(Context context,SearchGroupBean searchGroupBean,String keyword) {
         this.context = context;
@@ -96,78 +82,7 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
             });
         }
     }
-//    private void init() {
-//        tv_footer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.search_destination_footer_layout, searchDestinationHolder.expandableListView, false);
-//        searchDestinationHolder.expandableListView.setChildIndicator(null);
-//        searchDestinationHolder.expandableListView.setGroupIndicator(null);
-//        searchDestinationHolder.expandableListView.setChildDivider(new ColorDrawable());
-//        searchNewAdapter = new SearchNewAdapter((Activity) context);
-//        searchDestinationHolder.expandableListView.setAdapter(searchNewAdapter);
-//        searchDestinationHolder.expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-////                ToastUtils.showShort(groupPosition+"======");
-//                if (showListType == 1 && listfirst != null && listfirst.size() > 0) {
-//                    goCityList(listfirst.get(groupPosition));
-//                } else if (showListType == 2 && listAfter != null && listAfter.size() > 0) {
-//                    goCityList(listAfter.get(groupPosition));
-//                } else if (showListType == 3 && listAll != null && listAll.size() > 0) {
-//                    goCityList(listAll.get(groupPosition));
-//                }
-//
-//                Map map = new HashMap();
-//                map.put("source", ((BaseActivity) context).getIntentSource());
-//                map.put("searchinput", "输入内容后联想");
-//                MobClickUtils.onEvent(StatisticConstant.SEARCH, map);
-//                if (((BaseActivity) context).getIntentSource().equals("首页")) {
-//                    setSensorsShareEvent(keyword, false, true, true);
-//                }
-//                return true;
-//            }
-//        });
-//    }
-//
-//    public void setListAll(List<SearchGroupBean> listAll, String keyword) {
-//        this.listAll = listAll;
-//        this.keyword = keyword;
-//    }
-//
-//    public void setListfirst(List<SearchGroupBean> listfirst, String keyword) {
-//        this.listfirst = listfirst;
-//        this.keyword = keyword;
-//
-//    }
-//
-//    public void setListAfter(List<SearchGroupBean> listAfter, String keyword) {
-//        this.listAfter = listAfter;
-//        this.keyword = keyword;
-//    }
-//
-//    public void changeListFirst() {
-//        searchNewAdapter.setKey(keyword);
-//        searchNewAdapter.setGroupArray(listfirst);
-//        showFirstFooter();
-//    }
-//
-//    public void changeListAfter() {
-//        searchNewAdapter.setKey(keyword);
-//        searchNewAdapter.setGroupArray(listAfter);
-//        showAfterFooter();
-//    }
-//
-//    public void changeListAll(){
-//        searchNewAdapter.setKey(keyword);
-//        searchNewAdapter.setGroupArray(listAll);
-//    }
-//
-//    public void setKeyWord(String keyword) {
-//        this.keyword = keyword;
-//    }
-//
-//    public void setListType(int showListType) {
-//        this.showListType = showListType;
-//    }
-//
+
     private void goCityList(SearchGroupBean searchGroupBean) {
         SearchUtils.addCityHistorySearch(CityUtils.getShowName(searchGroupBean));
 
@@ -222,22 +137,11 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
         Intent intent = new Intent(context, CityListActivity.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra("source", "搜索");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         context.startActivity(intent);
     }
 
-    //搜索埋点
-    public static void setSensorsShareEvent(String keyWord, boolean isHistory, boolean isRecommend, boolean hasResult) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("keyWord", keyWord);
-            properties.put("isHistory", isHistory);
-            properties.put("isRecommend", isRecommend);
-            properties.put("hasResult", hasResult);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public String getEventSource(){
+        return "搜索";
     }
-
 }

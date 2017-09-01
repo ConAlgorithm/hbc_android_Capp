@@ -42,6 +42,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -147,7 +148,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
     HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
 
     private int pagerPosition = 0;
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.fg_travel;
@@ -315,7 +316,14 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             @Override
             public void onClick(View v) {
                 //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
-                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if(csDialog != null && csDialog.isShowing()){
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
 

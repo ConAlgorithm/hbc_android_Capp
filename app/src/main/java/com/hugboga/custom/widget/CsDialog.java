@@ -23,6 +23,7 @@ import com.hugboga.custom.utils.UnicornUtils;
 public class CsDialog extends Dialog implements View.OnClickListener {
     private CsDialog.Params mParams;
     Context context;
+    private CsDialog.OnCsListener listener;
     public CsDialog(Context context) {
         this(context, R.style.ShareDialog);
     }
@@ -55,14 +56,23 @@ public class CsDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.online_cs_layout:
                 UnicornUtils.openServiceActivity(context, mParams.sourceType, mParams.orderBean, mParams.skuItemBean);
+                if (listener != null) {
+                    listener.onCs();
+                }
                 break;
             case R.id.china_cs_layout:
                 PhoneInfo.CallDial(context, Constants.CALL_NUMBER_IN);
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
+                if (listener != null) {
+                    listener.onCs();
+                }
                 break;
             case R.id.adroad_cs_layout:
                 PhoneInfo.CallDial(context, Constants.CALL_NUMBER_OUT);
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT_TYPE, "电话");
+                if (listener != null) {
+                    listener.onCs();
+                }
                 break;
             case R.id.dialog_share_shadow_view:
             case R.id.dialog_share_cancel_tv:
@@ -88,5 +98,13 @@ public class CsDialog extends Dialog implements View.OnClickListener {
             this.source = source;
         }
 
+    }
+
+    public interface OnCsListener {
+        void onCs();
+    }
+
+    public void setOnCsListener(CsDialog.OnCsListener listener) {
+        this.listener = listener;
     }
 }

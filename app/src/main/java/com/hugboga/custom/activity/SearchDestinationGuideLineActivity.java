@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 
@@ -77,7 +81,6 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
     @Bind(R.id.search_remove)
     ImageView search_remove;
     public SearchAfterAdapter searchAfterAdapter;
-
     Handler handler = new Handler();
     @Override
     public int getContentViewId() {
@@ -90,6 +93,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         initHeader();
         initView();
         requestHotSearch();
+        requestfocus();
     }
 
     @Override
@@ -98,6 +102,23 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
 
     }
 
+    public void requestfocus(){
+        if(headSearch!= null){
+            headSearch.setFocusable(true);
+            headSearch.setFocusableInTouchMode(true);
+            headSearch.requestFocus();
+        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+            }
+
+        }, 200);
+    }
     public void initView() {
         firstEnter.setVisibility(VISIBLE);
         search_first_list.setVisibility(GONE);
@@ -127,37 +148,39 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchAdapter.removeModels();
-                searchAfterAdapter.removeModels();
+                    searchAdapter.removeModels();
+                    searchAfterAdapter.removeModels();
 
-                if (!TextUtils.isEmpty(headSearch.getText())) {
-                    firstEnter.setVisibility(GONE);
-                    search_first_list.setVisibility(VISIBLE);
-                    search_after_list.setVisibility(GONE);
-                    headSearchClean.setVisibility(VISIBLE);
-                    listAll = CityUtils.search(activity, headSearch.getText().toString());
-                    if (listAll.size() >= 5) {
-                        listfirst = listAll.subList(0, 5);
-                    } else {
-                        listfirst = listAll;
-                    }
-                    if (listAll.size() >= 3) {
-                        listAfter = listAll.subList(0, 3);
-                    } else {
-                        listAfter = listAll;
-                    }
-                    addSearchDestinationModel(listAll);
-                    LogUtils.e(listfirst.size() + "====" + headSearch.getText().toString());
+                    if (!TextUtils.isEmpty(headSearch.getText())) {
+                        firstEnter.setVisibility(GONE);
+                        search_first_list.setVisibility(VISIBLE);
+                        search_after_list.setVisibility(GONE);
+                        headSearchClean.setVisibility(VISIBLE);
+                        listAll = CityUtils.search(activity, headSearch.getText().toString());
+                        if (listAll.size() >= 5) {
+                            listfirst = listAll.subList(0, 5);
+                        } else {
+                            listfirst = listAll;
+                        }
+                        if (listAll.size() >= 3) {
+                            listAfter = listAll.subList(0, 3);
+                        } else {
+                            listAfter = listAll;
+                        }
+                        addSearchDestinationModel(listAll);
+                        LogUtils.e(listfirst.size() + "====" + headSearch.getText().toString());
 
-                } else {
-                    firstEnter.setVisibility(VISIBLE);
-                    search_first_list.setVisibility(GONE);
-                    search_after_list.setVisibility(GONE);
-                    //每次关键字发生变化,都要重新展示历史记录
-                    changHistory();
-                    requestHotSearch();
+                    } else {
+                        firstEnter.setVisibility(VISIBLE);
+                        search_first_list.setVisibility(GONE);
+                        search_after_list.setVisibility(GONE);
+                        //每次关键字发生变化,都要重新展示历史记录
+                        changHistory();
+                        requestHotSearch();
+                    }
+                if(headSearch.getText().toString().length()>0){
+                    headSearch.setSelection(headSearch.getText().toString().length());
                 }
-
             }
         });
         search_remove.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +206,9 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                                         search_first_list.setVisibility(GONE);
                                         addAfterSearchDestinationModel(listAll, headSearch.getText().toString());
                                         SearchUtils.addCityHistorySearch(headSearch.getText().toString());
+                                        hideInputMethod(headSearch);
+                                        SearchUtils.isHistory = false;
+                                        SearchUtils.isRecommend = false;
                                     }
                                 }
                             },300);
@@ -255,6 +281,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                 hotitem.setOnMultipleTVItemClickListener(new MultipleTextViewGroup.OnMultipleTVItemClickListener() {
                     @Override
                     public void onMultipleTVItemClick(View view, int position) {
+                        headSearch.setText(dataList.get(position));
                         searchAdapter.removeModels();
                         searchAfterAdapter.removeModels();
                         firstEnter.setVisibility(GONE);
@@ -262,6 +289,9 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                         search_first_list.setVisibility(GONE);
                         List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                         addAfterSearchDestinationModel(list,dataList.get(position));
+                        hideInputMethod(headSearch);
+                        SearchUtils.isRecommend = true;
+                        SearchUtils.isHistory = false;
                     }
                 });
             }else{
@@ -309,6 +339,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                 @Override
                 public void onMultipleTVItemClick(View view, int position) {
                     //点击事件
+                    headSearch.setText(dataList.get(position));
                     searchAdapter.removeModels();
                     searchAfterAdapter.removeModels();
                     firstEnter.setVisibility(GONE);
@@ -316,6 +347,9 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                     search_first_list.setVisibility(GONE);
                     List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                     addAfterSearchDestinationModel(list,dataList.get(position));
+                    hideInputMethod(headSearch);
+                    SearchUtils.isHistory = true;
+                    SearchUtils.isRecommend = false;
                 }
             });
         } else {
@@ -348,17 +382,5 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
         RequestHotSearch requestHotSearch = new RequestHotSearch(this);
         HttpRequestUtils.request(this,requestHotSearch,this,false);
     }
-    //搜索埋点
-    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
-        try {
-            JSONObject properties = new JSONObject();
-            properties.put("keyWord", keyWord);
-            properties.put("isHistory", isHistory);
-            properties.put("isRecommend", isRecommend);
-            properties.put("hasResult", hasResult);
-            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 }

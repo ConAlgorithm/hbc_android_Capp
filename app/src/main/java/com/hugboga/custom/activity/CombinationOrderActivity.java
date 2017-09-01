@@ -53,6 +53,7 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.CombinationExtrasPriceView;
 import com.hugboga.custom.widget.CombinationOrderDescriptionView;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
@@ -127,7 +128,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.activity_combination_order;
@@ -213,7 +214,14 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 //DialogUtil.getInstance(CombinationOrderActivity.this).showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                CommonUtils.csDialog(CombinationOrderActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+                csDialog = CommonUtils.csDialog(CombinationOrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
     }
@@ -485,7 +493,14 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onClickServices() {
         //DialogUtil.showServiceDialog(CombinationOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        CommonUtils.csDialog(CombinationOrderActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+        csDialog = CommonUtils.csDialog(CombinationOrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     /* 滚动到顶部 */

@@ -39,6 +39,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.PurposeFormImgView;
@@ -103,7 +104,7 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     int getAdultNum = 0;
     int getChildNum = 0;
     boolean isFromOrder = false;
-
+    CsDialog csDialog;
 
 
     //EditText变化监听
@@ -162,7 +163,14 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
     }
     public void onCustomerService() {
         //DialogUtil.showServiceDialog(TravelPurposeFormActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        CommonUtils.csDialog(TravelPurposeFormActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+        csDialog = CommonUtils.csDialog(TravelPurposeFormActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
     public void init(){
         title.setText(getString(R.string.travel_purpose_title));

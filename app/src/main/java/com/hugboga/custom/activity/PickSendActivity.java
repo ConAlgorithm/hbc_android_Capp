@@ -19,6 +19,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
 
@@ -39,7 +40,7 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     private Fragment currentFragment;
 
     private PickSendActivity.Params params;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
         public Integer type;
@@ -140,7 +141,14 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
         String eventSource = currentFragment instanceof FgPickup ? "接机" : "送机";
         SensorsUtils.onAppClick(eventSource, "客服", getIntentSource());
         //DialogUtil.getInstance(PickSendActivity.this).showServiceDialog(PickSendActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, eventSource);
-        CommonUtils.csDialog(PickSendActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,eventSource);
+        csDialog = CommonUtils.csDialog(PickSendActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, eventSource, new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     @Override

@@ -35,6 +35,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.ChooseCityHeaderView;
 import com.hugboga.custom.widget.ChooseCityTabLayout;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
 
@@ -152,7 +153,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public volatile int countryId = -1;
     public volatile int groupId = -1;
     public volatile String startCityName;
-
+    CsDialog csDialog;
     private static final class MessageType {
         /**
          * 全部城市
@@ -498,7 +499,14 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                             @Override
                             public void onClick(View v) {
                                 //DialogUtil.showServiceDialog(ChooseCityActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
-                                CommonUtils.csDialog(ChooseCityActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                                csDialog = CommonUtils.csDialog(ChooseCityActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                                    @Override
+                                    public void onCs() {
+                                        if (csDialog != null && csDialog.isShowing()) {
+                                            csDialog.dismiss();
+                                        }
+                                    }
+                                });
                             }
                         });
                     }

@@ -34,6 +34,7 @@ import com.hugboga.custom.data.request.RequestUploadLocationV11;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
 
@@ -104,7 +105,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
 
     private int groupId;
     private int cityId;
-
+    CsDialog csDialog;
     protected void initHeader() {
         mDbManager = new DBHelper(activity).getDbManager();
         sharedPer = new SharedPre(activity);
@@ -178,7 +179,14 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
     @OnClick({R.id.arrival_empty_service_tv})
     public void onService() {
         //DialogUtil.showServiceDialog(ChooseAirPortActivity.this, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, null, null, getEventSource());
-        CommonUtils.csDialog(ChooseAirPortActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+        csDialog = CommonUtils.csDialog(ChooseAirPortActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
 
     }
 

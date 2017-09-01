@@ -19,6 +19,7 @@ import com.hugboga.custom.models.LineItemModel;
 import com.hugboga.custom.models.LoadingModel;
 import com.hugboga.custom.models.SearchDestinationModel;
 import com.hugboga.custom.models.SearchMoreModel;
+import com.hugboga.custom.utils.SearchUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
     GuideItemModel guideItemModel;
     LineItemModel lineItemModel;
     LoadingModel loadingModel;
+    LoadingModel displayModel;
     EmptyDataModel emptyDataModel;
     Context context;
     String keyword;
@@ -41,18 +43,24 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
     List<SearchGroupBean> listDestination = null;
     List<SearchGuideBean.GuideSearchItemBean> resultBean = null;
     List<SearchLineBean.GoodsPublishStatusVo>  goods = null;
-    int typeNo = 2;
+    boolean hasListDestination;
+    boolean hasResultBean;
+    boolean hasGoods;
+
     public void addAfterSearchDestinationModel(Context context, List<SearchGroupBean> list, String keyword) {
         this.context = context;
         this.keyword = keyword;
         this.listDestination = list;
-        typeNo =2;
         if(getItemCount() >0){
             removeModels();
         }
         if(listDestination == null || listDestination.size() == 0){
             listDestination = null;
+            hasListDestination = false;
+        }else if(listDestination!= null && listDestination.size() >0){
+            hasListDestination = true;
         }
+
         if(searchDestinationModels!= null && searchDestinationModels.size()>0){
             searchDestinationModels.clear();
         }
@@ -78,8 +86,7 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
             addModel(searchMoreModel);
         }
 
-        //暂时不展示
-        loadingModel = new LoadingModel();
+        loadingModel = new LoadingModel("加载中...");
         addModel(loadingModel);
 
         RequestSearchGuide requestSearchGuide = new RequestSearchGuide(context,keyword,0,3);
@@ -107,20 +114,23 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
     public void onDataRequestSucceed(BaseRequest request) {
         if (request instanceof RequestSearchLine) {
             SearchLineBean searchLineBean = (SearchLineBean) request.getData();
+
             if(loadingModel != null){
                 removeModel(loadingModel);
+                loadingModel = null;
             }
-//            if(searchLineBean!= null && searchLineBean.goods!= null && searchLineBean.goods.size() == 0){
-//                typeNo--;
-//            }
-//            if(typeNo == 0){
-//
-//               emptyDataModel = new EmptyDataModel();
-//                addModel(emptyDataModel);
-//            }
             if(searchLineBean == null || searchLineBean.goods == null || searchLineBean.count == 0 || searchLineBean.goods.size() == 0){
                 this.goods = null;
+                hasGoods = false;
+            }else{
+                hasGoods = true;
             }
+
+            if(hasListDestination && !hasGoods && !hasResultBean){
+                displayModel = new LoadingModel("结果全都在这了");
+                addModel(displayModel);
+            }
+
             if(searchLineBean!= null && searchLineBean.goods!= null && searchLineBean.goods.size() >0){
                 this.goods = searchLineBean.goods;
                 GuideLineItemHeaderModel guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchLineBean.count,"相关线路",keyword);
@@ -135,17 +145,21 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
                 emptyDataModel = new EmptyDataModel();
                 addModel(emptyDataModel);
             }
+
+            //搜索结果埋点
+            if(hasListDestination || hasGoods || hasResultBean){
+                SearchUtils.setSensorsShareEvent(keyword,SearchUtils.isHistory,SearchUtils.isRecommend,true);
+            }else{
+                SearchUtils.setSensorsShareEvent(keyword,SearchUtils.isHistory,SearchUtils.isRecommend,false);
+            }
         }else if(request instanceof RequestSearchGuide){
             SearchGuideBean searchGuideBean = (SearchGuideBean) request.getData();
-            if(loadingModel != null){
-                removeModel(loadingModel);
-            }
-//            if(typeNo == 1){
-//                emptyDataModel = new EmptyDataModel();
-//                addModel(emptyDataModel);
-//            }
+
             if(searchGuideBean == null || searchGuideBean.resultBean== null ||searchGuideBean.totalSize == 0 || searchGuideBean.resultBean.size() == 0){
                 this.resultBean = null;
+                hasResultBean = false;
+            }else{
+                hasResultBean =true;
             }
             if(searchGuideBean!= null && searchGuideBean.resultBean!= null && searchGuideBean.resultBean.size() >0){
                 this.resultBean = searchGuideBean.resultBean;
@@ -172,6 +186,5 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
         if(loadingModel != null){
             removeModel(loadingModel);
         }
-        typeNo = 2;
     }
 }

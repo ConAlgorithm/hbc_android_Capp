@@ -15,6 +15,7 @@ import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 
 import butterknife.Bind;
@@ -38,7 +39,7 @@ public class CharterEmptyView extends LinearLayout {
 
     private CharterEmptyView.OnRefreshDataListener listener;
     private int type;
-
+    CsDialog csDialog;
     public CharterEmptyView(Context context) {
         this(context, null);
     }
@@ -73,7 +74,14 @@ public class CharterEmptyView extends LinearLayout {
                             @Override
                             public void onSpanClick(View view) {
                                 //DialogUtil.showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, charterSecondStepActivity.getEventSource());
-                                CommonUtils.csDialog(getContext(),null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,charterSecondStepActivity.getEventSource());
+                                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, charterSecondStepActivity.getEventSource(), new CsDialog.OnCsListener() {
+                                    @Override
+                                    public void onCs() {
+                                        if (csDialog != null && csDialog.isShowing()) {
+                                            csDialog.dismiss();
+                                        }
+                                    }
+                                });
                             }
                         });
             }

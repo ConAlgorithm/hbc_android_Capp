@@ -10,6 +10,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +32,7 @@ public class ChooseAirActivity extends BaseActivity {
     TextView headerRightTxt;
 
     private FlightBean flightBean;
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.activity_choose_air;
@@ -61,7 +63,14 @@ public class ChooseAirActivity extends BaseActivity {
             public void onClick(View view) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 //DialogUtil.getInstance(ChooseAirActivity.this).showServiceDialog(ChooseAirActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                CommonUtils.csDialog(ChooseAirActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+                csDialog = CommonUtils.csDialog(ChooseAirActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
 
             }
         });

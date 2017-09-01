@@ -30,6 +30,7 @@ import com.hugboga.custom.data.request.DestinationLine;
 import com.hugboga.custom.data.request.DestinationTab;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DataVisibleLister;
 import com.hugboga.custom.widget.DesPager;
@@ -124,6 +125,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
         //intent.putExtra("source", "首页搜索框");
         this.getContext().startActivity(intent);
         //StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
+        SensorsUtils.onAppClick("目的地搜索","目的地搜索","目的地");
     }
     @Override
     public void onPause() {

@@ -53,6 +53,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderDescriptionView;
 import com.hugboga.custom.widget.OrderExplainView;
@@ -111,7 +112,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public FlightBean flightBean; // 接机航班信息
         public AirPort airPortBean;   // 送机机场信息
@@ -210,7 +211,14 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 //DialogUtil.getInstance(OrderActivity.this).showServiceDialog(OrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                CommonUtils.csDialog(OrderActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+                csDialog = CommonUtils.csDialog(OrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
     }
