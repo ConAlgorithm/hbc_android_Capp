@@ -351,6 +351,11 @@
  *;
 }
 
+#TONGDUN
+-dontwarn android.os.**
+-dontwarn com.android.internal.**
+-keep class cn.tongdun.android.**{*;}
+
 -keep class com.hugboga.im.** {*;}
 
 -ignorewarnings
