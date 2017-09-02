@@ -39,7 +39,6 @@ import com.hugboga.custom.data.request.RequestADPicture;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.data.request.RequestImAnalysisSwitch;
 import com.hugboga.custom.data.request.RequestUpdateDeviceInfo;
-import com.hugboga.custom.service.ImAnalysisService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.event.EventUtil;
