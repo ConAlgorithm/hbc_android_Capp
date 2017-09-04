@@ -22,13 +22,13 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
         this.childList.clear();
         this.groupList.addAll(groupList);
         List<SearchGroupBean> tmpList;
-        /*for (int  index = 0 ; index < groupList.size(); ++index) {
+        for (int  index = 0 ; index < groupList.size(); ++index) {
             tmpList = CityUtils.getCountLineCity(activity,groupList.get(index));
             if(null == tmpList){
                 tmpList = new ArrayList<>();
             }
             childList.add(tmpList);
-        }*/
+        }
 
         notifyDataSetChanged();
     }
@@ -98,7 +98,7 @@ public class SearchNewAdapter extends BaseExpandableListAdapter {
 
 
     public View genGroupView(SearchGroupBean searchGroupBean) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.search_item_layou,null);
+        View view = LayoutInflater.from(activity).inflate(R.layout.search_item_destination,null);
         TextView left_name = (TextView)view.findViewById(R.id.left_name);
         TextView right_name = (TextView)view.findViewById(R.id.right_name);
 
