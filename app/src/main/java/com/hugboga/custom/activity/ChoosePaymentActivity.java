@@ -45,6 +45,7 @@ import com.hugboga.custom.statistic.event.EventPayResult;
 import com.hugboga.custom.statistic.event.EventPayShow;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
@@ -562,32 +563,35 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
         if (isFinishing()) {
             return;
         }
-        DialogUtil dialogUtil = DialogUtil.getInstance(this);
-        dialogUtil.showCustomDialog(getString(R.string.app_name), getString(R.string.order_cancel_pay, requestParams.payDeadTime), "确定离开", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EventUtil eventUtil = EventUtil.getInstance();
-                eventUtil.isRePay = false;
-                Intent intent = null;
+        AlertDialogUtils.showAlertDialog(ChoosePaymentActivity.this
+                , "放弃付款？"
+                , getString(R.string.order_cancel_pay, requestParams.payDeadTime)
+                , "继续支付", "确定离开"
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
-                startActivity(intent);
-                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 3));
-                EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, 1));
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EventUtil eventUtil = EventUtil.getInstance();
+                        eventUtil.isRePay = false;
+                        Intent intent = null;
 
-                OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
-                orderParams.orderId = requestParams.orderId;
-                intent = new Intent(ChoosePaymentActivity.this, OrderDetailActivity.class);
-                intent.putExtra(Constants.PARAMS_DATA, orderParams);
-                intent.putExtra(Constants.PARAMS_SOURCE, ChoosePaymentActivity.this.getEventSource());
-                ChoosePaymentActivity.this.startActivity(intent);
-            }
-        }, "继续支付", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                        intent = new Intent(ChoosePaymentActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 3));
+                        EventBus.getDefault().post(new EventAction(EventType.TRAVEL_LIST_TYPE, 1));
 
-            }
-        });
+                        OrderDetailActivity.Params orderParams = new OrderDetailActivity.Params();
+                        orderParams.orderId = requestParams.orderId;
+                        intent = new Intent(ChoosePaymentActivity.this, OrderDetailActivity.class);
+                        intent.putExtra(Constants.PARAMS_DATA, orderParams);
+                        intent.putExtra(Constants.PARAMS_SOURCE, ChoosePaymentActivity.this.getEventSource());
+                        ChoosePaymentActivity.this.startActivity(intent);
+                    }
+                });
     }
 
     @Override

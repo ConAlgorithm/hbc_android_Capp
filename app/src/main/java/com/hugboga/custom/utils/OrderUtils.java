@@ -926,12 +926,12 @@ public class OrderUtils {
         } else {
             exitClick = _exitClick;
         }
-        AlertDialogUtils.showAlertDialog(activity, MyApplication.getAppContext().getString(R.string.back_alert_msg), "离开", "取消", exitClick, new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(activity, MyApplication.getAppContext().getString(R.string.back_alert_msg), "确认离开", "继续填写", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
-        });
+        }, exitClick);
     }
 
     public static String getOrderTypeStr(int _orderType) {
