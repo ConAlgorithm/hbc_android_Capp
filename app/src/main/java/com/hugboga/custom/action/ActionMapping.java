@@ -17,6 +17,7 @@ import com.hugboga.custom.action.vcid.ActionPageImChat;
 import com.hugboga.custom.action.vcid.ActionPageInsure;
 import com.hugboga.custom.action.vcid.ActionPageInviteBill;
 import com.hugboga.custom.action.vcid.ActionPageOrderDetail;
+import com.hugboga.custom.action.vcid.ActionPagePayResult;
 import com.hugboga.custom.action.vcid.ActionPagePurposeForm;
 import com.hugboga.custom.action.vcid.ActionPageSearch;
 import com.hugboga.custom.action.vcid.ActionPageSend;
@@ -66,6 +67,8 @@ public class ActionMapping {
         arrayMap.put(ActionPageType.CHOOSE_PAY, ActionPageChoosePay.class);                   // 34：支付收银台（登录、orderId、payPrice、apiType、isWechat、isAlipay、isUnionpay）
         arrayMap.put(ActionPageType.EVALUATE, ActionPageEvaluate.class);                      // 35: 已评价界面 (orderId)
         arrayMap.put(ActionPageType.SKU_GUIDE, ActionPageSkuGuide.class);                     // 38: 商品可服务司导 (goodsNo)
+        arrayMap.put(ActionPageType.PAY_RESULT, ActionPagePayResult.class);                   // 39:支付结果页(orderId,orderType,payResult,apiType)
+
         return arrayMap;
     }
 }
