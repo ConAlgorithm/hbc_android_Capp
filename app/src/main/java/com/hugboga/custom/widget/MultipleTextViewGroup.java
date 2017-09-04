@@ -3,6 +3,7 @@ package com.hugboga.custom.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -142,6 +144,8 @@ public class MultipleTextViewGroup extends RelativeLayout {
             TextView tv = new TextView(context);
             tv.setText(dataList.get(i));
             tv.setTextSize(textSize);
+            tv.setMaxLines(1);
+            tv.setEllipsize(TextUtils.TruncateAt.END);
             if (textBackground != -1)
                 tv.setBackgroundResource(textBackground);
 
@@ -166,16 +170,35 @@ public class MultipleTextViewGroup extends RelativeLayout {
 
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            if (x + tvw > layout_width || lineMap.get(line).size() >= columnNum) {
-                x = 0;
-                y = y + tvh + lineMargin;
+            if(i == 0){
+                if(tvw > UIUtils.getScreenWidth() - UIUtils.dip2px(5)){
+                    tv.setMaxLines(1);
+                    tv.setEllipsize(TextUtils.TruncateAt.END);
+                    tvw = getMeasuredWidth(tv);
+                }
+                if(isOnlyoneLine){
+                    lp.leftMargin = x;
+                    lp.topMargin = y;
+                    tv.setLayoutParams(lp);
+                    lineMap.get(line).add(tv);
+                    x = x + tvw + wordMargin;
+                    continue;
+                }
+            }else{
+                if (x + tvw > layout_width || lineMap.get(line).size() >= columnNum) {
+                    x = 0;
+                    y = y + tvh + lineMargin;
 
-                line++;
-                lineMap.put(line, new ArrayList<TextView>());
+                    line++;
+                    lineMap.put(line, new ArrayList<TextView>());
+                }
             }
+
             lp.leftMargin = x;
             lp.topMargin = y;
             x = x + tvw + wordMargin;
+            tv.setMaxLines(1);
+            tv.setEllipsize(TextUtils.TruncateAt.END);
             tv.setLayoutParams(lp);
             lineMap.get(line).add(tv);
         }
