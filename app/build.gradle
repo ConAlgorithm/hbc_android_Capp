@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'newlens'
 
 Properties getProperties() {
     Properties properties = new Properties()
@@ -269,4 +270,5 @@ dependencies {
     compile 'com.androidkun:XTabLayout:1.1.1'
     compile files('libs/smantifraud.jar')
     compile files('libs/fm-sdk-3.0.9.jar')
+    compile "com.networkbench.newlens.agent.android:nbs.newlens.agent:2.5.9"
 }

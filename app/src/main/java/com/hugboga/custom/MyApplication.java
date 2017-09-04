@@ -31,6 +31,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
 import com.ishumei.smantifraud.SmAntiFraud;
 import com.hugboga.im.entity.ImAnalysisEnitty;
+import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
@@ -103,7 +104,7 @@ public class MyApplication extends HbcApplication {
                 initFMAgent();              // 同盾
             }
         }
-
+        initNetworkbench();
         initNim();
     }
 
@@ -112,6 +113,10 @@ public class MyApplication extends HbcApplication {
         ImHelper.initNim(this, R.mipmap.icon_avatar_user,imAnalysisHandler);
     }
 
+    private void initNetworkbench(){
+        NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).
+                startInApplication(this.getApplicationContext());
+    }
 
     public static Context getAppContext() {
         return mAppContext;
