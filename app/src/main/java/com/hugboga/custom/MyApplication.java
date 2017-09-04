@@ -280,6 +280,7 @@ public class MyApplication extends HbcApplication {
         try {
             SmAntiFraud.SmOption option = new SmAntiFraud.SmOption();
             option.setOrganization("GqATrb95woTXTmiUQJrC");
+            option.setChannel(BuildConfig.FLAVOR);
             SmAntiFraud.create(getApplicationContext(), option);
         } catch (Exception e) {
             e.printStackTrace();

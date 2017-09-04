@@ -101,14 +101,8 @@ public class ParserOrder extends ImplParser {
         orderbean.adult = jsonObj.optInt("adultNum");
         orderbean.child = jsonObj.optInt("childNum");
         orderbean.passengerInfos = jsonObj.optString("passengerInfos");
-        String childSeatStr = jsonObj.optString("childSeat");
-        if (!TextUtils.isEmpty(childSeatStr)) {
-            orderbean.childSeat = new ArrayList<String>();
-            String[] childSeats = childSeatStr.split(",");
-            for (String seat : childSeats) {
-                orderbean.childSeat.add(seat);
-            }
-        }
+
+        orderbean.childSeat = gson.fromJson(jsonObj.optString("childSeat"), OrderBean.ChildSeats.class);
         orderbean.childSeats = gson.fromJson(jsonObj.optString("childSeats"), OrderBean.ChildSeats.class);
 
         orderbean.totalDays = jsonObj.optInt("totalDays");
