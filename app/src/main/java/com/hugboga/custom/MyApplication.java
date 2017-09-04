@@ -30,6 +30,7 @@ import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.entity.ImAnalysisEnitty;
+import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -94,7 +95,7 @@ public class MyApplication extends HbcApplication {
             initSensorsData();          // 初始化神策
             initXMpush();               // 小米push
         }
-
+        initNetworkbench();
         initNim();
     }
 
@@ -103,6 +104,10 @@ public class MyApplication extends HbcApplication {
         ImHelper.initNim(this, R.mipmap.icon_avatar_user,imAnalysisHandler);
     }
 
+    private void initNetworkbench(){
+        NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).
+                startInApplication(this.getApplicationContext());
+    }
 
     public static Context getAppContext() {
         return mAppContext;

@@ -375,3 +375,9 @@
 -keep class com.sensorsdata.analytics.android.sdk.** {
 *;
 }
+
+# ProGuard configurationsfor NetworkBench Lens
+-keep classcom.networkbench.** { *; }
+-dontwarncom.networkbench.**
+-keepattributesExceptions, Signature, InnerClasses
+# End NetworkBench Lens

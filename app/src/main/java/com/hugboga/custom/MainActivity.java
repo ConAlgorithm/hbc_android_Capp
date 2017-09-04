@@ -78,6 +78,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
 import com.hugboga.im.ImAnalysisUtils;
+import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.zhy.m.permission.MPermissions;
@@ -201,7 +202,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             currentPosition = pagePosition;
             mViewPager.setCurrentItem(currentPosition);
         }
-
+        initNetworkbench();
         requesetBattery();
     }
 
@@ -1031,6 +1032,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-
+    private void initNetworkbench(){
+        NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).start(this.getApplicationContext());
+    }
 
 }
