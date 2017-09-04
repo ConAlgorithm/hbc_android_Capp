@@ -14,7 +14,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.activity.PickSendActivity;
-import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.activity.TravelPurposeFormActivity;
 import com.hugboga.custom.activity.WebInfoActivity;

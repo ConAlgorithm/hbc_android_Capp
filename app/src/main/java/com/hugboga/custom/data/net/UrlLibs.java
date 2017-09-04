@@ -243,9 +243,9 @@ public class UrlLibs {
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
     public static final String DEL_INSURE_LIST              = "insurance/v1.0/c/user/delete";                           // 删除投保人
     public static final String GET_INSURE_LIST              = "insurance/v1.0/c/user/list";                             // 查询投保人
-    public static final String SUBMIT_INSURE_LIST           = "insurance/v1.0/c/insurance/submit";                      // 提交投保人
-    public static final String API_INSURANCE_RESUBMIT       = "insurance/v1.0/c/insurance/resubmit";                    // 重新提交保单 135
-    public static final String API_INSURANCE_SEARCH         = "insurance/v1.0/c/insurance/search";                      // 查询订单保单接口 136
+    public static final String SUBMIT_INSURE_LIST           = "insurance/v2.0/c/insurance/submit";                      // 提交投保人
+    public static final String API_INSURANCE_RESUBMIT       = "insurance/v2.0/c/insurance/resubmit";                    // 重新提交保单 135
+    public static final String API_INSURANCE_SEARCH         = "insurance/v2.0/c/insurance/search";                      // 查询订单保单接口 136
 
     public static final String SERVER_IP_FLIGHTS_BY_NO      = "flight/v1.0/c/flights?";                                 // 航班查询 通过航班号
     public static final String SERVER_IP_FLIGHTS_BY_CITY    = "flight/v1.0/c/city/flights?";                            // 航班查询 通过城市

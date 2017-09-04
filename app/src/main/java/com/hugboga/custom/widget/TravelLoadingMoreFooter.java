@@ -18,7 +18,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.UIUtils;
-import com.jcodecraeer.xrecyclerview.LoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.SimpleViewSwitcher;
 import com.jcodecraeer.xrecyclerview.progressindicator.AVLoadingIndicatorView;

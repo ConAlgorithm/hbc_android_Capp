@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
-import com.hugboga.custom.data.bean.HomeBean;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.UIUtils;
 

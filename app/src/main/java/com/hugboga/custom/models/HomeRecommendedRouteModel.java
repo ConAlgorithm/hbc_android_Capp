@@ -15,22 +15,13 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
-import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomeRecommendedRoutAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
-import com.hugboga.custom.data.bean.HomeCityGoodsVo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.tmall.ultraviewpager.UltraViewPager;
-import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
-
-import net.grobas.view.PolygonImageView;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
