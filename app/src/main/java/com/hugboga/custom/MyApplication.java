@@ -280,6 +280,7 @@ public class MyApplication extends HbcApplication {
         try {
             SmAntiFraud.SmOption option = new SmAntiFraud.SmOption();
             option.setOrganization("GqATrb95woTXTmiUQJrC");
+            option.setChannel(BuildConfig.FLAVOR);
             SmAntiFraud.create(getApplicationContext(), option);
         } catch (Exception e) {
             e.printStackTrace();
@@ -295,7 +296,7 @@ public class MyApplication extends HbcApplication {
      * */
     public void initFMAgent() {
         try {
-            FMAgent.init(this, FMAgent.ENV_SANDBOX);
+            FMAgent.init(this, FMAgent.ENV_PRODUCTION);
         } catch (FMException e) {
             e.printStackTrace();
         } catch (Exception e) {

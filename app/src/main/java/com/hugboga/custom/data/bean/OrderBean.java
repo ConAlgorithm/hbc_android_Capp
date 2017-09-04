@@ -112,7 +112,7 @@ public class OrderBean implements IBaseBean{
     public Integer adult;                // adultNum 成人数
     public Integer child;                // childNum 小孩数
     public String passengerInfos;        // 座位信息 乘坐%1$s人、行李箱%2$s件、儿童座椅%3$s个
-    public ArrayList<String> childSeat;
+    public ChildSeats childSeat;         // 组合单子单，儿童座椅价格及个数
     public ChildSeats childSeats;        // 儿童座椅价格及个数
 
     public Integer totalDays;       // 包车天数

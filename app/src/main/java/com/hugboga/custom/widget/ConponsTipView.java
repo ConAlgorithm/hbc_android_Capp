@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LoginActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCouponsOrderTip;
@@ -106,7 +107,8 @@ public class ConponsTipView extends TextView{
 
         @Override
         public void onClick(View widget) {
-            Intent intent= new Intent(context, LoginActivity.class);
+            Intent intent = new Intent(context, LoginActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, widget.getContext().getResources().getString(R.string.custom_chartered));
             context.startActivity(intent);
         }
     }

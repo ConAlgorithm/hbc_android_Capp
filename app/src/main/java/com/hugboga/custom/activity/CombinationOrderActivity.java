@@ -640,7 +640,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         mostFitAvailableBean.limit = 20 + "";
         mostFitAvailableBean.offset = 0 + "";
         mostFitAvailableBean.priceChannel = "" + (carBean.price + extrasPriceView.getAdditionalPrice());
-        mostFitAvailableBean.useOrderPrice = "" + carBean.price;
+        mostFitAvailableBean.useOrderPrice = "" + (carBean.price + extrasPriceView.getAdditionalPrice());
         mostFitAvailableBean.serviceCityId = startCityBean.cityId + "";
         mostFitAvailableBean.serviceCountryId = startCityBean.areaCode + "";
         mostFitAvailableBean.serviceTime = charterDataUtils.chooseDateBean.start_date + " " + SERVER_TIME;

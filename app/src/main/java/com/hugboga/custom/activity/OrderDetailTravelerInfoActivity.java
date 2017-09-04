@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
@@ -131,6 +132,8 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     private OrderBean orderBean;
     private PoiBean startPoiBean;
     RequestOrderEdit.Params requestParams;
+
+    private boolean isRequested = false;
 
     @Override
     public int getContentViewId() {
@@ -607,6 +610,11 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     }
 
     private void sendRequest() {
+        if (isRequested) {
+            return;
+        } else {
+            isRequested = true;
+        }
         if (TextUtils.isEmpty(contactsLayout.getName())) {
             CommonUtils.showToast("请填写联系人姓名");
             return;
@@ -677,6 +685,12 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_INFO, orderBean.orderNo));
             finish();
         }
+    }
+
+    @Override
+    public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
+        super.onDataRequestError(errorInfo, request);
+        isRequested = false;
     }
 
     private String getUserExJson() {

@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
@@ -164,12 +165,16 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
     }
 
     private static void gotoLogin(Activity mContext,boolean finish){
-        if (mContext instanceof BaseFragmentActivity) {
-            BaseFragmentActivity activity = (BaseFragmentActivity) mContext;
+        if (mContext instanceof BaseActivity) {
+            BaseActivity activity = (BaseActivity) mContext;
             if (finish) {
-                mContext.startActivity(new Intent(mContext, MainActivity.class));
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE, activity.getEventSource());
+                mContext.startActivity(intent);
             }
-            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE, activity.getEventSource());
+            mContext.startActivity(intent);
         }
     }
 

@@ -355,6 +355,7 @@ public class WebAgent implements HttpRequestListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(mActivity, LoginActivity.class);
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         intent.putExtras(bundle);
                         mActivity.startActivity(intent);
                     }

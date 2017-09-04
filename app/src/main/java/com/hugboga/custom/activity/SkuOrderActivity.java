@@ -112,6 +112,8 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     @Bind(R.id.sku_order_progress_view)
     CircularProgress progressView;
 
+    private CsDialog csDialog;
+
     private SkuOrderActivity.Params params;
     private CarListBean carListBean;
     private CarBean carBean;
@@ -137,7 +139,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
-    CsDialog csDialog;
+
     public static class Params implements Serializable {
         public SkuItemBean skuItemBean;
         public CityBean cityBean;

@@ -156,7 +156,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.setting_exit:
                 //退出登录
-                AlertDialogUtils.showAlertDialog(activity, "退出登录", "退出后不会删除任何历史数据，下次登录依然可以使用本账号", "退出", "取消"
+                AlertDialogUtils.showAlertDialog(activity, "退出登录", "退出后不会删除任何历史数据，下次登录依然可以使用本账号", "确定", "取消"
                         , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -200,7 +200,7 @@ public class SettingActivity extends BaseActivity {
                         });
                 break;
             case R.id.setting_menu_layout7:
-                AlertDialogUtils.showAlertDialog(activity, "清除缓存", "将删除" + getCacheSize() + "图片和系统预填信息", "确认", "取消", new DialogInterface.OnClickListener() {
+                AlertDialogUtils.showAlertDialog(activity, "清除缓存", "将删除" + getCacheSize() + "缓存的图片和系统预填信息", "确认", "取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Tools.deleteCache();

@@ -141,9 +141,21 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
         addItemView(R.mipmap.trip_icon_people, passengerCount);
 
         String luggageStr = "";
-        if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {//儿童座椅数
-            luggageStr += String.format("儿童座椅%1$s个，", orderBean.childSeats.getChildSeatCount());
+        int childSeatCount = 0;
+        if (orderBean.orderType == 888 && orderBean.subOrderDetail != null) {
+            OrderBean.ChildSeats childSeat = orderBean.subOrderDetail.subOrderList.get(0).childSeat;
+            if (childSeat != null && childSeat.getChildSeatCount() > 0) {
+                childSeatCount = childSeat.getChildSeatCount();
+            }
+        } else {
+            if (orderBean.childSeats != null && orderBean.childSeats.getChildSeatCount() > 0) {
+                childSeatCount = orderBean.childSeats.getChildSeatCount();
+            }
         }
+        if (childSeatCount > 0) {//儿童座椅数
+            luggageStr += String.format("儿童座椅%1$s个，", childSeatCount);
+        }
+
         luggageStr += String.format("最多携带行李%1$s件", orderBean.luggageNum);
         addLuggageView(luggageStr);
 
