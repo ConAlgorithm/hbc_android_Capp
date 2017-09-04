@@ -20,6 +20,7 @@ public class ActionUtils {
         if (!isLogin) {
             Intent intent = new Intent(context, LoginActivity.class);
             intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
             context.startActivity(intent);
         }
         return isLogin;

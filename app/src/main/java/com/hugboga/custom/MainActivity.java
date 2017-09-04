@@ -729,20 +729,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     /**
-     * 判断是否登录
-     */
-    private boolean isLogin(String source) {
-        if (UserEntity.getUser().isLogin(this)) {
-            return true;
-        } else {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra(Constants.PARAMS_SOURCE, source);
-            startActivity(intent);
-            return false;
-        }
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
