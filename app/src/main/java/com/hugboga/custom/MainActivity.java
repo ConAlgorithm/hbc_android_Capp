@@ -60,7 +60,6 @@ import com.hugboga.custom.fragment.FgHome;
 import com.hugboga.custom.fragment.FgMySpace;
 import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
-import com.hugboga.custom.service.ImAnalysisService;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.AlertDialogUtils;
@@ -204,7 +203,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
 
         requesetBattery();
-        requestImAnalysisConfig();
     }
 
     @Override
@@ -1033,40 +1031,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-    //请求im统计开关
-    private void requestImAnalysisConfig(){
-        RequestImAnalysisSwitch requestImAnalysisSwitch = new RequestImAnalysisSwitch(MyApplication.getAppContext());
-        HttpRequestUtils.request(this, requestImAnalysisSwitch, new HttpRequestListener() {
-            @Override
-            public void onDataRequestSucceed(BaseRequest request) {
-                Object o  = request.getData();
-                if(o!=null && o instanceof String){
-                    try{
-                        String value = (String)o;
-                        JSONObject jsonObject = new JSONObject(value);
-                        String open = jsonObject.optString("data");
-                        if("1".equals(open)){// 1：打开IM统计 0:关闭IM统计
-                            ImAnalysisUtils.setOpen(ImAnalysisUtils.SWITCHER_OPEN);
-                            MyApplication.startImAnalysisService();
-                        }else{
-                            ImAnalysisUtils.setOpen(ImAnalysisUtils.SWITCHER_CLOSE);
-                            Intent intent = new Intent(MyApplication.getAppContext(),ImAnalysisService.class);
-                            MyApplication.getAppContext().stopService(intent);
-                        }
-                    }catch (Exception e){
-                    }
-                }
-            }
-
-            @Override
-            public void onDataRequestCancel(BaseRequest request) {
-            }
-
-            @Override
-            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-            }
-        }, false);
-    }
 
 
 }
