@@ -8,31 +8,40 @@ import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.ishumei.smantifraud.SmAntiFraud;
 
-import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
 
+import cn.tongdun.android.shell.FMAgent;
+
 /**
  * Created by qingcha on 17/9/4.
  */
-@HttpRequest(path = UrlLibs.API_REPORT, builder = NewParamsBuilder.class)
-public class RequestUpdateAntiCheatInfo extends BaseRequest<String> {
+@HttpRequest(path = UrlLibs.API_UPDATE_ANTICHEAT_INFO, builder = NewParamsBuilder.class)
+public class RequestUpdateAntiCheatInfo extends BaseRequest {
 
-    public RequestUpdateAntiCheatInfo(Context context, String body) {
+    public RequestUpdateAntiCheatInfo(Context context) {
         super(context);
         map = new HashMap<String, Object>();
-        bodyEntity = body;
         // android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
-        // 反作弊服务商类型:1:数美、2:同盾
-        map.put("antiType", Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR) ? 1 : 2);
-    }
+        boolean isSM = Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR);
+        map.put("antiType", isSM ? 1 : 2);// 反作弊服务商类型:1:数美、2:同盾
+
+        String deviceId = "";
+        if (isSM) {
+            deviceId = SmAntiFraud.getDeviceId();
+        } else {
+            deviceId = FMAgent.onEvent(context);
+        }
+        map.put("antiId", deviceId);
+}
 
     @Override
     public ImplParser getParser() {
-        return new DataParser();
+        return null;
     }
 
     @Override
@@ -42,13 +51,6 @@ public class RequestUpdateAntiCheatInfo extends BaseRequest<String> {
 
     @Override
     public String getUrlErrorCode() {
-        return "40106";
-    }
-
-    private static class DataParser extends ImplParser {
-        @Override
-        public Object parseObject(JSONObject obj) throws Throwable {
-            return obj.toString();
-        }
+        return "40186";
     }
 }
