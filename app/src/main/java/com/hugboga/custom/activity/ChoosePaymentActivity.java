@@ -20,6 +20,7 @@ import com.alipay.sdk.app.PayTask;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.net.ExceptionErrorCode;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
+import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.ServerException;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
@@ -28,11 +29,13 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.alipay.PayResult;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AbroadCreditBean;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.data.request.RequestAbroadCreditPayment;
 import com.hugboga.custom.data.request.RequestPayNo;
 import com.hugboga.custom.data.request.RequestQueryCreditCard;
 import com.hugboga.custom.statistic.MobClickUtils;
@@ -70,7 +73,7 @@ import butterknife.OnClick;
 /**
  * Created by on 16/8/4.
  */
-public class ChoosePaymentActivity extends BaseActivity {
+public class ChoosePaymentActivity extends BaseActivity implements HttpRequestListener{
 
     public static final String PAY_PARAMS = "pay_params";
     public static final String TAG = "ChoosePaymentActivity";
@@ -109,7 +112,8 @@ public class ChoosePaymentActivity extends BaseActivity {
     public String creditType;
     CreditCardInfoBean cardInfoBean;
     private boolean isShowingAlipay = false;
-
+    public static final String ORDERTYPE = "order_type";
+    public static final String APITYPE = "api_type";
     public static class RequestParams implements Serializable {
         public String orderId;
         public double shouldPay;
@@ -369,7 +373,8 @@ public class ChoosePaymentActivity extends BaseActivity {
         return data;
     }
 
-    @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout, R.id.choose_payment_add_credit_card_layout, R.id.choose_payment_credit_card_layout})    public void onClick(View view) {
+    @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout, R.id.choose_payment_add_credit_card_layout, R.id.choose_payment_credit_card_layout,R.id.choose_payment_abrod_credit_layout})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.choose_payment_alipay_layout://支付宝支付
                 DefaultSSLSocketFactory.resetSSLSocketFactory(this);
@@ -390,6 +395,14 @@ public class ChoosePaymentActivity extends BaseActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
                 sendRequest(Constants.PAY_STATE_BANK);//仅仅只用于埋点
+                break;
+            case R.id.choose_payment_abrod_credit_layout:
+                if(requestParams!= null){
+                    RequestAbroadCreditPayment requestAbroadCreditPayment = new RequestAbroadCreditPayment(this,requestParams.shouldPay,requestParams.orderId);
+                    requestData(requestAbroadCreditPayment,false);
+                    SharedPre.setInteger(ORDERTYPE,requestParams.orderType);
+                    SharedPre.setInteger(APITYPE,requestParams.apiType);
+                }
                 break;
             case R.id.choose_payment_credit_card_layout:
                 //直接点击上一次支付的界面进行支付
@@ -446,6 +459,16 @@ public class ChoosePaymentActivity extends BaseActivity {
             }
             ArrayList<CreditCardInfoBean> cardInfoBean =(ArrayList<CreditCardInfoBean>) requestQueryCreditCard.getData();
             setCreditCardStatus(cardInfoBean);      //设置显示已绑定银行卡
+        }else if(request instanceof RequestAbroadCreditPayment){
+            if(request.getData() != null){
+                AbroadCreditBean abroadCreditBean = (AbroadCreditBean) request.getData();
+                if(abroadCreditBean.payurl != null){
+                    Intent intent = new Intent(this,WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL,abroadCreditBean.payurl);
+                    startActivity(intent);
+                }
+            }
+
         }
     }
 
