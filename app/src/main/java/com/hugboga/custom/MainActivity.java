@@ -204,6 +204,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             mViewPager.setCurrentItem(currentPosition);
         }
 
+        initNetworkbench();
         requesetBattery();
     }
 
@@ -1033,6 +1034,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-
+    private void initNetworkbench(){
+        NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).start(this.getApplicationContext());
+    }
 
 }
