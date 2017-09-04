@@ -276,6 +276,7 @@ public class UrlLibs {
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
     public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
+    public static final String API_UPDATE_ANTICHEAT_INFO    = "passport/v1.0/updateAntiCheatInfo";                      // 更新设备反作弊信息 186
 
     public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132

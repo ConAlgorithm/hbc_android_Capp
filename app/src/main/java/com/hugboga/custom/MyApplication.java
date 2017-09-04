@@ -29,11 +29,10 @@ import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
+import com.ishumei.smantifraud.SmAntiFraud;
 import com.hugboga.im.entity.ImAnalysisEnitty;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -47,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.tongdun.android.shell.FMAgent;
+import cn.tongdun.android.shell.exception.FMException;
 
 /**
  * Created by admin on 2016/2/25.
@@ -94,6 +95,8 @@ public class MyApplication extends HbcApplication {
             UnicornUtils.initUnicorn(); // 七鱼
             initSensorsData();          // 初始化神策
             initXMpush();               // 小米push
+            initSmAntiFraud();          // 数美
+            initFMAgent();              // 同盾
         }
         initNetworkbench();
         initNim();
@@ -257,6 +260,41 @@ public class MyApplication extends HbcApplication {
     public void initXMpush() {
         MiPushClient.registerPush(this, "2882303761517373432", "5601737383432");
         Logger.disablePushFileLog(MyApplication.getAppContext());
+    }
+
+    /**
+     * 同盾
+     * 系统地址：https://www.fengkongcloud.com
+     * 账号：yingbinmu@huangbaoche.com
+     * 密码：10Yi100Yi
+     * accessKey：WUUvcpMUan4hd4B5FaBC
+     * organization：GqATrb95woTXTmiUQJrC
+     * */
+    public void initSmAntiFraud() {
+        try {
+            SmAntiFraud.SmOption option = new SmAntiFraud.SmOption();
+            option.setOrganization("GqATrb95woTXTmiUQJrC");
+            SmAntiFraud.create(getApplicationContext(), option);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 同盾
+     * 系统地址：https://portaltest.tongdun.cn
+     * 账号：yingbinmu@huangbaoche.com
+     * 密码：fRqbbxpJ
+     * FMAgent.ENV_SANDBOX表示测试环境，FMAgent.ENV_PRODUCTION表示生产环境
+     * */
+    public void initFMAgent() {
+        try {
+            FMAgent.init(this, FMAgent.ENV_SANDBOX);
+        } catch (FMException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*

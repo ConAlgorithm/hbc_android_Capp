@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.hugboga.custom.data.request.RequestDelInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -381,7 +383,17 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @OnClick(R.id.commit)
     public void onClick() {
         if (!TextUtils.isEmpty(getInsuranceUserId())) {
-            commitInsure();
+            AlertDialogUtils.showAlertDialog(this, false, "注意", "提交后投保信息不可更改", "现在提交", "再检查下", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    commitInsure();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
         }else{
             CommonUtils.showToast("请选择投保人");
         }
