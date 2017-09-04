@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -12,11 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.hugboga.custom.R;
-import com.hugboga.custom.activity.TravelFundActivity;
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.UIUtils;
 import com.jcodecraeer.xrecyclerview.LoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;

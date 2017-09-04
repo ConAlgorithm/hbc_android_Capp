@@ -6,6 +6,10 @@ import android.text.style.ForegroundColorSpan;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.reflect.TypeToken;
+import com.hugboga.custom.MyApplication;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,6 +24,10 @@ import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
  */
 
 public class SearchUtils {
+
+    public static boolean  isHistory;
+    public static boolean isRecommend;
+    public static boolean hasResult;
 
     public static List<String> getSaveHistorySearch() {
         try {
@@ -82,5 +90,19 @@ public class SearchUtils {
             return ss;
         }
         return null;
+    }
+
+    //搜索埋点
+    public static void setSensorsShareEvent(String keyWord,boolean isHistory,boolean isRecommend,boolean hasResult) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("keyWord", keyWord);
+            properties.put("isHistory", isHistory);
+            properties.put("isRecommend", isRecommend);
+            properties.put("hasResult", hasResult);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("searchResult", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

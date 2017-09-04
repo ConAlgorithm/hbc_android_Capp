@@ -34,12 +34,11 @@ import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
-import com.hugboga.custom.models.ChoicenessGuideModel;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -82,7 +81,7 @@ public class CityListActivity extends BaseActivity {
     private CityListAdapter cityListAdapter;
     private CountryGroupBean countryGroupBean;
     private CityListBean cityListBean;
-
+    CsDialog csDialog;
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY, ALL
     }
@@ -445,7 +444,14 @@ public class CityListActivity extends BaseActivity {
     @OnClick(R.id.city_list_service_tv)
     public void showServiceDialog() {
         //DialogUtil.showServiceDialog(CityListActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        CommonUtils.csDialog(CityListActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+        csDialog = CommonUtils.csDialog(CityListActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     @Subscribe

@@ -17,6 +17,7 @@ import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +51,7 @@ public class OrderCancelActivity extends BaseActivity{
 
     private OrderBean orderBean;
     private DialogUtil mDialogUtil;
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.fg_order_cancel;
@@ -114,7 +115,14 @@ public class OrderCancelActivity extends BaseActivity{
         switch (view.getId()){
             case R.id.head_btn_right:
                 //mDialogUtil.showServiceDialog(activity,null,UnicornServiceActivity.SourceType.TYPE_ORDER,orderBean,null,getEventSource());
-                CommonUtils.csDialog(activity,orderBean,null,null, UnicornServiceActivity.SourceType.TYPE_ORDER,getEventSource());
+                csDialog = CommonUtils.csDialog(activity, orderBean, null, null, UnicornServiceActivity.SourceType.TYPE_ORDER, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
                 break;
             case R.id.head_btn_left:
                 goBackOrderFg();

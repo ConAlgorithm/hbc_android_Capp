@@ -25,6 +25,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -93,7 +94,7 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     private String flightToCity;
     private DbManager mDbManager;
     private String source = "";
-
+    CsDialog csDialog;
     int mBusinessType = Constants.BUSINESS_TYPE_PICK;
 
     @Override
@@ -267,7 +268,14 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     @OnClick({R.id.flight_empty_service_tv})
     public void onService() {
         //DialogUtil.getInstance(this).showServiceDialog(this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        CommonUtils.csDialog(this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+        csDialog = CommonUtils.csDialog(this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     private void addAirportInfo(ArrayList<FlightBean> listDate) {

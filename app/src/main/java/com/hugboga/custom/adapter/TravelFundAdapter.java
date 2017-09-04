@@ -12,7 +12,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.TravelFundRecordActivity;
 import com.hugboga.custom.data.bean.TravelFundData;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 

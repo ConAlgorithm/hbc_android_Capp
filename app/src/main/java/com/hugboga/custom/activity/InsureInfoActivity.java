@@ -104,10 +104,10 @@ public class InsureInfoActivity extends BaseActivity {
             }
         });
         headerTitle.setText(getString(R.string.insure_info_title));
-        setData(orderBean.insuranceList);
+        setData(orderBean.insuranceMap);
     }
 
-    public void setData(List<InsureListBean> list) {
+    public void setData(List<List<InsureListBean>> list) {
         if (adapter == null) {
             adapter = new FgInsureInfoAdapter(this);
             listView.setAdapter(adapter);
@@ -136,7 +136,7 @@ public class InsureInfoActivity extends BaseActivity {
         super.onDataRequestSucceed(_request);
         if (_request instanceof RequestInsuranceSearch) {
             InsureSearchBean insureSearchBean = ((RequestInsuranceSearch)_request).getData();
-            setData(insureSearchBean.insuranceList);
+            setData(insureSearchBean.insuranceMap);
         }
     }
 

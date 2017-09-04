@@ -2,7 +2,6 @@ package com.hugboga.custom.models;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -11,13 +10,9 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HomeBannerAdapter;
-import com.hugboga.custom.adapter.HomeRecommendedRoutAdapter;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.HomeActivitiesView;
-import com.hugboga.custom.widget.HomeBannerView;
 import com.tmall.ultraviewpager.UltraViewPager;
-import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 
 import java.util.ArrayList;
 

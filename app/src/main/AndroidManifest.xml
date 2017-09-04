@@ -749,10 +749,6 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeFullscreen" />
 
-        <!-- 云信数据统计服务-->
-        <service android:name=".service.ImAnalysisService"
-            android:enabled="true"
-            android:exported="false" ></service>
     </application>
 
 </manifest>

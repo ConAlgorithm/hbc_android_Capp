@@ -18,11 +18,9 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.UserFavoriteGuideListVo3;
@@ -30,7 +28,6 @@ import com.hugboga.custom.data.bean.UserFavoriteLineList;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
-import com.hugboga.custom.data.request.RequestFilterGuide;
 import com.hugboga.custom.data.request.RequestHomeNew;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -43,8 +40,6 @@ import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -423,7 +418,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         this.getContext().startActivity(intent);
         StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
-        SensorsUtils.onAppClick(getEventSource(),"搜索","首页－搜索");
+        SensorsUtils.onAppClick("全局搜索","全局搜索","首页");
     }
 
     @OnClick({R.id.search_icon_layout})

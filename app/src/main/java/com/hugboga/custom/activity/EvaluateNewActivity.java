@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
@@ -64,7 +63,6 @@ import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.EvaluateTagGroup;
 import com.hugboga.custom.widget.RatingView;
 import com.hugboga.custom.widget.ShareDialog;

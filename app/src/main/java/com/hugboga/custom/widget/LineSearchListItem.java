@@ -80,7 +80,7 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
                     Intent intent = new Intent(activity, SkuDetailActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, goodsPublishStatusVo.goodsDetailUrl);
                     intent.putExtra(Constants.PARAMS_ID, goodsPublishStatusVo.no);
-                    //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     activity.startActivity(intent);
                 }
             }
@@ -90,15 +90,11 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
     public void setkeyWord(String keyword){
         this.keyword = keyword;
     }
-    private void interClick(int position) {
-        Intent intent = new Intent(context, SkuDetailActivity.class);
-        //intent.putExtra(WebInfoActivity.WEB_URL, homeCityContentVo2.cityGoodsList.get(position).goodsDetailUrl);
-        intent.putExtra(Constants.PARAMS_ID, goodsPublishStatusVo.no);
-        //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        context.startActivity(intent);
-        //SensorsUtils.onAppClick(getEventSource(), "推荐线路", "首页-推荐线路");
-    }
+
     public void setActivity(Activity activity){
         this.activity = activity;
+    }
+    public String getEventSource(){
+        return "搜索";
     }
 }

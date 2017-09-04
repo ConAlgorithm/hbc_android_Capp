@@ -143,11 +143,11 @@ public class OrderBean implements IBaseBean{
     public String isFlightSign;         // 是否选择举牌接机服务
     public String isCheckin;            // 是否协助登机：0-未选、1-选择；
 
-    public boolean insuranceEnable;             // 是否可以添加保险 true可以 false不可以
-    public String insuranceTips;                // 添加保险提示;
-    public List<InsureListBean> insuranceList;  // 投保人列表
-    public String insuranceStatus;              // 保单状态提示
-    public int insuranceStatusCode;             // 1001-全部购买、1002-出现问题、1003-注销保险、1004-保单处理中；
+    public boolean insuranceEnable;                 // 是否可以添加保险 true可以 false不可以
+    public String insuranceTips;                    // 添加保险提示;
+    public List<List<InsureListBean>> insuranceMap; // 投保人列表
+    public String insuranceStatus;                  // 保单状态提示
+    public int insuranceStatusCode;                 // 1001-全部购买、1002-出现问题、1003-注销保险、1004-保单处理中；
 
     public ArrayList<CityBean> passByCity; // passCities 包车途径城市
     public String lineSubject;             // 线路名称，精品线路，标题 xx一日游

@@ -186,16 +186,28 @@ public final class CommonUtils {
         }
     }
 
-    public static void csDialog(final Context context, final OrderBean orderBean
+    public static CsDialog csDialog(final Context context, final OrderBean orderBean
             , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source) {
         CsDialog csDialog = new CsDialog(context);
         csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
         csDialog.show();
+        return csDialog;
     }
 
-    public static void uppicDialog(final Context context) {
+    public static CsDialog csDialog(final Context context, final OrderBean orderBean
+            , final String title, final SkuItemBean skuItemBean, final int sourceType,final String source,CsDialog.OnCsListener listener) {
+        CsDialog csDialog = new CsDialog(context);
+        csDialog.setParams(new CsDialog.Params(title,sourceType,orderBean,skuItemBean,source));
+        if(listener!=null){
+            csDialog.setOnCsListener(listener);
+        }
+        csDialog.show();
+        return csDialog;
+    }
+    public static UpPicDialog uppicDialog(final Context context) {
         UpPicDialog upPicDialog = new UpPicDialog(context);
         upPicDialog.show();
+        return upPicDialog;
     }
     public static String getDoubleEncodedString(String str) {
         if (TextUtils.isEmpty(str)) {

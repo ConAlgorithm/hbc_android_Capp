@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.hugboga.custom.data.request.RequestDelInsure;
 import com.hugboga.custom.data.request.RequestInsureList;
 import com.hugboga.custom.data.request.RequestOrderDetail;
 import com.hugboga.custom.data.request.RequestSubmitInsure;
+import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -105,7 +107,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     public void update() {
         if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
             headerTitle.setText("添加投保人");
-            insureListSize = orderBean.insuranceList == null ? 0 : orderBean.insuranceList.size();
+            insureListSize = orderBean.insuranceMap == null ? 0 : orderBean.insuranceMap.size();
             bottom.setVisibility(View.VISIBLE);
             peopleNum.setText(insureListSize + "");
             peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));
@@ -328,7 +330,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         if (request instanceof RequestInsureList) {
             bean = (InsureBean) request.getData();
             beanList.addAll(bean.resultBean);
-            if (null != orderBean) {
+            if (null != orderBean || orderNo != null) {
                 showCheckBox();
                 list.setOnItemLongClickListener(null);
                 if(beanList.size() > 0){
@@ -352,7 +354,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             adapter.notifyDataSetChanged();
         } else if (request instanceof RequestSubmitInsure) {
             CommonUtils.showToast("投保申请已成功提交");
-            finish();
+            onBack();
 //            if(TextUtils.isEmpty(from)) {
             EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
 //            }
@@ -381,7 +383,17 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @OnClick(R.id.commit)
     public void onClick() {
         if (!TextUtils.isEmpty(getInsuranceUserId())) {
-            commitInsure();
+            AlertDialogUtils.showAlertDialog(this, false, "注意", "提交后投保信息不可更改", "现在提交", "再检查下", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    commitInsure();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
         }else{
             CommonUtils.showToast("请选择投保人");
         }

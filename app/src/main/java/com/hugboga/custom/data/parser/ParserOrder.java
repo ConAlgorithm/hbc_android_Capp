@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -143,7 +144,18 @@ public class ParserOrder extends ImplParser {
         orderbean.insuranceTips = jsonObj.optString("insuranceTips");
         orderbean.insuranceStatus = jsonObj.optString("insuranceStatus");
         orderbean.insuranceStatusCode = jsonObj.optInt("insuranceStatusCode");
-        orderbean.insuranceList = gson.fromJson(jsonObj.optString("insuranceList"), new TypeToken<List<InsureListBean>>(){}.getType());
+
+        JSONObject insuranceMapBean = jsonObj.optJSONObject("insuranceMap");
+        if (insuranceMapBean != null) {
+            List<List<InsureListBean>> insuranceList = new ArrayList<>();
+            Iterator<String> keys = insuranceMapBean.keys();
+            for (; keys.hasNext(); ) {
+                String key = keys.next();
+                List<InsureListBean> itemList = gson.fromJson(insuranceMapBean.optString(key), new TypeToken<List<InsureListBean>>(){}.getType());
+                insuranceList.add(itemList);
+            }
+            orderbean.insuranceMap = insuranceList;
+        }
 
         JSONArray passByCityArray = jsonObj.optJSONArray("passCities");
         if (passByCityArray != null && passByCityArray.length() > 0) {

@@ -32,6 +32,7 @@ public class ParserCheckVersion extends ImplParser {
         cvBean.appVersion = obj.optString("appVersion");
         cvBean.dbDownloadLink = obj.optString("dbDownloadLink");
         cvBean.dbVersion = obj.optInt("dbVersion");
+        cvBean.hasAntiId = obj.optBoolean("hasAntiId");
         JSONArray resUpdates = obj.optJSONArray("resUpdates");
         cvBean.resList = new ArrayList<>();
         if (resUpdates != null)

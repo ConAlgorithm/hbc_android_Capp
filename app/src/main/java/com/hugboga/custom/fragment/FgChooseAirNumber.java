@@ -3,7 +3,6 @@ package com.hugboga.custom.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,7 +34,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.calendar.CalendarUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
 import java.lang.reflect.Type;

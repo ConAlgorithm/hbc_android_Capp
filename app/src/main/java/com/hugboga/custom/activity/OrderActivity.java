@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -51,9 +50,8 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
-import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.OrderDescriptionView;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.OrderInsuranceView;
@@ -111,7 +109,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public FlightBean flightBean; // 接机航班信息
         public AirPort airPortBean;   // 送机机场信息
@@ -210,7 +208,14 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
                 //DialogUtil.getInstance(OrderActivity.this).showServiceDialog(OrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-                CommonUtils.csDialog(OrderActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+                csDialog = CommonUtils.csDialog(OrderActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
     }
@@ -238,8 +243,12 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 if (couponBean == null) {
                     couponId = null;
                     couponBean = null;
-                } else if (couponBean.couponID.equalsIgnoreCase(couponId)) {
-                    break;
+                } else {
+                    if (couponBean.couponID.equalsIgnoreCase(couponId)) {
+                        break;
+                    } else {
+                        couponId = couponBean.couponID;
+                    }
                 }
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
@@ -252,6 +261,15 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 showCheckSeckillsDialog(errorMessage);
                 break;
         }
+    }
+
+    public String getCouponId() {
+        if (null != mostFitBean) {
+            couponId = mostFitBean.couponId;
+        } else if (null != couponBean) {
+            couponId = couponBean.couponID;
+        }
+        return couponId;
     }
 
     private void showCheckSeckillsDialog(String content) {
@@ -393,15 +411,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         mostFitAvailableBean.orderType = params.orderType + "";
         mostFitAvailableBean.carModelId = params.carBean.carId + "";
         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
-        if (null != mostFitBean) {
-            couponId = mostFitBean.couponId;
-            bundle.putString("idStr", mostFitBean.couponId);
-        } else if (null != couponBean) {
-            couponId = couponBean.couponID;
-            bundle.putString("idStr", couponBean.couponID);
-        } else {
-            bundle.putString("idStr", "");
-        }
+        bundle.putString("idStr", getCouponId());
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, CouponActivity.class);
         intent.putExtras(bundle);
@@ -451,7 +461,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
      * 金额为零，直接请求支付接口（支付宝）
      * */
     private void requestPayNo(String orderNo) {
-        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
+        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, getCouponId());
         requestData(pequestPayNo);
     }
 
@@ -633,7 +643,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.couponId = couponId;
+                requestParams.couponId = getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();

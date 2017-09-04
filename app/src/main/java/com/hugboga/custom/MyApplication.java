@@ -4,6 +4,9 @@ package com.hugboga.custom;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,7 +22,7 @@ import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
-import com.hugboga.custom.service.ImAnalysisService;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UmengADPlus;
@@ -27,6 +30,7 @@ import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
 import com.ishumei.smantifraud.SmAntiFraud;
+import com.hugboga.im.entity.ImAnalysisEnitty;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
@@ -99,17 +103,9 @@ public class MyApplication extends HbcApplication {
 
     private void initNim() {
         ImHelper.setUserId(UserEntity.getUser().getUserId(this));
-        ImHelper.initNim(this, R.mipmap.icon_avatar_user);
+        ImHelper.initNim(this, R.mipmap.icon_avatar_user,imAnalysisHandler);
     }
 
-    public static void startImAnalysisService() {
-        try {
-            Intent intent = new Intent(MyApplication.getAppContext(), ImAnalysisService.class);
-            mAppContext.startService(intent);
-        } catch (Exception e) {
-
-        }
-    }
 
     public static Context getAppContext() {
         return mAppContext;
@@ -328,4 +324,23 @@ public class MyApplication extends HbcApplication {
         }
     }
 
+
+    private static Handler imAnalysisHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                Bundle bundle = msg.getData();
+                if(bundle!=null){
+                    ImAnalysisEnitty imAnalysisEnitty = (ImAnalysisEnitty)bundle.getSerializable(ImAnalysisEnitty.KEY_IM_ANALYSIS_ENTITY);
+                    if(imAnalysisEnitty!=null){
+                        if(!TextUtils.isEmpty(imAnalysisEnitty.actionName)){
+                            SensorsUtils.setSensorsAppointImAnalysis(imAnalysisEnitty.actionName,imAnalysisEnitty.imKeyMap);
+                        }
+                    }
+                }
+            }catch (Exception e){
+            }
+        }
+    };
 }

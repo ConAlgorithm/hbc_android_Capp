@@ -125,7 +125,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 185
+    //current urlErrorCode 186
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -197,7 +197,7 @@ public class UrlLibs {
     public static final String API_COUPON_CREDIT_PAY        = "trade/v1.0/c/yilian/couponpay";                          // 买劵易联支付接口152
     public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
     public static final String API_DAILY_SECKILL            = "trade/v1.0/c/order/secKillDaily";                        // 秒杀包车下单 165
-
+    public static final String API_PAYMENT_ABROD_CREDIT     = "trade/v1.0/c/ocean/pay";                                 // 境外信用卡  186
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机
@@ -243,9 +243,9 @@ public class UrlLibs {
     public static final String EDIT_INSURE_LIST             = "insurance/v1.0/c/user/edit";                             // 编辑投保人
     public static final String DEL_INSURE_LIST              = "insurance/v1.0/c/user/delete";                           // 删除投保人
     public static final String GET_INSURE_LIST              = "insurance/v1.0/c/user/list";                             // 查询投保人
-    public static final String SUBMIT_INSURE_LIST           = "insurance/v1.0/c/insurance/submit";                      // 提交投保人
-    public static final String API_INSURANCE_RESUBMIT       = "insurance/v1.0/c/insurance/resubmit";                    // 重新提交保单 135
-    public static final String API_INSURANCE_SEARCH         = "insurance/v1.0/c/insurance/search";                      // 查询订单保单接口 136
+    public static final String SUBMIT_INSURE_LIST           = "insurance/v2.0/c/insurance/submit";                      // 提交投保人
+    public static final String API_INSURANCE_RESUBMIT       = "insurance/v2.0/c/insurance/resubmit";                    // 重新提交保单 135
+    public static final String API_INSURANCE_SEARCH         = "insurance/v2.0/c/insurance/search";                      // 查询订单保单接口 136
 
     public static final String SERVER_IP_FLIGHTS_BY_NO      = "flight/v1.0/c/flights?";                                 // 航班查询 通过航班号
     public static final String SERVER_IP_FLIGHTS_BY_CITY    = "flight/v1.0/c/city/flights?";                            // 航班查询 通过城市
@@ -276,6 +276,7 @@ public class UrlLibs {
     public static final String SERVER_IP_CHECK_APP_VERSION  = "passport/v1.0/checkAppVersion?";                         // 版本检测
     public static final String API_REPORT                   = "passport/v1.0/report";                                   // App信息采集上报接口
     public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
+    public static final String API_UPDATE_ANTICHEAT_INFO    = "passport/v1.0/updateAntiCheatInfo";                      // 更新设备反作弊信息 186
 
     public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
     public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132

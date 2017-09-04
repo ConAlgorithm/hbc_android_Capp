@@ -596,7 +596,8 @@
     <string name="choose_payment">选择支付方式</string>
     <string name="choose_payment_wechat">微信支付</string>
     <string name="choose_payment_alipay">支付宝</string>
-    <string name="choose_payment_credit_card">信用卡支付</string>
+    <string name="choose_payment_credit_card">国内信用卡</string>
+    <string name="choose_payment_abrod_credit_card">境外信用卡</string>
     <string name="choose_payment_add_credit_card_tip">*目前仅支持国内信用卡</string>
     <string name="add_credit_activity_title">添加信用卡</string>
     <string name="add_credit_reserved_phone_tip">请输入办卡预留手机号</string>
@@ -614,8 +615,8 @@
     <string name="par_result_repay">重新支付</string>
 
     <string name="insure_info_title">投保信息</string>
-    <string name="insure_info_passport">护照号: %1$s</string>
-    <string name="insure_info_policy_num">保单号: %1$s</string>
+    <string name="insure_info_passport">护照号：%1$s</string>
+    <string name="insure_info_policy_num">保单号：</string>
 
     <string name="order_detail_title_default">订单详情</string>
     <string name="order_detail_title_chartered">按天包车游</string>

@@ -44,13 +44,12 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
-import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.ImItemView;
 import com.hugboga.im.ImDataSyncUtils;
 import com.hugboga.im.ImHelper;
@@ -107,7 +106,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     boolean isLoading = false;
 
     ImObserverHelper imObserverHelper;
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.fg_chat;
@@ -139,7 +138,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
             public void onClick(View v) {
                 SensorsUtils.onAppClick(getEventSource(),"客服",null);
                 //DialogUtil.showDefaultServiceDialog(getContext(), getEventSource());
-                CommonUtils.csDialog(getContext(),null,null,null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
     }

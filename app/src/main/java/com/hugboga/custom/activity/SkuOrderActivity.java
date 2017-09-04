@@ -55,7 +55,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
-import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.OrderExplainView;
 import com.hugboga.custom.widget.OrderInsuranceView;
 import com.hugboga.custom.widget.SkuOrderBottomView;
@@ -137,7 +137,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     private int requestCouponCount = 0;
 
     private boolean requestedSubmit = false;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public SkuItemBean skuItemBean;
         public CityBean cityBean;
@@ -254,7 +254,14 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     public void showServiceDialog() {
         SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
         //DialogUtil.getInstance(SkuOrderActivity.this).showServiceDialog(SkuOrderActivity.this, null, UnicornServiceActivity.SourceType.TYPE_LINE, null, params.skuItemBean, getEventSource());
-        CommonUtils.csDialog(SkuOrderActivity.this,null,null,params.skuItemBean, UnicornServiceActivity.SourceType.TYPE_LINE,getEventSource());
+        csDialog = CommonUtils.csDialog(SkuOrderActivity.this, null, null, params.skuItemBean, UnicornServiceActivity.SourceType.TYPE_LINE, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     @Subscribe
@@ -284,8 +291,12 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 if (couponBean == null) {
                     couponId = null;
                     couponBean = null;
-                } else if (couponBean.couponID.equalsIgnoreCase(couponId)) {
-                    break;
+                } else {
+                    if (couponBean.couponID.equalsIgnoreCase(couponId)) {
+                        break;
+                    } else {
+                        couponId = couponBean.couponID;
+                    }
                 }
                 mostFitBean = null;
                 discountView.setCouponBean(couponBean);
@@ -349,7 +360,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.couponId = couponId;
+                requestParams.couponId = getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
@@ -589,15 +600,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         mostFitAvailableBean.orderType = params.skuItemBean.goodsClass == 1 ? "5" : "6";
         mostFitAvailableBean.carModelId = carBean.carId + "";
         bundle.putSerializable(Constants.PARAMS_DATA, mostFitAvailableBean);
-        if (null != mostFitBean) {
-            couponId = mostFitBean.couponId;
-            bundle.putString("idStr", mostFitBean.couponId);
-        } else if (null != couponBean) {
-            couponId = couponBean.couponID;
-            bundle.putString("idStr", couponBean.couponID);
-        } else {
-            bundle.putString("idStr", "");
-        }
+        bundle.putString("idStr", getCouponId());
         bundle.putString(Constants.PARAMS_SOURCE, getEventSource());
         Intent intent = new Intent(this, CouponActivity.class);
         intent.putExtras(bundle);
@@ -629,6 +632,15 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         }
         StatisticClickEvent.click(StatisticConstant.SUBMITORDER_SKU);
         SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
+    }
+
+    public String getCouponId() {
+        if (null != mostFitBean) {
+            couponId = mostFitBean.couponId;
+        } else if (null != couponBean) {
+            couponId = couponBean.couponID;
+        }
+        return couponId;
     }
 
     /*
@@ -707,7 +719,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     * 金额为零，直接请求支付接口（支付宝）
     * */
     private void requestPayNo(String orderNo) {
-        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, couponId);
+        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, getCouponId());
         requestData(pequestPayNo);
     }
 

@@ -26,8 +26,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestBargainShare;
 import com.hugboga.custom.data.request.RequestChangeUserInfo;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
@@ -100,17 +98,16 @@ public class PayResultBargainLayout extends RelativeLayout {
     //是否显示过填写姓名popup
     boolean isShowAddNamePopup = false;
     public void onClickShare(final int shareType) {
-        StatisticClickEvent.click(StatisticConstant.CLICK_KANJIA,"订单详情");
-//        if(TextUtils.isEmpty(UserEntity.getUser().getUserName(getContext()))) {
+        if(TextUtils.isEmpty(UserEntity.getUser().getUserName(getContext()))) {
             if(!isShowAddNamePopup){
                 isShowAddNamePopup = true;
                 showAddName();
             } else {
                 showShareDialog(shareType);
             }
-//        } else {
-//            showShareDialog(shareType);
-//        }
+        } else {
+            showShareDialog(shareType);
+        }
     }
 
     public String getShareTitle() {

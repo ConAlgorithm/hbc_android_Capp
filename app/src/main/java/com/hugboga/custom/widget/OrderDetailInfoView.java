@@ -64,7 +64,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         nameTV.setText(orderBean.getTravelUserName());
         editTV.setVisibility(orderBean.orderStatus.code > 5 ? View.GONE : View.VISIBLE);// 1-5显示修改
 
-        final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
+        final int insuranceListSize = orderBean.insuranceMap != null ? orderBean.insuranceMap.size() : 0;
         if (orderBean.orderStatus == OrderStatus.INITSTATE) {
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceAddLayout.setVisibility(View.GONE);
@@ -121,7 +121,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                 break;
             case R.id.order_detail_insurance_add_layout:
             case R.id.order_detail_insurance_info_layout:
-                final int insuranceListSize = orderBean.insuranceList != null ? orderBean.insuranceList.size() : 0;
+                final int insuranceListSize = orderBean.insuranceMap != null ? orderBean.insuranceMap.size() : 0;
                 if (orderBean.insuranceEnable && insuranceListSize == 0) {//添加投保人
                     Bundle insureBundle = new Bundle();
                     insureBundle.putSerializable("orderBean", orderBean);

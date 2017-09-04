@@ -43,6 +43,7 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.ConponsTipView;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
@@ -109,7 +110,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     private SingleActivity.Params params;
-
+    CsDialog csDialog;
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
         public String cityId;
@@ -321,7 +322,14 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     public void showServiceDialog() {
         //DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        CommonUtils.csDialog(SingleActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+        csDialog = CommonUtils.csDialog(SingleActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
     }
 
     public void showTimePicker() {

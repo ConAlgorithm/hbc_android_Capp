@@ -55,7 +55,7 @@ import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.DialogUtil;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.charter.CharterEmptyView;
 import com.hugboga.custom.widget.charter.CharterItemView;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;
@@ -118,7 +118,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private LayoutInflater mLayoutInflater;
 
     private boolean isUnfoldMap = false;
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.activity_charter_second;
@@ -231,7 +231,14 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     public void showServiceDialog() {
         SensorsUtils.onAppClick(getEventSource(), "客服", getIntentSource());
         //DialogUtil.showServiceDialog(CharterSecondStepActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
-        CommonUtils.csDialog(CharterSecondStepActivity.this,null,null,null, UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource());
+        csDialog = CommonUtils.csDialog(CharterSecondStepActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+            @Override
+            public void onCs() {
+                if (csDialog != null && csDialog.isShowing()) {
+                    csDialog.dismiss();
+                }
+            }
+        });
 
     }
 
