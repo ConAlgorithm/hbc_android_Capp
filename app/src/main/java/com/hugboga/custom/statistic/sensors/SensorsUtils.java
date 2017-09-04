@@ -16,6 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by on 16/11/25.
@@ -234,6 +238,27 @@ public class SensorsUtils {
             properties.put("guide_city", guideCity);
             properties.put("service_city", serviceCity);
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("appoint_guide", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //神策统计_Im监控统计
+    public static void setSensorsAppointImAnalysis(String event, HashMap<String,String> attributes){
+        try {
+            JSONObject properties = new JSONObject();
+            if(attributes!=null && attributes.size()>0){
+                Set<Map.Entry<String,String>> entrySet = attributes.entrySet();
+                for(Iterator<Map.Entry<String,String>> iterator = entrySet.iterator(); iterator.hasNext();){
+                    Map.Entry<String,String> entry = iterator.next();
+                    String entryKey = entry.getKey();
+                    String entryValue = entry.getValue();
+                    if(!TextUtils.isEmpty(entryKey) && !TextUtils.isEmpty(entryValue)){
+                        properties.put(entryKey, entryValue);
+                    }
+                }
+            }
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track(event, properties);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,7 +16,6 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
@@ -31,7 +30,6 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -48,12 +46,9 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.qqtheme.framework.entity.City;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.hugboga.custom.R.mipmap.top_back_black;
-import static com.hugboga.custom.R.mipmap.top_close;
 
 public class ChooseCityNewActivity extends BaseActivity {
 

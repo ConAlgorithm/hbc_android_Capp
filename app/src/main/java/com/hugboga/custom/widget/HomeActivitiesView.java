@@ -11,22 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
-import com.hugboga.custom.data.bean.HomeBean;
-import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.statistic.event.EventUtil;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -35,7 +25,6 @@ import com.viewpagerindicator.CirclePageIndicator;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

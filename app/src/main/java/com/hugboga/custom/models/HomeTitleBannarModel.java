@@ -7,7 +7,6 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
-import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HomeActivitiesView;
 

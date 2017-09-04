@@ -2,24 +2,23 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.DirectionBean;
 import com.hugboga.custom.data.bean.InsureListBean;
 import com.hugboga.custom.data.bean.InsureSearchBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.HbcParser;
+import com.hugboga.custom.utils.JsonUtils;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by qingcha on 17/4/11.
@@ -35,7 +34,7 @@ public class RequestInsuranceSearch extends BaseRequest<InsureSearchBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_INSURANCE_SEARCH, InsureSearchBean.class);
+        return new ParserInsureSearchBean();
     }
 
     @Override
@@ -48,4 +47,24 @@ public class RequestInsuranceSearch extends BaseRequest<InsureSearchBean> {
         return "40136";
     }
 
+    public static class ParserInsureSearchBean extends ImplParser{
+
+        @Override
+        public Object parseObject(JSONObject jsonObj) throws Throwable {
+            InsureSearchBean insureSearchBean = new InsureSearchBean();
+            insureSearchBean.totalSize = jsonObj.getInt("totalSize");
+            JSONObject insuranceMapBean = jsonObj.optJSONObject("resultMap");
+            if (insuranceMapBean != null) {
+                List<List<InsureListBean>> insuranceList = new ArrayList<>();
+                Iterator<String> keys = insuranceMapBean.keys();
+                for (; keys.hasNext(); ) {
+                    String key = keys.next();
+                    List<InsureListBean> itemList = JsonUtils.INSTANCE.getGson().fromJson(insuranceMapBean.optString(key), new TypeToken<List<InsureListBean>>(){}.getType());
+                    insuranceList.add(itemList);
+                }
+                insureSearchBean.insuranceMap = insuranceList;
+            }
+            return insureSearchBean;
+        }
+    }
 }

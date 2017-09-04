@@ -34,13 +34,11 @@ import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
-import com.hugboga.custom.models.ChoicenessGuideModel;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 

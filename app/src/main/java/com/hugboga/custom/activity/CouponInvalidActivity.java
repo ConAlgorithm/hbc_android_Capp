@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +27,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.CouponTitleContent;
 import com.hugboga.custom.data.bean.MostFitAvailableBean;
-import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestInvaidableCoupon;
 import com.hugboga.custom.data.request.RequestUsedCoupon;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -39,7 +36,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CouponItemView;
 import com.hugboga.custom.widget.ZListView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 
 import java.text.ParseException;

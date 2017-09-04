@@ -31,7 +31,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HomeActivitiesView;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.nineoldandroids.view.ViewHelper;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;

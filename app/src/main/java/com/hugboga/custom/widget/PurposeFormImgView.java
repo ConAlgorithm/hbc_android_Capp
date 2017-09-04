@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.viewpagerindicator.CirclePageIndicator;

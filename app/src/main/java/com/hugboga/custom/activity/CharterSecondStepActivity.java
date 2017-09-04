@@ -56,7 +56,6 @@ import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.charter.CharterEmptyView;
 import com.hugboga.custom.widget.charter.CharterItemView;
 import com.hugboga.custom.widget.charter.CharterSecondBottomView;

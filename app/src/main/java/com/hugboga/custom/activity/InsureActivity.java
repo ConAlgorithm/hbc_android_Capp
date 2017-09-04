@@ -105,7 +105,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     public void update() {
         if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
             headerTitle.setText("添加投保人");
-            insureListSize = orderBean.insuranceList == null ? 0 : orderBean.insuranceList.size();
+            insureListSize = orderBean.insuranceMap == null ? 0 : orderBean.insuranceMap.size();
             bottom.setVisibility(View.VISIBLE);
             peopleNum.setText(insureListSize + "");
             peopleNumAll.setText("/" + (orderBean.adult + orderBean.child));
@@ -328,7 +328,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         if (request instanceof RequestInsureList) {
             bean = (InsureBean) request.getData();
             beanList.addAll(bean.resultBean);
-            if (null != orderBean) {
+            if (null != orderBean || orderNo != null) {
                 showCheckBox();
                 list.setOnItemLongClickListener(null);
                 if(beanList.size() > 0){
@@ -352,7 +352,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             adapter.notifyDataSetChanged();
         } else if (request instanceof RequestSubmitInsure) {
             CommonUtils.showToast("投保申请已成功提交");
-            finish();
+            onBack();
 //            if(TextUtils.isEmpty(from)) {
             EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
 //            }
