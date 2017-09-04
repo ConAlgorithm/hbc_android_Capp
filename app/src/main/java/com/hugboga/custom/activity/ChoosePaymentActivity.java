@@ -399,7 +399,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
             case R.id.choose_payment_abrod_credit_layout:
                 if(requestParams!= null){
                     RequestAbroadCreditPayment requestAbroadCreditPayment = new RequestAbroadCreditPayment(this,requestParams.shouldPay,requestParams.orderId);
-                    requestData(requestAbroadCreditPayment,false);
+                    requestData(requestAbroadCreditPayment,true);
                     SharedPre.setInteger(ORDERTYPE,requestParams.orderType);
                     SharedPre.setInteger(APITYPE,requestParams.apiType);
                 }
