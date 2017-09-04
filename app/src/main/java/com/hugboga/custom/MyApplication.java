@@ -94,8 +94,14 @@ public class MyApplication extends HbcApplication {
             UnicornUtils.initUnicorn(); // 七鱼
             initSensorsData();          // 初始化神策
             initXMpush();               // 小米push
-            initSmAntiFraud();          // 数美
-            initFMAgent();              // 同盾
+
+            // android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
+            boolean isSM = Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR);
+            if (isSM) {
+                initSmAntiFraud();          // 数美
+            } else {
+                initFMAgent();              // 同盾
+            }
         }
 
         initNim();

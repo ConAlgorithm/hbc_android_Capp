@@ -54,6 +54,7 @@ import com.hugboga.custom.data.request.RequestCheckVersion;
 import com.hugboga.custom.data.request.RequestImAnalysisSwitch;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
+import com.hugboga.custom.data.request.RequestUpdateAntiCheatInfo;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.fragment.FgDestination;
 import com.hugboga.custom.fragment.FgHome;
@@ -423,6 +424,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         } else if (request instanceof RequestCheckVersion) {
             RequestCheckVersion requestCheckVersion = (RequestCheckVersion) request;
             cvBean = requestCheckVersion.getData();
+            if (!cvBean.hasAntiId) {
+                requestData(new RequestUpdateAntiCheatInfo(MainActivity.this), false);
+            }
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
             dialogUtil = DialogUtil.getInstance(this);
             if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
