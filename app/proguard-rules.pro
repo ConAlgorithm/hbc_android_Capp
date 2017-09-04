@@ -382,6 +382,6 @@
 }
 
 # ProGuard configurationsfor NetworkBench Lens
--keep classcom.networkbench.** { *; }
--dontwarncom.networkbench.**
+-keep class com.networkbench.** { *; }
+-dontwarn com.networkbench.**
 # End NetworkBench Lens
