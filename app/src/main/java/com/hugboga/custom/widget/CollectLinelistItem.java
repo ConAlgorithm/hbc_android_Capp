@@ -67,6 +67,9 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
         if(collectLineItemBean.publishStatus == -1){
             offline_icon.setVisibility(VISIBLE);
             offline_view.setVisibility(VISIBLE);
+        }else {
+            offline_icon.setVisibility(GONE);
+            offline_view.setVisibility(GONE);
         }
         if (collectLineItemBean.publishStatus == 1) {
             setOnClickListener(new OnClickListener() {
@@ -79,6 +82,8 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
                     view.getContext().startActivity(intent);
                 }
             });
+        }else{
+            setOnClickListener(null);
         }
 
     }
