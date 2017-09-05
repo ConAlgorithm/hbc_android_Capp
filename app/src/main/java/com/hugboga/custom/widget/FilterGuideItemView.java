@@ -90,7 +90,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         save_guide_layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isLogin()) {
+                if(CommonUtils.isLogin(context)) {
                     if(saveGuild.isSelected()){
                         filterGuideBean.isCollected = 0;
                         saveGuild.setSelected(false);
@@ -177,20 +177,6 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(displayImgWidth, displayImgHeight);
         imageView.setLayoutParams(params);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-    }
-
-    /**
-     * 判断是否登录
-     */
-    private boolean isLogin() {
-        if (UserEntity.getUser().isLogin(getContext())) {
-            return true;
-        } else {
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-            getContext().startActivity(intent);
-            return false;
-        }
     }
 
     @Override

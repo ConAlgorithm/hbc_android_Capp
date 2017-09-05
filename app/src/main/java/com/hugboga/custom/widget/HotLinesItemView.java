@@ -140,7 +140,7 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(isLogin()) {
+                    if(CommonUtils.isLogin(context)) {
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         if(saveLine.isSelected()){
                             skuItemBean.favorited = 0;
@@ -189,20 +189,6 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                 }
                 errorHandler.onDataRequestError(errorInfo, request);
             }
-        }
-    }
-
-    /**
-     * 判断是否登录
-     */
-    private boolean isLogin() {
-        if (UserEntity.getUser().isLogin(context)) {
-            return true;
-        } else {
-            Intent intent = new Intent(context, LoginActivity.class);
-            //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-            context.startActivity(intent);
-            return false;
         }
     }
 }

@@ -382,7 +382,6 @@
 }
 
 # ProGuard configurationsfor NetworkBench Lens
--keep classcom.networkbench.** { *; }
--dontwarncom.networkbench.**
--keepattributesExceptions, Signature, InnerClasses
+-keep class com.networkbench.** { *; }
+-dontwarn com.networkbench.**
 # End NetworkBench Lens

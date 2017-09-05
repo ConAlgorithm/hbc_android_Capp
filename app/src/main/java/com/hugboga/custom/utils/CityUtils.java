@@ -1219,8 +1219,8 @@ public class CityUtils {
         List<SearchGroupBean> countryList = searchCountry(activity, key);
 
         list.addAll(cityList);
-        list.addAll(lineList);
         list.addAll(countryList);
+        list.addAll(lineList);
         return list;
     }
 
