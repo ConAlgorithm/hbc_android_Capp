@@ -212,7 +212,14 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
 
     private int updateChildSeatTextView() {
         int seatTotalPrice = getSeatTotalPrice();
-        String seatTotalPriceStr = seatTotalPrice > 0 ? String.format("(¥%1$s)", seatTotalPrice) : "(免费)";
+        String seatTotalPriceStr = "";
+        if (childSeatCount == 0) {
+            seatTotalPriceStr = "";
+        } else if (seatTotalPrice > 0) {
+            seatTotalPriceStr = String.format("(¥%1$s)", seatTotalPrice);
+        } else {
+            seatTotalPriceStr = "(免费)";
+        }
         childSeatPriceTV.setText(seatTotalPriceStr);
         return seatTotalPrice;
     }
