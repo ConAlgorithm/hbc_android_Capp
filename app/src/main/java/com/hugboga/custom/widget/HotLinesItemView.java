@@ -19,6 +19,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.LoginActivity;
@@ -33,6 +34,9 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -166,7 +170,7 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                 skuItemBean.favorited= 1;
                 CommonUtils.showToast("收藏成功");
             }
-            //setSensorsShareEvent(filterGuideBean.guideId);
+            setSensorsShareEvent(skuItemBean.goodsNo);
         }else if(request instanceof RequestUncollectLinesNo){
             CommonUtils.showToast("已取消收藏");
         }
@@ -189,6 +193,17 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                 }
                 errorHandler.onDataRequestError(errorInfo, request);
             }
+        }
+    }
+    //收藏商品埋点
+    public static void setSensorsShareEvent(String goodsNo) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("goodsNo", goodsNo);
+            properties.put("favoriteType", "商品");
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
