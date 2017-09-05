@@ -187,8 +187,6 @@ public class ParserOrder extends ImplParser {
         //priceInfo
         orderbean.orderPriceInfo = new OrderPriceInfo();
         orderbean.orderPriceInfo.parser(jsonObj.optJSONObject("priceInfo"));
-        // orderCoupon
-        orderbean.orderCoupon = new ParserCouponBean().parseObject(jsonObj.optJSONObject("coupon"));
         //orderGuideInfo
         if (jsonObj.has("guideInfo")) {
             orderbean.orderGuideInfo = new ParserGuideInfo().parseObject(jsonObj.optJSONObject("guideInfo"));
