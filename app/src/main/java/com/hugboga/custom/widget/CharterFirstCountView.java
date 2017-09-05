@@ -215,6 +215,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
                 hintTV.setText(contentStr);
             }
         }
+        checkCountView();
         setHintViewVisibility();
         setCountViewEnabled(true);
     }
