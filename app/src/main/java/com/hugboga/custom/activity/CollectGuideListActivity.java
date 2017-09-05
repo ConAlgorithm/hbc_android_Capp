@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.HbcRecyclerTypeBaseAdpater;
@@ -14,6 +15,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectGuideNewBean;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuideList;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
@@ -58,6 +60,15 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
+        mRecyclerView.setEmptyView(emptyLayout);
+        mRecyclerView.getEmptyView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CollectGuideListActivity.this, MainActivity.class);
+                startActivity(intent);
+                EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
+            }
+        });
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, CollectGuideItemView.class);
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -91,12 +102,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
         if (_request instanceof RequestCollectGuideList) {
             CollectGuideNewBean collectGuideNewBean = ((RequestCollectGuideList) _request).getData();
             int offset = _request.getOffset();
-            if (offset == 0 && (collectGuideNewBean == null || collectGuideNewBean.guideList == null || collectGuideNewBean.count <= 0)) {
-                emptyLayout.setVisibility(View.VISIBLE);
-                return;
-            } else {
-                emptyLayout.setVisibility(View.GONE);
-            }
+
             List<FilterGuideBean> guideList = collectGuideNewBean.guideList;
             mAdapter.addData(guideList, offset > 0);
             if (offset == 0) {
