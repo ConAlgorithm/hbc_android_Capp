@@ -272,13 +272,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 if (orderBean == null) {
                     return;
                 }
-                String couponId = null;
-                CouponBean orderCoupon = orderBean.orderCoupon;
-                if (orderCoupon != null) {
-                    couponId = orderCoupon.couponID;
-                } else if (!TextUtils.isEmpty(orderBean.coupId)) {
-                    couponId = orderBean.coupId;
-                }
+                String couponId = orderBean.coupId;
                 OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
                 EventPayBean eventPayBean = new EventPayBean();
                 eventPayBean.transform(orderBean);
