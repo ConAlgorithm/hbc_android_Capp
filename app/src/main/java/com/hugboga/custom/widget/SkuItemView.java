@@ -123,7 +123,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(CommonUtils.isLogin(context)) {
+                    if(CommonUtils.isLogin(context,getEventSource())) {
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         if(saveLine.isSelected()){
                             skuItemBean.favorited = 0;
@@ -184,5 +184,9 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getEventSource() {
+        return "商品列表";
     }
 }

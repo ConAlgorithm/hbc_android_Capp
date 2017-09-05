@@ -28,6 +28,7 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
+import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LargerImageActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
@@ -319,10 +320,11 @@ public final class CommonUtils {
         return cachePath;
     }
 
-    public static boolean isLogin(Context context) {
+    public static boolean isLogin(Context context,String source) {
         if (context != null && !UserEntity.getUser().isLogin(context)) {
             CommonUtils.showToast(R.string.login_hint);
             Intent intent= new Intent(context, LoginActivity.class);
+            intent.putExtra(Constants.PARAMS_SOURCE,source);
             context.startActivity(intent);
             return false;
         } else {

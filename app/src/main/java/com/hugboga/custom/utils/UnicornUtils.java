@@ -81,7 +81,7 @@ public class UnicornUtils {
                 || (sourceType == UnicornServiceActivity.SourceType.TYPE_ORDER && orderBean == null) ) {
             return;
         }
-        if (!CommonUtils.isLogin(context)) {
+        if (!CommonUtils.isLogin(context,"客服")) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();
@@ -96,7 +96,7 @@ public class UnicornUtils {
     }
 
     public static void openServiceActivity(Context context, int sourceType) {
-        if (!CommonUtils.isLogin(context)) {
+        if (!CommonUtils.isLogin(context,"客服")) {
             return;
         }
         UnicornServiceActivity.Params params = new UnicornServiceActivity.Params();

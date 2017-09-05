@@ -139,7 +139,7 @@ public class ServiceQuestionActivity extends BaseActivity{
                     return;
                 }
                 if (questionItem.type == 3) { //进客服
-                    if (!CommonUtils.isLogin(this)) {
+                    if (!CommonUtils.isLogin(this,getEventSource())) {
                         return;
                     }
                     params.questionItem = questionItem;
@@ -228,7 +228,7 @@ public class ServiceQuestionActivity extends BaseActivity{
     }
 
     private void intentDefaultServiceActivity() {
-        if (!CommonUtils.isLogin(this)) {
+        if (!CommonUtils.isLogin(this,getEventSource())) {
             return;
         }
         Intent intent = new Intent(this, UnicornServiceActivity.class);

@@ -670,7 +670,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         if (!travelerInfoView.checkTravelerInfo()) {
             return;
         }
-        if (!CommonUtils.isLogin(this)) {
+        if (!CommonUtils.isLogin(this,getEventSource())) {
             return;
         }
         if (!extrasPriceView.checkFlightBrandSign()) {

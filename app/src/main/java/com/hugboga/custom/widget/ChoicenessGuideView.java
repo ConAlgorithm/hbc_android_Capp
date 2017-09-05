@@ -110,7 +110,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         saveGuild.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonUtils.isLogin(activity)) {
+                if(CommonUtils.isLogin(activity,getEventSource())) {
                     if(saveGuild.isSelected()){
                         data.isCollected = 0;
                         saveGuild.setSelected(false);

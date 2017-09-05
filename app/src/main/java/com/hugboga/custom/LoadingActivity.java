@@ -42,6 +42,7 @@ import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.ImageUtils;
 import com.hugboga.custom.utils.JsonUtils;
+import com.hugboga.custom.utils.NotificationCheckUtils;
 import com.hugboga.custom.utils.PermissionRes;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.SharedPre;
@@ -114,6 +115,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             properties.put("hbc_channelId", BuildConfig.FLAVOR);
             properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
             properties.put("is_login_id", UserEntity.getUser().isLogin(this));
+            properties.put("is_open_push", NotificationCheckUtils.notificationIsOpen(this));
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
         } catch (Exception e) {
             e.printStackTrace();

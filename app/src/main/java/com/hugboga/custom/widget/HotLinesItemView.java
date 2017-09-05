@@ -144,7 +144,11 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
             save_guild_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(CommonUtils.isLogin(context)) {
+                    String source = "";
+                    if (getContext() instanceof CityListActivity) {
+                        source = ((CityListActivity)getContext()).getEventSource();
+                    }
+                    if(CommonUtils.isLogin(context,source)) {
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         if(saveLine.isSelected()){
                             skuItemBean.favorited = 0;

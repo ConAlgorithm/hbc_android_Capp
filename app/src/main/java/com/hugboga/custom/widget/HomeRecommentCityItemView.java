@@ -110,7 +110,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         save_guild_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonUtils.isLogin(mContext)) {
+                if(CommonUtils.isLogin(mContext,getEventSource())) {
                     ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                     if(saveLine.isSelected()){
                         homeCityGoodsVo.isCollected = 0;

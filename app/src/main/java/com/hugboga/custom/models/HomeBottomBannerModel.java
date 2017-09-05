@@ -62,7 +62,7 @@ public class HomeBottomBannerModel extends EpoxyModelWithHolder {
         ((HomeBottomBannerHolder)holder).img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonUtils.isLogin(context)){
+                if(CommonUtils.isLogin(context,getEventSource())){
                     Intent intent = new Intent(context, TravelFundActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     context.startActivity(intent);

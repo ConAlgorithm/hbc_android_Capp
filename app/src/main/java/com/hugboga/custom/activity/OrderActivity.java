@@ -294,7 +294,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
         if (!travelerInfoView.checkTravelerInfo()) {
             return;
         }
-        if (!CommonUtils.isLogin(this)) {
+        if (!CommonUtils.isLogin(this,getEventSource())) {
             return;
         }
         requestSubmitOrder();

@@ -366,7 +366,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     @OnClick({R.id.titlebar_detail_right_1_btn})
     public void onCollect() {
-        if (guideExtinfoBean == null || !CommonUtils.isLogin(GuideWebDetailActivity.this)) {
+        if (guideExtinfoBean == null || !CommonUtils.isLogin(GuideWebDetailActivity.this,getEventSource())) {
             return;
         }
         EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());
