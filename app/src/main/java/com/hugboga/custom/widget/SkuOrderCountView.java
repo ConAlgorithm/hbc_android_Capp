@@ -324,15 +324,15 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     }
 
     public double getHotelTotalPrice() {
-        return hotelTotalPrice = carListBean == null ? 0 : carListBean.hotelPrice * roomCount;
+        return hotelTotalPrice = carListBean == null || carListBean.hotelPrice <= 0 ? 0 : carListBean.hotelPrice * roomCount;
     }
 
     public double getTotalExtrasPrice() {
-        return carListBean == null ? 0 : carListBean.goodsOtherPrice * getTotalPeople();
+        return carListBean == null || carListBean.goodsOtherPrice <= 0 ? 0 : carListBean.goodsOtherPrice * getTotalPeople();
     }
 
     public double getExtrasPrice() {
-        return carListBean == null ? 0 : carListBean.goodsOtherPrice;
+        return carListBean == null || carListBean.goodsOtherPrice <= 0 ? 0 : carListBean.goodsOtherPrice;
     }
 
     public double getAdditionalPrice() {
