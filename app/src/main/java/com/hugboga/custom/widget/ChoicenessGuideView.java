@@ -110,7 +110,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         saveGuild.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isLogin()) {
+                if(CommonUtils.isLogin(activity)) {
                     if(saveGuild.isSelected()){
                         data.isCollected = 0;
                         saveGuild.setSelected(false);
@@ -209,20 +209,6 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
                 getContext().startActivity(intent);
             }
         });
-    }
-
-    /**
-     * 判断是否登录
-     */
-    private boolean isLogin() {
-        if (UserEntity.getUser().isLogin(getContext())) {
-            return true;
-        } else {
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-            getContext().startActivity(intent);
-            return false;
-        }
     }
 
     public String getEventSource() {

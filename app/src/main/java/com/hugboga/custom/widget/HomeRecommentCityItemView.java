@@ -106,7 +106,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         save_guild_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isLogin()) {
+                if(CommonUtils.isLogin(mContext)) {
                     ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                     if(saveLine.isSelected()){
                         homeCityGoodsVo.isCollected = 0;
@@ -176,19 +176,6 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
                 errorHandler = new ErrorHandler((Activity) mContext, this);
             }
             errorHandler.onDataRequestError(errorInfo, request);
-        }
-    }
-    /**
-     * 判断是否登录
-     */
-    private boolean isLogin() {
-        if (UserEntity.getUser().isLogin(mContext)) {
-            return true;
-        } else {
-            Intent intent = new Intent(mContext, LoginActivity.class);
-            //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-            mContext.startActivity(intent);
-            return false;
         }
     }
 
