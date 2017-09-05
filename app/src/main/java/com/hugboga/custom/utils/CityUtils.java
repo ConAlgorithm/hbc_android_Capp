@@ -1218,9 +1218,46 @@ public class CityUtils {
         List<SearchGroupBean> lineList = searchLine(activity, key);
         List<SearchGroupBean> countryList = searchCountry(activity, key);
 
-        list.addAll(cityList);
-        list.addAll(countryList);
-        list.addAll(lineList);
+        List<SearchGroupBean> firstCityList = new ArrayList<>();
+        List<SearchGroupBean> firstLineList = new ArrayList<>();
+        List<SearchGroupBean> firstCountryList = new ArrayList<>();
+
+        List<SearchGroupBean> afterCityList = new ArrayList<>();
+        List<SearchGroupBean> afterLineList = new ArrayList<>();
+        List<SearchGroupBean> afterCountryList = new ArrayList<>();
+        //找到首个匹配内容
+        for(int i= 0;i<cityList.size();i++){
+            String leftName = CityUtils.getShowName(cityList.get(i));
+            if(leftName.startsWith(key)){
+                firstCityList.add(cityList.get(i));
+            }else{
+                afterCityList.add(cityList.get(i));
+            }
+        }
+        for(int j= 0;j<lineList.size();j++){
+            String leftName = CityUtils.getShowName(lineList.get(j));
+            if(leftName.startsWith(key)){
+                firstLineList.add(lineList.get(j));
+            }else{
+                afterLineList.add(lineList.get(j));
+            }
+        }
+        for(int k=0;k<countryList.size();k++){
+            String leftName = CityUtils.getShowName(countryList.get(k));
+            if(leftName.startsWith(key)){
+                firstCountryList.add(countryList.get(k));
+            }else {
+                afterCountryList.add(countryList.get(k));
+            }
+        }
+
+        list.addAll(firstCityList);
+        list.addAll(firstCountryList);
+        list.addAll(firstLineList);
+
+        list.addAll(afterCityList);
+        list.addAll(afterCountryList);
+        list.addAll(afterLineList);
         return list;
     }
 
