@@ -624,7 +624,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         if (!travelerInfoView.checkTravelerInfo()) {
             return;
         }
-        if (!CommonUtils.isLogin(this)) {
+        if (!CommonUtils.isLogin(this,getEventSource())) {
             return;
         }
         if (guidesDetailData != null) {

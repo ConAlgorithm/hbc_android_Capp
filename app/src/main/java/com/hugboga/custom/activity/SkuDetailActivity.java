@@ -247,7 +247,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 }
                 break;
             case R.id.header_right_2_btn:
-                if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this)) {
+                if (skuItemBean == null || !CommonUtils.isLogin(SkuDetailActivity.this,getEventSource())) {
                     return;
                 }
                 //EventUtil.onDefaultEvent(StatisticConstant.COLLECTG, getEventSource());

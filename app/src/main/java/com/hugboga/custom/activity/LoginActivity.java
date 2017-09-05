@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         if (getIntent() != null) {
             areaCode = intent.getStringExtra(KEY_AREA_CODE);
             phone = intent.getStringExtra(KEY_PHONE);
-            source = intent.getStringExtra("source");
+            source = intent.getStringExtra(Constants.PARAMS_SOURCE);
             actionBean = (ActionBean)intent.getSerializableExtra(Constants.PARAMS_ACTION);
         }
         sharedPre = new SharedPre(activity);

@@ -505,7 +505,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
             return;
         }
         if (charterDataUtils.isLastDay()) {//最后一天"查看报价"
-            if (!CommonUtils.isLogin(this)) {
+            if (!CommonUtils.isLogin(this,getEventSource())) {
                 return;
             }
             Intent intent = new Intent(this, CombinationOrderActivity.class);

@@ -22,37 +22,33 @@
         android:background="@color/coupon_empty_color"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <ImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:background="@mipmap/nocollection" />
+            android:background="@drawable/empty_trip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/collect_guide_empty_prompt1"
-            android:textColor="@color/coupon_empty_text"
+            android:text="您当前还未收藏司导呢"
+            android:textColor="#b9bdc6"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/next_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/collect_guide_empty_prompt2"
-            android:textColor="@color/coupon_empty_text"
+            android:text="@string/gotomain"
+            android:textColor="#24bcff"
             android:textSize="13sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/collect_guide_empty_prompt3"
-            android:textColor="@color/coupon_empty_text"
-            android:textSize="13sp" />
     </LinearLayout>
+
 </RelativeLayout>

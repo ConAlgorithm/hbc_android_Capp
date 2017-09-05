@@ -90,7 +90,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         save_guide_layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonUtils.isLogin(context)) {
+                if(CommonUtils.isLogin(context,getEventSource())) {
                     if(saveGuild.isSelected()){
                         filterGuideBean.isCollected = 0;
                         saveGuild.setSelected(false);

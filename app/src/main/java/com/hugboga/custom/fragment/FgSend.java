@@ -474,7 +474,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Override
     public void onConfirm() {
-        if (!CommonUtils.isLogin(getContext())) {
+        if (!CommonUtils.isLogin(getContext(),getEventSource())) {
             return;
         }
         if (guidesDetailData != null) {

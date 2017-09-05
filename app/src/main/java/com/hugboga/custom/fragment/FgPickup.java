@@ -528,7 +528,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
     @Override
     public void onConfirm() {
-        if (!CommonUtils.isLogin(getContext())) {
+        if (!CommonUtils.isLogin(getContext(),getEventSource())) {
             return;
         }
         if (guidesDetailData != null) {

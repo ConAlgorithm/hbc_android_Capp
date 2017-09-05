@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="暂无满足当前筛选条件的线路"
+            android:text="您当前还未收藏线路呢"
             android:textColor="#b9bdc6"
             android:textSize="16sp" />
 

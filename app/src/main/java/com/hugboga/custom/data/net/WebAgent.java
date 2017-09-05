@@ -700,7 +700,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!CommonUtils.isLogin(mActivity)) {
+                if (!CommonUtils.isLogin(mActivity,getEventSource())) {
                     return;
                 }
                 GuideOrderWebParamsBean data = JsonUtils.getObject(param, GuideOrderWebParamsBean.class);
@@ -800,7 +800,7 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!CommonUtils.isLogin(mActivity)) {
+                if (!CommonUtils.isLogin(mActivity,getEventSource())) {
                     return;
                 }
                 final int orderType = CommonUtils.getCountInteger(_orderType);

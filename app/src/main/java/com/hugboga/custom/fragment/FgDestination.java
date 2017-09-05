@@ -2,7 +2,6 @@ package com.hugboga.custom.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,32 +18,21 @@ import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.adapter.DesTabPagerAdpter;
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.data.bean.HomeHotCityVo;
 import com.hugboga.custom.data.bean.SimpleLineGroupVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.DestinationHot;
-import com.hugboga.custom.data.request.DestinationLine;
 import com.hugboga.custom.data.request.DestinationTab;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.DataVisibleLister;
-import com.hugboga.custom.widget.DesPager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created by zhangqiang on 17/7/11.
@@ -120,11 +108,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     }
     private void goChooseCity() {
         Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
-        //intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
-        //intent.putExtra("isHomeIn", true);
-        //intent.putExtra("source", "首页搜索框");
         this.getContext().startActivity(intent);
-        //StatisticClickEvent.click(StatisticConstant.SEARCH_LAUNCH, "首页");
         SensorsUtils.onAppClick("目的地搜索","目的地搜索","目的地");
     }
     @Override

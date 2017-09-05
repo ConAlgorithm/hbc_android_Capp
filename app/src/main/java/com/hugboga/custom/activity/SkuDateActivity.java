@@ -124,7 +124,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
 
     @OnClick(R.id.sku_date_confirm_tv)
     public void onConfirm() {
-        if (!CommonUtils.isLogin(this)) {
+        if (!CommonUtils.isLogin(this,getEventSource())) {
             return;
         }
         if (TextUtils.isEmpty(serverDate)) {
@@ -217,5 +217,9 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     public void onLoadViewShow(boolean isShow) {
         Log.i("aa", "onLoadViewShow " + isShow);
         calendarLoadingLayout.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    public String getEventSource() {
+        return "商品出行日期";
     }
 }

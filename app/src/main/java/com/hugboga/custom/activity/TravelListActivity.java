@@ -79,7 +79,7 @@ public class TravelListActivity extends BaseActivity {
         bottomView.setOnBottomClickListener(new CharterSecondBottomView.OnBottomClickListener() {
             @Override
             public void confirm() {
-                if (CommonUtils.isLogin(TravelListActivity.this)) {
+                if (CommonUtils.isLogin(TravelListActivity.this,getEventSource())) {
                     Intent intent = new Intent(TravelListActivity.this, CombinationOrderActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);

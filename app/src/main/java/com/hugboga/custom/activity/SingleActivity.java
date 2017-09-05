@@ -505,7 +505,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     @Override
     public void onConfirm() {
-        if (!CommonUtils.isLogin(this)) {
+        if (!CommonUtils.isLogin(this,getEventSource())) {
             return;
         }
         if (guidesDetailData != null) {
