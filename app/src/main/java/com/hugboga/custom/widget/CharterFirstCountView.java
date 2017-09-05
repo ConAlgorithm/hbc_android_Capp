@@ -151,7 +151,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
                 return (adultCount + Math.round(childSeatCount * 1.5) + (childCount - childSeatCount) < maxPassengers);
             case 3:
                 double count = adultCount + childSeatCount * 1.5 + (childCount - childSeatCount);
-                return maxPassengers - count > 0.5 && childSeatCount < childCount;
+                return maxPassengers - count >= 0.5 && childSeatCount < childCount;
             default:
                 return false;
         }
