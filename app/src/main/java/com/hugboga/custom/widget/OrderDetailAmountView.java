@@ -73,7 +73,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 int size = subOrderList.size();
                 for (int i = 0; i < size; i++) {
                     OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
-                    addBillView("行程 " + (i + 1), "" + (int)childPriceInfo.shouldPay);
+                    addBillView("行程 " + (i + 1), "" + (int)childPriceInfo.orderPrice);
                     childSeatPrice += childPriceInfo.childSeatPrice;
                     flightBrandSignPrice += childPriceInfo.flightBrandSignPrice;
                     checkInPrice += childPriceInfo.checkInPrice;

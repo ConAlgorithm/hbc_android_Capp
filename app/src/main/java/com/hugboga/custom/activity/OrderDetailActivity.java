@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -275,8 +276,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 CouponBean orderCoupon = orderBean.orderCoupon;
                 if (orderCoupon != null) {
                     couponId = orderCoupon.couponID;
+                } else if (!TextUtils.isEmpty(orderBean.coupId)) {
+                    couponId = orderBean.coupId;
                 }
-
                 OrderPriceInfo priceInfo = orderBean.orderPriceInfo;
                 EventPayBean eventPayBean = new EventPayBean();
                 eventPayBean.transform(orderBean);

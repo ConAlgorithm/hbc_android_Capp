@@ -87,7 +87,6 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
         if (_request instanceof RequestRecommendedGoods) {
             RecommendedGoodsBean recommendedGoodsBean = ((RequestRecommendedGoods) _request).getData();
             addRecommendedItemView(recommendedGoodsBean);
-            setVisibility(View.VISIBLE);
             if (recommendedGoodsBean.listCount > 9) {
                 footerTV.setText(String.format("查看更多%1$s线路和司导", cityName));
                 footerLayout.setVisibility(View.VISIBLE);
@@ -118,6 +117,7 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
 
         ArrayList<RecommendedGoodsBean.RecommendedGoodsItemBean> listData = recommendedGoodsBean.listData;
         if (listData != null && listData.size() > 0) {
+            setVisibility(View.VISIBLE);
             int size = listData.size();
             LinearLayout itemLayout = null;
             for (int i = 0; i < size; i++) {
@@ -144,6 +144,7 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
             if (isCharter()) {
                 setVisibility(View.GONE);
             } else {
+                setVisibility(View.VISIBLE);
                 addCharterView(containerLayout, itemWidth, itemHeight, recommendedGoodsBean.cityHeadPicture);
             }
         }
