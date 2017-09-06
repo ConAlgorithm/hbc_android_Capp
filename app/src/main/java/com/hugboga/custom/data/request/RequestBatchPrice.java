@@ -15,6 +15,7 @@ import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.JsonUtils;
+import com.hugboga.custom.utils.LogUtils;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -41,6 +42,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         this.context = _context;
         map = new HashMap<String, Object>();
         bodyEntity = getRequestParamsBody(charterDataUtils);
+        LogUtils.e("组合单报价 params = " + bodyEntity);
         errorType = ERROR_TYPE_IGNORE;
         isSeckills = charterDataUtils.isSeckills();
     }
@@ -244,6 +246,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         batchPriceListBean.batchPrice = batchPriceList;
         batchPriceListBean.adultNum = charterDataUtils.adultCount;
         batchPriceListBean.childNum = charterDataUtils.childCount;
+        batchPriceListBean.childSeatNum = charterDataUtils.childSeatCount;
 
         batchPriceListBean.userId = UserEntity.getUser().getUserId(context);
         if (charterDataUtils.isSeckills()) {
@@ -303,6 +306,7 @@ public class RequestBatchPrice extends BaseRequest<CarListBean> {
         ArrayList<BatchPrice> batchPrice;
         public int adultNum;
         public int childNum;
+        public int childSeatNum;
         public int channelId = Constants.REQUEST_CHANNEL_ID;
         public String userId;
         public String timeLimitedSaleNo;
