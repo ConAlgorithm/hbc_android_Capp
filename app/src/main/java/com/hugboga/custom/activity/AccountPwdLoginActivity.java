@@ -83,6 +83,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
     public static String KEY_PHONE = "key_phone";
     public static String KEY_AREA_CODE = "key_area_code";
     public ActionBean actionBean;
+    boolean isFirstEnter = true;
     @Override
     public int getContentViewId() {
         return R.layout.account_pwd_login;
@@ -384,12 +385,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        /*if(phoneEditText.hasFocus()){
-            phoneEditText.setSelection(phoneEditText.getText().toString().length());
-        }
-        if(passwordEditText.hasFocus()){
-            passwordEditText.setSelection(passwordEditText.getText().toString().length());
-        }*/
+
     }
 
     @Override
@@ -433,12 +429,11 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             passwordVisible.setImageResource(R.mipmap.login_visible);
         }
-        /*if(phoneEditText.hasFocus()){
-            phoneEditText.setSelection(phoneEditText.getText().toString().length());
-        }
-        if(passwordEditText.hasFocus()){
+
+        if(passwordEditText.hasFocus() && isFirstEnter){
             passwordEditText.setSelection(passwordEditText.getText().toString().length());
-        }*/
+            isFirstEnter = false;
+        }
     }
 
     @Override
