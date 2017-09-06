@@ -107,10 +107,9 @@ public class TravelListAll extends FgBaseTravel {
                     OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                     params.orderType = bean.orderType;
                     params.orderId = bean.orderNo;
-                    params.source = bean.orderType == 5 ? bean.serviceCityName : "首页";
                     Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra(Constants.PARAMS_SOURCE,params.source);
+                    intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                     getActivity().startActivity(intent);
                 }
             }

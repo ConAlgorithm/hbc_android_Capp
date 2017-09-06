@@ -82,6 +82,8 @@ public class CityListActivity extends BaseActivity {
     private CountryGroupBean countryGroupBean;
     private CityListBean cityListBean;
     CsDialog csDialog;
+    boolean isFromHome;
+    boolean isFromDestination;
     public enum CityHomeType {
         CITY, ROUTE, COUNTRY, ALL
     }
@@ -109,6 +111,8 @@ public class CityListActivity extends BaseActivity {
             }
         }
         EventBus.getDefault().register(this);
+        isFromHome = getIntent().getBooleanExtra("isFromHome",false);
+        isFromDestination = getIntent().getBooleanExtra("isFromDestination",false);
         initView();
     }
 
@@ -389,6 +393,11 @@ public class CityListActivity extends BaseActivity {
     @Override
     public String getEventSource() {
         String result = "";
+        if(isFromHome){
+            return "全局搜索";
+        }else if(isFromDestination){
+            return "目的地搜索";
+        }
         if(paramsData!= null){
             switch (paramsData.cityHomeType) {
                 case CITY:

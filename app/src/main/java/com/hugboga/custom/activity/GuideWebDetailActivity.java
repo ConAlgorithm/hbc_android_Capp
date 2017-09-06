@@ -83,7 +83,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     private WebAgent webAgent;
     private Params paramsData;
     private GuideExtinfoBean guideExtinfoBean;
-
+    boolean isFromHome;
     public static class Params implements Serializable {
         public String guideId;
         public boolean isChooseGuide = false;
@@ -107,6 +107,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
                 paramsData = (GuideWebDetailActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        isFromHome = getIntent().getBooleanExtra("isFromHome",false);
         EventBus.getDefault().register(this);
         initView();
     }
@@ -401,6 +402,9 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     @Override
     public String getEventSource() {
+        if(isFromHome){
+            return "全局搜索";
+        }
         return "司导个人页";
     }
 

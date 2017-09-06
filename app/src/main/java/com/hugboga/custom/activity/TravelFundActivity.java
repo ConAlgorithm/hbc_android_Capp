@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.huangbaoche.imageselector.common.Constant;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
@@ -177,11 +178,13 @@ public class TravelFundActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.travel_fund_invite_record_tv://邀请记录
                 intent = new Intent(this, TravelFundRecordActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_INVITE_FRIENDS);
                 startActivity(intent);
                 break;
             case R.id.travel_fund_used_record_layout://使用明细
                 intent = new Intent(this, TravelFundRecordActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 intent.putExtra(Constants.PARAMS_TYPE, TravelFundRecordActivity.TYPE_USE_Bill);
                 startActivity(intent);
                 break;

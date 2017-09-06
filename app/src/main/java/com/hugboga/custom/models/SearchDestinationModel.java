@@ -138,10 +138,11 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra("isFromHome",true);
         context.startActivity(intent);
     }
 
     public String getEventSource(){
-        return "搜索";
+        return "首页";
     }
 }

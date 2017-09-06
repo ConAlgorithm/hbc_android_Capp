@@ -81,6 +81,7 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
                     intent.putExtra(WebInfoActivity.WEB_URL, goodsPublishStatusVo.goodsDetailUrl);
                     intent.putExtra(Constants.PARAMS_ID, goodsPublishStatusVo.no);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra("isFromHome",true);
                     activity.startActivity(intent);
                 }
             }
@@ -95,6 +96,6 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
         this.activity = activity;
     }
     public String getEventSource(){
-        return "搜索";
+        return "首页";
     }
 }

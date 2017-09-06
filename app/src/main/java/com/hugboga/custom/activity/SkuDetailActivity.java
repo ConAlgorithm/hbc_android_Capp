@@ -119,7 +119,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private WebAgent webAgent;
 
     private boolean isLoaded = false;
-
+    boolean isFromHome;
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
 
@@ -191,6 +191,9 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     @Override
     public String getEventSource() {
+        if(isFromHome){
+            return "全局搜索";
+        }
         return "线路详情";
     }
 
@@ -460,6 +463,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         if (skuItemBean != null && skuItemBean.arrCityId != 0) {
             cityBean = findCityById("" + skuItemBean.arrCityId);
         }
+        isFromHome = getIntent().getBooleanExtra("isFromHome",false);
         initView();
         setSensorsShowEvent();
     }
