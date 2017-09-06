@@ -114,6 +114,7 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
         containerLayout.removeAllViews();
         int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(10) * 2 - UIUtils.dip2px(14)) / 2;
         int itemHeight = (int)((236 / 328.0) * itemWidth) + UIUtils.dip2px(40) + UIUtils.dip2px(20);
+        boolean isShowCharter = !isCharter() && recommendedGoodsBean.serviceDailyStatus == 1;
 
         ArrayList<RecommendedGoodsBean.RecommendedGoodsItemBean> listData = recommendedGoodsBean.listData;
         if (listData != null && listData.size() > 0) {
@@ -121,7 +122,7 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
             int size = listData.size();
             LinearLayout itemLayout = null;
             for (int i = 0; i < size; i++) {
-                if (i == 1 && !isCharter()) {
+                if (i == 1 && isShowCharter) {
                     addCharterView(itemLayout, itemWidth, itemHeight, recommendedGoodsBean.cityHeadPicture);
                 }
                 PayResultRecommendItemView itemView = new PayResultRecommendItemView(getContext());
@@ -137,15 +138,15 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
                 }
                 itemLayout.addView(itemView, itemParams);
             }
-            if (size == 1 && !isCharter()) {
+            if (size == 1 && isShowCharter) {
                 addCharterView(itemLayout, itemWidth, itemHeight, recommendedGoodsBean.cityHeadPicture);
             }
         } else {
-            if (isCharter()) {
-                setVisibility(View.GONE);
-            } else {
+            if (isShowCharter) {
                 setVisibility(View.VISIBLE);
                 addCharterView(containerLayout, itemWidth, itemHeight, recommendedGoodsBean.cityHeadPicture);
+            } else {
+                setVisibility(View.GONE);
             }
         }
     }

@@ -11,6 +11,7 @@ public class RecommendedGoodsBean implements Serializable {
     public ArrayList<RecommendedGoodsItemBean> listData;
     public int listCount;
     public String cityHeadPicture;
+    public int serviceDailyStatus; //1表示能包车
 
     public class RecommendedGoodsItemBean implements Serializable {
         public String goodsNo;          // 商品编号

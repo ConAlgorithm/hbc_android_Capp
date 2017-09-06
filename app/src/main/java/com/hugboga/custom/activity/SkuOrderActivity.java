@@ -362,7 +362,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.couponId = getCouponId();
+                requestParams.couponId = discountView.isCheckedTravelFund() ? "" : getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
@@ -721,7 +721,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     * 金额为零，直接请求支付接口（支付宝）
     * */
     private void requestPayNo(String orderNo) {
-        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, getCouponId());
+        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, discountView.isCheckedTravelFund() ? "" : getCouponId());
         requestData(pequestPayNo);
     }
 
