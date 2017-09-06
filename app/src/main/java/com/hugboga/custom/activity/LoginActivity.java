@@ -191,9 +191,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        /*if(phoneEditText.hasFocus()){
-            phoneEditText.setSelection(phoneEditText.getText().toString().length());
-        }*/
     }
 
     @Override
@@ -221,9 +218,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             //login_submit.setBackgroundColor(getResources().getColor(R.color.login_unready));
         }
 
-        /*if(phoneEditText.hasFocus()){
-            phoneEditText.setSelection(phoneEditText.getText().toString().length());
-        }*/
     }
     public void loginCheckOpenId(String code) {
         RequestLoginCheckOpenId request = new RequestLoginCheckOpenId(activity, code);
