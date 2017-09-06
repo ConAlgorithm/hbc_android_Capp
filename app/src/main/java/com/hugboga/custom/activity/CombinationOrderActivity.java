@@ -49,6 +49,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircularProgress;
 import com.hugboga.custom.widget.CombinationExtrasPriceView;
@@ -703,6 +704,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 .travelerInfoBean(travelerInfoBean)
                 .build();
         requestSubmitOrder(requestParams);
+        LogUtils.e("组合单下单 params = " + requestParams);
         SensorsUtils.onAppClick(getEventSource(), "去支付", getIntentSource());
     }
 
