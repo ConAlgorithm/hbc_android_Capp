@@ -146,4 +146,8 @@ public abstract class FgBaseTravel extends BaseFragment {
             }
         });
     }
+
+    public String getEventSource(){
+        return "行程";
+    }
 }

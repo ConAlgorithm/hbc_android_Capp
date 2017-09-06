@@ -117,6 +117,7 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
                     Intent intent = new Intent(activity, GuideWebDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     intent.putExtra(Constants.PARAMS_DATA, params);
+                    intent.putExtra("isFromHome",true);
                     activity.startActivity(intent);
                 }
 
@@ -131,6 +132,6 @@ public class GuideSearchListItem extends LinearLayout implements HbcViewBehavior
         this.activity = activity;
     }
     public String getEventSource(){
-        return "搜索";
+        return "首页";
     }
 }

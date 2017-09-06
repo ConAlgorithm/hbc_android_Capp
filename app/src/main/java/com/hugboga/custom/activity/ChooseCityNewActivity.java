@@ -556,7 +556,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         Intent intent = new Intent(this, CityListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra("source", "搜索");
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
     }
 
@@ -592,7 +592,7 @@ public class ChooseCityNewActivity extends BaseActivity {
 
     @Override
     public String getEventSource() {
-        return "搜索";
+        return "目的地";
     }
 
     //搜索埋点

@@ -638,10 +638,9 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     OrderDetailActivity.Params params = new OrderDetailActivity.Params();
                     params.orderType = mOrderBean.orderType;
                     params.orderId = mOrderBean.orderNo;
-                    params.source = mOrderBean.orderType == 5 ? mOrderBean.serviceCityName : "首页";
                     intent = new Intent(v.getContext(), OrderDetailActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra(Constants.PARAMS_SOURCE,params.source);
+                    intent.putExtra(Constants.PARAMS_SOURCE,"行程");
                     v.getContext().startActivity(intent);
                     break;
                 case R.id.travel_item_btn_chat:

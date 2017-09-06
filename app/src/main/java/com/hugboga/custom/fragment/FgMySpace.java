@@ -298,6 +298,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 break;*/
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
+                intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 startActivity(intent);
                 break;
             case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服

@@ -131,9 +131,9 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         if (null != intent) {
             intentSource = intent.getStringExtra(Constants.PARAMS_SOURCE);
         }
-        if(TextUtils.isEmpty(intentSource)){
+        /*if(TextUtils.isEmpty(intentSource)){
             return getEventSource();
-        }
+        }*/
         return intentSource;
     }
 
