@@ -31,24 +31,6 @@ public class CalendarGoodsBeanList implements Serializable {
         return map;
     }
 
-    public Calendar getStartCalendar() {
-        if (goodsStockList == null || goodsStockList.size() <= 0) {
-            return null;
-        }
-        for (CalendarGoodsBean item : goodsStockList) {
-            if (item.isPastDate()) {
-                continue;
-            }
-            Date date = DateUtils.getFormatDate(item.serviceDate);
-            if (date != null) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                return calendar;
-            }
-        }
-        return null;
-    }
-
     public Calendar getSelectedCalendar() {
         if (goodsStockList == null || goodsStockList.size() <= 0) {
             return null;
