@@ -85,7 +85,7 @@ public class ServicerCenterActivity extends BaseActivity {
                 break;
             case R.id.service_insurance_btn6:
                 //保险说明
-                toWebInfo(UrlLibs.H5_INSUREXPLA);
+                toWebInfo(UrlLibs.H5_INSURANCE);
                 break;
             default:
                 break;
