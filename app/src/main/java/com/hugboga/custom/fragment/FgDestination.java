@@ -109,7 +109,6 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     private void goChooseCity() {
         Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
         this.getContext().startActivity(intent);
-        SensorsUtils.onAppClick("目的地搜索","目的地搜索","目的地");
     }
     @Override
     public void onPause() {
