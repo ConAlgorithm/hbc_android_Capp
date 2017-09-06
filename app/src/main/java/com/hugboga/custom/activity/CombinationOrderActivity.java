@@ -344,7 +344,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 requestPayNo(orderInfoBean.getOrderno());
             } else {
                 ChoosePaymentActivity.RequestParams requestParams = new ChoosePaymentActivity.RequestParams();
-                requestParams.couponId = getCouponId();
+                requestParams.couponId = discountView.isCheckedTravelFund() ? "" : getCouponId();
                 requestParams.orderId = orderInfoBean.getOrderno();
                 requestParams.shouldPay = orderInfoBean.getPriceActual();
                 requestParams.payDeadTime = orderInfoBean.getPayDeadTime();
@@ -584,12 +584,16 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     @Override
     public void onAdditionalPriceChange(double price) {
-        requestSucceedCount = 2;
-        requestCouponCount = 2;
-        onBottomLoading(true);
-        requestCouponTag++;
-        requestMostFit(price, requestCouponTag);
-        requestTravelFund(price, requestCouponTag);
+        if (charterDataUtils.isSeckills()) {
+            bottomView.updatePrice(carBean.seckillingPrice, carBean.price + price - carBean.seckillingPrice);
+        } else {
+            requestSucceedCount = 2;
+            requestCouponCount = 2;
+            onBottomLoading(true);
+            requestCouponTag++;
+            requestMostFit(price, requestCouponTag);
+            requestTravelFund(price, requestCouponTag);
+        }
     }
 
     /* 选择优惠方式 */
@@ -767,7 +771,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
      * 金额为零，直接请求支付接口（支付宝）
      * */
     private void requestPayNo(String orderNo) {
-        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, getCouponId());
+        RequestPayNo pequestPayNo = new RequestPayNo(this, orderNo, 0, Constants.PAY_STATE_ALIPAY, discountView.isCheckedTravelFund() ? "" : getCouponId());
         requestData(pequestPayNo);
     }
 

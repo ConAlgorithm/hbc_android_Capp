@@ -30,6 +30,8 @@ public class PayResultRecommendItemView extends RelativeLayout implements HbcVie
     RelativeLayout parentLayout;
     @Bind(R.id.recommend_item_bg_iv)
     ImageView bgIV;
+    @Bind(R.id.recommend_item_fillter_view)
+    View fillterView;
     @Bind(R.id.recommend_item_city_tv)
     TextView cityTV;
     @Bind(R.id.recommend_item_desc_tv)
@@ -46,8 +48,10 @@ public class PayResultRecommendItemView extends RelativeLayout implements HbcVie
         View view = inflate(context, R.layout.view_pay_result_recommend_item, this);
         ButterKnife.bind(view);
         int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(10) * 2 - UIUtils.dip2px(14)) / 2;
+        int imgHeight = (int)((236 / 328.0) * itemWidth);
         parentLayout.getLayoutParams().width = itemWidth;
-        bgIV.getLayoutParams().height = (int)((236 / 328.0) * itemWidth);
+        bgIV.getLayoutParams().height = imgHeight;
+        fillterView.getLayoutParams().height = imgHeight;
     }
 
     @Override

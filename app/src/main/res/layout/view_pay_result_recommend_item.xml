@@ -6,9 +6,15 @@
 
     <ImageView
         android:id="@+id/recommend_item_bg_iv"
-        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:id="@+id/recommend_item_fillter_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/picture_filter_shape"></View>
 
     <TextView
         android:id="@+id/recommend_item_city_tv"
