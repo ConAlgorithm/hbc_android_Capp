@@ -61,7 +61,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
         mRecyclerView.setFootView(new HbcLoadingMoreFooter(this));
         mRecyclerView.setLoadingListener(this);
         mRecyclerView.setEmptyView(emptyLayout);
-        mRecyclerView.getEmptyView().setOnClickListener(new View.OnClickListener() {
+        mRecyclerView.getEmptyView().findViewById(R.id.next_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CollectGuideListActivity.this, MainActivity.class);

@@ -234,7 +234,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
     }
 
     public void initHeader() {
-        headSearch.setHint("搜索目的地、司导姓名、线路");
+        headSearch.setHint("搜索目的地、司导、线路");
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
