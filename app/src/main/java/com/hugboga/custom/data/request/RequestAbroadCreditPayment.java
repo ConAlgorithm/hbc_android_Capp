@@ -20,13 +20,15 @@ import java.util.HashMap;
  */
 @HttpRequest(path = UrlLibs.API_PAYMENT_ABROD_CREDIT, builder = NewParamsBuilder.class)
 public class RequestAbroadCreditPayment extends BaseRequest {
-    public RequestAbroadCreditPayment(Context context,double actualPrice,String orderNo) {
+    public RequestAbroadCreditPayment(Context context,double actualPrice,String orderNo,int terminalId) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("actualPrice", actualPrice);
         map.put("appEnv","m");
         map.put("orderNo",orderNo);
         map.put("payType",1);
+        map.put("terminalId",terminalId);//H5(1, "H5钱海支付"), APP(2, "APP钱海支付");
+
     }
 
     @Override
