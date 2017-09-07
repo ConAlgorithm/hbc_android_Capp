@@ -58,7 +58,7 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected TextView fgRightTV; //右按钮(文字)
     protected View fgLeftBtn;//左按钮
 
-    private String intentSource;
+    private String intentSource = "";
 
     @Override
     public int getContentViewId() {
@@ -131,9 +131,9 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
         if (null != intent) {
             intentSource = intent.getStringExtra(Constants.PARAMS_SOURCE);
         }
-        /*if(TextUtils.isEmpty(intentSource)){
-            return getEventSource();
-        }*/
+        if(TextUtils.isEmpty(intentSource)){
+            return "";
+        }
         return intentSource;
     }
 
