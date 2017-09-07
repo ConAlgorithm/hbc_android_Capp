@@ -244,7 +244,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     private void setPriceText(TextView textView, double totalPrice, int count) {
         String priceStr = "";
         if (count > 0) {
-            priceStr = String.format("（%1$s）", totalPrice <= 0 ? "免费" : getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(totalPrice));
+            priceStr = String.format("（%1$s）", totalPrice <= 0 ? "免费" : "共¥" + CommonUtils.doubleTrans(totalPrice));
         }
         textView.setText(priceStr);
     }
