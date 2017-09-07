@@ -36,6 +36,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter{
     public Object instantiateItem(final ViewGroup container, final int position) {
         HomeRecommentCityItemView itemView = new HomeRecommentCityItemView(context);
         HomeCityGoodsVo homeCityGoodsVo = homeCityContentVo2.cityGoodsList.get(position);
+        itemView.setCityName(homeCityContentVo2.cityName);
         itemView.update(homeCityGoodsVo);
         container.addView(itemView, 0);
         return itemView;
