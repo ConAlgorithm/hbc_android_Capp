@@ -585,17 +585,6 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         picker.setTitleText("请选择上车时间");
         picker.setSelectedItem(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
-//        if (orderBean.orderType == 3 || orderBean.orderType == 888) {
-//            if (orderBean.journeyList != null && orderBean.journeyList.size() > 1) {
-//                OrderBean.JourneyItem journeyItem = orderBean.journeyList.get(0);
-//                if (journeyItem.pickup != null && journeyItem.journey != null) {//包车加接机
-//                    Date date = DateUtils.getDateTimeFromStr2(journeyItem.pickup.flightArriveTime);
-//                    if (date != null) {
-//                        picker.setRangeStart(date.getHours(), date.getMinutes());
-//                    }
-//                }
-//            }
-//        }
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {

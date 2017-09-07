@@ -67,7 +67,6 @@ public class UrlLibs {
 //    http://m.huangbaoche.com/app/dailyDetail.html?userId=100000001023&cityId=217
     public static String H5_DAIRY = BuildConfig.SHARE_BASE_URL_4 + "/app/dailyDetail.html";
 
-    public static String H5_INSUREXPLA = BuildConfig.SHARE_BASE_URL_4 + "/app/insurExpla.html"; //保险说明
     public static String H5_ACTIVITY= BuildConfig.SHARE_BASE_URL_3 + "/h5/cactivity/index.html?userId=";//国行
     public static String H5_ABOUT = H5_HOST+"/cinfos/about.html";//  关于我们
     public static String H5_ADDFEE_C = H5_HOST+"/cinfos/addfee_c.html";//  单次接送—后付费用说明

@@ -103,20 +103,19 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
         SkuCalendarUtils.getInstance().setSkuCalendarListenr(this);
 
         Calendar beginDate = Calendar.getInstance();
-        if (params.skuItemBean != null) {
-            GoodsBookDateBean bookDateInfo = params.skuItemBean.bookDateInfo;
-            try {
-                beginDate.setTime(DateUtils.dateDateFormat.parse(bookDateInfo.bookDates[0]));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }
         int year = beginDate.get(Calendar.YEAR);
         int month = beginDate.get(Calendar.MONTH) + 1;
         int day = beginDate.get(Calendar.DAY_OF_MONTH);
         CalendarDay startCalendarDay = new CalendarDay(year, month, day);
 
-        monthView.setData(startCalendarDay, getEndCalendarDay());
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 6);
+        int endYear = endDate.get(Calendar.YEAR);
+        int endMonth = endDate.get(Calendar.MONTH) + 1;
+        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
+        CalendarDay endCalendarDay = new CalendarDay(endYear, endMonth, endDay);
+
+        monthView.setData(startCalendarDay, endCalendarDay);
 
         monthView.setOnDayClickListener(this);
         monthView.setMonthChangeListener(this);
@@ -196,11 +195,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
     }
 
     @Override
-    public void onCalendarInit(Calendar _startCalendar, Calendar _selectedCalendar) {
-        if (_startCalendar != null) {
-            CalendarDay startCalendarDay = new CalendarDay(_startCalendar.get(Calendar.YEAR), _startCalendar.get(Calendar.MONTH) + 1, _startCalendar.get(Calendar.DAY_OF_MONTH));
-            monthView.setData(startCalendarDay, getEndCalendarDay());
-        }
+    public void onCalendarInit(Calendar _selectedCalendar) {
         if (_selectedCalendar != null) {
             CalendarDay selectedCalendarDay = new CalendarDay(_selectedCalendar.get(Calendar.YEAR), _selectedCalendar.get(Calendar.MONTH) + 1, _selectedCalendar.get(Calendar.DAY_OF_MONTH));
             monthView.setSelectDay(selectedCalendarDay);
