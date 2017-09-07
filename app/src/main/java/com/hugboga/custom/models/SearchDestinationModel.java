@@ -143,6 +143,6 @@ public class SearchDestinationModel extends EpoxyModelWithHolder<SearchDestinati
     }
 
     public String getEventSource(){
-        return "首页";
+        return "全局搜索";
     }
 }

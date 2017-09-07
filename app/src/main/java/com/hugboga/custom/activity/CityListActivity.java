@@ -34,6 +34,7 @@ import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.data.request.RequestFilterGuide;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.UIUtils;
@@ -184,6 +185,7 @@ public class CityListActivity extends BaseActivity {
         requestCityList();
         setOnScrollListener();
         setSensorsViewCityBeginEvent();
+        SensorsUtils.setPageEvent(getEventSource(),null,getIntentSource());
     }
 
     public void setOnScrollListener() {
@@ -394,11 +396,11 @@ public class CityListActivity extends BaseActivity {
     @Override
     public String getEventSource() {
         String result = "";
-        if(isFromHome){
+        /*if(isFromHome){
             return "全局搜索";
         }else if(isFromDestination){
             return "目的地搜索";
-        }
+        }*/
         if(paramsData!= null){
             switch (paramsData.cityHomeType) {
                 case CITY:
