@@ -170,6 +170,7 @@ public class CityListActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        setSensorsViewCityEndEvent();
     }
 
     public void initView() {
@@ -182,7 +183,7 @@ public class CityListActivity extends BaseActivity {
         recyclerView.setAdapter(cityListAdapter);
         requestCityList();
         setOnScrollListener();
-        setSensorsEvent();
+        setSensorsViewCityBeginEvent();
     }
 
     public void setOnScrollListener() {
@@ -503,8 +504,19 @@ public class CityListActivity extends BaseActivity {
         }
     }
 
+    private void setSensorsViewCityBeginEvent() {
+        try {
+            SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewCity");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //神策统计_浏览城市/国家页
-    private void setSensorsEvent() {
+    private void setSensorsViewCityEndEvent() {
+        if (paramsData == null) {
+            return;
+        }
         try {
             JSONObject properties = new JSONObject();
             properties.put("refer", getIntentSource());
@@ -522,7 +534,7 @@ public class CityListActivity extends BaseActivity {
                     properties.put("countryName", paramsData.titleName);
                     break;
             }
-            SensorsDataAPI.sharedInstance(this).track("viewCity", properties);
+            SensorsDataAPI.sharedInstance(this).trackTimerEnd("viewCity", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
