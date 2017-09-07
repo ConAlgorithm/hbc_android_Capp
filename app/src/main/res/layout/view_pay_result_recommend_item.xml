@@ -29,7 +29,7 @@
     <TextView
         android:id="@+id/recommend_item_desc_tv"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="44dp"
         android:layout_below="@id/recommend_item_bg_iv"
         android:ellipsize="end"
         android:maxLines="2"
@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/recommend_item_price_tv"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="22dp"
         android:layout_below="@id/recommend_item_desc_tv"
         android:textColor="#e98100"
         android:textSize="12sp" />

@@ -113,7 +113,7 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
     private void addRecommendedItemView(RecommendedGoodsBean recommendedGoodsBean) {
         containerLayout.removeAllViews();
         int itemWidth = (UIUtils.getScreenWidth() - UIUtils.dip2px(10) * 2 - UIUtils.dip2px(14)) / 2;
-        int itemHeight = (int)((236 / 328.0) * itemWidth) + UIUtils.dip2px(40) + UIUtils.dip2px(20);
+        int itemHeight = (int)((236 / 328.0) * itemWidth) + UIUtils.dip2px(44) + UIUtils.dip2px(22);
         boolean isShowCharter = !isCharter() && recommendedGoodsBean.serviceDailyStatus == 1;
 
         ArrayList<RecommendedGoodsBean.RecommendedGoodsItemBean> listData = recommendedGoodsBean.listData;
