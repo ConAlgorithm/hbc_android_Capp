@@ -448,6 +448,12 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        setSensorsViewSkuEndEvent();
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fg_sku_detail;
     }
@@ -479,6 +485,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean.goodsNo);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
+
+            SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewSku");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -498,7 +506,16 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_city_name", skuItemBean.depCityName);
             properties.put("hbc_price_average", CommonUtils.getCountInteger(skuItemBean.perPrice));
             SensorsDataAPI.sharedInstance(this).track("view_skudetail", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void setSensorsViewSkuEndEvent() {
+        try {
+            if (skuItemBean == null) {
+                return;
+            }
             JSONObject properties2 = new JSONObject();
             properties2.put("refer", getIntentSource());
             properties2.put("goodsNo", skuItemBean.goodsNo);
@@ -506,7 +523,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties2.put("depCityId", skuItemBean.depCityId);
             properties2.put("depCityName", skuItemBean.depCityName);
             properties2.put("goodsType", skuItemBean.goodsClass == 1 ? "固定线路" : "推荐线路");
-            SensorsDataAPI.sharedInstance(this).track("viewSku", properties2);
+            SensorsDataAPI.sharedInstance(this).trackTimerEnd("viewSku", properties2);
         } catch (Exception e) {
             e.printStackTrace();
         }

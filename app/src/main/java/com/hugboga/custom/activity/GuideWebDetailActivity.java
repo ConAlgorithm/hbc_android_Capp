@@ -131,6 +131,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         if (bottomView != null) {
             bottomView.setStop(true);
         }
+        setSensorsViewGuideEndEvent();
     }
 
     @Subscribe
@@ -159,6 +160,8 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
     }
 
     public void initView() {
+        setSensorsViewGuideBeginEvent();
+
         titleTV.setText("");
 
         // 启用javaScript
@@ -345,7 +348,6 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             } else {
                 bottomView.setVisibility(View.GONE);
             }
-            setSensorsEvent();
         } else if (_request instanceof RequestUncollectGuidesId) {//取消收藏
             guideExtinfoBean.isCollected = 0;
             collectIV.setSelected(false);
@@ -413,8 +415,16 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         return StatisticConstant.LAUNCH_GPROFILE;
     }
 
+    private void setSensorsViewGuideBeginEvent() {
+        try {
+            SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewGuide");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //神策统计_浏览司导详情
-    private void setSensorsEvent() {
+    private void setSensorsViewGuideEndEvent() {
         if (guideExtinfoBean == null) {
             return;
         }
@@ -424,7 +434,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
             properties.put("guideId", guideExtinfoBean.guideId);
             properties.put("cityName", guideExtinfoBean.cityName);
             properties.put("cityId", guideExtinfoBean.cityId);
-            SensorsDataAPI.sharedInstance(this).track("viewGuide", properties);
+            SensorsDataAPI.sharedInstance(this).trackTimerEnd("viewGuide", properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
