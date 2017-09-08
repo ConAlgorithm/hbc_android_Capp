@@ -263,4 +263,23 @@ public class SensorsUtils {
             e.printStackTrace();
         }
     }
+
+    //神策统计_展示报价
+    public static void setSensorsPriceEvent(String orderType, boolean isAppointGuide, boolean isHavePrice) {
+        setSensorsPriceEvent(orderType, orderType, isAppointGuide, isHavePrice);
+    }
+
+    //神策统计_展示报价
+    public static void setSensorsPriceEvent(String orderType, String orderGoodsType, boolean isAppointGuide, boolean isHavePrice) {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("orderType", orderType);
+            properties.put("orderGoodsType", orderGoodsType);
+            properties.put("isAppointGuide", isAppointGuide ? "1" : "0");
+            properties.put("isHavePrice", isHavePrice);
+            SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("seePrice", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
