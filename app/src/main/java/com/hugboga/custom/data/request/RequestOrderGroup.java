@@ -37,7 +37,7 @@ public class RequestOrderGroup extends BaseRequest<OrderInfoBean> {
 
     @Override
     public ImplParser getParser() {
-        return new HbcParser(UrlLibs.API_ORDER_GROUP, OrderInfoBean.class);
+        return new HbcParser(getUrl(), OrderInfoBean.class);
     }
 
     @Override

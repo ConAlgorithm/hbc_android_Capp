@@ -195,7 +195,7 @@ public class UrlLibs {
     public static final String API_CREDIT_PAY               = "trade/v1.0/c/yilian/pay";                                // 易联支付接口130
     public static final String API_COUPON_CREDIT_PAY        = "trade/v1.0/c/yilian/couponpay";                          // 买劵易联支付接口152
     public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
-    public static final String API_DAILY_SECKILL            = "trade/v1.0/c/order/secKillDaily";                        // 秒杀包车下单 165
+    public static final String API_DAILY_SECKILL            = "trade/v1.1/c/order/secKillDaily";                        // 秒杀包车下单 165
     public static final String API_PAYMENT_ABROD_CREDIT     = "trade/v1.0/c/ocean/pay";                                 // 境外信用卡  186
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
