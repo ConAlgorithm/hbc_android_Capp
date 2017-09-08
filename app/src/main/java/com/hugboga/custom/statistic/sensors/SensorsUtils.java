@@ -9,6 +9,7 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.statistic.bean.EventPayBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
@@ -273,7 +274,7 @@ public class SensorsUtils {
     public static void setSensorsPriceEvent(String orderType, String orderGoodsType, boolean isAppointGuide, boolean isHavePrice) {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("orderType", orderType);
+            properties.put("orderType", CommonUtils.getCountInteger(orderType));
             properties.put("orderGoodsType", orderGoodsType);
             properties.put("isAppointGuide", isAppointGuide ? "1" : "0");
             properties.put("isHavePrice", isHavePrice);

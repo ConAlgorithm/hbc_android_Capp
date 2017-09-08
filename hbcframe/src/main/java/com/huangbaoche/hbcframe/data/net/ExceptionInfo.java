@@ -16,6 +16,8 @@ public class ExceptionInfo {
 	public String errorCode;
 	
 	public String uuid;//服务器返回的错误ID
+
+	public Throwable throwable;
 	
 	public ExceptionInfo(int state,Exception e) {
 		this.state=state;

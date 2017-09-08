@@ -239,6 +239,7 @@ public class HttpRequestUtils {
 
             }
         }
+        result.throwable = error;
         return result;
     }
 

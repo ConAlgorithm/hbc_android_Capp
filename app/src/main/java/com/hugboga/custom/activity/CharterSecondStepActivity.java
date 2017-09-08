@@ -361,6 +361,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 CityBean cityBean = DatabaseManager.getCityBean("" + flightBean.arrCityId);
                 charterDataUtils.addStartCityBean(charterDataUtils.currentDay, cityBean);
                 charterDataUtils.maxPassengers = carMaxCapaCityBean.numOfPerson;
+                charterDataUtils.isSupportChildSeat = carMaxCapaCityBean.isSupportChildSeat();
                 fragmentAgent.updateSelectedModel();
                 requestCityRoute("" + cityBean.cityId, REQUEST_CITYROUTE_TYPE_PICKUP, oldRouteType);
             }
