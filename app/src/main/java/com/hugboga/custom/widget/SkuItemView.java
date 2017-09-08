@@ -103,7 +103,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
                     Intent intent = new Intent(v.getContext(), SkuDetailActivity.class);
                     intent.putExtra(SkuDetailActivity.WEB_SKU, skuItemBean);
                     intent.putExtra(Constants.PARAMS_ID, skuItemBean.goodsNo);
-                    intent.putExtra(Constants.PARAMS_SOURCE, "商品列表页");
+                    intent.putExtra(Constants.PARAMS_SOURCE, "包车线路");
                     v.getContext().startActivity(intent);
                     if (skuItemBean.goodsClass == 1) {
                         StatisticClickEvent.click(StatisticConstant.CLICK_RG, "商品列表页");

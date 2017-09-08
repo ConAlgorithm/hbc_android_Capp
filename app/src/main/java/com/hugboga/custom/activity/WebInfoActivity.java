@@ -330,7 +330,8 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
             headerRightBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogUtil.getInstance(activity).showCallDialog();
+                    //DialogUtil.getInstance(activity).showCallDialog();
+                    CommonUtils.csDialog(activity,null,"联系客服",null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
                 }
             });
         }

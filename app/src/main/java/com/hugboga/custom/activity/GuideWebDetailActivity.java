@@ -404,7 +404,7 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
 
     @Override
     public String getEventSource() {
-        if(isFromHome){
+        if(isFromHome){//从首页搜索进来的司导详情页
             return "全局搜索";
         }
         return "司导个人页";

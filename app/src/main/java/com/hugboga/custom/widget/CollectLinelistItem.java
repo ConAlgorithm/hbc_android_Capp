@@ -78,7 +78,7 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
                     Intent intent = new Intent(view.getContext(), SkuDetailActivity.class);
                     intent.putExtra(WebInfoActivity.WEB_URL, collectLineItemBean.goodsDetailUrl);
                     intent.putExtra(Constants.PARAMS_ID, collectLineItemBean.no);
-                    //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                    intent.putExtra(Constants.PARAMS_SOURCE, "已收藏线路");
                     view.getContext().startActivity(intent);
                 }
             });

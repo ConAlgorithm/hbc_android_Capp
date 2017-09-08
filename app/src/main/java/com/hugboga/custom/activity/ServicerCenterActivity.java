@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -125,7 +126,8 @@ public class ServicerCenterActivity extends BaseActivity {
         headerRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.getInstance(activity).showDefaultServiceDialog(activity,getEventSource());
+                //DialogUtil.getInstance(activity).showDefaultServiceDialog(activity,getEventSource());
+                CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
             }
         });
 
