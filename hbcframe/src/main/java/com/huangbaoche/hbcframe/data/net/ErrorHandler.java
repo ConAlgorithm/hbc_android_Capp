@@ -15,6 +15,12 @@ import com.huangbaoche.hbcframe.util.DialogUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.huangbaoche.hbcframe.widget.DialogUtilInterface;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/2/25.
@@ -43,6 +49,33 @@ public  class ErrorHandler implements HttpRequestListener{
             if (((Activity) mActivity).isFinishing()){
                 return;
             }
+        }
+
+        try {
+            final Map<String, List<String>> responseHeaders = request.responseHeaders;
+            String traceId = "";
+            if (responseHeaders.containsKey("traceId") && responseHeaders.get("traceId") != null) {
+                traceId = responseHeaders.get("traceId").get(0);
+            }
+            ServerException serverException = null;
+            if (errorInfo.state == ExceptionErrorCode.ERROR_CODE_SERVER) {
+                serverException = (ServerException) errorInfo.exception;
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("error_code", request.getUrlErrorCode());
+            properties.put("error_url", request.getUri());
+            properties.put("error_net_code", errorInfo.errorCode);
+            if (serverException != null) {
+                properties.put("error_server_code", serverException.getCode());
+                properties.put("error_message",serverException.getMessage());
+            }
+            if (errorInfo.throwable != null) {
+                properties.put("error_memo", errorInfo.throwable.toString());
+            }
+            properties.put("error_session_id", traceId);
+            SensorsDataAPI.sharedInstance(mActivity).track("dev_error", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // 提交服务器用
