@@ -36,9 +36,11 @@ import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 
 import butterknife.Bind;
@@ -80,6 +82,18 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSensorsViewScreenBeginEvent();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        setSensorsViewScreenEndEvent();
     }
 
     @Override
@@ -428,6 +442,25 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 break;
 
         }
+    }
 
+    private void setSensorsViewScreenBeginEvent() {
+        try {
+            SensorsDataAPI.sharedInstance(getContext()).trackTimerBegin("AppViewScreen");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setSensorsViewScreenEndEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("pageName", getEventSource());
+            properties.put("pageTitle", getEventSource());
+            properties.put("refer", "");
+            SensorsDataAPI.sharedInstance(getContext()).trackTimerEnd("AppViewScreen", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

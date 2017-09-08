@@ -70,6 +70,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
         childSeatCountView.setOnCountChangeListener(this);
         childSeatCountView.setOnInvalidClickListener(this);
         setCountViewEnabled(false);
+        childSeatCountView.setCount(0, false);
     }
 
     @Override
@@ -93,20 +94,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
                     childSeatCount--;
                     childSeatCountView.setCount(childSeatCount);
                 }
-
-                if (childCount > 0) {
-                    if (isSupportChildSeat) {
-                        childSeatLayout.setVisibility(View.VISIBLE);
-                        childSeatHintLayout.setVisibility(View.GONE);
-                    } else {
-                        childSeatLayout.setVisibility(View.GONE);
-                        childSeatHintLayout.setVisibility(View.VISIBLE);
-                        childSeathintTV.setText("很抱歉，该城市暂不提供儿童座椅");
-                    }
-                } else {
-                    childSeatLayout.setVisibility(View.GONE);
-                    childSeatHintLayout.setVisibility(View.GONE);
-                }
+                resetChildSeatLayout();
                 break;
             case R.id.charter_first_count_child_seat_choose_count_view://儿童座椅
                 this.childSeatCount = count;
@@ -127,6 +115,22 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
                     setHintViewVisibility(true);
                 }
                 break;
+        }
+    }
+
+    public void resetChildSeatLayout() {
+        if (childCount > 0) {
+            if (isSupportChildSeat) {
+                childSeatLayout.setVisibility(View.VISIBLE);
+                childSeatHintLayout.setVisibility(View.GONE);
+            } else {
+                childSeatLayout.setVisibility(View.GONE);
+                childSeatHintLayout.setVisibility(View.VISIBLE);
+                childSeathintTV.setText("很抱歉，该城市暂不提供儿童座椅");
+            }
+        } else {
+            childSeatLayout.setVisibility(View.GONE);
+            childSeatHintLayout.setVisibility(View.GONE);
         }
     }
 
@@ -164,6 +168,9 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
     }
 
     private boolean isResetCountView() {
+        if (!isSupportChildSeat) {
+            childSeatCount = 0;
+        }
         return  adultCount + childSeatCount * 1.5 + (childCount - childSeatCount) > maxPassengers;
     }
 
@@ -185,6 +192,8 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
             childSeatCountView.setCount(0, false);
             childSeatLayout.setVisibility(View.GONE);
             childSeatHintLayout.setVisibility(View.GONE);
+        } else {
+            resetChildSeatLayout();
         }
         if (isSeckills) {
             hintTV.setText(context.getResources().getString(R.string.charter_first_max_passengers_hint3, "" + maxPassengers));

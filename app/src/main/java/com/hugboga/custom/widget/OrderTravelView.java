@@ -83,9 +83,9 @@ public class OrderTravelView extends LinearLayout {
                 result = "只接机，航班：" + charterDataUtils.flightBean.flightNo;
             } else {//包车加接机
                 if (cityRouteScope.routeType == CityRouteBean.RouteType.OUTTOWN) {
-                    result = charterDataUtils.flightBean.arrAirportName + "机场出发，" + String.format("游玩至%1$s结束", charterDataUtils.getEndCityBean(index + 1).name);
+                    result = charterDataUtils.flightBean.arrAirportName + "出发，" + String.format("游玩至%1$s结束", charterDataUtils.getEndCityBean(index + 1).name);
                 } else {
-                    result = charterDataUtils.flightBean.arrAirportName + "机场出发，" + result;
+                    result = charterDataUtils.flightBean.arrAirportName + "出发，" + result;
                 }
             }
         } else if (index == size - 1 && charterDataUtils.isSelectedSend && charterDataUtils.airPortBean != null) {
