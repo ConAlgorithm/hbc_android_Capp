@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
 import com.hugboga.custom.adapter.DesTabPagerAdpter;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SimpleLineGroupVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -64,6 +65,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),null);
     }
 
     @Override
@@ -108,6 +110,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     }
     private void goChooseCity() {
         Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
         this.getContext().startActivity(intent);
     }
     @Override
