@@ -193,6 +193,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         initTitleBar();
         descriptionView.update(params.skuItemBean, serverDate, params.guidesDetailData);
         carTypeView.setOnSelectedCarListener(this);
+        carTypeView.setOrderType(orderType);
         discountView.setDiscountOnClickListener(this);
         countView.setOnCountChangeListener(this);
         bottomView.setOnSubmitOrderListener(this);
@@ -204,6 +205,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
         if (params.guidesDetailData != null) {
             guidesDetailData = params.guidesDetailData;
+            carTypeView.setGuidesDetailData(guidesDetailData);
             getGuideCars();
         } else {
             requestPriceSku(serverDate);
@@ -335,6 +337,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
                     carListBean.carList = carList;
                 }
                 carTypeView.update(carListBean);
+                setSensorsPriceEvent(true);
             }
             scrollToTop();
         } else if (_request instanceof RequestMostFit) {
@@ -438,9 +441,9 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         if (isEmpty) {
             progressView.setVisibility(View.GONE);
+            setSensorsPriceEvent(false);
         }
         setItemVisibility(itemVisibility);
-
         return isEmpty;
     }
 
@@ -951,5 +954,10 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //神策统计_展示报价
+    private void setSensorsPriceEvent(boolean isHavePrice) {
+        SensorsUtils.setSensorsPriceEvent("" + orderType, guidesDetailData != null, isHavePrice);
     }
 }

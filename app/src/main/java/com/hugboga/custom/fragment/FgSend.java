@@ -349,6 +349,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, guidesDetailData != null);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         setItemVisibility(itemVisibility);
+        if (isEmpty) {
+            setSensorsPriceEvent(false);
+        }
         return isEmpty;
     }
 
@@ -383,6 +386,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                     carListBean.carList = carList;
                 }
                 carTypeView.update(carListBean);
+                setSensorsPriceEvent(true);
             }
         }
     }
@@ -663,5 +667,10 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
             isOperated = false;
             SensorsUtils.onOperated(source, getEventSource());
         }
+    }
+
+    //神策统计_展示报价
+    private void setSensorsPriceEvent(boolean isHavePrice) {
+        SensorsUtils.setSensorsPriceEvent("" + ORDER_TYPE, guidesDetailData != null, isHavePrice);
     }
 }

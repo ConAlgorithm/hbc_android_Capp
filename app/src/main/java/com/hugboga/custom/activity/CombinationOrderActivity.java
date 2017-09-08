@@ -305,6 +305,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                     carListBean.timeLimitedSaleScheduleNo = charterDataUtils.seckillsBean.timeLimitedSaleScheduleNo;
                 }
                 carTypeView.update(carListBean);
+                setSensorsPriceEvent(true);
             }
             scrollToTop();
         } else if (_request instanceof RequestMostFit) {
@@ -451,6 +452,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         if (isEmpty) {
             progressView.setVisibility(View.GONE);
+            setSensorsPriceEvent(false);
         }
         setItemVisibility(itemVisibility);
         return isEmpty;
@@ -885,5 +887,10 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource(), false);
             }
         }, true);
+    }
+
+    //神策统计_展示报价
+    private void setSensorsPriceEvent(boolean isHavePrice) {
+        SensorsUtils.setSensorsPriceEvent("" + orderType, charterDataUtils.guidesDetailData != null, isHavePrice);
     }
 }

@@ -74,7 +74,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         return this.guidesDetailData != null;
     }
 
-    public void setOrderType(int orderType) {
+    public void setOrderType(int orderType) {//包车没传。。。
         this.orderType = orderType;
     }
 
