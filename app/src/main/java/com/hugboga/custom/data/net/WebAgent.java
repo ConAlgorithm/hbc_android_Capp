@@ -700,9 +700,9 @@ public class WebAgent implements HttpRequestListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                if (!CommonUtils.isLogin(mActivity,getEventSource())) {
-//                    return;
-//                }
+                if (!CommonUtils.isLogin(mActivity,getEventSource())) {
+                    return;
+                }
                 GuideOrderWebParamsBean data = JsonUtils.getObject(param, GuideOrderWebParamsBean.class);
                 if (data == null) {
                     return;
