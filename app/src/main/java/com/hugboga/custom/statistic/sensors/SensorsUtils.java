@@ -46,7 +46,7 @@ public class SensorsUtils {
 
     public static void setPageEvent(String eventSource, String pageTitle, String intentSource) {
         try {
-            if (TextUtils.isEmpty(eventSource) || TextUtils.isEmpty(intentSource)) {
+            if (TextUtils.isEmpty(eventSource)) {
                 return;
             }
             JSONObject properties = new JSONObject();

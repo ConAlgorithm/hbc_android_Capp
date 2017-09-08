@@ -79,7 +79,6 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
             fgRightBtn = (ImageView) contentView.findViewById(R.id.header_right_btn);
             if (fgRightTV != null) fgRightTV.setOnClickListener(this);
             if (fgLeftBtn != null) fgLeftBtn.setOnClickListener(this);
-            SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), source);
         }
         return contentView;
     }

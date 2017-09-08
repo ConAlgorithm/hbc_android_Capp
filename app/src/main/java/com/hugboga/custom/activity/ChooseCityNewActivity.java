@@ -98,7 +98,6 @@ public class ChooseCityNewActivity extends BaseActivity {
         //headerLeftBtn.setVisibility(VISIBLE);
         initPop();
         setSensorsDefaultEvent("搜索目的地页", SensorsConstant.SEARCH);
-        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
     }
 
     @Override
