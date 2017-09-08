@@ -384,7 +384,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
-        if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && (request instanceof RequestBatchPrice || request instanceof RequestOrderGroup)) {
+        if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestBatchPrice) {
             if (request instanceof RequestBatchPrice) {
                 RequestBatchPrice requestBatchPrice = (RequestBatchPrice) request;
                 if (emptyLayout != null && UrlLibs.API_SECKILLS_BATCH_PRICE.equals(requestBatchPrice.getUrl())) {
@@ -405,15 +405,15 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         }
         if (request instanceof RequestPayNo) {
             return;
-        }
-        if (!(request instanceof RequestOrderGroup)) {
+        } else if (request instanceof RequestOrderGroup) {
+            requestedSubmit = false;
+            CommonUtils.apiErrorShowService(CombinationOrderActivity.this, errorInfo, request, CombinationOrderActivity.this.getEventSource());
+        } else {
             if (emptyLayout != null) {
                 emptyLayout.setErrorVisibility(View.VISIBLE);
                 progressView.setVisibility(View.GONE);
                 setItemVisibility(View.GONE);
             }
-        } else {
-            requestedSubmit = false;
         }
     }
 

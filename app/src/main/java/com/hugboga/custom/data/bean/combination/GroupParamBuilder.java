@@ -338,6 +338,9 @@ public class GroupParamBuilder {
             childSeatCount = charterDataUtils.childSeatCount;
         }
         int maxLuuages = (carBean.capOfLuggage + carBean.capOfPerson) - (charterDataUtils.adultCount + (int)Math.round(childSeatCount * 1.5) + (charterDataUtils.childCount - childSeatCount));
+        if (maxLuuages < 0) {//容错
+            maxLuuages = 0;
+        }
         return maxLuuages;
     }
 

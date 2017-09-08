@@ -259,7 +259,6 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
     compile project(':countdown')
     compile 'jp.wasabeef:blurry:2.0.3'
-    compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.7.13'
     compile 'com.airbnb.android:epoxy:1.7.5'
     compile 'com.hugboga.im:nim_libary:1.3.6'
     compile 'com.hugboga.tools:app-tools:1.0.6'

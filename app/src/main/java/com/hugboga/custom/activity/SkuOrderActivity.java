@@ -419,8 +419,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         }
         if (request instanceof RequestPayNo) {
             return;
-        }
-        if (request instanceof RequestSubmitBase) {
+        } else if (request instanceof RequestSubmitBase) {
             requestedSubmit = false;
             CommonUtils.apiErrorShowService(SkuOrderActivity.this, errorInfo, request, SkuOrderActivity.this.getEventSource());
         } else {
