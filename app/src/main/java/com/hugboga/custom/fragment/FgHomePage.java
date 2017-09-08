@@ -46,9 +46,11 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 
 import java.util.ArrayList;
@@ -106,6 +108,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         setSensorsDefaultEvent(getEventSource(), SensorsConstant.DISCOVERY);
+        setSensorsViewScreenBeginEvent();
         return rootView;
     }
 
@@ -119,6 +122,7 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        setSensorsViewScreenEndEvent();
     }
 
     @Override
@@ -648,6 +652,26 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(getContext(),UserEntity.getUser().getUserId(getContext()),null);
                 HttpRequestUtils.request(getContext(),favoriteGuideSaved,this,false);
                 break;
+        }
+    }
+
+    private void setSensorsViewScreenBeginEvent() {
+        try {
+            SensorsDataAPI.sharedInstance(getContext()).trackTimerBegin("AppViewScreen");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setSensorsViewScreenEndEvent() {
+        try {
+            JSONObject properties = new JSONObject();
+            properties.put("pageName", getEventSource());
+            properties.put("pageTitle", getEventSource());
+            properties.put("refer", "");
+            SensorsDataAPI.sharedInstance(getContext()).trackTimerEnd("AppViewScreen", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
