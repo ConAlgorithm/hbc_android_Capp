@@ -289,6 +289,7 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                         search_first_list.setVisibility(GONE);
                         List<SearchGroupBean> list = CityUtils.search(activity, dataList.get(position));
                         addAfterSearchDestinationModel(list,dataList.get(position));
+                        SearchUtils.addCityHistorySearch(headSearch.getText().toString());
                         hideInputMethod(headSearch);
                         SearchUtils.isRecommend = true;
                         SearchUtils.isHistory = false;
