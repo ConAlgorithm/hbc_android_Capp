@@ -353,13 +353,13 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                     Bundle bundle=new Bundle();
                     CityListActivity.Params params = new CityListActivity.Params();
                     Intent intent = new Intent(v.getContext(), CityListActivity.class);
-                    bundle.putSerializable(Constants.PARAMS_SOURCE,"首页目的地栏目");
+                    bundle.putSerializable(Constants.PARAMS_SOURCE,"目的地");
                     params.cityHomeType=CityListActivity.CityHomeType.CITY;
                     params.titleName=hotCity.cityName;
                     params.id=hotCity.cityId;
                     intent.putExtra(Constants.PARAMS_DATA,params);
                     mContext.startActivity(intent);
-                    StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "首页目的地栏目");
+                    StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "目的地");
                 }
             });
             return convertView;
@@ -436,7 +436,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                     params.titleName = hotCountry.countryName;
                     Intent intent = new Intent(v.getContext(), CityListActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
-                    intent.putExtra("source","首页目的地栏目");
+                    intent.putExtra("source","目的地");
                     v.getContext().startActivity(intent);
                 }
             });
