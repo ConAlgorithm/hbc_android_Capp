@@ -96,6 +96,6 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
         this.activity = activity;
     }
     public String getEventSource(){
-        return "首页";
+        return "全局搜索";
     }
 }
