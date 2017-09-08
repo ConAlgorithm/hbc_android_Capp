@@ -358,6 +358,7 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
                     params.titleName=hotCity.cityName;
                     params.id=hotCity.cityId;
                     intent.putExtra(Constants.PARAMS_DATA,params);
+                    intent.putExtra(Constants.PARAMS_SOURCE,"目的地");
                     mContext.startActivity(intent);
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_CITY, "目的地");
                 }
