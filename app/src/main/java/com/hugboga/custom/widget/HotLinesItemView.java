@@ -113,10 +113,10 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                                     source = "城市";
                                     break;
                                 case ROUTE:
-                                    source = "国家";
+                                    source = "线路圈";
                                     break;
                                 case COUNTRY:
-                                    source = "线路圈";
+                                    source = "国家";
                                     break;
                             }
                         }
