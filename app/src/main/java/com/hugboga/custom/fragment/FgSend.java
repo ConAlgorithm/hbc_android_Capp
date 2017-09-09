@@ -1,7 +1,6 @@
 package com.hugboga.custom.fragment;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -225,6 +224,14 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     public boolean isShowSaveDialog() {
         return (airPortBean != null && airPortBean.airportId != airportId) || poiBean != null;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            hintConponsTipView();
+        }
     }
 
     @OnClick({R.id.send_airport_layout, R.id.send_poi_layout, R.id.send_time_layout})
@@ -600,6 +607,9 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     public void hintConponsTipView() {
+        if (emptyLayout == null || conponsTipView == null) {
+            return;
+        }
         if (emptyLayout.getVisibility() == View.VISIBLE || carTypeView.getVisibility() == View.VISIBLE || carListBean != null) {
             conponsTipView.setVisibility(View.GONE);
         } else {

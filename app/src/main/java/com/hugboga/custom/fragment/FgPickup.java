@@ -158,6 +158,14 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            hintConponsTipView();
+        }
+    }
+
+    @Override
     protected void initView() {
         if (params != null) {
             if (params.guidesDetailData != null) {

@@ -1,13 +1,11 @@
 package com.hugboga.custom.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.GuidesDetailData;
@@ -20,7 +18,6 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.title.TitleBarPickSend;
 
 import org.greenrobot.eventbus.EventBus;
@@ -178,11 +175,6 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
             ft.add(R.id.pick_send_container_layout, fragment, tag);
         } else {
             ft.show(fragment);
-            if (FgPickup.TAG.equals(tag)) {
-                ((FgPickup) fragment).hintConponsTipView();
-            } else if(FgSend.TAG.equals(tag)) {
-                ((FgSend) fragment).hintConponsTipView();
-            }
         }
 
         currentFragment = fragment;

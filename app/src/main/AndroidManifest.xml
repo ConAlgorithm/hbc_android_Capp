@@ -76,7 +76,7 @@
 
         <meta-data
             android:name="PARTNER_CODE"
-            android:value="f97d41ef1b314f9aa0cd06c763ec3c76"/><!--同盾-->
+            android:value="a6ff2ca806434612ba74fb81020f1d55"/><!--同盾-->
 
         <!--<meta-data
             android:name="RONG_CLOUD_APP_KEY"
