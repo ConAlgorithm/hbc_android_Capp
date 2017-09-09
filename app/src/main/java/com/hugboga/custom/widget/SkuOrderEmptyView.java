@@ -59,7 +59,7 @@ public class SkuOrderEmptyView extends LinearLayout{
         }
     }
 
-    public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide) {
+    public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide, int orderType) {
         boolean isEmpty = false;
         // noneCarsState == 202 当地时间已过了 服务开始时间
         // noneCarsState == 6 服务开始时间 在当地时间之后，但小于提前预订期
@@ -89,11 +89,23 @@ public class SkuOrderEmptyView extends LinearLayout{
         } else if (noneCarsState == 302) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_trip);
-            hintTV.setText("您预订的行程太远啦，包车压力好大…建议按天包车，去试试按天包车游");
+            String hintText = noneCarsReason;
+            if (TextUtils.isEmpty(hintText)) {
+                hintText = "您预订的行程太远啦，包车压力好大…";
+            }
+            if (orderType != 3 && orderType != 888) {
+                hintText += "\n建议按天包车，去试试按天包车游";
+                refreshTV.setVisibility(View.VISIBLE);
+                refreshTV.setText("按天包车游");
+                type = 3;
+            } else {
+                hintText += "\n请联系客服，我们会协助您完成预订";
+                refreshTV.setVisibility(View.VISIBLE);
+                refreshTV.setText("联系客服");
+                type = 2;
+            }
+            hintTV.setText(hintText);
             isEmpty = true;
-            refreshTV.setVisibility(View.VISIBLE);
-            refreshTV.setText("按天包车游");
-            type = 3;
         } else if (_carList == null || _carList.size() <= 0) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
