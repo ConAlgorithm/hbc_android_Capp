@@ -64,6 +64,7 @@ import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -235,6 +236,15 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         return false;
     }
 
+    @Subscribe
+    public void onEventMainThread(EventAction action) {
+        switch (action.getType()) {
+            case CLICK_USER_LOGIN:
+                getSkuItemBean(false);
+                break;
+
+        }
+    }
     @OnClick({R.id.header_right_btn, R.id.header_right_2_btn,R.id.goto_order,R.id.sku_detail_bottom_service_layout,R.id.sku_detail_bottom_online_layout,R.id.sku_detail_empty_tv})
     public void onClick(View view) {
         HashMap<String, String> map = new HashMap<String, String>();
@@ -258,10 +268,13 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 BaseRequest baseRequest = null;
                 if (skuItemBean.favorited == 1) {
                     baseRequest = new RequestUncollectLinesNo(this, skuItemBean.goodsNo);
-                } else if(skuItemBean.favorited == 0){
+                } else{
                     baseRequest = new RequestCollectLineNo(this, skuItemBean.goodsNo);
                 }
-                requestData(baseRequest);
+                if(baseRequest!= null){
+                    requestData(baseRequest);
+                }
+
                 break;
             case R.id.goto_order:
                 if (skuItemBean == null) {
@@ -472,6 +485,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         isFromHome = getIntent().getBooleanExtra("isFromHome",false);
         initView();
         setSensorsShowEvent();
+        EventBus.getDefault().register(this);
     }
 
     //神策统计_浏览页面

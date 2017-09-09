@@ -71,7 +71,7 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
             title.setText(goodsPublishStatusVo.name);
             location.setText(allLocation);
         }
-        pricePer.setText("¥" + goodsPublishStatusVo.prePrice + "起/人");
+        pricePer.setText("¥" + (int)goodsPublishStatusVo.prePrice + "起/人");
         Tools.showImage(picLine,goodsPublishStatusVo.pics,R.mipmap.line_search_default);
         setOnClickListener(new OnClickListener() {
             @Override
