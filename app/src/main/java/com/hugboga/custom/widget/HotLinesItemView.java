@@ -149,6 +149,7 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                         source = ((CityListActivity)getContext()).getEventSource();
                     }
                     if(CommonUtils.isLogin(context,source)) {
+                        save_guild_layout.setEnabled(false);
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         if(saveLine.isSelected()){
                             skuItemBean.favorited = 0;
@@ -178,6 +179,7 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
         }else if(request instanceof RequestUncollectLinesNo){
             CommonUtils.showToast("已取消收藏");
         }
+        save_guild_layout.setEnabled(true);
     }
 
     @Override
@@ -198,6 +200,7 @@ public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,Ht
                 errorHandler.onDataRequestError(errorInfo, request);
             }
         }
+        save_guild_layout.setEnabled(true);
     }
     //收藏商品埋点
     public static void setSensorsShareEvent(String goodsNo) {
