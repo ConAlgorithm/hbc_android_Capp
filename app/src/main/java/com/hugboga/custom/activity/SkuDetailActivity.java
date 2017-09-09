@@ -477,14 +477,16 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     //神策统计_浏览页面
     private void setSensorsShowEvent() {
         try {
-            if (skuItemBean == null) {
-                return;
-            }
             JSONObject properties = new JSONObject();
-            properties.put("hbc_web_title", "商品详情页");
-            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean.goodsNo);
+            properties.put("hbc_web_title", "线路详情");
+            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean  != null ? skuItemBean.goodsNo : goodsNo);
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
+
+            JSONObject properties2 = new JSONObject();
+            properties2.put("hbc_sku_type", "线路详情");
+            properties2.put("hbc_refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("buy_view", properties2);
 
             SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewSku");
         } catch (Exception e) {

@@ -24,6 +24,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
+import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionController;
@@ -43,6 +44,7 @@ import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.ShareDialog;
 import com.hugboga.custom.widget.UpPicDialog;
+import com.ishumei.smantifraud.SmAntiFraud;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,6 +57,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.tongdun.android.shell.FMAgent;
 
 
 /**
@@ -573,5 +577,23 @@ public final class CommonUtils {
             }
         }
         return result;
+    }
+
+    /**
+     * 根据渠道初始化不同反作弊SDK，android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
+     * @return 是否是数美
+     */
+    public static boolean isAgainstSM() {
+        return Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR);
+    }
+
+    public static String getAgainstDeviceId() {
+        String deviceId = "";
+        if (isAgainstSM()) {
+            deviceId = SmAntiFraud.getDeviceId();
+        } else {
+            deviceId = FMAgent.onEvent(MyApplication.getAppContext());
+        }
+        return deviceId;
     }
 }

@@ -8,6 +8,7 @@ import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 import com.ishumei.smantifraud.SmAntiFraud;
 
 import org.xutils.http.HttpMethod;
@@ -27,7 +28,7 @@ public class RequestUpdateAntiCheatInfo extends BaseRequest {
         super(context);
         map = new HashMap<String, Object>();
         // android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
-        boolean isSM = Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR);
+        boolean isSM = CommonUtils.isAgainstSM();
         map.put("antiType", isSM ? 1 : 2);// 反作弊服务商类型:1:数美、2:同盾
 
         String deviceId = "";
@@ -37,7 +38,8 @@ public class RequestUpdateAntiCheatInfo extends BaseRequest {
             deviceId = FMAgent.onEvent(context);
         }
         map.put("antiId", deviceId);
-}
+        errorType = ERROR_TYPE_IGNORE;
+    }
 
     @Override
     public ImplParser getParser() {
