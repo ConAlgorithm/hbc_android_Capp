@@ -448,7 +448,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
-        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null, orderType);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         if (isEmpty) {
             progressView.setVisibility(View.GONE);

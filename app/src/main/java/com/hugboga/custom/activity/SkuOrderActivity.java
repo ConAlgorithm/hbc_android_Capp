@@ -436,7 +436,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
-        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, false);
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, false, orderType);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         if (isEmpty) {
             progressView.setVisibility(View.GONE);
