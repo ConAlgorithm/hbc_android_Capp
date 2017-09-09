@@ -205,7 +205,9 @@ public class SearchDestinationGuideLineActivity extends BaseActivity implements 
                                         search_after_list.setVisibility(VISIBLE);
                                         search_first_list.setVisibility(GONE);
                                         addAfterSearchDestinationModel(listAll, headSearch.getText().toString());
-                                        SearchUtils.addCityHistorySearch(headSearch.getText().toString());
+                                        if(!TextUtils.isEmpty(headSearch.getText().toString().trim())){
+                                            SearchUtils.addCityHistorySearch(headSearch.getText().toString());
+                                        }
                                         hideInputMethod(headSearch);
                                         SearchUtils.isHistory = false;
                                         SearchUtils.isRecommend = false;
