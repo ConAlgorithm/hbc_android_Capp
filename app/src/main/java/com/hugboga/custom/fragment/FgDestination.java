@@ -65,7 +65,6 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),null);
     }
 
     @Override

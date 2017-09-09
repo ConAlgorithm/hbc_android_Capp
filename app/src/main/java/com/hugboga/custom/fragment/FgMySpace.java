@@ -52,6 +52,7 @@ import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.im.ImObserverHelper;
 import com.netease.nimlib.sdk.StatusCode;
+import com.ta.utdid2.android.utils.StringUtils;
 
 import net.grobas.view.PolygonImageView;
 

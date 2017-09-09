@@ -63,6 +63,7 @@ import com.hugboga.custom.fragment.FgNimChat;
 import com.hugboga.custom.fragment.FgTravel;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
@@ -656,18 +657,23 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
+                SensorsUtils.setPageEvent("首页","首页","");
                 break;
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
+                SensorsUtils.setPageEvent("目的地","目的地","");
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
+                SensorsUtils.setPageEvent("私聊","私聊","");
                 break;
             case R.id.tab_text_4:
                 mViewPager.setCurrentItem(3);
+                SensorsUtils.setPageEvent("行程","行程","");
                 break;
             case R.id.tab_text_5:
                 mViewPager.setCurrentItem(4);
+                SensorsUtils.setPageEvent("我的","我的","");
         }
     }
 
