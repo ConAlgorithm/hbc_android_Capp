@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.hugboga.custom.action.ActionPageBase;
-import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.data.ActionSkuDetailBean;
 import com.hugboga.custom.activity.SkuDetailActivity;
@@ -29,6 +28,9 @@ public class ActionPageSkuDetail extends ActionPageBase {
             return;
         }
         Intent intent = new Intent(context, SkuDetailActivity.class);
+        if (!TextUtils.isEmpty(bean.url)) {
+            intent.putExtra(WebInfoActivity.WEB_URL, bean.url);
+        }
         intent.putExtra(Constants.PARAMS_ID, bean.goodsNo);
         intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
         context.startActivity(intent);

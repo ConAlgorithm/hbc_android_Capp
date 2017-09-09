@@ -23,6 +23,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UmengADPlus;
@@ -97,8 +98,7 @@ public class MyApplication extends HbcApplication {
             initXMpush();               // 小米push
 
             // android 大渠道（例如：官方渠道）接入数美， 其他小渠道接入同盾科技
-            boolean isSM = Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR);
-            if (isSM) {
+            if (CommonUtils.isAgainstSM()) {
                 initSmAntiFraud();          // 数美
             } else {
                 initFMAgent();              // 同盾
@@ -269,7 +269,7 @@ public class MyApplication extends HbcApplication {
     }
 
     /**
-     * 同盾
+     * 数美
      * 系统地址：https://www.fengkongcloud.com
      * 账号：yingbinmu@huangbaoche.com
      * 密码：10Yi100Yi

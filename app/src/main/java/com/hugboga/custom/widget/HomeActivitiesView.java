@@ -253,6 +253,7 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
                         }
                     } else {
                         ActionController actionFactory = ActionController.getInstance();
+                        itemData.pushScheme.source = itemData.pushScheme.url;
                         actionFactory.doAction(mContext, itemData.pushScheme);
                     }
                 }

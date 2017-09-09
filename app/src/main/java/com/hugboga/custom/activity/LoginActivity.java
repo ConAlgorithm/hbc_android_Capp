@@ -322,6 +322,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             map.put("phone", !TextUtils.isEmpty(user.mobile) ? "是" : "否");
             MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED, map);
             CommonUtils.showToast("登录成功");
+            CommonUtils.getAgainstDeviceId();
             /*if (user.mustRestPwd && passwordEditText.getText() != null) {
                 final String password = passwordEditText.getText().toString();
                 Intent intent = new Intent(this, InitPasswordActivity.class);
@@ -363,6 +364,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 map.put("bind", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
                 MobClickUtils.onEvent(StatisticConstant.WEIXINREGISTER_SUCCEED, map);
                 CommonUtils.showToast("登录成功");
+                CommonUtils.getAgainstDeviceId();
                 finish();
             }
         }else if(request instanceof RequestVerity){
