@@ -111,6 +111,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             @Override
             public void onClick(View view) {
                 if(CommonUtils.isLogin(activity,getEventSource())) {
+                    saveGuild.setEnabled(false);
                     if(saveGuild.isSelected()){
                         data.isCollected = 0;
                         saveGuild.setSelected(false);
@@ -225,6 +226,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast("已取消收藏");
         }
+        saveGuild.setEnabled(true);
     }
 
     @Override
@@ -242,6 +244,7 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             }
             errorHandler.onDataRequestError(errorInfo, request);
         }
+        saveGuild.setEnabled(true);
     }
     //收藏司导埋点
     public static void setSensorsShareEvent(String guideId) {
