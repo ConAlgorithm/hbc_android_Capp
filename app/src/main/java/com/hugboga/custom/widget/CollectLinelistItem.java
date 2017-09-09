@@ -62,7 +62,7 @@ public class CollectLinelistItem extends LinearLayout implements HbcViewBehavior
         final String allLocation = collectLineItemBean.depCityName + "-" + collectLineItemBean.depPlaceName;
         title.setText(collectLineItemBean.name);
         location.setText(allLocation);
-        pricePer.setText("¥" + collectLineItemBean.prePrice + "起/人");
+        pricePer.setText("¥" + (int)collectLineItemBean.prePrice + "起/人");
         Tools.showImage(picLine,collectLineItemBean.pics,R.mipmap.line_search_default);
         if(collectLineItemBean.publishStatus == -1){
             offline_icon.setVisibility(VISIBLE);

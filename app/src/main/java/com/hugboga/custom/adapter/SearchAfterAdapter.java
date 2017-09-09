@@ -119,6 +119,10 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
                 removeModel(loadingModel);
                 loadingModel = null;
             }
+            if(emptyDataModel != null){
+                removeModel(emptyDataModel);
+                emptyDataModel = null;
+            }
             if(searchLineBean == null || searchLineBean.goods == null || searchLineBean.count == 0 || searchLineBean.goods.size() == 0){
                 this.goods = null;
                 hasGoods = false;
@@ -186,5 +190,10 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
         if(loadingModel != null){
             removeModel(loadingModel);
         }
+        if(emptyDataModel != null){
+            removeModel(emptyDataModel);
+        }
+        emptyDataModel = new EmptyDataModel();
+        addModel(emptyDataModel);
     }
 }

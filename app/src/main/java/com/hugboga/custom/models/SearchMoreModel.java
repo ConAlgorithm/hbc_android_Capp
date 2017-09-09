@@ -1,6 +1,7 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -85,7 +86,9 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                             ((SearchDestinationGuideLineActivity)context).search_after_list.setVisibility(VISIBLE);
                             ((SearchDestinationGuideLineActivity)context).search_first_list.setVisibility(GONE);
                             ((SearchDestinationGuideLineActivity)context).addAfterSearchDestinationModel(list,keyword);
-                            SearchUtils.addCityHistorySearch(keyword);
+                            if(!TextUtils.isEmpty(keyword.trim())){
+                                SearchUtils.addCityHistorySearch(keyword);
+                            }
                             SearchUtils.isHistory = false;
                             SearchUtils.isRecommend = false;
                         }
