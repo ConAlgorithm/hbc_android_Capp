@@ -69,8 +69,7 @@ public class FgDestination extends FgBaseTravel implements HttpRequestListener,D
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
