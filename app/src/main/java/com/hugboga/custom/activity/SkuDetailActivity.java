@@ -493,7 +493,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_web_title", "线路详情");
-            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + skuItemBean  != null ? skuItemBean.goodsNo : goodsNo);
+            properties.put("hbc_web_url", SensorsConstant.SKUDETAIL + "?sku_id=" + (skuItemBean != null ? skuItemBean.goodsNo : goodsNo));
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
 
