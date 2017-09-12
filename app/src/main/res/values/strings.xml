@@ -860,4 +860,13 @@
     6. 对于不符合领取及使用优惠券规则的领取账户，皇包车有权收回已领取的优惠券;\n\n
     7. 优惠券最终解释权归北京纯粹旅行有限公司（品牌名称：皇包车）所有。</string>
     <string name = "gotomain"><u>去首页转转</u></string>
+
+
+    <string name = "destiation">目的地</string>
+    <string name = "destiation_search">目的地搜索</string>
+    <string name = "destiation_all">全境</string>
+    <string name = "destiation_day_service">按天包车游</string>
+    <string name = "destiation_pick_send">接送机</string>
+    <string name = "destiation_single">单次接送</string>
+
 </resources>

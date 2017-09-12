@@ -16,6 +16,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
@@ -36,6 +37,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
+import com.hugboga.custom.widget.SearchHotCity;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
@@ -72,6 +74,10 @@ public class ChooseCityNewActivity extends BaseActivity {
     ListView leftList;
     @Bind(R.id.middle_list)
     ListView middleList;
+    @Bind(R.id.middle_layout)
+    RelativeLayout middleLayout;
+    @Bind(R.id.search_hot)
+    SearchHotCity searchHotCity;
     @Bind(R.id.right_list)
     ListView rightList;
     @Bind(R.id.search_list)
@@ -305,7 +311,6 @@ public class ChooseCityNewActivity extends BaseActivity {
                 levelCityAdapterLeft.notifyDataSetChanged();
                 showMiddleData(position);
 
-
             }
         });
 
@@ -456,20 +461,23 @@ public class ChooseCityNewActivity extends BaseActivity {
     private void showMiddleData(int position) {
         levelCityAdapterMiddle = new LevelCityAdapter(activity, 2);
         if (position == 0) {
+            searchHotCity.setVisibility(VISIBLE);
+            middleLayout.setVisibility(GONE);
             groupList2 = new ArrayList<>();
-            if (isFromTravelPurposeForm) {
-                groupList2.addAll(CityUtils.getHotCity(activity));
-            } else {
-                groupList2.addAll(CityUtils.getHotCityWithHead(activity));
-            }
+            groupList2.addAll(CityUtils.getHotCity(activity));
+            searchHotCity.setIsFromTravelPurposeForm(isFromTravelPurposeForm);
+            searchHotCity.setHotCitys(groupList2);
         } else {
+            searchHotCity.setVisibility(GONE);
+            middleLayout.setVisibility(VISIBLE);
             groupList2 = new ArrayList<>();
             groupList2.addAll(CityUtils.getLevel2City(activity, groupList.get(position).group_id));
+            levelCityAdapterMiddle.setList(groupList2);
+            levelCityAdapterMiddle.setMiddleLineShow(true);
+            levelCityAdapterMiddle.notifyDataSetChanged();
+            middleList.setAdapter(levelCityAdapterMiddle);
         }
-        levelCityAdapterMiddle.setList(groupList2);
-        levelCityAdapterMiddle.setMiddleLineShow(true);
-        levelCityAdapterMiddle.notifyDataSetChanged();
-        middleList.setAdapter(levelCityAdapterMiddle);
+
     }
 
 
