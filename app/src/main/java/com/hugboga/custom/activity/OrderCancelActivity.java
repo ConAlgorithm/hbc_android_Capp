@@ -78,7 +78,7 @@ public class OrderCancelActivity extends BaseActivity{
             orderBean = (OrderBean) bundle.getSerializable(Constants.PARAMS_DATA);
         }
         initDefaultTitleBar();
-        fgTitle.setText("申请取消行程");
+        fgTitle.setText(R.string.cancel_title);
         mDialogUtil = DialogUtil.getInstance(this);
         orderType.setText(OrderUtils.getOrderTypeStr(orderBean.orderType));
         orderNoValue.setText(orderBean.orderNo);

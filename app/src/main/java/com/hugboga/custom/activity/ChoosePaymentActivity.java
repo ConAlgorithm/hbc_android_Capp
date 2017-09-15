@@ -185,7 +185,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
         if (requestParams.isOrder) {
             fgLeftBtn.setVisibility(View.GONE);
             TextView rightTV = (TextView) findViewById(R.id.header_right_txt);
-            rightTV.setText("查看订单");
+            rightTV.setText(R.string.par_result_detail);
             rightTV.setVisibility(View.VISIBLE);
             rightTV.setOnClickListener(new View.OnClickListener() {
                 @Override

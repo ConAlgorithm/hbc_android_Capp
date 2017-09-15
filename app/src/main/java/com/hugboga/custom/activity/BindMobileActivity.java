@@ -109,8 +109,8 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
 
     private void initView() {
         initDefaultTitleBar();
-        fgTitle.setText("绑定手机号");
-        fgRightTV.setText("跳过");
+        fgTitle.setText(R.string.login_bind_phone);
+        fgRightTV.setText(R.string.jump);
         fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,7 +274,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         super.onDataRequestSucceed(request);
         if (request instanceof RequestVerity) {
             RequestVerity requestVerity = (RequestVerity) request;
-            showTip("验证码已发送");
+            showTip(CommonUtils.getString(R.string.login_already_verity));
             time = 59;
             handler.postDelayed(runnable, 0);
         } else if(request instanceof RequestBindMobile){
@@ -388,18 +388,18 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                 collapseSoftInputMethod(verityEditText);
                 areaCode = areaCodeTextView.getText().toString();
                 if (TextUtils.isEmpty(areaCode)) {
-                    showTip("区号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_check_areacode));
                     return;
                 }
                 areaCode = areaCode.substring(1);
                 mobile = mobileEditText.getText().toString();
                 if (TextUtils.isEmpty(mobile)) {
-                    showTip("手机号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_check_phone_empty));
                     return;
                 }
                 String verity = verityEditText.getText().toString();
                 if (TextUtils.isEmpty(verity)) {
-                    showTip("验证码不能为空");
+                    showTip(CommonUtils.getString(R.string.login_check_verity));
                     return;
                 }
                 if(isAfterProcess){
@@ -427,14 +427,14 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
                 collapseSoftInputMethod(verityEditText);
                 String areaCode1 = areaCodeTextView.getText().toString();
                 if (TextUtils.isEmpty(areaCode1)) {
-                    showTip("区号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_check_areacode));
                     setBtnVisible(true);
                     return;
                 }
                 areaCode1 = areaCode1.substring(1);
                 String phone1 = mobileEditText.getText().toString();
                 if (TextUtils.isEmpty(phone1)) {
-                    showTip("手机号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_check_phone_empty));
                     setBtnVisible(true);
                     return;
                 }

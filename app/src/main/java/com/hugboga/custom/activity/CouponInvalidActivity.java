@@ -108,9 +108,9 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
     private void initView() {
         isFromMyspace = getIntent().getBooleanExtra("isFromMyspace",false);
         if(!isFromMyspace){
-            headerTitle.setText("不可用优惠券");
+            headerTitle.setText(R.string.coupon_invalid_title1);
         }else{
-            headerTitle.setText("失效优惠券");
+            headerTitle.setText(R.string.coupon_invalid_title2);
         }
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +119,7 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
             }
         });
         headerRightTxt.setVisibility(View.VISIBLE);
-        headerRightTxt.setText("使用说明");
+        headerRightTxt.setText(R.string.coupon_invalid_explain);
         headerRightTxt.setTextColor(0xff151515);
         headerRightTxt.setTextSize(15);
         headerRightTxt.setOnClickListener(new View.OnClickListener() {

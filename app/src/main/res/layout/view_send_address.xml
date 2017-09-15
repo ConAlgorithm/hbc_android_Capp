@@ -45,7 +45,7 @@
             android:layout_toRightOf="@id/send_start_address_iv"
             android:gravity="center_vertical"
             android:paddingTop="1dp"
-            android:hint="您从哪里出发"
+            android:hint="@string/single_start_where_hint"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
             android:textSize="16sp" />
@@ -137,7 +137,7 @@
             android:layout_toLeftOf="@id/send_end_address_arrow_iv"
             android:layout_toRightOf="@id/send_end_address_iv"
             android:gravity="center_vertical"
-            android:hint="送您到哪里去"
+            android:hint="@string/single_send_where_hint"
             android:paddingTop="1dp"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"

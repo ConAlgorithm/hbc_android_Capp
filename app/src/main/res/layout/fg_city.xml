@@ -59,7 +59,7 @@
             android:layout_marginRight="14dp"
             android:layout_toRightOf="@id/head_middle_line_view"
             android:background="@android:color/transparent"
-            android:hint="想去哪里?"
+            android:hint="@string/select_city_tips"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:paddingLeft="14dp"
@@ -122,7 +122,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="很抱歉，没有找到您搜索的机场\n或者该城市暂未开通送机服务\n可联系客服，帮您查找"
+            android:text="@string/airport_empty_hint"
             android:textColor="#a8a8a8"
             android:textSize="13sp" />
 
@@ -136,7 +136,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="5dp"
-            android:text="联系客服"
+            android:text="@string/contact_service"
             android:textColor="#828282"
             android:textSize="13sp" />
     </LinearLayout>

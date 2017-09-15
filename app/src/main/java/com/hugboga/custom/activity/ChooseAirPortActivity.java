@@ -124,7 +124,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             if (TextUtils.isEmpty(headSearch.getText())
                     || TextUtils.isEmpty(headSearch.getText().toString())
                     || TextUtils.isEmpty(headSearch.getText().toString().trim())) {
-                CommonUtils.showToast("请输入搜索内容");
+                CommonUtils.showToast(R.string.choose_city_check_input);
             } else {
                 requestDate(headSearch.getText().toString().trim());
             }
@@ -144,7 +144,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
         sideBar.setOnTouchingLetterChangedListener(this);
         sortListView = (ListView) findViewById(R.id.country_lvcountry);
         sortListView.setOnItemClickListener(this);
-        headSearch.setHint("输入城市或机场");
+        headSearch.setHint(R.string.airport_input_city);
         headSearch.addTextChangedListener(this);
         headSearch.setOnKeyListener(this);
         headSearch.setOnEditorActionListener(this);
@@ -158,7 +158,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             headLayout.setVisibility(View.GONE);
             bottomLineView.setVisibility(View.GONE);
             cityHeaderLayout.setVisibility(View.VISIBLE);
-            ((TextView) cityHeaderLayout.findViewById(R.id.header_title)).setText("请选择机场");
+            ((TextView) cityHeaderLayout.findViewById(R.id.header_title)).setText(R.string.airport_choose);
             cityHeaderLayout.findViewById(R.id.header_left_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -227,10 +227,10 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             }
             if (!TextUtils.equals(lastFirstLetter, airPort.cityFirstLetter)) {
                 String letter = airPort.cityFirstLetter;
-                if (letter.equals("热门机场")) {
-                    letter = "热门";
-                } else if (letter.equals("搜索历史")) {
-                    letter = "历史";
+                if (letter.equals(CommonUtils.getString(R.string.poisearch_hot))) {
+                    letter = CommonUtils.getString(R.string.poisearch_hot2);
+                } else if (letter.equals(CommonUtils.getString(R.string.poisearch_history))) {
+                    letter = CommonUtils.getString(R.string.poisearch_history2);
                 }
                 sectionIndices.add(letter);
                 lastFirstLetter = airPort.cityFirstLetter;
@@ -317,7 +317,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
             List<AirPort> hotAirportDate = selector.findAll();
             if (hotAirportDate != null && hotAirportDate.size() > 0) {
                 for (AirPort bean : hotAirportDate) {
-                    bean.cityFirstLetter = "热门机场";
+                    bean.cityFirstLetter = CommonUtils.getString(R.string.poisearch_hot);
                 }
                 if (hotAirportDate.size() > 0l && hotAirportDate.get(0) != null) {
                     hotAirportDate.get(0).isFirst = true;
@@ -360,7 +360,7 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
                     if (historyId.equals(String.valueOf(bean.airportId))) {
                         historyAirportDate.add(bean);
                     }
-                    bean.cityFirstLetter = "搜索历史";
+                    bean.cityFirstLetter = CommonUtils.getString(R.string.poisearch_history);
                 }
             }
             if (historyAirportDate.size() > 0 && historyAirportDate.get(0) != null) {

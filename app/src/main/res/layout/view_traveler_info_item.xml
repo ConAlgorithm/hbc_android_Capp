@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:minWidth="80dp"
-            android:text="联系人"
+            android:text="@string/order_travelerinfo_contacts"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -39,7 +39,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/sku_order_padding_left"
             android:gravity="center"
-            android:text="通讯录"
+            android:text="@string/order_travelerinfo_book"
             android:textColor="@color/default_highlight_blue"
             android:textSize="12sp" />
 
@@ -64,7 +64,7 @@
             android:background="#00000000"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:hint="请输入联系人姓名"
+            android:hint="@string/order_travelerinfo_contacts_hint"
             android:maxLength="50"
             android:singleLine="true"
             android:textColor="@color/default_black"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:minWidth="80dp"
-            android:text="手机号"
+            android:text="@string/order_travelerinfo_phone"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -145,7 +145,7 @@
             android:background="#00000000"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:hint="请填写手机号"
+            android:hint="@string/order_travelerinfo_phone_hint"
             android:inputType="phone"
             android:maxLength="50"
             android:singleLine="true"

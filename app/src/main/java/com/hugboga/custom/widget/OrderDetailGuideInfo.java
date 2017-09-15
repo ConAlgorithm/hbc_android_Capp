@@ -130,13 +130,13 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
                     if (orderBean.isEvaluated()) {
                         evaluateIV.setVisibility(View.VISIBLE);
                         if (orderBean.appraisement != null) {
-                            evaluateTV.setText((int)orderBean.appraisement.totalScore + "星评价");
+                            evaluateTV.setText((int)orderBean.appraisement.totalScore + CommonUtils.getString(R.string.order_detail_star_comment));
                         } else {
-                            evaluateTV.setText("已评价");
+                            evaluateTV.setText(R.string.order_detail_commented);
                         }
                     } else {
                         evaluateIV.setVisibility(View.GONE);
-                        evaluateTV.setText("评价司导");
+                        evaluateTV.setText(R.string.order_detail_guide_comment);
                     }
 
                     if (guideInfo.isCollected()) { //不可取消收藏
@@ -164,9 +164,9 @@ public class OrderDetailGuideInfo extends LinearLayout implements HbcViewBehavio
             } else {
                 starIV.setBackgroundResource(R.mipmap.star_level_half);
             }
-            starTV.setText(String.format("%1$s星 / %2$s单", "" + guideInfo.guideStarLevel, "" + guideInfo.orderCount));
+            starTV.setText(CommonUtils.getString(R.string.order_detail_star_hint, "" + guideInfo.guideStarLevel, "" + guideInfo.orderCount));
 
-            describeTV.setText("车型：" + guideInfo.guideCar);
+            describeTV.setText(CommonUtils.getString(R.string.order_detail_collect) + guideInfo.guideCar);
             if (!TextUtils.isEmpty(guideInfo.carNumber)) {
                 numberTV.setText(getContext().getString(R.string.platenumber) + guideInfo.carNumber);
             }

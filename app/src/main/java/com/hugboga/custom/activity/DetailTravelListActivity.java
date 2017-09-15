@@ -57,7 +57,7 @@ public class DetailTravelListActivity extends BaseActivity {
     }
 
     public void initView() {
-        titleBar.setTitle("行程单");
+        titleBar.setTitle(R.string.traveler_list_title);
 
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

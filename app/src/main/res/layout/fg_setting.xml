@@ -28,7 +28,7 @@
                     android:id="@+id/setOrChangPwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="修改密码"
+                    android:text="@string/setting_chang_pwd"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
                 <ImageView
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="清除缓存"
+                    android:text="@string/setting_clear_cache"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
                 <ImageView
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="意见反馈"
+                    android:text="@string/setting_feedback"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
 
@@ -114,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="关于我们"
+                    android:text="@string/setting_about"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
 
@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="开发者选项"
+                    android:text="@string/setting_developer"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
 
@@ -173,7 +173,7 @@
                 android:layout_marginRight="@dimen/default_margin_mxlarge"
                 android:layout_marginTop="30dp"
                 android:background="@color/login_ready"
-                android:text="退出登录"
+                android:text="@string/setting_exit"
                 android:textColor="@color/basic_white"/>
 
         </LinearLayout>

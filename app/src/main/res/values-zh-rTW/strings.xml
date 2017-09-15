@@ -1,0 +1,1352 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="app_name">皇包車</string>
+    <string name="hbc_scheme">hbcc</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_imchat">聊天</string>
+
+    <string name="custom_chartered">按天包車遊</string>
+    <string name="custom_single">單次接送</string>
+    <string name="custom_pick_up">中文接機</string>
+    <string name="custom_send">中文送機</string>
+    <string name="custom_fixed_line">固定線路</string>
+    <string name="custom_recommend_line">推薦線路</string>
+
+    <!-- public -->
+    <string name="collect">收藏Ta</string>
+    <string name="uncollect">已收藏</string>
+    <string name="to_evaluate">去評價</string>
+    <string name="evaluated">已評價</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+    <string name="gender_secrecy">保密</string>
+    <string name="yuan">元</string>
+    <string name="share">分享</string>
+    <string name="share_friend">分享好友</string>
+    <string name="share_moments">分享朋友圈</string>
+    <string name="solidus">%1$s&#160;/&#160;%2$s</string>
+    <string name="more">更多</string>
+    <string name="pick_up">收起</string>
+    <string name="sign_rmb">¥</string>
+    <string name="separator">%1$s-%2$s</string>
+    <string name="piece">件</string>
+    <string name="people">人</string>
+    <string name="collect_succeed">收藏成功</string>
+    <string name="collect_cancel">已取消收藏</string>
+    <string name="platenumber">車牌：</string>
+    <string name="domestic_call">境內請撥打:</string>
+    <string name="overseas_call">境外請撥打:</string>
+    <string name="domestic_phone">400-610-0009</string>
+    <string name="overseas_phone">+86&#160;1059715436</string>
+    <string name="call">打電話</string>
+    <string name="private_chat">發私聊</string>
+    <string name="wechat">微信</string>
+    <string name="moments">朋友圈</string>
+    <string name="cancel">取消</string>
+    <string name="hint">提示</string>
+    <string name="ok">好</string>
+    <string name="ok2">好的</string>
+    <string name="last_step">返回上一步</string>
+    <string name="chat">私聊</string>
+    <string name="phone">手機號</string>
+    <string name="jump">跳過</string>
+    <string name="hbc_confirm">確定</string>
+    <string name="hbc_submit">提交</string>
+    <string name="picksend">接送機</string>
+    <string name="free_price">免費</string>
+    <string name="hbc_back">返回</string>
+
+    <!-- Basic name -->
+    <string name="call_info_tip">如有問題，請撥打客服電話 4006 1000 66</string>用戶協議
+    <string name="register_info_tip">註冊即表示我同意"皇包車"的用戶協議</string>
+    <string name="user_info_tip">且代表您已同意《皇包車會員服務協議》</string>
+    <string name="user_info_tip1">皇包車會員服務協議</string>
+    <string name="register_info_tip_protocol">用戶協議</string>
+    <string name="login_country_search_hint">搜索國際或區號</string>
+
+    <!-- 按鈕 -->
+    <string name="dialog_btn_search">搜索</string>
+    <string name="dialog_btn_ok">確認</string>
+    <string name="dialog_btn_sure">確定</string>
+    <string name="dialog_btn_cancel">取消</string>
+    <string name="dialog_btn_setting">設置</string>
+    <string name="dialog_btn_again">再來一次</string>
+    <string name="dialog_btn_back">確認離開</string>
+    <string name="complete">完成</string>
+    <string name="dialog_btn_know">我知道了</string>
+
+    <!--Permission-->
+    <string name="grant_fail_title">授權失敗</string>
+    <string name="grant_fail_btn">重新獲取</string>
+    <string name="grant_fail_btn_exit">退出應用</string>
+    <string name="grant_fail_phone1">您選擇了不再提醒授權，請進入設置-應用中為應用授權</string>
+    <string name="grant_fail_sdcard">權限只是用做存儲照片使用，拒絕將不能正常使用</string>
+    <string name="grant_fail_camera">權限只是用做拍攝頭像照片使用，拒絕將不能拍攝頭像</string>
+    <string name="grant_fail_phone">權限只是用做識別身份使用，拒絕將不能正常使用</string>
+    <string name="grant_fail_im">權限只是用做聊天基礎功能使用，拒絕將不能正常使用</string>
+
+    <!-- 提示信息 -->
+    <string name="two_exit">再按一次退出程序</string>
+    <string name="network_error">網絡鏈接錯誤</string>
+    <string name="no_network"> 當前網絡不可用，請檢查網絡連接</string>
+    <string name="no_room">存儲空間不足，建議清除存</string>
+    <string name="net_overtime">網絡鏈接超時啦</string>
+    <string name="net_error">網絡異常，需要關閉！</string>
+    <string name="login_error">登錄失敗，需要關閉！</string>
+    <string name="exit_msg">您確定要退出程序？</string>
+    <string name="logout_msg">您確定要退出當前帳號？</string>
+    <string name="data_load">數據加載中...</string>
+    <string name="data_load_error">數據加載失敗</string>
+    <string name="apk_updata">軟件載入下載列表...</string>
+    <string name="data_none">沒有加載到任何相關的數據！</string>
+    <string name="loading">正在聯網...</string>
+    <string name="refresh">刷新</string>
+    <string name="reconnect">連接失敗，系統正在重新加載...</string>
+    <string name="login_progress_dialog">正在登錄...</string>
+    <string name="no_content_info">沒有相關項目</string>
+    <string name="arrival_tip_hotel">如果您的出發地點是酒店，請搜索酒店名稱</string>
+    <string name="arrival_tip_same">留意相似名稱的地點,確認地址是否正確</string>
+    <string name="arrival_empty_text">很抱歉，沒有找到與[%s]相關的結果,或者搜索地點超出當前城市駕車範圍</string>
+    <string name="data_load_error_retry">加載失敗，點擊重試！</string>
+    <string name="login_hint">陛下，請登錄後重試！</string>
+
+    <string name="error_parser">解析錯誤</string>
+    <string name="error_nofound">找不到網頁錯誤</string>
+    <string name="error_url">地址錯誤</string>
+    <string name="error_net">連接失敗</string>
+    <string name="error_ssl">連接失敗(SSL)</string>
+    <string name="error_other">連接失敗</string>
+    <string name="list_empty">暫無數據</string>
+    <string name="submit_success">提交成功</string>
+    <string name="web_error">網絡不給力，點擊重新加載!</string>
+
+    <!-- title-->
+    <string name="title_pick">接機</string>
+    <string name="title_send">送機</string>
+    <string name="title_daily">包車遊</string>
+    <string name="title_daily_in_town">包車遊</string>
+    <string name="title_daily_out_town">包車遊</string>
+    <string name="title_rent">單次接送</string>
+    <string name="title_commend">線路包車</string>
+    <string name="title_daily_small">小長途</string>
+    <string name="title_daily_large">大長途</string>
+    <string name="title_other">訂單詳情</string>
+    <string name="title_choose_airport">選擇機場</string>
+    <string name="title_transfer">接送機</string>
+    <string name="title_chinese_transfer">中文接送機</string>
+
+    <!-- tab-->
+    <string name="tab_home">首頁</string>
+    <string name="tab_des">目的地</string>
+    <string name="tab_chat">私聊</string>
+    <string name="tab_journey">行程</string>
+    <string name="tab_space">我的</string>
+
+    <!--首頁-->
+    <string name="home_main_title">全球10萬華人朋友</string>
+    <string name="home_sub_title">開車帶你玩</string>
+    <string name="contact_service">聯繫客服</string>
+    <string name="online_service">在線諮詢</string>
+
+    <!-- Search address -->
+    <string name="search_hint_pick">請輸入地點名稱</string>
+    <string name="search_hint_send">搜索出發地點</string>
+    <string name="search_hint_city">請輸入城市名稱</string>
+
+    <!-- 頁面 progress-->
+    <string name="progress_trip">填寫行程</string>
+    <string name="progress_car">選車</string>
+    <string name="progress_order">提交訂單</string>
+    <string name="progress_pay">支付</string>
+
+    <!-- 頁面 pick-->
+    <string name="tip_which_flight">您乘坐的航班</string>
+    <string name="tip_where_togo">您要去哪裡？</string>
+    <string name="btn_select_car">去選車</string>
+
+    <!-- 頁面 pick_flight -->
+    <string name="title_pick_flight">選擇航班</string>
+    <string name="tip_pick_flight_time">起飛日期</string>
+    <string name="tip_pick_flight_from">出發城市</string>
+    <string name="tip_pick_flight_to">到達城市</string>
+    <string name="tap_flight">按航班號</string>
+    <string name="tap_city">按城市</string>
+    <string name="tap_city_tip">如有中轉請寫末趟航班</string>
+
+    <!-- 頁面 pick_flight_list -->
+    <string name="title_pick_flight_list">選擇航班</string>
+    <string name="flight_empty_no_city">很抱歉，沒有找到您搜索的航班\n可聯繫客服，幫您查找</string>
+    <string name="flight_empty_tip">如有中轉請搜索末趟航班</string>
+    <string name="flight_empty_tip2">確定使用此航班號訂車?</string>
+    <string name="flight_empty_btn">手動填寫航班信息</string>
+
+    <!-- 頁面 pick_flight_customer -->
+    <string name="title_pick_flight_customer">航班信息</string>
+    <string name="tip_pick_flight_no">航班號，如CA985</string>
+    <string name="tip_pick_flight_airport">降落機場</string>
+    <string name="tip_pick_flight_down_time">飛機降落的當地時間</string>
+
+    <!-- 頁面 pick_daily -->
+    <string name="daily_tip">下單成功後，會有專屬司導為您定製詳細行程</string>
+    <string name="daily_tap_in_town">市內包車</string>
+    <string name="daily_tap_out_town">跨城市包車</string>
+    <!-- 頁面 pick_flight_customer -->
+    <string name="car_tip"><u>費用說明</u></string>
+    <string name="daily_half_day_alert">當您的行程不足一天時可以半日包車，服務時間5小時，最大里程150公里</string>
+
+    <!-- 頁面 submit -->
+    <string name="submit_airno">航班%s落地時間</string>
+    <string name="submit_car_info">乘坐%1$d人,行李%2$d件</string>
+    <string name="submit_name">聯繫人姓名</string>
+    <string name="submit_phone">聯繫電話</string>
+    <string name="submit_phone_add">＋增加備用電話</string>
+    <string name="submit_adult">成人%d</string>
+    <string name="submit_child">兒童%d</string>
+    <string name="submit_pick_name">接機牌姓名</string>
+    <string name="submit_send_hotel">入住酒店聯繫電話</string>
+    <string name="submit_flight_no">選擇起飛航班號</string>
+    <string name="submit_send_hotel_tip">如果您的用車地址是酒店，請填寫電話方便司導確認酒店具體位置</string>
+    <string name="submit_chose_visa">選擇簽證信息</string>
+    <string name="submit_remark_tip">您可以在這裡註明其他需求，以及需要司導知道的其他行程細節</string>
+    <string name="submit_order_cancel"><u>訂單取消規則</u></string>
+    <string name="submit_order_tip"><u>預訂須知</u></string>
+    <string name="submit_order_over_tip"><u>後付費用計價規則</u></string>
+    <string name="submit_btn">下一步</string>
+    <string name="submit">提交</string>
+
+    <!--私信Letter-->
+    <string name="letter_order_state1">未開始</string>
+    <string name="letter_order_state2">進行中</string>
+    <string name="letter_order_state3">已完成</string>
+    <string name="letter_chat_btn">歷史訂單</string>
+
+    <!-- 頁面 pay -->
+    <string name="pay_tip_thailand"><u>泰國接機說明</u></string>
+    <string name="order_cancel_tip">確定要取消行程嗎？</string>
+    <string name="order_cancel_succeed">取消訂單成功</string>
+    <string name="order_cancel_tip2" formatted="false">距離服務開始時間24小時前取消及更改，免收退改費,可全額退款;\n服務開始時間24小時內取消及更改，將收取訂單金額的100%作為退改費。</string>
+    <string name="order_cancel_tip3">\n跨城市長途包車距離服務開始時間48小時內取消及更改，將產生司導住宿費用，收取訂單金額20%用於補償司導損失。</string>
+    <string name="pay_time_tip">請在%1$s內付款,以免訂單取消</string>
+    <string name="order_cancel_pay">下單後%1$s訂單將被取消，請儘快完成支付</string>
+    <!-- 承諾promise -->
+    <string name="promise_title_all">一價全包</string>
+    <string name="promise_title_wait">免費等待</string>
+    <string name="promise_title_app">增值服務</string>
+    <string name="promise_title_pay">先行賠付</string>
+    <string name="promise_title_safe">免費保險</string>
+
+    <string name="promise_content_all">皇包車服務為一價全包(但不包含預訂的標準服務外的超公里、超時等後付費用)</string>
+    <string name="promise_content_wait">接機產品提供飛機落地後免費等待60分鐘(以航班實際落地30分鐘後開始計算)</string>
+    <string name="promise_content_app">服務提供中文導遊服務，日租服務提供行程規劃、景點講解等服務</string>
+    <string name="promise_content_pay">皇包車如未如約提供服務，將無條件退還預訂費用並給出相應賠償</string>
+    <string name="promise_content_safe">每一份服務，皇包車都為您免費購買責任保險</string>
+
+    <!-- ZListView text -->
+    <string name="footer_text">親，俺正在拚命加載</string>
+    <string name="footer_none">已經看完了</string>
+    <string name="load_more">上滑加載更多</string>
+    <string name="give_flush">鬆開刷新</string>
+    <string name="down_give_flush">下拉刷新</string>
+    <string name="run_flush">正在刷新&#8230;</string>
+    <string name="near_update">最近更新</string>
+
+    <string name="loading_msg">皇包車@2015-2017</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+
+    <!-- Trip change text -->
+    <string name="trip_tip_label1">如需修改用車時間、用車地點、所需車型，請撥打客服電話</string>
+    <string name="trip_tip_label2">如需修改包車城市，包車時間、所需車型，請撥打客服電話</string>
+    <string name="transfer_check_in" formatted="false">(服務費%d元)</string>
+    <string name="order_daily_days" formatted="false">%1$s 至 %2$s (%3$d天)</string>
+    <string name="order_daily_days_detail" formatted="false">%1$s市內%2$d天，市外%3$d天</string>
+    <string name="order_daily_days_half" formatted="false">%1$s (半日包)</string>
+    <string name="order_daily_days_local" formatted="false">%1$s 至 %2$s (%3$d天)</string>
+    <string name="order_daily_city_name" formatted="false">%1$s - %2$s</string>
+    <string name="order_daily_days_out_tower" formatted="false">%1$s天(市內%2$s天，市外%3$s天)</string>
+    <string name="call_service">呼叫客服</string>
+    <string name="empty_text">沒有找到相關結果</string>
+    <string name="can_not_choose_start_city_text">跨城市包車不能選擇出發城市哦</string>
+    <string name="out_of_range_city_text">沒有找到您想去的城市\n或者該城市暫未開通該服務</string>
+    <string name="out_of_range_city_text2">沒有找到您想去的城市\n或搜索的城市超出當前城市駕車範圍</string>
+    <!-- sku-->
+    <string name="sku_car_tip">注意:不同車型會影響總價上下浮動</string>
+
+    <!-- 個人中心-->
+    <string name="person_center_nickname">點擊登錄</string>
+    <string name="person_center_no_nickname">昵稱未填寫</string>
+    <string name="person_center_coupon">優惠券</string>
+
+    <string name="forget_password">忘記密碼</string>
+
+    <string name="chat_log">聊天記錄</string>
+    <string name="goto_pay">立即支付</string>
+    <string name="order_total">訂單總額：</string>
+    <string name="sku_days">包車天數：%s天</string>
+    <string name="user_name">聯繫人</string>
+    <string name="user_name_hint">請填寫聯繫人姓名</string>
+    <string name="user_phone">聯繫電話</string>
+    <string name="user_phone_hint">請填寫聯繫人電話</string>
+    <string name="remark">備註</string>
+    <string name="remark_hint">您可以在這裡註明其他需求，以及需要司導知道的其他行程細節</string>
+    <string name="select_car_type">選擇服務車型</string>
+    <string name="suk_area_code"><![CDATA[區號 > ｜]]></string>
+    <string name="sku_empty_tips">更多精品包車線路即將上限，敬請期待</string>
+    <string name="wx_share_content">全球10萬華人朋友開車帶你玩！</string>
+    <string name="pay_type">支付方式</string>
+    <string name="guess_you_want">猜你想搜</string>
+
+    <string name="user_have_coupon">%s張可用</string>
+    <string name="popup_menu_cancel_order">取消訂單</string>
+    <string name="popup_menu_phone">客服電話</string>
+    <string name="no_net_tip">網絡不給力，包子不高興了呢！</string>
+    <string name="click_refresh"><u>點擊刷新</u></string>
+
+    <string name="login_or">或者</string>
+    <string name="un_install_wx">沒有安裝微信</string>
+    <string name="location_city_text">定位城市</string>
+    <string name="select_city_title">按天包車遊</string>
+    <string name="select_city_start">開始城市</string>
+    <string name="baggage_nums">行李數</string>
+    <string name="go_citys">遊玩日期</string>
+    <string name="select_go_citys">請選擇遊玩日期</string>
+    <string name="full_day_travel">&#160;按天包車遊</string>
+    <string name="half_day_travel">&#160;半日包車遊</string>
+    <string name="people_num_left">出發人數</string>
+    <string name="go_next">下一步</string>
+    <string name="no_confirm">暫時不確定</string>
+    <string name="child_seat">兒童座椅</string>
+    <string name="child_0">兒童0</string>
+    <string name="baggage_size">需填寫大小介於21-28寸之間的行李箱個數</string>
+
+    <string name="start_date">請選擇開始日期</string>
+    <string name="end_date">請選擇結束日期</string>
+    <string name="select_date">選擇日期</string>
+    <string name="select_car_date">包車日期</string>
+    <string name="select_start_end_date">選擇包車起止日期</string>
+
+    <string name="select_city_tips">想去哪裡?</string>
+    <string name="select_people_tips">請選擇出發人數</string>
+    <string name="select_baggage_tips">請選擇行李數</string>
+
+    <string name="select_city_man">成人</string>
+    <string name="select_city_child">兒童</string>
+    <string name="select_city_child_12">(12歲及以下)</string>
+
+    <string name="select_city_man_child_num">成人%1$s/兒童%2$s</string>
+    <string name="select_city_baggage_num">託運行李%1$s</string>
+
+    <string name="select_scope">選擇包車遊玩範圍</string>
+
+    <string name="scope_in">%s,市內遊玩</string>
+    <string name="scope_around">%s,周邊遊玩</string>
+    <string name="scope_new_add_tips">（300公里，10小時暢遊）</string>
+    <string name="scope_other">住在其他城市</string>
+    <string name="scope_other_end">在其它城市結束游城</string>
+    <string name="scope_tips_city">包括:%s</string>
+
+    <string name="start_end_error">開始日期不能大於結束日期</string>
+    <string name="add_day_tips">當天費用將包含司導住宿補貼</string>
+
+    <string name="man_no_confirm_tips">包車是件自由的事兒，填寫可能最多的人數即可</string>
+    <string name="baggage_no_confirm_tips">需填寫大小超過21寸的行李箱個數，建議最大行李箱不超過28寸</string>
+
+    <string name="have_mas">可乘坐: %s名乘客</string>
+    <string name="have_baggages"> %s個行李箱</string>
+
+    <string name="mans_use_money">司導服務費</string>
+    <string name="mans_use_money_tips">司導全程陪同、根據需要進行翻譯、導遊、解說。包含餐費、小費等.</string>
+    <string name="car_use_money">用車費用</string>
+    <string name="car_use_money_tips">包含:油費、停車費、高速費、過路費.</string>
+    <string name="all_money">費用總計</string>
+    <string name="per_money">人均費用</string>
+    <string name="befer48_hour">行前48小時可全額退款</string>
+    <string name="show_all_info">展開詳情</string>
+
+    <string name="day_all_money">第%s天費用總計</string>
+    <string name="service_money">司導服務費</string>
+    <string name="longDisPrice">長途補助</string>
+    <string name="stayPrice">司導住宿補貼</string>
+    <string name="vehiclePrice">用車費用</string>
+    <string name="emptyDrivePrice">返程補貼</string>
+    <string name="car_lines">-----------------------------------------------------------------</string>
+    <string name="add_user_name">請填寫聯繫人姓名</string>
+    <string name="add_user_name_left">* 聯繫人&#160;</string>
+    <string name="add_user_phone_left">* 聯繫電話</string>
+    <string name="add_user_phone_area_no">選擇區號></string>
+    <string name="add_user_phone">聯繫人電話</string>
+    <string name="local_time">09:00 (當地時間)</string>
+    <string name="aboard_where">請添加上車地點</string>
+    <string name="hotel_phone">酒店電話</string>
+    <string name="order_tips">選填,行前可以隨時聯繫司導更改</string>
+    <string name="for_other_people">為他人訂車</string>
+    <string name="total_order">還需支付:</string>
+    <string name="order_info">明細</string>
+    <string name="submit_order">立即支付</string>
+
+    <string name="passenger_no_star">&#160;乘車人</string>
+    <string name="up_time">&#160;上車時間</string>
+    <string name="up_site">* 上車地點</string>
+    <string name="pick_name_star">* 接機牌姓名</string>
+
+    <string name="passenger">* 乘車人</string>
+    <string name="add_passenger">請填寫乘車人姓名</string>
+    <string name="passenger_phone">乘車人電話</string>
+
+    <string name="no_start_city">請選擇開始城市</string>
+    <string name="select_around_city">當天費用將包含長途補貼</string>
+    <string name="select_other_city">當天費用將包含司導住宿補貼和長途補貼</string>
+    <string name="select_end_city">選擇結束城市</string>
+    <string name="select_stay_city">選擇住宿城市</string>
+    <string name="no_cars_info">沒有相關車輛信息</string>
+
+    <string name="your_service">請聯繫客服幫您下單</string>
+
+
+    <string name="no_cars_error_show">很抱歉,您的出行人數過多,\n沒有找到合適的車型</string>
+
+    <string name="complete_start_city">請選擇開始城市</string>
+    <string name="complete_mans">請選擇出發人數</string>
+    <string name="complete_start_date">請選擇開始日期</string>
+    <string name="complete_end_date">請選擇結束日期</string>
+    <string name="complete_days_info">請完善每天的行程</string>
+    <string name="complete_half_start_date">請完善遊玩日期</string>
+    <string name="edit_mark_left">備註</string>
+    <string name="edit_mark">可在這裡給司導留言</string>
+    <string name="all_cost_info">費用詳情</string>
+
+    <string name="noraml_question">常見問題</string>
+    <string name="air_info">航班信息</string>
+    <string name="air_address">送達地</string>
+
+    <string name="input_air_no">選航班查機場，延誤免費等候</string>
+    <string name="input_go_where">送您到哪裡去</string>
+
+    <string name="air_start_address">出發地</string>
+    <string name="air_end_address">送達機場</string>
+    <string name="air_start_time">出發時間</string>
+
+    <string name="air_start_where">您從哪裡出發</string>
+    <string name="air_go_where">送您到哪個機場</string>
+    <string name="air_choose_go_time">請選擇出發時間(建議提早出發)</string>
+
+    <string name="choose_by_address">按起降地</string>
+    <string name="choose_by_air_no">按航班號</string>
+
+    <string name="choose_fly">起飛城市</string>
+    <string name="choose_arrived">降落城市</string>
+    <string name="choose_from_address">請選擇</string>
+    <string name="choose_fly_date">起飛日期(當地時間)</string>
+    <string name="choose_fly_date_tips">請選擇日期(當地時間)</string>
+    <string name="choose_bottom_tips">* 如有中轉請選擇末趟航班</string>
+    <string name="choose_search">查詢</string>
+    <string name="choose_search_history">查詢歷史</string>
+    <string name="choose_clean_all_history">清除查詢記錄</string>
+    <string name="choose_input_air_no">請輸入航班號, 如CA167</string>
+    <string name="choose_input_air_no_left">航班號</string>
+
+    <string name="can_sit_man">可乘坐</string>
+
+    <string name="man_luggage_num_left">出行人數</string>
+    <string name="choose_man_luggage">請選擇</string>
+    <string name="child_seat_money">收費兒童座椅</string>
+    <string name="checkin">協助登機check in</string>
+    <string name="pick_wait">接機舉牌等待</string>
+    <string name="cost_0">(服務費 ￥0)</string>
+    <string name="all_cost">費用總計:</string>
+    <string name="whole_journey">全程預估:</string>
+    <string name="confirm_journey">確認行程</string>
+
+    <string name="del_driver">刪除</string>
+    <string name="driver_left">指定司導</string>
+
+    <string name="man_luggage_title">出行人數</string>
+    <string name="man_luggage_man">成人</string>
+    <string name="man_luggage_child">兒童</string>
+    <string name="man_luggage_12">(12歲及以下)</string>
+    <string name="man_luggage_l">行李</string>
+    <string name="man_luggage_24">(24寸)</string>
+    <string name="man_luuage_child_seat">兒童座椅(單個佔1.5座位)</string>
+    <string name="man_luggage_free">免費兒童座椅</string>
+    <string name="man_luggage_charge">收費兒童座椅</string>
+    <string name="man_luggage_0">￥ 0/次</string>
+    <string name="man_luggage_30">￥ 30/次</string>
+    <string name="man_luggage_tips1">根據每種車型的座位數、後備箱容量，和實際出行人數，為您計算可攜帶行李數</string>
+    <string name="man_luggage_tips2">行李大小計算標準為24寸行李箱</string>
+    <string name="man_luggage_tips3">每減少1位乘客，可增加1個24寸行李</string>
+    <string name="man_luggage_tips4">隨身行李請酌情攜帶，大小參考行李箱</string>
+    <string name="man_luggage_tips5">如果司導到場發現行李超出所訂車型容量限制，無法提供服務，您只能重新預訂更大車型。\n請您在預訂時考慮攜帶行李情況，以免出現上述情況</string>
+
+
+    <string name="man_luggage_not_have">很抱歉，該城市暫不提供兒童座椅</string>
+
+    <string name="city_use_car">用車城市</string>
+    <string name="single_start_city">出發地</string>
+    <string name="single_end_city">目的地</string>
+
+    <string name="single_choose_city">請選擇城市</string>
+    <string name="single_end_city_tips">送您到哪裡去</string>
+
+    <string name="sku_go_date">出發日期</string>
+    <string name="sku_go_date_tips">請選擇出發日期</string>
+    <string name="sku_new_title">安排您的行程</string>當前城市機場
+
+    <string name="back_alert_msg">訂單未填寫完，要離開嗎?</string>
+    <string name="location_airport">當前城市機場</string>
+    <string name="location_fail">定位失敗，請開啟GPS</string>
+
+    <string name="choose_like_driver_order">選擇已收藏司導下單</string>
+
+    <string name="my_travel_title">我的行程單</string>
+    <string name="my_coupon">使用優惠券</string>
+    <string name="my_get_money">夢想基金</string>
+    <string name="free_8_insure">贈價值8萬元平安保險</string>
+    <string name="huangbaoche_buy">由皇包車支付</string>
+
+    <string name="about_copyright">Copyright@2014-2017皇包車</string>
+    <string name="about_version">皇包車 Hi Guides %1$s_%2$s</string>
+    <string name="about_check_update">檢測新版本</string>
+    <string name="about_grade">給我評分</string>
+    <string name="about_story">品牌故事</string>
+    <string name="about_title">關於我們</string>
+    <string name="about_update">升級新版</string>
+    <string name="about_no_appstore">設備上沒有安裝應用市場</string>
+    <string name="about_newest">已是最新版本</string>
+
+    <string name="collect_guide_describe">%1$s / 乘坐%2$s人 行李%3$s件</string>
+    <string name="collect_guide_describe_filter">%1$s / %2$s</string>
+    <string name="collect_guide_appointments">預約</string>
+    <string name="collect_guide_unappointments">不可預約</string>
+    <string name="collect_guide_title">已收藏司導</string>
+    <string name="collect_line_title">我收藏的線路</string>
+    <string name="collect_guide_empty_prompt1">陛下，您當前暫時還沒有收藏司導呢！</string>
+    <string name="collect_guide_empty_prompt2">您可以在完成一段行程後收藏喜歡的司導</string>
+    <string name="collect_guide_empty_prompt3">或收藏朋友給您推薦的司導</string>
+    <string name="collect_guide_appointments_plane">預約接送機</string>
+    <string name="collect_guide_appointments_car">預約包車遊</string>
+    <string name="collect_guide_appointments_single">預約單次接送</string>
+    <string name="collect_guide_empty_hint">您當前還未收藏司導呢</string>
+    <string name="collect_line_empty_hint">您當前還未收藏線路呢</string>
+
+    <string name="invite_friends_title">邀請好友</string>
+    <string name="invite_friends_share">立即分享</string>
+    <string name="invite_friends_copy_promotion_code">複製優惠碼</string>
+    <string name="invite_friends_succeed">已邀請成功%1$s位好友&#160;&#160;&#160;&#160;共獲得%2$s元</string>
+    <string name="invite_friends_promotion_code">優惠碼</string>
+    <string name="invite_friends_rule">規則說明</string>
+    <string name="invite_friends_source_1">首次使用</string>
+    <string name="invite_friends_source_2">首次使用提成</string>
+    <string name="invite_friends_source_3">訂單消費</string>
+    <string name="invite_friends_source_4">過期</string>
+    <string name="invite_friends_copy_succeed">複製成功</string>
+
+    <string name="travel_fund_title">旅遊基金</string>
+    <string name="travel_fund_rule">查看規則</string>
+    <string name="travel_fund_residue_price">基金餘額:</string>
+    <string name="travel_fund_validity">有效期至%1$s</string>
+    <string name="travel_fund_invite_record">查看邀請記錄></string>
+    <string name="travel_fund_invite_record_title">邀請記錄</string>
+    <string name="travel_fund_use_record_title">基金明細</string>
+    <string name="travel_fund_use_record">明細</string>
+    <string name="travel_fund_subtitle">邀請好友</string>
+    <string name="travel_fund_subtitle_2">好友首次消費</string>
+    <string name="travel_fund_description">Ta即可獲得&#160;%1$s元&#160;優惠劵</string>
+    <string name="travel_fund_description_2">您馬上得&#160;%1$s元&#160;旅行基金\n另外還可得Ta消費金額的&#160;%2$s&#160;!</string>
+    <string name="travel_fund_invite">立即邀請</string>
+    <string name="travel_fund_record_empty_hint">還沒有任何明細\n邀請好友，免費賺旅遊基金</string>
+    <string name="travel_fund_invitation_friends_record_empty_hint">還沒有好友貢獻旅遊基金\n快去邀請他們</string>
+    <string name="travel_fund_record_invited">已成功邀請</string>
+    <string name="travel_fund_record_obtain">已獲得獎勵</string>
+
+    <string name="evaluate_subtitle_grade">為司導打分</string>
+    <string name="evaluate_submit">確認提交</string>
+    <string name="evaluate_et_hint">您對這位司導是否滿意呢？說說您的感受吧~對其他小夥伴幫助很大哦（20個字上帶圖評價可返錢哦)</string>
+    <string name="evaluate_et_hint2">您對這位司導是否滿意呢？說說您的感受吧~對其他小夥伴幫助很大哦</string>
+    <string name="evaluate_title">我的評價</string>
+    <string name="evaluate_succeed">評價成功!</string>
+
+    <string name="evaluate_active_evaluated_get">Ta已獲得皇包車的¥%1$s小費獎勵，感謝您的肯定！</string>
+    <string name="evaluate_active_evaluated">Ta沒有獲得獎勵還需要繼續努力，感謝您的評價~</string>
+    <string name="evaluate_active">打5星好評，可幫Ta爭取到皇包車的¥%1$s小費獎勵哦！</string>
+    <string name="evaluate_star_very_satisfied">非常滿意</string>
+    <string name="evaluate_star_satisfied">滿意</string>
+    <string name="evaluate_star_ordinary">一般</string>
+    <string name="evaluate_star_unsatisfactory">不滿意</string>
+    <string name="evaluate_star_very_unsatisfactory">非常不滿</string>
+    <string name="evaluate_evaluated_satisfied">您的鼓勵是我們最大的動力</string>
+    <string name="evaluate_evaluated_ordinary">希望有機會為您提供更好的服務</string>
+    <string name="evaluate_share_description_1">分享靠譜司導給好友，再發%1$s大禮包</string>
+    <string name="evaluate_share_description_2">\nTa領取後在app完成首單，你也可賺旅遊基金！</string>
+    <string name="evaluate_share_rules_price">%1$s&#160;+&#160;%2$s×好友首單總金額</string>
+    <string name="evaluate_share_pack_up">收起</string>
+    <string name="evaluate_share_detail">詳情</string>
+
+    <string name="dairy_inout_check">請先輸入您的城市/出行時間</string>
+
+    <string name="guide_detail_subtitle_grade">服務星級</string>
+    <string name="guide_detail_subtitle_photo">車輛照片</string>
+    <string name="guide_detail_subtitle_appointment">預約司導</string>
+    <string name="guide_detail_subtitle_contact">聯繫司導</string>
+    <string name="guide_detail_subtitle_title">個人資料</string>
+    <string name="guide_detail_share_title">皇包車優質司導推薦</string>
+    <string name="guide_detail_share_content">該中文司導對當地很熟悉，服務一級棒！推薦給你，讓他帶着你，一起包車遊當地吧！</string>
+    <string name="guide_detail_evaluate_all">查看全部%1$s條評價</string>
+
+    <string name="evaluate_list_title">%1$s條評價</string>
+
+    <string name="coupon_num">%s張優惠券可用</string>
+    <string name="dream_money">使用旅遊基金</string>
+
+    <string name="free_huangbaoche">免費贈送</string>
+    <string name="change_detail_txt">服務開始前24小時退訂,全額退還費用;小於24小時不可退訂,全部費用將扣除用於補償當地司導</string>
+
+    <string name="dairy_choose_guide"> 請填寫完所有出行信息，再來選擇司導喲！</string>
+    <string name="dairy_modify_alert"> 請在刪除指定司導後，再修改出行信息。</string>
+
+    <string name="choose_payment_title">支付收銀台</string>
+    <string name="choose_payment_repay">還需支付:</string>
+    <string name="choose_payment">選擇支付方式</string>
+    <string name="choose_payment_wechat">微信支付</string>
+    <string name="choose_payment_alipay">支付寶</string>
+    <string name="choose_payment_credit_card">國內信用卡</string>
+    <string name="choose_payment_abrod_credit_card">境外信用卡</string>
+    <string name="choose_payment_add_credit_card_tip">*目前僅支持國內信用卡</string>
+    <string name="add_credit_activity_title">添加信用卡</string>
+    <string name="add_credit_reserved_phone_tip">請輸入辦卡預留手機號</string>
+    <string name="usually_credit_tip">添加至常用卡並同意</string>
+    <string name="common_card_payment_protocol"><u>《常用卡支付協議》</u></string>
+
+    <string name="par_result_title">支付結果</string>
+    <string name="par_result_succeed">支付成功</string>
+    <string name="par_result_failure">支付失敗</string>
+    <string name="par_result_succeed_prompt">您的服務已預訂成功!</string>
+    <string name="par_result_failure_prompt">支付遇到了問題...</string>
+    <string name="par_result_contact_service">需要聯繫客服?</string>
+    <string name="par_result_back">返回首頁</string>
+    <string name="par_result_detail">查看訂單</string>
+    <string name="par_result_repay">重新支付</string>
+    <string name="par_result_coupon">查看優惠券</string>
+    <string name="par_result_succeed_coupon_hint">優惠券已放入您的賬戶\n可在我的-優惠券頁面查看</string>
+    <string name="par_result_failure_coupon_hint">很抱歉，支付失敗\n您可以點擊按鈕嘗試重新支付</string>
+    <string name="par_result_succeed_desc_title">您可以在訂單詳情中：</string>
+    <string name="par_result_succeed_desc_insurance">添加投保信息獲得免費保險</string>
+    <string name="par_result_succeed_desc_insurance_click">添加投保信息</string>
+    <string name="par_result_more_sku">查看更多%1$s線路和司導</string>
+    <string name="par_result_recommend_sku_title">猜你喜歡</string>
+    <string name="par_result_recommend_charter">司導開車帶你\n暢遊你的%1$s專屬行程</string>
+    <string name="par_result_recommend_charter_title">按天暢遊</string>
+
+    <string name="insure_info_title">投保信息</string>
+    <string name="insure_info_passport">護照號：%1$s</string>
+    <string name="insure_info_policy_num">保單號：</string>
+
+    <string name="order_detail_title_default">訂單詳情</string>
+    <string name="order_detail_title_chartered">按天包車遊</string>
+    <string name="order_detail_title_single">單次接送</string>
+    <string name="order_detail_title_send">中文送機</string>
+    <string name="order_detail_title_pick">中文接機</string>
+    <string name="order_detail_title_route">線路包車遊</string>
+    <string name="order_detail_thaw">訂單已凍結</string>
+    <string name="order_detail_disputes">正在處理糾紛</string>
+    <string name="order_detail_pay_prompt_1">請在%1$s內付款</string>
+    <string name="order_detail_pay_prompt_2">以免訂單取消</string>
+    <string name="order_detail_order_number">訂單號：%1$s</string>
+    <string name="order_detail_price">訂單金額</string>
+    <string name="order_detail_travel_info">出行人信息</string>
+    <string name="order_detail_unsubscribe">訂單退改規則：</string>
+    <string name="order_detail_unsubscribe_explain">服務開始前24小時退訂，全額退還費用；小於24小時不可退訂，全部費用將扣除用於補償當地司導</string>
+    <string name="order_detail_pay">去支付</string>
+    <string name="order_detail_insurance_info">投保信息</string>
+    <string name="order_detail_info">已為%1$s人購買保險</string>
+    <string name="order_detail">詳情</string>
+    <string name="order_detail_edit">修改</string>
+    <string name="order_detail_cancel">您的訂單已取消！</string>
+    <string name="order_detail_finish">服務已結束！</string>
+    <string name="order_detail_prompt_evaluation_1">你給好評，皇包車替你給小費！</string>
+    <string name="order_detail_prompt_evaluation_2">快去給Ta好評吧</string>
+    <string name="order_detail_prompt_travel_end">感謝您選擇皇包車的服務</string>
+    <string name="order_detail_receiving">司導已接單！</string>
+    <string name="order_detail_inservice">司導正在為您服務</string>
+    <string name="order_detail_prompt_new_travel">您即將迎來新的旅程</string>
+    <string name="order_detail_predetermined">預訂成功！</string>
+    <string name="order_detail_timeleft">請在有效期</string>
+    <string name="order_detail_add_insurance">免費添加投保人</string>
+    <string name="order_detail_carpooling">拼車</string>
+    <string name="order_detail_local_time">當地時間&#160;%1$s</string>
+    <string name="order_detail_airport_card">接機舉牌等待</string>
+    <string name="order_detail_checkin">送機協助辦理登機</string>
+    <string name="order_detail_seat_info">(%1$s)</string>
+    <string name="order_detail_adult_seat_info">乘坐%1$s人</string>
+    <string name="order_detail_child_seat_info">、兒童座椅%1$s個</string>
+    <string name="order_detail_flight">航班：%1$s&#160;</string>
+    <string name="order_detail_insurance_describe">不要錯過皇包車送您的境外旅遊保險哦</string>
+    <string name="order_detail_opean">展開詳情</string>
+    <string name="order_detail_close">關閉詳情</string>
+    <string name="order_detail_cost_chartered">包車費用</string>
+    <string name="order_detail_cost_child_seats">兒童座椅</string>
+    <string name="order_detail_cost_hotel">住宿費用</string>
+    <string name="order_detail_cost_other">其他費用</string>
+    <string name="order_detail_cost_placards">接機舉牌費用</string>
+    <string name="order_detail_cost_checkin">送機協助辦理登機</string>
+    <string name="order_detail_cost_total">費用總計</string>
+    <string name="order_detail_cost_coupon">優惠金額</string>
+    <string name="order_detail_cost_travelfund">旅遊基金</string>
+    <string name="order_detail_cost_realpay">支付金額</string>
+    <string name="order_detail_cost_refund">退款金額</string>
+    <string name="order_detail_cost_withhold">訂單退改扣款</string>
+    <string name="order_detail_local_chartered">%1$s-%2$s天包車</string>
+    <string name="order_detail_half_day">0.5</string>
+    <string name="order_detail_cancel_oeder">取消訂單成功</string>
+    <string name="order_detail_hotle_subscribe">酒店預訂&#160;-&#160;%1$s晚，%2$s間</string>
+    <string name="order_detail_evaluate">評價有禮</string>
+    <string name="order_detail_evaluated">已評價</string>
+    <string name="order_detail_refund_title">退款詳情</string>
+    <string name="order_detail_refund_description">退款將退回到您支付訂單的賬戶中，到賬時間以該賬戶通知為準。\n</string>
+    <string name="order_detail_refund_pattern_payment">您的支付方式：%1$s</string>
+    <string name="order_detail_tips_title">平台保障：</string>
+    <string name="order_detail_tips">訂單款項由皇包車平台先行保管，服務完成才會支付給司導。如在服務過程中發生任何問題請及時聯繫皇包車客服，您與司導在APP內的聊天內容可作為糾紛憑證；經查證如屬司導違約，您可獲得相應補償。</string>
+    <string name="order_detail_top2_tips">司導接單後，您可以在app內通過私聊與Ta聯繫；聊天信息可作為糾紛憑證，獲得平台保障。</string>
+    <string name="order_detail_top1_tips">下單後一般在24小時內有司導接單。如果下單時間距離實際出行時間較遠，最晚在出行前為您安排司導接單。</string>
+    <string name="order_detail_bargain_end">共砍掉</string>
+    <string name="order_detail_bargain">已砍掉</string>
+    <string name="order_detail_up">上車</string>
+    <string name="order_detail_refund_coupon">優惠券抵扣金額（券不可退）</string>
+    <string name="order_detail_refund_coupon2">優惠券抵扣金額（券可退）</string>
+    <string name="order_detail_state_unpaid">等待支付</string>
+    <string name="order_detail_state_success">預訂成功</string>
+    <string name="order_detail_state_received">司導已接單</string>
+    <string name="order_detail_state_arrive">司導已到達</string>
+    <string name="order_detail_state_service">服務中</string>
+    <string name="order_detail_state_finish_evaluate">服務完成，請評價</string>
+    <string name="order_detail_state_finish">服務完成</string>
+    <string name="order_detail_state_cancel">已取消</string>
+    <string name="order_detail_state_refund">已退款</string>
+    <string name="order_detail_state_complaint">糾紛處理中</string>
+    <string name="order_detail_state_hint">請在%1$s內付款，逾期訂單將被取消</string>
+    <string name="order_detail_wait">還需等待：</string>
+    <string name="order_detail_deliver_loading">正在查詢司導狀態，請稍後...</string>
+    <string name="order_detail_call">打電話</string>
+    <string name="order_detail_chat">發私聊</string>
+    <string name="order_detail_star_comment">星評價</string>
+    <string name="order_detail_fivestar_comment">5星評價</string>
+    <string name="order_detail_commented">已評價</string>
+    <string name="order_detail_guide_comment">評價司導</string>
+    <string name="order_detail_collect">收藏</string>
+    <string name="order_detail_car_type">車型：</string>
+    <string name="order_detail_star_hint">%1$s星 / %2$s單</string>
+    <string name="order_detail_travel_list">查看行程單</string>
+    <string name="order_detail_copy_succesed">複製成功</string>
+    <string name="order_detail_copy">複製</string>
+    <string name="order_detail_orderno">訂單號</string>
+    <string name="order_detail_travel_title">行程安排</string>
+    <string name="order_detail_travel_expand">展開</string>
+    <string name="order_detail_refund_price">退款金額</string>
+    <string name="order_detail_item_travel">行程</string>
+    <string name="order_detail_all_travel">全部行程</string>
+    <string name="order_detail_add">添加</string>
+    <string name="order_detail_insurance_status1">保單出現問題，請儘快聯繫客服</string>
+    <string name="order_detail_insurance_status2">為您購買的保險已註銷</string>
+    <string name="order_detail_insurance_status3">保單正在處理中...</string>
+    <string name="order_detail_insurance_hint">平安境外用車險 × %1$s份</string>
+    <string name="order_detail_child_state_cancel">此段行程：已取消</string>
+    <string name="order_detail_child_state_refund">此段行程：已退款</string>
+    <string name="order_detail_child_state_complaint">此段行程：客訴處理中</string>
+    <string name="order_detail_day">(%1$s天)</string>
+    <string name="order_detail_adult">成人%1$s位</string>
+    <string name="order_detail_child">，兒童%1$s位</string>
+    <string name="order_detail_child_seat">兒童座椅%1$s個，</string>
+    <string name="order_detail_luggage_num">最多攜帶行李%1$s件</string>
+    <string name="order_detail_other_price">其他費用(%1$s) × %2$s人</string>
+    <string name="order_detail_problem">常見問題</string>
+    <string name="order_detail_cancel_hint">如需要取消訂單，請聯繫客服處理</string>
+
+    <string name="alert_del_after_edit">請在刪除指定司導後，再修改出行信息</string>
+
+    <string name="guide_error_time">因為城市或服務時間衝突，該司導暫無法提供服務</string>
+
+    <string name="no_price_error">暫無報價</string>
+
+    <string name="alert_car_full">特別提示：此車型空間較小，目前已達人數極限，部分成員會很不舒服，且只能攜帶極少行李，是否繼續？</string>
+    <string name="home_search_hint">搜索境外目的地</string>
+
+    <string name="child_age_seat">出行前請與司導聯繫，需要何種年齡段的的兒童安全座椅</string>
+
+    <string name="sku_list_local_guides">%1$s位當地中文司導</string>
+    <string name="sku_list_city_guides_1">位中文司</string>
+    <string name="sku_list_city_guides_2">導可服務</string>
+    <string name="sku_list_country_guides">由皇包車認證司導為您服務</string>
+    <string name="sku_list_routes">%1$s種包車遊路線</string>
+    <string name="sku_list_price_unit">起&#160;/&#160;人</string>
+    <string name="sku_list_subtitle_chartered">中文包車遊·開啟全新旅行模式</string>
+    <string name="sku_list_subtitle_pickup">便攜出行·境外中文用車服務</string>
+    <string name="sku_list_custom">立即定製</string>
+
+    <string name="select_day">請選擇遊玩日期</string>
+    <string name="Done">Done</string>
+    <string name="Customized">Customized</string>
+    <string name="Decorator">Decorator</string>
+    <string name="Hebrew">Hebrew</string>
+    <string name="Arabic">Arabic</string>
+    <string name="CustomView">Custom View</string>
+    <string name="Dialog">Dialog</string>
+    <string name="DisplayOnly">DisplayOnly</string>
+    <string name="Range">Range</string>
+    <string name="Multi">Multi</string>
+    <string name="Single">Single</string>
+
+    <string name="black_man">拉黑該用戶後，你將不再收到他的信息。</string>
+    <string name="send_msg_fail">由於對方的權限設置，你的信息發送失敗。</string>
+    <string name="del_chat">刪除該對話</string>
+
+    <string name="show_tips_start">請選擇開始日期</string>
+    <string name="show_tips_end">請選擇結束日期</string>
+    <string name="show_tips_half">請選擇日期</string>
+
+    <string name="no_have_car">該司導車輛信息有變化，暫時無法提供服務</string>
+
+    <string name="now_enter">即刻出發</string>
+
+    <string name="share_evaluate_title">評價成功</string>
+    <string name="share_evaluate_description_1">感謝您的評價!</string>
+    <string name="share_evaluate_description_2">\n立即分享，把靠譜司導推薦給好友</string>
+    <string name="share_evaluate_description_4">\n立即分享，送Ta大禮包贏基金</string>
+    <string name="share_evaluate_description_3">分享評價給好友,送TA %1$s皇包車大禮包\n好友完成首單消費後,你還能賺旅遊基金</string>
+    <string name="share_evaluate_collected_tv">根據您的好評已為您收藏該司導</string>
+
+    <string name="choose_city_tab_inland">國內</string>
+    <string name="choose_city_tab_abroad">國際港澳台</string>
+    <string name="choose_city_subtitle_location">當前定位</string>
+    <string name="choose_city_subtitle_history"><n>歷史</n>足跡</string>
+    <string name="choose_city_subtitle_hot"><n>熱門</n>城市</string>
+    <string name="choose_city_location_failure">定位失敗</string>
+
+    <string name="net_error_show">請檢查您的網絡連接是否正常</string>
+    <string name="loading_time">%1$s 跳過</string>
+
+    <string name="max_luggage">當前最多可攜帶行李數(24寸)</string>
+    <string name="max_luggage_tips">實際行李數如果超出限制,請更換最大車型</string>
+
+    <string name="share_title">境外1,100+城市包車遊等你來！在線預訂，一鍵下單</string>
+    <string name="share_content">中文包車遊世界，萬名當地華人司導，讓您的旅行自在如鄉。</string>
+
+    <string name="add_man_toast">請選擇出行人數</string>
+
+    <string name="time_out_180">時間不能超過半年</string>
+
+    <string name="commit_agree">點擊“%1$s”表示您已閱讀並同意皇包車協議和條款</string>
+    <string name="commit_agree_click">皇包車協議和條款</string>
+
+    <string name="choose_other_tips">溫馨提示: 如果填寫境內手機號,請記得在出發前開通運營商的國際漫遊業務。避免到了境外司導打電話聯繫不上您。</string>
+
+    <!-- 雲信location -->
+    <string name="location_init_map_error">初始化地圖服務失敗</string>
+    <string name="location_navigate">導航</string>
+    <string name="self_location">我在這個位置</string>
+    <string name="location_unable_to_get_you">暫時無法獲取您的位置</string>
+    <string name="location_loading">正在定位</string>
+    <string name="location_map">地圖定位</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_address_unkown">該位置信息暫無</string>
+    <string name="format_mylocation">我的位置：%s</string>
+    <string name="location_address_fail">獲取位置信息失敗</string>
+    <string name="tools_selected">選擇工具</string>
+    <string name="friends_map_navigation_web">在網頁中打開</string>
+    <string name="location_open_map_error">打開地圖出錯</string>
+
+
+    <!-- 雲信SDK所需文案 -->
+    <string name="nim_status_bar_multi_messages_incoming">%1$d位聯繫人有新消息</string>
+    <string name="nim_status_bar_ticker_text">%1$s有新消息</string>
+    <string name="nim_status_bar_image_message">%1$s發來一條圖片消息</string>
+    <string name="nim_status_bar_audio_message">%1$s發來一條語音消息</string>
+    <string name="nim_status_bar_video_message">%1$s發來一條視頻消息</string>
+    <string name="nim_status_bar_file_message">%1$s發來一條文件消息</string>
+    <string name="nim_status_bar_location_message">%1$s分享了一個地理位置</string>
+    <string name="nim_status_bar_notification_message">%1$s: 通知消息</string>
+    <string name="nim_status_bar_custom_message">%1$s: 自定義消息</string>
+    <string name="nim_status_bar_unsupported_message">%1$s: 無法顯示該內容</string>
+    <string name="nim_status_bar_hidden_msg_content">你收到一條新消息</string>
+
+    <string name="net_broken">當前網絡不可用</string>
+    <string name="nim_status_unlogin">未登錄</string>
+    <string name="nim_status_connecting">連接中...</string>
+    <string name="nim_status_logining">登錄中...</string>
+    <string name="nim_kick_out">您的賬號在其它客戶端登錄.</string>
+
+    <string name="cut_list">好友砍價排行榜</string>
+    <string name="cut_list_empty">還沒有朋友幫你砍價，再次邀請試試吧</string>
+    <string name="show_more">顯示更多</string>
+    <string name="no_more">沒有更多了</string>
+    <string name="share_bargin_100">你來砍價，還能領100元優惠券！境外出行就選皇包車~</string>
+    <string name="share_bargin_title">我在皇包車預訂了%1$s，快來幫我砍價！</string>
+
+    <string name="real_name">請輸入你的真實姓名</string>
+
+    <string name="choose_guide">選他服務</string>
+    <string name="choose_guide_title">%1$d位表態司導</string>
+
+    <string name="choose_guide_footer">如果您未主動挑選司導，系統將在挑選時間結束後為您匹配一位最佳司導</string>
+
+    <string name="order_detail_add_policy_holder">添加投保人</string>
+    <string name="order_detail_timeright">內，添加投保人信息</string>
+    <string name="pay_result_succeed">您的服務已預訂成功！</string>
+    <string name="order_detail_insurance">~</string>
+
+    <string name="city_home_head_lable_worry">超省心</string>
+    <string name="city_home_head_lable_free">超自由</string>
+    <string name="city_home_empty_car_custom">包車遊線路會儘快補充，敬請期待~</string>
+    <string name="city_home_have_no_route">暫無滿足條件的線路，可以試試按天包車遊</string>
+    <string name="city_home_find_guide">可以先按天包個車，\n找個中文司導帶你玩</string>
+    <string name="route_goods_detial_title">線路游詳情</string>
+    <string name="free_route_goods_detial_title">暢遊詳情</string>
+
+    <string name="charter_first_max_passengers_hint">當地最大車型僅承載%1$s人\n如需預訂多車服務，請聯繫客服</string>
+    <string name="charter_first_max_passengers_hint2">該司導車輛的最大載客人數為%1$s人\n如需預訂多車服務，請聯繫客服</string>
+    <string name="charter_first_max_passengers_hint3">參與活動車型最大載客人數為%1$s人</string>
+    <string name="charter_first_max_passengers_service">聯繫客服</string>
+
+    <string name="travel_purpose_tip">* 提交心愿單後，司導助手會主動與您聯繫</string>
+    <string name="travel_purpose_connect">不願等待,直接聯繫定製師</string>
+    <string name="travel_purpose_connect1">聯繫定製師</string>
+    <string name="travel_purpose_title">行程規劃心愿單</string>
+    <string name="phone_format_incorrect">手機格式不正確，請重新輸入</string>
+    <string name="alert_submit_success">司導小助手將主動聯繫您</string>
+    <string name="travel_purpose_form_list">行程規劃</string>
+    <string name="travel_purpose_form_detail">行程規劃心愿單</string>
+
+    <string name="bargain_hint">支付後還可以挑選司導哦~</string>
+
+    <string name="seckills_check_hint1">很抱歉，秒殺活動每人僅限參與一次。送您%1$s，出行依然優惠！（該禮包僅可領取一次）~</string>
+    <string name="seckills_check_hint2">很抱歉，本場限量秒殺接機已搶光。送您%1$s，出行依然優惠！（該禮包僅可領取一次）~</string>
+    <string name="seckills_check_hint3">很抱歉，本場限量秒殺包車已搶光。送您%1$s，出行依然優惠！（該禮包僅可領取一次）~</string>
+
+    <string name="coupon_des">
+        1. 同一個皇包車賬號、同一台設備、同一個手機號以及同一個支付賬號僅可領取一次,此優惠券僅限皇包車APP下單時使用;\n\n
+    2. 每單僅可使用一張優惠券，一張優惠券不可拆分多次使用;\n\n
+    3. 優惠券不可兌換現金、不可開發票、不可找零，且不能與其他優惠同享（打折商品不支持使用優惠券);\n\n
+    4. 取消訂單時是免費取消，未產生扣款，優惠券可退還；取消訂單時產生扣款，優惠券不可拆分、不可退還;\n\n
+    5. 如果用戶對優惠券使用規則或在使用皇包車下單和／或在相關服務過程中有任何疑問或需要任何幫助，請及時與皇包車客服聯繫，聯繫電話：400-610-0009;\n\n
+    6. 對於不符合領取及使用優惠券規則的領取賬戶，皇包車有權收回已領取的優惠券;\n\n
+    7. 優惠券最終解釋權歸北京純粹旅行有限公司（品牌名稱：皇包車）所有。</string>
+    <string name = "gotomain"><u>去首頁轉轉</u></string>
+
+    <string name="daily_people_count">出行人數</string>
+    <string name="daily_adult">成人</string>
+    <string name="daily_child">兒童</string>
+    <string name="daily_child_hint">（12歲以下）</string>
+    <string name="daily_child_seat">兒童座椅</string>
+    <string name="daily_child_seat_hint">（佔1.5個座位）</string>
+    <string name="daily_child_seat_nonsupport">很抱歉，該城市暫時不可提供兒童座椅</string>
+    <string name="daily_conpons_tip_login_hint">登錄 可享我的優惠權益</string>
+    <string name="daily_guide_first_hint">Hi，我是您的司導%1$s，歡迎來到%2$s，期待與您共度美好的旅行時光~</string>
+    <string name="daily_check_pickup_hint">請添加接機的送達地</string>
+    <string name="daily_check_sendtime_hint">請添加送機的出發時間</string>
+    <string name="daily_check_sendaddress_hint">請添加送機的出發地點</string>
+    <string name="daily_check_outtown_hint">請添加送達城市</string>
+    <string name="daily_guide_cars_null">很抱歉，該司導暫無符合的車型</string>
+    <string name="daily_booking">立即預訂</string>
+    <string name="daily_first_city_hint">想去哪裡</string>
+    <string name="daily_first_start_city">開始城市</string>
+    <string name="daily_first_date_hint">選擇包車起止日期</string>
+    <string name="daily_first_date">包車日期</string>
+    <string name="daily_first_date_picker_title">請選擇包車日期</string>
+    <string name="daily_first_purpose_desc">下單太麻煩?\n留下意向，旅遊顧問幫您規劃合理行程。</string>
+    <string name="daily_first_purpose_confirm">幫我規劃</string>
+    <string name="daily_first_purpose_service">旅遊顧問會通過您的手機號%1$s聯繫您</string>
+    <string name="daily_seckill_hint">您已進入秒殺通道\n請儘快提交訂單完成支付</string>
+    <string name="daily_unfold_map">展開地圖</string>
+    <string name="daily_second_previous_day">前一天</string>
+    <string name="daily_second_retral_day">下一天</string>
+    <string name="daily_second_see_price">查看報價</string>
+    <string name="daily_second_city_cannot_hint">很抱歉，還不能線上預訂這個城市的包車服務，請聯繫客服，幫您定製行程</string>
+    <string name="daily_second_exceed_max_person">"您選擇的乘客人數，超過了當地可用車型的最大載客人數（%1$s人）如需預訂多車服務，請聯繫客服"</string>
+    <string name="daily_second_guide_cannot_service">"很抱歉，您指定的司導無法服務%1$s"</string>
+    <string name="daily_second_pickup_cancel">取消，重選航班</string>
+    <string name="daily_second_pickup_error_1">根據您選擇的航班，如果繼續下單需要將包車開始城市和開始日期，調整為您航班的落地城市%1$s和當地日期%2$s</string>
+    <string name="daily_second_pickup_error_2">"根據您選擇的航班，如果繼續下單需要將包車開車城市，調整為您航班的落地城市%1$s"</string>
+    <string name="daily_second_pickup_error_3">"根據您選擇的航班，如果繼續下單需要將包車開始日期，調整為您航班在當地的落地日期%1$s"</string>
+    <string name="daily_second_no_assign">不找Ta服務了</string>
+    <string name="daily_travel_list">行程單</string>
+    <string name="daily_travel_list_yes">不找Ta服務了</string>
+    <string name="daily_travel_list_del_dialog">確定刪除這一天嗎？</string>
+
+    <string name="single_start_city_hint">請選擇用車城市</string>
+    <string name="single_start_address">用車地點</string>
+    <string name="single_start_where_hint">您從哪裡出發</string>
+    <string name="single_send_where_hint">送您到哪裡去</string>
+    <string name="single_time_hint">選擇出發時間（建議提早出發）</string>
+    <string name="single_time">出發時間</string>
+    <string name="single_check_city_toast">請先選擇城市</string>
+    <string name="single_start_address_toast">請先填寫出發地點</string>
+    <string name="single_end_address_toast">請先填寫結束地點</string>
+    <string name="single_errormessage">很抱歉，該城市暫時無法提供服務(%1$s)</string>
+
+    <string name="order_empty_wifi">似乎與網絡斷開，請檢查網絡環境</string>
+    <string name="order_empty_refresh">刷新試試</string>
+    <string name="order_empty_error1">當地時間已過了您預訂的服務時間，想服務但做不到啊…</string>
+    <string name="order_empty_error2">很抱歉，預留的時間太短了無法預訂，建議您下次早做打算哦</string>
+    <string name="order_empty_error3">很抱歉，您選擇的地點暫時無法通過駕車的方式到達</string>
+    <string name="order_empty_continue">繼續下單</string>
+    <string name="order_empty_charter">\n建議按天包車，去試試按天包車遊</string>
+    <string name="order_empty_service">\n請聯繫客服，我們會協助您完成預訂</string>
+    <string name="order_empty_range">您預訂的行程太遠啦，包車壓力好大…</string>
+    <string name="order_empty_car">很抱歉，沒有找到可服務的司導\n請聯繫客服，我們會協助您完成預訂</string>
+    <string name="order_empty_car_guide">很抱歉，該司導暫無符合的車型\n請聯繫客服，我們會協助您完成預訂</string>
+
+    <string name="myspace_item_policy_holder">常用投保人</string>
+    <string name="myspace_item_collect">我收藏的司導</string>
+    <string name="myspace_item_collect_line">我收藏的線路</string>
+    <string name="myspace_item_domestic">境內用戶客服熱線</string>
+    <string name="myspace_item_overseas">境外用戶客服專線</string>
+    <string name="myspace_item_rule">服務規則</string>
+    <string name="myspace_header_login">點擊登錄</string>
+    <string name="myspace_header_coupon_unit">張</string>
+    <string name="myspace_header_coupon">優惠券</string>
+    <string name="myspace_header_travel_fund">旅遊基金</string>
+    <string name="myspace_header_travel_fund_unit">元</string>
+    <string name="myspace_header_travel_fund_hint">邀請就送</string>
+
+    <string name="setting_chang_pwd">修改密碼</string>
+    <string name="setting_clear_cache">清除緩存</string>
+    <string name="setting_feedback">意見反饋</string>
+    <string name="setting_about">關於我們</string>
+    <string name="setting_developer">開發者選項</string>
+    <string name="setting_exit">退出登錄</string>
+    <string name="setting_title">設置</string>
+    <string name="setting_set_pwd">設置密碼</string>
+    <string name="setting_logout">退出登錄</string>
+    <string name="setting_logout_hint">退出登錄</string>
+    <string name="setting_clear_cache_hint">將刪除%1$s緩存的圖片和系統預填信息</string>
+    <string name="setting_login_succeed">登錄成功</string>
+    <string name="setting_send_verity">驗證碼已發送</string>
+    <string name="setting_get_verity">獲取驗證碼</string>
+
+    <string name="login_wechat_uninstalled_hint">手機未安裝微信或版本太低</string>
+    <string name="login_check_areacode">區號不能為空</string>
+    <string name="login_check_phone">請輸入手機號</string>
+    <string name="login_check_phone_empty">手機號不能為空</string>
+    <string name="login_check_phone_length">請輸入正確的國內手機號，11位數字</string>
+    <string name="login_check_verity">驗證碼不能為空</string>
+    <string name="login_check_pwd">密碼不能為空</string>
+    <string name="login_check_new_pwd">新密碼不能為空</string>
+    <string name="login_check_old_pwd">原密碼不能為空</string>
+    <string name="login_check_pwd_length">密碼必須是6-16位數字或字母</string>
+    <string name="login_check_new_pwd_confirm">確認新密碼不能為空</string>
+    <string name="login_check_pwd_inconformity">兩次填寫的新密碼不一致</string>
+    <string name="login_check_pwd_inconformity2">兩次密碼不一致</string>
+    <string name="login_welcome">Hi, 歡迎登錄</string>
+    <string name="login_areacode_hint">選擇區號</string>
+    <string name="login_phone_hint">手機號</string>
+    <string name="login_get_verity">獲取驗證碼</string>
+    <string name="login_verity">驗證碼</string>
+    <string name="login_new_user_hint">新用戶登錄時將自動註冊</string>
+    <string name="login_other">也可以這樣</string>
+    <string name="login_wechat">微信登錄</string>
+    <string name="login_account_pwd">賬號密碼登錄</string>
+    <string name="login_forget_pwd">忘記密碼?</string>
+    <string name="login_password">密碼</string>
+    <string name="login">登錄</string>
+    <string name="login_set_pwd">設置密碼</string>
+    <string name="login_change_pwd_success">修改密碼成功</string>
+    <string name="login_input_pwd">輸入新密碼</string>
+    <string name="login_confirm_pwd">確認新密碼</string>
+    <string name="login_done">完成</string>
+    <string name="login_pwd_reset">重置密碼</string>
+    <string name="login_pwd_reset_sucess">重置密碼成功</string>
+    <string name="login_already_verity">驗證碼已發送</string>
+    <string name="login_pwd_hint">密碼(6-16位數字、字母)</string>
+    <string name="login_new_pwd_hint">新密碼(6-16位數字、字母)</string>
+    <string name="login_bind_phone">綁定手機號</string>
+    <string name="login_bind_phone_hint">綁定手機號後,可以更方便的查看與此手機號相關的所有訂單</string>
+    <string name="login_binding">立即綁定</string>
+    <string name="login_pwd_confirm">確認密碼</string>
+    <string name="login_set_pwd_success">密碼設置成功</string>
+    <string name="login_old_pwd">原密碼</string>
+    <string name="login_change_mobile">修改手機號</string>
+    <string name="login_areacode">區號</string>
+    <string name="login_change_mobile_hint">更換手機號後，下次登錄需使用新手機號登錄。</string>
+    <string name="login_change_mobile_current">當前手機號：</string>
+    <string name="login_change_mobile_toast1">更換手機號成功</string>
+    <string name="login_change_mobile_toast2">驗證碼已發送</string>
+    <string name="login_change_mobile_check1">區號不能為空</string>
+    <string name="login_change_mobile_check2">手機號不能為空</string>
+    <string name="login_change_mobile_check3">驗證碼不能為空</string>
+    <string name="login_change_mobile_check4">該手機號與當前手機號不能相同</string>
+
+    <string name="personinfo_avatar">頭像</string>
+    <string name="personinfo_nickname">昵稱</string>
+    <string name="personinfo_username">真實姓名</string>
+    <string name="personinfo_gender">性別</string>
+    <string name="personinfo_age">年齡</string>
+    <string name="personinfo_phone">手機號</string>
+    <string name="personinfo_input_hint">請填寫</string>
+    <string name="personinfo_input_choose">請選擇</string>
+    <string name="personinfo_unbound">未綁定</string>
+    <string name="personinfo_title">我的資料</string>
+    <string name="personinfo_check_nickname">沒輸入昵稱，請重新填寫</string>
+    <string name="personinfo_check_username">沒輸入真實姓名，請重新填寫</string>
+    <string name="personinfo_check_username_isemoji">真實姓名不能包含表情符號</string>
+
+    <string name="coupon_input_num_hint">請輸入優惠券兌換碼</string>
+    <string name="coupon_exchange">兌換</string>
+    <string name="coupon_instructions">使用說明</string>
+    <string name="coupon_empty">暫無優惠券</string>
+    <string name="coupon_expiry">查看失效券</string>
+    <string name="coupon_disabled">查看不可用券</string>
+    <string name="coupon_title">我的優惠券</string>
+    <string name="coupon_title_choose">選擇優惠券</string>
+    <string name="coupon_exchange_success">優惠券兌換成功</string>
+
+    <string name="callback_submit_succesd">意見反饋提交成功</string>
+    <string name="callback_inupt_check">請填寫內容後再提交</string>
+    <string name="callback_title">意見反饋</string>
+    <string name="callback_content_hint">請留下您的寶貴意見</string>
+
+    <string name="servicer_title">服務規則</string>
+    <string name="servicer_center_btn1">預訂須知</string>
+    <string name="servicer_center_btn2">服務承諾</string>
+    <string name="servicer_center_btn3">訂單取消規則</string>
+    <string name="servicer_center_btn4">費用說明</string>
+    <string name="servicer_center_btn5">常見問題</string>
+    <string name="servicer_center_btn6">保險說明</string>
+
+    <string name="insure_add_hint">還沒有常用投保人,請新增</string>
+    <string name="insure_submit">馬上提交</string>
+    <string name="insure_selected">已選</string>
+    <string name="insure_bottom_hint">人,由皇包車替你支付</string>
+    <string name="insure_title">常用投保人</string>
+    <string name="insure_add">添加投保人</string>
+    <string name="insure_add2">新增</string>
+    <string name="insure_del">刪除</string>
+    <string name="insure_check_people_num">不能超過用車人數</string>
+    <string name="insure_add_succesd">投保申請已成功提交</string>
+    <string name="insure_check_add">請選擇投保人</string>
+    <string name="insure_dialog_content">提交後投保信息不可更改</string>
+    <string name="insure_dialog_title">注意</string>
+    <string name="insure_dialog_submit">現在提交</string>
+    <string name="insure_dialog_check">再檢查下</string>
+
+    <string name="travel_title">行程</string>
+    <string name="travel_tab1">全部</string>
+    <string name="travel_tab2">待付款</string>
+    <string name="travel_tab3">進行中</string>
+    <string name="travel_tab4">待評價</string>
+    <string name="travel_login_hint">下單後可以在這裡\n管理你的行程</string>
+    <string name="travel_empty_finish">您還沒有相關訂單</string>
+    <string name="travel_footer_fund_content">30元現金及更多獎勵</string>
+    <string name="travel_footer_fund_get">點擊領取</string>
+
+    <string name="chat_im_error">連接IM服務器出錯，請重新登錄賬號</string>
+    <string name="chat_login_hint">下單後可以在這裡\n聯繫司導</string>
+    <string name="chat_empty_login_hint">聊天賬號被踢出登錄</string>
+    <string name="chat_empty_hint">正在登錄聊天，請稍候...</string>
+    <string name="chat_empty_hint2">正在重連聊天服務器，請稍候...</string>
+    <string name="chat_send_message_failed">發送消息失敗請稍候重試</string>
+    <string name="chat_black_confirm">確認拉黑</string>
+    <string name="chat_popup_item1">解除拉黑</string>
+    <string name="chat_popup_item2">拉黑該用戶</string>
+    <string name="chat_popup_item3">歷史訂單</string>
+
+    <string name="service_question_title">請選擇內容</string>
+    <string name="service_question_dialog_title">您有未讀的客服消息，前去查看？</string>
+    <string name="service_question_dialog_go">去查看</string>
+    <string name="service_question_dialog_cancel">忽略</string>
+
+    <string name="unicorn_service_title">皇包車客服</string>
+    <string name="luggage_info_title">行李說明</string>
+    <string name="media_player_url_error">視頻地址不存在</string>
+    <string name="choose_guide_city_title">選擇開始城市</string>
+    <string name="poisearch_history">搜索歷史</string>
+    <string name="poisearch_hot">熱門機場</string>
+    <string name="poisearch_history2">歷史</string>
+    <string name="poisearch_hot2">熱門</string>
+    <string name="airport_empty_hint">很抱歉，沒有找到您搜索的機場\n或者該城市暫未開通送機服務\n可聯繫客服，幫您查找</string>
+    <string name="airport_input_city">輸入城市或機場</string>
+    <string name="airport_choose">請選擇機場</string>
+    <string name="traveler_info_title">出行人信息</string>
+    <string name="traveler_info_save">保存</string>
+    <string name="traveler_list_title">行程單</string>
+    <string name="filter_sku_list_title">包車線路</string>
+    <string name="guide_list_title">精選司導</string>
+    <string name="service_guide_list_title">可服務司導</string>
+    <string name="choose_other_title">乘車聯繫人</string>
+    <string name="bargain_title">邀請好友來砍價</string>
+    <string name="add_insure_title">編輯投保人</string>
+    <string name="edit_insure_title">新增投保人</string>
+    <string name="add_creditcard_second_step_title">信用卡支付</string>
+    <string name="choice_comment_title">遊客說</string>
+    <string name="choose_air_title">選擇航班</string>
+    <string name="choose_city_new_hint">請輸入目的地名稱</string>
+    <string name="search_line_title">相關線路</string>
+    <string name="search_guide_title">相關司導</string>
+    <string name="search_destination_head_hint">搜索目的地、司導、線路</string>
+    <string name="coupon_des_title">優惠券使用說明</string>
+    <string name="coupon_invalid_title1">不可用優惠券</string>
+    <string name="coupon_invalid_title2">失效優惠券</string>
+    <string name="coupon_invalid_explain">使用說明</string>
+
+    <string name="city_subscribe">快速預訂</string>
+    <string name="city_charter_desc">中文司機兼導遊 帶你暢遊專屬行程</string>
+    <string name="city_picksend_desc">中文專車接送機</string>
+    <string name="city_single_desc">點到點中文專車</string>
+    <string name="city_guide_hint">%1$s 位華人司導可服務</string>
+    <string name="city_sku_item_hot">熱門線路</string>
+    <string name="city_sku_item_deep">深度長線</string>
+    <string name="city_sku_item_short">短途線路</string>
+    <string name="city_more">更多</string>
+    <string name="city_footer_more_guide">查看更多司導</string>
+    <string name="city_footer_more_sku">查看更多包車線路</string>
+
+    <string name="cancel_reason_title">請選擇取消原因</string>
+    <string name="cancel_reason_input_hint">請填寫取消原因</string>
+    <string name="cancel_reason_order_succesd">取消訂單成功</string>
+    <string name="cancel_reason_check_content">請輸入文字內容哦</string>
+    <string name="cancel_reason_check_isemoji">取消原因不能包含表情符號</string>
+    <string name="cancel_title">申請取消行程</string>
+
+    <string name="choose_city_title1">請選擇包車開始城市</string>
+    <string name="choose_city_title2">請輸入城市名稱</string>
+    <string name="choose_city_title3">搜索途經城市</string>
+    <string name="choose_city_check_input">請輸入搜索內容</string>
+    <string name="choose_city_empty_hint">很抱歉，沒有找到您搜索的城市\n或者該城市暫未開通接機服務\n可聯繫客服，幫您查找</string>
+    <string name="choose_city_overstep_range">沒有可更換的城市，駕車無法到達哦</string>
+    <string name="choose_city_history_title">歷史足跡</string>
+    <string name="choose_city_location_title">定位/歷史</string>
+    <string name="choose_city_gps_dialog">沒有開啟GPS定位,請到設置里開啟</string>
+
+    <string name="destination_network_available">當前網絡不可用</string>
+    <string name="destination_search_title">搜索國家或城市</string>
+    <string name="destination_network_retry">似乎與網絡斷開，點擊屏幕重試</string>
+
+    <string name="send_check_airport_hint">請先選擇機場</string>
+    <string name="send_check_start_address_hint">請先填寫出發地點</string>
+    <string name="send_airport_hint">送您到哪個機場</string>
+    <string name="send_airport_title">送達機場</string>
+    <string name="send_start_where">您從哪裡出發</string>
+    <string name="send_start_address">出發地點</string>
+    <string name="send_time_hint">選擇出發時間（建議提早出發）</string>
+    <string name="send_time_title">出發時間</string>
+
+    <string name="pick_flight">請先選擇航班</string>
+    <string name="pick_time_arrival">當地時間%1$s降落</string>
+    <string name="pick_flight_title">接機機場</string>
+    <string name="pick_flight_hint">通過航班查機場，延誤免費等待</string>
+    <string name="pick_time">用車時間</string>
+    <string name="pick_start_time_hint1">以實際降落時間開始計算</string>
+    <string name="pick_start_time_hint2">免費等待90分鐘</string>
+    <string name="pick_send_where">送您到哪裡去</string>
+    <string name="pick_send_title">送達地點</string>
+
+    <string name="order_car_title">選擇車型</string>
+    <string name="order_car_luggage_explain">一個空座可加一個行李</string>
+    <string name="order_car_more">更多車型</string>
+    <string name="order_confirm">立即預訂</string>
+    <string name="order_price_estimated">全程預計:%1$s公里/%2$s分鐘</string>
+    <string name="order_title">確認訂單</string>
+    <string name="order_bottom_should_price">需付:</string>
+    <string name="order_bottom_price_detail">明細</string>
+    <string name="order_bottom_pay">去支付</string>
+    <string name="order_bottom_total_price">總額: ¥%1$s</string>
+    <string name="order_bottom_discount_price">已減: ¥%1$s</string>
+    <string name="order_bottom_hint1">支付後參與砍價活動，最多可減200元哦！</string>
+    <string name="order_bottom_hint2">支付後還可以挑選司導哦~</string>
+    <string name="order_insurance_unit"> × %1$s份~</string>
+    <string name="order_insurance_title">投保信息</string>
+    <string name="order_insurance_hint">平安境外意外險</string>
+    <string name="order_insurance_hint2">下單後添加投保人護照，保單即可生效</string>
+    <string name="order_insurance_hint3">添加投保人護照，保單即可生效</string>
+    <string name="order_insurance_free">免費贈送</string>
+    <string name="order_discount_coupon_hint1">不使用優惠券</string>
+    <string name="order_discount_coupon_hint2">無優惠券可用</string>
+    <string name="order_discount_title">優惠方式</string>
+    <string name="order_discount_use_coupon">使用優惠券</string>
+    <string name="order_discount_use_fund">使用旅遊基金</string>
+    <string name="order_travelerinfo_title">出行信息</string>
+    <string name="order_travelerinfo_contacts_stand">添加備用聯繫人</string>
+    <string name="order_travelerinfo_flight">起飛航班</string>
+    <string name="order_travelerinfo_flightno_hint">告訴司導航班號，出行省心</string>
+    <string name="order_travelerinfo_checkin">舉牌接機</string>
+    <string name="order_travelerinfo_checkin_name_hint">接機牌姓名</string>
+    <string name="order_travelerinfo_start_time">上車時間</string>
+    <string name="order_travelerinfo_start_time_default">09:00 (當地時間)</string>
+    <string name="order_travelerinfo_start_time_charter_default">09:00（第1天上車時間）</string>
+    <string name="order_travelerinfo_start_address">上車地點</string>
+    <string name="order_travelerinfo_start_address_add">請添加上車地點</string>
+    <string name="order_travelerinfo_start_address_add2">添加第1天上車地點</string>
+    <string name="order_travelerinfo_wechat">微信號</string>
+    <string name="order_travelerinfo_wechat_hint">可填寫微信號作為備用聯繫方式</string>
+    <string name="order_travelerinfo_mark">備註</string>
+    <string name="order_travelerinfo_mark_hint">可在這裡給司導留言</string>
+    <string name="order_travelerinfo_contacts_other">為他人訂車</string>
+    <string name="order_travelerinfo_sendmessage">預訂後短信通知乘車人</string>
+    <string name="order_travelerinfo_contacts">聯繫人</string>
+    <string name="order_travelerinfo_book">聯繫人</string>
+    <string name="order_travelerinfo_contacts_hint">請輸入聯繫人姓名</string>
+    <string name="order_travelerinfo_phone">手機號</string>
+    <string name="order_travelerinfo_phone_hint">請填寫手機號</string>
+    <string name="order_travelerinfo_riding">乘車人</string>
+    <string name="order_travelerinfo_start_time_choose">請選擇上車時間</string>
+    <string name="order_travelerinfo_pickup">協助登機Check in</string>
+    <string name="order_travelerinfo_check_name">請填寫聯繫人姓名!</string>
+    <string name="order_travelerinfo_check_phone">請填寫聯繫人手機號!</string>
+    <string name="order_travelerinfo_check_standbyname">請填寫備用聯繫人姓名!</string>
+    <string name="order_travelerinfo_check_standbyphone">請填寫備用聯繫人手機號!</string>
+    <string name="order_travelerinfo_check_othername">請填寫乘車人姓名!</string>
+    <string name="order_travelerinfo_check_otherphone">請填寫乘車人手機號!</string>
+    <string name="order_travelerinfo_check_pickup">請填寫接機牌姓名!</string>
+    <string name="order_count_title">出行人數</string>
+    <string name="order_count_adult">成人</string>
+    <string name="order_count_child">兒童</string>
+    <string name="order_count_child_hint">（12歲以下）</string>
+    <string name="order_count_child_seat">兒童座椅</string>
+    <string name="order_count_child_seat_nonsupport">很抱歉，該城市暫時不可提供兒童座椅</string>
+    <string name="order_count_child_seat_hint">請在出行前告訴司導需要何種年齡段的兒童座椅</string>
+    <string name="order_count_luggage">可攜帶行李數</string>
+    <string name="order_count_luggage_explain">行李標準說明</string>
+    <string name="order_count_luggage_unit">件</string>
+    <string name="order_count_hotel">預訂酒店</string>
+    <string name="order_count_hotel_hint">單價¥%1$s/間 | 含%2$s晚</string>
+    <string name="order_count_room_count">房間數</string>
+    <string name="order_count_other_price">其他費用</string>
+    <string name="order_count_other_price_hint">單價¥%1$s/人 | %2$s</string>
+    <string name="order_count_people_count">出行人數×%1$s人</string>
+    <string name="order_count_price_total">共¥</string>
+    <string name="order_sku_desc_start_date">出行日期：%1$s（當地時間）</string>
+    <string name="order_sku_desc_end_date">起止日期：%1$s至%2$s</string>
+    <string name="order_sku_desc_guide_name">已選司導：</string>
+    <string name="order_pickup">接機</string>
+    <string name="order_send">送機</string>
+    <string name="order_price_info">價格已包含</string>
+    <string name="order_travel_more">更多日程</string>
+    <string name="order_travel_packup">收起日程</string>
+    <string name="order_extras_price_title">附加服務費用</string>
+    <string name="order_extras_price_pickup">接機舉牌等待</string>
+    <string name="order_extras_price_pickup_name">接機牌姓名</string>
+    <string name="order_extras_price_checkin">送機協助辦理登機</string>
+    <string name="order_extras_price_child_seat">兒童座椅</string>
+    <string name="order_extras_price_child_seat_hint1">單價¥%1$s/天"</string>
+    <string name="order_extras_price_child_seat_hint2">及以上單價¥%1$s/天</string>
+    <string name="order_extras_price_child_seat_hint3">第一個%1$s，第二個%2$s</string>
+
+    <string name="sku_detail_goodsout">該商品已下架</string>
+    <string name="sku_detail_price_unit">起/人</string>
+    <string name="sku_detail_title">線路詳情</string>
+    <string name="sku_detail_empty">該線路不存在</string>
+    <string name="sku_detail_gohome">去首頁轉轉</string>
+    <string name="sku_date_check_select">請先選擇日期</string>
+    <string name="sku_date_select_title">請選擇出行日期（當地時間）</string>
+    <string name="sku_date_selected_guide">已選司導：</string>
+
+    <string name="guide_detail_bottom_hint">優秀司導都在服務用戶的路上，預訂後溝通更高效</string>
+    <string name="guide_detail_bottom_time">當地時間</string>
+    <string name="guide_detail_bottom_book">找我預訂</string>
+    <string name="guide_detail_bottom_contact">聯繫我</string>
+    <string name="guide_detail_bottom_choose_guide">選TA服務</string>
+    <string name="guide_detail_time">當地時間: %1$s</string>
+
+    <string name="guide_detail_contact_dialog_title">需要先下單並支付才能找Ta聊天呢</string>
+    <string name="guide_detail_contact_dialog_content">優秀司導都在服務用戶的路上，預訂後溝通更高效~</string>
+</resources>

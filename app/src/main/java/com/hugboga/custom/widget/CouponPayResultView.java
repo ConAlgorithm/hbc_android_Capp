@@ -72,18 +72,18 @@ public class CouponPayResultView extends LinearLayout {
         this.isPaySucceed = _isPaySucceed;
         if (isPaySucceed) {
             successedIV.setBackgroundResource(R.mipmap.activity_pay_successful);
-            successedTV.setText("支付成功");
+            successedTV.setText(R.string.par_result_succeed);
             successedTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow));
-            descTV.setText(String.format("优惠券已放入您的账户\n可在我的-优惠券页面查看"));
-            bottomTV.setText("查看优惠券");
+            descTV.setText(R.string.par_result_succeed_coupon_hint);
+            bottomTV.setText(R.string.par_result_coupon);
             bottomTV.setTextColor(0xFFFFFFFF);
             bottomTV.setBackgroundResource(R.drawable.shape_rounded_yellow_btn);
         } else {
             successedIV.setBackgroundResource(R.mipmap.activity_pay_failure);
-            successedTV.setText("支付失败");
+            successedTV.setText(R.string.par_result_failure);
             successedTV.setTextColor(0xFFC1C1C1);
-            descTV.setText("很抱歉，支付失败\n您可以点击按钮尝试重新支付");
-            bottomTV.setText("重新支付");
+            descTV.setText(R.string.par_result_failure_coupon_hint);
+            bottomTV.setText(R.string.par_result_repay);
             bottomTV.setTextColor(0xFF7D7D7D);
             bottomTV.setBackgroundResource(R.drawable.shape_rounded_white_btn);
         }

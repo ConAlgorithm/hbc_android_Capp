@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:gravity="bottom"
             android:paddingLeft="@dimen/order_padding_left"
-            android:text="请选择出行日期（当地时间）"
+            android:text="@string/sku_date_select_title"
             android:textColor="#4a4a4a"
             android:textSize="13sp" />
 
@@ -47,7 +47,7 @@
             android:layout_marginRight="29dp"
             android:background="@drawable/shape_rounded_yellow_btn"
             android:gravity="center"
-            android:text="立即预订"
+            android:text="@string/order_confirm"
             android:textColor="@color/basic_white"
             android:textSize="16sp" />
 

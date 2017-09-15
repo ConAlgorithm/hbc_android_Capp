@@ -20,6 +20,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -103,7 +104,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             } else if (orderBean.totalDays > 1 && !TextUtils.isEmpty(orderBean.serviceEndTime)) {
                 startDate = startDate + " - " + DateUtils.getPointStrFromDate2(orderBean.serviceEndTime);
             }
-            startDate += String.format("(%1$s天)", totalDays);
+            startDate += CommonUtils.getString(R.string.order_detail_day, totalDays);
             addItemView(R.mipmap.trip_icon_date, startDate);
         } else {
             //副标题："航班HKJHKJ 东京-北京"
@@ -153,16 +154,16 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
             }
         }
         if (childSeatCount > 0) {//儿童座椅数
-            luggageStr += String.format("儿童座椅%1$s个，", childSeatCount);
+            luggageStr += CommonUtils.getString(R.string.order_detail_child_seat, childSeatCount);
         }
 
-        luggageStr += String.format("最多携带行李%1$s件", orderBean.luggageNum);
+        luggageStr += CommonUtils.getString(R.string.order_detail_luggage_num, orderBean.luggageNum);
         addLuggageView(luggageStr);
 
         if (orderBean.orderGoodsType == 1  && "1".equalsIgnoreCase(orderBean.isFlightSign)) {//接机
-            addItemView(R.mipmap.trip_icon_addition, "接机举牌等待");
+            addItemView(R.mipmap.trip_icon_addition, CommonUtils.getString(R.string.order_detail_airport_card));
         } else if (orderBean.orderGoodsType == 2 && "1".equals(orderBean.isCheckin)) {//送机checkin
-            addItemView(R.mipmap.trip_icon_addition, "送机协助办理登机");
+            addItemView(R.mipmap.trip_icon_addition, CommonUtils.getString(R.string.order_detail_checkin));
         }
 
         //酒店预订
@@ -172,7 +173,7 @@ public class OrderDetailItineraryView extends LinearLayout implements HbcViewBeh
 
         //其他费用
         if (!TextUtils.isEmpty(orderBean.goodsOtherPriceComment)) {
-            addItemView(R.mipmap.other_fees_icon, String.format("其他费用(%1$s) × %2$s人", orderBean.goodsOtherPriceComment, orderBean.getTravelerCount()));
+            addItemView(R.mipmap.other_fees_icon, CommonUtils.getString(R.string.order_detail_other_price, orderBean.goodsOtherPriceComment, orderBean.getTravelerCount()));
         }
 
         // 订单号

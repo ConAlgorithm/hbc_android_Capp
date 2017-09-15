@@ -21,7 +21,6 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:gravity="center"
-        android:text="很抱歉，没有找到可服务的司导，换个日期试试"
         android:textColor="#a8a8a8"
         android:textSize="13sp" />
 
@@ -36,7 +35,7 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_marginTop="15dp"
-        android:text="刷新试试"
+        android:text="@string/order_empty_refresh"
         android:textSize="13sp"
         android:textColor="#828282"
         />

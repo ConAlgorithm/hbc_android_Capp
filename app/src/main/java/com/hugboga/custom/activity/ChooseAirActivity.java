@@ -55,7 +55,7 @@ public class ChooseAirActivity extends BaseActivity {
                 finish();
             }
         });
-        headerTitle.setText("选择航班");
+        headerTitle.setText(R.string.choose_air_title);
         headerRightBtn.setVisibility(View.VISIBLE);
         headerRightBtn.setImageResource(R.mipmap.topbar_cs);
         headerRightBtn.setOnClickListener(new View.OnClickListener() {

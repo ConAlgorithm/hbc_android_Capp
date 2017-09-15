@@ -24,6 +24,7 @@ import com.hugboga.custom.data.bean.CouponsOrderTipBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCouponsOrderTip;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 /**
@@ -80,7 +81,7 @@ public class ConponsTipView extends TextView{
                 }
             }, false);
         } else {
-            String hintText = "登录 可享我的优惠权益";
+            String hintText = CommonUtils.getString(R.string.daily_conpons_tip_login_hint);
             SpannableString spannableString = new SpannableString(hintText);
             spannableString.setSpan(new MyClickSpan(getContext()),  0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             setText(spannableString);

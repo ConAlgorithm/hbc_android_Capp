@@ -216,7 +216,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("确认订单");
+        fgTitle.setText(R.string.order_title);
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -413,7 +413,7 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
         super.onDataRequestError(errorInfo, request);
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestPriceSku) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            String errorMessage = CommonUtils.getString(R.string.single_errormessage);
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             return;
         }

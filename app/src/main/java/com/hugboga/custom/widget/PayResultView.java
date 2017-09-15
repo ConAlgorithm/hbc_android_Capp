@@ -30,6 +30,7 @@ import com.hugboga.custom.data.request.RequestPaySucceed;
 import com.hugboga.custom.data.request.RequestPickupCouponOpen;
 import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 
@@ -109,7 +110,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         if (isPaySucceed) {
             stateIV.setBackgroundResource(R.mipmap.pay_succeed_icon);
             stateTV.setVisibility(GONE);
-            orderTV.setText("查看订单");
+            orderTV.setText(R.string.par_result_detail);
             RequestPaySucceed request = new RequestPaySucceed(getContext(), orderId);
             HttpRequestUtils.request(getContext(), request, this);
             if (orderType == 1) {
@@ -118,8 +119,8 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             bargainLayout.setParams(orderId, orderType);
         } else {
             stateIV.setBackgroundResource(R.mipmap.pay_failure_icon);
-            stateTV.setText("支付遇到了问题......");
-            orderTV.setText("重新支付");
+            stateTV.setText(R.string.par_result_failure_prompt);
+            orderTV.setText(R.string.par_result_repay);
             serviceLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -170,8 +171,8 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
             }
 
             TextView insuranceTV = (TextView) descLayout.findViewById(R.id.view_pay_result_desc_insurance_tv);
-            String insuranceStr = "添加投保信息获得免费保险";
-            String insuranceFocusStr = "添加投保信息";
+            String insuranceStr = CommonUtils.getString(R.string.par_result_succeed_desc_insurance);
+            String insuranceFocusStr = CommonUtils.getString(R.string.par_result_succeed_desc_insurance_click);
             if (getContext() instanceof Activity) {
                 insuranceTV.setVisibility(View.VISIBLE);
                 OrderUtils.genCLickSpan((Activity) getContext(), insuranceTV, insuranceStr, insuranceFocusStr, null

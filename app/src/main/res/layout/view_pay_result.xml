@@ -44,7 +44,7 @@
                 android:paddingLeft="28dp"
                 android:paddingRight="28dp"
                 android:paddingTop="6dp"
-                android:text="查看订单"
+                android:text="@string/par_result_detail"
                 android:textColor="@color/default_black"
                 android:textSize="16sp" />
 
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
-                    android:text="您可以在订单详情中："
+                    android:text="@string/par_result_succeed_desc_title"
                     android:textColor="#7f7f7f"
                     android:textSize="14sp" />
 
@@ -74,7 +74,6 @@
                     android:layout_marginTop="3dp"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
-                    android:text="您可以在订单详情中："
                     android:textColor="#7f7f7f"
                     android:textSize="13sp"
                     android:visibility="gone" />
@@ -85,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
-                    android:text="添加投保信息获得免费保险"
+                    android:text="@string/par_result_succeed_desc_insurance"
                     android:textColor="#7f7f7f"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -104,7 +103,7 @@
                 android:layout_marginBottom="11dp"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="14dp"
-                android:text="需要联系客服?"
+                android:text="@string/par_result_contact_service"
                 android:textColor="#818181"
                 android:textSize="14sp" />
 

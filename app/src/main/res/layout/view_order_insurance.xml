@@ -4,7 +4,7 @@
     <TextView
         style="@style/SkuOrderSubtitleTextView"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
-        android:text="投保信息"/>
+        android:text="@string/order_insurance_title"/>
 
     <RelativeLayout
         android:id="@+id/order_discount_insurance_layout"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/order_discount_insurance_choose_iv"
-            android:text="平安境外意外险"
+            android:text="@string/order_insurance_hint"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -58,7 +58,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="33dp"
-            android:text="免费赠送"
+            android:text="@string/order_insurance_free"
             android:textColor="@color/default_price_red"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="26dp"
-            android:text="下单后添加投保人护照，保单即可生效"
+            android:text="@string/order_insurance_hint2"
             android:textColor="#cccccc"
             android:textSize="14sp" />
 

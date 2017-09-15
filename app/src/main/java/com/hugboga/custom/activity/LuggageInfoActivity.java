@@ -29,7 +29,7 @@ public class LuggageInfoActivity extends BaseActivity {
                 finish();
             }
         });
-        headerTitle.setText("行李说明");
+        headerTitle.setText(R.string.luggage_info_title);
     }
 
 }

@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="您当前还未收藏线路呢"
+            android:text="@string/collect_line_empty_hint"
             android:textColor="#b9bdc6"
             android:textSize="16sp" />
 

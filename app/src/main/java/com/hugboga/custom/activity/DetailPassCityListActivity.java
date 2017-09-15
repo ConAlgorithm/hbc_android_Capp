@@ -13,6 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 
 import butterknife.Bind;
@@ -51,7 +52,7 @@ public class DetailPassCityListActivity extends Activity {
             finish();
         }
 
-        titleTV.setText(String.format("行程%1$s", "" + orderBean.orderIndex));
+        titleTV.setText(CommonUtils.getString(R.string.order_detail_item_travel) + orderBean.orderIndex);
 
         subtitleTV.setText(String.format("(%1$s-%2$s)",
                 DateUtils.orderChooseDateTransform(orderBean.serviceTime),

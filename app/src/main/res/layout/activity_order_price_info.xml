@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="15dp"
-                android:text="价格已包含"
+                android:text="@string/order_price_info"
                 android:textColor="@color/default_black"
                 android:textSize="17sp" />
 

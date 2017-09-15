@@ -100,7 +100,7 @@ public class SkuOrderDiscountView extends LinearLayout{
 
     public void setCouponBean(CouponBean couponBean) {
         if (couponBean == null) {
-            couponCountTV.setText("不使用优惠券");
+            couponCountTV.setText(R.string.order_discount_coupon_hint1);
             isNotUseCoupon = true;
         } else {
             couponCountTV.setText(couponBean.price);
@@ -112,7 +112,7 @@ public class SkuOrderDiscountView extends LinearLayout{
 
     public void setMostFitBean(MostFitBean mostFitBean) {
         if (TextUtils.isEmpty(mostFitBean.priceInfo)) {
-            couponCountTV.setText("无优惠券可用");
+            couponCountTV.setText(R.string.order_discount_coupon_hint2);
             isInvalidCoupon = true;
         } else {
             couponCountTV.setText(mostFitBean.priceInfo);

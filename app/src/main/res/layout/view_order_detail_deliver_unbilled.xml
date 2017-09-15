@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="还需等待："
+                android:text="@string/order_detail_wait"
                 android:textColor="#7f7f7f"
                 android:textSize="14sp" />
 

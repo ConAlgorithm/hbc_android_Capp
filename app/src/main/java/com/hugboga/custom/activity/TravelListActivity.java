@@ -61,7 +61,7 @@ public class TravelListActivity extends BaseActivity {
     }
 
     public void initView() {
-        titleBar.setTitle("行程单");
+        titleBar.setTitle(R.string.daily_travel_list);
         TextView leftTV = titleBar.getLeftTV();
         RelativeLayout.LayoutParams leftViewParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(20), UIUtils.dip2px(20));
         leftViewParams.leftMargin = UIUtils.dip2px(15);
@@ -172,12 +172,8 @@ public class TravelListActivity extends BaseActivity {
 
         @Override
         public void onDelClick(int position) {
-            AlertDialogUtils.showAlertDialog(activity, "确定删除这一天吗？", "取消", "是的", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }, new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(activity, CommonUtils.getString(R.string.daily_travel_list_del_dialog)
+                    , CommonUtils.getString(R.string.daily_travel_list_yes), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
@@ -206,6 +202,11 @@ public class TravelListActivity extends BaseActivity {
                     } else if (isAtwill) {
                         EventBus.getDefault().post(new EventAction(EventType.CHARTER_LIST_REFRESH, new CharterSecondStepActivity.RefreshBean(charterDataUtils.currentDay, true)));
                     }
+                    dialog.dismiss();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });

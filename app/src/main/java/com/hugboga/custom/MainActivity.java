@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,6 +27,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -96,6 +99,7 @@ import org.xutils.common.Callback;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -208,6 +212,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initNetworkbench();
         requesetBattery();
+
+//        Resources res = getResources();
+//        DisplayMetrics dm = res.getDisplayMetrics();
+//        Configuration conf = res.getConfiguration();
+//        Log.i("aa", "conf.locale " + conf.locale.getCountry() + " --- " + conf.locale.getLanguage());
+//        if (Build.VERSION.SDK_INT >= 24) {
+//            conf.setLocale(Locale.TRADITIONAL_CHINESE);
+//        } else {
+//            conf.locale = Locale.TRADITIONAL_CHINESE;
+//        }
+//        res.updateConfiguration(conf, dm);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
 import butterknife.Bind;
@@ -49,12 +50,12 @@ public class SkuOrderDescriptionView extends LinearLayout{
 
         titleTV.setText(skuItemBean.goodsName);
 
-        startDateTV.setText(String.format("出行日期：%1$s（当地时间）", serverDate));
-        endDateTV.setText(String.format("起止日期：%1$s至%2$s", serverDate, DateUtils.getDay(serverDate, skuItemBean.daysCount - 1)));
+        startDateTV.setText(CommonUtils.getString(R.string.order_sku_desc_start_date, serverDate));
+        endDateTV.setText(CommonUtils.getString(R.string.order_sku_desc_end_date, serverDate, DateUtils.getDay(serverDate, skuItemBean.daysCount - 1)));
 
         if (guidesDetailData != null) {
             guideNameTV.setVisibility(View.VISIBLE);
-            guideNameTV.setText("已选司导：" + guidesDetailData.guideName);
+            guideNameTV.setText(CommonUtils.getString(R.string.order_sku_desc_guide_name) + guidesDetailData.guideName);
         }
     }
 }

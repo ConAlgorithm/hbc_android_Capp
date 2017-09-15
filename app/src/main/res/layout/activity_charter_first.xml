@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="3dp"
-                    android:text="联系客服"
+                    android:text="@string/contact_service"
                     android:textColor="@color/default_black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="3dp"
-                    android:text="在线咨询"
+                    android:text="@string/online_service"
                     android:textColor="@color/default_black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -92,7 +92,7 @@
                 style="@style/OrderBottomConfirm"
                 android:background="@drawable/shape_rounded_gray_btn"
                 android:enabled="false"
-                android:text="立即预订" />
+                android:text="@string/daily_booking" />
 
             <View
                 android:layout_width="match_parent"
@@ -129,16 +129,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="想去哪里"
-                app:titleText="开始城市" />
+                app:hintText="@string/daily_first_city_hint"
+                app:titleText="@string/daily_first_start_city" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/charter_first_date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="选择包车起止日期"
-                app:titleText="包车日期" />
+                app:hintText="@string/daily_first_date_hint"
+                app:titleText="@string/daily_first_date" />
 
             <com.hugboga.custom.widget.CharterFirstCountView
                 android:id="@+id/charter_first_count_view"

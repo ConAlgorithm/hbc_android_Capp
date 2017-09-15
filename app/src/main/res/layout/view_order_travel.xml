@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="更多日程"
+            android:text="@string/order_travel_more"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 

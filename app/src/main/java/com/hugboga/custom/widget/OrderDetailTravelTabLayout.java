@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -102,7 +103,7 @@ public class OrderDetailTravelTabLayout extends HorizontalScrollView {
                 View tabView = LayoutInflater.from(getContext()).inflate(R.layout.view_order_travel_tab_item, mTabStrip, false);
                 TextView titleTV = (TextView) tabView.findViewById(R.id.order_travel_tab_title_tv);
                 TextView dateTV = (TextView) tabView.findViewById(R.id.order_travel_tab_date_tv);
-                titleTV.setText("行程" + (i + 1));
+                titleTV.setText(CommonUtils.getString(R.string.order_detail_item_travel) + (i + 1));
                 final OrderBean itemOrderBean = items.get(i);
                 String dateStr = DateUtils.orderChooseDateTransform(itemOrderBean.serviceTime);
                 if (_data.totalDays > 1) {

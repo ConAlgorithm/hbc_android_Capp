@@ -18,7 +18,7 @@
         android:layout_marginLeft="@dimen/city_list_margin_left"
         android:layout_marginRight="@dimen/city_list_margin_left"
         android:gravity="center"
-        android:text="快速预订"
+        android:text="@string/city_subscribe"
         android:textColor="@color/default_black"
         android:textSize="18sp" />
 
@@ -35,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="快速预订"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -129,7 +128,7 @@
                 android:id="@+id/city_custom_charter_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="按天包车游"
+                android:text="@string/custom_chartered"
                 android:textColor="@color/common_font_color_black"
                 android:textSize="16sp" />
 
@@ -140,7 +139,7 @@
                 android:layout_below="@id/city_custom_charter_title_tv"
                 android:layout_marginTop="6dp"
                 android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                android:text="中文司机兼导游 带你畅游专属行程"
+                android:text="@string/city_charter_desc"
                 android:textColor="@color/common_font_color_gray"
                 android:textSize="12sp" />
 
@@ -172,7 +171,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="接送机"
+                    android:text="@string/picksend"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="16sp" />
 
@@ -183,7 +182,7 @@
                     android:layout_below="@id/home_chater_title"
                     android:layout_marginTop="6dp"
                     android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                    android:text="中文专车接送机"
+                    android:text="@string/city_picksend_desc"
                     android:textColor="@color/common_font_color_gray"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -207,7 +206,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="单次接送"
+                    android:text="@string/custom_single"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="16sp" />
 
@@ -218,7 +217,7 @@
                     android:layout_below="@id/home_chater_title"
                     android:layout_marginTop="6dp"
                     android:drawableRight="@mipmap/order_choice_bottom_arrow"
-                    android:text="点到点中文专车"
+                    android:text="@string/city_single_desc"
                     android:textColor="@color/common_font_color_gray"
                     android:textSize="12sp" />
             </LinearLayout>

@@ -192,7 +192,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("确认订单");
+        fgTitle.setText(R.string.order_title);
         fgRightTV.setVisibility(View.GONE);
 
         RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(38), UIUtils.dip2px(38));
@@ -273,7 +273,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
     }
 
     private void showCheckSeckillsDialog(String content) {
-        AlertDialogUtils.showAlertDialog(this, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, content, CommonUtils.getString(R.string.order_empty_continue), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

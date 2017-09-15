@@ -62,7 +62,7 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
         }
 
         initDefaultTitleBar();
-        fgTitle.setText("设置密码");
+        fgTitle.setText(R.string.login_set_pwd);
         fgLeftBtn.setVisibility(View.GONE);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -92,22 +92,22 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
             case R.id.init_password_submit_btn:
                 String password = newPwdEditText.getText().toString();
                 if (TextUtils.isEmpty(password)) {
-                    CommonUtils.showToast("新密码不能为空");
+                    CommonUtils.showToast(R.string.login_check_new_pwd);
                     newPwdEditText.requestFocus();
                     return;
                 }
                 if (!Pattern.matches("[\\w]{6,16}", password)) {
-                    CommonUtils.showToast("密码必须是6-16位数字或字母");
+                    CommonUtils.showToast(R.string.login_check_pwd_length);
                     return;
                 }
                 String repassword = rewPwdEditText.getText().toString();
                 if (TextUtils.isEmpty(repassword)) {
-                    CommonUtils.showToast("确认新密码不能为空");
+                    CommonUtils.showToast(R.string.login_check_new_pwd_confirm);
                     rewPwdEditText.requestFocus();
                     return;
                 }
                 if (!TextUtils.equals(password, repassword)) {
-                    CommonUtils.showToast("两次填写的新密码不一致");
+                    CommonUtils.showToast(R.string.login_check_pwd_inconformity);
                     return;
                 }
                 RequestChangePwd requestChangePwd = new RequestChangePwd(activity, oldPassword, password);
@@ -123,7 +123,7 @@ public class InitPasswordActivity extends BaseActivity implements TextWatcher {
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestChangePwd) {
-            CommonUtils.showToast("修改密码成功");
+            CommonUtils.showToast(R.string.login_change_pwd_success);
             UserEntity.getUser().setWeakPassword(activity, false);
             EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOGIN));
             CommonUtils.loginDoAction(this, actionBean);

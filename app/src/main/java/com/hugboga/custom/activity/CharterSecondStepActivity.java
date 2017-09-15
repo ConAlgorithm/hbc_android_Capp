@@ -284,7 +284,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
                 if (request.getType() == REQUEST_CITYROUTE_TYPE_OUTTOWN) {
                     charterDataUtils.addEndCityBean(charterDataUtils.currentDay, null);
                     fragmentAgent.updateSelectedModel();
-                    CommonUtils.showToast("很抱歉，还不能线上预订这个城市的包车服务，请联系客服，帮您定制行程");
+                    CommonUtils.showToast(R.string.daily_second_city_cannot_hint);
                 } else {
                     if (charterDataUtils.currentDay > 1) {
                         charterDataUtils.cleanSendInfo();
@@ -336,8 +336,8 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
         } else if (_request instanceof RequestCarMaxCapaCity) {
             final CarMaxCapaCityBean carMaxCapaCityBean = ((RequestCarMaxCapaCity) _request).getData();
             if (charterDataUtils.getTotalPeopleCount() > carMaxCapaCityBean.numOfPerson) {
-                String title = String.format("您选择的乘客人数，超过了当地可用车型的最大载客人数（%1$s人）如需预订多车服务，请联系客服", carMaxCapaCityBean.numOfPerson);
-                AlertDialogUtils.showAlertDialogCancelable(this, title, "返回上一步", "联系客服", new DialogInterface.OnClickListener() {
+                String title = getString(R.string.daily_second_exceed_max_person, "" + carMaxCapaCityBean.numOfPerson);
+                AlertDialogUtils.showAlertDialogCancelable(this, title, getString(R.string.last_step), getString(R.string.contact_service), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         charterDataUtils.cleanStartDate();
@@ -573,11 +573,11 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
         String title = null;
         if (checkCity && checkDate) {//选航班后降落日期，不等于开始日期；且降落城市，不等于开始城市
-            title = String.format("根据您选择的航班，如果继续下单需要将包车开始城市和开始日期，调整为您航班的落地城市%1$s和当地日期%2$s", flightBean.arrCityName, flightBean.arrDate);
+            title = getString(R.string.daily_second_pickup_error_1, flightBean.arrCityName, flightBean.arrDate);
         } else if (checkCity) {//选航班后降落城市，不等于开始城市
-            title = String.format("根据您选择的航班，如果继续下单需要将包车开车城市，调整为您航班的落地城市%1$s", flightBean.arrCityName);
+            title = getString(R.string.daily_second_pickup_error_2, flightBean.arrCityName);
         } else if (checkDate) {//选航班后降落日期，不等于开始日期
-            title = String.format("根据您选择的航班，如果继续下单需要将包车开始日期，调整为您航班在当地的落地日期%1$s", flightBean.arrDate);
+            title = getString(R.string.daily_second_pickup_error_3, flightBean.arrDate);
         }
         if (!TextUtils.isEmpty(title)) {
             showCheckPickUpDialog(flightBean, title, checkCity, checkDate);
@@ -588,7 +588,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void showCheckPickUpDialog(final FlightBean _flightBean, final String title, final boolean checkCity, final boolean checkDate) {
-        AlertDialogUtils.showAlertDialogCancelable(this, title, "取消，重选航班", "好的", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(this, title, getString(R.string.daily_second_pickup_cancel), getString(R.string.ok2), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(CharterSecondStepActivity.this, ChooseAirActivity.class);
@@ -615,7 +615,7 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     }
 
     public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
-        AlertDialogUtils.showAlertDialogCancelable(this, String.format("很抱歉，您指定的司导无法服务%1$s城市", flightBean.arrCityName), "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(this, getString(R.string.daily_second_guide_cannot_service, flightBean.arrCityName), getString(R.string.last_step), getString(R.string.daily_second_no_assign), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CharterSecondStepActivity.this.finish();

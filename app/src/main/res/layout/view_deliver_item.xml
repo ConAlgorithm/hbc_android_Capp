@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="正在查询司导状态，请稍后..."
+            android:text="@string/order_detail_deliver_loading"
             android:textColor="#111111"
             android:textSize="15sp" />
 

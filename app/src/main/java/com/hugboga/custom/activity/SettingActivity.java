@@ -110,10 +110,10 @@ public class SettingActivity extends BaseActivity {
     }
     private void setState(boolean needInitPwd){
         if(needInitPwd){
-            setOrChangPwd.setText("设置密码");
+            setOrChangPwd.setText(getString(R.string.setting_set_pwd));
             redPoint.setVisibility(View.VISIBLE);
         }else{
-            setOrChangPwd.setText("修改密码");
+            setOrChangPwd.setText(getString(R.string.setting_chang_pwd));
             redPoint.setVisibility(View.GONE);
         }
 
@@ -156,7 +156,8 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.setting_exit:
                 //退出登录
-                AlertDialogUtils.showAlertDialog(activity, "退出登录", "退出后不会删除任何历史数据，下次登录依然可以使用本账号", "确定", "取消"
+                AlertDialogUtils.showAlertDialog(activity, getString(R.string.setting_logout), getString(R.string.setting_logout_hint)
+                        , getString(R.string.dialog_btn_sure), getString(R.string.dialog_btn_cancel)
                         , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -200,7 +201,8 @@ public class SettingActivity extends BaseActivity {
                         });
                 break;
             case R.id.setting_menu_layout7:
-                AlertDialogUtils.showAlertDialog(activity, "清除缓存", "将删除" + getCacheSize() + "缓存的图片和系统预填信息", "确认", "取消", new DialogInterface.OnClickListener() {
+                AlertDialogUtils.showAlertDialog(activity, getString(R.string.setting_clear_cache), getString(R.string.setting_clear_cache_hint, getCacheSize())
+                        , getString(R.string.dialog_btn_sure), getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Tools.deleteCache();
@@ -241,7 +243,7 @@ public class SettingActivity extends BaseActivity {
     }
     protected void initHeader() {
         newVersionTextView.setText("v" + BuildConfig.VERSION_NAME);
-        headerTitle.setText("设置");
+        headerTitle.setText(getString(R.string.setting_title));
         sharedPre = new SharedPre(activity);
         cacheSize = sharedPre.getLongValue(SharedPre.CACHE_SIZE);
         cacheSizeTextView.setText(getCacheSize());

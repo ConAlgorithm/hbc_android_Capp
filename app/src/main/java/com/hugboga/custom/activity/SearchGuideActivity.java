@@ -56,7 +56,7 @@ public class SearchGuideActivity extends BaseActivity {
     }
 
     private void initView(){
-        title.setText("相关司导");
+        title.setText(R.string.search_guide_title);
         headerLeft.setVisibility(View.VISIBLE);
         headerLeft.setOnClickListener(new View.OnClickListener() {
             @Override

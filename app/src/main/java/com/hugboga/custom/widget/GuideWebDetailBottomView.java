@@ -24,6 +24,7 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ChooseGuideUtils;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 
 import java.text.SimpleDateFormat;
@@ -141,7 +142,9 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
             contactLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialogUtils.showAlertDialog(v.getContext(), false, "需要先下单并支付才能找Ta聊天呢", "优秀司导都在服务用户的路上，预订后沟通更高效~", "我知道了", new DialogInterface.OnClickListener() {
+                    AlertDialogUtils.showAlertDialog(v.getContext(), false, CommonUtils.getString(R.string.guide_detail_contact_dialog_title)
+                            , CommonUtils.getString(R.string.guide_detail_contact_dialog_content)
+                            , CommonUtils.getString(R.string.dialog_btn_know), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -201,7 +204,7 @@ public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBeh
                     if (isStop) {
                         return;
                     }
-                    timeTv.setText(String.format("当地时间: %1$s", dateTimeFormat.format(System.currentTimeMillis())));
+                    timeTv.setText(CommonUtils.getString(R.string.guide_detail_time, dateTimeFormat.format(System.currentTimeMillis())));
                     break;
                 default:
                     break;

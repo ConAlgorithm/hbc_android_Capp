@@ -230,11 +230,11 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 break;
             case R.id.single_time_layout:
                 if (cityBean == null) {
-                    CommonUtils.showToast("请先选择城市");
+                    CommonUtils.showToast(R.string.single_check_city_toast);
                 } else if (startPoiBean == null) {
-                    CommonUtils.showToast("请先填写出发地点");
+                    CommonUtils.showToast(R.string.single_start_address_toast);
                 } else if (endPoiBean == null) {
-                    CommonUtils.showToast("请先填写结束地点");
+                    CommonUtils.showToast(R.string.single_end_address_toast);
                 } else {
                     showTimePicker();
                 }
@@ -307,7 +307,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 if (guidesDetailData != null) {
                     CalendarListBean calendarListBean = GuideCalendarUtils.getInstance().getCalendarListBean(chooseDateBean.halfDateStr);
                     if (calendarListBean != null && calendarListBean.isCanHalfService()) {
-                        checkGuideTimeCoflict();
+                        getCars();
                         break;
                     }
                 }
@@ -382,7 +382,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         }
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForSingle) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            String errorMessage = getString(R.string.single_errormessage);
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             return;
         } else {
@@ -407,7 +407,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
 
     private void intentPoiSearch(String keyFrom) {
         if (cityBean == null) {
-            CommonUtils.showToast("请先选择城市");
+            CommonUtils.showToast(R.string.single_check_city_toast);
         } else {
             Intent intent = new Intent(activity,PoiSearchActivity.class);
             intent.putExtra(KEY_FROM, keyFrom);
@@ -604,52 +604,6 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                 CommonUtils.apiErrorShowService(SingleActivity.this, errorInfo, request, SingleActivity.this.getEventSource(), false);
             }
         }, true);
-    }
-
-    private void checkGuideTimeCoflict() {
-        getCars();
-//        RequestGuideConflict requestGuideConflict = new RequestGuideConflict(this
-//                , ORDER_TYPE
-//                , cityBean.cityId
-//                , guidesDetailData.guideId
-//                , serverDate + " " + serverTime + ":00"
-//                , startPoiBean.location
-//                , endPoiBean.location
-//                , cityBean.placeId);
-//        HttpRequestUtils.request(this, requestGuideConflict, new HttpRequestListener() {
-//            @Override
-//            public void onDataRequestSucceed(BaseRequest request) {
-//                ApiReportHelper.getInstance().addReport(request);
-//                getCars();
-//            }
-//
-//            @Override
-//            public void onDataRequestCancel(BaseRequest request) {
-//
-//            }
-//
-//            @Override
-//            public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-//                if (isFinishing()) {
-//                    return;
-//                }
-//                AlertDialogUtils.showAlertDialogCancelable(SingleActivity.this, "很抱歉，您指定的司导该期间无法服务", "返回上一步", "不找Ta服务了", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        SingleActivity.this.finish();
-//                        dialog.dismiss();
-//                    }
-//                }, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        guidesDetailData = null;
-//                        guideLayout.setVisibility(View.GONE);
-//                        getCars();
-//                        dialog.dismiss();
-//                    }
-//                });
-//            }
-//        }, true);
     }
 
     public void updateConponsTipView() {

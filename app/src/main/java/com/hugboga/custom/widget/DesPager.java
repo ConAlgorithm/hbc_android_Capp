@@ -132,7 +132,7 @@ public class DesPager extends LinearLayout implements HttpRequestListener {
         isNetworkAvailable = NetWork.isNetworkAvailable(getContext());
         if(request instanceof DestinationHot || request instanceof DestinationLine){
             if(!isNetworkAvailable){
-                CommonUtils.showToast("当前网络不可用");
+                CommonUtils.showToast(R.string.destination_network_available);
                 EventBus.getDefault().post(new EventAction(EventType.SHOW_EMPTY_WIFI_BY_HOT_OR_LINE));
             }
         }
