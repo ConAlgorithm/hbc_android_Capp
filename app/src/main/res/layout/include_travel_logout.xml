@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/basic_margin_small"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="1dp"
-        android:text="下单后可以在这里\n管理你的行程"
+        android:text="@string/travel_login_hint"
         android:textColor="#898989"
         android:textSize="17sp" />
 
@@ -37,7 +37,7 @@
         android:gravity="center"
         android:layout_marginBottom="30dp"
         android:background="@drawable/shape_rounded_yellow_btn"
-        android:text="登录"
+        android:text="@string/login"
         android:textColor="#ffffff"
         android:textSize="15sp" />
 

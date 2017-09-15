@@ -232,7 +232,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         intent.putExtra(Constants.PARAMS_ORDER_TYPE, Constants.BUSINESS_TYPE_DAILY);
         intent.putExtra(DatePickerActivity.PARAM_TYPE, charterDataUtils.isSeckills() ? DatePickerActivity.PARAM_TYPE_SINGLE : DatePickerActivity.PARAM_TYPE_RANGE);
         intent.putExtra(DatePickerActivity.PARAM_BEAN, chooseDateBean);
-        intent.putExtra(DatePickerActivity.PARAM_TITLE, "请选择包车日期");
+        intent.putExtra(DatePickerActivity.PARAM_TITLE, getString(R.string.daily_first_date_picker_title));
         intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         startActivity(intent);
         SensorsUtils.onAppClick(getEventSource(),"包车日期",getIntentSource());
@@ -413,12 +413,13 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
     private boolean isShowSaveDialog() {
         if (startBean != null || chooseDateBean != null) {
-            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, "提示", "下单太麻烦?\n留下意向，旅游顾问帮您规划合理行程。", "帮我规划", "确认离开", "取消", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(CharterFirstStepActivity.this, getString(R.string.hint), getString(R.string.daily_first_purpose_desc),getString(R.string.daily_first_purpose_confirm)
+                    , getString(R.string.dialog_btn_back), getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (UserEntity.getUser().isLogin(CharterFirstStepActivity.this)
                             && !TextUtils.isEmpty(UserEntity.getUser().getPhone(CharterFirstStepActivity.this))) {
-                        showIntentionDialog(String.format("旅游顾问会通过您的手机号%1$s联系您", UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
+                        showIntentionDialog(String.format(getString(R.string.daily_first_purpose_service), UserEntity.getUser().getPhone(CharterFirstStepActivity.this)));
                     } else {
                         Intent intent = new Intent(CharterFirstStepActivity.this, TravelPurposeFormActivity.class);
                         intent.putExtra("cityName", startBean != null ? startBean.name : "");
@@ -451,7 +452,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     }
 
     public void showIntentionDialog(String content) {
-        AlertDialogUtils.showAlertDialog(this, false, "提示", content, "好", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, false, getString(R.string.hint), content, getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 requestTravelPurposeForm();
@@ -533,7 +534,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
                 ApiReportHelper.getInstance().addReport(request);
                 ArrayList<GuideCarBean> guideCarBeanList = ((RequestNewCars)request).getData();
                 if (guideCarBeanList == null) {
-                    CommonUtils.showToast("很抱歉，该司导暂无符合的车型");
+                    CommonUtils.showToast(R.string.daily_guide_cars_null);
                     return;
                 }
                 guidesDetailData.guideCars = guideCarBeanList;

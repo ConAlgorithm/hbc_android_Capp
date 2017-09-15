@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
@@ -53,6 +54,6 @@ public class OrderGuideLayout extends LinearLayout {
 
     public void setData(String avatar, String guideName, String countryName) {
         Tools.showImage(avatarIV, avatar, R.mipmap.icon_avatar_guide);
-        descTV.setText(String.format("Hi，我是您的司导%1$s，欢迎来到%2$s，期待与您共度美好的旅行时光~", guideName, countryName));
+        descTV.setText(CommonUtils.getString(R.string.daily_guide_first_hint, guideName, countryName));
     }
 }

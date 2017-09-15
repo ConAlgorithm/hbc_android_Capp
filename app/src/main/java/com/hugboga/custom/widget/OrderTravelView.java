@@ -69,7 +69,7 @@ public class OrderTravelView extends LinearLayout {
             lineView.setVisibility(View.VISIBLE);
             moreLayout.setVisibility(View.VISIBLE);
             moreIV.setBackgroundResource(R.mipmap.icon_black_arrow);
-            moreTV.setText("更多日程");
+            moreTV.setText(R.string.order_travel_more);
         } else {
             lineView.setVisibility(View.GONE);
             moreLayout.setVisibility(View.GONE);
@@ -114,10 +114,10 @@ public class OrderTravelView extends LinearLayout {
     public void setMoreItem() {
         if (isShow) {
             moreIV.setBackgroundResource(R.mipmap.icon_black_arrow);
-            moreTV.setText("更多日程");
+            moreTV.setText(R.string.order_travel_more);
         } else {
             moreIV.setBackgroundResource(R.mipmap.icon_black_arrow_up);
-            moreTV.setText("收起日程");
+            moreTV.setText(R.string.order_travel_packup);
         }
         isShow = !isShow;
 

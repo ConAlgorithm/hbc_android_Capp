@@ -46,7 +46,7 @@ public class OrderBottomView extends RelativeLayout {
         double price = carListBean.isSeckills ? carBean.seckillingPrice : carBean.price;
         shouldPriceTV.setText(getContext().getResources().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(price));
         distanceTV.setVisibility(View.VISIBLE);
-        distanceTV.setText("全程预计: " + CommonUtils.doubleTrans(carListBean.distance) + "公里/" + carListBean.interval + "分钟");
+        distanceTV.setText(CommonUtils.getString(R.string.order_price_estimated, CommonUtils.doubleTrans(carListBean.distance), carListBean.interval));
     }
 
     public void setConponsTip(String tip) {

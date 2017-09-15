@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
+import com.hugboga.custom.utils.Common;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
@@ -73,7 +75,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 int size = subOrderList.size();
                 for (int i = 0; i < size; i++) {
                     OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
-                    addBillView("行程 " + (i + 1), "" + (int)childPriceInfo.orderPrice);
+                    addBillView(CommonUtils.getString(R.string.order_detail_item_travel) + " " + (i + 1), "" + (int)childPriceInfo.orderPrice);
                     childSeatPrice += childPriceInfo.childSeatPrice;
                     flightBrandSignPrice += childPriceInfo.flightBrandSignPrice;
                     checkInPrice += childPriceInfo.checkInPrice;
@@ -134,7 +136,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
 
             addGroupView(refundItemLayout, R.string.order_detail_cost_chartered, "", true);
             if (priceInfo.isRefund == 1) {//全部退款
-                addBillView(refundItemLayout, "全部行程", "" + (int)priceInfo.refundPrice);
+                addBillView(refundItemLayout, CommonUtils.getString(R.string.order_detail_all_travel), "" + (int)priceInfo.refundPrice);
                 setRefundPriceLayout((int)priceInfo.refundPrice, (int)priceInfo.cancelFee, priceInfo.payGatewayName, (int)priceInfo.refundTravelFund, (int)priceInfo.couponPrice, priceInfo.couponRefundStatus);
             } else {
                 List<OrderBean> subOrderList = orderBean.subOrderDetail.subOrderList;
@@ -143,7 +145,7 @@ public class OrderDetailAmountView extends LinearLayout implements HbcViewBehavi
                 int allCancelFee = 0;
                 for (int i = 0; i < size; i++) {
                     OrderPriceInfo childPriceInfo = subOrderList.get(i).orderPriceInfo;
-                    addBillView(refundItemLayout, "行程 " + (i + 1), "" + (int)childPriceInfo.refundPrice);
+                    addBillView(refundItemLayout, CommonUtils.getString(R.string.order_detail_item_travel) + " " + (i + 1), "" + (int)childPriceInfo.refundPrice);
                     allRefundPrice += childPriceInfo.refundPrice;
                     allCancelFee += childPriceInfo.cancelFee;
                 }

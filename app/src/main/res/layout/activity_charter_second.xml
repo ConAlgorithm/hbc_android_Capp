@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:text="展开地图"
+            android:text="@string/daily_unfold_map"
             android:textColor="#ffffff"
             android:textSize="11sp" />
     </LinearLayout>

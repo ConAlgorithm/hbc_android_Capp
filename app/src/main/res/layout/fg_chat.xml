@@ -34,7 +34,7 @@
         android:gravity="center"
         android:visibility="gone"
         android:background="#FF0000"
-        android:text="连接IM服务器出错，请重新登录账号"
+        android:text="@string/chat_im_error"
         android:textColor="#ffFFFF"
         android:textSize="16sp" />
 

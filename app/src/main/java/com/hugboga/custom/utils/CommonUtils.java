@@ -596,4 +596,12 @@ public final class CommonUtils {
         }
         return deviceId;
     }
+
+    public static String getString(int id) {
+        return MyApplication.getAppContext().getResources().getString(id);
+    }
+
+    public static String getString(int id, Object... formatArgs) {
+        return MyApplication.getAppContext().getResources().getString(id, formatArgs);
+    }
 }

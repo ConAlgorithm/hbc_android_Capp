@@ -73,13 +73,13 @@ public class OrderDetailChildView extends LinearLayout implements HbcViewBehavio
                 orderDetailGuideInfo.setVisibility(View.GONE);
                 switch (orderBean.orderStatus) {
                     case CANCELLED://已取消
-                        childCancelTV.setText("此段行程：已取消");
+                        childCancelTV.setText(R.string.order_detail_child_state_cancel);
                         break;
                     case REFUNDED://已退款
-                        childCancelTV.setText("此段行程：已退款");
+                        childCancelTV.setText(R.string.order_detail_child_state_refund);
                         break;
                     case COMPLAINT://客诉处理中
-                        childCancelTV.setText("此段行程：客诉处理中");
+                        childCancelTV.setText(R.string.order_detail_child_state_complaint);
                         break;
                 }
             } else {//显示司导信息

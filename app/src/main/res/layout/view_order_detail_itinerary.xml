@@ -85,7 +85,7 @@
             android:layout_marginRight="3dp"
             android:layout_toLeftOf="@id/order_itinerary_charter_arrow_iv"
             android:gravity="center_vertical"
-            android:text="查看行程单"
+            android:text="@string/order_detail_travel_list"
             android:textColor="#b0b0b0"
             android:textSize="11sp" />
     </RelativeLayout>

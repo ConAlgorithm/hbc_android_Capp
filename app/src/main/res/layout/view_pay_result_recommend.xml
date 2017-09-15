@@ -20,7 +20,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:text="猜你喜欢"
+            android:text="@string/par_result_recommend_sku_title"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 

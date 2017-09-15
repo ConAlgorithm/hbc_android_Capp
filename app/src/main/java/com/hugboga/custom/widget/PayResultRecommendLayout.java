@@ -88,7 +88,7 @@ public class PayResultRecommendLayout extends LinearLayout implements HttpReques
             RecommendedGoodsBean recommendedGoodsBean = ((RequestRecommendedGoods) _request).getData();
             addRecommendedItemView(recommendedGoodsBean);
             if (recommendedGoodsBean.listCount > 9) {
-                footerTV.setText(String.format("查看更多%1$s线路和司导", cityName));
+                footerTV.setText(CommonUtils.getString(R.string.par_result_more_sku, cityName));
                 footerLayout.setVisibility(View.VISIBLE);
             } else {
                 footerLayout.setVisibility(View.INVISIBLE);

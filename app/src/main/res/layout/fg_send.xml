@@ -48,24 +48,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="送您到哪个机场"
-                app:titleText="送达机场" />
+                app:hintText="@string/send_airport_hint"
+                app:titleText="@string/send_airport_title" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/send_poi_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="您从哪里出发"
-                app:titleText="出发地点" />
+                app:hintText="@string/send_start_where"
+                app:titleText="@string/send_start_address" />
 
             <com.hugboga.custom.widget.OrderInfoItemView
                 android:id="@+id/send_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="选择出发时间（建议提早出发）"
-                app:titleText="出发时间" />
+                app:hintText="@string/send_time_hint"
+                app:titleText="@string/send_time_title" />
 
             <com.hugboga.custom.widget.SkuOrderCarTypeView
                 android:id="@+id/send_car_type_view"

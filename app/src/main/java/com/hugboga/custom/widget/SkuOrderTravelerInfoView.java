@@ -167,7 +167,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         standbyContactsLayout.setRequestCode(REQUEST_CODE_PICK_STANDBY_CONTACTS);
         otherContactsLayout.setRequestCode(REQUEST_CODE_PICK_OTHER_CONTACTS);
 
-        otherContactsLayout.setContactsHintText("乘车人");
+        otherContactsLayout.setContactsHintText(CommonUtils.getString(R.string.order_travelerinfo_riding));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -257,18 +257,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
         }
         if (picker == null) {
             picker = new TimePicker((Activity) getContext(), TimePicker.HOUR_24);
-            picker.setTitleText("请选择上车时间");
-//            if (orderType == 3) {
-//                CharterDataUtils charterDataUtils = CharterDataUtils.getInstance();
-//                if (charterDataUtils.isSelectedPickUp && charterDataUtils.flightBean != null) {
-//                    try {
-//                        Date date = DateUtils.timeFormat2.parse(charterDataUtils.flightBean.arrivalTime);
-//                        picker.setRangeStart(date.getHours(), date.getMinutes());
-//                    } catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
+            picker.setTitleText(R.string.order_travelerinfo_start_time_choose);
             picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
                 @Override
                 public void onTimePicked(String hour, String minute) {
@@ -309,8 +298,8 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
                 timeLayout.setVisibility(View.VISIBLE);
                 addressLayout.setVisibility(View.VISIBLE);
                 addressLineView.setVisibility(View.VISIBLE);
-                timeTV.setHint("09:00（第1天上车时间）");
-                addressTV.setHint("添加第1天上车地点");
+                timeTV.setHint(CommonUtils.getString(R.string.order_travelerinfo_start_time_charter_default));
+                addressTV.setHint(CommonUtils.getString(R.string.order_travelerinfo_start_address_add2));
                 travelerInfoBean.serverTime = CombinationOrderActivity.SERVER_TIME.substring(0, CombinationOrderActivity.SERVER_TIME.lastIndexOf(":00"));
             }
             setOtherContactsHide(true);
@@ -318,8 +307,8 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
             timeLayout.setVisibility(View.VISIBLE);
             addressLayout.setVisibility(View.VISIBLE);
             addressLineView.setVisibility(View.VISIBLE);
-            timeTV.setHint("09:00（当地时间）");
-            addressTV.setHint("请添加上车地点");
+            timeTV.setHint(CommonUtils.getString(R.string.order_travelerinfo_start_time_default));
+            addressTV.setHint(CommonUtils.getString(R.string.order_travelerinfo_start_address_add));
             travelerInfoBean.serverTime = SkuOrderActivity.SERVER_TIME;
             setOtherContactsHide(true);
         } else {//接送次
@@ -336,12 +325,12 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
             setCarListBean(carListBean);
             if (orderType == 1 && additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.pickupSignPrice)) {//接机
                 checkinLayout.setVisibility(View.VISIBLE);
-                checkinHintTV.setText("举牌接机");
-                checkinET.setHint("接机牌姓名");
+                checkinHintTV.setText(CommonUtils.getString(R.string.order_travelerinfo_checkin));
+                checkinET.setHint(CommonUtils.getString(R.string.order_travelerinfo_checkin_name_hint));
             } else if (orderType == 2) {//送机
                 if (additionalServicePrice != null && !TextUtils.isEmpty(additionalServicePrice.checkInPrice)) {
                     checkinLayout.setVisibility(View.VISIBLE);
-                    checkinHintTV.setText("协助登机Check in");
+                    checkinHintTV.setText(CommonUtils.getString(R.string.order_travelerinfo_pickup));
                 }
                 flightLayout.setVisibility(View.VISIBLE);
             }
@@ -450,10 +439,10 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
     public boolean checkTravelerInfo() {
         TravelerInfoBean infoBean = getTravelerInfoBean();
         if (TextUtils.isEmpty(infoBean.travelerName)) {
-            CommonUtils.showToast("请填写联系人姓名!");
+            CommonUtils.showToast(R.string.order_travelerinfo_check_name);
             return false;
         } else if (TextUtils.isEmpty(infoBean.travelerPhone)) {
-            CommonUtils.showToast("请填写联系人手机号!");
+            CommonUtils.showToast(R.string.order_travelerinfo_check_phone);
             return false;
         }
         if (!CommonUtils.checkInlandPhoneNumber(infoBean.areaCode, infoBean.travelerPhone)) {
@@ -462,11 +451,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
 
         if (infoBean.isStandby) {
             if (TextUtils.isEmpty(infoBean.standbyName)) {
-                CommonUtils.showToast("请填写备用联系人姓名!");
+                CommonUtils.showToast(R.string.order_travelerinfo_check_standbyname);
                 return false;
             }
             if (TextUtils.isEmpty(infoBean.standbyPhone)) {
-                CommonUtils.showToast("请填写备用联系人手机号!");
+                CommonUtils.showToast(R.string.order_travelerinfo_check_standbyphone);
                 return false;
             }
             if (!CommonUtils.checkInlandPhoneNumber(infoBean.standbyAreaCode, infoBean.standbyPhone)) {
@@ -476,11 +465,11 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
 
         if (infoBean.isOther) {
             if (TextUtils.isEmpty(infoBean.otherName)) {
-                CommonUtils.showToast("请填写乘车人姓名!");
+                CommonUtils.showToast(R.string.order_travelerinfo_check_othername);
                 return false;
             }
             if (TextUtils.isEmpty(infoBean.otherPhone)) {
-                CommonUtils.showToast("请填写乘车人手机号!");
+                CommonUtils.showToast(R.string.order_travelerinfo_check_otherphone);
                 return false;
             }
             if (!CommonUtils.checkInlandPhoneNumber(infoBean.otherAreaCode, infoBean.otherPhone)) {
@@ -488,7 +477,7 @@ public class SkuOrderTravelerInfoView extends LinearLayout{
             }
         }
         if (infoBean.isPickup && TextUtils.isEmpty(infoBean.pickName)) {
-            CommonUtils.showToast("请填写接机牌姓名!");
+            CommonUtils.showToast(R.string.order_travelerinfo_check_pickup);
             return false;
         }
         return true;

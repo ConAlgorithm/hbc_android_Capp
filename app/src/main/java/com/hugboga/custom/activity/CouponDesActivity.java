@@ -30,7 +30,7 @@ public class CouponDesActivity extends BaseActivity {
         initTitle();
     }
     private void initTitle(){
-        headerTitle.setText("优惠券使用说明");
+        headerTitle.setText(R.string.coupon_des_title);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -173,7 +173,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     public void setGoodsOut() {// 商品已下架
         headerRightBtn.setVisibility(View.GONE);
-        gotoOrder.setText("该商品已下架");
+        gotoOrder.setText(R.string.sku_detail_goodsout);
         gotoOrder.setTextColor(0xFFFFFFFF);
         gotoOrder.setBackgroundResource(R.drawable.bg_sku_detial_grey);
         gotoOrder.setOnClickListener(null);
@@ -182,7 +182,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public void setBottomLayoutShow() {
         if (skuItemBean != null && bottomLayout != null) {
             bottomLayout.setVisibility(View.VISIBLE);
-            String unitStr = "起/人";
+            String unitStr = CommonUtils.getString(R.string.sku_detail_price_unit);
             String priceStr = getString(R.string.sign_rmb) + CommonUtils.getCountInteger(skuItemBean.perPrice) + " " + unitStr;
             SpannableString spannableString = new SpannableString(priceStr);
             spannableString.setSpan(new RelativeSizeSpan(0.7f), priceStr.length() - unitStr.length(), priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -336,7 +336,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 return;
             }
             if (!view.getTitle().startsWith("http:")) {
-                    headerTitle.setText("线路详情");
+                    headerTitle.setText(R.string.sku_detail_title);
             } else {
                 headerTitle.setText("");
             }

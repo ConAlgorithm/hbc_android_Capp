@@ -126,7 +126,7 @@ public class CharterFirstCountView extends LinearLayout implements ChooseCountVi
             } else {
                 childSeatLayout.setVisibility(View.GONE);
                 childSeatHintLayout.setVisibility(View.VISIBLE);
-                childSeathintTV.setText("很抱歉，该城市暂不提供儿童座椅");
+                childSeathintTV.setText(CommonUtils.getString(R.string.daily_child_seat_nonsupport));
             }
         } else {
             childSeatLayout.setVisibility(View.GONE);

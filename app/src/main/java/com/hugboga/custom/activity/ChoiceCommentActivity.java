@@ -47,7 +47,7 @@ public class ChoiceCommentActivity extends BaseActivity implements XRecyclerView
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("游客说");
+        fgTitle.setText(R.string.choice_comment_title);
         fgRightTV.setVisibility(View.GONE);
 
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);

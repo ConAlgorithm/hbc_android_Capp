@@ -70,7 +70,7 @@
                 android:layout_marginLeft="16dp"
                 android:paddingRight="25dp"
                 android:layout_toRightOf="@+id/my_icon_head"
-                android:text="点击登录"
+                android:text="@string/myspace_header_login"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="#898989"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="张"
+                    android:text="@string/myspace_header_coupon_unit"
                     android:textColor="#898989"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -154,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/icon_coupon"
                     android:layout_marginLeft="5dp"
-                    android:text="优惠券"
+                    android:text="@string/myspace_header_coupon"
                     android:textColor="#7f7f7f"
                     android:textSize="14sp" />
 
@@ -185,7 +185,7 @@
                 android:layout_marginTop="2dp"
                 android:background="@mipmap/personal_invite"
                 android:gravity="center"
-                android:text="邀请就送"
+                android:text="@string/myspace_header_travel_fund_hint"
                 android:textColor="@color/basic_white"
                 android:textSize="10dp" />
 
@@ -215,7 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="元"
+                        android:text="@string/myspace_header_travel_fund_unit"
                         android:textColor="#898989"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -239,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/icon_fund"
                         android:layout_marginLeft="5dp"
-                        android:text="旅游基金"
+                        android:text="@string/myspace_header_travel_fund"
                         android:textColor="#7f7f7f"
                         android:textSize="14sp" />
 

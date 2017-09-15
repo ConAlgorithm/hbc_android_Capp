@@ -136,7 +136,7 @@ public class FilterSkuListActivity extends BaseActivity implements XRecyclerView
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("包车线路");
+        fgTitle.setText(R.string.filter_sku_list_title);
         fgRightTV.setVisibility(View.GONE);
     }
 

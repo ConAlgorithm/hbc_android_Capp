@@ -182,7 +182,7 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
             adapter.setList(historyList);
             if (historyList.size() > 0)
                 arrivalTip.setTextColor(0xff242424);
-            arrivalTip.setText("搜索历史");
+            arrivalTip.setText(R.string.poisearch_history);
             arrivalTip.setVisibility(View.VISIBLE);
             return;
         }

@@ -121,7 +121,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         fgTitle.setLayoutParams(titleParams);
-        fgTitle.setText("私聊");
+        fgTitle.setText(R.string.chat);
         leftBtn.setVisibility(View.GONE);
         setSensorsDefaultEvent("私聊", SensorsConstant.CHAT);
 
@@ -383,7 +383,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public void onItemLongClick(View view, final int position, Object itemData) {
         final ChatBean chatBean = (ChatBean) itemData;
         if (chatBean.getTargetType() != 3) {
-            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), "确定", "取消", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(getActivity(), getString(R.string.del_chat), CommonUtils.getString(R.string.hbc_confirm), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     RequestNIMRemoveChat requestRemoveChat = new RequestNIMRemoveChat(getActivity(), chatBean.targetId);

@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="还没有常用投保人,请新增"
+        android:text="@string/insure_add_hint"
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:textSize="20sp"
@@ -50,7 +50,7 @@
             android:textSize="18sp"
             android:background="@color/all_bg_yellow"
             android:textColor="@color/basic_white"
-            android:text="马上提交"
+            android:text="@string/insure_submit"
             android:layout_alignParentRight="true" />
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
             android:layout_marginLeft="20dp"
             android:id="@+id/left"
             android:textColor="@color/basic_white"
-            android:text="已选" />
+            android:text="@string/insure_selected" />
         <TextView
             android:id="@+id/people_num"
             android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
             android:gravity="left|center"
             android:textSize="14sp"
             android:textColor="@color/basic_white"
-            android:text="人,由皇包车替你支付"/>
+            android:text="@string/insure_bottom_hint"/>
 
 
     </RelativeLayout>

@@ -37,7 +37,7 @@ public class OrderDetailNoView extends RelativeLayout implements HbcViewBehavior
     public void copyOrderNo() {
         ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         cm.setText(noTV.getText());
-        CommonUtils.showToast("复制成功");
+        CommonUtils.showToast(R.string.order_detail_copy_succesed);
     }
 
     @Override

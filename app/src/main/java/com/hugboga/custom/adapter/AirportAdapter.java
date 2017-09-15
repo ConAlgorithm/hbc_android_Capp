@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.AirPort;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
@@ -67,7 +68,7 @@ public class AirportAdapter extends BaseAdapter {
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
         if (model.isFirst) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
-            if ("热门机场".equals(model.cityFirstLetter) || "搜索历史".equals(model.cityFirstLetter)) {
+            if (CommonUtils.getString(R.string.poisearch_hot).equals(model.cityFirstLetter) || CommonUtils.getString(R.string.poisearch_history).equals(model.cityFirstLetter)) {
                 viewHolder.lineView.setVisibility(View.VISIBLE);
                 viewHolder.yellowLineView.setVisibility(View.VISIBLE);
                 viewHolder.tvLetter.setText(model.cityFirstLetter);

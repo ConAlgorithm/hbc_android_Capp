@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="30元现金及更多奖励"
+            android:text="@string/travel_footer_fund_content"
             android:textColor="#848484"
             android:textSize="15sp" />
 
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="点击领取"
+                android:text="@string/travel_footer_fund_get"
                 android:textColor="@color/default_yellow"
                 android:textSize="15sp" />
 

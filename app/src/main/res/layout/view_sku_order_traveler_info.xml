@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/sku_order_traveler_info_title_tv"
             style="@style/SkuOrderSubtitleTextView"
-            android:text="出行信息" />
+            android:text="@string/order_travelerinfo_title" />
 
         <TextView
             android:id="@+id/sku_order_traveler_info_contacts_choose_tv"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="11.8dp"
-            android:text="添加备用联系人"
+            android:text="@string/order_travelerinfo_contacts_stand"
             android:textColor="#7f7f7f"
             android:textSize="12sp" />
 
@@ -62,7 +62,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="起飞航班"
+            android:text="@string/order_travelerinfo_flight"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -75,7 +75,7 @@
             android:layout_toRightOf="@id/sku_order_traveler_info_flight_hint_tv"
             android:background="#00000000"
             android:gravity="center_vertical"
-            android:hint="告诉司导航班号，出行省心"
+            android:hint="@string/order_travelerinfo_flightno_hint"
             android:singleLine="true"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
@@ -115,7 +115,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="举牌接机"
+            android:text="@string/order_travelerinfo_checkin"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -151,7 +151,7 @@
             android:layout_toRightOf="@id/sku_order_traveler_info_checkin_hint_tv"
             android:background="#00000000"
             android:gravity="center_vertical"
-            android:hint="接机牌姓名"
+            android:hint="@string/order_travelerinfo_checkin_name_hint"
             android:singleLine="true"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
@@ -177,7 +177,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="上车时间"
+            android:text="@string/order_travelerinfo_start_time"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -187,7 +187,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14.6dp"
             android:layout_toRightOf="@id/sku_order_traveler_info_start_time_hint_tv"
-            android:hint="09:00 (当地时间)"
+            android:hint="@string/order_travelerinfo_start_time_default"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
             android:textSize="14sp" />
@@ -212,7 +212,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="上车地点"
+            android:text="@string/order_travelerinfo_start_address"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -233,7 +233,7 @@
             android:layout_marginTop="14.6dp"
             android:layout_toLeftOf="@id/sku_order_traveler_info_start_address_arrow_iv"
             android:layout_toRightOf="@id/sku_order_traveler_info_start_address_hint_tv"
-            android:hint="请添加上车地点"
+            android:hint="@string/order_travelerinfo_start_address_add"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
             android:textSize="14sp" />
@@ -270,7 +270,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="微信号"
+            android:text="@string/order_travelerinfo_wechat"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -283,7 +283,7 @@
             android:layout_toRightOf="@id/sku_order_traveler_info_wechat_hint_tv"
             android:background="#00000000"
             android:gravity="center_vertical"
-            android:hint="可填写微信号作为备用联系方式"
+            android:hint="@string/order_travelerinfo_wechat_hint"
             android:singleLine="true"
             android:textColor="@color/default_black"
             android:textColorHint="#cccccc"
@@ -309,7 +309,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="备注"
+            android:text="@string/order_travelerinfo_mark"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -322,7 +322,7 @@
             android:layout_toRightOf="@id/sku_order_traveler_info_mark_hint_tv"
             android:background="#00000000"
             android:gravity="center_vertical"
-            android:hint="可在这里给司导留言"
+            android:hint="@string/order_travelerinfo_mark_hint"
             android:maxLength="500"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
@@ -349,7 +349,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="为他人订车"
+            android:text="@string/order_travelerinfo_contacts_other"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -391,7 +391,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
             android:minWidth="80dp"
-            android:text="预订后短信通知乘车人"
+            android:text="@string/order_travelerinfo_sendmessage"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 

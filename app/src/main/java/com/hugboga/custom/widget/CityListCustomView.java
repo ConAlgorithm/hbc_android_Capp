@@ -21,6 +21,7 @@ import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 
@@ -99,7 +100,7 @@ public class CityListCustomView extends LinearLayout {
         cityTitleLayout.setVisibility(View.VISIBLE);
 
         int guideCount = cityListBean.cityGuides == null ? 0 : cityListBean.cityGuides.guideAmount;
-        String title = String.format("%1$s 位华人司导可服务", "" + guideCount);
+        String title = CommonUtils.getString(R.string.city_guide_hint, "" + guideCount);
         SpannableString msp = new SpannableString(title);
         msp.setSpan(new RelativeSizeSpan(1.4f), 0, ("" + guideCount).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         cityTitleTV.setText(msp);

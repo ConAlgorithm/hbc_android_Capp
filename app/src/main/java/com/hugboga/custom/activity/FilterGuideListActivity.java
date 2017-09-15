@@ -139,7 +139,7 @@ public class FilterGuideListActivity extends BaseActivity implements HbcRecycler
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText(isGoods() ? "可服务司导" : "精选司导");
+        fgTitle.setText(isGoods() ? R.string.service_guide_list_title : R.string.guide_list_title);
         fgRightTV.setVisibility(View.GONE);
     }
 

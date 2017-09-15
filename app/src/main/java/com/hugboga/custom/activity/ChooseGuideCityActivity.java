@@ -67,7 +67,7 @@ public class ChooseGuideCityActivity extends BaseActivity implements HbcRecycler
             }
         }
 
-        titleBar.setTitle("选择开始城市");
+        titleBar.setTitle(R.string.choose_guide_city_title);
         TextView leftTV = titleBar.getLeftTV();
         RelativeLayout.LayoutParams leftViewParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(20), UIUtils.dip2px(20));
         leftViewParams.leftMargin = UIUtils.dip2px(5);

@@ -74,10 +74,10 @@ public class FgPayResult extends BaseFragment{
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         titleParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         fgTitle.setLayoutParams(titleParams);
-        fgTitle.setText(_isPaySucceed ? "支付成功" : "支付失败");
+        fgTitle.setText(_isPaySucceed ? R.string.par_result_succeed : R.string.par_result_failure);
 
         fgRightTV.setVisibility(View.VISIBLE);
-        fgRightTV.setText(isPaySucceed ? "返回首页" : "查看订单");
+        fgRightTV.setText(isPaySucceed ? R.string.par_result_back : R.string.par_result_detail);
         fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

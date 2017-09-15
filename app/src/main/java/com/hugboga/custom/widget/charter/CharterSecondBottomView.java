@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,17 +52,17 @@ public class CharterSecondBottomView extends LinearLayout{
 
     public void updateConfirmView() {
         if (charterDataUtils.isLastDay()) {
-            confirmTV.setText("查看报价");
+            confirmTV.setText(CommonUtils.getString(R.string.daily_second_see_price));
             confirmArrowIV.setVisibility(View.GONE);
         } else {
-            confirmTV.setText("  下一天");
+            confirmTV.setText("  " + CommonUtils.getString(R.string.daily_second_retral_day));
             confirmArrowIV.setVisibility(View.VISIBLE);
         }
         previousLayout.setVisibility(charterDataUtils.isFirstDay() ? View.GONE : View.VISIBLE);
     }
 
     public void queryPriceState() {
-        confirmTV.setText("查看报价");
+        confirmTV.setText(CommonUtils.getString(R.string.daily_second_see_price));
         confirmArrowIV.setVisibility(View.GONE);
         travelListLayout.setVisibility(View.GONE);
         previousLayout.setVisibility(View.GONE);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,7 +42,7 @@ public class OrderInsuranceView extends LinearLayout {
     }
 
     public void setInsuranceCount(int count) {
-        insuranceCountTV.setText(String.format(" × %1$s份", "" + count));
+        insuranceCountTV.setText(CommonUtils.getString(R.string.order_insurance_unit, "" + count));
     }
 
     @OnClick({R.id.order_discount_insurance_layout, R.id.order_discount_insurance_explain_tv})

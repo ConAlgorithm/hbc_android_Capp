@@ -158,7 +158,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
             if (skuItemBean.hotelStatus == 1) {
                 roomLayout.setVisibility(View.VISIBLE);
                 setPriceText(roomPriceTV, getHotelTotalPrice(), roomCount);
-                roomDescriptionTV.setText(String.format("单价¥%1$s/间 | 含%2$s晚", CommonUtils.doubleTrans(carListBean.hotelPrice), "" + skuItemBean.hotelCostAmount));
+                roomDescriptionTV.setText(CommonUtils.getString(R.string.order_count_hotel_hint, CommonUtils.doubleTrans(carListBean.hotelPrice), "" + skuItemBean.hotelCostAmount));
             } else {
                 roomLayout.setVisibility(View.GONE);
             }
@@ -167,7 +167,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
             if (carListBean.goodsOtherPrice != null && carListBean.goodsOtherPrice >= 0 && !TextUtils.isEmpty(carListBean.goodsOtherPriceComment)) {
                 extrasPriceLayout.setVisibility(View.VISIBLE);
                 updateExtrasPriceText();
-                extrasPriceDescriptionTV.setText(String.format("单价¥%1$s/人 | %2$s", CommonUtils.doubleTrans(carListBean.goodsOtherPrice), carListBean.goodsOtherPriceComment));
+                extrasPriceDescriptionTV.setText(CommonUtils.getString(R.string.order_count_other_price_hint, CommonUtils.doubleTrans(carListBean.goodsOtherPrice), carListBean.goodsOtherPriceComment));
                 isHasExtrasPrice = true;
             } else {
                 isHasExtrasPrice = false;
@@ -206,10 +206,10 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
                     hintLayout.setVisibility(View.VISIBLE);
                     if (supportChildseat) {
                         childSeatLayout.setVisibility(View.VISIBLE);
-                        hintTV.setText("请在出行前告诉司导需要何种年龄段的儿童座椅");
+                        hintTV.setText(R.string.order_count_child_seat_hint);
                     } else {
                         childSeatLayout.setVisibility(View.GONE);
-                        hintTV.setText("很抱歉，该城市暂不提供儿童座椅");
+                        hintTV.setText(R.string.order_count_child_seat_nonsupport);
                     }
                 } else {
                     childSeatLayout.setVisibility(View.GONE);
@@ -244,7 +244,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
     private void setPriceText(TextView textView, double totalPrice, int count) {
         String priceStr = "";
         if (count > 0) {
-            priceStr = String.format("（%1$s）", totalPrice <= 0 ? "免费" : "共¥" + CommonUtils.doubleTrans(totalPrice));
+            priceStr = String.format("（%1$s）", totalPrice <= 0 ? CommonUtils.getString(R.string.free_price) : CommonUtils.getString(R.string.order_count_price_total) + CommonUtils.doubleTrans(totalPrice));
         }
         textView.setText(priceStr);
     }
@@ -253,7 +253,7 @@ public class SkuOrderCountView extends LinearLayout implements ChooseCountView.O
         double totalPrice = getTotalExtrasPrice();
         int peopleCount = getTotalPeople();
         setPriceText(extrasPricePriceTV, totalPrice, peopleCount);
-        extrasPriceTitleTV.setText(String.format("出行人数×%1$s人", peopleCount));
+        extrasPriceTitleTV.setText(CommonUtils.getString(R.string.order_count_people_count, peopleCount));
     }
 
     @OnClick({R.id.sku_order_count_luggage_explain_tv})

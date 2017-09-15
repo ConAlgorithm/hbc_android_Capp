@@ -196,7 +196,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("确认订单");
+        fgTitle.setText(R.string.order_title);
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -403,7 +403,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 }
             }
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            String errorMessage = CommonUtils.getString(R.string.single_errormessage);
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             return;
         }
@@ -477,7 +477,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private void showCheckSeckillsDialog(String content) {
-        AlertDialogUtils.showAlertDialog(this, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, content, CommonUtils.getString(R.string.order_empty_continue), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

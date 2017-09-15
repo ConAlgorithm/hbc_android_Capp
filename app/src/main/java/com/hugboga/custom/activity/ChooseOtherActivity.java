@@ -123,8 +123,8 @@ public class ChooseOtherActivity extends BaseActivity {
                 finish();
             }
         });
-        headerTitle.setText("乘车联系人");
-        headerRightTxt.setText("确定");
+        headerTitle.setText(R.string.choose_other_title);
+        headerRightTxt.setText(R.string.hbc_confirm);
         headerRightTxt.setVisibility(View.VISIBLE);
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override

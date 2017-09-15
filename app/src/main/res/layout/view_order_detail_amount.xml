@@ -55,7 +55,7 @@
             style="@style/SkuOrderSubtitleTextView"
             android:paddingLeft="@dimen/order_padding_left"
             android:paddingRight="@dimen/order_padding_left"
-            android:text="退款金额" />
+            android:text="@string/order_detail_refund_price" />
 
         <LinearLayout
             android:id="@+id/order_detail_amount_refund_item_layout"

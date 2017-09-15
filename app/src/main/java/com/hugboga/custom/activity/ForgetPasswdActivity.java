@@ -85,7 +85,7 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
 
     private void initView() {
         initDefaultTitleBar();
-        fgTitle.setText("重置密码");
+        fgTitle.setText(R.string.login_pwd_reset);
 
         Bundle bundle = getIntent().getExtras();
         String keyFrom = null;
@@ -236,13 +236,13 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestForgetPwd) {
             RequestForgetPwd mParser = (RequestForgetPwd) request;
-            showTip("重置密码成功");
+            showTip(CommonUtils.getString(R.string.login_pwd_reset_sucess));
             UserEntity.getUser().setWeakPassword(this,false);
             handler.removeCallbacks(runnable);
             finish();
         }else if(request instanceof RequestVerity){
             RequestVerity parserVerity = (RequestVerity) request;
-            showTip("验证码已发送");
+            showTip(CommonUtils.getString(R.string.login_already_verity));
             time = 59;
             handler.postDelayed(runnable, 0);
         }
@@ -283,32 +283,32 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 collapseSoftInputMethod(passwordEditText);
                 String areaCode = areaCodeTextView.getText().toString();
                 if(TextUtils.isEmpty(areaCode)){
-                    showTip("区号不能为空");
+                    showTip(R.string.login_check_areacode);
                     return;
                 }
                 areaCode = areaCode.substring(1);
                 String phone = phoneEditText.getText().toString();
                 if(TextUtils.isEmpty(phone)){
-                    showTip("手机号不能为空");
+                    showTip(R.string.login_check_phone_empty);
                     return;
                 }
                 String verity = verityEditText.getText().toString();
                 if(TextUtils.isEmpty(verity)){
-                    showTip("验证码不能为空");
+                    showTip(R.string.login_check_verity);
                     return;
                 }
                 String password = passwordEditText.getText().toString();
                 if(TextUtils.isEmpty(password)){
-                    showTip("密码不能为空");
+                    showTip(R.string.login_check_pwd);
                     return;
                 }
-                if(!Pattern.matches("[\\w]{4,16}", password)){
-                    showTip("密码必须是4-16位数字或字母");
+                if(!Pattern.matches("[\\w]{6,16}", password)){
+                    showTip(R.string.login_check_pwd_length);
                     return;
                 }
                 if(areaCode.equals("86")){
                     if(!phone.startsWith("1") || phone.length() != 11){
-                        CommonUtils.showToast("请输入正确的国内手机号，11位数字");
+                        CommonUtils.showToast(R.string.login_check_phone_length);
                         return;
                     }
                 }
@@ -324,14 +324,14 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
                 collapseSoftInputMethod(passwordEditText);
                 String areaCode1 = areaCodeTextView.getText().toString();
                 if(TextUtils.isEmpty(areaCode1)){
-                    showTip("区号不能为空");
+                    showTip(R.string.login_check_areacode);
                     setBtnVisible(true);
                     return;
                 }
                 areaCode1 = areaCode1.substring(1);
                 String phone1 = phoneEditText.getText().toString();
                 if(TextUtils.isEmpty(phone1)){
-                    showTip("手机号不能为空");
+                    showTip(R.string.login_check_phone_empty);
                     setBtnVisible(true);
                     return;
                 }
@@ -389,6 +389,10 @@ public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
     }
 
     private void showTip(String tips) {
+        CommonUtils.showToast(tips);
+    }
+
+    private void showTip(int tips) {
         CommonUtils.showToast(tips);
     }
 

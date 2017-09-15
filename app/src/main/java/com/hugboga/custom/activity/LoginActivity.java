@@ -321,7 +321,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             map.put("nickname", !TextUtils.isEmpty(user.nickname) ? "是" : "否");
             map.put("phone", !TextUtils.isEmpty(user.mobile) ? "是" : "否");
             MobClickUtils.onEvent(StatisticConstant.LOGIN_SUCCEED, map);
-            CommonUtils.showToast("登录成功");
+            CommonUtils.showToast(R.string.setting_login_succeed);
             CommonUtils.getAgainstDeviceId();
             /*if (user.mustRestPwd && passwordEditText.getText() != null) {
                 final String password = passwordEditText.getText().toString();
@@ -363,12 +363,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("bind", !TextUtils.isEmpty(userBean.mobile) ? "是" : "否");
                 MobClickUtils.onEvent(StatisticConstant.WEIXINREGISTER_SUCCEED, map);
-                CommonUtils.showToast("登录成功");
+                CommonUtils.showToast(R.string.setting_login_succeed);
                 CommonUtils.getAgainstDeviceId();
                 finish();
             }
         }else if(request instanceof RequestVerity){
-            CommonUtils.showToast("验证码已发送");
+            CommonUtils.showToast(R.string.setting_send_verity);
             phoneEditText.setText(phone);
             time = 59;
             handler.postDelayed(runnable, 0);
@@ -386,7 +386,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 handler.postDelayed(this, 1000);
             } else {
                 if(verify!= null){
-                    verify.setText("获取验证码");
+                    verify.setText(R.string.setting_get_verity);
                     verify.setTextColor(0xff24B5FF);
                     verify.setEnabled(true);
                 }
@@ -399,7 +399,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         if(request instanceof RequestVerity){
-            verify.setText("获取验证码");
+            verify.setText(R.string.setting_get_verity);
             verify.setTextColor(0xff24B5FF);
             phoneEditText.setText(phone);
         }else if(request instanceof  RequestLoginBycaptcha){
@@ -419,7 +419,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 break;
             case R.id.wechat_layout:
                 if (!WXShareUtils.getInstance(activity).isInstall(false)) {
-                    CommonUtils.showToast("手机未安装微信或版本太低");
+                    CommonUtils.showToast(R.string.login_wechat_uninstalled_hint);
                     return;
                 }
                 StatisticClickEvent.click(StatisticConstant.LOGIN_WEIXIN,getIntentSource());
@@ -463,18 +463,18 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 loginPassword.requestFocus();
                 String areaCode1 = areaCodeTextView.getText().toString();
                 if(TextUtils.isEmpty(areaCode1)){
-                    CommonUtils.showToast("区号不能为空");
+                    CommonUtils.showToast(R.string.login_check_areacode);
                     return;
                 }
                 areaCode1 = areaCode1.substring(1);
                 phone = phoneEditText.getText().toString();
                 if(TextUtils.isEmpty(phone)){
-                    CommonUtils.showToast("请输入手机号");
+                    CommonUtils.showToast(R.string.login_check_phone);
                     return;
                 }
                 if(areaCode1.equals("86")){
                     if(!phone.startsWith("1") || phone.length() != 11){
-                        CommonUtils.showToast("请输入正确的国内手机号，11位数字");
+                        CommonUtils.showToast(R.string.login_check_phone_length);
                         return;
                     }
                 }
@@ -501,18 +501,18 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 //        collapseSoftInputMethod(); //隐藏键盘
         MLog.e("areaCode4=" + areaCode);
         if (TextUtils.isEmpty(areaCode)) {
-            CommonUtils.showToast("区号不能为空");
+            CommonUtils.showToast(R.string.login_check_areacode);
             return;
         }
         areaCode = areaCode.replace("+", "");
         phone = phoneEditText.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
-            CommonUtils.showToast("手机号不能为空");
+            CommonUtils.showToast(R.string.login_check_phone);
             return;
         }
         captcha = loginPassword.getText().toString().trim();
         if (TextUtils.isEmpty(captcha)) {
-            CommonUtils.showToast("验证码不能为空");
+            CommonUtils.showToast(R.string.login_check_verity);
             return;
         }
 

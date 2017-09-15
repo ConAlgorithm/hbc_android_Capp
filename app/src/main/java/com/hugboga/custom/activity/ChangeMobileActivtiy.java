@@ -87,7 +87,7 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
         mobileEditText.addTextChangedListener(this);
         areaCodeTextView.addTextChangedListener(this);
         verityEditText.addTextChangedListener(this);
-        fgTitle.setText("修改手机号");
+        fgTitle.setText(R.string.login_change_mobile);
     }
 
     @Subscribe
@@ -115,7 +115,7 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
             UserEntity.getUser().setPhone(this, requestChangeMobile.mobile);
             UserEntity.getUser().setLoginAreaCode(this, requestChangeMobile.areaCode);
             UserEntity.getUser().setLoginPhone(this, requestChangeMobile.mobile);
-            showTip("更换手机号成功");
+            showTip(CommonUtils.getString(R.string.login_change_mobile_toast1));
 //            Bundle bundle = new Bundle();
 //            bundle.putString(KEY_FRAGMENT_NAME, FgChangeMobile.class.getSimpleName());
 //            finishForResult(bundle);
@@ -126,7 +126,7 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
 //            notifyFragment(FgPersonCenter.class,null);
         } else if (request instanceof RequestVerity) {
             RequestVerity requestVerity = (RequestVerity) request;
-            showTip("验证码已发送");
+            showTip(CommonUtils.getString(R.string.login_change_mobile_toast2));
             time = 59;
             handler.postDelayed(runnable, 0);
         }
@@ -174,22 +174,22 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
                 collapseSoftInputMethod(verityEditText);
                 String areaCode = areaCodeTextView.getText().toString();
                 if (TextUtils.isEmpty(areaCode)) {
-                    showTip("区号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check1));
                     return;
                 }
                 areaCode = areaCode.substring(1);
                 String phone = mobileEditText.getText().toString();
                 if (TextUtils.isEmpty(phone)) {
-                    showTip("手机号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check2));
                     return;
                 }
                 String verity = verityEditText.getText().toString();
                 if (TextUtils.isEmpty(verity)) {
-                    showTip("验证码不能为空");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check3));
                     return;
                 }
                 if (TextUtils.equals(phone, UserEntity.getUser().getPhone(this))) {
-                    showTip("该手机号与当前手机号不能相同");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check4));
                     return;
                 }
 
@@ -210,19 +210,19 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
                 collapseSoftInputMethod(verityEditText);
                 String areaCode1 = areaCodeTextView.getText().toString();
                 if (TextUtils.isEmpty(areaCode1)) {
-                    showTip("区号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check1));
                     setBtnVisible(true);
                     return;
                 }
                 areaCode1 = areaCode1.substring(1);
                 String phone1 = mobileEditText.getText().toString();
                 if (TextUtils.isEmpty(phone1)) {
-                    showTip("手机号不能为空");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check2));
                     setBtnVisible(true);
                     return;
                 }
                 if (TextUtils.equals(phone1, UserEntity.getUser().getPhone(this))) {
-                    showTip("该手机号与当前手机号不能相同");
+                    showTip(CommonUtils.getString(R.string.login_change_mobile_check4));
                     setBtnVisible(true);
                     return;
                 }
@@ -263,7 +263,7 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
         if (!TextUtils.isEmpty(phone)) {
             sb.append(phone);
         }
-        phoneTextView.setText("当前手机号：" + sb.toString());
+        phoneTextView.setText(CommonUtils.getString(R.string.login_change_mobile_current) + sb.toString());
     }
 
     private void showTip(String tips) {

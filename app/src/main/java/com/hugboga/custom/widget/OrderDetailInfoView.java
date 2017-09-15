@@ -17,6 +17,8 @@ import com.hugboga.custom.activity.OrderDetailTravelerInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.utils.CommonUtils;
+
 import butterknife.ButterKnife;
 /**
  * Created by qingcha on 16/6/2.
@@ -74,7 +76,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             insurerErrorIV.setVisibility(View.GONE);
             insurerStateTV.setVisibility(View.VISIBLE);
             insurerArrowIV.setVisibility(View.INVISIBLE);
-            insurerTV.setText(String.format("平安境外用车险 × %1$s份", "" + (orderBean.adult + orderBean.child)));
+            insurerTV.setText(CommonUtils.getString(R.string.order_detail_insurance_hint, "" + (orderBean.adult + orderBean.child)));
             insuranceInfoLayout.setOnClickListener(null);
             insuranceAddLayout.setOnClickListener(this);
         } else if (insuranceListSize > 0) {
@@ -89,15 +91,15 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             int insuranceColor = getContext().getResources().getColor(R.color.default_black);
             switch (orderBean.insuranceStatusCode) {
                 case 1002:
-                    insuranceStatu = "保单出现问题，请尽快联系客服";
+                    insuranceStatu = CommonUtils.getString(R.string.order_detail_insurance_status1);
                     insurerErrorIV.setVisibility(View.VISIBLE);
                     insuranceColor = 0xFFF7350A;
                     break;
                 case 1003:
-                    insuranceStatu = "为您购买的保险已注销";
+                    insuranceStatu = CommonUtils.getString(R.string.order_detail_insurance_status2);
                     break;
                 case 1004:
-                    insuranceStatu = "保单正在处理中...";
+                    insuranceStatu = CommonUtils.getString(R.string.order_detail_insurance_status3);
                     break;
                 default:
                     insuranceStatu = getContext().getString(R.string.order_detail_info, "" + insuranceListSize);

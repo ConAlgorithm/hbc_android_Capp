@@ -89,7 +89,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             }
         });
 
-        headerTitle.setText("常用投保人");
+        headerTitle.setText(R.string.insure_title);
         rightBtnDefault();
         adapter = new InSureListAdapter(beanList, activity);
         list.setAdapter(adapter);
@@ -106,7 +106,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
 
     public void update() {
         if (null != orderBean && !TextUtils.isEmpty(orderBean.orderNo)) {
-            headerTitle.setText("添加投保人");
+            headerTitle.setText(R.string.insure_add);
             insureListSize = orderBean.insuranceMap == null ? 0 : orderBean.insuranceMap.size();
             bottom.setVisibility(View.VISIBLE);
             peopleNum.setText(insureListSize + "");
@@ -115,7 +115,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     }
 
     private void rightBtnDefault() {
-        headerRightTxt.setText("新增");
+        headerRightTxt.setText(R.string.insure_del);
         headerRightTxt.setVisibility(View.VISIBLE);
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
         }
         adapter.notifyDataSetChanged();
 
-        headerRightTxt.setText("删除");
+        headerRightTxt.setText(R.string.insure_del);
         headerRightTxt.setVisibility(View.VISIBLE);
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,7 +265,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
                         peopleNum.setText("" + checkNums);
                     } else {
                         resetCheck(beanCheck);
-                        CommonUtils.showToast("不能超过用车人数");
+                        CommonUtils.showToast(R.string.insure_check_people_num);
                     }
                 }
                 break;
@@ -353,7 +353,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
             }
             adapter.notifyDataSetChanged();
         } else if (request instanceof RequestSubmitInsure) {
-            CommonUtils.showToast("投保申请已成功提交");
+            CommonUtils.showToast(R.string.insure_add_succesd);
             onBack();
 //            if(TextUtils.isEmpty(from)) {
             EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE_SUCCESS, orderBean.orderNo));
@@ -383,7 +383,8 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @OnClick(R.id.commit)
     public void onClick() {
         if (!TextUtils.isEmpty(getInsuranceUserId())) {
-            AlertDialogUtils.showAlertDialog(this, false, "注意", "提交后投保信息不可更改", "现在提交", "再检查下", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(this, false, getString(R.string.insure_dialog_title), getString(R.string.insure_dialog_content)
+                    , getString(R.string.insure_dialog_submit), getString(R.string.insure_dialog_check), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     commitInsure();
@@ -395,7 +396,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
                 }
             });
         }else{
-            CommonUtils.showToast("请选择投保人");
+            CommonUtils.showToast(R.string.insure_check_add);
         }
     }
 

@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="接送机"
+                android:text="@string/picksend"
                 android:textColor="#7f7f7f"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="单次接送"
+                android:text="@string/custom_single"
                 android:textColor="#7f7f7f"
                 android:textSize="12sp" />
 
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="按天包车游"
+                android:text="@string/custom_chartered"
                 android:textColor="#7f7f7f"
                 android:textSize="12sp" />
 

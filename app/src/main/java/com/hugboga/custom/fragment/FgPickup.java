@@ -236,7 +236,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 break;
             case R.id.pickup_city_layout:
                 if (flightBean == null) {
-                    CommonUtils.showToast("请先选择航班");
+                    CommonUtils.showToast(R.string.pick_flight);
                 } else {
                     intent = new Intent(getActivity(), PoiSearchActivity.class);
                     intent.putExtra(Constants.REQUEST_SOURCE, getEventSource());
@@ -269,7 +269,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
 
         flightBean = _flightBean;
         String desc1 = flightBean.flightNo + " " + flightBean.depCityName + "-" + flightBean.arrCityName;
-        String desc2 = "当地时间" + DateUtils.getPointStrFromDate2(flightBean.arrDate) + flightBean.arrivalTime + "降落";
+        String desc2 = CommonUtils.getString(R.string.pick_time_arrival, (DateUtils.getPointStrFromDate2(flightBean.arrDate) + flightBean.arrivalTime));
         flightLayout.setDesc(flightBean.arrAirportName, desc1, desc2);
 
         startTimeLayout.setVisibility(View.VISIBLE);//用车时间
@@ -341,7 +341,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
         }
         if (request.errorType != BaseRequest.ERROR_TYPE_PROCESSED && request instanceof RequestCheckPriceForPickup) {
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            String errorMessage = CommonUtils.getString(R.string.single_errormessage);
             if(errorMessage!= null && errorCode != null){
                 checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             }
@@ -366,7 +366,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     private void showCheckSeckillsDialog(String content) {
-        AlertDialogUtils.showAlertDialog(getContext(), content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(getContext(), content, CommonUtils.getString(R.string.order_empty_continue), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -418,7 +418,8 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     }
 
     public void showGuideCheckPickUpDialog(final FlightBean _flightBean) {
-        AlertDialogUtils.showAlertDialogCancelable(getContext(), String.format("很抱歉，您指定的司导无法服务%1$s", _flightBean.arrCityName), "取消", "不找Ta服务了", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialogCancelable(getContext(), CommonUtils.getString(R.string.daily_second_guide_cannot_service, _flightBean.arrCityName)
+                , CommonUtils.getString(R.string.cancel), CommonUtils.getString(R.string.daily_second_no_assign), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

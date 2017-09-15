@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="12dip"
             android:layout_toLeftOf="@id/head_btn_right"
-            android:text="搜索"
+            android:text="@string/dialog_btn_search"
             android:textColor="@color/basic_black"
             android:textSize="16dip" />
 
@@ -46,7 +46,7 @@
             android:layout_toLeftOf="@id/head_text_right"
             android:layout_toRightOf="@id/header_left_btn"
             android:background="@drawable/shape_cricle_black"
-            android:hint="想去哪里?"
+            android:hint="@string/select_city_tips"
             android:imeOptions="actionSearch"
             android:paddingLeft="30dp"
             android:paddingRight="10dp"

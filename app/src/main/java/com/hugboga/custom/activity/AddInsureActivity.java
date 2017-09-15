@@ -158,12 +158,12 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
             sexInt = insureResultBean.sex;
             sex.setText(sexInt == 0 ? "男" : "女");
             birthday.setText(insureResultBean.birthday);
-            headerTitle.setText("编辑投保人");
+            headerTitle.setText(R.string.edit_insure_title);
             check();
         } else {
             insureResultBean = new InsureResultBean();
             isEdit = false;
-            headerTitle.setText("新增投保人");
+            headerTitle.setText(R.string.add_insure_title);
         }
     }
 

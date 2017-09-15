@@ -131,7 +131,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
-                    android:text="打电话"
+                    android:text="@string/order_detail_call"
                     android:textColor="@color/default_yellow"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -154,7 +154,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
-                    android:text="发私聊"
+                    android:text="@string/order_detail_chat"
                     android:textColor="@color/default_yellow"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -180,7 +180,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="2dp"
-                    android:text="5星评价"
+                    android:text="@string/order_detail_fivestar_comment"
                     android:textColor="@color/default_yellow"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -204,7 +204,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
                     android:gravity="center_vertical"
-                    android:text="收藏"
+                    android:text="@string/order_detail_collect"
                     android:textColor="#f66363"
                     android:textSize="12sp" />
             </LinearLayout>
