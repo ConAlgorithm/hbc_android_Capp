@@ -48,15 +48,15 @@ public class GuideLineItemHeaderView extends LinearLayout implements HbcViewBeha
             if(count <= 3){
                 moreCountLine.setVisibility(View.GONE);
             }
-            moreCountLine.setText("查看全部(" + count + ")");
+            moreCountLine.setText(getResources().getString(R.string.home_search_see_all)+"(" + count + ")");
             moreCountLine.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(title.equals("相关线路")){
+                    if(title.equals(getResources().getString(R.string.search_line_title))){
                         Intent intent = new Intent(context,SearchLineActivity.class);
                         intent.putExtra(PARAMS_SEARCH_KEYWORD,keyword);
                         context.startActivity(intent);
-                    }else if(title.equals("相关司导")){
+                    }else if(title.equals(getResources().getString(R.string.search_guide_title))){
                         Intent intent = new Intent(context,SearchGuideActivity.class);
                         intent.putExtra(PARAMS_SEARCH_KEYWORD,keyword);
                         context.startActivity(intent);

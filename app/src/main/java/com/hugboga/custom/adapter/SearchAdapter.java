@@ -3,6 +3,7 @@ package com.hugboga.custom.adapter;
 import android.content.Context;
 
 import com.airbnb.epoxy.EpoxyAdapter;
+import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.models.SearchDestinationModel;
 import com.hugboga.custom.models.SearchMoreModel;
@@ -31,7 +32,7 @@ public class SearchAdapter extends EpoxyAdapter {
             }
             addModels(searchDestinationModels);
         }
-        String searchMoreString = "搜索更多关于“" + keyword + "”的结果";
+        String searchMoreString = context.getString(R.string.home_search_more,keyword);
         searchMoreModel = new SearchMoreModel(context,searchMoreString,list,keyword);
         addModel(searchMoreModel);
     }
