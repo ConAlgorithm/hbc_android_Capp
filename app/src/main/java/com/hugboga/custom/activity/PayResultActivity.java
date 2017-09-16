@@ -1,12 +1,17 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.fragment.FgPayResult;
+import com.hugboga.custom.utils.JsonUtils;
+import com.hugboga.custom.utils.SharedPre;
+
 import java.io.Serializable;
 
 /**
@@ -22,6 +27,7 @@ public class PayResultActivity extends BaseActivity{
         public String orderId;
         public int orderType;
         public int apiType;//0：正常  1：买券
+        public PayResultExtarParamsBean extarParamsBean;
     }
 
     @Override
@@ -41,11 +47,19 @@ public class PayResultActivity extends BaseActivity{
             }
         }
 
+        if ((params.orderType == 1 || params.orderType == 4) && params.extarParamsBean == null) {
+            SharedPre sharedPre = new SharedPre(PayResultActivity.this);
+            String extarParams = sharedPre.getStringValue(SharedPre.PAY_EXTAR_PARAMS);
+            if (!TextUtils.isEmpty(extarParams)) {
+                params.extarParamsBean = (PayResultExtarParamsBean) JsonUtils.fromJson(extarParams, PayResultExtarParamsBean.class);
+            }
+        }
+
         fgPayResult = (FgPayResult)getSupportFragmentManager().findFragmentById(R.id.fgPayResult);
         if (params.apiType == 1) {
             fgPayResult.initCouponView(params.payResult);
         } else {
-            fgPayResult.initView(params.payResult, params.orderId, params.orderType);
+            fgPayResult.initView(params.payResult, params.orderId, params.orderType, params.extarParamsBean);
         }
     }
 

@@ -8,7 +8,9 @@ import android.view.KeyEvent;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.fragment.FgPickup;
@@ -41,6 +43,8 @@ public class PickSendActivity extends BaseActivity implements TitleBarPickSend.T
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
         public Integer type;
+        public AirPort airPortBean;
+        public PoiBean startPoiBean;
 
         public String timeLimitedSaleNo;         // 秒杀活动编号
         public String timeLimitedSaleScheduleNo; // 秒杀活动场次编号

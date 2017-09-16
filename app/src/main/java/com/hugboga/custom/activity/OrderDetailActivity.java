@@ -4,11 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
@@ -16,11 +14,12 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CouponBean;
+import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestOrderDetail;
@@ -221,6 +220,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     params.payResult = true;
                     params.orderId = orderBean.orderNo;
                     params.orderType = orderBean.orderType;
+                    params.extarParamsBean = getPayResultExtarParamsBean();
                     Intent intent = new Intent(OrderDetailActivity.this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     startActivity(intent);
@@ -289,6 +289,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     requestParams.couponId = couponId;
                     requestParams.eventPayBean = eventPayBean;
                     requestParams.orderType = orderBean.orderType;
+                    requestParams.extarParamsBean = getPayResultExtarParamsBean();
                     intent = new Intent(OrderDetailActivity.this, ChoosePaymentActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, requestParams);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -539,5 +540,30 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 finish();
             }
         }
+    }
+
+    public PayResultExtarParamsBean getPayResultExtarParamsBean() {
+        if (orderBean == null) {
+            return null;
+        }
+        PayResultExtarParamsBean paramsBean = null;
+        if (orderBean.orderType == 4) {
+            paramsBean = new PayResultExtarParamsBean();
+            paramsBean.startPoiBean = orderBean.getDestPoiBean();
+            paramsBean.destPoiBean = orderBean.getStartPoiBean();
+            paramsBean.cityId = orderBean.serviceCityId;
+        } else if (orderBean.orderType == 1) {
+            paramsBean = new PayResultExtarParamsBean();
+            paramsBean.startPoiBean = orderBean.getDestPoiBean();
+            AirPort airPort = new AirPort();
+            airPort.airportName = orderBean.flightDestName;
+            airPort.airportCode = orderBean.flightDestCode;
+            airPort.cityName = orderBean.flightDestCityName;
+            airPort.cityId = orderBean.serviceCityId;
+            airPort.areaCode = orderBean.serviceAreaCode;
+            airPort.location = orderBean.startAddressPoi;
+            paramsBean.airPortBean = airPort;
+        }
+        return paramsBean;
     }
 }

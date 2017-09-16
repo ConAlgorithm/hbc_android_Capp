@@ -16,6 +16,7 @@ public class CarListBean implements IBaseBean {
     public int interval;//预估时间（单位：分钟）
     @SerializedName("quoteInfos")
     public ArrayList<CarBean> carList;
+    public int serviceWay;//101：中文司导、201：当地司机&中文客服、202：当地司机&中文导游、301：英文司机&中文客服
 
     public int timeNotReachFlag;
     public boolean supportChildseat;
@@ -41,5 +42,25 @@ public class CarListBean implements IBaseBean {
     public String timeLimitedSaleScheduleNo; // 本地字段，秒杀活动场次编号
 
     public CarAdditionalServicePrice additionalServicePrice;
+
+
+    public String getServiceTypeStr() {
+        String result = "";
+        switch (serviceWay) {
+            case 101:
+                result = "中文司导";
+                break;
+            case 201:
+                result = "当地司机&中文客服";
+                break;
+            case 202:
+                result = "当地司机&中文导游";
+                break;
+            case 301:
+                result = "英文司机&中文客服";
+                break;
+        }
+        return result;
+    }
 
 }

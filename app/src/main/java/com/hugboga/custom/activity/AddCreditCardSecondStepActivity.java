@@ -216,22 +216,6 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
         return true;
     }
 
-    @Subscribe()
-    public void onEventMainThread(EventAction action){
-        switch (action.getType()){
-            case YILIAN_PAY:
-                Intent resultIntent = new Intent(this, PayResultActivity.class);
-                Bundle bundle = new Bundle();
-                PayResultActivity.Params params1 = new PayResultActivity.Params();
-                params1.orderId = params.orderId;
-                params1.payResult = true;
-                params1.orderType = params.orderType;
-//                bundle.putSerializable("result", (Serializable) action.getData());
-//                startActivity(resultIntent);
-                break;
-        }
-    }
-
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         if (request instanceof RequestCreditCardPay){

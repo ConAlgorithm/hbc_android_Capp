@@ -38,6 +38,7 @@ import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.GuideCalendarUtils;
+import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.ConponsTipView;
@@ -160,6 +161,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
 
         titlebar.setTitleBarBackListener(this);
         countLayout.setOnOutRangeListener(this);
+
+        OrderUtils.setNextStepText(nextTV, R.string.daily_first_next, R.string.daily_first_choose_scope);
 
         if (guidesDetailData == null) {
             guideLayout.setVisibility(View.GONE);

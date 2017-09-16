@@ -11,6 +11,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.OrderUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +23,8 @@ import butterknife.OnClick;
 
 public class OrderBottomView extends RelativeLayout {
 
+    @Bind(R.id.order_bottom_confirm_tv)
+    TextView confirmTV;
     @Bind(R.id.order_bottom_should_price_tv)
     TextView shouldPriceTV;
     @Bind(R.id.order_bottom_distance_tv)
@@ -40,6 +43,7 @@ public class OrderBottomView extends RelativeLayout {
         View view = inflate(context, R.layout.view_order_bottom, this);
         ButterKnife.bind(view);
         setBackgroundColor(0xFFFFFFFF);
+        OrderUtils.setNextStepText(confirmTV, R.string.order_bottom_next, R.string.order_bottom_input);
     }
 
     public void setData(CarListBean carListBean, CarBean carBean) {
