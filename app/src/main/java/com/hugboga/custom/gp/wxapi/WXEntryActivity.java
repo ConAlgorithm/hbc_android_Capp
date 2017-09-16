@@ -10,6 +10,7 @@ import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.utils.CommonUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -50,6 +51,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                     LoginActivity.isWXLogin = false;
                     EventBus.getDefault().post(new EventAction(EventType.WECHAT_LOGIN_CODE,sendResp));
+                    CommonUtils.getAgainstDeviceId();
                 } else {
                     EventBus.getDefault().post(new EventAction(EventType.WECHAT_SHARE_SUCCEED));
                     setSensorsShareBack();

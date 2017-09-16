@@ -109,15 +109,16 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     private CarListBean carListBean;
     private CarBean carBean;
     private CityBean cityBean;
+    private CsDialog csDialog;
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
-    private int airportId;
+    private String airportCode;
 
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     private PickSendActivity.Params params;
-    CsDialog csDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_send;
@@ -160,18 +161,26 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
 
     @Override
     protected void initView() {
-        if (params != null && params.guidesDetailData != null) {
-            guidesDetailData = params.guidesDetailData;
-            List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + guidesDetailData.cityId);
-            if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
-                airPortBean = airPortList.get(0);
-                airportId = airPortBean.airportId;
-                airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
-                cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+        if (params != null) {
+            if (params.guidesDetailData != null) {
+                guidesDetailData = params.guidesDetailData;
+                List<AirPort> airPortList = DatabaseManager.queryAirPortByCityId("" + guidesDetailData.cityId);
+                if (airPortList != null && airPortList.size() > 0 && airPortList.get(0) != null) {
+                    airPortBean = airPortList.get(0);
+                    airportCode = airPortBean.airportCode;
+                    airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
+                    cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+                }
+                guideLayout.setData(guidesDetailData);
+                carTypeView.setGuidesDetailData(guidesDetailData);
+                GuideCalendarUtils.getInstance().sendRequest(getContext(), guidesDetailData.guideId, ORDER_TYPE);
             }
-            guideLayout.setData(guidesDetailData);
-            carTypeView.setGuidesDetailData(guidesDetailData);
-            GuideCalendarUtils.getInstance().sendRequest(getContext(), guidesDetailData.guideId, ORDER_TYPE);
+            if (params.airPortBean != null) {
+                setAirPortBean(params.airPortBean);
+            }
+            if (params.startPoiBean != null) {
+                setStartPoiBean(params.startPoiBean);
+            }
         }
         carTypeView.setOnSelectedCarListener(this);
         carTypeView.setOrderType(ORDER_TYPE);
@@ -180,7 +189,6 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         emptyLayout.setOnClickServicesListener(new SkuOrderEmptyView.OnClickServicesListener() {
             @Override
             public void onClickServices() {
-                //DialogUtil.getInstance((Activity) getContext()).showServiceDialog(getContext(), null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
                 csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
                     @Override
                     public void onCs() {
@@ -217,7 +225,7 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
     }
 
     public boolean isShowSaveDialog() {
-        return (airPortBean != null && airPortBean.airportId != airportId) || poiBean != null;
+        return (airPortBean != null && !TextUtils.equals(airPortBean.airportCode, airportCode)) || poiBean != null;
     }
 
     @Override
@@ -271,27 +279,17 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
         switch (action.getType()) {
             case AIR_PORT_BACK:
                 AirPort _airPortBean = (AirPort) action.getData();
-                if (_airPortBean == null || (airPortBean != null && _airPortBean.airportId == airPortBean.airportId)) {
+                if (_airPortBean == null || (airPortBean != null && TextUtils.equals(_airPortBean.airportCode, airPortBean.airportCode))) {
                     break;
                 }
-                airPortBean = _airPortBean;
-                airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
-
-                emptyLayout.setVisibility(View.GONE);
-                carTypeView.setVisibility(View.GONE);
-                bottomView.setVisibility(View.GONE);
-                startPoiLayout.resetUI();
-                poiBean = null;
-                cityBean = DBHelper.findCityById("" + airPortBean.cityId);
-                hintConponsTipView();
+                setAirPortBean(_airPortBean);
                 break;
             case CHOOSE_POI_BACK:
                 PoiBean _poiBean = (PoiBean) action.getData();
                 if (_poiBean == null || _poiBean.mBusinessType != ORDER_TYPE || (poiBean != null && TextUtils.equals(_poiBean.placeName, poiBean.placeName))) {
                     break;
                 }
-                poiBean = _poiBean;
-                startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
+                setStartPoiBean(_poiBean);
                 getCars();
                 break;
             case ORDER_REFRESH://价格或数量变更 刷新
@@ -317,6 +315,24 @@ public class FgSend extends BaseFragment implements SkuOrderCarTypeView.OnSelect
                 updateConponsTipView();
                 break;
         }
+    }
+
+    public void setAirPortBean(AirPort airPort) {
+        airPortBean = airPort;
+        airportLayout.setDesc(airPortBean.cityName + " " + airPortBean.airportName);
+
+        emptyLayout.setVisibility(View.GONE);
+        carTypeView.setVisibility(View.GONE);
+        bottomView.setVisibility(View.GONE);
+        startPoiLayout.resetUI();
+        poiBean = null;
+        cityBean = DBHelper.findCityById("" + airPortBean.cityId);
+        hintConponsTipView();
+    }
+
+    public void setStartPoiBean(PoiBean _poiBean) {
+        poiBean = _poiBean;
+        startPoiLayout.setDesc(poiBean.placeName, poiBean.placeDetail);
     }
 
     public void showTimePicker() {

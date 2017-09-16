@@ -10,6 +10,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.TextView;
 
@@ -962,6 +963,16 @@ public class OrderUtils {
         } else {
             return "";
         }
+    }
+
+    public static void setNextStepText(TextView textView, int text1Id, int text2Id) {
+        String text1 = CommonUtils.getString(text1Id);
+        String text2 = CommonUtils.getString(text2Id);
+        String text = text1 + "\n" + text2;
+        SpannableString spannableString = new SpannableString(text);
+        spannableString.setSpan(new RelativeSizeSpan(0.9f), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new RelativeSizeSpan(0.6f), text1.length() + 1, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(spannableString);
     }
 
 }

@@ -36,6 +36,7 @@ public class ParserCheckPrice extends ImplParser {
         carListBean.enableLocal = obj.optString("enableLocal");
         carListBean.noneCarsReason = obj.optString("noneCarsReason");
         carListBean.noneCarsState = obj.optInt("noneCarsState");
+        carListBean.serviceWay = obj.optInt("serviceWay");
 
         carListBean.goodsOtherPrice = obj.optDouble("goodsOtherPrice", -1);
         carListBean.goodsOtherPriceComment = obj.optString("goodsOtherPriceComment");

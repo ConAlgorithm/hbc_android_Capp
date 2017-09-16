@@ -13,7 +13,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
@@ -47,6 +46,7 @@ import cn.iwgang.countdownview.CountdownView;
     private OrderBean orderBean;
     private int deliverStatus;
     private ErrorHandler errorHandler;
+    private int refreshCount = DeliverInfoBean.MAX_REFRESH_COUNT;
 
     public OrderDetailDeliverView(Context context) {
         this(context, null);
@@ -105,6 +105,8 @@ import cn.iwgang.countdownview.CountdownView;
     }
 
     private void resetItemView(DeliverInfoBean _deliverInfoBean) {
+        --refreshCount;
+
         loadingView.setVisibility(View.GONE);
         groupLayout.setVisibility(View.VISIBLE);
 
@@ -133,6 +135,7 @@ import cn.iwgang.countdownview.CountdownView;
             OrderDetailDeliverItemView itemView = new OrderDetailDeliverItemView(getContext());
             itemView.setOrderNo(orderBean.orderNo, orderBean.orderType);
             setEvent(orderBean.orderType);
+            _deliverInfoBean.refreshCount = refreshCount;
             itemView.update(_deliverInfoBean);
             groupLayout.addView(itemView);
             itemView.setOnCountdownEndListener(new OrderDetailDeliverCountDownView.OnUpdateListener() {

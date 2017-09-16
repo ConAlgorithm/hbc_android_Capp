@@ -20,7 +20,6 @@ public class OrderBean implements IBaseBean{
      * 非接口返回字段
      * */
     public String childSeatNum;//儿童座椅数
-    public String destAddressPoi;//目的地坐标
     public String priceChannel;//订单价格
     public int urgentFlag;//是否急单，1是，0非
     public FlightBean flightBean;
@@ -55,7 +54,6 @@ public class OrderBean implements IBaseBean{
 
     public String userName;                           // 联系人姓名
     public String userRemark;                         // 用户备注信息
-    public String startAddressPoi;                    // 起始位置
     public String realUserName;                       // 乘车人姓名
     public String realAreaCode;                       // 乘车人区号
     public String realMobile;                         // 乘车人电话
@@ -124,8 +122,10 @@ public class OrderBean implements IBaseBean{
 
     public String startAddress;       // 开始地址
     public String startAddressDetail; // 开始地址详情
+    public String startAddressPoi;    // 开始地址poi
     public String destAddress;        // 结束地址
     public String destAddressDetail;  // 结束地址详情
+    public String destAddressPoi;     // 结束地址poi
 
     public String flightAirportBuiding; // 起飞机场航站楼
     public String flightAirportCode;    // 起飞机场三字码code
@@ -440,5 +440,13 @@ public class OrderBean implements IBaseBean{
         public String time;
         public String kilometre;
         public int type;
+    }
+
+    public PoiBean getStartPoiBean() {
+        return new PoiBean(startAddress, startAddressDetail, startAddressPoi);
+    }
+
+    public PoiBean getDestPoiBean() {
+        return new PoiBean(destAddress, destAddressDetail, destAddressPoi);
     }
 }

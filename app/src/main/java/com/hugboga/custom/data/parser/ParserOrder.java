@@ -38,7 +38,6 @@ public class ParserOrder extends ImplParser {
 
         orderbean.userRemark = jsonObj.optString("userRemark");
         orderbean.userName = jsonObj.optString("userName");
-        orderbean.startAddressPoi = jsonObj.optString("startAddressPoi");
 
         orderbean.realAreaCode = jsonObj.optString("realAreaCode");
         orderbean.realMobile = jsonObj.optString("realMobile");
@@ -114,8 +113,10 @@ public class ParserOrder extends ImplParser {
 
         orderbean.startAddress = jsonObj.optString("startAddress");
         orderbean.startAddressDetail = jsonObj.optString("startAddressDetail");
+        orderbean.startAddressPoi = jsonObj.optString("startAddressPoi");
         orderbean.destAddress = jsonObj.optString("destAddress");
         orderbean.destAddressDetail = jsonObj.optString("destAddressDetail");
+        orderbean.destAddressPoi = jsonObj.optString("destAddressPoi");
 
         orderbean.flightAirportBuiding = jsonObj.optString("flightAirportBuiding");
         orderbean.flightAirportCode = jsonObj.optString("flightAirportCode");

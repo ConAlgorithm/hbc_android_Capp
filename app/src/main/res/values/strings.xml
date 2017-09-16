@@ -627,6 +627,7 @@
     <string name="par_result_contact_service">需要联系客服?</string>
     <string name="par_result_back">返回首页</string>
     <string name="par_result_detail">查看订单</string>
+    <string name="par_result_detail2">查看订单详情</string>
     <string name="par_result_repay">重新支付</string>
     <string name="par_result_coupon">查看优惠券</string>
     <string name="par_result_succeed_coupon_hint">优惠券已放入您的账户\n可在我的-优惠券页面查看</string>
@@ -638,6 +639,8 @@
     <string name="par_result_recommend_sku_title">猜你喜欢</string>
     <string name="par_result_recommend_charter">司导开车带你\n畅游你的%1$s专属行程</string>
     <string name="par_result_recommend_charter_title">按天畅游</string>
+    <string name="par_result_book_back">预订返程</string>
+    <string name="par_result_book_send">预订送机</string>
 
     <string name="insure_info_title">投保信息</string>
     <string name="insure_info_passport">护照号：%1$s</string>
@@ -948,6 +951,8 @@
     <string name="daily_check_outtown_hint">请添加送达城市</string>
     <string name="daily_guide_cars_null">很抱歉，该司导暂无符合的车型</string>
     <string name="daily_booking">立即预订</string>
+    <string name="daily_first_next">下一步</string>
+    <string name="daily_first_choose_scope">选择游玩范围</string>
     <string name="daily_first_city_hint">想去哪里</string>
     <string name="daily_first_start_city">开始城市</string>
     <string name="daily_first_date_hint">选择包车起止日期</string>
@@ -1243,7 +1248,9 @@
     <string name="order_car_title">选择车型</string>
     <string name="order_car_luggage_explain">一个空座可加一个行李</string>
     <string name="order_car_more">更多车型</string>
-    <string name="order_confirm">立即预订</string>
+    <string name="order_confirm">开始预订</string>
+    <string name="order_bottom_next">下一步</string>
+    <string name="order_bottom_input">填写信息</string>
     <string name="order_price_estimated">全程预计:%1$s公里/%2$s分钟</string>
     <string name="order_title">确认订单</string>
     <string name="order_bottom_should_price">需付:</string>
@@ -1330,6 +1337,8 @@
     <string name="order_extras_price_child_seat_hint1">单价¥%1$s/天"</string>
     <string name="order_extras_price_child_seat_hint2">及以上单价¥%1$s/天</string>
     <string name="order_extras_price_child_seat_hint3">第一个%1$s，第二个%2$s</string>
+    <string name="order_no_chinese_guide">该地区没有中文司导，不过还有更多选择</string>
+    <string name="order_confirm_look">去看看</string>
 
     <string name="sku_detail_goodsout">该商品已下架</string>
     <string name="sku_detail_price_unit">起/人</string>

@@ -16,6 +16,14 @@ public class PoiBean implements IBaseBean {
     public String type;//from,to 本地字段
     public int mBusinessType;//本地字段
 
+    public PoiBean() {
 
+    }
+
+    public PoiBean(String placeName, String placeDetail, String location) {
+        this.placeName = placeName;
+        this.placeDetail = placeDetail;
+        this.location = location;
+    }
 
 }

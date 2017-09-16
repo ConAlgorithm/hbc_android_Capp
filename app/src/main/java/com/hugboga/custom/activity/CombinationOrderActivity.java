@@ -177,6 +177,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             discountView.setVisibility(View.GONE);
             seckillsLayout.setVisibility(View.VISIBLE);
             progressView.setVisibility(View.GONE);
+            carTypeView.setIsSeckills(true);
         }
 
         if (charterDataUtils.guidesDetailData != null) {

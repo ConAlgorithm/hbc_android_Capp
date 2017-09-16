@@ -36,8 +36,7 @@
 
     <TextView
         android:id="@+id/order_bottom_confirm_tv"
-        style="@style/OrderBottomConfirm"
-        android:text="@string/order_confirm" />
+        style="@style/OrderBottomConfirm"/>
 
     <View
         android:layout_width="match_parent"
