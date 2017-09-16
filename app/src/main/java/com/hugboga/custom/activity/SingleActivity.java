@@ -102,6 +102,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private PoiBean startPoiBean, endPoiBean;
     private String serverDate;
     private String serverTime;
+    private CsDialog csDialog;
 
     private GuidesDetailData guidesDetailData;
     private ArrayList<GuideCarBean> guideCarBeanList;
@@ -110,10 +111,12 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
 
     private SingleActivity.Params params;
-    CsDialog csDialog;
+
     public static class Params implements Serializable {
         public GuidesDetailData guidesDetailData;
         public String cityId;
+        public PoiBean startPoiBean;
+        public PoiBean endPoiBean;
     }
 
     @Override
@@ -173,6 +176,12 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
             }
             if (!TextUtils.isEmpty(params.cityId)) {
                 setCityBean(DBHelper.findCityById(params.cityId));
+            }
+            if (params.startPoiBean != null) {
+                setStartPoiBean(params.startPoiBean);
+            }
+            if (params.endPoiBean != null){
+                setEndPoiBean(params.endPoiBean);
             }
         }
 
@@ -285,14 +294,12 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
                     if (poiBean == null || (startPoiBean != null && TextUtils.equals(poiBean.placeName, startPoiBean.placeName))) {
                         break;
                     }
-                    startPoiBean = poiBean;
-                    addressLayout.setStartAddress(startPoiBean.placeName, startPoiBean.placeDetail);
+                    setStartPoiBean(poiBean);
                 } else if ("to".equals(poiBean.type)) {
                     if (poiBean == null || (endPoiBean != null && TextUtils.equals(poiBean.placeName, endPoiBean.placeName))) {
                         break;
                     }
-                    endPoiBean = poiBean;
-                    addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
+                    setEndPoiBean(poiBean);
                 }
                 getCars();
                 break;
@@ -320,8 +327,17 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         }
     }
 
+    public void setStartPoiBean(PoiBean poiBean) {
+        startPoiBean = poiBean;
+        addressLayout.setStartAddress(startPoiBean.placeName, startPoiBean.placeDetail);
+    }
+
+    public void setEndPoiBean(PoiBean poiBean) {
+        endPoiBean = poiBean;
+        addressLayout.setEndAddress(endPoiBean.placeName, endPoiBean.placeDetail);
+    }
+
     public void showServiceDialog() {
-        //DialogUtil.showServiceDialog(SingleActivity.this, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, getEventSource());
         csDialog = CommonUtils.csDialog(SingleActivity.this, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
             @Override
             public void onCs() {

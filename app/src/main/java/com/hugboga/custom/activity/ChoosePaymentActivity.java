@@ -32,6 +32,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AbroadCreditBean;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
+import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
@@ -47,6 +48,7 @@ import com.hugboga.custom.statistic.event.EventUtil;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -129,6 +131,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
         public boolean isAliPay = true;
         public boolean isWechat = true;
         public boolean isUnionpay = true;
+        public PayResultExtarParamsBean extarParamsBean;
 
         public String getShouldPay() {
             return CommonUtils.doubleTrans(shouldPay);
@@ -448,6 +451,11 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                         sharedPre.saveStringValue(SharedPre.PAY_WECHAT_ORDER_ID, requestParams.orderId);
                         sharedPre.saveIntValue(SharedPre.PAY_WECHAT_ORDER_TYPE, requestParams.orderType);
                         sharedPre.saveIntValue(SharedPre.PAY_WECHAT_APITYPE, requestParams.apiType);
+                        if (requestParams.extarParamsBean != null) {
+                            sharedPre.saveStringValue(SharedPre.PAY_EXTAR_PARAMS, JsonUtils.toJson(requestParams.extarParamsBean, PayResultExtarParamsBean.class));
+                        } else if (sharedPre.contains(SharedPre.PAY_EXTAR_PARAMS)) {
+                            sharedPre.removeKey(SharedPre.PAY_EXTAR_PARAMS);
+                        }
                         WXPay.pay(this, bean);
                     }
                 }
@@ -523,6 +531,15 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
             params.orderId = requestParams.orderId;
             params.orderType = requestParams.orderType;
             params.apiType = requestParams.apiType;
+            params.extarParamsBean = requestParams.extarParamsBean;
+
+            //为了兼容信用卡支付
+            SharedPre sharedPre = new SharedPre(ChoosePaymentActivity.this);
+            if (requestParams.extarParamsBean != null) {
+                sharedPre.saveStringValue(SharedPre.PAY_EXTAR_PARAMS, JsonUtils.toJson(requestParams.extarParamsBean, PayResultExtarParamsBean.class));
+            } else if (sharedPre.contains(SharedPre.PAY_EXTAR_PARAMS)) {
+                sharedPre.removeKey(SharedPre.PAY_EXTAR_PARAMS);
+            }
             Intent intent = new Intent(ChoosePaymentActivity.this, PayResultActivity.class);
             intent.putExtra(Constants.PARAMS_DATA, params);
             ChoosePaymentActivity.this.startActivity(intent);

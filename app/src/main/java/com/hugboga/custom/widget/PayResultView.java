@@ -21,7 +21,10 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleActivity;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.bean.PaySucceedBean;
 import com.hugboga.custom.data.bean.PickupCouponOpenBean;
 import com.hugboga.custom.data.event.EventAction;
@@ -51,6 +54,8 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     TextView stateTV;
     @Bind(R.id.view_pay_result_order_tv)
     TextView orderTV;
+    @Bind(R.id.view_pay_result_book_tv)
+    TextView bookTV;
     @Bind(R.id.view_pay_result_service_layout)
     LinearLayout serviceLayout;
     @Bind(R.id.view_pay_result_desc_layout)
@@ -67,6 +72,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     private int orderType;
     private PaySucceedBean paySucceedBean;
     private ErrorHandler errorHandler;
+    private PayResultExtarParamsBean extarParamsBean;
 
     public PayResultView(Context context) {
         this(context, null);
@@ -79,6 +85,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     }
 
     @OnClick({R.id.view_pay_result_order_tv
+            , R.id.view_pay_result_book_tv
             , R.id.view_pay_result_domestic_service_layout
             , R.id.view_pay_result_overseas_service_layout})
     public void onClick(View view) {
@@ -91,6 +98,27 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                     ((Activity) getContext()).finish();
                 }
                 break;
+            case R.id.view_pay_result_book_tv:
+                if (orderType == 4) {
+                    SingleActivity.Params params = new SingleActivity.Params();
+                    params.cityId = "" + extarParamsBean.cityId;
+                    params.startPoiBean = extarParamsBean.startPoiBean;
+                    params.endPoiBean = extarParamsBean.destPoiBean;
+                    Intent intent = new Intent(getContext(), SingleActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_succeed));
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    getContext().startActivity(intent);
+                } else if (orderType == 1) {
+                    PickSendActivity.Params params = new PickSendActivity.Params();
+                    params.airPortBean = extarParamsBean.airPortBean;
+                    params.startPoiBean = extarParamsBean.startPoiBean;
+                    params.type = 1;
+                    Intent intent = new Intent(getContext(), PickSendActivity.class);
+                    intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_succeed));
+                    intent.putExtra(Constants.PARAMS_DATA, params);
+                    getContext().startActivity(intent);
+                }
+                break;
             case R.id.view_pay_result_domestic_service_layout:
                 PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_IN);
                 break;
@@ -100,7 +128,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         }
     }
 
-    public void initView(boolean _isPaySucceed, String _orderId, int orderType) {
+    public void initView(boolean _isPaySucceed, String _orderId, int orderType, PayResultExtarParamsBean _extarParamsBean) {
         this.isPaySucceed = _isPaySucceed;
         this.orderId = _orderId;
         this.orderType = orderType;
@@ -117,11 +145,27 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 HttpRequestUtils.request(getContext(), new RequestPickupCouponOpen(getContext()), this, false);
             }
             bargainLayout.setParams(orderId, orderType);
+
+            if (_extarParamsBean == null) {
+                bookTV.setVisibility(View.GONE);
+            } else {
+                this.extarParamsBean = _extarParamsBean;
+                if (orderType == 4) {
+                    bookTV.setVisibility(View.VISIBLE);
+                    bookTV.setText(R.string.par_result_book_back);
+                } else if (orderType == 1) {
+                    bookTV.setVisibility(View.VISIBLE);
+                    bookTV.setText(R.string.par_result_book_send);
+                } else {
+                    bookTV.setVisibility(View.GONE);
+                }
+            }
         } else {
             stateIV.setBackgroundResource(R.mipmap.pay_failure_icon);
             stateTV.setText(R.string.par_result_failure_prompt);
             orderTV.setText(R.string.par_result_repay);
             serviceLayout.setVisibility(View.VISIBLE);
+            bookTV.setVisibility(View.GONE);
         }
     }
 
@@ -183,6 +227,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                                 Bundle insureBundle = new Bundle();
                                 insureBundle.putString(Constants.PARAMS_ID, orderId);
                                 Intent intent = new Intent(getContext(), InsureActivity.class);
+                                intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_title));
                                 intent.putExtras(insureBundle);
                                 getContext().startActivity(intent);
                             }

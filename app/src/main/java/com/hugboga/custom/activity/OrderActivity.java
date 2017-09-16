@@ -29,6 +29,7 @@ import com.hugboga.custom.data.bean.MostFitAvailableBean;
 import com.hugboga.custom.data.bean.MostFitBean;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderInfoBean;
+import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
@@ -652,6 +653,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                 requestParams.eventPayBean = getChoosePaymentStatisticParams();
                 requestParams.orderType = params.orderType;
                 requestParams.isOrder = true;
+                requestParams.extarParamsBean = getPayResultExtarParamsBean();
                 Intent intent = new Intent(activity, ChoosePaymentActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, requestParams);
                 intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
@@ -665,6 +667,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
                     payParams.payResult = true;
                     payParams.orderId =  orderInfoBean.getOrderno();
                     payParams.orderType = params.orderType;
+                    payParams.extarParamsBean = getPayResultExtarParamsBean();
                     Intent intent = new Intent(this, PayResultActivity.class);
                     intent.putExtra(Constants.PARAMS_DATA, payParams);
                     startActivity(intent);
@@ -756,5 +759,27 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             map.put("carstyle", params.carBean.carDesc);
         }
         return map;
+    }
+
+    public PayResultExtarParamsBean getPayResultExtarParamsBean() {
+        PayResultExtarParamsBean paramsBean = null;
+        if (params.orderType == 4) {
+            paramsBean = new PayResultExtarParamsBean();
+            paramsBean.startPoiBean = params.endPoiBean;
+            paramsBean.destPoiBean = params.startPoiBean;
+            paramsBean.cityId = params.cityBean.cityId;
+        } else if (params.orderType == 1) {
+            paramsBean = new PayResultExtarParamsBean();
+            paramsBean.startPoiBean = params.endPoiBean;
+            FlightBean flightBean = params.flightBean;
+            AirPort airPort = new AirPort();
+            airPort.airportName = flightBean.arrAirportName;
+            airPort.airportCode = flightBean.arrivalAirportCode;
+            airPort.cityName = flightBean.arrCityName;
+            airPort.cityId = flightBean.arrCityId;
+            airPort.location = flightBean.arrLocation;
+            paramsBean.airPortBean = airPort;
+        }
+        return paramsBean;
     }
 }

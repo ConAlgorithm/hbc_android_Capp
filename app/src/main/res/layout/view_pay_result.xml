@@ -33,20 +33,45 @@
                 android:textColor="@color/default_black"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/view_pay_result_order_tv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:background="@drawable/selector_pay_result"
                 android:gravity="center"
-                android:paddingBottom="6dp"
-                android:paddingLeft="28dp"
-                android:paddingRight="28dp"
-                android:paddingTop="6dp"
-                android:text="@string/par_result_detail"
-                android:textColor="@color/default_black"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/view_pay_result_order_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="120dp"
+                    android:background="@drawable/selector_pay_result"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/par_result_detail2"
+                    android:textColor="@color/default_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/view_pay_result_book_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:minWidth="120dp"
+                    android:background="@drawable/selector_pay_result"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/par_result_book_back"
+                    android:textColor="@color/default_black"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/view_pay_result_desc_layout"
@@ -160,16 +185,17 @@
 
         <com.hugboga.custom.widget.PayResultBargainLayout
             android:id="@+id/view_pay_result_bargain_layout"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <View
             android:id="@+id/view_pay_result_bargain_bottom_space"
             android:layout_width="match_parent"
             android:layout_height="16dp"
-            android:visibility="gone"
             android:background="#ffffff"
-            />
+            android:visibility="gone" />
+
         <com.hugboga.custom.widget.PayResultRecommendLayout
             android:id="@+id/view_pay_result_recommend_layout"
             android:layout_width="match_parent"

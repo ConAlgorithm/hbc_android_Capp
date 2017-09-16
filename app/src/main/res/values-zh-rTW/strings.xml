@@ -627,6 +627,7 @@
     <string name="par_result_contact_service">需要聯繫客服?</string>
     <string name="par_result_back">返回首頁</string>
     <string name="par_result_detail">查看訂單</string>
+    <string name="par_result_detail2">查看訂單詳情</string>
     <string name="par_result_repay">重新支付</string>
     <string name="par_result_coupon">查看優惠券</string>
     <string name="par_result_succeed_coupon_hint">優惠券已放入您的賬戶\n可在我的-優惠券頁面查看</string>
@@ -638,6 +639,8 @@
     <string name="par_result_recommend_sku_title">猜你喜歡</string>
     <string name="par_result_recommend_charter">司導開車帶你\n暢遊你的%1$s專屬行程</string>
     <string name="par_result_recommend_charter_title">按天暢遊</string>
+    <string name="par_result_book_back">預訂返程</string>
+    <string name="par_result_book_send">預訂送機</string>
 
     <string name="insure_info_title">投保信息</string>
     <string name="insure_info_passport">護照號：%1$s</string>

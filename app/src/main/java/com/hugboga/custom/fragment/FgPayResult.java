@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
+import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.widget.CouponPayResultView;
 import com.hugboga.custom.widget.PayResultView;
@@ -63,12 +64,12 @@ public class FgPayResult extends BaseFragment{
         fgTitle.setText(getString(R.string.par_result_title));
     }
 
-    public void initView(boolean _isPaySucceed, String _orderId, int orderType) {
+    public void initView(boolean _isPaySucceed, String _orderId, int orderType, PayResultExtarParamsBean extarParamsBean) {
         this.apiType = 0;
         this.isPaySucceed = _isPaySucceed;
         couponPayResultView.setVisibility(View.GONE);
         payResultView.setVisibility(View.VISIBLE);
-        payResultView.initView(_isPaySucceed, _orderId, orderType);
+        payResultView.initView(_isPaySucceed, _orderId, orderType, extarParamsBean);
 
         fgLeftBtn.setVisibility(View.GONE);
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
