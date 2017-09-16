@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/wish_search_icon"
                 android:drawablePadding="3dp"
-                android:text="搜索国家或城市"
+                android:text="@string/destination_search_title"
                 android:textColor="#ff929292"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -76,7 +76,7 @@
             android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="似乎与网络断开，点击屏幕重试"
+            android:text="@string/destination_network_retry"
             android:textColor="#a8a8a8"
             android:textSize="13sp" />
     </LinearLayout>

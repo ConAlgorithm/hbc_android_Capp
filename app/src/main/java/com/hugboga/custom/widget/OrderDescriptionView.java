@@ -60,7 +60,7 @@ public class OrderDescriptionView extends LinearLayout {
     public void setData(OrderActivity.Params params) {
         switch (params.orderType) {
             case 1:
-                titleTV.setText("接机");
+                titleTV.setText(R.string.order_pickup);
 
                 FlightBean flightBean = params.flightBean;
                 flightTV.setVisibility(View.VISIBLE);
@@ -69,12 +69,12 @@ public class OrderDescriptionView extends LinearLayout {
                 setAddress(flightBean.arrAirportName, null, params.endPoiBean.placeName, params.endPoiBean.placeDetail);
                 break;
             case 2:
-                titleTV.setText("送机");
+                titleTV.setText(R.string.order_send);
 
                 setAddress(params.startPoiBean.placeName, params.startPoiBean.placeDetail, params.airPortBean.airportName, null);
                 break;
             case 4:
-                titleTV.setText("单次接送");
+                titleTV.setText(R.string.custom_single);
 
                 setAddress(params.startPoiBean.placeName, params.startPoiBean.placeDetail, params.endPoiBean.placeName, params.endPoiBean.placeDetail);
                 break;

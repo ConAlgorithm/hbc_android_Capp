@@ -51,7 +51,7 @@
         android:layout_marginTop="35dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="查看优惠券"
+        android:text="@string/par_result_coupon"
         android:textColor="#ffffff"
         android:gravity="center"
         android:background="@drawable/shape_rounded_yellow_btn"

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textColor="#b9bdc6"
         android:layout_marginTop="15dp"
-        android:text="您还没有相关订单"
+        android:text="@string/travel_empty_finish"
         android:textSize="16sp" />
     <FrameLayout
         android:layout_width="match_parent"

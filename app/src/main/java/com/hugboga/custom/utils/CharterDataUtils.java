@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.hugboga.amap.entity.HbcLantLng;
 import com.hugboga.amap.view.HbcMapViewTools;
+import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.CombinationOrderActivity;
 import com.hugboga.custom.data.bean.AirPort;
@@ -270,7 +271,7 @@ public class CharterDataUtils {
                 && pickUpPoiBean == null;
         if (checkPickup) {
             if (isShowToast) {
-                CommonUtils.showToast("请添加接机的送达地");
+                CommonUtils.showToast(R.string.daily_check_pickup_hint);
             }
             return false;
         }
@@ -284,7 +285,7 @@ public class CharterDataUtils {
         boolean checkSendTime = isSend && TextUtils.isEmpty(charterDataUtils.sendServerTime);
         if (checkSendTime) {
             if (isShowToast) {
-                CommonUtils.showToast("请添加送机的出发时间");
+                CommonUtils.showToast(R.string.daily_check_sendtime_hint);
             }
             return false;
         }
@@ -293,7 +294,7 @@ public class CharterDataUtils {
         boolean checkSendAddress = isSend && charterDataUtils.sendPoiBean == null;
         if (checkSendAddress) {
             if (isShowToast) {
-                CommonUtils.showToast("请添加送机的出发地点");
+                CommonUtils.showToast(R.string.daily_check_sendaddress_hint);
             }
             return false;
         }
@@ -303,7 +304,7 @@ public class CharterDataUtils {
                 && charterDataUtils.getEndCityBean(currentDay) == null;
         if (checkOuttown) {
             if (isShowToast) {
-                CommonUtils.showToast("请添加送达城市");
+                CommonUtils.showToast(R.string.daily_check_outtown_hint);
             }
             return false;
         }

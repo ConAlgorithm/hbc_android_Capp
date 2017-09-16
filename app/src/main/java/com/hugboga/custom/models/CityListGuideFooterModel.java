@@ -36,7 +36,7 @@ public class CityListGuideFooterModel extends EpoxyModel<LinearLayout> {
         view.setLayoutParams(params);
         view.setPadding(0, 0, 0, 0);
         TextView textView = (TextView) view.findViewById(R.id.home_bottom_end_tv);
-        textView.setText("查看更多司导");
+        textView.setText(R.string.city_footer_more_guide);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

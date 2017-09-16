@@ -57,8 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="请选择用车城市"
-                app:titleText="用车地点" />
+                app:hintText="@string/single_start_city_hint"
+                app:titleText="@string/single_start_address" />
 
             <View
                 android:layout_width="match_parent"
@@ -76,8 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/order_margin_vertical"
-                app:hintText="选择出发时间（建议提早出发）"
-                app:titleText="出发时间" />
+                app:hintText="@string/single_time_hint"
+                app:titleText="@string/single_time" />
 
             <com.hugboga.custom.widget.SkuOrderCarTypeView
                 android:id="@+id/single_car_type_view"

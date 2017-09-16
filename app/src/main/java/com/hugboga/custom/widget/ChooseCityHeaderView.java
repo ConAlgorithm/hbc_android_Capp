@@ -34,6 +34,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.request.RequestUploadLocation;
 import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.LocationUtils;
 import com.hugboga.custom.utils.UIUtils;
@@ -98,9 +99,9 @@ public class ChooseCityHeaderView extends LinearLayout{
         });*/
         this.isPickUp = isPickUp;
         if(isPickUp){
-            historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, "定位/历史");
+            historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, CommonUtils.getString(R.string.choose_city_location_title));
         }else{
-            historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, "历史足迹");
+            historyTitleView = getSubTitleLayout(R.mipmap.icon_search_history, CommonUtils.getString(R.string.choose_city_history_title));
         }
         historyLayout = getTagGroup();
         historyTitleView.setVisibility(View.GONE);
@@ -375,7 +376,7 @@ public class ChooseCityHeaderView extends LinearLayout{
     LocationListener locationListener;
     public void initLocation(int position) {
         if(!LocationUtils.gpsIsOpen(getContext())){
-            AlertDialog dialog = AlertDialogUtils.showAlertDialog(getContext(), "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
+            AlertDialog dialog = AlertDialogUtils.showAlertDialog(getContext(), CommonUtils.getString(R.string.choose_city_gps_dialog), CommonUtils.getString(R.string.dialog_btn_setting), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     LocationUtils.openGPSSeting(getContext());
@@ -467,7 +468,7 @@ public class ChooseCityHeaderView extends LinearLayout{
 
     private void checkGpsOpen() {
         if (!gpsIsOpen(getContext())) {
-            AlertDialogUtils.showAlertDialog(getContext(), "没有开启GPS定位,请到设置里开启", "设置", "取消", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(getContext(), CommonUtils.getString(R.string.choose_city_gps_dialog), CommonUtils.getString(R.string.dialog_btn_setting), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     openGPSSeting(getContext());

@@ -166,9 +166,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     private void initView() {
         isFromMyspace = getIntent().getBooleanExtra("isFromMyspace",false);
         if(isFromMyspace){
-            headerTitle.setText("我的优惠券");
+            headerTitle.setText(R.string.coupon_title);
         }else {
-            headerTitle.setText("选择优惠券");
+            headerTitle.setText(R.string.coupon_title_choose);
         }
 
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +179,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             }
         });
         headerRightTxt.setVisibility(View.VISIBLE);
-        headerRightTxt.setText("使用说明");
+        headerRightTxt.setText(R.string.coupon_instructions);
         headerRightTxt.setTextColor(0xff151515);
         headerRightTxt.setTextSize(15);
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
@@ -197,9 +197,9 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         LinearLayout mFooter = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.coupon_listview, null);
         TextView footer = (TextView) mFooter.findViewById(R.id.footer);
         if(isFromMyspace){
-            footer.setText("查看失效券");
+            footer.setText(R.string.coupon_expiry);
         }else{
-            footer.setText("查看不可用券");
+            footer.setText(R.string.coupon_disabled);
         }
         listView.addFooterView(mFooter);
         if (paramsData != null) {
@@ -251,7 +251,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         });
 
         if(!isFromMyspace){
-            next.setText("查看不可用券");
+            next.setText(R.string.coupon_disabled);
         }
     }
     private void setCouponBtnPay(){
@@ -318,7 +318,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
                 collapseSoftInputMethod(carNumberEditText);
                 String couponNum = carNumberEditText.getText().toString();
                 if (couponNum.isEmpty()) {
-                    CommonUtils.showToast("请输入优惠券兑换码");
+                    CommonUtils.showToast(R.string.coupon_input_num_hint);
                     carNumberEditText.requestFocus();
                     return;
                 }
@@ -344,7 +344,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             couponExchange = true;
             requestData();
             DialogUtil dialogUtil = DialogUtil.getInstance(this);
-            dialogUtil.showCustomDialog("优惠券兑换成功", new DialogInterface.OnClickListener() {
+            dialogUtil.showCustomDialog(CommonUtils.getString(R.string.coupon_exchange_success), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     carNumberEditText.setText(""); //清空兑换成功的兑换码
@@ -505,7 +505,7 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
         ImageView leftBtn = (ImageView) popView.findViewById(R.id.header_left_btn);
         leftBtn.setImageResource(R.mipmap.top_close);
         TextView header_title = (TextView) popView.findViewById(R.id.header_title);
-        header_title.setText("我的优惠券");
+        header_title.setText(R.string.coupon_title);
         final PopupWindow pw = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //内容赋值
         ((TextView) popView.findViewById(R.id.coupon_info_price)).setText(bean.price);

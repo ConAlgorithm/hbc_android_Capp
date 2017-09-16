@@ -41,7 +41,7 @@
             android:id="@+id/titlebar_charter_second_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="按天包车游"
+            android:text="@string/custom_chartered"
             android:textColor="@color/titlebar_text"
             android:textSize="@dimen/titlebar_title_size" />
 

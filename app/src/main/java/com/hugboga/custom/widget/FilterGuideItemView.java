@@ -99,6 +99,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
             @Override
             public void onClick(View view) {
                 if(CommonUtils.isLogin(context,getEventSource())) {
+                    save_guide_layout.setEnabled(false);
                     if(saveGuild.isSelected()){
                         filterGuideBean.isCollected = 0;
                         saveGuild.setSelected(false);
@@ -197,6 +198,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
         }
+        save_guide_layout.setEnabled(true);
     }
 
     @Override
@@ -214,6 +216,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
             }
             errorHandler.onDataRequestError(errorInfo, request);
         }
+        save_guide_layout.setEnabled(true);
     }
     //收藏司导埋点
     public static void setSensorsShareEvent(String guideId) {

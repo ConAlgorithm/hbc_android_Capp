@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="13sp"
-        android:text="查看更多包车线路"
+        android:text="@string/city_footer_more_sku"
         android:textColor="@color/default_yellow"
         />
     <ImageView

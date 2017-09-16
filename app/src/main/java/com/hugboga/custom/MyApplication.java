@@ -4,10 +4,14 @@ package com.hugboga.custom;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.anupcowkur.reservoir.Reservoir;
@@ -34,6 +38,7 @@ import com.ishumei.smantifraud.SmAntiFraud;
 import com.hugboga.im.entity.ImAnalysisEnitty;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -45,6 +50,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.tongdun.android.shell.FMAgent;
@@ -66,7 +72,7 @@ public class MyApplication extends HbcApplication {
     //   SensorsDataAPI.DebugMode.DEBUG_ONLY - 打开 Debug 模式，校验数据，但不进行数据导入
     //   SensorsDataAPI.DebugMode.DEBUG_AND_TRACK - 打开 Debug 模式，校验数据，并将数据导入到 Sensors Analytics 中
     // 注意！请不要在正式发布的 App 中使用 Debug 模式！
-    final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_AND_TRACK;
+    final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_OFF;
 
     @Override
     public void onCreate() {
@@ -81,7 +87,7 @@ public class MyApplication extends HbcApplication {
         initConfig();
         Log.e("hbcApplication", "debug " + BuildConfig.DEBUG);
         try {
-//            CrashReport.initCrashReport(this, "900024779", false);
+            CrashReport.initCrashReport(this, "900024779", false);
             Reservoir.init(this, 4096);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,6 +112,16 @@ public class MyApplication extends HbcApplication {
         }
         initNetworkbench();
         initNim();
+
+//        Resources res = getResources();
+//        DisplayMetrics dm = res.getDisplayMetrics();
+//        Configuration conf = res.getConfiguration();
+//        if (Build.VERSION.SDK_INT >= 24) {
+//            conf.setLocale(Locale.TRADITIONAL_CHINESE);
+//        } else {
+//            conf.locale = Locale.TRADITIONAL_CHINESE;
+//        }
+//        res.updateConfiguration(conf, dm);
     }
 
     private void initNim() {

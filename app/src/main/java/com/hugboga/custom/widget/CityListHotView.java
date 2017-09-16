@@ -16,6 +16,7 @@ import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.adapter.CityListHotAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;
+import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
@@ -111,13 +112,13 @@ public class CityListHotView extends LinearLayout {
         String result = "";
         switch (type) {
             case TYPE_HOT:
-                result = "热门线路";
+                result = CommonUtils.getString(R.string.city_sku_item_hot);
                 break;
             case TYPE_DEEP:
-                result = "深度长线";
+                result = CommonUtils.getString(R.string.city_sku_item_deep);
                 break;
             case TYPE_SHORT:
-                result = "短途线路";
+                result = CommonUtils.getString(R.string.city_sku_item_short);
                 break;
         }
         return result;

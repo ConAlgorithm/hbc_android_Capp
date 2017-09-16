@@ -5,7 +5,7 @@
         android:id="@+id/sku_order_traveler_info_title_tv"
         style="@style/SkuOrderSubtitleTextView"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
-        android:text="优惠方式" />
+        android:text="@string/order_discount_title" />
 
     <RelativeLayout
         android:id="@+id/sku_order_discount_coupon_layout"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/sku_order_discount_coupon_choose_iv"
-            android:text="使用优惠券"
+            android:text="@string/order_discount_use_coupon"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/sku_order_discount_travel_fund_choose_iv"
-            android:text="使用旅游基金"
+            android:text="@string/order_discount_use_fund"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 

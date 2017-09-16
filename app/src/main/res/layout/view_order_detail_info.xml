@@ -88,7 +88,7 @@
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@id/order_detail_insurer_arrow_iv"
             android:gravity="center_vertical"
-            android:text="免费赠送"
+            android:text="@string/order_insurance_free"
             android:textColor="#f7350a"
             android:textSize="13sp" />
         <ImageView
@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="添加投保人护照，保单即可生效"
+            android:text="@string/order_insurance_hint3"
             android:textColor="#cccccc"
             android:textSize="14sp" />
 
@@ -150,7 +150,7 @@
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@id/order_detail_insurer_add_arrow_iv"
             android:gravity="center_vertical"
-            android:text="添加"
+            android:text="@string/order_detail_add"
             android:textColor="@color/default_yellow"
             android:textSize="13sp" />
 

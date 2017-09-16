@@ -380,7 +380,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         }
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
-        commonProblemTV.setText("常见问题");
+        commonProblemTV.setText(R.string.order_detail_problem);
         if (orderBean.orderStatus.code <= 5) {
             cancelOrderTV.setVisibility(View.VISIBLE);
         } else {
@@ -417,7 +417,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                         tip = getString(R.string.order_cancel_tip);
                     } else if (orderBean.isChangeManual) {//需要人工取消订单
                         //DialogUtil.showDefaultServiceDialog(OrderDetailActivity.this, "如需要取消订单，请联系客服处理", getEventSource());
-                        csDialog = CommonUtils.csDialog(OrderDetailActivity.this, null, "如需要取消订单，请联系客服处理", null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                        csDialog = CommonUtils.csDialog(OrderDetailActivity.this, null, CommonUtils.getString(R.string.order_detail_cancel_hint), null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
                             @Override
                             public void onCs() {
                                 if (csDialog != null && csDialog.isShowing()) {
@@ -429,7 +429,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                     } else {
                         tip = orderBean.cancelTip;
                     }
-                    mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, "确定", new DialogInterface.OnClickListener() {
+                    mDialogUtil.showCustomDialog(getString(R.string.app_name), tip, CommonUtils.getString(R.string.hbc_confirm), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             EventBase eventBase = new EventCancelOrder(orderBean);
@@ -438,7 +438,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                             intent.putExtra(Constants.PARAMS_DATA, orderBean);
                             OrderDetailActivity.this.startActivity(intent);
                         }
-                    }, "返回", null);
+                    }, CommonUtils.getString(R.string.hbc_back), null);
                 } else {
                     mDialogUtil.showCustomDialog(orderBean.cancelText);
                 }

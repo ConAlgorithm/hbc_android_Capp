@@ -16,7 +16,7 @@
         android:gravity="center"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
-        android:text="优秀司导都在服务用户的路上，预订后沟通更高效"
+        android:text="@string/guide_detail_bottom_hint"
         android:textColor="#a2a19e"
         android:textSize="12sp" />
 
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="当地时间"
+            android:text="@string/guide_detail_bottom_time"
             android:textColor="#929292"
             android:textSize="12sp" />
 
@@ -46,7 +46,7 @@
             style="@style/OrderBottomConfirm"
             android:layout_width="110dp"
             android:layout_alignParentRight="true"
-            android:text="找我预订" />
+            android:text="@string/guide_detail_bottom_book" />
 
         <LinearLayout
             android:id="@+id/guide_detail_bottom_contact_layout"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dp"
-                android:text="联系我"
+                android:text="@string/guide_detail_bottom_contact"
                 android:textColor="@color/default_yellow"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_marginRight="@dimen/order_bottom_padding_left"
             android:background="@drawable/shape_rounded_yellow_btn"
             android:gravity="center"
-            android:text="选TA服务"
+            android:text="@string/guide_detail_bottom_choose_guide"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:visibility="gone" />

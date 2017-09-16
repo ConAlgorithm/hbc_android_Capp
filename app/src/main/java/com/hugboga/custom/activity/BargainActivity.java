@@ -312,7 +312,7 @@ public class BargainActivity extends BaseActivity {
 
     private void initView() {
         initDefaultTitleBar();
-        fgTitle.setText("邀请好友来砍价");
+        fgTitle.setText(R.string.bargain_title);
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

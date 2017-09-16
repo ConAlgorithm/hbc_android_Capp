@@ -99,7 +99,7 @@ public class ChooseCityNewActivity extends BaseActivity {
             headerLeftBtn.setImageResource(top_close);
         }*/
         //headTextRight.setText("取消");
-        headSearch.setHint("请输入目的地名称");
+        headSearch.setHint(R.string.choose_city_new_hint);
         //headTextRight.setVisibility(GONE);
         //headerLeftBtn.setVisibility(VISIBLE);
         initPop();

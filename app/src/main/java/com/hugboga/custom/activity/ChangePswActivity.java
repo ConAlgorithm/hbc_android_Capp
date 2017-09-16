@@ -60,7 +60,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
         super.onDataRequestSucceed(request);
         if (request instanceof RequestChangePwd) {
             RequestChangePwd mParser = (RequestChangePwd) request;
-            CommonUtils.showToast("修改密码成功");
+            CommonUtils.showToast(R.string.login_change_pwd_success);
             UserEntity.getUser().setWeakPassword(activity, false);
             finish();
         }
@@ -196,28 +196,28 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                 //修改密码
                 String oldStr = oldPwdEditText.getText().toString();
                 if (TextUtils.isEmpty(oldStr)) {
-                    CommonUtils.showToast("原密码不能为空");
+                    CommonUtils.showToast(R.string.login_check_old_pwd);
                     oldPwdEditText.requestFocus();
                     return;
                 }
                 String password = newPwdEditText.getText().toString();
                 if (TextUtils.isEmpty(password)) {
-                    CommonUtils.showToast("新密码不能为空");
+                    CommonUtils.showToast(R.string.login_check_new_pwd);
                     newPwdEditText.requestFocus();
                     return;
                 }
                 if (!Pattern.matches("[\\w]{6,16}", password)) {
-                    CommonUtils.showToast("密码必须是6-16位数字或字母");
+                    CommonUtils.showToast(R.string.login_check_pwd_length);
                     return;
                 }
                 String repassword = rewPwdEditText.getText().toString();
                 if (TextUtils.isEmpty(repassword)) {
-                    CommonUtils.showToast("确认新密码不能为空");
+                    CommonUtils.showToast(R.string.login_check_new_pwd_confirm);
                     rewPwdEditText.requestFocus();
                     return;
                 }
                 if (!TextUtils.equals(password, repassword)) {
-                    CommonUtils.showToast("两次填写的新密码不一致");
+                    CommonUtils.showToast(R.string.login_check_pwd_inconformity);
                     return;
                 }
                 RequestChangePwd requestChangePwd = new RequestChangePwd(activity, oldStr, password);
@@ -273,7 +273,7 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        headerTitle.setText("修改密码");
+        headerTitle.setText(R.string.setting_chang_pwd);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

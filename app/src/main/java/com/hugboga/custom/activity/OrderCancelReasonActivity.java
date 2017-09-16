@@ -72,7 +72,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
         }
 
         initDefaultTitleBar();
-        fgTitle.setText("请选择取消原因");
+        fgTitle.setText(R.string.cancel_reason_title);
 
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -122,7 +122,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
             EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE, orderBean.orderNo));
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));
             DialogUtil dialogUtil = DialogUtil.getInstance(this);
-            dialogUtil.showCustomDialog("取消订单成功", new DialogInterface.OnClickListener() {
+            dialogUtil.showCustomDialog(CommonUtils.getString(R.string.cancel_reason_order_succesd), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -136,7 +136,7 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
         switch (view.getId()) {
             case R.id.cancel_reason_confirm_tv:
                 if (selectedReasonItem == null) {
-                    CommonUtils.showToast("请选择取消原因");
+                    CommonUtils.showToast(R.string.cancel_reason_title);
                     return;
                 }
                 CancelReasonBean.CancelReasonItem cancelReasonItem = null;
@@ -145,14 +145,14 @@ public class OrderCancelReasonActivity extends BaseActivity implements HbcRecycl
                     cancelReasonItem.type = selectedReasonItem.type;
                     EditText editText = (EditText) otherReasonView.findViewById(R.id.cancel_reason_other_et);
                     if (editText.getText() == null || TextUtils.isEmpty(editText.getText().toString()) || TextUtils.isEmpty(editText.getText().toString().trim())) {
-                        CommonUtils.showToast("请输入文字内容哦");
+                        CommonUtils.showToast(R.string.cancel_reason_check_content);
                         return;
                     }
                     String content = editText.getText().toString().trim();
                     final int size = content.length();
                     for(int i = 0; i < size; i++) {
                         if (!Tools.isEmojiCharacter(content.charAt(i))) {
-                            CommonUtils.showToast("取消原因不能包含表情符号");
+                            CommonUtils.showToast(R.string.cancel_reason_check_isemoji);
                             return;
                         }
                     }

@@ -124,6 +124,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
                 @Override
                 public void onClick(View view) {
                     if(CommonUtils.isLogin(context,getEventSource())) {
+                        save_guild_layout.setEnabled(false);
                         ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                         if(saveLine.isSelected()){
                             skuItemBean.favorited = 0;
@@ -153,6 +154,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
         }else if(request instanceof RequestUncollectLinesNo){
             CommonUtils.showToast("已取消收藏");
         }
+        save_guild_layout.setEnabled(true);
     }
 
     @Override
@@ -173,6 +175,7 @@ public class SkuItemView extends LinearLayout implements HbcViewBehavior,HttpReq
                 errorHandler.onDataRequestError(errorInfo, request);
             }
         }
+        save_guild_layout.setEnabled(true);
     }
     //收藏商品埋点
     public static void setSensorsShareEvent(String goodsNo) {

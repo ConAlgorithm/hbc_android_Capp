@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="头像"
+            android:text="@string/personinfo_avatar"
             android:textColor="@color/common_font_color_black"
             android:textSize="14sp" />
 
@@ -64,7 +64,7 @@
             android:id="@+id/nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="昵称"
+            android:text="@string/personinfo_nickname"
             android:textColor="@color/common_font_color_black"
             android:layout_centerVertical="true"
             android:textSize="14sp"/>
@@ -88,7 +88,7 @@
             android:layout_centerVertical="true"
             android:singleLine="true"
             android:ellipsize="end"
-            android:hint="请填写"
+            android:hint="@string/personinfo_input_hint"
             android:textColorHint="#898989"
             android:textColor="#898989"
             android:textSize="14sp"/>
@@ -110,7 +110,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="真实姓名"
+            android:text="@string/personinfo_username"
             android:textColor="@color/common_font_color_black"
             android:layout_centerVertical="true"
             android:textSize="14sp"/>
@@ -134,7 +134,7 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:singleLine="true"
-            android:hint="请填写"
+            android:hint="@string/personinfo_input_hint"
             android:textColorHint="#898989"
             android:textColor="#898989"
             android:textSize="14sp"/>
@@ -155,7 +155,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="性别"
+            android:text="@string/personinfo_gender"
             android:layout_centerVertical="true"
             android:textColor="@color/common_font_color_black"
             android:textSize="14sp" />
@@ -176,7 +176,7 @@
             android:layout_centerVertical="true"
             android:gravity="right"
             android:layout_marginRight="15dp"
-            android:hint="请选择"
+            android:hint="@string/personinfo_input_hint"
             android:textColorHint="#898989"
             android:textColor="#898989"
             android:textSize="14sp"/>
@@ -197,7 +197,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="年龄"
+            android:text="@string/personinfo_age"
             android:layout_centerVertical="true"
             android:textColor="@color/common_font_color_black"
             android:textSize="14sp"  />
@@ -218,7 +218,7 @@
             android:layout_toLeftOf="@+id/my_info_menu_arrow4"
             android:layout_marginRight="15dp"
             android:gravity="right"
-            android:hint="请选择"
+            android:hint="@string/personinfo_input_choose"
             android:textColorHint="#898989"
             android:textColor="#898989"
             android:textSize="14sp" />
@@ -239,7 +239,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手机号"
+            android:text="@string/personinfo_phone"
             android:layout_centerVertical="true"
             android:textColor="@color/common_font_color_black"
             android:textSize="14sp"  />
@@ -260,7 +260,7 @@
             android:layout_toLeftOf="@+id/my_info_menu_arrow5"
             android:layout_marginRight="15dp"
             android:gravity="right"
-            android:hint="未绑定"
+            android:hint="@string/personinfo_unbound"
             android:textColorHint="#898989"
             android:textColor="#898989"
             android:textSize="14sp"/>

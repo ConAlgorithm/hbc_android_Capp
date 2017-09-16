@@ -66,12 +66,12 @@ public class SkuOrderBottomView extends LinearLayout {
     public void updatePrice(double shouldPrice, double discountPrice) {
         this.shouldPrice = shouldPrice;
         shouldPriceTV.setText(getContext().getString(R.string.sign_rmb) + CommonUtils.doubleTrans(shouldPrice));
-        totalPriceTV.setText(String.format("总额: ¥%1$s","" + CommonUtils.doubleTrans(shouldPrice + discountPrice)));
+        totalPriceTV.setText(CommonUtils.getString(R.string.order_bottom_total_price, "" + CommonUtils.doubleTrans(shouldPrice + discountPrice)));
         if (discountPrice <= 0) {
             discountPriceTV.setVisibility(View.GONE);
         } else {
             discountPriceTV.setVisibility(View.VISIBLE);
-            discountPriceTV.setText(String.format("已减: ¥%1$s","" + CommonUtils.doubleTrans(discountPrice)));
+            discountPriceTV.setText(CommonUtils.getString(R.string.order_bottom_discount_price, "" + CommonUtils.doubleTrans(discountPrice)));
         }
     }
 
@@ -130,8 +130,8 @@ public class SkuOrderBottomView extends LinearLayout {
         if (orderType == 0) {
             selectedGuideHintTV.setVisibility(GONE);
         }
-        String hint1 = "支付后参与砍价活动，最多可减200元哦！";
-        String hint2 = "支付后还可以挑选司导哦~";
+        String hint1 = CommonUtils.getString(R.string.order_bottom_hint1);
+        String hint2 = CommonUtils.getString(R.string.order_bottom_hint2);
         String showText = "";
         boolean isShowHint1 = shouldPrice > 200;
 

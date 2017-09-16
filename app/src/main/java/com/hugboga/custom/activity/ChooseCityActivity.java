@@ -230,7 +230,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         if (fromDaily) {
             dailyLayout.setVisibility(View.VISIBLE);
             headerLeftBtn.setVisibility(View.INVISIBLE);
-            headerTitleNew.setText("请选择包车开始城市");
+            headerTitleNew.setText(R.string.choose_city_title1);
             headerLeftBtnNew.setImageResource(R.mipmap.top_close);
             headerLeftBtnNew.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -306,24 +306,24 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
 
         editSearch.setOnEditorActionListener(this);
         editSearch.addTextChangedListener(this);
-        editSearch.setHint("请输入城市名称");
+        editSearch.setHint(R.string.choose_city_title2);
         if ("startAddress".equals(from)) {
-            editSearch.setHint("请输入城市名称");
+            editSearch.setHint(R.string.choose_city_title2);
             if(ShowType.PICK_UP == showType){
                 tabLayout.setInland(true);
             }
         } else if ("end".equals(from)) {
-            editSearch.setHint("请输入城市名称");
+            editSearch.setHint(R.string.choose_city_title2);
             if(ShowType.PICK_UP == showType){
                 tabLayout.setInland(false);
             }
             //tabLayout.findViewById(R.id.choose_city_tab_foreign_layout);
         } else if (showType == ShowType.SELECT_CITY) {
-            editSearch.setHint("搜索途经城市");
+            editSearch.setHint(R.string.choose_city_title3);
         } else if (mBusinessType == Constants.BUSINESS_TYPE_RENT) {
-            editSearch.setHint("请输入城市名称");
+            editSearch.setHint(R.string.choose_city_title2);
         } else if ("lastCity".equals(from) || "nearby".equals(from)) {
-            editSearch.setHint("请输入城市名称");
+            editSearch.setHint(R.string.choose_city_title2);
         }
 
         sharedPer = new SharedPre(this);
@@ -371,7 +371,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             String keyword = editSearch.getText().toString().trim();
             if (TextUtils.isEmpty(keyword)) {
-                CommonUtils.showToast("请输入搜索内容");
+                CommonUtils.showToast(R.string.choose_city_check_input);
                 return true;
             }
             collapseSoftInputMethod(editSearch);
@@ -493,7 +493,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                             emptyTV.setText(getString(R.string.out_of_range_city_text));
                         }
                     } else if (mBusinessType == Constants.BUSINESS_TYPE_PICK) {
-                        emptyTV.setText("很抱歉，没有找到您搜索的城市\n或者该城市暂未开通接机服务\n可联系客服，帮您查找");
+                        emptyTV.setText(R.string.choose_city_empty_hint);
                         emptyServiceTV.setVisibility(View.VISIBLE);
                         emptyServiceTV.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -919,7 +919,7 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
                         emptyLayout.setVisibility(View.VISIBLE);
                         emptyTV.setVisibility(View.VISIBLE);
                         emptyIV.setVisibility(View.VISIBLE);
-                        emptyTV.setText("没有可更换的城市，驾车无法到达哦");
+                        emptyTV.setText(R.string.choose_city_overstep_range);
                     } else {
                         mAdapter.setData(cityList);
                         mListview.setSelection(0);

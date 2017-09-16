@@ -96,7 +96,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         EventBus.getDefault().register(this);
     }
     private void initView(Intent intent) {
-        fgTitle.setText("账号密码登录");
+        fgTitle.setText(R.string.login_account_pwd);
         String areaCode = null;
         String phone = null;
         if (getIntent() != null) {
@@ -273,27 +273,27 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 //        collapseSoftInputMethod(); //隐藏键盘
         MLog.e("areaCode4=" + areaCode);
         if (TextUtils.isEmpty(areaCode)) {
-            CommonUtils.showToast("区号不能为空");
+            CommonUtils.showToast(R.string.login_check_areacode);
             return;
         }
         areaCode = areaCode.replace("+", "");
         phone = phoneEditText.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
-            CommonUtils.showToast("手机号不能为空");
+            CommonUtils.showToast(R.string.login_check_phone_empty);
             return;
         }
         String password = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            CommonUtils.showToast("密码不能为空");
+            CommonUtils.showToast(R.string.login_check_pwd);
             return;
         }
-        if (!Pattern.matches("[\\w]{4,16}", password)) {
-            CommonUtils.showToast("密码必须是4-16位数字或字母");
+        if (!Pattern.matches("[\\w]{6,16}", password)) {
+            CommonUtils.showToast(R.string.login_check_pwd_length);
             return;
         }
         if(areaCode.equals("86")){
             if(!phone.startsWith("1") || phone.length() != 11){
-                CommonUtils.showToast("请输入正确的国内手机号，11位数字");
+                CommonUtils.showToast(R.string.login_check_phone_length);
                 return;
             }
         }
@@ -415,7 +415,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
 
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(phone)
                 && !TextUtils.isEmpty(password)
-                && Pattern.matches("[\\w]{4,16}", password)) {
+                && Pattern.matches("[\\w]{6,16}", password)) {
             loginButton.setEnabled(true);
             //loginButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
         } else {

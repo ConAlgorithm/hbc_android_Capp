@@ -34,12 +34,6 @@ public class ServicerCenterActivity extends BaseActivity {
     TextView headerTitle;
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.servicer_center_top_btn1)
-    TextView servicerCenterTopBtn1;
-    @Bind(R.id.servicer_center_top_btn2)
-    TextView servicerCenterTopBtn2;
-    @Bind(R.id.servicer_center_top)
-    LinearLayout servicerCenterTop;
     @Bind(R.id.servicer_center_line)
     ImageView servicerCenterLine;
     @Bind(R.id.service_center_btn1)
@@ -53,17 +47,9 @@ public class ServicerCenterActivity extends BaseActivity {
     @Bind(R.id.service_center_btn5)
     TextView serviceCenterBtn5;
 
-    @OnClick({R.id.servicer_center_top_btn1, R.id.servicer_center_top_btn2, R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5, R.id.service_insurance_btn6})
+    @OnClick({R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5, R.id.service_insurance_btn6})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.servicer_center_top_btn1:
-                //境内客服
-                PhoneInfo.CallDial(activity, Constants.CALL_NUMBER_IN);
-                break;
-            case R.id.servicer_center_top_btn2:
-                //境外客服
-                PhoneInfo.CallDial(activity, Constants.CALL_NUMBER_OUT);
-                break;
             case R.id.service_center_btn1:
                 //预订须知
                 toWebInfo(UrlLibs.H5_NOTICE_V2_2);
@@ -107,7 +93,7 @@ public class ServicerCenterActivity extends BaseActivity {
 
 
     protected void initHeader() {
-        headerTitle.setText("服务规则");
+        headerTitle.setText(R.string.servicer_title);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

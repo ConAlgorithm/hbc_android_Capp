@@ -116,6 +116,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
             @Override
             public void onClick(View view) {
                 if(CommonUtils.isLogin(mContext,getEventSource())) {
+                    save_guild_layout.setEnabled(false);
                     ImageView saveLine = (ImageView) view.findViewById(R.id.save_line);
                     if(saveLine.isSelected()){
                         homeCityGoodsVo.isCollected = 0;
@@ -170,6 +171,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         }else if(request instanceof RequestUncollectLinesNo){
             CommonUtils.showToast(getContext().getResources().getString(R.string.collect_cancel));
         }
+        save_guild_layout.setEnabled(true);
     }
 
     @Override
@@ -187,6 +189,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
             }
             errorHandler.onDataRequestError(errorInfo, request);
         }
+        save_guild_layout.setEnabled(true);
     }
 
     private void interClick(HomeCityItemVo homeCityGoodsVo) {

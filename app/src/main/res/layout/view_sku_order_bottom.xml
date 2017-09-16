@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="需付:"
+                android:text="@string/order_bottom_should_price"
                 android:textColor="@color/default_black"
                 android:textSize="15sp" />
 
@@ -59,7 +59,7 @@
             android:paddingRight="10dp"
             android:layout_toRightOf="@id/sku_order_bottom_should_price_layout"
             android:gravity="center"
-            android:text="明细"
+            android:text="@string/order_bottom_price_detail"
             android:textColor="@color/default_black"
             android:textSize="13sp" />
 
@@ -87,7 +87,7 @@
         <TextView
             android:id="@+id/sku_order_bottom_pay_tv"
             style="@style/OrderBottomConfirm"
-            android:text="去支付" />
+            android:text="@string/order_bottom_pay" />
 
         <FrameLayout
             android:id="@+id/sku_order_bottom_progress_layout"

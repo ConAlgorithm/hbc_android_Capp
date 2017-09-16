@@ -512,16 +512,16 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
         TextView cancelOrderTV = (TextView)menuLayout.findViewById(R.id.cancel_order);
         TextView commonProblemTV = (TextView)menuLayout.findViewById(R.id.menu_phone);
         if(inBlack == 1){
-            cancelOrderTV.setText("解除拉黑");
+            cancelOrderTV.setText(R.string.chat_popup_item1);
         }else{
-            cancelOrderTV.setText("拉黑该用户");
+            cancelOrderTV.setText(R.string.chat_popup_item2);
         }
         if (!TextUtils.isEmpty(targetType) && "3".equals(targetType)) {//3.客服 1.用户
             cancelOrderTV.setVisibility(GONE); //显示历史订单按钮
         } else {
             cancelOrderTV.setVisibility(View.VISIBLE); //显示历史订单按钮
         }
-        commonProblemTV.setText("历史订单");
+        commonProblemTV.setText(R.string.chat_popup_item3);
 
         if (popup != null) {
             popup.showAsDropDown(header_right_btn,0, 0);
@@ -544,7 +544,8 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             @Override
             public void onClick(View v) {
                 if(inBlack == 0) {
-                    AlertDialogUtils.showAlertDialog(NIMChatActivity.this, getString(R.string.black_man), "确认拉黑", "取消", new DialogInterface.OnClickListener() {
+                    AlertDialogUtils.showAlertDialog(NIMChatActivity.this, getString(R.string.black_man)
+                            , CommonUtils.getString(R.string.chat_black_confirm), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 //                        cancelOrderTV.setText("解除拉黑");
@@ -730,7 +731,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
     @Override
     public void onSendMessageFailed(int code, String message) {
         if(code!=7101){
-            CommonUtils.showToast("发送消息失败请稍候重试");
+            CommonUtils.showToast(R.string.chat_send_message_failed);
            // ApiFeedbackUtils.requestIMFeedback(2, String.valueOf(code));
         }
 
@@ -787,7 +788,7 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
             //IMUtil.getInstance().connect();
             if(emptyView!=null){
                 emptyView.setVisibility(View.VISIBLE);
-                emptyView.setText("聊天账号被踢出登录");
+                emptyView.setText(R.string.chat_empty_login_hint);
             }
         } else {
             if (code == StatusCode.NET_BROKEN) {
@@ -799,17 +800,17 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
                 IMUtil.getInstance().connect();
                 if(emptyView!=null){
                     emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText("正在登录聊天，请稍候...");
+                    emptyView.setText(R.string.chat_empty_hint);
                 }
             } else if (code == StatusCode.CONNECTING) {
                 if(emptyView!=null){
                     emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText("正在重连聊天服务器，请稍候...");
+                    emptyView.setText(R.string.chat_empty_hint2);
                 }
             } else if (code == StatusCode.LOGINING) {
                 if(emptyView!=null){
                     emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText("正在登录聊天，请稍候...");
+                    emptyView.setText(R.string.chat_empty_hint);
                 }
             } else {
                 if(emptyView!=null){

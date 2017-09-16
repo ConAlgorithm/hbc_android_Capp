@@ -18,47 +18,10 @@
             android:background="@color/servicer_center_bg"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/servicer_center_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:paddingBottom="@dimen/basic_margin_xlarge"
-                android:paddingTop="@dimen/basic_margin_xlarge">
-
-                <TextView
-                    android:id="@+id/servicer_center_top_btn1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/basic_margin_medium"
-                    android:drawableTop="@mipmap/journey_advisory"
-                    android:gravity="center_horizontal"
-                    android:text="境内客服\n(仅限国内使用)" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#E0DFDF" />
-
-                <TextView
-                    android:id="@+id/servicer_center_top_btn2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/basic_margin_medium"
-                    android:drawableTop="@mipmap/callcenter_img01"
-                    android:gravity="center_horizontal"
-                    android:text="境外客服\n(在国外使用)" />
-
-            </LinearLayout>
-
             <ImageView
                 android:id="@+id/servicer_center_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/servicer_center_top"
                 android:background="@drawable/fengexian" />
 
             <RelativeLayout

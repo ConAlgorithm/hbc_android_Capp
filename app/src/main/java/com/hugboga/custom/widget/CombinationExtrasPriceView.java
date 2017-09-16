@@ -108,9 +108,9 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
 
             updateChildSeatTextView();
 
-            String childSeatPrice1Str = additionalPriceBean.childSeatPrice1 > 0 ? String.format("单价¥%1$s/天", (int)(additionalPriceBean.childSeatPrice1 / realCharterDayNums)) : "免费";
-            String childSeatPrice2Str = additionalPriceBean.childSeatPrice2 > 0 ? String.format("及以上单价¥%1$s/天", (int)(additionalPriceBean.childSeatPrice2 / realCharterDayNums)) : "免费";
-            String priceHintTV = String.format("第一个%1$s，第二个%2$s", childSeatPrice1Str, childSeatPrice2Str);
+            String childSeatPrice1Str = additionalPriceBean.childSeatPrice1 > 0 ? CommonUtils.getString(R.string.order_extras_price_child_seat_hint1, (int)(additionalPriceBean.childSeatPrice1 / realCharterDayNums)) : CommonUtils.getString(R.string.free_price);
+            String childSeatPrice2Str = additionalPriceBean.childSeatPrice2 > 0 ? CommonUtils.getString(R.string.order_extras_price_child_seat_hint2, (int)(additionalPriceBean.childSeatPrice2 / realCharterDayNums)) : CommonUtils.getString(R.string.free_price);
+            String priceHintTV = CommonUtils.getString(R.string.order_extras_price_child_seat_hint3, childSeatPrice1Str, childSeatPrice2Str);
             childSeatPriceHintTV.setText(priceHintTV);
         } else {
             childSeatLayout.setVisibility(View.GONE);
@@ -218,7 +218,7 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
         } else if (seatTotalPrice > 0) {
             seatTotalPriceStr = String.format("(¥%1$s)", seatTotalPrice);
         } else {
-            seatTotalPriceStr = "(免费)";
+            seatTotalPriceStr = "(" + CommonUtils.getString(R.string.free_price) + ")";
         }
         childSeatPriceTV.setText(seatTotalPriceStr);
         return seatTotalPrice;
@@ -267,7 +267,7 @@ public class CombinationExtrasPriceView extends LinearLayout implements ChooseCo
     public boolean checkFlightBrandSign() {
         String flightBrandSign = CommonUtils.getText(pickupET, false);
         if (pickupSwitchView.isOn() && TextUtils.isEmpty(flightBrandSign)) {
-            CommonUtils.showToast("请填写接机牌姓名!");
+            CommonUtils.showToast(R.string.order_travelerinfo_check_pickup);
             return false;
         } else {
             return true;

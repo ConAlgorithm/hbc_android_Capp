@@ -30,7 +30,7 @@
                 android:textColorHint="@color/change_mobile_hint"
                 android:paddingLeft="10dp"
                 android:textSize="14sp"
-                android:hint="请输入优惠券兑换码" />
+                android:hint="@string/coupon_input_num_hint" />
 
             <Button
                 android:id="@+id/coupon_btn_pay"
@@ -41,7 +41,7 @@
                 android:layout_marginBottom="6dp"
                 android:background="@drawable/coupon_pay_btn"
                 android:gravity="center"
-                android:text="兑换"
+                android:text="@string/coupon_exchange"
                 android:textSize="14sp"
                 android:textColor="#ffffff" />
 
@@ -66,7 +66,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
                 android:drawablePadding="2dp"
-                android:text="使用说明"
+                android:text="@string/coupon_instructions"
                 android:textSize="11sp"
                 android:textColor="#898989"
                 android:gravity="center"
@@ -100,7 +100,7 @@
                 android:drawableTop="@mipmap/empty_coupon"
                 android:gravity="center"
                 android:textSize="15sp"
-                android:text="暂无优惠券"
+                android:text="@string/coupon_empty"
                 android:textColor="@color/coupon_empty_text" />
 
         </RelativeLayout>
@@ -113,7 +113,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text="查看失效券"
+            android:text="@string/coupon_expiry"
             android:textColor="#898989"
             android:textSize="13sp"
             android:drawableRight="@mipmap/coupon_more"

@@ -66,7 +66,7 @@ public  class ErrorHandler implements HttpRequestListener{
             properties.put("error_url", request.getUri());
             properties.put("error_net_code", errorInfo.errorCode);
             if (serverException != null) {
-                properties.put("error_server_code", serverException.getCode());
+                properties.put("error_server_code", "" + serverException.getCode());
                 properties.put("error_message",serverException.getMessage());
             }
             if (errorInfo.throwable != null) {

@@ -184,7 +184,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
         mDialogUtil = DialogUtil.getInstance(this);
 
         initDefaultTitleBar();
-        fgTitle.setText("出行人信息");
+        fgTitle.setText(R.string.traveler_info_title);
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +192,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 finish();
             }
         });
-        fgRightTV.setText("保存");
+        fgRightTV.setText(R.string.traveler_info_save);
         fgRightTV.setVisibility(View.VISIBLE);
         fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override

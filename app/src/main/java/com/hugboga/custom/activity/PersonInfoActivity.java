@@ -97,7 +97,7 @@ public class PersonInfoActivity extends BaseActivity{
         super.onCreate(arg0);
         EventBus.getDefault().register(this);
         initDefaultTitleBar();
-        fgTitle.setText("我的资料");
+        fgTitle.setText(R.string.personinfo_title);
         initView();
         requestData();
     }
@@ -216,18 +216,18 @@ public class PersonInfoActivity extends BaseActivity{
                 final EditText inputServer = (EditText) rl.findViewById(R.id.person_info_nick_text);
                 inputServer.setText(nickNameTextView.getText().toString());
                 inputServer.setSelection(inputServer.getText().length());
-                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl)/*.setTitle("填写昵称")*/.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(rl)/*.setTitle("填写昵称")*/.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         im.hideSoftInputFromWindow(inputServer.getWindowToken(), 0);
                         dialog.cancel();
                     }
-                }).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.hbc_submit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String nickStr = inputServer.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
-                            showTip("没输入昵称，请重新填写");
+                            showTip(CommonUtils.getString(R.string.personinfo_check_nickname));
                             return;
                         }
                         nickStr = nickStr.replaceAll(" ", "");
@@ -261,8 +261,8 @@ public class PersonInfoActivity extends BaseActivity{
                 //agePicker.setTitleText("性别");
                 //agePicker.setTitleTextSize(16);
                 //agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
-                agePicker.setCancelText("取消");
-                agePicker.setSubmitText("确定");
+                agePicker.setCancelText(R.string.cancel);
+                agePicker.setSubmitText(R.string.hbc_confirm);
                 //agePicker.setTopLineHeight(0.5f);
                 //agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
                 agePicker.setTopLineVisible(false);
@@ -304,8 +304,8 @@ public class PersonInfoActivity extends BaseActivity{
                 //agePicker.setTitleText("年龄");
                 //agePicker.setTitleTextSize(16);
                 //agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
-                agePicker.setCancelText("取消");
-                agePicker.setSubmitText("确定");
+                agePicker.setCancelText(R.string.cancel);
+                agePicker.setSubmitText(R.string.hbc_confirm);
                 //agePicker.setTopLineHeight(0.5f);
                 //agePicker.setTopLineColor(getResources().getColor(R.color.pickerLine));
                 agePicker.setTopLineVisible(false);
@@ -354,24 +354,24 @@ public class PersonInfoActivity extends BaseActivity{
                 editText.setText(realNameTextView.getText().toString());
                 editText.setSelection(editText.getText().length());
                 final TextView title = (TextView) layout.findViewById(R.id.person_info_nick_title);
-                title.setText("真实姓名");
-                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout)/*.setTitle("填写真实姓名")*/.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                title.setText(R.string.personinfo_username);
+                AlertDialog.Builder realNameBuilder = new AlertDialog.Builder(this).setView(layout)/*.setTitle("填写真实姓名")*/.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                         dialog.cancel();
                     }
-                }).setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.hbc_submit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String nickStr = editText.getText().toString().trim();
                         if (TextUtils.isEmpty(nickStr)) {
-                            CommonUtils.showToast("没输入真实姓名，请重新填写");
+                            CommonUtils.showToast(R.string.personinfo_check_username);
                             return;
                         }else{
                             for(int i = 0;i< nickStr.length();i++) {
                                 if (!Tools.isEmojiCharacter(nickStr.charAt(i))) {
-                                    CommonUtils.showToast("真实姓名不能包含表情符号");
+                                    CommonUtils.showToast(R.string.personinfo_check_username_isemoji);
                                     return;
                                 }
                             }

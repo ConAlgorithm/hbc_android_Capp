@@ -59,7 +59,7 @@ public class SearchLineActivity extends BaseActivity {
     }
 
     private void initView(){
-        title.setText("相关线路");
+        title.setText(R.string.search_line_title);
         headerLeft.setVisibility(View.VISIBLE);
         headerLeft.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,7 +9,7 @@
         style="@style/SkuOrderSubtitleTextView"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
         android:layout_marginRight="@dimen/sku_order_padding_left"
-        android:text="出行人数" />
+        android:text="@string/order_count_title" />
 
     <RelativeLayout
         android:id="@+id/sku_order_count_adult_layout"
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="成人"
+            android:text="@string/order_count_adult"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="儿童"
+            android:text="@string/order_count_child"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/sku_order_count_child_title_tv"
-            android:text="（12岁以下）"
+            android:text="@string/order_count_child_hint"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
 
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="儿童座椅"
+            android:text="@string/order_count_child_seat"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -130,7 +130,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:gravity="center_vertical"
-            android:text="可携带行李数"
+            android:text="@string/order_count_luggage"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -141,7 +141,7 @@
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:layout_toRightOf="@id/sku_order_count_luggage_title_tv"
             android:gravity="center_vertical"
-            android:text="行李标准说明"
+            android:text="@string/order_count_luggage_explain"
             android:textColor="@color/default_highlight_blue"
             android:textSize="12sp" />
 
@@ -152,7 +152,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="4dp"
             android:gravity="center"
-            android:text="件"
+            android:text="@string/order_count_luggage_unit"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
 
@@ -188,7 +188,7 @@
                 android:background="#fff8e7"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/sku_order_padding_left"
-                android:text="很抱歉，该城市暂时不可提供儿童座椅"
+                android:text="@string/order_count_child_seat_nonsupport"
                 android:textColor="@color/default_yellow"
                 android:textSize="12sp" />
 
@@ -216,7 +216,7 @@
             style="@style/SkuOrderSubtitleTextView"
             android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:text="预订酒店" />
+            android:text="@string/order_count_hotel" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -229,7 +229,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="房间数"
+                android:text="@string/order_count_room_count"
                 android:textColor="@color/default_black"
                 android:textSize="14sp" />
 
@@ -279,7 +279,7 @@
             style="@style/SkuOrderSubtitleTextView"
             android:layout_marginLeft="@dimen/sku_order_padding_left"
             android:layout_marginRight="@dimen/sku_order_padding_left"
-            android:text="其他费用" />
+            android:text="@string/order_count_other_price" />
 
         <RelativeLayout
             android:layout_width="match_parent"

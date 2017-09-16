@@ -39,7 +39,7 @@ public class CallBackActivity extends BaseActivity {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestCallBack) {
             RequestCallBack mParser = (RequestCallBack) request;
-            CommonUtils.showToast("意见反馈提交成功");
+            CommonUtils.showToast(R.string.callback_submit_succesd);
             finish();
         }
     }
@@ -57,7 +57,7 @@ public class CallBackActivity extends BaseActivity {
                 //提交意见
                 String content = contentEditText.getText().toString();
                 if (TextUtils.isEmpty(content)) {
-                    CommonUtils.showToast("请填写内容后再提交");
+                    CommonUtils.showToast(R.string.callback_inupt_check);
                     contentEditText.requestFocus();
                     return;
                 }
@@ -85,7 +85,7 @@ public class CallBackActivity extends BaseActivity {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        headerTitle.setText("意见反馈");
+        headerTitle.setText(R.string.callback_title);
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

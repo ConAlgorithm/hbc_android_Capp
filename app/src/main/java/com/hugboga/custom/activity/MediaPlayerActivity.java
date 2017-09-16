@@ -64,7 +64,7 @@ public class MediaPlayerActivity extends BaseActivity {
             if (!TextUtils.isEmpty(videoPath)) {
                 mediaPlayerView.start(videoPath);
             } else {
-                CommonUtils.showToast("视频地址不存在");
+                CommonUtils.showToast(R.string.media_player_url_error);
             }
         }
     }

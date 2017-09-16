@@ -162,7 +162,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                 String set_psw = setPsw.getText().toString().trim();
                 String set_psw_again = setPswAgain.getText().toString().trim();
                 if (!TextUtils.isEmpty(set_psw) && !TextUtils.isEmpty(set_psw_again) && !TextUtils.equals(set_psw, set_psw_again)) {
-                    CommonUtils.showToast("两次密码不一致");
+                    CommonUtils.showToast(R.string.login_check_pwd_inconformity2);
                 }
 
                 if (isAfterProcess) {
@@ -194,7 +194,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
 
         if(set_psw.length() >= 6 && set_psw_again.length() >=6){
             loginSubmit.setEnabled(true);
-            loginSubmit.setText("提交");
+            loginSubmit.setText(R.string.hbc_submit);
             //loginSubmit.setBackgroundColor(getResources().getColor(R.color.login_ready));
         }else{
             loginSubmit.setEnabled(false);
@@ -228,7 +228,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if(request instanceof PasswordInitSet){
-            CommonUtils.showToast("密码设置成功");
+            CommonUtils.showToast(R.string.login_set_pwd_success);
             Intent intent = new Intent();
             intent.putExtra("needInitPwd",false);
             setResult(SettingActivity.RESULT_OK, intent);
@@ -247,7 +247,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
 //                EventBus.getDefault().post(
 //                        new EventAction(EventType.CLICK_USER_LOGIN));
             }
-            CommonUtils.showToast("密码设置成功");
+            CommonUtils.showToast(R.string.login_set_pwd_success);
             //UserEntity.getUser().setWeakPassword(this, false);
 //            bundle.putString(KEY_FRAGMENT_NAME, FgSetPassword.class.getSimpleName());
 //            finishForResult(bundle);
@@ -258,7 +258,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             finish();
         }else if(request instanceof RequestAfterSetPwd){
             RequestAfterSetPwd requestAfterSetPwd = (RequestAfterSetPwd) request;
-            CommonUtils.showToast("密码设置成功");
+            CommonUtils.showToast(R.string.login_set_pwd_success);
 
             setResult(BindMobileActivity.REQUEST_CODE);
             finish();
@@ -268,10 +268,10 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     protected void initHeader() {
         //设置标题颜色，返回按钮图片
 //        leftBtn.setImageResource(R.mipmap.top_back_black);
-        headerTitle.setText("设置密码");
+        headerTitle.setText(R.string.login_set_pwd);
         if(isAfterProcess || isFromWeChat){
             headerLeftBtn.setVisibility(View.GONE);
-            headerTitle.setText("  设置密码");
+            headerTitle.setText("  " + CommonUtils.getString(R.string.login_set_pwd));
         }else if(isFromSetting){
             headerLeftBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

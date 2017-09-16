@@ -15,7 +15,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="1dp"
-        android:text="下单后可以在这里\n联系司导"
+        android:text="@string/chat_login_hint"
         android:textColor="#898989"
         android:textSize="17sp" />
 
@@ -28,7 +28,7 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/shape_rounded_yellow_btn"
         android:gravity="center"
-        android:text="登录"
+        android:text="@string/login"
         android:textColor="#ffffff"
         android:textSize="15sp" />
 

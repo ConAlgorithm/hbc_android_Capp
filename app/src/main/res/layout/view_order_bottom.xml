@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/order_bottom_confirm_tv"
         style="@style/OrderBottomConfirm"
-        android:text="立即预订" />
+        android:text="@string/order_confirm" />
 
     <View
         android:layout_width="match_parent"

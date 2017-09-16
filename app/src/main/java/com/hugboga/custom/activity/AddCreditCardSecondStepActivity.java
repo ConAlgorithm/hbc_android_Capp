@@ -150,7 +150,7 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     }
 
     public void init(){
-        headerTitle.setText("信用卡支付");
+        headerTitle.setText(R.string.add_creditcard_second_step_title);
         headerTitle.setVisibility(View.VISIBLE);
         headerLeftBtn.setVisibility(View.VISIBLE);
 

@@ -11,7 +11,7 @@
         android:background="#ffffff"
         android:paddingLeft="@dimen/order_padding_left"
         android:paddingRight="@dimen/order_padding_left"
-        android:text="出行人数" />
+        android:text="@string/daily_people_count" />
 
     <RelativeLayout
         android:id="@+id/charter_first_count_adult_layout"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="成人"
+            android:text="@string/daily_adult"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="儿童"
+            android:text="@string/daily_child"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/charter_first_count_child_title_tv"
-            android:text="（12岁以下）"
+            android:text="@string/daily_child_hint"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
 
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="儿童座椅"
+            android:text="@string/daily_child_seat"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
 
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/charter_first_count_child_seat_title_tv"
-            android:text="（占1.5个座位）"
+            android:text="@string/daily_child_seat_hint"
             android:textColor="@color/default_black"
             android:textSize="12sp" />
 
@@ -138,7 +138,7 @@
             android:background="#fff8e7"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/sku_order_padding_left"
-            android:text="很抱歉，该城市暂时不可提供儿童座椅"
+            android:text="@string/daily_child_seat_nonsupport"
             android:textColor="@color/default_yellow"
             android:textSize="12sp" />
 

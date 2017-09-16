@@ -27,7 +27,7 @@
                     android:id="@+id/travel_tab1_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部"
+                    android:text="@string/travel_tab1"
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -61,7 +61,7 @@
                     android:id="@+id/travel_tab2_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="待付款"
+                    android:text="@string/travel_tab2"
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
 
@@ -113,7 +113,7 @@
                     android:id="@+id/travel_tab3_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="进行中"
+                    android:text="@string/travel_tab3"
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
 
@@ -164,7 +164,7 @@
                     android:id="@+id/travel_tab4_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="待评价"
+                    android:text="@string/travel_tab4"
                     android:textColor="@drawable/travel_tab_text_color"
                     android:textSize="15sp" />
 

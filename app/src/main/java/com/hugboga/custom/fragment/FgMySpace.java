@@ -92,15 +92,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
             Arrays.asList(
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_policy_holder, "常用投保人"),
-                    new LvMenuItem(R.mipmap.personal_icon_collect, "我收藏的司导"),
-                    new LvMenuItem(R.mipmap.personal_icon_collect_line,"我收藏的线路"),
+                    new LvMenuItem(R.mipmap.personal_icon_policy_holder, CommonUtils.getString(R.string.myspace_item_policy_holder)),
+                    new LvMenuItem(R.mipmap.personal_icon_collect, CommonUtils.getString(R.string.myspace_item_collect)),
+                    new LvMenuItem(R.mipmap.personal_icon_collect_line, CommonUtils.getString(R.string.myspace_item_collect_line)),
                     new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
                     //new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
                     //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_domestic, "境内用户客服热线", MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(R.mipmap.personal_icon_overseas, "境外用户客服专线", MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(R.mipmap.personal_icon_rule, "服务规则")
+                    new LvMenuItem(R.mipmap.personal_icon_domestic, CommonUtils.getString(R.string.myspace_item_domestic), MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(R.mipmap.personal_icon_overseas, CommonUtils.getString(R.string.myspace_item_overseas), MenuItemAdapter.ItemType.SERVICE),
+                    new LvMenuItem(R.mipmap.personal_icon_rule, CommonUtils.getString(R.string.myspace_item_rule))
                     //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
                     //new LvMenuItem(R.mipmap.personal_icon_install, "设置")
             ));
@@ -262,7 +262,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
         travelFundUnitTV.setTextColor(0xff898989);
 
-        tv_nickname.setText("点击登录");
         tv_nickname.setTextColor(0xff898989);
     }
     @Override
@@ -417,8 +416,8 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             this.mobile = user.mobile;
             couponTV.setText("" + user.coupons);
             travelFundTV.setText("" + user.travelFund);
-            couponUnitTV.setText("张");
-            travelFundUnitTV.setText("元");
+            couponUnitTV.setText(getContext().getResources().getString(R.string.myspace_header_coupon_unit));
+            travelFundUnitTV.setText(getContext().getResources().getString(R.string.myspace_header_travel_fund_unit));
 
             //是否需要设置密码,展示小红点
             if(user.needInitPwd){

@@ -30,7 +30,6 @@ public class RequestRecommendedGoods extends BaseRequest<RecommendedGoodsBean> {
         if (!TextUtils.isEmpty(goodsNo)) {
             map.put("goodsNo", goodsNo);//否 商品编号
         }
-        map.put("picSize", "101");
     }
 
     @Override

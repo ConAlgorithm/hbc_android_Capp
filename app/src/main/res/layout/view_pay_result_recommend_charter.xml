@@ -23,7 +23,7 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:background="@drawable/btn_pay_result_recommend_chater"
-        android:text="按天畅游"
+        android:text="@string/par_result_recommend_charter_title"
         android:textColor="@color/default_black"
         android:textSize="10sp" />
 
@@ -51,7 +51,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="立即预订"
+            android:text="@string/daily_booking"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 

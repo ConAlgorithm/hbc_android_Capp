@@ -81,7 +81,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
             infoLayoutParams.addRule(RelativeLayout.ABOVE, R.id.sku_date_content_layout);
             infoLayout.setLayoutParams(infoLayoutParams);
             guideNameTV.setVisibility(View.VISIBLE);
-            guideNameTV.setText("已选司导：" + params.guidesDetailData.guideName);
+            guideNameTV.setText(getString(R.string.sku_date_selected_guide) + params.guidesDetailData.guideName);
         }
     }
 
@@ -127,7 +127,7 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
             return;
         }
         if (TextUtils.isEmpty(serverDate)) {
-            CommonUtils.showToast("请先选择日期");
+            CommonUtils.showToast(R.string.sku_date_check_select);
             return;
         }
         params.serverDate = serverDate;

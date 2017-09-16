@@ -45,7 +45,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="13dp"
             android:paddingTop="20dp"
-            android:text="更多"
+            android:text="@string/city_more"
             android:textColor="@color/default_yellow"
             android:textSize="12sp" />
 

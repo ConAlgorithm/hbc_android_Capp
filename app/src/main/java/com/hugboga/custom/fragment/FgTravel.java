@@ -300,7 +300,7 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         fgTitle.setLayoutParams(titleParams);
-        fgTitle.setText("行程");
+        fgTitle.setText(R.string.travel_title);
         leftBtn.setVisibility(View.GONE);
 
         RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(30), UIUtils.dip2px(30));

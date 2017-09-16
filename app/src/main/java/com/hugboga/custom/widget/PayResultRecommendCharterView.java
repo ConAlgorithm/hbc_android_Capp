@@ -41,7 +41,7 @@ public class PayResultRecommendCharterView extends RelativeLayout {
 
     public void setData(String cityName,final String cityId, String bgUrl) {
         Tools.showImage(bgIV, bgUrl, R.mipmap.line_goods_dafault);
-        cityTV.setText(String.format("司导开车带你\n畅游你的%1$s专属行程", cityName));
+        cityTV.setText(CommonUtils.getString(R.string.par_result_recommend_charter, cityName));
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

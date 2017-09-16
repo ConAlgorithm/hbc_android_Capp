@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CarBean;
+import com.hugboga.custom.utils.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -50,16 +51,16 @@ public class SkuOrderEmptyView extends LinearLayout{
         if (visibility == View.VISIBLE) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_wifi);
-            hintTV.setText("似乎与网络断开，请检查网络环境");
+            hintTV.setText(R.string.order_empty_wifi);
             refreshTV.setVisibility(View.VISIBLE);
-            refreshTV.setText("刷新试试");
+            refreshTV.setText(R.string.order_empty_refresh);
             type = 1;
         } else {
             setVisibility(View.GONE);
         }
     }
 
-    public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide) {
+    public boolean setEmptyVisibility(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason, boolean isAssignGuide, int orderType) {
         boolean isEmpty = false;
         // noneCarsState == 202 当地时间已过了 服务开始时间
         // noneCarsState == 6 服务开始时间 在当地时间之后，但小于提前预订期
@@ -79,34 +80,46 @@ public class SkuOrderEmptyView extends LinearLayout{
             }
             if (TextUtils.isEmpty(noneCarsReason)) {
                 if (noneCarsState == 202) {
-                    hintTV.setText("当地时间已过了您预订的服务时间，想服务但做不到啊…");
+                    hintTV.setText(R.string.order_empty_error1);
                 } else if (noneCarsState == 6) {
-                    hintTV.setText("很抱歉，预留的时间太短了无法预订，建议您下次早做打算哦");
+                    hintTV.setText(R.string.order_empty_error2);
                 } else if (noneCarsState == 301) {
-                    hintTV.setText("很抱歉，您选择的地点暂时无法通过驾车的方式到达");
+                    hintTV.setText(R.string.order_empty_error3);
                 }
             }
         } else if (noneCarsState == 302) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_trip);
-            hintTV.setText("您预订的行程太远啦，包车压力好大…建议按天包车，去试试按天包车游");
+            String hintText = noneCarsReason;
+            if (TextUtils.isEmpty(hintText)) {
+                hintText = CommonUtils.getString(R.string.order_empty_range);
+            }
+            if (orderType != 3 && orderType != 888) {
+                hintText += CommonUtils.getString(R.string.order_empty_charter);
+                refreshTV.setVisibility(View.VISIBLE);
+                refreshTV.setText(R.string.custom_chartered);
+                type = 3;
+            } else {
+                hintText += CommonUtils.getString(R.string.order_empty_service);
+                refreshTV.setVisibility(View.VISIBLE);
+                refreshTV.setText(R.string.contact_service);
+                type = 2;
+            }
+            hintTV.setText(hintText);
             isEmpty = true;
-            refreshTV.setVisibility(View.VISIBLE);
-            refreshTV.setText("按天包车游");
-            type = 3;
         } else if (_carList == null || _carList.size() <= 0) {
             setVisibility(View.VISIBLE);
             emptyIV.setBackgroundResource(R.drawable.empty_car);
             if ((noneCarsState == 40040211 || noneCarsState == 40040211 || noneCarsState == 40040213) && !TextUtils.isEmpty(noneCarsReason)) {
-                hintTV.setText(noneCarsReason + "\n请联系客服，我们会协助您完成预订");
+                hintTV.setText(noneCarsReason + CommonUtils.getString(R.string.order_empty_service));
             } else if (isAssignGuide) {
-                hintTV.setText("很抱歉，该司导暂无符合的车型\n请联系客服，我们会协助您完成预订");
+                hintTV.setText(R.string.order_empty_car_guide);
             } else {
-                hintTV.setText("很抱歉，没有找到可服务的司导\n请联系客服，我们会协助您完成预订");
+                hintTV.setText(R.string.order_empty_car);
             }
             isEmpty = true;
             refreshTV.setVisibility(View.VISIBLE);
-            refreshTV.setText("联系客服");
+            refreshTV.setText(R.string.contact_service);
             type = 2;
         } else {
             setVisibility(View.GONE);
@@ -119,7 +132,7 @@ public class SkuOrderEmptyView extends LinearLayout{
         emptyIV.setBackgroundResource(R.drawable.empty_car);
         hintTV.setText(noneCarsReason);
         refreshTV.setVisibility(View.VISIBLE);
-        refreshTV.setText("继续下单");
+        refreshTV.setText(R.string.order_empty_continue);
         refreshTV.setOnClickListener(listener);
     }
 

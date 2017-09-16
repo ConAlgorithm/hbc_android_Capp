@@ -186,13 +186,17 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
             requestBatchPrice();
         }
 
-        StatisticClickEvent.dailyClick(StatisticConstant.LAUNCH_R2, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
-                charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
+        try {
+            StatisticClickEvent.dailyClick(StatisticConstant.LAUNCH_R2, getIntentSource(), charterDataUtils.chooseDateBean.dayNums,
+                    charterDataUtils.guidesDetailData != null, (charterDataUtils.adultCount + charterDataUtils.childCount) + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initTitleBar() {
         initDefaultTitleBar();
-        fgTitle.setText("确认订单");
+        fgTitle.setText(R.string.order_title);
         fgLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -399,7 +403,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
                 }
             }
             String errorCode = ErrorHandler.getErrorCode(errorInfo, request);
-            String errorMessage = "很抱歉，该城市暂时无法提供服务(%1$s)";
+            String errorMessage = CommonUtils.getString(R.string.single_errormessage);
             checkDataIsEmpty(null, 0, String.format(errorMessage, errorCode));
             return;
         }
@@ -448,7 +452,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private boolean checkDataIsEmpty(ArrayList<CarBean> _carList, int noneCarsState, String noneCarsReason) {
-        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null);
+        boolean isEmpty = emptyLayout.setEmptyVisibility(_carList, noneCarsState, noneCarsReason, charterDataUtils.guidesDetailData != null, orderType);
         int itemVisibility = !isEmpty ? View.VISIBLE : View.GONE;
         if (isEmpty) {
             progressView.setVisibility(View.GONE);
@@ -473,7 +477,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     }
 
     private void showCheckSeckillsDialog(String content) {
-        AlertDialogUtils.showAlertDialog(this, content, "继续下单", "取消", new DialogInterface.OnClickListener() {
+        AlertDialogUtils.showAlertDialog(this, content, CommonUtils.getString(R.string.order_empty_continue), CommonUtils.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

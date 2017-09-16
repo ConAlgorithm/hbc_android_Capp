@@ -67,7 +67,7 @@ public class ServiceQuestionActivity extends BaseActivity{
         EventBus.getDefault().register(this);
 
         initDefaultTitleBar();
-        fgTitle.setText("请选择内容");
+        fgTitle.setText(R.string.service_question_title);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -89,8 +89,8 @@ public class ServiceQuestionActivity extends BaseActivity{
         }
         int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0);
         if (unreadCount > 0) {
-            AlertDialogUtils.showAlertDialog(activity, "您有未读的客服消息，前去查看？",
-                    "去查看", "忽略", new DialogInterface.OnClickListener() {
+            AlertDialogUtils.showAlertDialog(activity, CommonUtils.getString(R.string.service_question_dialog_title),
+                    CommonUtils.getString(R.string.service_question_dialog_go), CommonUtils.getString(R.string.service_question_dialog_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ServiceQuestionBean.QuestionItem questionItem = new ServiceQuestionBean.QuestionItem();
