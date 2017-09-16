@@ -80,7 +80,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         ButterKnife.bind(linearLayout);
 
         int imageWidth = UIUtils.getScreenWidth();
-        int imageHeight = imageWidth * 210 / 375;
+        int imageHeight = (int)(imageWidth * 210.0 / 375.0);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(imageWidth,imageHeight);
         imageView.setLayoutParams(lp);
 

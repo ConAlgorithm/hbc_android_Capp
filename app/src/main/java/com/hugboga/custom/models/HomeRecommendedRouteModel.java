@@ -197,7 +197,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
             int imageWidth = UIUtils.getScreenWidth();
-            int imageHeight = imageWidth * 210 / 375;
+            int imageHeight = (int)(imageWidth * 210.0 / 375.0);
             ultraViewPager.getLayoutParams().height = imageHeight + UIUtils.dip2px(250);
             //click按钮上下居中
             clickViewpager.getLayoutParams().height = imageHeight;

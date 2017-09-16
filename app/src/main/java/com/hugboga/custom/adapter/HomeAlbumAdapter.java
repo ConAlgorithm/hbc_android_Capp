@@ -97,7 +97,7 @@ public class HomeAlbumAdapter extends RecyclerView.Adapter<HomeAlbumAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return homeAlbumInfoVo==null ? 0 : (homeAlbumInfoVo.albumRelItems == null && homeAlbumInfoVo.albumRelItems.size()>0 ? 1:homeAlbumInfoVo.albumRelItems.size()+1);
+        return homeAlbumInfoVo==null ? 0 : (homeAlbumInfoVo.albumRelItems == null || homeAlbumInfoVo.albumRelItems.size()>0 ? 1:homeAlbumInfoVo.albumRelItems.size()+1);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

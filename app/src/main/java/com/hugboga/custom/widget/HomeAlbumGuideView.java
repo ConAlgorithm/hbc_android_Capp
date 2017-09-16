@@ -66,9 +66,9 @@ public class HomeAlbumGuideView extends LinearLayout{
         int viewHeight = displayImgHeight + UIUtils.dip2px(165);
         recyclerView.getLayoutParams().height = viewHeight;
         imgAlum.getLayoutParams().width = UIUtils.getScreenWidth();
-        imgAlum.getLayoutParams().height = imgAlum.getLayoutParams().width *175/375;
+        imgAlum.getLayoutParams().height = (int)(imgAlum.getLayoutParams().width *175.0/375.0);
         colorOnImg.getLayoutParams().width = UIUtils.getScreenWidth();
-        colorOnImg.getLayoutParams().height = colorOnImg.getLayoutParams().width *175/375;
+        colorOnImg.getLayoutParams().height = (int)(colorOnImg.getLayoutParams().width *175.0/375.0);
 
         recyclerView.setFocusable(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
