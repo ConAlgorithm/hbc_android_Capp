@@ -7,17 +7,18 @@ import com.airbnb.epoxy.EpoxyAdapter;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
-import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.data.bean.HomeCommentInfoVo;
-import com.hugboga.custom.fragment.FgHomePage;
-import com.hugboga.custom.models.ChoicenessGuideModel;
+import com.hugboga.custom.data.bean.HomeHotDestination;
 import com.hugboga.custom.models.HomeBannerModel;
 import com.hugboga.custom.models.HomeBottomBannerModel;
+import com.hugboga.custom.models.HomeCityRecommentGuideModel;
 import com.hugboga.custom.models.HomeFilterGuideModel;
 import com.hugboga.custom.models.HomeGuideEvaluateModel;
 import com.hugboga.custom.models.HomeH5Model;
 import com.hugboga.custom.models.HomeHotAlnum;
+import com.hugboga.custom.models.HomeHotAlnumGuide;
+import com.hugboga.custom.models.HomeHotDestinationModel;
 import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.models.HomePastAlbum;
 import com.hugboga.custom.models.HomeRecommendedRouteModel;
@@ -37,10 +38,13 @@ public class HomeAdapter extends EpoxyAdapter {
     public HomeServiceModel homeServiceModel;
     public HomeH5Model homeH5Model;
     public HomeFilterGuideModel homeFilterGuideModel;
+    public HomeHotDestinationModel homeHotDestinationModel;
     public HomeHotAlnum homeHotAlnum;
+    public HomeHotAlnumGuide homeHotAlnumGuide;
     public HomePastAlbum homePastAlbum;
     public HomeGuideEvaluateModel homeGuideEvaluateModel;
     public HomeRecommendedRouteModel homeRecommendedRouteModel;
+    public HomeCityRecommentGuideModel homeCityRecommentGuideModel;
     public HomeBannerModel homeBannerModel;
     public HomeBottomBannerModel homeBottomBannerModel;
 
@@ -67,16 +71,25 @@ public class HomeAdapter extends EpoxyAdapter {
         }
     }
 
+    public void addHomeHotDestination(Context context,ArrayList<HomeHotDestination> hotCities){
+        homeHotDestinationModel = new HomeHotDestinationModel(context,hotCities);
+        addModel(homeHotDestinationModel);
+    }
+
     public void addHomeH5(Context context) {
         homeH5Model = new HomeH5Model(context);
         addModel(homeH5Model);
     }
 
     public void addHotAlbum(Activity activity, HomeAlbumInfoVo homeAlbumInfoVo, int position) {
-        if(homeAlbumInfoVo != null){
+        if(homeAlbumInfoVo != null && homeAlbumInfoVo.albumType == 1){
             homeHotAlnum = new HomeHotAlnum(activity);
             homeHotAlnum.setAlbumData(homeAlbumInfoVo, position);
             addModel(homeHotAlnum);
+        }else if(homeAlbumInfoVo != null && homeAlbumInfoVo.albumType == 2){
+            homeHotAlnumGuide = new HomeHotAlnumGuide(activity);
+            homeHotAlnumGuide.setAlbumData(homeAlbumInfoVo, position);
+            addModel(homeHotAlnumGuide);
         }
     }
 
@@ -98,6 +111,13 @@ public class HomeAdapter extends EpoxyAdapter {
         if (cityGoodsList != null) {
             homeRecommendedRouteModel = new HomeRecommendedRouteModel(context, cityGoodsList);
             addModel(homeRecommendedRouteModel);
+        }
+    }
+
+    public void addHomeRecommentGuide(Context context, HomeCityContentVo2 cityGoodsList) {
+        if (cityGoodsList != null) {
+            homeCityRecommentGuideModel = new HomeCityRecommentGuideModel(context, cityGoodsList);
+            addModel(homeCityRecommentGuideModel);
         }
     }
 

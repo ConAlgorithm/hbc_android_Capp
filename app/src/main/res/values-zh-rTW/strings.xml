@@ -345,7 +345,7 @@
     <string name="scope_around">%s,周邊遊玩</string>
     <string name="scope_new_add_tips">（300公里，10小時暢遊）</string>
     <string name="scope_other">住在其他城市</string>
-    <string name="scope_other_end">在其它城市結束游城</string>
+    <string name="scope_other_end">在其它城市結束遊城</string>
     <string name="scope_tips_city">包括:%s</string>
 
     <string name="start_end_error">開始日期不能大於結束日期</string>
@@ -903,7 +903,7 @@
     <string name="city_home_empty_car_custom">包車遊線路會儘快補充，敬請期待~</string>
     <string name="city_home_have_no_route">暫無滿足條件的線路，可以試試按天包車遊</string>
     <string name="city_home_find_guide">可以先按天包個車，\n找個中文司導帶你玩</string>
-    <string name="route_goods_detial_title">線路游詳情</string>
+    <string name="route_goods_detial_title">線路遊詳情</string>
     <string name="free_route_goods_detial_title">暢遊詳情</string>
 
     <string name="charter_first_max_passengers_hint">當地最大車型僅承載%1$s人\n如需預訂多車服務，請聯繫客服</string>
@@ -1358,4 +1358,41 @@
 
     <string name="guide_detail_contact_dialog_title">需要先下單並支付才能找Ta聊天呢</string>
     <string name="guide_detail_contact_dialog_content">優秀司導都在服務用戶的路上，預訂後溝通更高效~</string>
+
+    <string name = "destiation">目的地</string>
+    <string name = "destiation_search">目的地搜索</string>
+    <string name = "destiation_all">全境</string>
+    <string name = "destiation_day_service">按天包車遊</string>
+    <string name = "destiation_pick_send">接送機</string>
+    <string name = "destiation_single">單次接送</string>
+
+
+    <string name = "home_hot_destination">熱門目的地</string>
+    <string name = "home_more">查看更多</string>
+    <string name = "home_hot_destination_guide_num">位司導</string>
+    <string name = "home_guide_comment">遊客說</string>
+    <string name = "home_guide_comment_img">圖</string>
+    <string name = "home_guide_service">服務司導</string>
+    <string name = "home_hot_album_guide_orders">累計服務%s單</string>
+    <string name = "home_recomment_guide">%s推薦司導</string>
+    <string name = "home_album_purchse">起/人</string>
+    <string name = "home_guide_evaluate">評價 </string>
+    <string name = "home_album_experience">人已體驗</string>
+    <string name = "home_recomment_guide_end">司導推薦</string>
+    <string name = "home_recomment_service_china">位中文司導可服務</string>
+    <string name = "home_recomment_experience">已體驗</string>
+    <string name = "home_search">搜索目的地、司導、線路</string>
+    <string name = "home_service_day">中文包車遊</string>
+    <string name = "home_service_pick_send">接送機</string>
+    <string name = "home_service_single_pick_send">單次接送</string>
+    <string name = "home_service_day_experience">按天暢遊</string>
+    <string name = "home_service_good_line">精品線路遊</string>
+    <string name = "home_service_favorite_love">私人定製</string>
+    <string name = "home_favorite_guide">選擇心儀的司導服務</string>
+    <string name = "home_favorite_guide_yuding">找Ta預訂</string>
+    <string name = "home_h5_1">一價全包</string>
+    <string name = "home_h5_2">服務保障</string>
+    <string name = "home_h5_3">先行賠付</string>
+    <string name = "home_h5_4">免費保險</string>
+    <string name = "home_hot_album">熱門專輯</string>
 </resources>

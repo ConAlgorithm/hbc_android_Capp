@@ -7,21 +7,19 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/pager_img"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/tuijianxianlu" />
         <View
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginRight="16dp"
             android:background="@drawable/filter_guide_gradient"
             android:layout_gravity="bottom"/>
-        <TextView
+        <!--<TextView
             android:id="@+id/guidesNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,13 +29,13 @@
             android:layout_marginLeft="10dp"
             android:text="37位中文司导可服务"
             android:textColor="#ffffff"
-            android:textSize="12sp" />
+            android:textSize="12sp" />-->
         <LinearLayout
             android:id="@+id/save_guild_layout"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="5dp">
 
             <ImageView
                 android:id="@+id/save_line"
@@ -47,142 +45,126 @@
                 android:background="@drawable/save_guild_icon" />
 
         </LinearLayout>
+
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="256dp"
+        android:layout_height="250dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/des1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="深度瑞士｜瑞士全景环游之路超豪华 8日包车游特别好玩啊好好玩"
+            android:textColor="#151515"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="216dp">
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="#9a979797" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/des1"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="12dp"
-                    android:text="深度瑞士｜瑞士全景环游之路超豪华 8日包车游特别好玩啊好好玩"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:textColor="#4a4a4a"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:id="@+id/content_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="left"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:background="@drawable/home_kuang">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="5dp">
-
-                        <net.grobas.view.PolygonImageView
-                            android:id="@+id/avr"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:scaleType="centerCrop"
-                            android:src="@mipmap/home_head_portrait"
-                            app:poly_border="false"
-                            app:poly_border_color="@android:color/white"
-                            app:poly_border_width="5dp"
-                            app:poly_corner_radius="5"
-                            app:poly_rotation_angle="25"
-                            app:poly_shadow="false"
-                            app:poly_shadow_color="@android:color/black"
-                            app:poly_vertices="0" />
-
-                        <TextView
-                            android:id="@+id/cityName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="8dp"
-                            android:layout_toRightOf="@+id/avr"
-                            android:text="瑞士司导推荐"
-                            android:textColor="#4a4a4a"
-                            android:textSize="12sp" />
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/des2"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="2dp"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="这里有非常古老的修道院和修道议音频…"
-                        android:textColor="#4a4a4a"
-                        android:textSize="12sp" />
-                </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+          <!--  <TextView
+                android:id="@+id/tiyan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="已体验2000"
+                android:textColor="#4a4a4a"
+                android:textSize="12sp" />-->
 
+            <TextView
+                android:id="@+id/guidesNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="37位中文司导可服务"
+                android:textColor="#151515"
+                android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/tiyan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="已体验2000"
-                        android:textColor="#4a4a4a"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/perPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/recomment_rout_price"
-                        android:gravity="center"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="$15680起/人"
-                        android:textColor="#e98100"
-                        android:textSize="14sp" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
+            <TextView
+                android:id="@+id/perPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
                 android:layout_alignParentRight="true"
-                android:background="#9a979797" />
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="$15680起/人"
+                android:textColor="#e98100"
+                android:textSize="20sp" />
         </RelativeLayout>
 
-        <View
+        <LinearLayout
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#9a979797" />
+            android:layout_height="wrap_content"
+            android:background="#f8f8f8"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <net.grobas.view.PolygonImageView
+                    android:id="@+id/avr"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/home_head_portrait"
+                    app:poly_border="false"
+                    app:poly_border_color="@android:color/white"
+                    app:poly_border_width="5dp"
+                    app:poly_corner_radius="5"
+                    app:poly_rotation_angle="25"
+                    app:poly_shadow="false"
+                    app:poly_shadow_color="@android:color/black"
+                    app:poly_vertices="0"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/cityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/avr"
+                    android:text="瑞士司导推荐"
+                    android:textStyle="bold"
+                    android:textColor="#4a4a4a"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/des2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="这里有非常古老的修道院和修道议音频…"
+                android:textColor="#151515"
+                android:textSize="12sp" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </LinearLayout>

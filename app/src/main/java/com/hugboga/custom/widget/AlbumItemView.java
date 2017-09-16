@@ -2,9 +2,11 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,10 +15,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeAlbumRelGoodsVo;
-import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.bean.HomeAlbumRelItemVo;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
+
+import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +47,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
 
     @Override
     public void update(Object data) {
-        final HomeAlbumRelGoodsVo homeAlbumRelGoodsVo = (HomeAlbumRelGoodsVo) data;
+        final HomeAlbumRelItemVo homeAlbumRelGoodsVo = (HomeAlbumRelItemVo) data;
         if(homeAlbumRelGoodsVo != null){
             Tools.showImageForHomePage(albumImgItem,homeAlbumRelGoodsVo.goodsPic,R.mipmap.hotalbumitem);
             albumImgItem.setOnClickListener(new OnClickListener() {
@@ -58,7 +61,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
                     SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
                 }
             });
-            albumPurchseItem.setText("¥" + homeAlbumRelGoodsVo.perPrice +"起/人");
+            setPrice(homeAlbumRelGoodsVo);
             albumTitleItem.setText(homeAlbumRelGoodsVo.goodsName);
         }
 
@@ -70,5 +73,21 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
     }
     private String getEventSource(){
         return "首页";
+    }
+    private void setPrice(HomeAlbumRelItemVo homeAlbumRelGoodsVo){
+        if(homeAlbumRelGoodsVo!= null){
+            String perPrice = "";
+            try {
+                DecimalFormat df = new DecimalFormat("#,###");
+                perPrice = df.format(homeAlbumRelGoodsVo.perPrice);
+            }catch(NumberFormatException e){
+                e.printStackTrace();
+            }
+
+            String finalPerPrice = "¥" + perPrice + getContext().getResources().getString(R.string.home_album_purchse);
+            SpannableString spannableString = new SpannableString(finalPerPrice);
+            spannableString.setSpan(new AbsoluteSizeSpan(12, true), finalPerPrice.length()-3, finalPerPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            albumPurchseItem.setText(spannableString);
+        }
     }
 }

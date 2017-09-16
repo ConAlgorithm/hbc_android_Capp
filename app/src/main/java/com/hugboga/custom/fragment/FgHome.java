@@ -269,6 +269,11 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 //服务类型
                 homeAdapter.addHomeService(getContext());
 
+                //热门目的地
+                if(homeBean.hotCities != null && homeBean.hotCities.size() >0){
+                    homeAdapter.addHomeHotDestination(getContext(),homeBean.hotCities);
+                }
+
                 //心仪司导
                 if (homeBean.qualityGuides != null && homeBean.qualityGuides.size() > 0) {
                     homeAdapter.addGuideModels(getActivity(), homeBean.qualityGuides);
@@ -277,6 +282,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 //广告
                 homeAdapter.addHomeH5(getContext());
 
+                //热门专辑
                 if (homeBean.hotAlbumList != null && homeBean.hotAlbumList.size() > 0) {
                     for (int i = 0; i < homeBean.hotAlbumList.size(); i++) {
                         homeAdapter.addHotAlbum(getActivity(), homeBean.hotAlbumList.get(i), i);
@@ -295,13 +301,22 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                     }
                 }
 
-                //推荐线路
-                if (homeBean.cityGoodsList != null && homeBean.cityGoodsList.size() >= 2) {
+                //推荐线路/司导
+                if (homeBean.cityRecommendedList != null && homeBean.cityRecommendedList.size() >= 2) {
                     for (int i = 0; i < 2; i++) {
-                        homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(i));
+                        if(homeBean.cityRecommendedList.get(i).contentType ==2){
+                            homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityRecommendedList.get(i));
+                        }else if(homeBean.cityRecommendedList.get(i).contentType ==1){
+                            homeAdapter.addHomeRecommentGuide(getContext(),homeBean.cityRecommendedList.get(i));
+                        }
+
                     }
-                }else if(homeBean.cityGoodsList.size() == 1){
-                    homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(0));
+                }else if(homeBean.cityRecommendedList.size() == 1){
+                    if(homeBean.cityRecommendedList.get(0).contentType ==2){
+                        homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityRecommendedList.get(0));
+                    }else if(homeBean.cityRecommendedList.get(0).contentType ==1){
+                        homeAdapter.addHomeRecommentGuide(getContext(),homeBean.cityRecommendedList.get(0));
+                    }
                 }
 
                 //推荐线路广告
@@ -309,10 +324,14 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                     homeAdapter.addHomeBanner(getContext(), homeBean.excitingActivityList);
                 }
 
-                //其余城市线路推荐
-                if (homeBean.cityGoodsList != null && homeBean.cityGoodsList.size() > 2) {
-                    for (int j = 2; j < homeBean.cityGoodsList.size(); j++) {
-                        homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityGoodsList.get(j));
+                //其余城市线路/司导推荐
+                if (homeBean.cityRecommendedList != null && homeBean.cityRecommendedList.size() > 2) {
+                    for (int j = 2; j < homeBean.cityRecommendedList.size(); j++) {
+                        if(homeBean.cityRecommendedList.get(j).contentType ==2){
+                            homeAdapter.addHomeRecommentRout(getContext(), homeBean.cityRecommendedList.get(j));
+                        }else if(homeBean.cityRecommendedList.get(j).contentType ==1){
+                            homeAdapter.addHomeRecommentGuide(getContext(),homeBean.cityRecommendedList.get(j));
+                        }
                     }
                 }
 
@@ -339,12 +358,50 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
                 homeBean.qualityGuides.get(j).isCollected = 0;
             }
+            for(int p=0;p<homeBean.hotAlbumList.size();p++){
+                if(homeBean.hotAlbumList.get(p).albumType == 2){
+                    for(int q=0;q<homeBean.hotAlbumList.get(p).albumRelItems.size();q++){
+                        homeBean.hotAlbumList.get(p).albumRelItems.get(q).isCollected = 0;
+                    }
+                }
+            }
+
+            for (int y =0;y<homeBean.cityRecommendedList.size();y++){
+                if(homeBean.cityRecommendedList.get(y).contentType == 1){
+                    for(int z=0;z<homeBean.cityRecommendedList.get(y).cityItemList.size();z++){
+                        homeBean.cityRecommendedList.get(y).cityItemList.get(z).isCollected =0;
+                    }
+                }
+            }
             if (request.getData() instanceof UserFavoriteGuideListVo3) {
+                //所有司导的收藏状态同步在此
                 UserFavoriteGuideListVo3 favoriteGuideSavedBean = (UserFavoriteGuideListVo3) request.getData();
                 for (int i = 0; i < favoriteGuideSavedBean.guides.size(); i++) {
                     for (int j = 0; j < homeBean.qualityGuides.size(); j++) {
                         if (favoriteGuideSavedBean.guides.get(i).equals(homeBean.qualityGuides.get(j).guideId)) {
                             homeBean.qualityGuides.get(j).isCollected = 1;
+                        }
+                    }
+                }
+                for(int o=0;o<favoriteGuideSavedBean.guides.size();o++){
+                    for(int p=0;p<homeBean.hotAlbumList.size();p++){
+                        if(homeBean.hotAlbumList.get(p).albumType == 2){
+                            for(int q=0;q<homeBean.hotAlbumList.get(p).albumRelItems.size();q++){
+                                if(favoriteGuideSavedBean.guides.get(o).equals(homeBean.hotAlbumList.get(p).albumRelItems.get(q).guideId)){
+                                    homeBean.hotAlbumList.get(p).albumRelItems.get(q).isCollected = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                for(int x=0;x<favoriteGuideSavedBean.guides.size();x++){
+                    for (int y =0;y<homeBean.cityRecommendedList.size();y++){
+                        if(homeBean.cityRecommendedList.get(y).contentType == 1){
+                            for(int z=0;z<homeBean.cityRecommendedList.get(y).cityItemList.size();z++){
+                                if(favoriteGuideSavedBean.guides.get(x).equals(homeBean.cityRecommendedList.get(y).cityItemList.get(z).guideId)){
+                                    homeBean.cityRecommendedList.get(y).cityItemList.get(z).isCollected =1;
+                                }
+                            }
                         }
                     }
                 }
@@ -354,18 +411,23 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
             if (homeBean == null) {
                 return;
             }
-            for(int k = 0;k <homeBean.cityGoodsList.size();k++){
-                for(int m = 0;m<homeBean.cityGoodsList.get(k).cityGoodsList.size();m++){
-                    homeBean.cityGoodsList.get(k).cityGoodsList.get(m).isCollected = 0;
+            for(int k = 0;k <homeBean.cityRecommendedList.size();k++){
+                if(homeBean.cityRecommendedList.get(k).contentType == 2){
+                    for(int m = 0;m<homeBean.cityRecommendedList.get(k).cityItemList.size();m++){
+                        homeBean.cityRecommendedList.get(k).cityItemList.get(m).isCollected = 0;
+                    }
                 }
             }
+            //所有线路的收藏状态同步在此
             if(request.getData() instanceof UserFavoriteLineList){
                 UserFavoriteLineList userFavoriteLineList = (UserFavoriteLineList) request.getData();
                 for (int o = 0; o<userFavoriteLineList.goodsNos.size();o++){
-                    for(int k = 0;k <homeBean.cityGoodsList.size();k++){
-                        for(int m = 0;m<homeBean.cityGoodsList.get(k).cityGoodsList.size();m++){
-                            if(userFavoriteLineList.goodsNos.get(o).equals(homeBean.cityGoodsList.get(k).cityGoodsList.get(m).goodsNo)){
-                                homeBean.cityGoodsList.get(k).cityGoodsList.get(m).isCollected = 1;
+                    for(int k = 0;k <homeBean.cityRecommendedList.size();k++){
+                        if(homeBean.cityRecommendedList.get(k).contentType == 2){
+                            for(int m = 0;m<homeBean.cityRecommendedList.get(k).cityItemList.size();m++){
+                                if(userFavoriteLineList.goodsNos.get(o).equals(homeBean.cityRecommendedList.get(k).cityItemList.get(m).goodsNo)){
+                                    homeBean.cityRecommendedList.get(k).cityItemList.get(m).isCollected = 1;
+                                }
                             }
                         }
                     }
@@ -404,9 +466,9 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                     for (int i = 0; i < homeBean.qualityGuides.size(); i++) {
                         homeBean.qualityGuides.get(i).isCollected = 0;
                     }
-                    for(int k = 0;k <homeBean.cityGoodsList.size();k++){
-                        for(int m = 0;m<homeBean.cityGoodsList.get(k).cityGoodsList.size();m++){
-                            homeBean.cityGoodsList.get(k).cityGoodsList.get(m).isCollected = 0;
+                    for(int k = 0;k <homeBean.cityRecommendedList.size();k++){
+                        for(int m = 0;m<homeBean.cityRecommendedList.get(k).cityItemList.size();m++){
+                            homeBean.cityRecommendedList.get(k).cityItemList.get(m).isCollected = 0;
                         }
                     }
                     homeAdapter.notifyDataSetChanged();

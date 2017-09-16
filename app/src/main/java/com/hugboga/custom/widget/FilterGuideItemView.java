@@ -3,7 +3,12 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -49,11 +54,11 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     @Bind(R.id.save_guild_layout)
     LinearLayout save_guide_layout;
     @Bind(R.id.star)
-    TextView star;
+    ImageView star;
     @Bind(R.id.evaluate)
     TextView evaluate;
-    @Bind(R.id.guide_des)
-    TextView guideDes;
+    //@Bind(R.id.guide_des)
+    //TextView guideDes;
     @Bind(R.id.filter_guide_name)
     TextView name;
     @Bind(R.id.filter_guide_location)
@@ -76,8 +81,11 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         filterGuideBean = (FilterGuideBean)data;
         Tools.showImageForHomePage(imageView, filterGuideBean.guideCover, R.mipmap.empty_home_guide);
 
-        evaluate.setText("评价 " +filterGuideBean.commentNum);
-        name.setText(filterGuideBean.guideName);
+        evaluate.setText(getResources().getString(R.string.home_guide_evaluate) +filterGuideBean.commentNum);
+        SpannableString spannableString = new SpannableString(filterGuideBean.guideName + " " +filterGuideBean.getGuideDesc());
+        spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_151515)), 0, filterGuideBean.guideName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, filterGuideBean.guideName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        name.setText(spannableString);
 
         if(!UserEntity.getUser().isLogin(getContext())){
             saveGuild.setSelected(false);
@@ -104,16 +112,16 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
                 }
             }
         });
-        if (TextUtils.isEmpty(filterGuideBean.getGuideDesc())) {
+        /*if (TextUtils.isEmpty(filterGuideBean.getGuideDesc())) {
             guideDes.setVisibility(View.GONE);
         } else {
             guideDes.setVisibility(View.VISIBLE);
             guideDes.setText(filterGuideBean.getGuideDesc());
-        }
+        }*/
 
         double serviceStar = filterGuideBean.getServiceStar();
 
-        if (serviceStar <= 0) {
+        /*if (serviceStar <= 0) {
             star.setText("暂无星级");
             star.setTextSize(12);
             star.setTextColor(0xFF929292);
@@ -126,7 +134,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
 //            levelTV.setTextSize(16);
 //            levelTV.setText(spannableString);
             star.setText(filterGuideBean.getServiceStar() + "星");
-        }
+        }*/
 
 
 //        GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
@@ -185,10 +193,10 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
         if(request instanceof RequestCollectGuidesId){
             saveGuild.setSelected(true);
             filterGuideBean.isCollected= 1;
-            CommonUtils.showToast("收藏成功");
+            CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
             setSensorsShareEvent(filterGuideBean.guideId);
         }else if(request instanceof RequestUncollectGuidesId){
-            CommonUtils.showToast("已取消收藏");
+            CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
         }
         save_guide_layout.setEnabled(true);
     }

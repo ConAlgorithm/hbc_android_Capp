@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
@@ -44,22 +47,6 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
     public HomeRecommendedRouteModel(Context context, HomeCityContentVo2 homeCityContentVo2) {
         this.context = context;
         this.homeCityContentVo2 = homeCityContentVo2;
-//        HomeCityGoodsVo homeCityGoodsVo = new HomeCityGoodsVo();
-//        homeCityGoodsVo.goodsPic = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502203816939&di=6a7715d7258c8901c3499e792d144c30&imgtype=0&src=http%3A%2F%2Fwww.qq1234.org%2Fuploads%2Fallimg%2F140426%2F155540J58-13.jpg";
-//        homeCityGoodsVo.perPrice = 2000;
-//        homeCityGoodsVo.recommendedReason = " woaini";
-//        homeCityContentVo2.cityGoodsList.add(homeCityGoodsVo);
-//        HomeCityGoodsVo homeCityGoodsVo1 = new HomeCityGoodsVo();
-//        homeCityGoodsVo1.goodsPic = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502203952492&di=8afaf487b80fa05969c467ba55cb48c8&imgtype=0&src=http%3A%2F%2Fimg.jsqq.net%2Fuploads%2Fallimg%2F150111%2F1_150111080328_19.jpg";
-//        homeCityGoodsVo1.perPrice = 3000;
-//        homeCityGoodsVo1.recommendedReason = " 疯子";
-//        homeCityContentVo2.cityGoodsList.add(homeCityGoodsVo1);
-//        HomeCityGoodsVo homeCityGoodsVo2 = new HomeCityGoodsVo();
-//        homeCityGoodsVo2.goodsPic = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502204002679&di=638ef89607cce6a40e4506dec045d60e&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2Fface01%2Fface06%2Ffacejunyong%2Fjunyong04.jpg";
-//        homeCityGoodsVo2.perPrice = 4000;
-//        homeCityGoodsVo2.recommendedReason = " 张强";
-//        homeCityContentVo2.cityGoodsList.add(homeCityGoodsVo2);
-
     }
 
     @Override
@@ -78,7 +65,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
         if (homeRecommendedRouteHolder != null) {
             //if (adapter == null) {
             homeRecommendedRouteHolder.ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-            if(homeCityContentVo2.cityGoodsList.size() == 1){
+            if(homeCityContentVo2.cityItemList.size() == 1){
                 homeRecommendedRouteHolder.ultraViewPager.disableIndicator();
                 homeRecommendedRouteHolder.ultraViewPager.setInfiniteLoop(false);
                 homeRecommendedRouteHolder.ultraViewPager.setAutoMeasureHeight(true);
@@ -105,8 +92,10 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
 //                    }
 //                });
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
+                homeRecommendedRouteHolder.leftClick.setVisibility(View.GONE);
+                homeRecommendedRouteHolder.rightClick.setVisibility(View.GONE);
                 //setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
-            }else if (homeCityContentVo2.cityGoodsList.size() > 1) {
+            }else if (homeCityContentVo2.cityItemList.size() > 1) {
                 //initialize built-in indicator
                 homeRecommendedRouteHolder.ultraViewPager.initIndicator();
                 //set style of indicators
@@ -116,7 +105,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                         .setNormalColor(0xFFDBDBDB)
                         .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
                 //set the alignment
-                homeRecommendedRouteHolder.ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0,0,0, UIUtils.dip2px(10));
+                homeRecommendedRouteHolder.ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0,0,0, UIUtils.dip2px(20));
                 //construct built-in indicator, and add it to  UltraViewPager
                 homeRecommendedRouteHolder.ultraViewPager.getIndicator().build();
 
@@ -127,7 +116,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 homeRecommendedRouteHolder.ultraViewPager.setOffscreenPageLimit(3);
 
                 //homeRecommendedRouteHolder.ultraViewPager.setMultiScreen(0.9f);
-                homeRecommendedRouteHolder.ultraViewPager.setPageMargin();
+                //homeRecommendedRouteHolder.ultraViewPager.setPageMargin();
                 //homeRecommendedRouteHolder.ultraViewPager.setPageTransformer(false, new UltraScaleTransformer());
                 homeRecommendedRouteHolder.ultraViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
@@ -150,10 +139,23 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                 //initialize UltraPagerAdapter，and add child view to UltraViewPager
                 adapter = new HomeRecommendedRoutAdapter(context, homeCityContentVo2);
                 homeRecommendedRouteHolder.ultraViewPager.setAdapter(adapter);
-
                 //setData(homeCityContentVo2.cityName, homeCityContentVo2.cityGoodsList.get(0));
+                homeRecommendedRouteHolder.leftClick.setVisibility(View.VISIBLE);
+                homeRecommendedRouteHolder.leftClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        homeRecommendedRouteHolder.ultraViewPager.getViewPager().arrowScroll(1);
+                    }
+                });
+                homeRecommendedRouteHolder.rightClick.setVisibility(View.VISIBLE);
+                homeRecommendedRouteHolder.rightClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        homeRecommendedRouteHolder.ultraViewPager.getViewPager().arrowScroll(2);
+                    }
+                });
             }
-            homeRecommendedRouteHolder.filter_guide.setText(homeCityContentVo2.cityName + "推荐线路");
+            homeRecommendedRouteHolder.filter_guide.setText(homeCityContentVo2.cityName + context.getResources().getString(R.string.custom_recommend_line));
             homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,6 +167,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
                 }
             });
+
         }
 
     }
@@ -181,15 +184,23 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
         TextView filterGuideMore;
         @Bind(R.id.filter_guide)
         TextView filter_guide;
+        @Bind(R.id.click_viewpager)
+        RelativeLayout clickViewpager;
+        @Bind(R.id.right_click)
+        ImageView rightClick;
+        @Bind(R.id.left_click)
+        ImageView leftClick;
 
 
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
-            int imageWidth = UIUtils.getScreenWidth() - 2 * UIUtils.dip2px(16);
-            int imageHeight = imageWidth * 189 / 330;
-            ultraViewPager.getLayoutParams().height = imageHeight + UIUtils.dip2px(256);
+            int imageWidth = UIUtils.getScreenWidth();
+            int imageHeight = (int)(imageWidth * 210.0 / 375.0);
+            ultraViewPager.getLayoutParams().height = imageHeight + UIUtils.dip2px(250);
+            //click按钮上下居中
+            clickViewpager.getLayoutParams().height = imageHeight;
         }
     }
 
