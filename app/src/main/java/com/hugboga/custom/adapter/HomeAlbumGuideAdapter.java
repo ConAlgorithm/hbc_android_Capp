@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -10,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.AlbumItemView;
 import com.hugboga.custom.widget.HbcViewBehavior;
@@ -56,7 +59,7 @@ public class HomeAlbumGuideAdapter extends RecyclerView.Adapter<HomeAlbumGuideAd
                 Drawable image = mContext.getResources().getDrawable(R.mipmap.personalcenter_right);
                 image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
                 moreIV.setCompoundDrawables(null,null,image,null);
-                moreIV.setCompoundDrawablePadding(3);
+                moreIV.setCompoundDrawablePadding(5);
                 moreIV.setGravity(Gravity.CENTER);
                 linearLayout.addView(moreIV);
                 linearLayout.setGravity(Gravity.CENTER);
@@ -70,13 +73,16 @@ public class HomeAlbumGuideAdapter extends RecyclerView.Adapter<HomeAlbumGuideAd
     }
 
     @Override
-    public void onBindViewHolder(HomeAlbumGuideAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final HomeAlbumGuideAdapter.MyViewHolder holder, int position) {
 
         if (position == getItemCount() -1) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(holder.itemView.getContext(),WebInfoActivity.class);
+                    intent.putExtra("web_url", homeAlbumInfoVo.albumLinkUrl);
+                    holder.itemView.getContext().startActivity(intent);
+                    SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
                 }
             });
         }else{
@@ -114,5 +120,8 @@ public class HomeAlbumGuideAdapter extends RecyclerView.Adapter<HomeAlbumGuideAd
         } else {
             return TYPE_ITEM;
         }
+    }
+    private String getEventSource(){
+        return "首页";
     }
 }

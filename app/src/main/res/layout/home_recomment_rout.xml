@@ -35,9 +35,10 @@
             android:drawablePadding="4dp"
             android:drawableRight="@mipmap/home_icon_back"
             android:gravity="center_vertical"
-            android:text="更多"
+            android:text="@string/more"
             android:textColor="#9b9b9b"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
 
     </RelativeLayout>

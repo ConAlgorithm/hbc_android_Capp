@@ -3,7 +3,10 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -35,6 +38,8 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import net.grobas.view.PolygonImageView;
 
 import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -130,7 +135,8 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         guidesNum.setText(homeCityGoodsVo.guidesNum + getContext().getResources().getString(R.string.home_recomment_service_china));
         des2.setText(homeCityGoodsVo.recommendedReason);
         //tiyan.setText(getContext().getResources().getString(R.string.home_recomment_experience) + homeCityGoodsVo.purchases);
-        perPrice.setText("¥" + homeCityGoodsVo.perPrice + getContext().getResources().getString(R.string.home_album_purchse));
+
+        setPrice();
         if (!TextUtils.isEmpty(homeCityGoodsVo.goodsPic)) {
             Tools.showRoundImage(polygonImageView, homeCityGoodsVo.guidePic, UIUtils.dip2px(5), R.mipmap.home_head_portrait);
         }
@@ -204,6 +210,23 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
             SensorsDataAPI.sharedInstance(MyApplication.getAppContext()).track("favorite", properties);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setPrice(){
+        if(homeCityGoodsVo!= null ){
+            String price = "";
+            try {
+                DecimalFormat df = new DecimalFormat("#,###");
+                price = df.format(homeCityGoodsVo.perPrice);
+            }catch(NumberFormatException e){
+                e.printStackTrace();
+            }
+            String finalPerPrice = "¥" + price + getContext().getResources().getString(R.string.home_album_purchse);
+            SpannableString spannableString = new SpannableString(finalPerPrice);
+            spannableString.setSpan(new AbsoluteSizeSpan(12, true), finalPerPrice.length()-3, finalPerPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            perPrice.setText(spannableString);
         }
     }
 }
