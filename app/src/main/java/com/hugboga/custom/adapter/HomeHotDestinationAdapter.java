@@ -1,6 +1,7 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -9,47 +10,44 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.FilterGuideListActivity;
-import com.hugboga.custom.data.bean.FilterGuideBean;
-import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.custom.widget.AlbumItemView;
-import com.hugboga.custom.widget.FilterGuideItemView;
+import com.hugboga.custom.data.bean.HomeHotDestination;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.widget.HbcViewBehavior;
+import com.hugboga.custom.widget.HomeHotDestinationItemView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 /**
- * Created by zhangqiang on 17/8/2.
+ * Created by zhangqiang on 17/9/13.
  */
 
-
-public class HomeAlbumAdapter extends RecyclerView.Adapter<HomeAlbumAdapter.MyViewHolder> {
-
+public class HomeHotDestinationAdapter extends RecyclerView.Adapter {
     private static final int TYPE_ITEM = 0x01;
     private static final int TYPE_MORE = 0x02;
     private Context mContext;
     private int displayImgWidth;
     private int displayImgHeight;
-    HomeAlbumInfoVo homeAlbumInfoVo;
-    public HomeAlbumAdapter(Context context,int displayImgWidth,int displayImgHeight,HomeAlbumInfoVo homeAlbumInfoVo){
+    ArrayList<HomeHotDestination> hotCities;
+    public HomeHotDestinationAdapter(Context context,int displayImgWidth,int displayImgHeight,ArrayList<HomeHotDestination> hotCities){
         this.mContext = context;
         this.displayImgWidth = displayImgWidth;
         this.displayImgHeight = displayImgHeight;
-        this.homeAlbumInfoVo = homeAlbumInfoVo;
+        this.hotCities = hotCities;
     }
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = null;
         switch (viewType){
             case TYPE_ITEM:
-                AlbumItemView albumItemView = new AlbumItemView(mContext);
-                albumItemView.setImageBound(displayImgWidth, displayImgHeight);
-                itemView = albumItemView;
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(displayImgWidth,  ScreenUtil.dip2px(226));
+                HomeHotDestinationItemView homeHotDestinationItemView = new HomeHotDestinationItemView(mContext);
+                itemView = homeHotDestinationItemView;
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(displayImgWidth, displayImgHeight + ScreenUtil.dip2px(100));
                 itemView.setLayoutParams(params);
                 break;
             case TYPE_MORE:
@@ -57,6 +55,7 @@ public class HomeAlbumAdapter extends RecyclerView.Adapter<HomeAlbumAdapter.MyVi
                 TextView moreIV = new TextView(mContext);
                 moreIV.setText(mContext.getResources().getString(R.string.home_more));
                 moreIV.setTextSize(14);
+                //moreIV.setBackgroundColor(0x33ff0000);
                 moreIV.setTextColor(mContext.getResources().getColor(R.color.color_151515));
                 Drawable image = mContext.getResources().getDrawable(R.mipmap.personalcenter_right);
                 image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
@@ -66,33 +65,44 @@ public class HomeAlbumAdapter extends RecyclerView.Adapter<HomeAlbumAdapter.MyVi
                 linearLayout.addView(moreIV);
                 linearLayout.setGravity(Gravity.CENTER);
                 linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_f8f8f8));
-                linearLayout.setLayoutParams(new LinearLayout.LayoutParams(UIUtils.dip2px(85), UIUtils.dip2px(100)));
+                linearLayout.setLayoutParams(new LinearLayout.LayoutParams(displayImgWidth,displayImgHeight));
                 itemView = linearLayout;
                 break;
         }
 
-        return new MyViewHolder(itemView);
+        return new HomeHotDestinationAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == getItemCount() -1) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            LinearLayout linearLayout = (LinearLayout) holder.itemView;
+            linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
+                    EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 1));
                 }
             });
         }else{
-            ((HbcViewBehavior) holder.itemView).update(homeAlbumInfoVo.albumRelItems.get(position));
+            ((HbcViewBehavior) holder.itemView).update(hotCities.get(position));
         }
-
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() -1) {
+            return TYPE_MORE;
+        } else {
+            return TYPE_ITEM;
+        }
+    }
     @Override
     public int getItemCount() {
-        return homeAlbumInfoVo==null ? 0 : (homeAlbumInfoVo.albumRelItems == null && homeAlbumInfoVo.albumRelItems.size()>0 ? 1:homeAlbumInfoVo.albumRelItems.size()+1);
+        if(hotCities!= null){
+
+        }
+        return hotCities.size() == 0?0:hotCities.size()+1;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -101,23 +111,7 @@ public class HomeAlbumAdapter extends RecyclerView.Adapter<HomeAlbumAdapter.MyVi
         }
     }
 
-    /*//分页加载更新数据
-    public void add(HomeAlbumInfoVo homeAlbumInfoVo) {
-        homeAlbumInfoVo.addAll(homeAlbumInfoVo);
-        notifyDataSetChanged();
-    }*/
-
-    public void setData(HomeAlbumInfoVo homeAlbumInfoVo) {
-        this.homeAlbumInfoVo = homeAlbumInfoVo;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == getItemCount() -1) {
-            return TYPE_MORE;
-        } else {
-            return TYPE_ITEM;
-        }
+    public void setData(ArrayList<HomeHotDestination> hotCities){
+        this.hotCities = hotCities;
     }
 }

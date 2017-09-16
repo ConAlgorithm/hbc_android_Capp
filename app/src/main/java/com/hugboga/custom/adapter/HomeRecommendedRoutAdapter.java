@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
-import com.hugboga.custom.data.bean.HomeCityGoodsVo;
+import com.hugboga.custom.data.bean.HomeCityItemVo;
 import com.hugboga.custom.widget.HomeRecommentCityItemView;
 
 /**
@@ -25,7 +25,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return homeCityContentVo2.cityGoodsList.size();
+        return homeCityContentVo2.cityItemList.size();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class HomeRecommendedRoutAdapter extends PagerAdapter{
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
         HomeRecommentCityItemView itemView = new HomeRecommentCityItemView(context);
-        HomeCityGoodsVo homeCityGoodsVo = homeCityContentVo2.cityGoodsList.get(position);
+        HomeCityItemVo homeCityGoodsVo = homeCityContentVo2.cityItemList.get(position);
         itemView.setCityName(homeCityContentVo2.cityName);
         itemView.update(homeCityGoodsVo);
         container.addView(itemView, 0);

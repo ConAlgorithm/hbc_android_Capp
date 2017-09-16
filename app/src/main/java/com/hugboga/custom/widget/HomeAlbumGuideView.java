@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.HomeAlbumAdapter;
+import com.hugboga.custom.adapter.HomeAlbumGuideAdapter;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
@@ -25,10 +26,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhangqiang on 17/8/2.
+ * Created by zhangqiang on 17/9/15.
  */
 
-public class HomeAlbumView extends LinearLayout {
+public class HomeAlbumGuideView extends LinearLayout{
     Activity activity;
     public int displayImgWidth, displayImgHeight;
     @Bind(R.id.viewtop)
@@ -46,23 +47,23 @@ public class HomeAlbumView extends LinearLayout {
     ImageView colorOnImg;
     @Bind(R.id.name_album)
     TextView nameAlbum;
-    @Bind(R.id.purchse_album)
-    TextView purchseAlbum;
+    @Bind(R.id.service_num)
+    TextView servicesNum;
     HomeAlbumInfoVo homeAlbumInfoVo;
-    HomeAlbumAdapter homeAlbumAdapter;
-    public HomeAlbumView(Context context) {
+    HomeAlbumGuideAdapter homeAlbumAdapter;
+    public HomeAlbumGuideView(Context context) {
         this(context,null);
     }
 
-    public HomeAlbumView(Context context, AttributeSet attrs) {
+    public HomeAlbumGuideView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_album, this);
+        View view = inflate(context, R.layout.view_album_guide, this);
         ButterKnife.bind(view);
 
         final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_album_space);
-        displayImgWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.home_album_hor);
-        displayImgHeight = getContext().getResources().getDimensionPixelOffset(R.dimen.home_album_ver);
-        int viewHeight = displayImgHeight + ScreenUtil.dip2px(114);
+        displayImgWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_hor);
+        displayImgHeight = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_ver);
+        int viewHeight = displayImgHeight + UIUtils.dip2px(165);
         recyclerView.getLayoutParams().height = viewHeight;
         imgAlum.getLayoutParams().width = UIUtils.getScreenWidth();
         imgAlum.getLayoutParams().height = imgAlum.getLayoutParams().width *175/375;
@@ -83,7 +84,7 @@ public class HomeAlbumView extends LinearLayout {
     public void setAlbumList(final HomeAlbumInfoVo homeAlbumInfoVo, int position) {
         this.homeAlbumInfoVo = homeAlbumInfoVo;
         if (homeAlbumAdapter == null) {
-            homeAlbumAdapter = new HomeAlbumAdapter(getContext(),  displayImgWidth, displayImgHeight, homeAlbumInfoVo);
+            homeAlbumAdapter = new HomeAlbumGuideAdapter(getContext(),  displayImgWidth, displayImgHeight, homeAlbumInfoVo);
             recyclerView.setAdapter(homeAlbumAdapter);
         } else {
             homeAlbumAdapter.setData(homeAlbumInfoVo);
@@ -103,8 +104,8 @@ public class HomeAlbumView extends LinearLayout {
             colorOnImg.setVisibility(VISIBLE);
         }
         nameAlbum.setText(homeAlbumInfoVo.albumName);
-        purchseAlbum.setText(homeAlbumInfoVo.albumPurchases + getContext().getResources().getString(R.string.home_album_experience));
-        albumImgLayout.setOnClickListener(new OnClickListener() {
+        servicesNum.setText(activity.getResources().getString(R.string.home_hot_album_guide_orders,homeAlbumInfoVo.albumOrders+""));
+        albumImgLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity,WebInfoActivity.class);

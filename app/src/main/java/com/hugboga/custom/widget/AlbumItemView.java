@@ -13,7 +13,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeAlbumRelGoodsVo;
+import com.hugboga.custom.data.bean.HomeAlbumRelItemVo;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.Tools;
@@ -44,7 +44,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
 
     @Override
     public void update(Object data) {
-        final HomeAlbumRelGoodsVo homeAlbumRelGoodsVo = (HomeAlbumRelGoodsVo) data;
+        final HomeAlbumRelItemVo homeAlbumRelGoodsVo = (HomeAlbumRelItemVo) data;
         if(homeAlbumRelGoodsVo != null){
             Tools.showImageForHomePage(albumImgItem,homeAlbumRelGoodsVo.goodsPic,R.mipmap.hotalbumitem);
             albumImgItem.setOnClickListener(new OnClickListener() {
@@ -58,7 +58,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
                     SensorsUtils.onAppClick(getEventSource(),"热门专辑","首页-热门专辑");
                 }
             });
-            albumPurchseItem.setText("¥" + homeAlbumRelGoodsVo.perPrice +"起/人");
+            albumPurchseItem.setText("¥" + homeAlbumRelGoodsVo.perPrice +getContext().getResources().getString(R.string.home_album_purchse));
             albumTitleItem.setText(homeAlbumRelGoodsVo.goodsName);
         }
 

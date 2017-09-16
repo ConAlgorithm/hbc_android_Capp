@@ -45,66 +45,31 @@
             android:layout_gravity="bottom|left"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:text="xila"
-            android:textColor="#ffffff"
-            android:textSize="12sp" />
+            android:text="xilaadfaa"
+            android:textColor="#151515"
+            android:textSize="12sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="@drawable/home_guide_city_bg"/>
 
 
     </FrameLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/filter_guide_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/filter_guide_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:ellipsize="end"
-            android:maxEms="9"
-            android:maxLines="1"
-            android:text="zhangqiang"
-            android:textColor="#757575"
-            android:textSize="14sp" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
-
-            <TextView
-                android:id="@+id/star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5星"
-                android:textColor="#9b9b9b"
-                android:textSize="12sp" />
-
-            <View
-                android:id="@+id/view_right_star"
-                android:layout_width="1dp"
-                android:layout_height="10dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/star"
-                android:background="#9b9b9b" />
-
-            <TextView
-                android:id="@+id/evaluate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/view_right_star"
-                android:text="评价 127"
-                android:textColor="#9b9b9b"
-                android:textSize="12sp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:ellipsize="end"
+        android:maxEms="9"
+        android:lineSpacingExtra="3dp"
+        android:maxLines="2"
+        android:textColor="#303030"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/guide_des"
@@ -112,34 +77,56 @@
         android:layout_height="32dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="司导描述"
         android:textColor="#9b9b9b"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone"/>
 
     <RelativeLayout
-        android:id="@+id/filter_guide_item_bottom_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical">
 
+        <ImageView
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/evaluate_icon"
+            android:layout_centerVertical="true"/>
 
         <TextView
-            android:id="@+id/yuding"
+            android:id="@+id/evaluate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@drawable/filter_guide_yuding"
-            android:paddingBottom="2dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="2dp"
-            android:text="找Ta预订"
-            android:textColor="#4a4a4a"
-            android:textSize="14sp" />
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/star"
+            android:text="评价 127"
+            android:textColor="#727272"
+            android:textSize="12sp" />
+
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/yuding"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:background="@drawable/filter_guide_yuding"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/home_favorite_guide_yuding"
+        android:textColor="#4a4a4a"
+        android:textSize="14sp" />
 </LinearLayout>

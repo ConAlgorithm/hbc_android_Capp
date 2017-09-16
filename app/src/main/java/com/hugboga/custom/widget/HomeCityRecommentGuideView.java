@@ -1,6 +1,5 @@
 package com.hugboga.custom.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,35 +14,29 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.FilterGuideListActivity;
-import com.hugboga.custom.activity.FilterSkuListActivity;
-import com.hugboga.custom.adapter.HomeFilterGuideAdapter;
+import com.hugboga.custom.adapter.HomeCityRecommentGuideAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhangqiang on 17/8/1.
+ * Created by zhangqiang on 17/9/15.
  */
 
-public class HomeFilterGuideView extends LinearLayout implements HttpRequestListener {
-    Activity activity;
-    List<FilterGuideBean> guideBeanList;
-    @Bind(R.id.filter_guide_more)
-    TextView moreTV;
+public class HomeCityRecommentGuideView extends LinearLayout implements HttpRequestListener {
+
+    @Bind(R.id.filter_guide)
+    TextView filterGuide;
     @Bind(R.id.filter_guide_recyclerview)
     RecyclerView recyclerView;
-    HomeFilterGuideAdapter homeFilterGuideAdapter;
+    HomeCityRecommentGuideAdapter homeCityRecommentGuideAdapter;
     public int displayImgWidth, displayImgHeight;
     Context context;
-    public HomeFilterGuideView(Context context, AttributeSet attrs) {
+    public HomeCityRecommentGuideView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         View view = inflate(context, R.layout.view_filter_guide, this);
@@ -65,7 +58,7 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
         recyclerView.addItemDecoration(itemDecoration);
     }
 
-    public HomeFilterGuideView(Context context) {
+    public HomeCityRecommentGuideView(Context context) {
         super(context);
     }
 
@@ -84,28 +77,26 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
 
     }
 
-    public void setGuideBeanList(List<FilterGuideBean> guideBeanList) {
-        this.guideBeanList = guideBeanList;
+    public void setGuideBeanList(HomeCityContentVo2 homeCityContentVo2) {
 
-        if (homeFilterGuideAdapter == null) {
-            homeFilterGuideAdapter = new HomeFilterGuideAdapter(getContext(),  displayImgWidth, displayImgHeight, guideBeanList);
-            recyclerView.setAdapter(homeFilterGuideAdapter);
-        } else {
-            homeFilterGuideAdapter.setData(guideBeanList);
+        if(homeCityContentVo2 != null && homeCityContentVo2.cityItemList != null && homeCityContentVo2.cityItemList.size()>0){
+            filterGuide.setText(getContext().getResources().getString(R.string.home_recomment_guide,homeCityContentVo2.cityName));
+            if (homeCityRecommentGuideAdapter == null) {
+                homeCityRecommentGuideAdapter = new HomeCityRecommentGuideAdapter(getContext(),  displayImgWidth, displayImgHeight, homeCityContentVo2.cityItemList);
+                recyclerView.setAdapter(homeCityRecommentGuideAdapter);
+            } else {
+                homeCityRecommentGuideAdapter.setData(homeCityContentVo2.cityItemList);
+            }
         }
 
-
-        moreTV.setOnClickListener(new View.OnClickListener() {
+        /*moreTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //更多todo!
                 intentActivity(context, FilterGuideListActivity.class,null);
                 SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
-        });
-    }
-    public void setActivity(Activity activity){
-        this.activity = activity;
+        });*/
     }
 
     private void intentActivity(Context context, Class<?> cls, String eventId) {

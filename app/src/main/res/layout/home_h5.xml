@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:drawableTop="@mipmap/home_all_inclusive_icon"
         android:gravity="center"
-        android:text="一价全包"
+        android:text="@string/home_h5_1"
         android:textColor="#9b9b9b"
         android:textSize="12sp" />
 
@@ -32,7 +32,7 @@
         android:layout_weight="1"
         android:drawableTop="@mipmap/home_security_icon"
         android:gravity="center"
-        android:text="服务保障"
+        android:text="@string/home_h5_2"
         android:textColor="#9b9b9b"
         android:textSize="12sp" />
 
@@ -50,7 +50,7 @@
         android:layout_weight="1"
         android:drawableTop="@mipmap/home_compensation_icon"
         android:gravity="center"
-        android:text="先行赔付"
+        android:text="@string/home_h5_3"
         android:textColor="#9b9b9b"
         android:textSize="12sp" />
 
@@ -68,7 +68,7 @@
         android:layout_weight="1"
         android:drawableTop="@mipmap/home_insurance_icon"
         android:gravity="center"
-        android:text="免费保险"
+        android:text="@string/home_h5_4"
         android:textColor="#9b9b9b"
         android:textSize="12sp" />
 </LinearLayout>

@@ -22,7 +22,7 @@ import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeCityGoodsVo;
+import com.hugboga.custom.data.bean.HomeCityItemVo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestCollectLineNo;
 import com.hugboga.custom.data.request.RequestUncollectLinesNo;
@@ -55,7 +55,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
     TextView guidesNum;
     @Bind(R.id.des2)
     TextView des2;
-    @Bind(R.id.tiyan)
+    //@Bind(R.id.tiyan)
     TextView tiyan;
     @Bind(R.id.perPrice)
     TextView perPrice;
@@ -74,8 +74,8 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         LinearLayout linearLayout  = (LinearLayout) LinearLayout.inflate(mContext,R.layout.layout_child, this);
         ButterKnife.bind(linearLayout);
 
-        int imageWidth = UIUtils.getScreenWidth() - 2 * UIUtils.dip2px(16);
-        int imageHeight = imageWidth * 189 / 330;
+        int imageWidth = UIUtils.getScreenWidth();
+        int imageHeight = imageWidth * 210 / 375;
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(imageWidth,imageHeight);
         imageView.setLayoutParams(lp);
 
@@ -86,10 +86,10 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
     public HomeRecommentCityItemView(Context context) {
         this(context,null);
     }
-    HomeCityGoodsVo homeCityGoodsVo;
+    HomeCityItemVo homeCityGoodsVo;
     @Override
     public void update(Object _data) {
-        homeCityGoodsVo= (HomeCityGoodsVo)_data;
+        homeCityGoodsVo= (HomeCityItemVo)_data;
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Tools.showImageForHomePage(imageView, homeCityGoodsVo.goodsPic,R.mipmap.tuijianxianlu);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -126,11 +126,11 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
             }
         });
         des1.setText(homeCityGoodsVo.goodsName);
-        cityName.setText(cityNameString + "司导推荐");
-        guidesNum.setText(homeCityGoodsVo.guidesNum + "位中文司导可服务");
+        cityName.setText(cityNameString + getContext().getResources().getString(R.string.home_recomment_guide_end));
+        guidesNum.setText(homeCityGoodsVo.guidesNum + getContext().getResources().getString(R.string.home_recomment_service_china));
         des2.setText(homeCityGoodsVo.recommendedReason);
-        tiyan.setText("已体验" + homeCityGoodsVo.purchases);
-        perPrice.setText("¥" + homeCityGoodsVo.perPrice + "起/人");
+        //tiyan.setText(getContext().getResources().getString(R.string.home_recomment_experience) + homeCityGoodsVo.purchases);
+        perPrice.setText("¥" + homeCityGoodsVo.perPrice + getContext().getResources().getString(R.string.home_album_purchse));
         if (!TextUtils.isEmpty(homeCityGoodsVo.goodsPic)) {
             Tools.showRoundImage(polygonImageView, homeCityGoodsVo.guidePic, UIUtils.dip2px(5), R.mipmap.home_head_portrait);
         }
@@ -159,10 +159,10 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         if(request instanceof RequestCollectLineNo){
             saveLine.setSelected(true);
             homeCityGoodsVo.isCollected= 1;
-            CommonUtils.showToast("收藏成功");
+            CommonUtils.showToast(getContext().getResources().getString(R.string.collect_succeed));
             setSensorsShareEvent(homeCityGoodsVo.goodsNo);
         }else if(request instanceof RequestUncollectLinesNo){
-            CommonUtils.showToast("已取消收藏");
+            CommonUtils.showToast(getContext().getResources().getString(R.string.collect_cancel));
         }
     }
 
@@ -183,7 +183,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         }
     }
 
-    private void interClick(HomeCityGoodsVo homeCityGoodsVo) {
+    private void interClick(HomeCityItemVo homeCityGoodsVo) {
         Intent intent = new Intent(mContext, SkuDetailActivity.class);
         intent.putExtra(WebInfoActivity.WEB_URL, homeCityGoodsVo.goodsDetailUrl);
         intent.putExtra(Constants.PARAMS_ID, homeCityGoodsVo.goodsNo);

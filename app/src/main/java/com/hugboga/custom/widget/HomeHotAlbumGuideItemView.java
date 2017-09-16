@@ -3,7 +3,6 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -24,12 +23,11 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
+import com.hugboga.custom.data.bean.HomeAlbumRelItemVo;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
@@ -43,10 +41,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhangqiang on 17/8/2.
+ * Created by zhangqiang on 17/9/15.
  */
 
-public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior ,HttpRequestListener {
+public class HomeHotAlbumGuideItemView extends LinearLayout implements HbcViewBehavior,HttpRequestListener {
     @Bind(R.id.filter_guide_avr)
     ImageView imageView;
     @Bind(R.id.save_guild)
@@ -66,47 +64,47 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     @Bind(R.id.yuding)
     TextView yuDing;
     Context context;
-    public FilterGuideItemView(Context context) {
+    public HomeHotAlbumGuideItemView(Context context) {
         this(context,null);
         this.context = context;
     }
-    public FilterGuideItemView(Context context, AttributeSet attrs) {
+    public HomeHotAlbumGuideItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = inflate(context, R.layout.home_filter_guide_item, this);
         ButterKnife.bind(view);
     }
-     FilterGuideBean filterGuideBean= null;
+    HomeAlbumRelItemVo homeAlbumRelItemVo= null;
     @Override
     public void update(Object data) {
-        filterGuideBean = (FilterGuideBean)data;
-        Tools.showImageForHomePage(imageView, filterGuideBean.guideCover, R.mipmap.empty_home_guide);
+        homeAlbumRelItemVo = (HomeAlbumRelItemVo)data;
+        Tools.showImageForHomePage(imageView, homeAlbumRelItemVo.guideAvatar, R.mipmap.empty_home_guide);
 
-        evaluate.setText(getResources().getString(R.string.home_guide_evaluate) +filterGuideBean.commentNum);
-        SpannableString spannableString = new SpannableString(filterGuideBean.guideName + " " +filterGuideBean.getGuideDesc());
-        spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_151515)), 0, filterGuideBean.guideName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, filterGuideBean.guideName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        evaluate.setText(getResources().getString(R.string.home_guide_evaluate) +homeAlbumRelItemVo.guideCommentNum);
+        SpannableString spannableString = new SpannableString(homeAlbumRelItemVo.guideName + " " +homeAlbumRelItemVo.guideHomeDesc);
+        spannableString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_151515)), 0, homeAlbumRelItemVo.guideName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, homeAlbumRelItemVo.guideName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         name.setText(spannableString);
 
         if(!UserEntity.getUser().isLogin(getContext())){
             saveGuild.setSelected(false);
-        }else if(filterGuideBean.isCollected == 1){
+        }else if(homeAlbumRelItemVo.isCollected == 1){
             saveGuild.setSelected(true);
 
-        }else if(filterGuideBean.isCollected == 0){
+        }else if(homeAlbumRelItemVo.isCollected == 0){
             saveGuild.setSelected(false);
         }
-        save_guide_layout.setOnClickListener(new OnClickListener() {
+        save_guide_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(CommonUtils.isLogin(context,getEventSource())) {
                     if(saveGuild.isSelected()){
-                        filterGuideBean.isCollected = 0;
+                        homeAlbumRelItemVo.isCollected = 0;
                         saveGuild.setSelected(false);
-                        HttpRequestUtils.request(getContext(),new RequestUncollectGuidesId(getContext(), filterGuideBean.guideId),FilterGuideItemView.this,false);
+                        HttpRequestUtils.request(getContext(),new RequestUncollectGuidesId(getContext(), homeAlbumRelItemVo.guideId),HomeHotAlbumGuideItemView.this,false);
                     }else{
                         //saveGuild.setSelected(true);
                         //data.isCollected= 1;
-                        HttpRequestUtils.request(getContext(),new RequestCollectGuidesId(getContext(), filterGuideBean.guideId),FilterGuideItemView.this,false);
+                        HttpRequestUtils.request(getContext(),new RequestCollectGuidesId(getContext(), homeAlbumRelItemVo.guideId),HomeHotAlbumGuideItemView.this,false);
                     }
                 }
             }
@@ -118,7 +116,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
             guideDes.setText(filterGuideBean.getGuideDesc());
         }*/
 
-        double serviceStar = filterGuideBean.getServiceStar();
+        //double serviceStar = homeAlbumRelItemVo.getServiceStar();
 
         /*if (serviceStar <= 0) {
             star.setText("暂无星级");
@@ -139,21 +137,21 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
 //        GuideItemUtils.setTag(tagGroup, data.skillLabelNames);
 //
         boolean isShowCity = false;
-        if (!TextUtils.isEmpty(filterGuideBean.cityName)) {
+        if (!TextUtils.isEmpty(homeAlbumRelItemVo.guideCityName)) {
             isShowCity = true;
         }
 
         if (isShowCity) {
             location.setVisibility(View.VISIBLE);
-            location.setText(filterGuideBean.cityName);
+            location.setText(homeAlbumRelItemVo.guideCityName);
         } else {
             location.setVisibility(View.GONE);
         }
-        yuDing.setOnClickListener(new OnClickListener() {
+        yuDing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, filterGuideBean.orderUrl);
+                intent.putExtra(WebInfoActivity.WEB_URL, homeAlbumRelItemVo.guideOrderUrl);
                 context.startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
@@ -167,11 +165,11 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
 //            serviceTypeTV.setText(serviceType);
 //        }
 //
-        setOnClickListener(new OnClickListener() {
+        setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
-                params.guideId = filterGuideBean.guideId;
+                params.guideId = homeAlbumRelItemVo.guideId;
                 Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 intent.putExtra(Constants.PARAMS_SOURCE, "首页");
@@ -191,9 +189,9 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     public void onDataRequestSucceed(BaseRequest request) {
         if(request instanceof RequestCollectGuidesId){
             saveGuild.setSelected(true);
-            filterGuideBean.isCollected= 1;
+            homeAlbumRelItemVo.isCollected= 1;
             CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
-            setSensorsShareEvent(filterGuideBean.guideId);
+            setSensorsShareEvent(homeAlbumRelItemVo.guideId);
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
         }
@@ -208,7 +206,7 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         if(request instanceof RequestCollectGuidesId){
             saveGuild.setSelected(false);
-            filterGuideBean.isCollected= 0;
+            homeAlbumRelItemVo.isCollected= 0;
             if (errorHandler == null) {
                 errorHandler = new ErrorHandler((Activity) getContext(), this);
             }

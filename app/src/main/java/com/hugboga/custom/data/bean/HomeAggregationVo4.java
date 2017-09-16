@@ -16,8 +16,9 @@ public class HomeAggregationVo4 implements Serializable {
     public ArrayList<HomeAlbumInfoVo> hotAlbumList; //热门专辑
     public ArrayList<HomeAlbumInfoVo> pastAlbumList;//往期专辑
     public ArrayList<HomeCommentInfoVo> commentList;//游客说
-    public ArrayList<HomeCityContentVo2> cityGoodsList;//城市推荐
+    public ArrayList<HomeCityContentVo2> cityRecommendedList;//城市推荐
     public ArrayList<ActivityPageSettingVo> excitingActivityList;//精彩活动列表
+    public ArrayList<HomeHotDestination> hotCities;//热门目的地
 
 
 
