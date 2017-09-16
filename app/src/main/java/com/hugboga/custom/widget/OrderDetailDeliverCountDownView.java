@@ -23,8 +23,8 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
     @Bind(R.id.deliver_countdown_progress_view)
     DeliverCircleProgressView progressView;
 
-    private final int oneMinute = 60 * 1000;
-    private final int tenMinute = oneMinute * 10;
+    private static final int FRE_INTERVAL = 5 * 1000;
+    private static final int LATE_INTERVAL = 60 * 1000;
 
     private long lastRemainTime = 0;
     private OnUpdateListener onUpdateListener;
@@ -64,7 +64,12 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
                         progressView.setProgress(progress);
                     }
 
-                    final long mInterval = remainTime > tenMinute ? tenMinute : oneMinute;//控制刷新间隔时间,10分钟以上,10分刷新一次
+                    long mInterval = 0;//控制刷新间隔时间
+                    if (deliverInfoBean.refreshCount >= 0) {//先每5秒请求一次并更新数据，连续请求6次后，恢复到1分钟请求一次
+                        mInterval = FRE_INTERVAL;
+                    } else {
+                        mInterval = LATE_INTERVAL;//1分刷新一次
+                    }
 
                     if (lastRemainTime == 0 || lastRemainTime - remainTime > mInterval) {
                         lastRemainTime = remainTime;

@@ -60,4 +60,11 @@ public class DeliverInfoBean implements Serializable{
         public static final int IDENTIFIED = 8;         // 已确定导游
         public static final int DELIVERING = 9;         // 发单中
     }
+
+    /**
+     * 本地字段:记录刷新次数
+     * 进入倒计时状态，访问这个页面时，改为先每5秒请求一次并更新数据，连续请求6次后，恢复到1分钟请求一次
+     **/
+    public int refreshCount;
+    public static final int MAX_REFRESH_COUNT = 6;
 }

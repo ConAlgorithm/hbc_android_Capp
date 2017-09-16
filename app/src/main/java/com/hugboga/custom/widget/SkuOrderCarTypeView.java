@@ -1,11 +1,13 @@
 package com.hugboga.custom.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.LuggageInfoActivity;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.GuidesDetailData;
+import com.hugboga.custom.utils.AlertDialogUtils;
+import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
@@ -55,6 +60,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
     private CarBean selectedCarBean;
     private GuidesDetailData guidesDetailData;
     private int orderType;
+    private boolean isSeckills = false;
 
     public SkuOrderCarTypeView(Context context) {
         this(context, null);
@@ -74,6 +80,10 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         return this.guidesDetailData != null;
     }
 
+    public void setIsSeckills(boolean isSeckills) {
+        this.isSeckills = isSeckills;
+    }
+
     public void setOrderType(int orderType) {//包车没传。。。
         this.orderType = orderType;
     }
@@ -84,6 +94,15 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             return;
         }
         CarListBean carListBean = (CarListBean) _data;
+        if (carListBean.serviceWay != 101 && !isSeckills && !isAssignGuide()) {
+            AlertDialogUtils.showAlertDialog(getContext(), true, CommonUtils.getString(R.string.hint), CommonUtils.getString(R.string.order_no_chinese_guide)
+                    , CommonUtils.getString(R.string.order_confirm_look), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         carList = carListBean.carList;
         final int childCount = containerLayot.getChildCount();
         final int size = carList.size();
@@ -116,9 +135,9 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
             LinearLayout picLayout = (LinearLayout) itemView.findViewById(R.id.sku_order_car_pic_layout);
             addCarImageView(picLayout, carBean.carPictures);
             String title = carBean.carDesc;
-            List<String> serviceTags = carBean.serviceTags;
-            if (serviceTags != null && serviceTags.size() >= 1 && serviceTags.get(0) != null) {
-                title += " + " + serviceTags.get(0);
+            String serviceTypeStr = carListBean.getServiceTypeStr();
+            if (!TextUtils.isEmpty(serviceTypeStr)) {
+                title += " + " + serviceTypeStr;
             }
             ((TextView) itemView.findViewById(R.id.sku_order_car_type_title_tv)).setText(isAssignGuide() ? carBean.models : title);
             setSeatTV(((TextView) itemView.findViewById(R.id.sku_order_car_type_seat_tv)), carBean.capOfPerson, carBean.capOfLuggage);

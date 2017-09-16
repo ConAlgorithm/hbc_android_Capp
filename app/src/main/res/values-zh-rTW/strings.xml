@@ -948,6 +948,8 @@
     <string name="daily_check_outtown_hint">請添加送達城市</string>
     <string name="daily_guide_cars_null">很抱歉，該司導暫無符合的車型</string>
     <string name="daily_booking">立即預訂</string>
+    <string name="daily_first_next">下一步</string>
+    <string name="daily_first_choose_scope">選擇遊玩範圍</string>
     <string name="daily_first_city_hint">想去哪裡</string>
     <string name="daily_first_start_city">開始城市</string>
     <string name="daily_first_date_hint">選擇包車起止日期</string>
@@ -1243,7 +1245,9 @@
     <string name="order_car_title">選擇車型</string>
     <string name="order_car_luggage_explain">一個空座可加一個行李</string>
     <string name="order_car_more">更多車型</string>
-    <string name="order_confirm">立即預訂</string>
+    <string name="order_confirm">開始預訂</string>
+    <string name="order_bottom_next">下一步</string>
+    <string name="order_bottom_input">填寫信息</string>
     <string name="order_price_estimated">全程預計:%1$s公里/%2$s分鐘</string>
     <string name="order_title">確認訂單</string>
     <string name="order_bottom_should_price">需付:</string>
@@ -1330,6 +1334,8 @@
     <string name="order_extras_price_child_seat_hint1">單價¥%1$s/天"</string>
     <string name="order_extras_price_child_seat_hint2">及以上單價¥%1$s/天</string>
     <string name="order_extras_price_child_seat_hint3">第一個%1$s，第二個%2$s</string>
+    <string name="order_no_chinese_guide">該地區沒有中文司導，不過還有更多選擇</string>
+    <string name="order_confirm_look">去看看</string>
 
     <string name="sku_detail_goodsout">該商品已下架</string>
     <string name="sku_detail_price_unit">起/人</string>
