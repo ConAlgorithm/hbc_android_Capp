@@ -7,6 +7,7 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SearchGroupBean;
 import com.hugboga.custom.data.bean.SearchGuideBean;
 import com.hugboga.custom.data.bean.SearchLineBean;
@@ -81,12 +82,12 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
             }
         }
         if(list!= null && list.size()>3){
-            String searchMoreString = "展开更多";
+            String searchMoreString = context.getResources().getString(R.string.home_search_moree);
             searchMoreModel = new SearchMoreModel(context,searchMoreString,list,keyword);
             addModel(searchMoreModel);
         }
 
-        loadingModel = new LoadingModel("加载中...");
+        loadingModel = new LoadingModel(context.getResources().getString(R.string.home_search_loading));
         addModel(loadingModel);
 
         RequestSearchGuide requestSearchGuide = new RequestSearchGuide(context,keyword,0,3);
@@ -131,13 +132,13 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
             }
 
             if(hasListDestination && !hasGoods && !hasResultBean){
-                displayModel = new LoadingModel("结果全都在这了");
+                displayModel = new LoadingModel(context.getResources().getString(R.string.home_search_all_here));
                 addModel(displayModel);
             }
 
             if(searchLineBean!= null && searchLineBean.goods!= null && searchLineBean.goods.size() >0){
                 this.goods = searchLineBean.goods;
-                GuideLineItemHeaderModel guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchLineBean.count,"相关线路",keyword);
+                GuideLineItemHeaderModel guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchLineBean.count,context.getResources().getString(R.string.search_line_title),keyword);
                 addModel(guideLineItemHeaderModel);
                 for(int i=0;i<searchLineBean.goods.size();i++) {
                     LineItemModel lineItemModel = new LineItemModel(context,searchLineBean.goods.get(i),keyword);
@@ -167,7 +168,7 @@ public class SearchAfterAdapter extends EpoxyAdapter implements HttpRequestListe
             }
             if(searchGuideBean!= null && searchGuideBean.resultBean!= null && searchGuideBean.resultBean.size() >0){
                 this.resultBean = searchGuideBean.resultBean;
-                GuideLineItemHeaderModel guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchGuideBean.totalSize,"相关司导",keyword);
+                GuideLineItemHeaderModel guideLineItemHeaderModel = new GuideLineItemHeaderModel(context,searchGuideBean.totalSize,context.getResources().getString(R.string.search_guide_title),keyword);
                 addModel(guideLineItemHeaderModel);
                 for(int i=0;i<searchGuideBean.resultBean.size();i++) {
                     GuideItemModel guideItemModel = new GuideItemModel(context,searchGuideBean.resultBean.get(i),keyword);

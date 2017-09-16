@@ -75,7 +75,7 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
     private void init(){
         if(searchMoreHolder!= null){
             searchMoreHolder.textView.setText(searchMoreString);
-            if(searchMoreString.startsWith("搜索更多关于")){
+            if(searchMoreString.startsWith(context.getResources().getString(R.string.home_search_more_about))){
                 searchMoreHolder.imageView.setImageResource(R.mipmap.icon_more);
                 searchMoreHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -94,7 +94,7 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                         }
                     }
                 });
-            }else if(searchMoreString.startsWith("展开更多")){
+            }else if(searchMoreString.startsWith(context.getResources().getString(R.string.home_search_moree))){
                 searchMoreHolder.imageView.setImageResource(R.mipmap.search_pull_down);
                 searchMoreHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
