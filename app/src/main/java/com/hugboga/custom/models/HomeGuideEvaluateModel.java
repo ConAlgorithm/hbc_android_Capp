@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,6 +80,8 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
         TextView guideName;
         @Bind(R.id.evaluate_img)
         ImageView imageView;
+        @Bind(R.id.evaluate_img_layout)
+        FrameLayout evaluateImgLayout;
         @Bind(R.id.img_count)
         TextView imgCount;
         @Bind(R.id.filter_guide_more)
@@ -144,17 +147,14 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
                         }
                     }
                 });
-            }else if(homeCommentInfoVo.commentPic == null || homeCommentInfoVo.commentPic.size() == 0){
-                //homeGuideEvaluateHolder.imageView.setImageResource(R.mipmap.icon_avatar_user);
-            }
-            if(homeCommentInfoVo.commentPic != null && homeCommentInfoVo.commentPic.size() >0){
                 homeGuideEvaluateHolder.imgCount.setText(homeCommentInfoVo.commentPic.size() + "图");
-                homeGuideEvaluateHolder.imageView.setVisibility(View.VISIBLE);
-            }else if(homeCommentInfoVo.commentPic != null && homeCommentInfoVo.commentPic.size() == 0){
-                homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
+                homeGuideEvaluateHolder.evaluateImgLayout.setVisibility(View.VISIBLE);
+            }else if(homeCommentInfoVo.commentPic == null || homeCommentInfoVo.commentPic.size() == 0){
+                homeGuideEvaluateHolder.evaluateImgLayout.setVisibility(View.GONE);
             }else if(homeCommentInfoVo.commentPic == null){
-                homeGuideEvaluateHolder.imageView.setVisibility(View.GONE);
+                homeGuideEvaluateHolder.evaluateImgLayout.setVisibility(View.GONE);
             }
+
             homeGuideEvaluateHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

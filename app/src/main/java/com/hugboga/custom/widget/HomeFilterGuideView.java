@@ -52,7 +52,7 @@ public class HomeFilterGuideView extends LinearLayout implements HttpRequestList
         final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_space);
         displayImgWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_hor);
         displayImgHeight = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_ver);
-        int viewHeight = displayImgHeight + ScreenUtil.dip2px(184);
+        int viewHeight = displayImgHeight + ScreenUtil.dip2px(175);
         recyclerView.getLayoutParams().height = viewHeight;
 
         recyclerView.setFocusable(false);

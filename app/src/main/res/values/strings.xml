@@ -1349,4 +1349,43 @@
 
     <string name="guide_detail_contact_dialog_title">需要先下单并支付才能找Ta聊天呢</string>
     <string name="guide_detail_contact_dialog_content">优秀司导都在服务用户的路上，预订后沟通更高效~</string>
+
+
+    <string name = "destiation">目的地</string>
+    <string name = "destiation_search">目的地搜索</string>
+    <string name = "destiation_all">全境</string>
+    <string name = "destiation_day_service">按天包车游</string>
+    <string name = "destiation_pick_send">接送机</string>
+    <string name = "destiation_single">单次接送</string>
+
+
+    <string name = "home_hot_destination">热门目的地</string>
+    <string name = "home_more">查看更多</string>
+    <string name = "home_hot_destination_guide_num">位司导</string>
+    <string name = "home_guide_comment">游客说</string>
+    <string name = "home_guide_comment_img">图</string>
+    <string name = "home_guide_service">服务司导</string>
+    <string name = "home_hot_album_guide_orders">累计服务%s单</string>
+    <string name = "home_recomment_guide">%s推荐司导</string>
+    <string name = "home_album_purchse">起/人</string>
+    <string name = "home_guide_evaluate">评价 </string>
+    <string name = "home_album_experience">人已体验</string>
+    <string name = "home_recomment_guide_end">司导推荐</string>
+    <string name = "home_recomment_service_china">位中文司导可服务</string>
+    <string name = "home_recomment_experience">已体验</string>
+    <string name = "home_search">搜索目的地、司导、线路</string>
+    <string name = "home_service_day">中文包车游</string>
+    <string name = "home_service_pick_send">接送机</string>
+    <string name = "home_service_single_pick_send">单次接送</string>
+    <string name = "home_service_day_experience">按天畅游</string>
+    <string name = "home_service_good_line">精品线路游</string>
+    <string name = "home_service_favorite_love">私人定制</string>
+    <string name = "home_favorite_guide">选择心仪的司导服务</string>
+    <string name = "home_favorite_guide_yuding">找Ta预订</string>
+    <string name = "home_h5_1">一价全包</string>
+    <string name = "home_h5_2">服务保障</string>
+    <string name = "home_h5_3">先行赔付</string>
+    <string name = "home_h5_4">免费保险</string>
+    <string name = "home_hot_album">热门专辑</string>
+    <string name = "home_search_more">搜索更多关于“%s”的结果</string>
 </resources>

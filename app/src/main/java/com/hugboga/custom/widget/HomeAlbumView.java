@@ -65,9 +65,9 @@ public class HomeAlbumView extends LinearLayout {
         int viewHeight = displayImgHeight + ScreenUtil.dip2px(114);
         recyclerView.getLayoutParams().height = viewHeight;
         imgAlum.getLayoutParams().width = UIUtils.getScreenWidth();
-        imgAlum.getLayoutParams().height = imgAlum.getLayoutParams().width *185/360;
+        imgAlum.getLayoutParams().height = imgAlum.getLayoutParams().width *175/375;
         colorOnImg.getLayoutParams().width = UIUtils.getScreenWidth();
-        colorOnImg.getLayoutParams().height = colorOnImg.getLayoutParams().width *185/360;
+        colorOnImg.getLayoutParams().height = colorOnImg.getLayoutParams().width *175/375;
 
         recyclerView.setFocusable(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -103,7 +103,7 @@ public class HomeAlbumView extends LinearLayout {
             colorOnImg.setVisibility(VISIBLE);
         }
         nameAlbum.setText(homeAlbumInfoVo.albumName);
-        purchseAlbum.setText(homeAlbumInfoVo.albumPurchases + "人已体验");
+        purchseAlbum.setText(homeAlbumInfoVo.albumPurchases + getContext().getResources().getString(R.string.home_album_experience));
         albumImgLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

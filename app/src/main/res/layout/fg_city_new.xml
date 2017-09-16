@@ -121,20 +121,18 @@
                 android:background="@color/basic_white"
                 android:gravity="center_vertical">
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:drawableLeft="@mipmap/search_history"
-                    android:drawablePadding="10dp"
-                    android:text="历史:"
-                    android:textColor="#666666" />
+                    android:layout_marginLeft="21dp"
+                    android:background="@mipmap/search_icon_history" />
 
                 <com.hugboga.custom.widget.FlowLayout
                     android:id="@+id/history_city_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -155,7 +153,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
                     <ListView
                         android:id="@+id/left_list"
                         android:layout_width="match_parent"
@@ -171,31 +169,50 @@
 
                 </RelativeLayout>>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:background="#e8e9ea" />
-
-                    <ListView
-                        android:id="@+id/middle_list"
+                    <RelativeLayout
+                        android:id="@+id/middle_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:divider="@null" />
-                </RelativeLayout>
+                        android:layout_weight="1"
+                        android:visibility="gone">
 
-                <ListView
-                    android:id="@+id/right_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:divider="@null"
-                    android:visibility="gone" />
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:background="#e8e9ea" />
+
+                        <ListView
+                            android:id="@+id/middle_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@null" />
+
+                    </RelativeLayout>
+
+                    <com.hugboga.custom.widget.SearchHotCity
+                        android:id="@+id/search_hot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="visible">
+
+                    </com.hugboga.custom.widget.SearchHotCity>
+
+                    <ListView
+                        android:id="@+id/right_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:divider="@null"
+                        android:visibility="gone" />
+                </LinearLayout>
+
 
             </LinearLayout>
         </LinearLayout>

@@ -284,7 +284,7 @@ public class UrlLibs {
     public static final String API_DESTINATIONS_TAB         = "basicdata/v1.0/c/home/destlist";                         // 目的地列表  167
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
-    public static final String API_HOME_NEW                 = "basicdata/v1.3/c/home/aggregation";                      // 首页173
+    public static final String API_HOME_NEW                 = "basicdata/v1.4/c/home/aggregation";                      // 首页173
     public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    // 热词搜索 179
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 

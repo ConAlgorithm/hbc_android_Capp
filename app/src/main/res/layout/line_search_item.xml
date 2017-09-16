@@ -11,9 +11,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content">
 
 
             <ImageView
@@ -21,12 +19,14 @@
                 android:layout_width="90dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="14dp"
-                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
                 android:src="@mipmap/line_search_default"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="14dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
@@ -78,6 +78,16 @@
                         android:textSize="14sp"
                         />
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="akdhakhga;dghalg;ahldghadgadghajdhkhsfkxhzhglgalhlhglhgkahgdkalhgdalhgdkladhgladhglaghalghalghlkjghkghklghlksg骄傲了电话嘎嘎哈几个哈理工哈 爱很简单拉嘎回龙观哈喽哈哈哈拉黑安静的哈拉哈拉的哈拉 "/>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -85,7 +95,7 @@
         <View
             android:id="@+id/offline_view"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:background="#9affffff"
             android:visibility="gone"/>
         <TextView

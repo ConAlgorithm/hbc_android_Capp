@@ -20,27 +20,27 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="热门专辑"
-            android:textColor="#4a4a4a"
-            android:textSize="17sp" />
+            android:text="@string/home_hot_album"
+            android:textColor="#151515"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/album_img_layout"
         android:layout_width="match_parent"
-        android:layout_height="185dp">
+        android:layout_height="175dp">
 
         <ImageView
             android:id="@+id/img_album"
             android:layout_width="match_parent"
-            android:layout_height="185dp"
+            android:layout_height="175dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/hotalbum" />
 
         <ImageView
             android:id="@+id/color_on_img"
             android:layout_width="match_parent"
-            android:layout_height="185dp"
+            android:layout_height="175dp"
             android:src="#20000000"
             android:scaleType="centerCrop"
             android:visibility="gone"/>

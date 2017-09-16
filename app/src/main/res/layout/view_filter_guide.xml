@@ -20,9 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textColor="#4a4a4a"
-            android:text="选择心仪的司导服务"
-            android:textSize="17sp" />
+            android:textColor="#151515"
+            android:text="@string/home_favorite_guide"
+            android:textSize="20sp" />
 
 
         <TextView
@@ -33,9 +33,10 @@
             android:layout_centerVertical="true"
             android:drawableRight="@mipmap/home_icon_back"
             android:drawablePadding="4dp"
-            android:text="更多"
+            android:text="@string/more"
             android:textColor="#9b9b9b"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
 
     </RelativeLayout>
