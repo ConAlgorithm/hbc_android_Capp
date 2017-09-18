@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -42,10 +40,7 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.ChoiceCommentActivity;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.OrderDetailActivity;
-import com.hugboga.custom.activity.OrderPriceInfoActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
@@ -54,7 +49,6 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckVersion;
-import com.hugboga.custom.data.request.RequestImAnalysisSwitch;
 import com.hugboga.custom.data.request.RequestPushClick;
 import com.hugboga.custom.data.request.RequestPushToken;
 import com.hugboga.custom.data.request.RequestUpdateAntiCheatInfo;
@@ -82,8 +76,6 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
-import com.hugboga.im.ImAnalysisUtils;
-import com.ishumei.smantifraud.SmAntiFraud;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -99,7 +91,6 @@ import org.xutils.common.Callback;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -212,17 +203,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initNetworkbench();
         requesetBattery();
-
-//        Resources res = getResources();
-//        DisplayMetrics dm = res.getDisplayMetrics();
-//        Configuration conf = res.getConfiguration();
-//        Log.i("aa", "conf.locale " + conf.locale.getCountry() + " --- " + conf.locale.getLanguage());
-//        if (Build.VERSION.SDK_INT >= 24) {
-//            conf.setLocale(Locale.TRADITIONAL_CHINESE);
-//        } else {
-//            conf.locale = Locale.TRADITIONAL_CHINESE;
-//        }
-//        res.updateConfiguration(conf, dm);
     }
 
     @Override

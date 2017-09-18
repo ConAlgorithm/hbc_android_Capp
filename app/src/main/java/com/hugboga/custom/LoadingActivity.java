@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,6 +63,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Locale;
 
 
 public class LoadingActivity extends BaseActivity implements HttpRequestListener {
@@ -100,6 +104,15 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         schemeIntent(getIntent());
 
         setSensorsEvent();
+
+//        Resources res = getResources();
+//        Configuration conf = getResources().getConfiguration();
+//        if (Build.VERSION.SDK_INT >= 17) {
+//            conf.setLocale(Locale.TRADITIONAL_CHINESE);
+//        } else {
+//            conf.locale = Locale.TRADITIONAL_CHINESE;
+//        }
+//        res.updateConfiguration(conf, res.getDisplayMetrics());
     }
 
     private void appLaunchCount() {
