@@ -353,21 +353,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestADPicture) {

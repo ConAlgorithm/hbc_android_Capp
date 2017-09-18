@@ -113,20 +113,6 @@ public class OrderCancelActivity extends BaseActivity{
     @OnClick({R.id.order_cancel_btn})
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.head_btn_right:
-                //mDialogUtil.showServiceDialog(activity,null,UnicornServiceActivity.SourceType.TYPE_ORDER,orderBean,null,getEventSource());
-                csDialog = CommonUtils.csDialog(activity, orderBean, null, null, UnicornServiceActivity.SourceType.TYPE_ORDER, getEventSource(), new CsDialog.OnCsListener() {
-                    @Override
-                    public void onCs() {
-                        if (csDialog != null && csDialog.isShowing()) {
-                            csDialog.dismiss();
-                        }
-                    }
-                });
-                break;
-            case R.id.head_btn_left:
-                goBackOrderFg();
-                break;
             case R.id.order_cancel_btn:
                 if(orderBean==null)return;
                 AlertDialogUtils.showAlertDialog(OrderCancelActivity.this, "确定要取消订单吗？", "我要取消", "暂不取消", new DialogInterface.OnClickListener() {
