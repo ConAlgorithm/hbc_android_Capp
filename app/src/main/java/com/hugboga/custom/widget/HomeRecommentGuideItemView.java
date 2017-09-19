@@ -97,6 +97,7 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
             @Override
             public void onClick(View view) {
                 if(CommonUtils.isLogin(context,getEventSource())) {
+                    save_guide_layout.setEnabled(false);
                     if(saveGuild.isSelected()){
                         homeCityItemVo.isCollected = 0;
                         saveGuild.setSelected(false);
@@ -161,6 +162,7 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast(getContext().getResources().getString(R.string.collect_cancel));
         }
+        save_guide_layout.setEnabled(true);
     }
 
     @Override
@@ -178,6 +180,7 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
             }
             errorHandler.onDataRequestError(errorInfo, request);
         }
+        save_guide_layout.setEnabled(true);
     }
     //收藏司导埋点
     public static void setSensorsShareEvent(String guideId) {

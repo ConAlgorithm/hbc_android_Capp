@@ -56,16 +56,10 @@ import static android.view.View.VISIBLE;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
-    /*@Bind(R.id.header_left_btn)
-    ImageView headerLeftBtn;
-    @Bind(R.id.head_text_right)
-    TextView headTextRight;*/
     @Bind(R.id.head_search)
     EditText headSearch;
     @Bind(R.id.head_search_clean)
     ImageView headSearchClean;
-    /*@Bind(R.id.activity_head_layout)
-    RelativeLayout activityHeadLayout;*/
     @Bind(R.id.history_city_layout)
     FlowLayout historyCityLayout;
     @Bind(R.id.history_layout)
@@ -485,8 +479,12 @@ public class ChooseCityNewActivity extends BaseActivity {
         if (null != historyCityLayout) {
             historyCityLayout.removeAllViews();
             List<SearchGroupBean> list = CityUtils.getSaveCity();
-            if (null != list) {
+            if(list == null ||list.size()==0){
+                historyLayout.setVisibility(GONE);
+            }
+            if (null != list && list.size()>0) {
                 TextView view = null;
+                historyLayout.setVisibility(VISIBLE);
                 for (int i = 0; i < list.size(); i++) {
                     view = new TextView(activity);
                     final String name = CityUtils.getShowName(list.get(i));
