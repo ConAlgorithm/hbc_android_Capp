@@ -63,7 +63,7 @@ public class HomeAlbumGuideView extends LinearLayout{
         final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_album_space);
         displayImgWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_hor);
         displayImgHeight = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_ver);
-        int viewHeight = displayImgHeight + UIUtils.dip2px(165);
+        int viewHeight = displayImgHeight + UIUtils.dip2px(175);
         recyclerView.getLayoutParams().height = viewHeight;
         imgAlum.getLayoutParams().width = UIUtils.getScreenWidth();
         imgAlum.getLayoutParams().height = (int)(imgAlum.getLayoutParams().width *175.0/375.0);

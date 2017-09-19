@@ -51,7 +51,7 @@ public class HomeAlbumAdapter extends RecyclerView.Adapter<HomeAlbumAdapter.MyVi
                 AlbumItemView albumItemView = new AlbumItemView(mContext);
                 albumItemView.setImageBound(displayImgWidth, displayImgHeight);
                 itemView = albumItemView;
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(displayImgWidth,  ScreenUtil.dip2px(226));
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(displayImgWidth,  ScreenUtil.dip2px(219));
                 itemView.setLayoutParams(params);
                 break;
             case TYPE_MORE:

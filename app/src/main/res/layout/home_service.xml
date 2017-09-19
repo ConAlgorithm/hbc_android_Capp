@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -28,7 +29,7 @@
                     android:id="@+id/charter_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginLeft="4dp"
                     android:text="@string/home_service_day"
                     android:textColor="#151515"
                     android:textStyle="bold"
@@ -96,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_weight="0.9"
+            android:layout_marginRight="4dp"
             android:layout_centerVertical="true"
             android:gravity="center_vertical">
 
@@ -125,7 +127,7 @@
     <LinearLayout
         android:id="@+id/service_content"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
+        android:layout_height="114dp"
         android:layout_below="@+id/line"
         android:gravity="center">
 
