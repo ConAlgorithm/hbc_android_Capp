@@ -20,6 +20,7 @@ import com.hugboga.custom.data.bean.AreaCodeBean;
 import com.hugboga.custom.data.bean.CarBean;
 import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.data.bean.CityBean;
+import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.data.bean.DeductionBean;
 import com.hugboga.custom.data.bean.GuideCarBean;
@@ -62,9 +63,11 @@ import com.hugboga.custom.widget.SkuOrderCarTypeView;
 import com.hugboga.custom.widget.SkuOrderDiscountView;
 import com.hugboga.custom.widget.SkuOrderEmptyView;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -821,6 +824,7 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
         Intent intent = new Intent(this, OrderPriceInfoActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
+        setSensorsBuyDetailEvent();
     }
 
     private void getGuideCars() {
@@ -897,5 +901,33 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     //神策统计_展示报价
     private void setSensorsPriceEvent(boolean isHavePrice) {
         SensorsUtils.setSensorsPriceEvent("" + orderType, charterDataUtils.guidesDetailData != null, isHavePrice);
+    }
+
+    //神策统计_价格明细点击
+    private void setSensorsBuyDetailEvent() {
+        try {
+            double days = 0;
+            final int travelListSize = charterDataUtils.travelList.size();
+            for (int i = 0; i < travelListSize; i++) {
+                CityRouteBean.CityRouteScope  cityRouteScope = charterDataUtils.travelList.get(i);
+                if (cityRouteScope.routeType == CityRouteBean.RouteType.AT_WILL) {
+                    continue;
+                }
+                if (cityRouteScope.routeType == CityRouteBean.RouteType.PICKUP
+                        || cityRouteScope.routeType == CityRouteBean.RouteType.SEND
+                        || cityRouteScope.routeType == CityRouteBean.RouteType.HALFDAY) {
+                    days += 0.5;
+                } else {
+                    days += 1;
+                }
+            }
+            JSONObject properties = new JSONObject();
+            properties.put("hbc_price_total", (carBean.price + extrasPriceView.getAdditionalPrice()));
+            properties.put("hbc_total_days", days);
+            properties.put("hbc_service_city", charterDataUtils.getStartCityBean(1).name);
+            SensorsDataAPI.sharedInstance(this).track("buy_detail", properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
