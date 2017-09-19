@@ -31,7 +31,11 @@ public class ActionPageGuideDetail extends ActionPageBase {
         GuideWebDetailActivity.Params params = new GuideWebDetailActivity.Params();
         params.guideId = bean.guideId;
         Intent intent = new Intent(context, GuideWebDetailActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+        if (!TextUtils.isEmpty(actionBean.pushId)){
+            intent.putExtra(Constants.PARAMS_SOURCE,actionBean.pushId);
+        }else {
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+        }
         intent.putExtra(Constants.PARAMS_DATA, params);
         context.startActivity(intent);
     }

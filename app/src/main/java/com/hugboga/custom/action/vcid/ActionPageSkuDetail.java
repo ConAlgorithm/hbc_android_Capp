@@ -32,7 +32,11 @@ public class ActionPageSkuDetail extends ActionPageBase {
             intent.putExtra(WebInfoActivity.WEB_URL, bean.url);
         }
         intent.putExtra(Constants.PARAMS_ID, bean.goodsNo);
-        intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+        if (!TextUtils.isEmpty(actionBean.pushId)){
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.pushId);
+        }else {
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+        }
         context.startActivity(intent);
     }
 }

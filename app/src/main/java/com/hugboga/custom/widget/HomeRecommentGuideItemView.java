@@ -139,7 +139,7 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
                 params.guideId = homeCityItemVo.guideId;
                 Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                intent.putExtra(Constants.PARAMS_SOURCE, "首页-目的地推荐司导");
                 getContext().startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }

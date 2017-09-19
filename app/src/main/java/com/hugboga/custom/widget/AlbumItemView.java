@@ -72,7 +72,7 @@ public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
         albumImgItem.setLayoutParams(params);
     }
     private String getEventSource(){
-        return "首页";
+        return "首页-专辑推荐线路";
     }
     private void setPrice(HomeAlbumRelItemVo homeAlbumRelGoodsVo){
         if(homeAlbumRelGoodsVo!= null){

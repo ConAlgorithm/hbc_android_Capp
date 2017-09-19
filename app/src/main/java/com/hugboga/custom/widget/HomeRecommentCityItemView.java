@@ -201,7 +201,7 @@ public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBe
         SensorsUtils.onAppClick(getEventSource(), "推荐线路", "首页-推荐线路");
     }
     public String getEventSource() {
-        return "首页";
+        return "首页-目的地推荐线路";
     }
 
     //收藏商品埋点
