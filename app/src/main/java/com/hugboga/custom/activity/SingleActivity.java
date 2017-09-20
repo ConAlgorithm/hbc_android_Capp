@@ -655,7 +655,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     private void setSensorsEvent() {
         try {
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "单次接送");
+            properties.put("hbc_sku_type", "单次");
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("buy_view", properties);
         } catch (Exception e) {
@@ -668,7 +668,7 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
         try {
             double total = carBean.price;
             JSONObject properties = new JSONObject();
-            properties.put("hbc_sku_type", "单次接送");
+            properties.put("hbc_sku_type", "单次");
             properties.put("hbc_is_appoint_guide", null != guidesDetailData ? true : false);// 指定司导下单
             properties.put("hbc_car_type", carBean.desc);//车型选择
             properties.put("hbc_price_total", total);//费用总计
