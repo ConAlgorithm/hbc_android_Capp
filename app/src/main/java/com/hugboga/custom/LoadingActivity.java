@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,9 +15,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -104,15 +100,6 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
         schemeIntent(getIntent());
 
         setSensorsEvent();
-
-//        Resources res = getResources();
-//        Configuration conf = getResources().getConfiguration();
-//        if (Build.VERSION.SDK_INT >= 17) {
-//            conf.setLocale(Locale.TRADITIONAL_CHINESE);
-//        } else {
-//            conf.locale = Locale.TRADITIONAL_CHINESE;
-//        }
-//        res.updateConfiguration(conf, res.getDisplayMetrics());
     }
 
     private void appLaunchCount() {
@@ -130,6 +117,24 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             properties.put("is_login_id", UserEntity.getUser().isLogin(this));
             properties.put("is_open_push", NotificationCheckUtils.notificationIsOpen(this));
             SensorsDataAPI.sharedInstance(this).track("wakeup_app", properties);
+
+            // 公共属性
+            JSONObject properties2 = new JSONObject();
+            String language = "";
+            Configuration conf = getResources().getConfiguration();
+            if (TextUtils.equals(conf.locale.toString(), Locale.SIMPLIFIED_CHINESE.toString())) {//中文简体
+                language = "简体中文";
+            } else if (TextUtils.equals(conf.locale.toString(), Locale.TRADITIONAL_CHINESE.toString())) {//台湾
+                language = "繁體中文";
+            } else if (TextUtils.equals(conf.locale.getLanguage(), "zh") && TextUtils.equals(conf.locale.getCountry(), "HK")) {//香港
+                language = "繁體中文";
+            } else if (BuildConfig.FLAVOR == Constants.CHANNEL_GOOGLE_PLAY) {//google play默认繁体中文
+                language = "繁體中文";
+            } else {
+                language = "简体中文";
+            }
+            properties2.put("language", language);
+            SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties2);
         } catch (Exception e) {
             e.printStackTrace();
         }
