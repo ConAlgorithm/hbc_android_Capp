@@ -32,7 +32,7 @@
                     android:layout_marginLeft="4dp"
                     android:text="@string/home_service_day"
                     android:textColor="#151515"
-                    android:textStyle="bold"
+                    android:typeface="sans"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -78,7 +78,7 @@
                 android:drawableRight="@mipmap/home_airport_transportation"
                 android:gravity="center"
                 android:text="@string/home_service_pick_send"
-                android:textStyle="bold"
+                android:typeface="sans"
                 android:textColor="#151515"
                 android:textSize="16sp" />
 
@@ -110,7 +110,7 @@
                 android:gravity="center"
                 android:text="@string/home_service_single_pick_send"
                 android:textColor="#151515"
-                android:textStyle="bold"
+                android:typeface="sans"
                 android:textSize="16sp" />
 
         </RelativeLayout>
