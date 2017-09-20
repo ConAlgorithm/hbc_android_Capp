@@ -3,33 +3,24 @@ package com.hugboga.custom;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
-import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.ServerCodeHandler;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestAccessKey;
-import com.hugboga.custom.developer.DeveloperOptionsActivity;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LogUtils;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -50,7 +41,6 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.tongdun.android.shell.FMAgent;
@@ -205,7 +195,7 @@ public class MyApplication extends HbcApplication {
             properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
             properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
             properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(this).getAnonymousId());
-            properties.put("isTest",isTest);
+            properties.put("isTest", isTest);
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
 
             setSensorsAutoTrack();
