@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="40dp"
-            android:drawableRight="@mipmap/right_slip_icon"
+            android:drawableRight="@mipmap/home_airport_transportation"
+            android:drawablePadding="5dp"
             android:text="@string/more"
             android:textColor="#000000"
             android:textSize="14sp" />
@@ -44,7 +45,7 @@
     <RelativeLayout
         android:id="@+id/evaluate_content_layout"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:orientation="vertical">
 
@@ -56,19 +57,20 @@
             android:layout_marginTop="10dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/evaluate_img_layout"
+                android:layout_alignParentLeft="true"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/evaluate_content"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_height="65dp"
                     android:layout_marginBottom="3dp"
                     android:layout_marginTop="5dp"
+                    android:lineSpacingExtra="4dp"
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text=""
@@ -79,7 +81,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/content"
+                    android:layout_gravity="bottom"
                     android:layout_marginTop="5dp">
 
                     <net.grobas.view.PolygonImageView
@@ -105,15 +107,15 @@
                         android:layout_toRightOf="@+id/avr"
                         android:text="zhangqiang"
                         android:textColor="#151515"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
             </LinearLayout>
 
 
             <FrameLayout
                 android:id="@+id/evaluate_img_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp">
 
@@ -145,6 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/content"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="40dp"
             android:layout_marginLeft="16dp">
 
 
@@ -156,8 +159,8 @@
                 android:drawableLeft="@mipmap/position_icon"
                 android:drawablePadding="4dp"
                 android:paddingBottom="2dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:paddingTop="2dp"
                 android:text=""
                 android:textColor="#e98100"
@@ -169,8 +172,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/guide_evulate_bg"
                 android:paddingBottom="2dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:paddingTop="2dp"
                 android:layout_marginLeft="6dp"
                 android:layout_toRightOf="@+id/location">
@@ -206,8 +209,8 @@
                 android:layout_toRightOf="@+id/guide_name_layout"
                 android:background="@drawable/guide_evulate_bg"
                 android:paddingBottom="2dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:paddingTop="2dp"
                 android:text=""
                 android:textColor="#151515"

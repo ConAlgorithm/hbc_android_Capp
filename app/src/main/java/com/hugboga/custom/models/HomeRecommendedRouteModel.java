@@ -105,7 +105,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                         .setNormalColor(0xFFDBDBDB)
                         .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, context.getResources().getDisplayMetrics()));
                 //set the alignment
-                homeRecommendedRouteHolder.ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0,0,0, UIUtils.dip2px(20));
+                homeRecommendedRouteHolder.ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0,0,0, UIUtils.dip2px(15));
                 //construct built-in indicator, and add it to  UltraViewPager
                 homeRecommendedRouteHolder.ultraViewPager.getIndicator().build();
 

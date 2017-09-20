@@ -9,7 +9,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
 
@@ -17,6 +16,7 @@
             android:id="@+id/filter_guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:textColor="#151515"
             android:text="@string/home_favorite_guide"
             android:textSize="20sp" />
