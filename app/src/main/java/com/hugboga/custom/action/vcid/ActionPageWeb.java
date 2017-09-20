@@ -8,6 +8,7 @@ import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.data.ActionWebBean;
 import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.JsonUtils;
 
@@ -31,18 +32,19 @@ public class ActionPageWeb extends ActionPageBase {
                 }
             }
             if (actionWebBean != null && !TextUtils.isEmpty(actionWebBean.url)) {
-                intentWebInfoActivity(actionWebBean.url);
+                intentWebInfoActivity(actionWebBean.url,actionBean.pushId);
             }
         }
     }
 
-    private void intentWebInfoActivity(String _url) {
+    private void intentWebInfoActivity(String _url,String pushId) {
         if (getContext() == null || TextUtils.isEmpty(_url)) {
             return;
         }
         Intent intent = new Intent(getContext(), WebInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(WebInfoActivity.WEB_URL, getWebUrl(_url));
+        intent.putExtra(Constants.PARAMS_SOURCE, "push" + pushId);
         getContext().startActivity(intent);
     }
 

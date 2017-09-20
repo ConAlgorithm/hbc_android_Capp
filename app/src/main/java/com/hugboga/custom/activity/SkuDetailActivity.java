@@ -153,6 +153,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         mDialogUtil = DialogUtil.getInstance(activity);
 
         loadUrl();
+        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
     }
 
     public void loadUrl() {

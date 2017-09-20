@@ -59,9 +59,13 @@ public class HomeHotDestinationItemView extends LinearLayout implements HbcViewB
                 params.titleName = homeHotDestination.cityName;
                 params.cityHomeType = CityListActivity.CityHomeType.CITY;
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                //intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    private String  getEventSource(){
+        return "首页-热门目的地";
     }
 }

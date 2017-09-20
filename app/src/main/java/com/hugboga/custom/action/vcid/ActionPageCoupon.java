@@ -2,6 +2,7 @@ package com.hugboga.custom.action.vcid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
@@ -19,7 +20,12 @@ public class ActionPageCoupon extends ActionPageBase {
         super.intentPage(context, actionBean);
         if (ActionUtils.isLogin(context, actionBean)) {
             Intent intent = new Intent(context, CouponActivity.class);
-            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+
+            if (!TextUtils.isEmpty(actionBean.pushId)){
+                intent.putExtra(Constants.PARAMS_SOURCE, "push" + actionBean.pushId);
+            }else {
+                intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+            }
             context.startActivity(intent);
         }
     }

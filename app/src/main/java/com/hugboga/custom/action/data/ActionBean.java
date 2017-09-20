@@ -47,6 +47,12 @@ public class ActionBean implements Serializable {
      * */
     public String source;
 
+    /**
+     * push ID (埋点)
+     * */
+    @SerializedName("i")
+    public String pushId;
+
     public ActionBean(int vcid) {
         this.type = "" + ActionType.NATIVE_PAGE;
         this.vcid = "" + vcid;

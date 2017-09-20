@@ -19,7 +19,7 @@
         android:text="@string/destiation_pick_send"
         android:textSize="14sp"
         android:textColor="#151515"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"/>
     <TextView
@@ -29,6 +29,6 @@
         android:text="@string/destiation_pick_send"
         android:textSize="14sp"
         android:textColor="#727272"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>

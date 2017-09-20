@@ -97,6 +97,7 @@ public class HomeHotAlbumGuideItemView extends LinearLayout implements HbcViewBe
             @Override
             public void onClick(View view) {
                 if(CommonUtils.isLogin(context,getEventSource())) {
+                    save_guide_layout.setEnabled(false);
                     if(saveGuild.isSelected()){
                         homeAlbumRelItemVo.isCollected = 0;
                         saveGuild.setSelected(false);
@@ -172,7 +173,7 @@ public class HomeHotAlbumGuideItemView extends LinearLayout implements HbcViewBe
                 params.guideId = homeAlbumRelItemVo.guideId;
                 Intent intent = new Intent(getContext(), GuideWebDetailActivity.class);
                 intent.putExtra(Constants.PARAMS_DATA, params);
-                intent.putExtra(Constants.PARAMS_SOURCE, "首页");
+                intent.putExtra(Constants.PARAMS_SOURCE, "首页-专辑推荐司导");
                 getContext().startActivity(intent);
                 SensorsUtils.onAppClick(getEventSource(),"选择心仪的司导服务","首页-选择心仪的司导服务");
             }
@@ -195,6 +196,7 @@ public class HomeHotAlbumGuideItemView extends LinearLayout implements HbcViewBe
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
         }
+        save_guide_layout.setEnabled(true);
     }
 
     @Override
@@ -212,6 +214,7 @@ public class HomeHotAlbumGuideItemView extends LinearLayout implements HbcViewBe
             }
             errorHandler.onDataRequestError(errorInfo, request);
         }
+        save_guide_layout.setEnabled(true);
     }
     //收藏司导埋点
     public static void setSensorsShareEvent(String guideId) {

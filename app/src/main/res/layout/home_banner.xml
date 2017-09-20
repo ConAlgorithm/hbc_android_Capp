@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
     android:background="@color/allbg_white"
     android:orientation="vertical">
 
@@ -10,5 +9,5 @@
         android:id="@+id/ultra_viewpager"
         android:layout_width="match_parent"
         android:layout_height="216dp"
-        android:background="#ffffff" />
+        android:background="#f3f3f3" />
 </LinearLayout>

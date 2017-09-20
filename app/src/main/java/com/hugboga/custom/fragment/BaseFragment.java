@@ -181,11 +181,10 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
     }
 
 
-    /**
+/*    *//**
      * 切换流程状态 填写行程- 选车-填单-支付
      *
-     * @param index 第几项 [0-3]
-     */
+     *//*
 
     public void setProgressState(int index) {
         View bootView = getView();
@@ -218,7 +217,7 @@ public abstract class BaseFragment extends com.huangbaoche.hbcframe.fragment.Bas
                 }
             }
         }
-    }
+    }*/
 
     public void showTip(String tips) {
         CommonUtils.showToast(tips);

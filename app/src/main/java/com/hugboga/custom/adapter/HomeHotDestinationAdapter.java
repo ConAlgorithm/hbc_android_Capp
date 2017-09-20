@@ -15,6 +15,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeHotDestination;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.HomeHotDestinationItemView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
@@ -83,6 +84,7 @@ public class HomeHotDestinationAdapter extends RecyclerView.Adapter {
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
                     EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 1));
+                    SensorsUtils.setPageEvent("目的地","目的地","首页-热门目的地");
                 }
             });
         }else{

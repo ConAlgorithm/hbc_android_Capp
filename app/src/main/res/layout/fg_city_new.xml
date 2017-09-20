@@ -136,7 +136,8 @@
                     android:paddingRight="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    FlowLayout:fhorizontalSpacing="20dp"></com.hugboga.custom.widget.FlowLayout>
+                    FlowLayout:fhorizontalSpacing="20dp"
+                    FlowLayout:singleLine="true"></com.hugboga.custom.widget.FlowLayout>
             </LinearLayout>
 
             <TextView

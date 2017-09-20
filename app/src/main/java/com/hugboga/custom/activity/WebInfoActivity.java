@@ -33,6 +33,7 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.net.WebAgent;
+import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -89,6 +90,7 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         initView();
+        SensorsUtils.setPageEvent(getEventSource(),getPageTitle(),getIntentSource());
     }
 
     public void setHeaderTitle(String _title) {

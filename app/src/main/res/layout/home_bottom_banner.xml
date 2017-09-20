@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/allbg_white"
-    android:layout_marginTop="8dp"
+    android:background="#f3f3f3"
     android:layout_marginBottom="20dp">
 
     <FrameLayout

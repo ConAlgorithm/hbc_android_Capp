@@ -28,10 +28,10 @@
             android:id="@+id/head_text_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignWithParentIfMissing="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dip"
-            android:layout_toLeftOf="@id/head_btn_right"
             android:text="@string/dialog_btn_search"
             android:textColor="@color/basic_black"
             android:textSize="16dip" />
