@@ -77,7 +77,7 @@ public class HomeHotAlbumGuideItemView extends LinearLayout implements HbcViewBe
     @Override
     public void update(Object data) {
         homeAlbumRelItemVo = (HomeAlbumRelItemVo)data;
-        Tools.showImageForHomePage(imageView, homeAlbumRelItemVo.guideAvatar, R.mipmap.empty_home_guide);
+        Tools.showImageForHomePage(imageView, homeAlbumRelItemVo.guideCover, R.mipmap.empty_home_guide);
 
         evaluate.setText(getResources().getString(R.string.home_guide_evaluate) +homeAlbumRelItemVo.guideCommentNum);
         SpannableString spannableString = new SpannableString(homeAlbumRelItemVo.guideName + " " +homeAlbumRelItemVo.guideHomeDesc);

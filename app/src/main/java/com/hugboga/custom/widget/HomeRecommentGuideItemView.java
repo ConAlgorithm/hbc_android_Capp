@@ -77,7 +77,7 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
     @Override
     public void update(Object data) {
         homeCityItemVo = (HomeCityItemVo)data;
-        Tools.showImageForHomePage(imageView, homeCityItemVo.guideAvatar, R.mipmap.empty_home_guide);
+        Tools.showImageForHomePage(imageView, homeCityItemVo.guideCover, R.mipmap.empty_home_guide);
 
         evaluate.setText(getContext().getResources().getString(R.string.home_guide_evaluate) +homeCityItemVo.guideCommentNum);
         SpannableString spannableString = new SpannableString(homeCityItemVo.guideName + " " +homeCityItemVo.guideHomeDesc);
