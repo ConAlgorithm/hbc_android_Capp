@@ -58,20 +58,21 @@
         <TextView
             android:id="@+id/des1"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_marginTop="16dp"
+            android:lineSpacingExtra="4dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="深度瑞士｜瑞士全景环游之路超豪华 8日包车游特别好玩啊好好玩"
             android:textColor="#151515"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:typeface="sans"/>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginBottom="4dp">
 
 
           <!--  <TextView
@@ -87,8 +88,8 @@
                 android:id="@+id/guidesNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:text="37位中文司导可服务"
+                android:layout_centerVertical="true"
                 android:textColor="#151515"
                 android:textSize="12sp" />
 
@@ -97,9 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:gravity="center"
-                android:paddingBottom="4dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="$15680起/人"
