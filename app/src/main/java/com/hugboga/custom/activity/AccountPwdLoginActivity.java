@@ -287,10 +287,10 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
             CommonUtils.showToast(R.string.login_check_pwd);
             return;
         }
-        if (!Pattern.matches("[\\w]{6,16}", password)) {
+        /*if (!Pattern.matches("[\\w]{6,16}", password)) {
             CommonUtils.showToast(R.string.login_check_pwd_length);
             return;
-        }
+        }*/
         if(areaCode.equals("86")){
             if(!phone.startsWith("1") || phone.length() != 11){
                 CommonUtils.showToast(R.string.login_check_phone_length);
@@ -414,8 +414,8 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         }
 
         if (!TextUtils.isEmpty(areaCode) && !TextUtils.isEmpty(phone)
-                && !TextUtils.isEmpty(password)
-                && Pattern.matches("[\\w]{6,16}", password)) {
+                && !TextUtils.isEmpty(password)&& password.length() >=6
+                /*&& Pattern.matches("[\\w]{6,16}", password)*/) {
             loginButton.setEnabled(true);
             //loginButton.setBackgroundColor(getResources().getColor(R.color.login_ready));
         } else {
