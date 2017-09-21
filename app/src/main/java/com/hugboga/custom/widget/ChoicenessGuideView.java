@@ -30,6 +30,8 @@ import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.utils.CommonUtils;
@@ -38,6 +40,7 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -222,9 +225,11 @@ public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior
             saveGuild.setSelected(true);
             data.isCollected= 1;
             CommonUtils.showToast("收藏成功");
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
             setSensorsShareEvent(data.guideId);
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast("已取消收藏");
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
         }
         saveGuild.setEnabled(true);
     }

@@ -29,6 +29,8 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
@@ -37,6 +39,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -194,9 +197,11 @@ public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior
             saveGuild.setSelected(true);
             filterGuideBean.isCollected= 1;
             CommonUtils.showToast(getResources().getString(R.string.collect_succeed));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
             setSensorsShareEvent(filterGuideBean.guideId);
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast(getResources().getString(R.string.collect_cancel));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
         }
         save_guide_layout.setEnabled(true);
     }
