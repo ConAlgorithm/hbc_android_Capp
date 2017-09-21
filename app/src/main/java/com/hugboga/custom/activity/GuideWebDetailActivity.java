@@ -182,6 +182,16 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         }
         mDialogUtil = DialogUtil.getInstance(activity);
 
+        if (UserEntity.getUser().isLogin(this)) {
+            try {
+                CommonUtils.synCookies(getLoadUrl(), "capp_user=" + webAgent.getUserInfoJson());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            CommonUtils.removeAllCookies();
+        }
+
         loadUrl();
 
         if (paramsData.isChooseGuide) {

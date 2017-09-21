@@ -768,6 +768,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             paramsBean.startPoiBean = params.endPoiBean;
             paramsBean.destPoiBean = params.startPoiBean;
             paramsBean.cityId = params.cityBean.cityId;
+            paramsBean.guidesDetailData = params.guidesDetailData;
         } else if (params.orderType == 1) {
             paramsBean = new PayResultExtarParamsBean();
             paramsBean.startPoiBean = params.endPoiBean;
@@ -779,6 +780,7 @@ public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.
             airPort.cityId = flightBean.arrCityId;
             airPort.location = flightBean.arrLocation;
             paramsBean.airPortBean = airPort;
+            paramsBean.guidesDetailData = params.guidesDetailData;
         }
         return paramsBean;
     }

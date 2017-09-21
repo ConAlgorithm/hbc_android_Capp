@@ -12,4 +12,5 @@ public class PayResultExtarParamsBean implements Serializable{
     public PoiBean startPoiBean;
     public PoiBean destPoiBean;
     public AirPort airPortBean;
+    public GuidesDetailData guidesDetailData;
 }

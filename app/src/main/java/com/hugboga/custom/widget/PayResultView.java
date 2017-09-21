@@ -36,6 +36,7 @@ import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.SharedPre;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -104,14 +105,19 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                     params.cityId = "" + extarParamsBean.cityId;
                     params.startPoiBean = extarParamsBean.startPoiBean;
                     params.endPoiBean = extarParamsBean.destPoiBean;
+                    params.guidesDetailData = extarParamsBean.guidesDetailData;
                     Intent intent = new Intent(getContext(), SingleActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_succeed));
                     intent.putExtra(Constants.PARAMS_DATA, params);
                     getContext().startActivity(intent);
+
+                    //单次接送催促下单后不再显示催促下单入口。
+                    SharedPre.setString(SharedPre.PAY_ORDER, orderId);
                 } else if (orderType == 1) {
                     PickSendActivity.Params params = new PickSendActivity.Params();
                     params.airPortBean = extarParamsBean.airPortBean;
                     params.startPoiBean = extarParamsBean.startPoiBean;
+                    params.guidesDetailData = extarParamsBean.guidesDetailData;
                     params.type = 1;
                     Intent intent = new Intent(getContext(), PickSendActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getContext().getString(R.string.par_result_succeed));
@@ -138,7 +144,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         if (isPaySucceed) {
             stateIV.setBackgroundResource(R.mipmap.pay_succeed_icon);
             stateTV.setVisibility(GONE);
-            orderTV.setText(R.string.par_result_detail);
+            orderTV.setText(R.string.par_result_detail2);
             RequestPaySucceed request = new RequestPaySucceed(getContext(), orderId);
             HttpRequestUtils.request(getContext(), request, this);
             if (orderType == 1) {
@@ -150,7 +156,8 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
                 bookTV.setVisibility(View.GONE);
             } else {
                 this.extarParamsBean = _extarParamsBean;
-                if (orderType == 4) {
+                String oldOrderId = SharedPre.getString(SharedPre.PAY_ORDER, "");
+                if (orderType == 4 && TextUtils.isEmpty(oldOrderId)) {
                     bookTV.setVisibility(View.VISIBLE);
                     bookTV.setText(R.string.par_result_book_back);
                 } else if (orderType == 1) {

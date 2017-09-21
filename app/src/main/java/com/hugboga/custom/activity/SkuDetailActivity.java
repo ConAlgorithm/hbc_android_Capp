@@ -119,6 +119,8 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     private DialogUtil mDialogUtil;
     private WebAgent webAgent;
 
+    private String url;
+
     private boolean isLoaded = false;
     boolean isFromHome;
     public void initView() {
@@ -152,11 +154,23 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         }
         mDialogUtil = DialogUtil.getInstance(activity);
 
+        url = getLoadUrl();
+
+        if (UserEntity.getUser().isLogin(this)) {
+            try {
+                CommonUtils.synCookies(url, "capp_user=" + webAgent.getUserInfoJson());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            CommonUtils.removeAllCookies();
+        }
+
         loadUrl();
         SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
     }
 
-    public void loadUrl() {
+    public String getLoadUrl() {
         String baseUrl = "";
 
         String intentUrl = getIntent().getStringExtra(WEB_URL);
@@ -165,8 +179,15 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         } else if (skuItemBean != null) {
             baseUrl = skuItemBean.skuDetailUrl;
         }
-        if (!TextUtils.isEmpty(baseUrl)) {
-            String url = CommonUtils.getBaseUrl(baseUrl) + "userId="+ UserEntity.getUser().getUserId(activity)+"&t=" + new Random().nextInt(100000);
+        String url = baseUrl;
+        if (!TextUtils.isEmpty(baseUrl) && UserEntity.getUser().isLogin(this)) {
+            url = baseUrl + "&userId=" + UserEntity.getUser().getUserId(activity);
+        }
+        return url;
+    }
+
+    public void loadUrl() {
+        if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
             isLoaded = true;
         }
@@ -575,6 +596,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
                 webAgent.setSkuItemBean(skuItemBean);
             }
             if (!isLoaded && !isPerformClick) {
+                url = getLoadUrl();
                 loadUrl();
             }
             setSensorsEvent();
