@@ -13,6 +13,8 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -603,5 +605,25 @@ public final class CommonUtils {
 
     public static String getString(int id, Object... formatArgs) {
         return MyApplication.getAppContext().getResources().getString(id, formatArgs);
+    }
+
+    public static void synCookies(String url, String value) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setCookie(url, value);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.flush();
+        } else {
+            CookieSyncManager.createInstance(MyApplication.getAppContext());
+            CookieSyncManager.getInstance().sync();
+        }
+    }
+
+    public static void removeAllCookies() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().removeAllCookies(null);
+        } else {
+            CookieManager.getInstance().removeAllCookie();
+        }
     }
 }

@@ -107,7 +107,7 @@ public class DatePickerActivity extends Activity {
         if (step == 1) {
             guideArrowIV.setVisibility(View.GONE);
             guideConfirmTV.setVisibility(View.GONE);
-            if (orderType == 1 || orderType == 4) {
+            if (orderType == 1 || orderType == 2 || orderType == 4) {
                 guideTitleTV.setText("出发日期（当地时间）");
             }
             guideArrowIV.setEnabled(false);

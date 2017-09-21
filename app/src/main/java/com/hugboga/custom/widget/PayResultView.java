@@ -144,7 +144,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         if (isPaySucceed) {
             stateIV.setBackgroundResource(R.mipmap.pay_succeed_icon);
             stateTV.setVisibility(GONE);
-            orderTV.setText(R.string.par_result_detail);
+            orderTV.setText(R.string.par_result_detail2);
             RequestPaySucceed request = new RequestPaySucceed(getContext(), orderId);
             HttpRequestUtils.request(getContext(), request, this);
             if (orderType == 1) {
