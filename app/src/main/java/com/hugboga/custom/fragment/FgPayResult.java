@@ -3,6 +3,7 @@ package com.hugboga.custom.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.CouponPayResultView;
 import com.hugboga.custom.widget.PayResultView;
 
@@ -35,6 +37,7 @@ public class FgPayResult extends BaseFragment{
     private boolean isPaySucceed;
     public int apiType;//0：正常  1：买券
     public boolean isInWechat = false;//微信好友分享BUG，在微信点击物理返回会调用支付结果页的回调
+    private String orderId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,13 @@ public class FgPayResult extends BaseFragment{
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        //单次接送催促下单后不再显示催促下单入口。
+        if (!TextUtils.isEmpty(orderId)) {
+            String oldOrderId = SharedPre.getString(SharedPre.PAY_ORDER, "");
+            if (TextUtils.equals(oldOrderId, orderId)) {
+                SharedPre.delete(SharedPre.FILENAME, SharedPre.PAY_ORDER);
+            }
+        }
     }
 
     @Override
@@ -65,6 +75,7 @@ public class FgPayResult extends BaseFragment{
     }
 
     public void initView(boolean _isPaySucceed, String _orderId, int orderType, PayResultExtarParamsBean extarParamsBean) {
+        this.orderId = _orderId;
         this.apiType = 0;
         this.isPaySucceed = _isPaySucceed;
         couponPayResultView.setVisibility(View.GONE);

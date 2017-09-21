@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,7 +17,9 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
+import com.hugboga.custom.data.bean.GuidesDetailData;
 import com.hugboga.custom.data.bean.OrderBean;
+import com.hugboga.custom.data.bean.OrderGuideInfo;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.OrderStatus;
 import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
@@ -563,6 +566,19 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             airPort.areaCode = orderBean.serviceAreaCode;
             airPort.location = orderBean.startAddressPoi;
             paramsBean.airPortBean = airPort;
+        }
+        if (!TextUtils.isEmpty(orderBean.guideCollectId) && orderBean.orderGuideInfo != null) {
+            OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
+            GuidesDetailData guidesDetailData = new GuidesDetailData();
+            guidesDetailData.guideId = guideInfo.guideID;
+            guidesDetailData.guideName = guideInfo.guideName;
+            guidesDetailData.avatar = guideInfo.guideAvatar;
+            guidesDetailData.cityId = guideInfo.cityId;
+            guidesDetailData.cityName = guideInfo.cityName;
+            guidesDetailData.countryId = guideInfo.countryId;
+            guidesDetailData.countryName = guideInfo.countryName;
+            guidesDetailData.isFavored = guideInfo.storeStatus;
+            guidesDetailData.isQuality = 0;
         }
         return paramsBean;
     }

@@ -51,6 +51,7 @@ public class SharedPre {
 	public static String PAY_WECHAT_ORDER_TYPE = "pay_wechat_order_type";
 	public static String PAY_WECHAT_APITYPE = "pay_wechat_apitype";
 	public static String PAY_EXTAR_PARAMS = "pay_extar_params";
+	public static String PAY_ORDER = "pay_order";
 	public static String GENDER ="gender";
 	public static String AGETYPE ="ageType";
 	public static String APP_LAUNCH_COUNT ="appLaunchCount";
@@ -384,9 +385,13 @@ public class SharedPre {
 	public static boolean delete(String name, String key) {
 		Context context = MyApplication.getAppContext();
 		SharedPreferences mSharedPreferences = context.getSharedPreferences(name, MODE);
-		SharedPreferences.Editor mEditor = mSharedPreferences.edit();
-		mEditor.remove(key);
-		return mEditor.commit();
+		if (mSharedPreferences.contains(key)) {
+			SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+			mEditor.remove(key);
+			return mEditor.commit();
+		} else {
+			return false;
+		}
 	}
 
 	public static boolean clear(String name) {
