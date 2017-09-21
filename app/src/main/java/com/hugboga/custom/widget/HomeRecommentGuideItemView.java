@@ -28,6 +28,8 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeAlbumRelItemVo;
 import com.hugboga.custom.data.bean.HomeCityItemVo;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCollectGuidesId;
 import com.hugboga.custom.data.request.RequestUncollectGuidesId;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
@@ -35,6 +37,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.Tools;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -77,7 +80,7 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
     @Override
     public void update(Object data) {
         homeCityItemVo = (HomeCityItemVo)data;
-        Tools.showImageForHomePage(imageView, homeCityItemVo.guideAvatar, R.mipmap.empty_home_guide);
+        Tools.showImageForHomePage(imageView, homeCityItemVo.guideCover, R.mipmap.empty_home_guide);
 
         evaluate.setText(getContext().getResources().getString(R.string.home_guide_evaluate) +homeCityItemVo.guideCommentNum);
         SpannableString spannableString = new SpannableString(homeCityItemVo.guideName + " " +homeCityItemVo.guideHomeDesc);
@@ -158,9 +161,11 @@ public class HomeRecommentGuideItemView extends LinearLayout implements HbcViewB
             saveGuild.setSelected(true);
             homeCityItemVo.isCollected= 1;
             CommonUtils.showToast(getContext().getResources().getString(R.string.collect_succeed));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 1));
             setSensorsShareEvent(homeCityItemVo.guideId);
         }else if(request instanceof RequestUncollectGuidesId){
             CommonUtils.showToast(getContext().getResources().getString(R.string.collect_cancel));
+            EventBus.getDefault().post(new EventAction(EventType.ORDER_DETAIL_UPDATE_COLLECT, 0));
         }
         save_guide_layout.setEnabled(true);
     }
