@@ -790,7 +790,7 @@
     <string name="order_bottom_discount_price">已減: ¥%1$s</string>
     <string name="order_bottom_hint1">支付後參與砍價活動，最多可減200元哦！</string>
     <string name="order_bottom_hint2">支付後還可以挑選司導哦~</string>
-    <string name="order_insurance_unit"> × %1$s份~</string>
+    <string name="order_insurance_unit"> × %1$s份</string>
     <string name="order_insurance_title">投保信息</string>
     <string name="order_insurance_hint">平安境外意外險</string>
     <string name="order_insurance_hint2">下單後添加投保人護照，保單即可生效</string>
