@@ -111,7 +111,7 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
                 break;
             case R.id.single_pick_send:
                 intentActivity(context, SingleActivity.class, StatisticConstant.LAUNCH_C);
-                SensorsUtils.onAppClick(getEventSource(),"单次接送","首页-单次接送");
+                SensorsUtils.onAppClick(getEventSource(),"单次","首页-单次");
                 break;
             case R.id.pick_send:
                 intentActivity(context, PickSendActivity.class, StatisticConstant.LAUNCH_J);
