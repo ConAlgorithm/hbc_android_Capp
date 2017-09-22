@@ -579,6 +579,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             guidesDetailData.countryName = guideInfo.countryName;
             guidesDetailData.isFavored = guideInfo.storeStatus;
             guidesDetailData.isQuality = 0;
+            paramsBean.guidesDetailData = guidesDetailData;
         }
         return paramsBean;
     }
