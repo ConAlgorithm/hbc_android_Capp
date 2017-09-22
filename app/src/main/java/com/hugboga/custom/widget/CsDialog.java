@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
@@ -24,11 +25,14 @@ public class CsDialog extends Dialog implements View.OnClickListener {
     private CsDialog.Params mParams;
     Context context;
     private CsDialog.OnCsListener listener;
+    private boolean hasOnline = true;
     public CsDialog(Context context) {
-        this(context, R.style.ShareDialog);
+        this(context, R.style.ShareDialog,true);
     }
-
-    public CsDialog(Context context, int themeResId) {
+    public CsDialog(Context context,boolean hasOnline) {
+        this(context, R.style.ShareDialog,hasOnline);
+    }
+    public CsDialog(Context context, int themeResId,boolean hasOnline) {
         super(context, themeResId);
         this.context = context;
         setContentView(R.layout.view_cs_dialog);
@@ -49,8 +53,17 @@ public class CsDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.adroad_cs_layout).setOnClickListener(this);
         findViewById(R.id.dialog_share_cancel_tv).setOnClickListener(this);
         findViewById(R.id.dialog_share_shadow_view).setOnClickListener(this);
+        if(!hasOnline){
+            findViewById(R.id.online_cs_layout).setVisibility(View.GONE);
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) findViewById(R.id.china_cs_layout).getLayoutParams();
+            lp.setMargins(0,0,0,0);
+            findViewById(R.id.online_cs_layout).setLayoutParams(lp);
+        }
     }
 
+    public void setOnline(boolean hasOnline){
+        this.hasOnline = hasOnline;
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

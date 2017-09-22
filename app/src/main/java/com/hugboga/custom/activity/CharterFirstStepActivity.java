@@ -215,7 +215,8 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         setSensorsOnOperated();
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
-                DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
+                //DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
+                CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false);
                 SensorsUtils.onAppClick(getEventSource(), "联系客服", getIntentSource());
                 break;
             case R.id.charter_first_bottom_online_layout:
