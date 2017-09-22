@@ -167,7 +167,11 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
         }
 
         loadUrl();
-        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
+        setSensorsDefaultEvent();
+    }
+
+    protected boolean isDefaultEvent(){
+        return false;
     }
 
     public String getLoadUrl() {

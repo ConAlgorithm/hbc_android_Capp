@@ -90,7 +90,11 @@ public class WebInfoActivity extends BaseActivity implements View.OnKeyListener 
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         initView();
-        SensorsUtils.setPageEvent(getEventSource(),getPageTitle(),getIntentSource());
+        setSensorsDefaultEvent();
+    }
+
+    protected boolean isDefaultEvent(){
+        return false;
     }
 
     public void setHeaderTitle(String _title) {

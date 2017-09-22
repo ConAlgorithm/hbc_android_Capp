@@ -202,7 +202,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initNetworkbench();
         requesetBattery();
-        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
+        setSensorsDefaultEvent();
+    }
+
+    protected boolean isDefaultEvent(){
+        return false;
     }
 
     @Override

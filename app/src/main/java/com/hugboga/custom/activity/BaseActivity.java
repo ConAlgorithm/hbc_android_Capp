@@ -83,9 +83,18 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
             e.printStackTrace();
         }
 
-        SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), getIntentSource());
+        if(isDefaultEvent()){
+            setSensorsDefaultEvent();
+        }
     }
 
+    protected boolean isDefaultEvent(){
+        return true;
+    }
+
+    protected void setSensorsDefaultEvent(){
+        SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), getIntentSource());
+    }
     protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
         try {
             JSONObject properties = new JSONObject();

@@ -110,7 +110,11 @@ public class GuideWebDetailActivity extends BaseActivity implements View.OnKeyLi
         isFromHome = getIntent().getBooleanExtra("isFromHome",false);
         EventBus.getDefault().register(this);
         initView();
-        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
+        setSensorsDefaultEvent();
+    }
+
+    protected boolean isDefaultEvent(){
+        return false;
     }
 
     @Override
