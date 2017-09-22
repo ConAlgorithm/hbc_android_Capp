@@ -95,7 +95,7 @@ public class SkuOrderCarTypeView extends LinearLayout implements HbcViewBehavior
         }
         CarListBean carListBean = (CarListBean) _data;
         if (carListBean.serviceWay != 101 && !isSeckills && !isAssignGuide()) {
-            AlertDialogUtils.showAlertDialog(getContext(), true, CommonUtils.getString(R.string.hint), CommonUtils.getString(R.string.order_no_chinese_guide)
+            AlertDialogUtils.showAlertDialog(getContext(), false, CommonUtils.getString(R.string.hint), CommonUtils.getString(R.string.order_no_chinese_guide)
                     , CommonUtils.getString(R.string.order_confirm_look), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
