@@ -148,7 +148,11 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
             }
         });
         setSensorsDefaultEvent("优惠券", SensorsConstant.COUPON);
-        SensorsUtils.setPageEvent(getEventSource(),getEventSource(),getIntentSource());
+        setSensorsDefaultEvent();
+    }
+
+    protected boolean isDefaultEvent(){
+        return false;
     }
 
     @Override
