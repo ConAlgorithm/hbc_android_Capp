@@ -155,8 +155,13 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     }
                 });
             }
-            homeRecommendedRouteHolder.filter_guide.setText(homeCityContentVo2.cityName + context.getResources().getString(R.string.custom_recommend_line));
-            homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
+
+            if(homeCityContentVo2.placeType == 1){
+                homeRecommendedRouteHolder.filter_guide.setText(homeCityContentVo2.countryName + context.getResources().getString(R.string.custom_recommend_line));
+            }else if(homeCityContentVo2.placeType == 2){
+                homeRecommendedRouteHolder.filter_guide.setText(homeCityContentVo2.cityName + context.getResources().getString(R.string.custom_recommend_line));
+            }
+            /*homeRecommendedRouteHolder.filterGuideMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     CityListActivity.Params params = new CityListActivity.Params();
@@ -166,7 +171,7 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
                     intentActivity(context, CityListActivity.class, getEventSource(), params);
                     SensorsUtils.onAppClick(getEventSource(),"推荐线路","首页-推荐线路");
                 }
-            });
+            });*/
 
         }
 

@@ -80,7 +80,12 @@ public class HomeCityRecommentGuideView extends LinearLayout implements HttpRequ
     public void setGuideBeanList(HomeCityContentVo2 homeCityContentVo2) {
 
         if(homeCityContentVo2 != null && homeCityContentVo2.cityItemList != null && homeCityContentVo2.cityItemList.size()>0){
-            filterGuide.setText(getContext().getResources().getString(R.string.home_recomment_guide,homeCityContentVo2.cityName));
+            if(homeCityContentVo2.placeType == 1){
+                filterGuide.setText(getContext().getResources().getString(R.string.home_recomment_guide,homeCityContentVo2.countryName));
+            }else if(homeCityContentVo2.placeType == 2){
+                filterGuide.setText(getContext().getResources().getString(R.string.home_recomment_guide,homeCityContentVo2.cityName));
+            }
+
             if (homeCityRecommentGuideAdapter == null) {
                 homeCityRecommentGuideAdapter = new HomeCityRecommentGuideAdapter(getContext(),  displayImgWidth, displayImgHeight, homeCityContentVo2,homeCityContentVo2.cityItemList);
                 recyclerView.setAdapter(homeCityRecommentGuideAdapter);

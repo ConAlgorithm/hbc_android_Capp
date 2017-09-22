@@ -90,9 +90,15 @@ public class HomeCityRecommentGuideAdapter extends RecyclerView.Adapter<HomeCity
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, FilterGuideListActivity.class);
                     FilterGuideListActivity.Params params = new FilterGuideListActivity.Params();
-                    params.id = homeCityContentVo2.cityId;
-                    params.cityHomeType = CityListActivity.CityHomeType.CITY;
-                    params.titleName = homeCityContentVo2.cityName;
+                    if(homeCityContentVo2.placeType == 1){
+                        params.id = homeCityContentVo2.countryId;
+                        params.cityHomeType = CityListActivity.CityHomeType.COUNTRY;
+                        params.titleName = homeCityContentVo2.countryName;
+                    }else if(homeCityContentVo2.placeType == 2){
+                        params.id = homeCityContentVo2.cityId;
+                        params.cityHomeType = CityListActivity.CityHomeType.CITY;
+                        params.titleName = homeCityContentVo2.cityName;
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.PARAMS_DATA, params);
                     intent.putExtras(bundle);
