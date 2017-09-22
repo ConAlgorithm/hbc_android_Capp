@@ -220,7 +220,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //            }
         }
         //支付结果 单次接送催促下单后不再显示催促下单入口。
-        SharedPre.getString(SharedPre.PAY_ORDER, "");
+        SharedPre.setString(SharedPre.PAY_ORDER, "");
     }
 
     @Override

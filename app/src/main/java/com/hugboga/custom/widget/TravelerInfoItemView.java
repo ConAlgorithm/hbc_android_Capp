@@ -101,6 +101,18 @@ public class TravelerInfoItemView extends LinearLayout {
         return phoneET.getText();
     }
 
+    public String getAreaCodeStr() {
+        return codeTV.getText() != null ? codeTV.getText().toString() : "";
+    }
+
+    public String getNameStr() {
+        return contactsET.getText() != null ? contactsET.getText().toString() : "";
+    }
+
+    public String getPhoneStr() {
+        return phoneET.getText() != null ? phoneET.getText().toString() : "";
+    }
+
     public TextView getAreaCodeView() {
         return codeTV;
     }

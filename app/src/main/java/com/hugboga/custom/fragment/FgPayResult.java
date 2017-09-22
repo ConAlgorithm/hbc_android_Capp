@@ -53,7 +53,7 @@ public class FgPayResult extends BaseFragment{
         if (!TextUtils.isEmpty(orderId)) {
             String oldOrderId = SharedPre.getString(SharedPre.PAY_ORDER, "");
             if (TextUtils.equals(oldOrderId, orderId)) {
-                SharedPre.delete(SharedPre.FILENAME, SharedPre.PAY_ORDER);
+                SharedPre.setString(SharedPre.PAY_ORDER, "");
             }
         }
     }
