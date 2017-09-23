@@ -3,6 +3,8 @@ package com.hugboga.custom.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -61,10 +63,14 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     @Bind(R.id.deliver_item_arrow_iv)
     ImageView arrowIV;
 
-
     private String orderNo;
     private int orderType;
     private ErrorHandler errorHandler;
+
+    public static final int FRE_INTERVAL = 5 * 1000;
+    public static final int LATE_INTERVAL = 60 * 1000;
+
+    private OrderDetailDeliverCountDownView.OnUpdateListener onUpdateListener;
 
     public OrderDetailDeliverItemView(Context context) {
         this(context, null);
@@ -96,8 +102,11 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
             case DeliverInfoBean.DeliverStatus.BILLED:          // 2.已发单
             case DeliverInfoBean.DeliverStatus.BEING_ARRANGED:  // 5.正在安排司导
             case DeliverInfoBean.DeliverStatus.COORDINATION:    // 7.为您协调司导
-            case DeliverInfoBean.DeliverStatus.DELIVERING:      // 9.发单中
                 loadingLayout(deliverInfoBean);
+                break;
+            case DeliverInfoBean.DeliverStatus.DELIVERING:      // 9.发单中，需要定时刷新
+                loadingLayout(deliverInfoBean);
+                countdownHandler.sendEmptyMessageDelayed(deliverInfoBean.refreshCount, FRE_INTERVAL);
                 break;
             case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
                 if (deliverInfoBean.isCanChoose()) {
@@ -166,6 +175,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     }
 
     public void setOnCountdownEndListener(OrderDetailDeliverCountDownView.OnUpdateListener onUpdateListener) {
+        this.onUpdateListener = onUpdateListener;
         countdownLayout.setOnUpdateListener(onUpdateListener);
     }
 
@@ -258,4 +268,23 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
         getContext().startActivity(intent);
         StatisticClickEvent.showGuidesClick(StatisticConstant.LAUNCH_WAITG, getContext().getString(R.string.order_detail_title_default), orderType);
     }
+
+    private Handler countdownHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (getContext() instanceof Activity) {
+                if (((Activity) getContext()).isFinishing()) {
+                    return;
+                }
+            }
+            if (onUpdateListener != null) {
+                onUpdateListener.onUpdate(false);
+            }
+            if (msg.what >= 0) {
+                countdownHandler.sendEmptyMessageDelayed(0, FRE_INTERVAL);
+            } else {
+                countdownHandler.sendEmptyMessageDelayed(0, LATE_INTERVAL);
+            }
+        }
+    };
 }
