@@ -567,7 +567,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             airPort.location = orderBean.startAddressPoi;
             paramsBean.airPortBean = airPort;
         }
-        if (!TextUtils.isEmpty(orderBean.guideCollectId) && orderBean.orderGuideInfo != null) {
+        if (paramsBean != null && !TextUtils.isEmpty(orderBean.guideCollectId) && orderBean.orderGuideInfo != null) {
             OrderGuideInfo guideInfo = orderBean.orderGuideInfo;
             GuidesDetailData guidesDetailData = new GuidesDetailData();
             guidesDetailData.guideId = guideInfo.guideID;

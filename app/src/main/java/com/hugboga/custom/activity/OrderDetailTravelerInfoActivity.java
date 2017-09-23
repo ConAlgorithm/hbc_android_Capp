@@ -31,6 +31,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.PhoneInfo;
+import com.hugboga.custom.utils.TravelerInfoDataCheck;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SkuOrderTravelerInfoView;
 import com.hugboga.custom.widget.TravelerInfoItemView;
@@ -48,7 +49,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
-public class OrderDetailTravelerInfoActivity extends BaseActivity{
+public class OrderDetailTravelerInfoActivity extends BaseActivity implements TravelerInfoDataCheck.OnDataChangeListener {
 
     @Bind(R.id.sku_order_traveler_info_title_tv)
     TextView travelerInfoTitleTV;
@@ -135,6 +136,8 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
 
     private boolean isRequested = false;
 
+    private TravelerInfoDataCheck dataCheck;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_order_detail_traveler_info;
@@ -193,6 +196,8 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             }
         });
         fgRightTV.setText(R.string.traveler_info_save);
+        fgRightTV.setEnabled(false);
+        fgRightTV.setTextColor(0xFFA8A8A8);
         fgRightTV.setVisibility(View.VISIBLE);
         fgRightTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,6 +315,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             @Override
             public void onSwitchStateChange(boolean b) {
                 contactUsersBean.isSendMessage = b;
+                if (dataCheck != null) {
+                    dataCheck.checkIsSendMessage(b);
+                }
             }
         });
         contactsSwitchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
@@ -324,6 +332,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                     sendMessageLayout.setVisibility(View.GONE);
                 }
                 CommonUtils.hideSoftInput(OrderDetailTravelerInfoActivity.this);
+                if (dataCheck != null) {
+                    dataCheck.checkIsForOther(b);
+                }
             }
         });
 
@@ -379,6 +390,44 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 addressTV.setEnabled(false);
                 addressArrowIV.setVisibility(View.INVISIBLE);
             }
+        } else {
+            dataCheck = new TravelerInfoDataCheck();
+            dataCheck.contactsName = contactsLayout.getNameStr();
+            dataCheck.contactsPhone = contactsLayout.getPhoneStr();
+            dataCheck.contactsAreaCode = contactsLayout.getAreaCodeStr();
+
+            dataCheck.isStandby = isStandby;
+            dataCheck.standbyContactsName = standbyContactsLayout.getNameStr();
+            dataCheck.standbyContactsPhone = standbyContactsLayout.getPhoneStr();
+            dataCheck.standbyContactsAreaCode = standbyContactsLayout.getAreaCodeStr();
+
+            dataCheck.otherContactsName = otherContactsLayout.getNameStr();
+            dataCheck.otherContactsPhone = otherContactsLayout.getPhoneStr();
+            dataCheck.otherContactsAreaCode = otherContactsLayout.getAreaCodeStr();
+            dataCheck.isSendMessage = contactUsersBean.isSendMessage;
+            dataCheck.isForOther = contactUsersBean.isForOther;
+
+            dataCheck.time = timeTV.getText() != null ? timeTV.getText().toString() : "";
+            dataCheck.address = orderBean.startAddress;
+            dataCheck.addressDescription = orderBean.startAddressDetail;
+            dataCheck.wechat = orderBean.userWechat;
+
+            dataCheck.flightBrandSign = orderBean.userWechat;
+            dataCheck.flight = orderBean.flightNo;
+            dataCheck.mark = orderBean.userRemark;
+
+            dataCheck.contactsET = contactsLayout.getNameView();
+            dataCheck.phoneET = contactsLayout.getPhoneView();
+            dataCheck.standbyContactsET = standbyContactsLayout.getNameView();
+            dataCheck.standbyPhoneET = standbyContactsLayout.getPhoneView();
+            dataCheck.otherContactsET = otherContactsLayout.getNameView();
+            dataCheck.otherPhoneET = otherContactsLayout.getPhoneView();
+            dataCheck.checkinET = checkinET;
+            dataCheck.flightET = flightET;
+            dataCheck.wechatET = wechatET;
+            dataCheck.markET = markET;
+
+            dataCheck.setListener(this);
         }
     }
 
@@ -416,6 +465,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     public void chooseStandbyContacts() {
         isStandby = !isStandby;
         setStandbyContactsShow(isStandby);
+        if (dataCheck != null) {
+            dataCheck.checkIsStandby(isStandby);
+        }
     }
 
     public void setStandbyContactsShow(boolean isShow) {
@@ -492,12 +544,21 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 switch (areaCodeBean.viewId) {
                     case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS:
                         contactsLayout.setAreaCode(code);
+                        if (dataCheck != null) {
+                            dataCheck.checkContactsAreaCode(code);
+                        }
                         break;
                     case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS:
                         otherContactsLayout.setAreaCode(code);
+                        if (dataCheck != null) {
+                            dataCheck.checkOtherContactsAreaCode(code);
+                        }
                         break;
                     case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS:
                         standbyContactsLayout.setAreaCode(code);
+                        if (dataCheck != null) {
+                            dataCheck.checkStandbyContactsAreaCode(code);
+                        }
                         break;
                 }
                 break;
@@ -516,6 +577,11 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                     addressDescriptionTV.setText(poiBean.placeDetail);
                 } else {
                     addressDescriptionTV.setVisibility(View.GONE);
+                    addressDescriptionTV.setText("");
+                }
+                if (dataCheck != null) {
+                    dataCheck.checkAddress(poiBean.placeName);
+                    dataCheck.checkAddressDetail(poiBean.placeDetail);
                 }
                 break;
             default:
@@ -559,12 +625,21 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 switch (requestCode) {
                     case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_CONTACTS:
                         contactsLayout.setPhone(phone);
+                        if (dataCheck != null) {
+                            dataCheck.checkContactsPhone(phone);
+                        }
                         break;
                     case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_OTHER_CONTACTS:
                         otherContactsLayout.setPhone(phone);
+                        if (dataCheck != null) {
+                            dataCheck.checkOtherContactsPhone(phone);
+                        }
                         break;
                     case SkuOrderTravelerInfoView.REQUEST_CODE_PICK_STANDBY_CONTACTS:
                         standbyContactsLayout.setPhone(phone);
+                        if (dataCheck != null) {
+                            dataCheck.checkStandbyContactsPhone(phone);
+                        }
                         break;
                 }
             }
@@ -591,6 +666,9 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
                 serverTime = hour + ":" + minute;
                 timeTV.setText(serverTime + "(当地时间)");
                 orderBean.serviceStartTime = serverTime + ":00";
+                if (dataCheck != null) {
+                    dataCheck.checkTime(timeTV.getText().toString());
+                }
                 picker.dismiss();
             }
         });
@@ -601,8 +679,6 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
     private void sendRequest() {
         if (isRequested) {
             return;
-        } else {
-            isRequested = true;
         }
         if (TextUtils.isEmpty(contactsLayout.getName())) {
             CommonUtils.showToast("请填写联系人姓名");
@@ -646,6 +722,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             CommonUtils.showToast("请填写接机牌姓名");
             return;
         }
+        isRequested = true;
         mDialogUtil.showLoadingDialog();
         requestParams.orderNo = orderBean.orderNo;
         requestParams.orderType = orderBean.orderType;//int 可选1-接机；2-送机；3-日租；4-次租
@@ -709,5 +786,11 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity{
             realUserExJson.append("]");
         }
         return realUserExJson.toString();
+    }
+
+    @Override
+    public void onDataChange(boolean isChange) {
+        fgRightTV.setEnabled(isChange);
+        fgRightTV.setTextColor(isChange ? getResources().getColor(R.color.default_black) : 0xFFA8A8A8);
     }
 }
