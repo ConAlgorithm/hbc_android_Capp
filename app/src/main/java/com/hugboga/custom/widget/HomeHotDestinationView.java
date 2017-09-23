@@ -42,7 +42,7 @@ public class HomeHotDestinationView extends LinearLayout implements HbcViewBehav
         final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_filter_avr_space);
         displayImgWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.home_hot_destination_img_width);
         displayImgHeight = getContext().getResources().getDimensionPixelOffset(R.dimen.home_hot_destination_img_height);
-        int viewHeight = displayImgHeight + ScreenUtil.dip2px(100);
+        int viewHeight = displayImgHeight + ScreenUtil.dip2px(60);
         recyclerView.getLayoutParams().height = viewHeight;
 
         recyclerView.setFocusable(false);

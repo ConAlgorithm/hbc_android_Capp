@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -39,11 +40,13 @@ public class HomeFilterGuideAdapter extends RecyclerView.Adapter<HomeFilterGuide
     private int displayImgWidth;
     private int displayImgHeight;
     List<FilterGuideBean> allGuideBeanList;
+    LayoutInflater inflater;
     public HomeFilterGuideAdapter(Context context,int displayImgWidth,int displayImgHeight,List<FilterGuideBean> guideBeanList){
         this.mContext = context;
         this.displayImgWidth = displayImgWidth;
         this.displayImgHeight = displayImgHeight;
         this.allGuideBeanList = guideBeanList;
+        inflater = LayoutInflater.from(mContext);
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,21 +60,10 @@ public class HomeFilterGuideAdapter extends RecyclerView.Adapter<HomeFilterGuide
                 itemView.setLayoutParams(params);
                 break;
             case TYPE_MORE:
-                LinearLayout linearLayout = new LinearLayout(mContext);
-                TextView moreIV = new TextView(mContext);
-                moreIV.setText(mContext.getResources().getString(R.string.home_more));
-                moreIV.setTextSize(14);
-                moreIV.setTextColor(mContext.getResources().getColor(R.color.color_151515));
-                Drawable image = mContext.getResources().getDrawable(R.mipmap.personalcenter_right);
-                image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
-                moreIV.setCompoundDrawables(null,null,image,null);
-                moreIV.setCompoundDrawablePadding(3);
-                moreIV.setGravity(Gravity.CENTER);
-                linearLayout.addView(moreIV);
-                linearLayout.setGravity(Gravity.CENTER);
-                linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_f8f8f8));
-                linearLayout.setLayoutParams(new LinearLayout.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(175)));
-                itemView = linearLayout;
+                LinearLayout view = (LinearLayout) inflater.inflate(R.layout.home_album_more, null);
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(UIUtils.dip2px(100),  UIUtils.dip2px(175));
+                view.setLayoutParams(lp);
+                itemView = view;
                 break;
         }
 

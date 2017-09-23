@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.hugboga.custom.data.bean.HomeHotDestination;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.HomeHotDestinationItemView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
@@ -35,11 +37,13 @@ public class HomeHotDestinationAdapter extends RecyclerView.Adapter {
     private int displayImgWidth;
     private int displayImgHeight;
     ArrayList<HomeHotDestination> hotCities;
+    LayoutInflater inflater;
     public HomeHotDestinationAdapter(Context context,int displayImgWidth,int displayImgHeight,ArrayList<HomeHotDestination> hotCities){
         this.mContext = context;
         this.displayImgWidth = displayImgWidth;
         this.displayImgHeight = displayImgHeight;
         this.hotCities = hotCities;
+        inflater = LayoutInflater.from(mContext);
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,26 +52,14 @@ public class HomeHotDestinationAdapter extends RecyclerView.Adapter {
             case TYPE_ITEM:
                 HomeHotDestinationItemView homeHotDestinationItemView = new HomeHotDestinationItemView(mContext);
                 itemView = homeHotDestinationItemView;
-                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(displayImgWidth, displayImgHeight + ScreenUtil.dip2px(100));
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(displayImgWidth, displayImgHeight + ScreenUtil.dip2px(60));
                 itemView.setLayoutParams(params);
                 break;
             case TYPE_MORE:
-                LinearLayout linearLayout = new LinearLayout(mContext);
-                TextView moreIV = new TextView(mContext);
-                moreIV.setText(mContext.getResources().getString(R.string.home_more));
-                moreIV.setTextSize(14);
-                //moreIV.setBackgroundColor(0x33ff0000);
-                moreIV.setTextColor(mContext.getResources().getColor(R.color.color_151515));
-                Drawable image = mContext.getResources().getDrawable(R.mipmap.personalcenter_right);
-                image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
-                moreIV.setCompoundDrawables(null,null,image,null);
-                moreIV.setCompoundDrawablePadding(3);
-                moreIV.setGravity(Gravity.CENTER);
-                linearLayout.addView(moreIV);
-                linearLayout.setGravity(Gravity.CENTER);
-                linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_f8f8f8));
-                linearLayout.setLayoutParams(new LinearLayout.LayoutParams(displayImgWidth,displayImgHeight));
-                itemView = linearLayout;
+                LinearLayout view = (LinearLayout) inflater.inflate(R.layout.home_album_more, null);
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(UIUtils.dip2px(100),  UIUtils.dip2px(100));
+                view.setLayoutParams(lp);
+                itemView = view;
                 break;
         }
 

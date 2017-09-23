@@ -47,8 +47,8 @@
             android:visibility="gone"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="14dp"
+            android:layout_width="11dp"
+            android:layout_height="7dp"
             android:src="@mipmap/home_album_arrow"
             android:scaleType="centerCrop"
             android:layout_gravity="bottom"
