@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -42,12 +43,14 @@ public class HomeCityRecommentGuideAdapter extends RecyclerView.Adapter<HomeCity
     private int displayImgHeight;
     HomeCityContentVo2 homeCityContentVo2;
     ArrayList<HomeCityItemVo> guideBeanList;
+    LayoutInflater inflater;
     public HomeCityRecommentGuideAdapter(Context context, int displayImgWidth, int displayImgHeight, HomeCityContentVo2 homeCityContentVo2, ArrayList<HomeCityItemVo> guideBeanList){
         this.mContext = context;
         this.displayImgWidth = displayImgWidth;
         this.displayImgHeight = displayImgHeight;
         this.homeCityContentVo2 = homeCityContentVo2;
         this.guideBeanList = guideBeanList;
+        inflater = LayoutInflater.from(mContext);
     }
     @Override
     public HomeCityRecommentGuideAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,21 +64,10 @@ public class HomeCityRecommentGuideAdapter extends RecyclerView.Adapter<HomeCity
                 itemView.setLayoutParams(params);
                 break;
             case TYPE_MORE:
-                LinearLayout linearLayout = new LinearLayout(mContext);
-                TextView moreIV = new TextView(mContext);
-                moreIV.setText(mContext.getResources().getString(R.string.home_more));
-                moreIV.setTextSize(14);
-                moreIV.setTextColor(mContext.getResources().getColor(R.color.color_151515));
-                Drawable image = mContext.getResources().getDrawable(R.mipmap.personalcenter_right);
-                image.setBounds(0, 0, image.getMinimumWidth(), image.getMinimumHeight());
-                moreIV.setCompoundDrawables(null,null,image,null);
-                moreIV.setCompoundDrawablePadding(5);
-                moreIV.setGravity(Gravity.CENTER);
-                linearLayout.addView(moreIV);
-                linearLayout.setGravity(Gravity.CENTER);
-                linearLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_f8f8f8));
-                linearLayout.setLayoutParams(new LinearLayout.LayoutParams(UIUtils.dip2px(100), UIUtils.dip2px(175)));
-                itemView = linearLayout;
+                LinearLayout view = (LinearLayout) inflater.inflate(R.layout.home_album_more, null);
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(UIUtils.dip2px(100),  UIUtils.dip2px(175));
+                view.setLayoutParams(lp);
+                itemView = view;
                 break;
         }
 
