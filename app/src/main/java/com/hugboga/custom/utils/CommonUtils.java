@@ -458,7 +458,7 @@ public final class CommonUtils {
     public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source) {
         apiErrorShowService(context, errorInfo, request, source, true);
     }
-
+    static CsDialog csDialog;
     public static void apiErrorShowService(final Context context, ExceptionInfo errorInfo, BaseRequest request, final String source, boolean isShowHint) {
         if (request.errorType == BaseRequest.ERROR_TYPE_PROCESSED) {
             return;
@@ -476,7 +476,12 @@ public final class CommonUtils {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //DialogUtil.showServiceDialog(context, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, null, null, source);
-
+                csDialog = CommonUtils.csDialog(context, null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, source, new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        csDialog.dismiss();
+                    }
+                });
                 dialog.dismiss();
             }
         });
