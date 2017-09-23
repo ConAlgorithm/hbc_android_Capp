@@ -58,6 +58,7 @@ import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.ShareDialog;
@@ -123,6 +124,7 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
 
     private boolean isLoaded = false;
     boolean isFromHome;
+    CsDialog csDialog;
     public void initView() {
         MobClickUtils.onEvent(StatisticConstant.LAUNCH_DETAIL_SKU);
 
@@ -323,7 +325,13 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             case R.id.sku_detail_bottom_service_layout://联系客服
                 StatisticClickEvent.click(StatisticConstant.CLICK_CONCULT, "固定线路");
                 //DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
-                CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false);
+                //CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false);
+                csDialog = CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false,new CsDialog.OnCsListener(){
+                    @Override
+                    public void onCs() {
+                        csDialog.dismiss();
+                    }
+                });
                 SensorsUtils.onAppClick(getEventSource(),"联系客服",getIntentSource());
                 break;
             case R.id.sku_detail_bottom_online_layout://在线咨询

@@ -14,6 +14,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 
 import butterknife.Bind;
@@ -47,6 +48,7 @@ public class ServicerCenterActivity extends BaseActivity {
     @Bind(R.id.service_center_btn5)
     TextView serviceCenterBtn5;
 
+    CsDialog csDialog;
     @OnClick({R.id.service_center_btn1, R.id.service_center_btn2, R.id.service_center_btn3, R.id.service_center_btn4, R.id.service_center_btn5, R.id.service_insurance_btn6})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -113,7 +115,15 @@ public class ServicerCenterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //DialogUtil.getInstance(activity).showDefaultServiceDialog(activity,getEventSource());
-                CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                //CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource());
+                csDialog = CommonUtils.csDialog(activity, null, null, null, UnicornServiceActivity.SourceType.TYPE_DEFAULT, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if(csDialog != null && csDialog.isShowing()){
+                            csDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
 

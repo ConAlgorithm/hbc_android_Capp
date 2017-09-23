@@ -42,6 +42,7 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.CharterFirstCountView;
 import com.hugboga.custom.widget.ConponsTipView;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;
@@ -95,7 +96,7 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
     public SeckillsBean seckillsBean;//秒杀活动参数
 
     private boolean isOperated = true;//在页面有任意点击操作就记录下来，只记录第一次，统计需要
-
+    CsDialog csDialog;
     @Override
     public int getContentViewId() {
         return R.layout.activity_charter_first;
@@ -216,7 +217,12 @@ public class CharterFirstStepActivity extends BaseActivity implements CharterFir
         switch (view.getId()) {
             case R.id.charter_first_bottom_service_layout:
                 //DialogUtil.showCallDialogTitle(this,getEventSource(),UnicornServiceActivity.SourceType.TYPE_CHARTERED);
-                CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false);
+                csDialog = CommonUtils.csDialog(activity,null,null,null,UnicornServiceActivity.SourceType.TYPE_CHARTERED,getEventSource(),false,new CsDialog.OnCsListener(){
+                    @Override
+                    public void onCs() {
+                        csDialog.dismiss();
+                    }
+                });
                 SensorsUtils.onAppClick(getEventSource(), "联系客服", getIntentSource());
                 break;
             case R.id.charter_first_bottom_online_layout:
