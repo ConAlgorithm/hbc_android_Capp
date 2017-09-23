@@ -679,8 +679,6 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity implements Tra
     private void sendRequest() {
         if (isRequested) {
             return;
-        } else {
-            isRequested = true;
         }
         if (TextUtils.isEmpty(contactsLayout.getName())) {
             CommonUtils.showToast("请填写联系人姓名");
@@ -724,6 +722,7 @@ public class OrderDetailTravelerInfoActivity extends BaseActivity implements Tra
             CommonUtils.showToast("请填写接机牌姓名");
             return;
         }
+        isRequested = true;
         mDialogUtil.showLoadingDialog();
         requestParams.orderNo = orderBean.orderNo;
         requestParams.orderType = orderBean.orderType;//int 可选1-接机；2-送机；3-日租；4-次租
