@@ -32,7 +32,6 @@ import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
-import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.umeng.analytics.MobclickAgent;
 
@@ -167,7 +166,7 @@ public class BindMobileActivity extends BaseActivity implements TextWatcher{
         }
 
         if (!TextUtils.isEmpty(UserEntity.getUser().getUnionid(this))) {
-            setSensorsDefaultEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
+            setSensorsPageViewEvent("微信注册绑定手机页", SensorsConstant.WEIXINBIND);
         }
         if(mobileEditText!=null){
             if(mobileEditText.getText().toString().length() >0){

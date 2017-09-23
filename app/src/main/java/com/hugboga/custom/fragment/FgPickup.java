@@ -670,6 +670,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
             properties.put("hbc_sku_type", "接机");
             properties.put("hbc_refer", source);
             SensorsDataAPI.sharedInstance(getActivity()).track("buy_view", properties);
+            SensorsUtils.setPageEvent("接机", null, source);
         } catch (Exception e) {
             e.printStackTrace();
         }

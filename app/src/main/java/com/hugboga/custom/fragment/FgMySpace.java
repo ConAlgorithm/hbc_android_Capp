@@ -294,7 +294,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                 Intent intent = new Intent(getContext(), WebInfoActivity.class);
                 intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));
                 startActivity(intent);
-                setSensorsDefaultEvent("活动列表", SensorsConstant.ACTLIST);
+                setSensorsPageViewEvent("活动列表", SensorsConstant.ACTLIST);
                 break;*/
             case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);

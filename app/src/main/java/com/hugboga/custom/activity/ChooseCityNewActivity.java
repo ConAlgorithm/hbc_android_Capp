@@ -31,9 +31,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CityUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.FlowLayout;
@@ -97,7 +95,7 @@ public class ChooseCityNewActivity extends BaseActivity {
         //headTextRight.setVisibility(GONE);
         //headerLeftBtn.setVisibility(VISIBLE);
         initPop();
-        setSensorsDefaultEvent("搜索目的地页", SensorsConstant.SEARCH);
+        setSensorsPageViewEvent("搜索目的地页", SensorsConstant.SEARCH);
     }
 
     @Override

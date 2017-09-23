@@ -88,7 +88,7 @@ public class CouponInvalidActivity extends BaseActivity implements AdapterView.O
         initView();
         requestData();
 
-        setSensorsDefaultEvent("优惠券", SensorsConstant.COUPON);
+        setSensorsPageViewEvent("优惠券", SensorsConstant.COUPON);
     }
 
     @Override
