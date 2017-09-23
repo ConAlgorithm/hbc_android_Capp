@@ -21,6 +21,7 @@ import com.hugboga.custom.data.request.RequestAccessKey;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.LogUtils;
+import com.hugboga.custom.utils.NotificationCheckUtils;
 import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
@@ -335,6 +336,7 @@ public class MyApplication extends HbcApplication {
             JSONObject properties = new JSONObject();
             // 设置渠道名
             properties.put("channelId", BuildConfig.FLAVOR);
+            properties.put("is_open_push", NotificationCheckUtils.notificationIsOpen(this));
             // 追踪渠道效果
             SensorsDataAPI.sharedInstance(this).trackInstallation("AppInstall", properties);
         } catch (Exception e) {

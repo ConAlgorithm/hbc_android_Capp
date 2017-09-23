@@ -142,12 +142,12 @@
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/location_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/content"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="40dp"
             android:layout_marginLeft="16dp">
 
 
@@ -175,8 +175,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="2dp"
-                android:layout_marginLeft="6dp"
-                android:layout_toRightOf="@+id/location">
+                android:layout_marginLeft="6dp">
 
                 <TextView
                     android:id="@+id/service"
@@ -206,7 +205,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                android:layout_toRightOf="@+id/guide_name_layout"
                 android:background="@drawable/guide_evulate_bg"
                 android:paddingBottom="2dp"
                 android:paddingLeft="10dp"
@@ -217,7 +215,12 @@
                 android:textSize="12sp" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/location_layout"/>
     </RelativeLayout>
 
 </LinearLayout>
