@@ -512,7 +512,7 @@
     <string name="daily_second_pickup_error_3">"根据您选择的航班，如果继续下单需要将包车开始日期，调整为您航班在当地的落地日期%1$s"</string>
     <string name="daily_second_no_assign">不找Ta服务了</string>
     <string name="daily_travel_list">行程单</string>
-    <string name="daily_travel_list_yes">不找Ta服务了</string>
+    <string name="daily_travel_list_yes">是的</string>
     <string name="daily_travel_list_del_dialog">确定删除这一天吗？</string>
 
     <string name="single_start_city_hint">请选择用车城市</string>
