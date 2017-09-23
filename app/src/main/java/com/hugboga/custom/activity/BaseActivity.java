@@ -95,7 +95,8 @@ public class BaseActivity extends BaseFragmentActivity implements HttpRequestLis
     protected void setSensorsDefaultEvent(){
         SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), getIntentSource());
     }
-    protected void setSensorsDefaultEvent(String webTitle, String webUrl) {
+
+    protected void setSensorsPageViewEvent(String webTitle, String webUrl) {
         try {
             JSONObject properties = new JSONObject();
             properties.put("hbc_web_title", webTitle);

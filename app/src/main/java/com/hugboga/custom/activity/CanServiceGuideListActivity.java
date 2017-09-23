@@ -60,7 +60,7 @@ public class CanServiceGuideListActivity extends BaseActivity implements HttpReq
 
         initView();
 
-        setSensorsDefaultEvent(getEventSource(), SensorsConstant.WAITGLIST);
+        setSensorsPageViewEvent(getEventSource(), SensorsConstant.WAITGLIST);
     }
 
     @Override

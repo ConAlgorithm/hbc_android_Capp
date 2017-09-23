@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
-import com.huangbaoche.imageselector.common.Constant;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.TravelFundData;
@@ -32,11 +31,9 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.widget.ShareDialog;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -75,7 +72,7 @@ public class TravelFundActivity extends BaseActivity {
         super.onCreate(arg0);
         EventBus.getDefault().register(this);
         initView();
-        setSensorsDefaultEvent("旅游基金", SensorsConstant.TRAVELFOUND);
+        setSensorsPageViewEvent("旅游基金", SensorsConstant.TRAVELFOUND);
     }
 
     @Override

@@ -21,7 +21,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.BuildConfig;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
@@ -30,7 +29,6 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
-import com.hugboga.custom.data.request.RequestLogin;
 import com.hugboga.custom.data.request.RequestLoginBycaptcha;
 import com.hugboga.custom.data.request.RequestLoginCheckOpenId;
 import com.hugboga.custom.data.request.RequestVerity;
@@ -45,7 +43,6 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -53,14 +50,11 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -113,7 +107,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         EventBus.getDefault().register(this);
         initView(getIntent());
         //initHeader();
-        setSensorsDefaultEvent("登录页", SensorsConstant.LOGIN);
+        setSensorsPageViewEvent("登录页", SensorsConstant.LOGIN);
         OrderUtils.genUserAgreeMent(this,miaoshu2);
     }
     protected void initView(Intent intent) {

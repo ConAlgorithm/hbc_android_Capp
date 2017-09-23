@@ -64,7 +64,7 @@ public class CollectLineListActivity extends BaseActivity implements XRecyclerVi
         mAdapter = new HbcRecyclerSingleTypeAdpater(this, CollectLinelistItem.class);
         mRecyclerView.setAdapter(mAdapter);
         requestCollectLineList(0, true);
-        //setSensorsDefaultEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
+        //setSensorsPageViewEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
     }
 
     @Override

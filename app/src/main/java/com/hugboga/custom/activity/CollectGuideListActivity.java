@@ -2,7 +2,6 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -74,7 +73,7 @@ public class CollectGuideListActivity extends BaseActivity implements HbcRecycle
         mRecyclerView.setAdapter(mAdapter);
 
         requestCollectGuideList(0, true);
-        setSensorsDefaultEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
+        setSensorsPageViewEvent(getEventSource(), SensorsConstant.COLLCTGLIST);
     }
 
     @Override
