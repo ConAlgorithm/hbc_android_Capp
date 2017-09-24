@@ -76,6 +76,7 @@ public class DialogUtils {
         AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(rl);
         AlertDialog dialog = builder.create();
         builder.setCancelable(cancelable);
+        dialog.setCanceledOnTouchOutside(cancelable);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, okText, onClick);
         dialog.show();
         setButtonColor(dialog, DialogInterface.BUTTON_POSITIVE);

@@ -431,6 +431,7 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
                 params = null;
                 guidesDetailData = null;
                 guideLayout.setVisibility(View.GONE);
+                carTypeView.setGuidesDetailData(null);
                 setFlightBean(_flightBean);
                 dialog.dismiss();
             }
