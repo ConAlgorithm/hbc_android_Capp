@@ -392,14 +392,16 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         if (popup != null) {
-            popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
+            popup.showAsDropDown(titleBar.findViewById(R.id.view_bottom));
             return;
         }
-        popup = new CompatPopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+        popup = new CompatPopupWindow(menuLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setBackgroundDrawable(new BitmapDrawable());
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
-        popup.showAsDropDown(titleBar.findViewById(R.id.header_detail_right_1_btn));
+        popup.showAsDropDown(titleBar.findViewById(R.id.view_bottom));
 
         menuLayout.findViewById(R.id.bg_view).setOnClickListener(new View.OnClickListener() {
             @Override
