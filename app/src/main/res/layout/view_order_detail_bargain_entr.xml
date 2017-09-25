@@ -16,6 +16,7 @@
         app:isShowHour="true"
         app:isShowMinute="true"
         app:isShowSecond="true"
+        app:isShowDay="false"
         app:isShowTimeBgDivisionLine="false"
         app:suffixGravity="bottom"
         app:suffixLRMargin="2dp"
