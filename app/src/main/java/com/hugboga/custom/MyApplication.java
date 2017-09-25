@@ -10,8 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.anupcowkur.reservoir.Reservoir;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.MLog;
