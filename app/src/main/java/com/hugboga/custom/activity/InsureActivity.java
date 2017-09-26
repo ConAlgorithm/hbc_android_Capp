@@ -115,7 +115,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     }
 
     private void rightBtnDefault() {
-        headerRightTxt.setText(R.string.insure_del);
+        headerRightTxt.setText(R.string.insure_add2);
         headerRightTxt.setVisibility(View.VISIBLE);
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override

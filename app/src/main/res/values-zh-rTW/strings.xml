@@ -655,6 +655,7 @@
     <string name="insure_bottom_hint">人,由皇包車替你支付</string>
     <string name="insure_title">常用投保人</string>
     <string name="insure_add">添加投保人</string>
+    <string name="insure_add2">新增</string>
     <string name="insure_del">刪除</string>
     <string name="insure_check_people_num">不能超過用車人數</string>
     <string name="insure_add_succesd">投保申請已成功提交</string>
