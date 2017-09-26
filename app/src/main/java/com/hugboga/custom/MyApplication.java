@@ -103,16 +103,6 @@ public class MyApplication extends HbcApplication {
         }
         initNetworkbench();
         initNim();
-
-//        Resources res = getResources();
-//        DisplayMetrics dm = res.getDisplayMetrics();
-//        Configuration conf = res.getConfiguration();
-//        if (Build.VERSION.SDK_INT >= 24) {
-//            conf.setLocale(Locale.TRADITIONAL_CHINESE);
-//        } else {
-//            conf.locale = Locale.TRADITIONAL_CHINESE;
-//        }
-//        res.updateConfiguration(conf, dm);
     }
 
     private void initNim() {

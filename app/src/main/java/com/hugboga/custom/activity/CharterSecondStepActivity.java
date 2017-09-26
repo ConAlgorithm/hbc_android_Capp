@@ -662,6 +662,9 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
 
     public void updateTitleBar() {
         ChooseDateBean chooseDateBean = charterDataUtils.chooseDateBean;
+        if (chooseDateBean == null) {
+            finish();
+        }
         String title = String.format("%1$s-%2$s(%3$s天)", chooseDateBean.showStartDateStr, chooseDateBean.showEndDateStr, chooseDateBean.dayNums);
         titleBar.updateSubtitle(title);
     }
