@@ -145,5 +145,6 @@
         android:enabled="false"
         android:textColor="@color/basic_white"
         android:textSize="@dimen/text_size_large"
-        style="?android:attr/borderlessButtonStyle"/>
+        style="?android:attr/borderlessButtonStyle"
+        android:visibility="gone"/>
 </LinearLayout>

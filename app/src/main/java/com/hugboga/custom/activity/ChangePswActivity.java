@@ -18,6 +18,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestChangePwd;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.UIUtils;
 
 import java.util.regex.Pattern;
 
@@ -37,6 +38,8 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
     EditText rewPwdEditText; //重复密码
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
 
     @Bind(R.id.header_title)
     TextView headerTitle;
@@ -189,10 +192,10 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
     }
 
 
-    @OnClick({R.id.login_submit,R.id.iv_pwd_visible1,R.id.iv_pwd_visible2,R.id.iv_pwd_visible3})
+    @OnClick({R.id.header_right_txt,R.id.iv_pwd_visible1,R.id.iv_pwd_visible2,R.id.iv_pwd_visible3})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.login_submit:
+            case R.id.header_right_txt:
                 //修改密码
                 String oldStr = oldPwdEditText.getText().toString();
                 if (TextUtils.isEmpty(oldStr)) {
@@ -280,6 +283,10 @@ public class ChangePswActivity extends BaseActivity implements TextWatcher{
                 finish();
             }
         });
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setText(getResources().getString(R.string.traveler_info_save));
+        headerRightTxt.setTextSize(15);
+        headerRightTxt.setTextColor(getResources().getColor(R.color.color_151515));
     }
 
     @Override

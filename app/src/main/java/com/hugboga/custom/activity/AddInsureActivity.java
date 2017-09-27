@@ -262,6 +262,12 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         Calendar currentCalendar = Calendar.getInstance();
         picker.setRangeEnd(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.DATE));
         picker.setTitleText("请选择出生日期");
+        picker.setTopLineVisible(false);
+        picker.setPressedTextColor(getResources().getColor(R.color.default_yellow));
+        picker.setCancelTextColor(getResources().getColor(R.color.guildsaved));
+        picker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
+        picker.setTopBackgroundColor(getResources().getColor(R.color.allbg_white));
+        picker.setLineConfig(null);
         try {
             if (!TextUtils.isEmpty(birthday.getText())) {
                 if (dateDateFormat == null) {

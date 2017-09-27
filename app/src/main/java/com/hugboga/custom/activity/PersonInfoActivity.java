@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -203,6 +204,7 @@ public class PersonInfoActivity extends BaseActivity{
         }
     }
     AgePicker agePicker;
+    int sexInt = 0;
     @OnClick({R.id.my_info_menu_layout1, R.id.my_info_menu_layout2, R.id.my_info_menu_layout3, R.id.my_info_menu_layout4, R.id.my_info_menu_layout5, R.id.my_info_menu_realname_layout})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -241,23 +243,25 @@ public class PersonInfoActivity extends BaseActivity{
                 break;
             case R.id.my_info_menu_layout3:
                 //性别
-                final String[] items3 = getResources().getStringArray(R.array.my_info_sex);
-                /*final AlertDialog.Builder sexDialog = new AlertDialog.Builder(this);
+                final CharSequence[] items3 = getResources().getStringArray(R.array.my_info_sex);
+                final AlertDialog.Builder sexDialog = new AlertDialog.Builder(activity);
                 sexDialog.setTitle("选择性别");
                 sexDialog.setSingleChoiceItems(items3, getSexInt(items3), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        sexInt = which;
                         String sexStr = items3[which].toString();
                         sexTextView.setText(sexStr);
+                        submitChangeUserInfo(3,String.valueOf(sexInt + 1));
                         dialog.dismiss();
-                        submitChangeUserInfo(3, String.valueOf(which + 1));
                     }
                 });
-                dialog = sexDialog.create();
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();*/
-                agePicker = new AgePicker(PersonInfoActivity.this, items3);
+
+                Dialog sexDialog2 = sexDialog.create();
+                sexDialog2.setCancelable(true);
+                sexDialog2.setCanceledOnTouchOutside(true);
+                sexDialog2.show();
+                /*agePicker = new AgePicker(PersonInfoActivity.this, items3);
                 //agePicker.setTitleText("性别");
                 //agePicker.setTitleTextSize(16);
                 //agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
@@ -280,12 +284,12 @@ public class PersonInfoActivity extends BaseActivity{
                             }
                         }
                 );
-                agePicker.show();
+                agePicker.show();*/
                 break;
             case R.id.my_info_menu_layout4:
                 //年龄
                 final String[] ages = getResources().getStringArray(R.array.my_info_age);
-                /*AlertDialog.Builder ageDialogBuild = new AlertDialog.Builder(this);
+                AlertDialog.Builder ageDialogBuild = new AlertDialog.Builder(this);
                 ageDialogBuild.setTitle("选择年龄");
                 ageDialogBuild.setSingleChoiceItems(ages, getAgeInt(ages), new DialogInterface.OnClickListener() {
                     @Override
@@ -293,14 +297,14 @@ public class PersonInfoActivity extends BaseActivity{
                         String agesStr = ages[which].toString();
                         ageTextView.setText(agesStr);
                         dialog.dismiss();
-                        submitChangeUserInfo(4, String.valueOf(getAgeLevel(which)));
+                        submitChangeUserInfo(4, String.valueOf(which));
                     }
                 });
-                dialog = ageDialogBuild.create();
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();*/
-                agePicker = new AgePicker(PersonInfoActivity.this, ages);
+                Dialog ageDialog = ageDialogBuild.create();
+                ageDialog.setCancelable(true);
+                ageDialog.setCanceledOnTouchOutside(true);
+                ageDialog.show();
+                /*agePicker = new AgePicker(PersonInfoActivity.this, ages);
                 //agePicker.setTitleText("年龄");
                 //agePicker.setTitleTextSize(16);
                 //agePicker.setTitleTextColor(getResources().getColor(R.color.reserve_calendar_week_color2));
@@ -324,7 +328,7 @@ public class PersonInfoActivity extends BaseActivity{
                             }
                         }
                 );
-                agePicker.show();
+                agePicker.show();*/
                 break;
             case R.id.my_info_menu_layout5:
                 Intent intent = null;

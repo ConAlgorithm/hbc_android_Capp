@@ -41,6 +41,8 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     TextView headerTitle;
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
+    @Bind(R.id.header_right_txt)
+    TextView headerRightTxt;
 
     @Bind(R.id.iv_pwd_visible1)
     ImageView ivPwdVisible1;
@@ -127,7 +129,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
-    @OnClick({R.id.iv_pwd_visible1,R.id.iv_pwd_visible2,R.id.login_submit})
+    @OnClick({R.id.iv_pwd_visible1,R.id.iv_pwd_visible2,R.id.header_right_txt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_pwd_visible1:
@@ -158,7 +160,7 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                     }
                 }
                 break;
-            case R.id.login_submit:
+            case R.id.header_right_txt:
                 String set_psw = setPsw.getText().toString().trim();
                 String set_psw_again = setPswAgain.getText().toString().trim();
                 if (!TextUtils.isEmpty(set_psw) && !TextUtils.isEmpty(set_psw_again) && !TextUtils.equals(set_psw, set_psw_again)) {
@@ -280,6 +282,10 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
                 }
             });
         }
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setText(getResources().getString(R.string.traveler_info_save));
+        headerRightTxt.setTextSize(15);
+        headerRightTxt.setTextColor(getResources().getColor(R.color.color_151515));
     }
 
     @Override

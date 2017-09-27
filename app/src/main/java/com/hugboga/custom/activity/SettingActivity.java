@@ -69,7 +69,7 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.setting_menu_layout5)
     RelativeLayout settingMenuLayout5;
     @Bind(R.id.setting_exit)
-    TextView settingExit;
+    RelativeLayout settingExit;
 
     @Bind(R.id.setting_menu_developer_layout)
     RelativeLayout developerLayout;

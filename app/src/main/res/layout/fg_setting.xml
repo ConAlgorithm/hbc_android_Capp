@@ -52,7 +52,6 @@
                 android:id="@+id/setting_menu_layout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin_medium"
                 android:background="@drawable/click_item_bg"
                 android:padding="20dp">
 
@@ -140,7 +139,6 @@
                 android:id="@+id/setting_menu_developer_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:visibility="gone"
                 android:background="@drawable/click_item_bg"
                 android:padding="20dp">
@@ -161,20 +159,21 @@
                     android:layout_centerVertical="true"
                     android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
-
-            <TextView
+            <RelativeLayout
                 android:id="@+id/setting_exit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="9dp"
-                android:textSize="@dimen/text_size_large"
-                android:layout_marginLeft="@dimen/default_margin_mxlarge"
-                android:layout_marginRight="@dimen/default_margin_mxlarge"
-                android:layout_marginTop="30dp"
-                android:background="@color/login_ready"
-                android:text="@string/setting_exit"
-                android:textColor="@color/basic_white"/>
+                android:background="@drawable/click_item_bg"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_exit"
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
 
         </LinearLayout>
     </ScrollView>
