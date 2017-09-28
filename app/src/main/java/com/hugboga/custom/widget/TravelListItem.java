@@ -140,26 +140,30 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
         OrderBean orderBean = (OrderBean)_data;
         //订单状态
         if (orderBean.orderType == Constants.BUSINESS_TYPE_COMMEND || orderBean.orderType == Constants.BUSINESS_TYPE_RECOMMEND) {//线路包车
-            citysTV.setVisibility(View.VISIBLE);
-            mTypeStr.setVisibility(View.GONE);
-            verticalLine.setVisibility(View.GONE);
+            citysTV.setVisibility(View.GONE);
+            mTypeStr.setVisibility(View.VISIBLE);
+            verticalLine.setVisibility(View.VISIBLE);
             mCarType.setVisibility(View.GONE);
             startAddressIV1.setVisibility(GONE);
             startAddressIV2.setVisibility(GONE);
             itemTime.setBackgroundResource(R.mipmap.trip_icon_date);
+            if(!TextUtils.isEmpty(orderBean.carDesc)){
+                mCarType.setVisibility(View.VISIBLE);
+                mCarType.setText(orderBean.carDesc);
+            }
             if (orderBean.carPool) {//是否拼车
                 Drawable drawable = getResources().getDrawable(R.mipmap.carpooling);
                 drawable.setBounds(0, 0, UIUtils.dip2px(36), UIUtils.dip2px(18));
-                SpannableString spannable = new SpannableString("[icon]" + orderBean.lineSubject);
+                SpannableString spannable = new SpannableString("[icon]" + "线路包车游");
                 ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
                 spannable.setSpan(span, 0, "[icon]".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                citysTV.setText(spannable);
+                mTypeStr.setText(spannable);
                 chexing.setVisibility(GONE);
                 endAddressLayout.setVisibility(View.GONE);
                 //startAddressLayout.setVisibility(View.GONE);
 
             } else {
-                citysTV.setText(orderBean.lineSubject);
+                mTypeStr.setText("线路包车游");
 
                 if (TextUtils.isEmpty(orderBean.carDesc)) {
                     endAddressLayout.setVisibility(View.GONE);
@@ -170,7 +174,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     endAddressLayout.setVisibility(View.VISIBLE);
                     //startAddressIV.setBackgroundResource(R.mipmap.order_car);
                     //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
-                    endAddressTV.setText(orderBean.carDesc);
+                    endAddressTV.setText(orderBean.lineSubject);
                 }
             }
 
