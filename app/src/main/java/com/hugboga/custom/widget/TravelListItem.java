@@ -170,7 +170,7 @@ public class TravelListItem extends LinearLayout implements HbcViewBehavior{
                     chexing.setVisibility(GONE);
                 } else {
                     chexing.setVisibility(VISIBLE);
-                    chexing.setBackgroundResource(R.mipmap.trip_icon_car);
+                    //chexing.setBackgroundResource(R.mipmap.home_story_img_2);
                     endAddressLayout.setVisibility(View.VISIBLE);
                     //startAddressIV.setBackgroundResource(R.mipmap.order_car);
                     //startAddressIV2.setBackgroundResource(R.mipmap.trip_icon_line);
