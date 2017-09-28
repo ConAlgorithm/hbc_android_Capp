@@ -38,16 +38,28 @@
                     android:id="@+id/title_line_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="【魅力西欧】意大利法南深度经典12日中文包魅力西欧】意大利法南深度经典12日中文包魅力西欧】意大利法南深度经典12日中文包"
+                    android:text=""
                     android:textColor="#111111"
                     android:textSize="14sp"
                     android:maxLines="2"
                     android:ellipsize="end"/>
 
+                <TextView
+                    android:id="@+id/poi_des"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text=""
+                    android:textColor="#7f7f7f"
+                    android:textSize="12sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:visibility="gone"/>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="7dp">
 
                     <ImageView
                         android:id="@+id/location_line_search"
