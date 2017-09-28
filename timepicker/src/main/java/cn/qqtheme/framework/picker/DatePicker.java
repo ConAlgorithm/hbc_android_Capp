@@ -183,6 +183,8 @@ public class DatePicker extends WheelPicker {
     @Override
     @NonNull
     protected View makeCenterView() {
+        textColorFocus = 0xff151515;
+        textColorNormal = 0xffaaaaaa;
         if (months.size() == 0) {
             // 如果未设置默认项，则需要在此初始化数据
             int year = Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR);

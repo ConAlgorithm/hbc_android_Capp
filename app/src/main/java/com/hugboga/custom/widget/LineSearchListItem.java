@@ -30,6 +30,8 @@ import butterknife.ButterKnife;
 public class LineSearchListItem extends LinearLayout implements HbcViewBehavior {
     @Bind(R.id.title_line_search)
     TextView title;
+    @Bind(R.id.poi_des)
+    TextView poiDes;
     @Bind(R.id.search_line_location)
     TextView location;
     @Bind(R.id.pic_line)
@@ -86,6 +88,19 @@ public class LineSearchListItem extends LinearLayout implements HbcViewBehavior 
                 }
             }
         });
+        if(goodsPublishStatusVo.poiNames!= null && goodsPublishStatusVo.poiNames.size() >0){
+            poiDes.setVisibility(VISIBLE);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("包含“");
+            for (int i=0;i<goodsPublishStatusVo.poiNames.size();i++){
+                stringBuilder.append(goodsPublishStatusVo.poiNames.get(i)).append("”地点、“");
+            }
+            CharSequence charSequence = stringBuilder.subSequence(0,stringBuilder.length()-2);
+            SpannableString displayPoi = SearchUtils.matcherSearchText(context,getResources().getColor(R.color.all_bg_yellow),charSequence.toString(),goodsPublishStatusVo.keyword);
+            poiDes.setText(displayPoi);
+        }else{
+            poiDes.setVisibility(GONE);
+        }
     }
 
     public void setkeyWord(String keyword){

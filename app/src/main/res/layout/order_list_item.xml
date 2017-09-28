@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:minHeight="36dp">
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="中文送机"
-            android:textColor="#333333"
+            android:textColor="#161616"
             android:textSize="16sp" />
 
         <View
@@ -56,8 +56,8 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="经济5坐"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:textColor="#161616"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/travel_item_citys"
@@ -77,10 +77,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="13dp"
-        android:gravity="center_vertical"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:text="经济5坐"
-            android:textColor="#151515"
+            android:textColor="#4a4a4a"
             android:textSize="14sp" />
 
         <TextView
@@ -107,15 +107,16 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="(台北时间)"
-            android:textColor="#999999"
-            android:textSize="13sp" />
+            android:textColor="#4a4a4a"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="13dp">
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="7dp">
 
         <LinearLayout
             android:id="@+id/order_item_address_iv"
@@ -138,7 +139,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="1.5dp"
-                    android:background="@mipmap/trip_icon_place" />
+                    android:src="@mipmap/trip_icon_place"
+                    android:scaleType="centerCrop"/>
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="8dp"
@@ -148,7 +150,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="1.5dp"
-                    android:background="@mipmap/trip_icon_place" />
+                    android:src="@mipmap/trip_icon_place"
+                    android:scaleType="centerCrop"/>
             </LinearLayout>
 
             <ImageView
@@ -156,23 +159,26 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/trip_icon_line"
+                android:src="@mipmap/trip_icon_line"
+                android:scaleType="centerCrop"
                 android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/order_item_xianlu_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="15dp"
                 android:background="@mipmap/trip_icon_line"
                 android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/order_item_chexing"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="3dp"
-                android:background="@mipmap/trip_icon_line"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_gravity="top"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="3dp"
+                android:background="@mipmap/home_story_img_2"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -205,7 +211,7 @@
                     android:lineSpacingExtra="2dp"
                     android:maxLines="2"
                     android:text="经济5坐"
-                    android:textColor="#333333"
+                    android:textColor="#4a4a4a"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -230,7 +236,7 @@
                     android:lineSpacingExtra="2dp"
                     android:maxLines="2"
                     android:text="经济5坐"
-                    android:textColor="#333333"
+                    android:textColor="#4a4a4a"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -252,9 +258,11 @@
     <RelativeLayout
         android:id="@+id/travel_item_status_layout"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
-        android:layout_marginRight="13dp">
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="9dp">
 
         <LinearLayout
             android:layout_width="wrap_content"

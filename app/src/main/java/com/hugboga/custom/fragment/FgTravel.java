@@ -120,28 +120,16 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
     TravelListUnevaludate travelListUnevaludate;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     //进行中订单部分
-    RelativeLayout runninLayout;
     ZListPageView fgTravelRunning;
-    ZSwipeRefreshLayout runningSwipeRefresh;
-    RelativeLayout runningEmptyLayout;
     NewOrderAdapter runningAdapter;
     //已完成订单部分
-    RelativeLayout finishLayout;
     ZListPageView fgTravelFinish;
-    ZSwipeRefreshLayout finishSwipeRefresh;
-    RelativeLayout finishEmptyLayout;
     NewOrderAdapter finishAdapter;
     //已取消订单部分
-    RelativeLayout cancelLayout;
     ZListPageView fgTravelCancel;
-    ZSwipeRefreshLayout cancelSwipeRefresh;
-    RelativeLayout cancelEmptyLayout;
     NewOrderAdapter cancelAdapter;
 
-    RelativeLayout evaluateLayout;
     ZListPageView fgTravelEvaluate;
-    ZSwipeRefreshLayout evaluateSwipeRefresh;
-    RelativeLayout evaluateEmptyLayout;
     NewOrderAdapter evaluateAdapter;
 
     HashMap<Integer, Boolean> needRefreshMap = new HashMap<>();
@@ -252,34 +240,6 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
             logoutLayout.setVisibility(View.VISIBLE);
         }
         return null;
-    }
-
-    public void loadDataRunning() {
-        if (fgTravelRunning != null) {
-            fgTravelRunning.showPageFirst();
-            runningAdapter.notifyDataSetChanged();
-        }
-    }
-
-    public void loadDataFinish() {
-        if (fgTravelFinish != null) {
-            fgTravelFinish.showPageFirst();
-            finishAdapter.notifyDataSetChanged();
-        }
-    }
-
-    public void loadDataCancel() {
-        if (fgTravelCancel != null) {
-            fgTravelCancel.showPageFirst();
-            cancelAdapter.notifyDataSetChanged();
-        }
-    }
-
-    public void loadDataEvaluate() {
-        if (fgTravelEvaluate != null) {
-            fgTravelEvaluate.showPageFirst();
-            evaluateAdapter.notifyDataSetChanged();
-        }
     }
 
     private void intentTravelFundActivity(View view) {

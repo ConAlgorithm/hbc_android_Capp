@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/allbg_white"
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
@@ -9,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/default_bg">
+        android:background="@color/allbg_white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,9 +21,9 @@
             <RelativeLayout
                 android:id="@+id/setting_menu_layout2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/click_item_bg"
-                android:padding="@dimen/default_margin_mxlarge">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:id="@+id/setOrChangPwd"
@@ -44,17 +45,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
                     android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
-
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/change_again"
+                android:background="#e5e5e5" />
             <RelativeLayout
                 android:id="@+id/setting_menu_layout7"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin_medium"
-                android:background="@drawable/click_item_bg"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,14 +73,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
                     android:src="@mipmap/personalcenter_right"
                     />
                 <TextView
                     android:id="@+id/setting_menu_clear_cache_flag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/basic_margin_large"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/setting_clear_cache_arrow"
@@ -82,12 +87,20 @@
                     android:textColor="@color/basic_gray"
                     />
             </RelativeLayout>
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/change_again"
+                android:background="#e5e5e5" />
             <RelativeLayout
                 android:id="@+id/setting_menu_layout3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/click_item_bg"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,20 +113,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
                     android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/change_again"
+                android:background="#e5e5e5" />
             <RelativeLayout
                 android:id="@+id/setting_menu_layout5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/click_item_bg"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:text="@string/setting_about"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
@@ -123,32 +142,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/personalcenter_right" />
+                    android:src="@mipmap/personalcenter_right"
+                    android:layout_marginRight="20dp"/>
                 <TextView
                     android:id="@+id/setting_menu_version_content_flag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@id/setting_about_arrow"
                     android:textSize="@dimen/text_size_medium"
                     android:textColor="@color/basic_gray" />
             </RelativeLayout>
-
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/change_again"
+                android:background="#e5e5e5" />
             <RelativeLayout
                 android:id="@+id/setting_menu_developer_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:visibility="gone"
-                android:background="@drawable/click_item_bg"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:text="@string/setting_developer"
                     android:textColor="@color/common_font_color_black"
                     android:textSize="15sp" />
@@ -158,23 +180,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
                     android:src="@mipmap/personalcenter_right" />
             </RelativeLayout>
-
-            <TextView
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/change_again"
+                android:background="#e5e5e5" />
+            <RelativeLayout
                 android:id="@+id/setting_exit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="9dp"
-                android:textSize="@dimen/text_size_large"
-                android:layout_marginLeft="@dimen/default_margin_mxlarge"
-                android:layout_marginRight="@dimen/default_margin_mxlarge"
-                android:layout_marginTop="30dp"
-                android:background="@color/login_ready"
-                android:text="@string/setting_exit"
-                android:textColor="@color/basic_white"/>
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_exit"
+                    android:textColor="@color/common_font_color_black"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/change_again"
+                android:background="#e5e5e5" />
 
         </LinearLayout>
     </ScrollView>

@@ -230,18 +230,22 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
     private void check() {
         if (TextUtils.isEmpty(name.getText())) {
+//            ToastUtils.showLong("姓名不能为空");
             disableNextBtn();
             return;
         }
         if (TextUtils.isEmpty(cardid.getText())) {
+//            ToastUtils.showLong("护照不能为空");
             disableNextBtn();
             return;
         }
         if (TextUtils.isEmpty(sex.getText())) {
+//            ToastUtils.showLong("性别不能为空");
             disableNextBtn();
             return;
         }
         if (TextUtils.isEmpty(birthday.getText())) {
+//            ToastUtils.showLong("出生日期不能为空");
             disableNextBtn();
             return;
         }
@@ -261,7 +265,13 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         picker.setRangeStart(1900, 01, 01);
         Calendar currentCalendar = Calendar.getInstance();
         picker.setRangeEnd(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.DATE));
-        picker.setTitleText(R.string.add_insure_choose_date);
+        picker.setTitleText("请选择出生日期");
+        picker.setTopLineVisible(false);
+        picker.setPressedTextColor(getResources().getColor(R.color.default_yellow));
+        picker.setCancelTextColor(getResources().getColor(R.color.guildsaved));
+        picker.setSubmitTextColor(getResources().getColor(R.color.default_yellow));
+        picker.setTopBackgroundColor(getResources().getColor(R.color.allbg_white));
+        picker.setLineConfig(null);
         try {
             if (!TextUtils.isEmpty(birthday.getText())) {
                 if (dateDateFormat == null) {
