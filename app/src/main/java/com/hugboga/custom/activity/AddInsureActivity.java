@@ -3,14 +3,11 @@ package com.hugboga.custom.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +24,7 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAddInsure;
 import com.hugboga.custom.data.request.RequestEditInsure;
+import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,12 +50,8 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     TextView sex;
     @Bind(R.id.birthday)
     TextView birthday;
-    @Bind(R.id.next_btn_click)
-    Button nextBtnClick;
     @Bind(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
-    ImageView headerRightBtn;
     @Bind(R.id.header_title)
     TextView headerTitle;
     @Bind(R.id.header_right_txt)
@@ -76,6 +70,18 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
     protected void initView() {
         getArgument();
+        headerRightTxt.setVisibility(View.VISIBLE);
+        headerRightTxt.setText(R.string.add_insure_save);
+        headerRightTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isEdit) {
+                    edit();
+                } else {
+                    add();
+                }
+            }
+        });
         name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,8 +128,6 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     @Override
     protected void onStop() {
         super.onStop();
-//        hideInputMethod(name);
-//        hideInputMethod(cardid);
         hideSoftInput();
     }
 
@@ -156,15 +160,15 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
             name.setText(insureResultBean.name);
             cardid.setText(insureResultBean.passportNo);
             sexInt = insureResultBean.sex;
-            sex.setText(sexInt == 0 ? "男" : "女");
+            sex.setText(sexInt == 0 ? R.string.add_insure_man : R.string.add_insure_woman);
             birthday.setText(insureResultBean.birthday);
             headerTitle.setText(R.string.edit_insure_title);
-            check();
         } else {
             insureResultBean = new InsureResultBean();
             isEdit = false;
             headerTitle.setText(R.string.add_insure_title);
         }
+        check();
     }
 
     InsureResultBean insureResultBean;
@@ -203,13 +207,13 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     }
 
     private void disableNextBtn() {
-        nextBtnClick.setEnabled(false);
-        nextBtnClick.setBackgroundColor(Color.parseColor("#d5dadb"));
+        headerRightTxt.setEnabled(false);
+        headerRightTxt.setTextColor(0xFF929292);
     }
 
     private void enableNextBtn() {
-        nextBtnClick.setEnabled(true);
-        nextBtnClick.setBackgroundColor(ContextCompat.getColor(activity, R.color.all_bg_yellow));
+        headerRightTxt.setEnabled(true);
+        headerRightTxt.setTextColor(getResources().getColor(R.color.default_black));
     }
 
     ChooseDateBean chooseDateBean;
@@ -226,22 +230,18 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
     private void check() {
         if (TextUtils.isEmpty(name.getText())) {
-//            ToastUtils.showLong("姓名不能为空");
             disableNextBtn();
             return;
         }
         if (TextUtils.isEmpty(cardid.getText())) {
-//            ToastUtils.showLong("护照不能为空");
             disableNextBtn();
             return;
         }
         if (TextUtils.isEmpty(sex.getText())) {
-//            ToastUtils.showLong("性别不能为空");
             disableNextBtn();
             return;
         }
         if (TextUtils.isEmpty(birthday.getText())) {
-//            ToastUtils.showLong("出生日期不能为空");
             disableNextBtn();
             return;
         }
@@ -261,7 +261,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         picker.setRangeStart(1900, 01, 01);
         Calendar currentCalendar = Calendar.getInstance();
         picker.setRangeEnd(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH) + 1, currentCalendar.get(Calendar.DATE));
-        picker.setTitleText("请选择出生日期");
+        picker.setTitleText(R.string.add_insure_choose_date);
         try {
             if (!TextUtils.isEmpty(birthday.getText())) {
                 if (dateDateFormat == null) {
@@ -305,20 +305,13 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
 
     int sexInt = 0;
 
-    @OnClick({R.id.sex, R.id.birthday, R.id.next_btn_click})
+    @OnClick({R.id.sex, R.id.birthday})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.next_btn_click:
-                if (isEdit) {
-                    edit();
-                } else {
-                    add();
-                }
-                break;
             case R.id.sex:
                 final CharSequence[] items3 = getResources().getStringArray(R.array.my_info_sex);
                 final AlertDialog.Builder sexDialog = new AlertDialog.Builder(activity);
-                sexDialog.setTitle("选择性别");
+                sexDialog.setTitle(R.string.add_insure_choose_gender);
                 sexDialog.setSingleChoiceItems(items3, getSexInt(items3), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

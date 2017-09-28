@@ -107,23 +107,6 @@ public final class Constants {
     public static final int CAR_SEAT_12 = 4;
 
     /**
-     * 左侧navigation menu
-     */
-//    public static final int PERSONAL_CENTER_FUND = 1;//旅游基金
-    public static final int PERSONAL_CENTER_BR = 2;//常用投保人
-    public static final int PERSONAL_CENTER_COLLECT = 3;//我收藏的司导
-    public static final int PERSONAL_CENTER_COLLECT_LINE = 4;//我收藏的司导
-    //4 space
-    //public static final int PERSONAL_CENTER_HD = 4;//活动
-    //6 space
-    public static final int PERSONAL_CENTER_CUSTOMER_SERVICE = 8;//服务规则
-    public static final int PERSONAL_CENTER_INTERNAL_SERVICE = 6;//境内客服
-    public static final int PERSONAL_CENTER_OVERSEAS_SERVICE = 7;//境外客服
-    //10 space
-    //public static final int PERSONAL_CENTER_SETTING = 10;//设置
-
-
-    /**
      * 车辆类型
      */
     public static HashMap<Integer, String> CarTypeMap = new HashMap<Integer, String>();

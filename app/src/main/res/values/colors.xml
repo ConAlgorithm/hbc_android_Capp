@@ -96,6 +96,11 @@
     <color name="default_price_red">#FF2525</color>
     <color name="default_highlight_green">#09D3AF</color>
 
+
+    <color name="default_yellow_n">#FFCE00</color>
+    <color name="default_btn_yellow_n">#FF9600</color>
+    <color name="default_btn_pressed_yellow_n">#F08D00</color>
+
     <color name="transparent">#00000000</color>
 
     <color name="hbc_common_text_color_yellow">#ffcf08</color>

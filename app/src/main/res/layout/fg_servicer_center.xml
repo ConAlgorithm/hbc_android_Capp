@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
@@ -41,6 +42,5 @@
         android:id="@+id/servicer_center_item6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemTitle="@string/servicer_center_item6"
-        app:isHideLine = "true" />
+        app:itemTitle="@string/servicer_center_item6" />
 </LinearLayout>
