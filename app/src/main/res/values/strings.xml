@@ -935,6 +935,12 @@
     <string name = "home_search_see_all">查看全部</string>
     <string name = "home_service_past_album">往期专辑</string>
 
+    <string name = "servicer_center_item1">预订须知</string>
+    <string name = "servicer_center_item2">服务承诺</string>
+    <string name = "servicer_center_item3">订单取消规则</string>
+    <string name = "servicer_center_item4">费用说明</string>
+    <string name = "servicer_center_item5">常见问题</string>
+    <string name = "servicer_center_item6">保险说明</string>
 
     <string name = "facebook_app_id">496776350674128</string>
 

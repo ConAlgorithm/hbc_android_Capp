@@ -937,4 +937,11 @@
 
     <string name = "facebook_app_id">496776350674128</string>
 
+    <string name = "servicer_center_item1">预订须知</string>
+    <string name = "servicer_center_item2">服务承诺</string>
+    <string name = "servicer_center_item3">订单取消规则</string>
+    <string name = "servicer_center_item4">费用说明</string>
+    <string name = "servicer_center_item5">常见问题</string>
+    <string name = "servicer_center_item6">保险说明</string>
+
 </resources>
