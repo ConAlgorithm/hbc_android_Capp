@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/allbg_white">
     <include layout="@layout/include_header" />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,7 +12,7 @@
         <RelativeLayout
             android:id="@+id/old_psw_layout"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="50dp"
             android:background="@color/allbg_white"
             android:layout_marginTop="1dp"
             android:gravity="center_vertical"
@@ -50,11 +51,11 @@
             android:layout_height="0.5dp"
             android:layout_marginLeft="20dp"
             android:layout_below="@+id/old_psw_layout"
-            android:background="#dbdbdb" />
+            android:background="#e5e5e5" />
         <RelativeLayout
             android:id="@+id/pwd_new_layout"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="50dp"
             android:background="@color/allbg_white"
             android:layout_marginTop="1dp"
             android:layout_below="@+id/view"
@@ -94,10 +95,11 @@
             android:layout_height="0.5dp"
             android:layout_marginLeft="20dp"
             android:layout_below="@+id/pwd_new_layout"
-            android:background="#dbdbdb" />
+            android:background="#e5e5e5" />
         <RelativeLayout
+            android:id="@+id/change_again"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="50dp"
             android:background="@color/allbg_white"
             android:layout_marginTop="1dp"
             android:layout_below="@+id/view1"
@@ -130,7 +132,15 @@
                 android:layout_marginRight="20dp"
                 android:src="@mipmap/login_invisible"
                 android:visibility="gone"/>
+
         </RelativeLayout>
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/change_again"
+            android:background="#e5e5e5" />
     </RelativeLayout>
     <Button
         android:id="@+id/login_submit"
@@ -147,4 +157,5 @@
         android:textSize="@dimen/text_size_large"
         style="?android:attr/borderlessButtonStyle"
         android:visibility="gone"/>
+
 </LinearLayout>
