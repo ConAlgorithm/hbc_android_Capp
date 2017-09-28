@@ -1,127 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <include layout="@layout/include_header" />
 
-    <ScrollView
+    <com.hugboga.custom.widget.MenuItemView
+        android:id="@+id/servicer_center_item1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/servicer_center_content_bg"
-        android:fillViewport="false">
+        android:layout_height="wrap_content"
+        app:itemTitle="@string/servicer_center_item1" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/servicer_center_bg"
-            android:orientation="vertical">
+    <com.hugboga.custom.widget.MenuItemView
+        android:id="@+id/servicer_center_item2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTitle="@string/servicer_center_item2" />
 
-            <ImageView
-                android:id="@+id/servicer_center_line"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/fengexian" />
+    <com.hugboga.custom.widget.MenuItemView
+        android:id="@+id/servicer_center_item3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTitle="@string/servicer_center_item3" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-2dp"
-                android:layout_below="@id/servicer_center_line"
-                android:background="@color/servicer_center_content_bg"
-                android:gravity="center"
-                android:padding="@dimen/basic_margin_xlarge">
+    <com.hugboga.custom.widget.MenuItemView
+        android:id="@+id/servicer_center_item4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTitle="@string/servicer_center_item4" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+    <com.hugboga.custom.widget.MenuItemView
+        android:id="@+id/servicer_center_item5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTitle="@string/servicer_center_item5" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/service_center_btn1"
-                            style="@style/ServicerCenterBtn"
-                            android:drawableTop="@mipmap/call_center_notice"
-                            android:text="预订须知" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/servicer_center_content_line" />
-
-                        <TextView
-                            android:id="@+id/service_center_btn2"
-                            style="@style/ServicerCenterBtn"
-                            android:drawableTop="@mipmap/call_center_promise"
-                            android:text="服务承诺" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/servicer_center_content_line" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/service_center_btn3"
-                            style="@style/ServicerCenterBtn"
-                            android:drawableTop="@mipmap/call_center_indent"
-                            android:text="订单取消规则" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/servicer_center_content_line" />
-
-                        <TextView
-                            android:id="@+id/service_center_btn4"
-                            style="@style/ServicerCenterBtn"
-                            android:drawableTop="@mipmap/call_center_cost"
-                            android:text="费用说明" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/servicer_center_content_line" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/service_center_btn5"
-                            style="@style/ServicerCenterBtn"
-                            android:drawableTop="@mipmap/call_center_faq"
-                            android:text="常见问题" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/servicer_center_content_line" />
-
-                        <TextView
-                            android:id="@+id/service_insurance_btn6"
-                            style="@style/ServicerCenterBtn"
-                            android:drawableTop="@mipmap/service_insurance_icon"
-                            android:text="保险说明" />
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-
-    </ScrollView>
+    <com.hugboga.custom.widget.MenuItemView
+        android:id="@+id/servicer_center_item6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTitle="@string/servicer_center_item6" />
 </LinearLayout>

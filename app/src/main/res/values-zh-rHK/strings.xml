@@ -541,10 +541,9 @@
     <string name="myspace_item_policy_holder">常用投保人</string>
     <string name="myspace_item_collect">我收藏的司導</string>
     <string name="myspace_item_collect_line">我收藏的線路</string>
-    <string name="myspace_item_domestic">境內用戶客服熱線</string>
-    <string name="myspace_item_overseas">境外用戶客服專線</string>
+    <string name="myspace_item_service">聯繫客服</string>
     <string name="myspace_item_rule">服務規則</string>
-    <string name="myspace_header_login">點擊登錄</string>
+    <string name="myspace_item_set">設置</string>
     <string name="myspace_header_coupon_unit">張</string>
     <string name="myspace_header_coupon">優惠券</string>
     <string name="myspace_header_travel_fund">旅遊基金</string>
@@ -655,7 +654,7 @@
     <string name="insure_bottom_hint">人,由皇包車替你支付</string>
     <string name="insure_title">常用投保人</string>
     <string name="insure_add">添加投保人</string>
-    <string name="insure_add2">新增</string>
+    <string name="insure_add2">添加</string>
     <string name="insure_del">刪除</string>
     <string name="insure_check_people_num">不能超過用車人數</string>
     <string name="insure_add_succesd">投保申請已成功提交</string>
@@ -710,8 +709,8 @@
     <string name="service_guide_list_title">可服務司導</string>
     <string name="choose_other_title">乘車聯繫人</string>
     <string name="bargain_title">邀請好友來砍價</string>
-    <string name="add_insure_title">編輯投保人</string>
-    <string name="edit_insure_title">新增投保人</string>
+    <string name="add_insure_title">新增投保人</string>
+    <string name="edit_insure_title">編輯投保人</string>
     <string name="add_creditcard_second_step_title">信用卡支付</string>
     <string name="choice_comment_title">遊客說</string>
     <string name="choose_air_title">選擇航班</string>
@@ -935,5 +934,27 @@
 
     <string name = "facebook_app_id">496776350674128</string>
     <string name = "home_service_past_album">往期專輯</string>
+
+    <string name = "servicer_center_item1">預訂須知</string>
+    <string name = "servicer_center_item2">服務承諾</string>
+    <string name = "servicer_center_item3">訂單取消規則</string>
+    <string name = "servicer_center_item4">費用說明</string>
+    <string name = "servicer_center_item5">常見問題</string>
+    <string name = "servicer_center_item6">保險說明</string>
+
+    <string name = "add_insure_name">中文姓名</string>
+    <string name = "add_insure_name_hint">姓名需與證件姓名一致</string>
+    <string name = "add_insure_gender">性別</string>
+    <string name = "add_insure_gender_hint">請選擇</string>
+    <string name = "add_insure_birthday">出生日期</string>
+    <string name = "add_insure_birthday_hint">請選擇日期</string>
+    <string name = "add_insure_cardid">護照編號</string>
+    <string name = "add_insure_cardid_hint">G+8位數字或E+8位數字</string>
+    <string name = "add_insure_hint">請認真核對投保人信息，填寫有誤會影響保險公司理賠</string>
+    <string name = "add_insure_save">保存</string>
+    <string name = "add_insure_man">男</string>
+    <string name = "add_insure_woman">女</string>
+    <string name = "add_insure_choose_gender">選擇性別</string>
+    <string name = "add_insure_choose_date">請選擇出生日期</string>
 
 </resources>

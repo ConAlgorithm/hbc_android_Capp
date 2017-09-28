@@ -1,7 +1,6 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.LvMenuItem;
+import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
 
@@ -29,8 +29,14 @@ public class MenuItemAdapter extends BaseAdapter {
         this.mItems = mItems;
     }
 
+    public void setData(List<LvMenuItem> mItems) {
+        this.mItems = mItems;
+        notifyDataSetChanged();
+    }
+
+
     public enum ItemType {
-        DEFAULT, SPACE, SERVICE;
+        DEFAULT, SPACE, SET;
     }
 
     @Override
@@ -72,12 +78,14 @@ public class MenuItemAdapter extends BaseAdapter {
 
         switch (mItems.get(position).itemType) {
             case DEFAULT:
+            case SET:
                 ViewHolder viewHolder = null;
                 if (convertView == null) {
                     viewHolder = new ViewHolder();
                     convertView = mInflater.inflate(R.layout.slide_menu_item, parent, false);
                     viewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
                     viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+                    viewHolder.point = (ImageView) convertView.findViewById(R.id.red_point);
                     convertView.setTag(viewHolder);
                 } else {
                     viewHolder = (ViewHolder) convertView.getTag();
@@ -85,6 +93,11 @@ public class MenuItemAdapter extends BaseAdapter {
                 LvMenuItem item = mItems.get(position);
                 viewHolder.icon.setImageResource(item.icon);
                 viewHolder.title.setText(item.name);
+                if (mItems.get(position).itemType == ItemType.SET && item.isShowPoint) {
+                    viewHolder.point.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.point.setVisibility(View.GONE);
+                }
                 break;
             case SPACE:
                 SpaceViewHolder spaceViewHolder = null;
@@ -96,25 +109,9 @@ public class MenuItemAdapter extends BaseAdapter {
                 } else {
                     spaceViewHolder = (SpaceViewHolder) convertView.getTag();
                 }
-                AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT
-                        , mContext.getResources().getDimensionPixelOffset(R.dimen.basic_margin_large));
+                AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, UIUtils.dip2px(52));
                 spaceViewHolder.spaceView.setLayoutParams(params);
                 spaceViewHolder.spaceView.setFocusable(true);
-                break;
-            case SERVICE:
-                ViewHolder serviceViewHolder = null;
-                if (convertView == null) {
-                    serviceViewHolder = new ViewHolder();
-                    convertView = mInflater.inflate(R.layout.slide_menu_item_service, parent, false);
-                    serviceViewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                    serviceViewHolder.title = (TextView) convertView.findViewById(R.id.title);
-                    convertView.setTag(serviceViewHolder);
-                } else {
-                    serviceViewHolder = (ViewHolder) convertView.getTag();
-                }
-                LvMenuItem serviceItem = mItems.get(position);
-                serviceViewHolder.icon.setImageResource(serviceItem.icon);
-                serviceViewHolder.title.setText(serviceItem.name);
                 break;
             default:
                 break;
@@ -127,6 +124,7 @@ public class MenuItemAdapter extends BaseAdapter {
     final static class ViewHolder {
         ImageView icon;
         TextView title;
+        ImageView point;
     }
 
     final static class SpaceViewHolder {

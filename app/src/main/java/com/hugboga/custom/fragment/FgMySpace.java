@@ -3,13 +3,10 @@ package com.hugboga.custom.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,39 +17,30 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CollectGuideListActivity;
 import com.hugboga.custom.activity.CollectLineListActivity;
 import com.hugboga.custom.activity.CouponActivity;
-import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.PersonInfoActivity;
 import com.hugboga.custom.activity.ServicerCenterActivity;
 import com.hugboga.custom.activity.SettingActivity;
-import com.hugboga.custom.activity.ShareGuidesActivity;
 import com.hugboga.custom.activity.TravelFundActivity;
 import com.hugboga.custom.activity.UnicornServiceActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.adapter.MenuItemAdapter;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.EvaluateData;
 import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.ApiFeedbackUtils;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.Tools;
+import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.im.ImObserverHelper;
 import com.netease.nimlib.sdk.StatusCode;
-import com.ta.utdid2.android.utils.StringUtils;
 
 import net.grobas.view.PolygonImageView;
 
@@ -63,7 +51,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.Bind;
 
@@ -74,35 +61,26 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
 
     @Bind(R.id.fg_space_listview)
     ListView listView;
-    /*@Bind(R.id.red_point)*/
-    ImageView redPoint;
-    FrameLayout set;
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称
     private TextView couponTV, couponUnitTV;
     private TextView travelFundTV, travelFundUnitTV;
-    //private ImageView travelFundHintIV;
-    //private ImageView headerBgIV;
+    private TextView tv_login;
 
     private MenuItemAdapter menuItemAdapter;
     private String mobile;
+    private CsDialog csDialog;
 
     ImObserverHelper imObserverHelper;
 
     private List<LvMenuItem> mItems = new ArrayList<LvMenuItem>(
-            Arrays.asList(
-                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_policy_holder, CommonUtils.getString(R.string.myspace_item_policy_holder)),
+            Arrays.asList(new LvMenuItem(R.mipmap.personal_icon_policy_holder, CommonUtils.getString(R.string.myspace_item_policy_holder)),
                     new LvMenuItem(R.mipmap.personal_icon_collect, CommonUtils.getString(R.string.myspace_item_collect)),
-                    new LvMenuItem(R.mipmap.personal_icon_collect_line, CommonUtils.getString(R.string.myspace_item_collect_line)),
-                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    //new LvMenuItem(R.mipmap.personal_icon_activity, "活动"),
-                    //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    new LvMenuItem(R.mipmap.personal_icon_domestic, CommonUtils.getString(R.string.myspace_item_domestic), MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(R.mipmap.personal_icon_overseas, CommonUtils.getString(R.string.myspace_item_overseas), MenuItemAdapter.ItemType.SERVICE),
-                    new LvMenuItem(R.mipmap.personal_icon_rule, CommonUtils.getString(R.string.myspace_item_rule))
-                    //new LvMenuItem(MenuItemAdapter.ItemType.SPACE),
-                    //new LvMenuItem(R.mipmap.personal_icon_install, "设置")
+                    new LvMenuItem(R.mipmap.personal_icon_collect_guide, CommonUtils.getString(R.string.myspace_item_collect_line)),
+                    new LvMenuItem(R.mipmap.personal_icon_kefu, CommonUtils.getString(R.string.myspace_item_service)),
+                    new LvMenuItem(R.mipmap.personal_icon_rule, CommonUtils.getString(R.string.myspace_item_rule)),
+                    new LvMenuItem(R.mipmap.personal_icon_set, CommonUtils.getString(R.string.myspace_item_set), MenuItemAdapter.ItemType.SET),
+                    new LvMenuItem(MenuItemAdapter.ItemType.SPACE)
             ));
 
     @Override
@@ -155,7 +133,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //refreshUserInfo();
     }
 
     @Override
@@ -165,18 +142,15 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         RelativeLayout head_view = (RelativeLayout) header.findViewById(R.id.head_view);
         head_view.setOnClickListener(this);
 
-        //headerBgIV = (ImageView) header.findViewById(R.id.nav_header_bg_iv);//头像
         my_icon_head = (PolygonImageView) header.findViewById(R.id.my_icon_head);//头像
         my_icon_head.setOnClickListener(this);
         tv_nickname = (TextView) header.findViewById(R.id.tv_nickname);//昵称
         tv_nickname.setOnClickListener(this);
-        set = (FrameLayout) header.findViewById(R.id.set_layout);
-        set.setOnClickListener(this);
+        tv_login = (TextView) header.findViewById(R.id.tv_login);
         couponTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_tv);//优惠券
         travelFundTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_tv);//旅游基金
         couponUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_coupon_unit_tv);
         travelFundUnitTV = (TextView) header.findViewById(R.id.slidemenu_header_travelfund_unit_tv);
-        redPoint = (ImageView) header.findViewById(R.id.red_point);
         //travelFundHintIV = (ImageView) header.findViewById(R.id.travel_fund_hint_iv);
         //if (new SharedPre(getContext()).isShowTravelFundHint()) {
         //    travelFundHintIV.setVisibility(View.VISIBLE);
@@ -208,9 +182,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         if (UserEntity.getUser().isLogin(getContext())) {
             HttpRequestUtils.request(getContext(), new RequestUserInfo(getContext()), this, false);
         }else{
-            if(redPoint!= null){
-                redPoint.setVisibility(View.GONE);
-            }
+            setShowPoint(false);
             resetData();
         }
     }
@@ -222,14 +194,16 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         if (!UserEntity.getUser().isLogin(getContext())) {
             resetData();
         } else {
+            tv_login.setVisibility(View.GONE);
+            my_icon_head.setVisibility(View.VISIBLE);
+            tv_nickname.setVisibility(View.VISIBLE);
+
             String avatar = UserEntity.getUser().getAvatar(getContext());
             if (!TextUtils.isEmpty(avatar)) {
                 Tools.showImage(my_icon_head, avatar, R.mipmap.icon_avatar_user);
-//                Tools.showBlurryImage(headerBgIV, avatar, R.mipmap.personal_bg, 8, 3);
             } else {
                 my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
             }
-            tv_nickname.setTextColor(0xff151515);
             if (!TextUtils.isEmpty(UserEntity.getUser().getNickname(getContext()))) {
                 tv_nickname.setText(UserEntity.getUser().getNickname(getContext()));
             } else {
@@ -237,84 +211,78 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             }
 
             couponTV.setText("" + UserEntity.getUser().getCoupons(getContext()));
-            couponTV.setTextColor(0xffff6532);
-            couponTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
-            couponUnitTV.setTextColor(0xff002914);
+            couponTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
+            couponUnitTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
 
             travelFundTV.setText("" + UserEntity.getUser().getTravelFund(getContext()));
-            travelFundTV.setTextColor(0xffffc100);
-            travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
-            travelFundUnitTV.setTextColor(0xffffc100);
+            travelFundTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
+            travelFundUnitTV.setTextColor(getContext().getResources().getColor(R.color.default_btn_yellow_n));
         }
     }
 
     private void resetData(){
-        my_icon_head.setImageResource(R.mipmap.icon_avatar_user);
-        tv_nickname.setText(this.getResources().getString(R.string.person_center_nickname));
+        tv_login.setVisibility(View.VISIBLE);
+        my_icon_head.setVisibility(View.GONE);
+        tv_nickname.setVisibility(View.GONE);
+
         menuItemAdapter.notifyDataSetChanged();
-        couponTV.setText("--");
-        couponTV.setTextColor(0xff898989);
-        couponTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
-        couponUnitTV.setTextColor(0xff898989);
+        couponTV.setText("0");
+        couponTV.setTextColor(0xff929292);
+        couponUnitTV.setTextColor(0xff929292);
 
-        travelFundTV.setText("--");
-        travelFundTV.setTextColor(0xff898989);
-        travelFundTV.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12);
-        travelFundUnitTV.setTextColor(0xff898989);
-
-        tv_nickname.setTextColor(0xff898989);
+        travelFundTV.setText("0");
+        travelFundTV.setTextColor(0xff929292);
+        travelFundUnitTV.setTextColor(0xff929292);
     }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HashMap<String, String> map = new HashMap<String, String>();
         switch (position) {
-            case Constants.PERSONAL_CENTER_BR://常用投保人
+            case 1://常用投保人
                 if (isLogin("个人中心-常用投保人")) {
                     Intent intent = new Intent(getContext(), InsureActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_COLLECT://收藏司导
+            case 2://收藏司导
                 if (isLogin("个人中心-收藏司导")) {
                     Intent intent = new Intent(getContext(), CollectGuideListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
-            case Constants.PERSONAL_CENTER_COLLECT_LINE://收藏线路
+            case 3://收藏线路
                 if (isLogin("个人中心-收藏线路")) {
                     Intent intent = new Intent(getContext(), CollectLineListActivity.class);
                     intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                     startActivity(intent);
                 }
                 break;
-            /*case Constants.PERSONAL_CENTER_HD://活动
-                MobClickUtils.onEvent(StatisticConstant.LAUNCH_ACTLIST);
-                Intent intent = new Intent(getContext(), WebInfoActivity.class);
-                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_ACTIVITY + UserEntity.getUser().getUserId(getContext()) + "&t=" + new Random().nextInt(100000));
-                startActivity(intent);
-                setSensorsPageViewEvent("活动列表", SensorsConstant.ACTLIST);
-                break;*/
-            case Constants.PERSONAL_CENTER_CUSTOMER_SERVICE://服务规则
+            case 4://联系客服
+                csDialog = CommonUtils.csDialog(getContext(), null, null, null, UnicornServiceActivity.SourceType.TYPE_CHARTERED, getEventSource(), new CsDialog.OnCsListener() {
+                    @Override
+                    public void onCs() {
+                        if (csDialog != null && csDialog.isShowing()) {
+                            csDialog.dismiss();
+                        }
+                    }
+                });
+                break;
+            case 5://服务规则
                 intent = new Intent(getContext(), ServicerCenterActivity.class);
                 intent.putExtra(Constants.PARAMS_SOURCE,getEventSource());
                 startActivity(intent);
                 break;
-            case Constants.PERSONAL_CENTER_INTERNAL_SERVICE://境内客服
-                PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_IN);
-                SensorsUtils.setSensorsServiceEvent(UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource(), 1);
-                break;
-            case Constants.PERSONAL_CENTER_OVERSEAS_SERVICE://境外客服
-                PhoneInfo.CallDial(getContext(), Constants.CALL_NUMBER_OUT);
-                SensorsUtils.setSensorsServiceEvent(UnicornServiceActivity.SourceType.TYPE_DEFAULT,getEventSource(), 2);
-                break;
-            /*case Constants.PERSONAL_CENTER_SETTING://设置
-                if (isLogin("个人中心-设置")) {
-                    intent = new Intent(getContext(),SettingActivity.class);
-                    startActivity(intent);
+            case 6://设置
+                intent = new Intent(getContext(),SettingActivity.class);
+                intent.putExtra("needInitPwd", UserEntity.getUser().getNeedInitPwd(getContext()));
+                if(TextUtils.isEmpty(this.mobile)){
+                    intent.putExtra("isMobileBinded",false);
                 }
-                break;*/
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -341,17 +309,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     intent.putExtra("isFromMyspace",true);
                     startActivity(intent);
                     UserEntity.getUser().setHasNewCoupon(false);
-
-//                    ShareGuidesActivity.Params params = new ShareGuidesActivity.Params();
-//                    params.evaluateData = new EvaluateData();
-//                    params.orderNo = "J122500069181";
-//                    params.orderType = 1;
-//                    params.totalScore = 5;
-//                    params.guideAgencyType = 1;
-//                    params.isReturnMoney = false;
-//                    Intent intent1 = new Intent(getContext(), ShareGuidesActivity.class);
-//                    intent1.putExtra(Constants.PARAMS_DATA, params);
-//                    getContext().startActivity(intent1);
                 }
                 break;
             case R.id.slidemenu_header_travelfund_layout://旅游基金
@@ -367,16 +324,6 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
                     StatisticClickEvent.click(StatisticConstant.LAUNCH_TRAVELFOUND, "个人中心");
                     MobClickUtils.onEvent(StatisticConstant.CLICK_TRAVELFOUND_WD);
                 }
-                break;
-            case R.id.set_layout:
-                //if (isLogin("个人中心-设置")) {
-                    intent = new Intent(getContext(),SettingActivity.class);
-                    intent.putExtra("needInitPwd",UserEntity.getUser().getNeedInitPwd(getContext()));
-                if(TextUtils.isEmpty(this.mobile)){
-                    intent.putExtra("isMobileBinded",false);
-                }
-                    startActivity(intent);
-                //}
                 break;
         }
     }
@@ -420,12 +367,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
             travelFundUnitTV.setText(getContext().getResources().getString(R.string.myspace_header_travel_fund_unit));
 
             //是否需要设置密码,展示小红点
-            if(user.needInitPwd){
-                redPoint.setVisibility(View.VISIBLE);
-            }else{
-                redPoint.setVisibility(View.GONE);
-            }
-
+            setShowPoint(user.needInitPwd);
         }
     }
 
@@ -438,9 +380,14 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
     public void onPostUserStatus(StatusCode code) {
 
         if (code.wontAutoLogin()) {
-            //IMUtil.getInstance().connect();
             UserEntity.getUser().clean(getActivity());
             resetData();
         }
+    }
+
+    public void setShowPoint(boolean isShow) {
+        LvMenuItem lvMenuItem = mItems.get(5);
+        lvMenuItem.isShowPoint = isShow;
+        menuItemAdapter.setData(mItems);
     }
 }

@@ -11,6 +11,8 @@ public class LvMenuItem {
     public int icon;
     public MenuItemAdapter.ItemType itemType;
 
+    public boolean isShowPoint;
+
     public LvMenuItem(int icon, String name, MenuItemAdapter.ItemType itemType) {
         this.icon = icon;
         this.name = name;

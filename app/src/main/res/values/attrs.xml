@@ -160,4 +160,10 @@
         <attr name="columnNum" format="integer" />
         <attr name="onlyOneLine" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ItemMenu">
+        <attr name="itemTitle" format="reference"/>
+        <attr name="isHideLine" format="boolean"/>
+        <attr name="isHideArrow" format="boolean"/>
+    </declare-styleable>
 </resources>
