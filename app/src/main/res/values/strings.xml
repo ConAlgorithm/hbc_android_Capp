@@ -648,7 +648,7 @@
 
     <string name="servicer_title">服务规则</string>
 
-    <string name="insure_add_hint">还没有常用投保人,请新增</string>
+    <string name="insure_add_hint">还没有常用投保人，请新增</string>
     <string name="insure_submit">马上提交</string>
     <string name="insure_selected">已选</string>
     <string name="insure_bottom_hint">人,由皇包车替你支付</string>

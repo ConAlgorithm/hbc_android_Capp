@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class InsureActivity extends BaseActivity implements HttpRequestListener 
     @Bind(R.id.list)
     ListView list;
     @Bind(R.id.emptyView)
-    RelativeLayout emptyView;
+    LinearLayout emptyView;
 
     InSureListAdapter adapter;
     List<InsureResultBean> beanList = new ArrayList<InsureResultBean>();
