@@ -684,6 +684,9 @@
     <string name="chat_popup_item1">解除拉黑</string>
     <string name="chat_popup_item2">拉黑该用户</string>
     <string name="chat_popup_item3">历史订单</string>
+    <string name="chat_service_cell">电话咨询客服</string>
+    <string name="chat_service_online">在线咨询客服</string>
+    <string name="chat_empty_hint3">预订成功后，可以和司导在这里聊天</string>
 
     <string name="service_question_title">请选择内容</string>
     <string name="service_question_dialog_title">您有未读的客服消息，前去查看？</string>
