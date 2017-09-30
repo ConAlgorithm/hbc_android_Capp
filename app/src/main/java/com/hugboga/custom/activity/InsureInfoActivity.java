@@ -115,7 +115,7 @@ public class InsureInfoActivity extends BaseActivity {
         adapter.setList(list);
         final int size = list.size();
         final int travelerCount = orderBean.getTravelerCount();
-        if (size < travelerCount) {
+        if (orderBean.insuranceEnable && size < travelerCount) {
             isRefreshInsuranceList = true;
             addLayout.setVisibility(View.VISIBLE);
             addHintTV.setText(String.format("还可添加%1$s个投保人","" + (travelerCount - size)));
