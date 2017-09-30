@@ -669,7 +669,7 @@
     <string name="travel_tab2">待付款</string>
     <string name="travel_tab3">進行中</string>
     <string name="travel_tab4">待評價</string>
-    <string name="travel_login_hint">下單後可以在這裡\n管理你的行程</string>
+    <string name="travel_login_hint">下單後在這裡管理你的行程</string>
     <string name="travel_empty_finish">您還沒有相關訂單</string>
     <string name="travel_footer_fund_content">30元現金及更多獎勵</string>
     <string name="travel_footer_fund_get">點擊領取</string>
