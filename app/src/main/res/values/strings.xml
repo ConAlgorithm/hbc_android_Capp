@@ -675,7 +675,7 @@
     <string name="travel_footer_fund_get">点击领取</string>
 
     <string name="chat_im_error">连接IM服务器出错，请重新登录账号</string>
-    <string name="chat_login_hint">下单后可以在这里\n联系司导</string>
+    <string name="chat_login_hint">下单后可以在这里联系司导</string>
     <string name="chat_empty_login_hint">聊天账号被踢出登录</string>
     <string name="chat_empty_hint">正在登录聊天，请稍候...</string>
     <string name="chat_empty_hint2">正在重连聊天服务器，请稍候...</string>

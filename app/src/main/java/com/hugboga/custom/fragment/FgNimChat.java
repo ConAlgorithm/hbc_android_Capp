@@ -8,7 +8,10 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +52,7 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.hugboga.custom.widget.ChatLogoutView;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.FgchatHeaderView;
 import com.hugboga.custom.widget.ImItemView;
@@ -92,9 +96,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     ZSwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.chat_logout)
     RelativeLayout emptyLayout;
+    @Bind(R.id.im_login_hint_tv)
+    TextView loginHintTV;
 
     @Bind(R.id.header_view)
     FgchatHeaderView headerView;
+    @Bind(R.id.im_chat_logout_view)
+    ChatLogoutView chatLogoutView;
 
     @Bind(R.id.chat_list_empty_tv)
     TextView emptyTV;
@@ -111,6 +119,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     ImObserverHelper imObserverHelper;
     CsDialog csDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_chat;
@@ -158,6 +167,11 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     protected void initView() {
         MLog.e(this + " initView");
         initListView();
+
+        String hintStr = CommonUtils.getString(R.string.chat_login_hint);
+        SpannableString msp = new SpannableString(hintStr);
+        msp.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.basic_black)), 8, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginHintTV.setText(msp);
 
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
@@ -254,12 +268,14 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
             emptyLayout.setVisibility(View.VISIBLE);
+            chatLogoutView.setLooper(true);
             chatLayout.setVisibility(View.GONE);
             headerView.setVisibility(View.GONE);
             fgRightBtn.setVisibility(View.VISIBLE);
         } else {
             fgRightBtn.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.GONE);
+            chatLogoutView.setLooper(false);
             chatLayout.setVisibility(View.VISIBLE);
             headerView.setVisibility(View.VISIBLE);
             sendRequest(0, true);
@@ -285,6 +301,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     private void updateUI() {
         emptyLayout.setVisibility(View.GONE);
         fgRightBtn.setVisibility(View.GONE);
+        chatLogoutView.setLooper(false);
     }
 
 
@@ -362,6 +379,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     adapter.clearData();
                 adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
+                chatLogoutView.setLooper(true);
                 fgRightBtn.setVisibility(View.VISIBLE);
                 emptyTV.setVisibility(View.GONE);
                 ((MainActivity) getActivity()).setIMCount(0, 0);

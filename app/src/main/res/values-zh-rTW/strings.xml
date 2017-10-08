@@ -675,7 +675,7 @@
     <string name="travel_footer_fund_get">點擊領取</string>
 
     <string name="chat_im_error">連接IM服務器出錯，請重新登錄賬號</string>
-    <string name="chat_login_hint">下單後可以在這裡\n聯繫司導</string>
+    <string name="chat_login_hint">下單後可以在這裡聯繫司導</string>
     <string name="chat_empty_login_hint">聊天賬號被踢出登錄</string>
     <string name="chat_empty_hint">正在登錄聊天，請稍候...</string>
     <string name="chat_empty_hint2">正在重連聊天服務器，請稍候...</string>
