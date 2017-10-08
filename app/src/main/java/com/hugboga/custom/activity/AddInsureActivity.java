@@ -57,6 +57,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     @Bind(R.id.header_right_txt)
     TextView headerRightTxt;
 
+    private boolean isSubmit = false;
 
     protected void initHeader() {
         headerLeftBtn.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +76,10 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
         headerRightTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isSubmit) {
+                    return;
+                }
+                isSubmit = true;
                 if (isEdit) {
                     edit();
                 } else {
@@ -191,6 +196,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
+        isSubmit = false;
     }
 
     @Override
@@ -203,6 +209,7 @@ public class AddInsureActivity extends BaseActivity implements HttpRequestListen
             insureResultBean = (InsureResultBean) (request.getData());
             EventBus.getDefault().post(new EventAction(EventType.ADD_INSURE, insureResultBean));
         }
+        isSubmit = false;
         finish();
     }
 

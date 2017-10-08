@@ -3,44 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@id/toolbar"
-    android:visibility="gone"
-    android:background="#f0f0f0">
+    android:background="#f7f7f7">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="100dp">
+        <com.hugboga.custom.widget.ChatLogoutView
+            android:id="@+id/im_chat_logout_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/im_login_hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/basic_margin_small"
-        android:layout_marginTop="30dp"
+        android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="1dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/chat_login_hint"
-        android:textColor="#898989"
-        android:textSize="17sp" />
+        android:textColor="#838383"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/login_btn"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="155dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/shape_rounded_yellow_btn"
+        android:layout_above="@id/im_login_hint_tv"
+        android:background="@drawable/btn_travel_login"
         android:gravity="center"
         android:text="@string/login"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_above="@id/login_btn"
-        android:layout_below="@id/im_login_hint_tv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:src="@mipmap/chat_notlogin" />
-
+        android:textColor="@color/basic_black"
+        android:textSize="14sp" />
 </RelativeLayout>

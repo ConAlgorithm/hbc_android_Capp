@@ -10,6 +10,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +74,9 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
 
     @Bind(R.id.travel_logout_layout)
     View logoutLayout;
+    @Bind(R.id.travel_login_hint_tv)
+    TextView loginHintTV;
+
     @Bind(R.id.travel_content)
     LinearLayout contentLayout; //主题部分
     //Tab1
@@ -202,6 +208,10 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
     @Override
     public void initView() {
         logoutLayout.setVisibility(UserEntity.getUser().isLogin(getActivity()) ? View.GONE : View.VISIBLE);
+        String hintStr = CommonUtils.getString(R.string.travel_login_hint);
+        SpannableString msp = new SpannableString(hintStr);
+        msp.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.basic_black)), 6, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginHintTV.setText(msp);
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         //注册刷新广播
@@ -263,13 +273,13 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
         fgTitle.setText(R.string.travel_title);
         leftBtn.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(30), UIUtils.dip2px(30));
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(47), UIUtils.dip2px(16));
         headerRightImageParams.rightMargin = UIUtils.dip2px(18);
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
         fgRightBtn.setPadding(0,0,0,0);
-        fgRightBtn.setImageResource(R.mipmap.topbar_cs);
+        fgRightBtn.setImageResource(R.mipmap.topbar_cs2);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override

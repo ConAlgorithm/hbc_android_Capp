@@ -15,5 +15,16 @@ public class ImListBean implements Serializable {
 
     public ArrayList<ChatBean> resultBean;
 
+    public void filterService() {
+        if (resultBean == null || resultBean.size() <= 0) {
+            return;
+        }
+        ChatBean chatBean = resultBean.get(0);
+        if (chatBean.getTargetType() == 3) {
+            resultBean.remove(0);
+            --totalSize;
+        }
+    }
+
 
 }
