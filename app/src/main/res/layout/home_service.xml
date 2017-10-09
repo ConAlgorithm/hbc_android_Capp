@@ -73,6 +73,7 @@
             android:clipToPadding="false">
 
             <ImageView
+                android:id="@+id/pick_send_show"
                 android:layout_width="30dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
@@ -126,6 +127,7 @@
             android:clipToPadding="false">
 
             <ImageView
+                android:id="@+id/single_pick_send_show"
                 android:layout_width="30dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="25dp"

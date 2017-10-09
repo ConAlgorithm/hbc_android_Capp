@@ -119,12 +119,12 @@ public class HomeCityRecommentGuideAdapter extends RecyclerView.Adapter<HomeCity
 
     //分页加载更新数据
     public void add(ArrayList<HomeCityItemVo> guideBeanList) {
-        guideBeanList.addAll(guideBeanList);
+        this.guideBeanList.addAll(guideBeanList);
         notifyDataSetChanged();
     }
 
     public void setData(ArrayList<HomeCityItemVo> guideBeanList) {
-        guideBeanList = guideBeanList;
+        this.guideBeanList = guideBeanList;
         notifyDataSetChanged();
     }
     public String getEventSource() {
