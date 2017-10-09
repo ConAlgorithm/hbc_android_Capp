@@ -232,8 +232,8 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
         requestFgHomeData();
     }
 
-    protected Callback.Cancelable requestFgHomeData() {
-        return requestData(new RequestHomeNew(getActivity()));
+    private void requestFgHomeData() {
+        HttpRequestUtils.request(getActivity(), new RequestHomeNew(getActivity()), this, true);
     }
 
     @Override
