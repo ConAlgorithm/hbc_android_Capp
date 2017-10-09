@@ -21,6 +21,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 
 import butterknife.Bind;
@@ -35,6 +36,8 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
 
     Context context;
     HomeServiceHolder homeServiceHolder;
+    boolean isClickedSinglePickSend = true;
+    boolean isClickedPickSend = true;
     @Override
     protected EpoxyHolder createNewHolder() {
         return new HomeServiceHolder();
@@ -66,6 +69,10 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
         TextView privateOrdering;
         @Bind(R.id.home_line)
         TextView homeLine;
+        @Bind(R.id.pick_send_show)
+        ImageView pickSendShow;
+        @Bind(R.id.single_pick_send_show)
+        ImageView singlePickSendShow;
         @Override
         protected void bindView(View itemView) {
             this.itemView = itemView;
@@ -95,6 +102,23 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
             homeServiceHolder.homeLine.setOnClickListener(this);
             homeServiceHolder.charterImg.setOnClickListener(this);
         }
+        isClickedPickSend = SharedPre.getBoolean(Constants.CLICKED_PICK_SEND, false);
+        isClickedSinglePickSend = SharedPre.getBoolean(Constants.CLICKED_SINGLE_PICK_SEND, false);
+        if(homeServiceHolder != null){
+            if(!isClickedSinglePickSend){
+                homeServiceHolder.singlePickSendShow.setVisibility(View.VISIBLE);
+            }else{
+                homeServiceHolder.singlePickSendShow.setVisibility(View.GONE);
+            }
+        }
+        if(homeServiceHolder != null){
+            if(!isClickedPickSend){
+                homeServiceHolder.pickSendShow.setVisibility(View.VISIBLE);
+            }else{
+                homeServiceHolder.pickSendShow.setVisibility(View.GONE);
+            }
+        }
+
     }
     public int getViewTop() {
         if (homeServiceHolder != null && homeServiceHolder.view != null) {
@@ -112,10 +136,22 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
             case R.id.single_pick_send:
                 intentActivity(context, SingleActivity.class, StatisticConstant.LAUNCH_C);
                 SensorsUtils.onAppClick(getEventSource(),"单次","首页-单次");
+                if(homeServiceHolder != null){
+                    if(!isClickedSinglePickSend){
+                        homeServiceHolder.singlePickSendShow.setVisibility(View.GONE);
+                        SharedPre.setBoolean(Constants.CLICKED_SINGLE_PICK_SEND, true);
+                    }
+                }
                 break;
             case R.id.pick_send:
                 intentActivity(context, PickSendActivity.class, StatisticConstant.LAUNCH_J);
                 SensorsUtils.onAppClick(getEventSource(),"接送机","首页-接送机");
+                if(homeServiceHolder != null){
+                    if(!isClickedPickSend){
+                        homeServiceHolder.pickSendShow.setVisibility(View.GONE);
+                        SharedPre.setBoolean(Constants.CLICKED_PICK_SEND, true);
+                    }
+                }
                 break;
             case R.id.private_ordering:
                 intentActivity(context, TravelPurposeFormActivity.class, StatisticConstant.YI_XIANG);

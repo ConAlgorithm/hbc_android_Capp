@@ -60,6 +60,8 @@ public final class Constants {
     public static final String CHANNEL_GOOGLE_PLAY = "10007";
     public static final String CHANNEL_OFFICIAL = "10000";
     public static final int EVALUATE_OK = 1000;
+    public static final String CLICKED_SINGLE_PICK_SEND = "clicked_single_pick_send";
+    public static final String CLICKED_PICK_SEND = "clicked_picked_send";
 
 
     public static final String[][] TaiCityNames = {{"曼谷", UrlLibs.H5_TAI_MANGU},
