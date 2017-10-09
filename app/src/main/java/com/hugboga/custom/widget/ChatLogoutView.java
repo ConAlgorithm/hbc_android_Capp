@@ -91,11 +91,13 @@ public class ChatLogoutView extends LinearLayout {
                     mes2View.setVisibility(View.GONE);
                     mes3View.setVisibility(View.GONE);
                     gifView.setVisibility(View.GONE);
+                    gifView.setBackgroundResource(0);
                     break;
                 case 1:
                     scrollview.fullScroll(View.FOCUS_DOWN);
                     mes2View.setVisibility(View.VISIBLE);
                     gifView.setVisibility(View.INVISIBLE);
+                    gifView.setBackgroundResource(0);
                     break;
                 case 2:
                     scrollview.fullScroll(View.FOCUS_DOWN);
@@ -103,6 +105,7 @@ public class ChatLogoutView extends LinearLayout {
                     break;
                 case 3:
                     gifView.setVisibility(View.VISIBLE);
+                    gifView.setBackgroundResource(R.mipmap.chat_logout_loading);
                     break;
                 case 4:
                     scrollview.fullScroll(View.FOCUS_DOWN);
