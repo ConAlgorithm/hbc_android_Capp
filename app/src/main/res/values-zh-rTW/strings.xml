@@ -648,7 +648,7 @@
 
     <string name="servicer_title">服務規則</string>
 
-    <string name="insure_add_hint">還沒有常用投保人,請新增</string>
+    <string name="insure_add_hint">還沒有常用投保人，請新增</string>
     <string name="insure_submit">馬上提交</string>
     <string name="insure_selected">已選</string>
     <string name="insure_bottom_hint">人,由皇包車替你支付</string>
@@ -669,13 +669,13 @@
     <string name="travel_tab2">待付款</string>
     <string name="travel_tab3">進行中</string>
     <string name="travel_tab4">待評價</string>
-    <string name="travel_login_hint">下單後可以在這裡\n管理你的行程</string>
+    <string name="travel_login_hint">下單後在這裡管理你的行程</string>
     <string name="travel_empty_finish">您還沒有相關訂單</string>
     <string name="travel_footer_fund_content">30元現金及更多獎勵</string>
     <string name="travel_footer_fund_get">點擊領取</string>
 
     <string name="chat_im_error">連接IM服務器出錯，請重新登錄賬號</string>
-    <string name="chat_login_hint">下單後可以在這裡\n聯繫司導</string>
+    <string name="chat_login_hint">下單後可以在這裡聯繫司導</string>
     <string name="chat_empty_login_hint">聊天賬號被踢出登錄</string>
     <string name="chat_empty_hint">正在登錄聊天，請稍候...</string>
     <string name="chat_empty_hint2">正在重連聊天服務器，請稍候...</string>
@@ -684,6 +684,9 @@
     <string name="chat_popup_item1">解除拉黑</string>
     <string name="chat_popup_item2">拉黑該用戶</string>
     <string name="chat_popup_item3">歷史訂單</string>
+    <string name="chat_service_cell">電話諮詢客服</string>
+    <string name="chat_service_online">在線諮詢客服</string>
+    <string name="chat_empty_hint3">預訂成功後，可以和司導在這裡聊天</string>
 
     <string name="service_question_title">請選擇內容</string>
     <string name="service_question_dialog_title">您有未讀的客服消息，前去查看？</string>

@@ -8,7 +8,10 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +52,9 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.UnicornUtils;
+import com.hugboga.custom.widget.ChatLogoutView;
 import com.hugboga.custom.widget.CsDialog;
+import com.hugboga.custom.widget.FgchatHeaderView;
 import com.hugboga.custom.widget.ImItemView;
 import com.hugboga.im.ImDataSyncUtils;
 import com.hugboga.im.ImHelper;
@@ -91,6 +96,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     ZSwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.chat_logout)
     RelativeLayout emptyLayout;
+    @Bind(R.id.im_login_hint_tv)
+    TextView loginHintTV;
+
+    @Bind(R.id.header_view)
+    FgchatHeaderView headerView;
+    @Bind(R.id.im_chat_logout_view)
+    ChatLogoutView chatLogoutView;
 
     @Bind(R.id.chat_list_empty_tv)
     TextView emptyTV;
@@ -107,6 +119,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
     ImObserverHelper imObserverHelper;
     CsDialog csDialog;
+
     @Override
     public int getContentViewId() {
         return R.layout.fg_chat;
@@ -125,13 +138,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         leftBtn.setVisibility(View.GONE);
         setSensorsDefaultEvent("私聊", SensorsConstant.CHAT);
 
-        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(30), UIUtils.dip2px(30));
+        RelativeLayout.LayoutParams headerRightImageParams = new RelativeLayout.LayoutParams(UIUtils.dip2px(47), UIUtils.dip2px(16));
         headerRightImageParams.rightMargin = UIUtils.dip2px(18);
         headerRightImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         headerRightImageParams.addRule(RelativeLayout.CENTER_VERTICAL);
         fgRightBtn.setLayoutParams(headerRightImageParams);
         fgRightBtn.setPadding(0, 0, 0, 0);
-        fgRightBtn.setImageResource(R.mipmap.topbar_cs);
+        fgRightBtn.setImageResource(R.mipmap.topbar_cs2);
         fgRightBtn.setVisibility(View.VISIBLE);
         fgRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +167,11 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     protected void initView() {
         MLog.e(this + " initView");
         initListView();
+
+        String hintStr = CommonUtils.getString(R.string.chat_login_hint);
+        SpannableString msp = new SpannableString(hintStr);
+        msp.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.basic_black)), 8, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginHintTV.setText(msp);
 
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
@@ -235,7 +253,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     }
 
     private void sendRequest(int pageIndex, boolean needShowLoading) {
-        emptyTV.setVisibility(View.GONE);
+//        emptyTV.setVisibility(View.GONE);
         if (isLoading) {
             return;
         }
@@ -250,10 +268,16 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (!UserEntity.getUser().isLogin(getActivity())) {
             needHttpRequest = true;
             emptyLayout.setVisibility(View.VISIBLE);
+            chatLogoutView.setLooper(true);
             chatLayout.setVisibility(View.GONE);
+            headerView.setVisibility(View.GONE);
+            fgRightBtn.setVisibility(View.VISIBLE);
         } else {
+            fgRightBtn.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.GONE);
+            chatLogoutView.setLooper(false);
             chatLayout.setVisibility(View.VISIBLE);
+            headerView.setVisibility(View.VISIBLE);
             sendRequest(0, true);
         }
     }
@@ -265,6 +289,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (request instanceof RequestNIMChatList) {
             imListBean = ((RequestNIMChatList) request).getData();
             reRequestTimes = 0;
+            if (imListBean != null) {
+                imListBean.filterService();
+            }
             syncChatData();
         }
         swipeRefreshLayout.setRefreshing(false);
@@ -272,8 +299,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
 
     private void updateUI() {
-        emptyTV.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.GONE);
+        fgRightBtn.setVisibility(View.GONE);
+        chatLogoutView.setLooper(false);
     }
 
 
@@ -351,6 +379,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                     adapter.clearData();
                 adapter.notifyDataSetChanged();
                 emptyLayout.setVisibility(View.VISIBLE);
+                chatLogoutView.setLooper(true);
+                fgRightBtn.setVisibility(View.VISIBLE);
+                emptyTV.setVisibility(View.GONE);
                 ((MainActivity) getActivity()).setIMCount(0, 0);
                 break;
             case CLICK_USER_LOGIN:
@@ -433,7 +464,10 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         if (UserEntity.getUser().isLogin(getActivity())) {
             List<ChatBean> list = getLocalLetters();
             if (list == null || list.size() == 0) {
+                emptyTV.setEnabled(true);
+                emptyTV.setText(R.string.data_load_error_retry);
                 emptyTV.setVisibility(View.VISIBLE);
+                emptyTV.setTextSize(14);
                 return;
             }
             if (adapter != null) {
@@ -495,7 +529,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 }
                                 adapter.addData(imListBean.resultBean);
                                 computeTotalUnreadCount(adapter.getDatas());
-                                return;
                             }
                         } else {
                             if (adapter != null) {
@@ -515,6 +548,17 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                                 }
                                 saveLettersToLocal();
                             }
+                        }
+
+                        if (imListBean == null || imListBean.resultBean == null || imListBean.totalSize == 0) {
+                            chatLayout.setVisibility(View.GONE);
+                            emptyTV.setVisibility(View.VISIBLE);
+                            emptyTV.setEnabled(false);
+                            emptyTV.setTextSize(12);
+                            emptyTV.setText(R.string.chat_empty_hint3);
+                        } else {
+                            emptyTV.setVisibility(View.GONE);
+                            chatLayout.setVisibility(View.VISIBLE);
                         }
                     }
                 });

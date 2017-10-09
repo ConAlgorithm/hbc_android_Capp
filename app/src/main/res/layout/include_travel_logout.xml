@@ -4,41 +4,48 @@
     android:layout_height="match_parent"
     android:layout_below="@id/toolbar"
     android:visibility="gone"
-    android:background="#f0f0f0">
+    android:background="#f7f7f7">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="100dp"
+        android:paddingLeft="45dp"
+        android:paddingRight="45dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/travel_list_example_icon" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/travel_login_hint_tv"
-        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/basic_margin_small"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="1dp"
-        android:text="@string/travel_login_hint"
-        android:textColor="#898989"
-        android:textSize="17sp" />
-
-    <ImageView
-        android:layout_below="@id/travel_login_hint_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:src="@mipmap/travel_list_example_icon" />
-    <TextView
-        android:id="@+id/travel_login_btn"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="1dp"
+        android:layout_marginBottom="50dp"
+        android:text="@string/travel_login_hint"
+        android:textColor="#838383"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/travel_login_btn"
+        android:layout_width="155dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/travel_login_hint_tv"
+        android:background="@drawable/btn_travel_login"
         android:gravity="center"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/shape_rounded_yellow_btn"
         android:text="@string/login"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textColor="@color/basic_black"
+        android:textSize="14sp" />
+
 
 </RelativeLayout>

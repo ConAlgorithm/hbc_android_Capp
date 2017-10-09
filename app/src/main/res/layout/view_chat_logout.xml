@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chat_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@mipmap/im_chat_logout_show"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/chat_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/chat_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <View
+                android:id="@+id/space_view"
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+
+            <View
+                android:id="@+id/space_view1"
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+
+            <ImageView
+                android:id="@+id/mes1_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@mipmap/chat_logout_mes1" />
+
+            <ImageView
+                android:id="@+id/mes2_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@mipmap/chat_logout_mes2" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gif_view"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                android:background="@mipmap/chat_logout_loading"
+                android:layout_width="21dp"
+                android:layout_height="4dp" />
+
+            <ImageView
+                android:id="@+id/mes3_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"
+                android:background="@mipmap/chat_logout_mes3" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
