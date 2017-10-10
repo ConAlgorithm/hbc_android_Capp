@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initNetworkbench();
         requesetBattery();
-        setSensorsDefaultEvent();
+        //setSensorsDefaultEvent();
     }
 
     protected boolean isDefaultEvent(){
@@ -533,6 +533,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
         }
         receivePushMessage(intent);
+        //setSensorsDefaultEvent();
     }
 
     private void receivePushMessage(Intent intent) {
@@ -543,12 +544,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         if (message != null) {
             uploadPushClick(message.messageID);
             ActionBean actionBean = message.getActionBean();
-            if (actionBean != null) {
+            if (actionBean != null && actionBean.type != null) {//走新协议
                 actionBean.source = "push调起";
                 ActionController actionFactory = ActionController.getInstance();
                 actionFactory.doAction(this, actionBean);
                 this.actionBean = actionBean;
-            } else {
+            } else {//
                 if ("IM".equals(message.type)) {
                     gotoChatList();
 //                } else if ("888".equals(message.orderType)) {
@@ -560,8 +561,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //                    if (mViewPager != null) {
 //                        mViewPager.setCurrentItem(2);
 //                    }
-                } else {//其中之一 type = C13 提醒用户选司导
+                } else if(message.orderNo != null){//其中之一 type = C13 提醒用户选司导
                     gotoOrder(message);
+                } else {
+                    //老协议action{"i","push133455"},切换到首页第一项
+                    if(actionBean != null && actionBean.type == null){
+                        mViewPager.setCurrentItem(0);
+                        SensorsUtils.setPageEvent(getEventSource(), getPageTitle(), actionBean.pushId);
+                    }
                 }
             }
         }
