@@ -28,6 +28,7 @@ import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.bean.PaySucceedBean;
 import com.hugboga.custom.data.bean.PickupCouponOpenBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventBusPayResult;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestPaySucceed;
 import com.hugboga.custom.data.request.RequestPickupCouponOpen;
@@ -139,7 +140,7 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
         this.orderId = _orderId;
         this.orderType = orderType;
 
-        EventBus.getDefault().post(new EventAction(EventType.PAY_RESULT, isPaySucceed));
+        EventBus.getDefault().post(new EventBusPayResult(isPaySucceed, _orderId));
 
         if (isPaySucceed) {
             stateIV.setBackgroundResource(R.mipmap.pay_succeed_icon);
