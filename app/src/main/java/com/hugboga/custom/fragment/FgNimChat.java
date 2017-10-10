@@ -552,6 +552,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
 
                         if (imListBean == null || imListBean.resultBean == null || imListBean.totalSize == 0) {
                             chatLayout.setVisibility(View.GONE);
+                            headerView.setVisibility(View.GONE);
                             emptyTV.setVisibility(View.VISIBLE);
                             emptyTV.setEnabled(false);
                             emptyTV.setTextSize(12);
@@ -559,6 +560,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                         } else {
                             emptyTV.setVisibility(View.GONE);
                             chatLayout.setVisibility(View.VISIBLE);
+                            headerView.setVisibility(View.VISIBLE);
                         }
                     }
                 });
