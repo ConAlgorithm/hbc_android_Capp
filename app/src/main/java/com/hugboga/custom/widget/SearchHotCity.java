@@ -223,7 +223,9 @@ public class SearchHotCity extends LinearLayout{
                 }
             });
             TextView text2 = (TextView) view.findViewById(R.id.text2);
-            text2.setVisibility(GONE);
+            text2.setBackgroundColor(getContext().getResources().getColor(R.color.basic_white));
+            text2.setEnabled(false);
+            text2.setText("");
             hotCityLayout.addView(view);
         }
     }

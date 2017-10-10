@@ -53,9 +53,11 @@ public class UpPicDialog extends Dialog implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.take_photo:
                 takeOrChoosePhoto(context,1);
+                dismiss();
                 break;
             case R.id.choose_photo:
                 takeOrChoosePhoto(context,2);
+                dismiss();
                 break;
             case R.id.dissmis:
             case R.id.dialog_uppic_shadow_view:

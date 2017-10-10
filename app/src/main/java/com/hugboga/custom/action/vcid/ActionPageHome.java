@@ -18,7 +18,6 @@ public class ActionPageHome extends ActionPageBase {
     public void intentPage(Context context, ActionBean actionBean) {
         super.intentPage(context, actionBean);
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE,actionBean.pushId);
         context.startActivity(intent);
     }
 
