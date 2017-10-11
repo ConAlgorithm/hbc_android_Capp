@@ -91,6 +91,7 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
                             }
                             SearchUtils.isHistory = false;
                             SearchUtils.isRecommend = false;
+                            ((SearchDestinationGuideLineActivity) context).hideSoftInput();
                         }
                     }
                 });
