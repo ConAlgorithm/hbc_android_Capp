@@ -126,7 +126,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TextView tabMenu[] = new TextView[5];
-    private ActionBean actionBean;
     private int currentPosition = 0;
     private CheckVersionBean cvBean;
     private DialogUtil dialogUtil;
@@ -149,8 +148,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int pagePosition = -1;
+        ActionBean actionBean = null;
         if (savedInstanceState != null) {
-            actionBean = (ActionBean) savedInstanceState.getSerializable(Constants.PARAMS_ACTION);
             pagePosition = savedInstanceState.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
         } else {
             Bundle bundle = getIntent().getExtras();
@@ -292,10 +291,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (actionBean != null) {
-            outState.putSerializable(Constants.PARAMS_ACTION, actionBean);
-            outState.putInt(MainActivity.PARAMS_PAGE_INDEX, currentPosition);
-        }
+        outState.putInt(MainActivity.PARAMS_PAGE_INDEX, currentPosition);
     }
 
 
@@ -520,16 +516,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         if (intent != null) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                ActionBean actionBean = (ActionBean) bundle.getSerializable(Constants.PARAMS_ACTION);
+                if (actionBean != null) {
+                    ActionController actionFactory = ActionController.getInstance();
+                    actionFactory.doAction(this, actionBean);
+                }
                 int pagePosition = bundle.getInt(MainActivity.PARAMS_PAGE_INDEX, -1);
                 if (pagePosition != -1) {
                     currentPosition = pagePosition;
                     mViewPager.setCurrentItem(currentPosition);
                 }
-            }
-            if (actionBean != null) {
-                ActionController actionFactory = ActionController.getInstance();
-                actionFactory.doAction(this, actionBean);
             }
         }
         receivePushMessage(intent);
@@ -548,7 +544,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 actionBean.source = "push调起";
                 ActionController actionFactory = ActionController.getInstance();
                 actionFactory.doAction(this, actionBean);
-                this.actionBean = actionBean;
             } else {//
                 if ("IM".equals(message.type)) {
                     gotoChatList();

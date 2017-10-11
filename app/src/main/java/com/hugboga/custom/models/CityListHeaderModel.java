@@ -16,6 +16,7 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCityNewActivity;
+import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.utils.CenterImageSpan;
@@ -73,7 +74,11 @@ public class CityListHeaderModel extends EpoxyModel<RelativeLayout> {
                 Intent intent = new Intent(context, ChooseCityNewActivity.class);
                 intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_RECOMMEND);
                 intent.putExtra("isHomeIn", false);
-                intent.putExtra("source", "城市");
+                String source = "城市";
+                if (v.getContext() instanceof CityListActivity) {
+                    source = ((CityListActivity) v.getContext()).getEventSource();
+                }
+                intent.putExtra(Constants.PARAMS_SOURCE, source);
                 context.startActivity(intent);
             }
         });
