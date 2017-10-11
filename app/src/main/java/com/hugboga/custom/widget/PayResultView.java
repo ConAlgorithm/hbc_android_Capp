@@ -189,7 +189,9 @@ public class PayResultView extends RelativeLayout implements HttpRequestListener
     }
 
     public void intentHome() {
-        getContext().startActivity(new Intent(getContext(), MainActivity.class));
+        Intent intent = new Intent(getContext(),MainActivity.class);
+        intent.putExtras(new Bundle());
+        getContext().startActivity(intent);
         EventBus.getDefault().post(new EventAction(EventType.SET_MAIN_PAGE_INDEX, 0));
         if (isPaySucceed) {
             EventBus.getDefault().post(new EventAction(EventType.FGTRAVEL_UPDATE));

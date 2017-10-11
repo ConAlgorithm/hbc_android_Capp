@@ -90,7 +90,7 @@ public class HomeCityRecommentGuideView extends LinearLayout implements HttpRequ
                 homeCityRecommentGuideAdapter = new HomeCityRecommentGuideAdapter(getContext(),  displayImgWidth, displayImgHeight, homeCityContentVo2,homeCityContentVo2.cityItemList);
                 recyclerView.setAdapter(homeCityRecommentGuideAdapter);
             } else {
-                homeCityRecommentGuideAdapter.setData(homeCityContentVo2.cityItemList);
+                homeCityRecommentGuideAdapter.setData(homeCityContentVo2);
             }
         }
 

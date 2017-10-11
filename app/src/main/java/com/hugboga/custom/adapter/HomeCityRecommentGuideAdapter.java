@@ -123,8 +123,9 @@ public class HomeCityRecommentGuideAdapter extends RecyclerView.Adapter<HomeCity
         notifyDataSetChanged();
     }
 
-    public void setData(ArrayList<HomeCityItemVo> guideBeanList) {
-        this.guideBeanList = guideBeanList;
+    public void setData(HomeCityContentVo2 homeCityContentVo2) {
+        this.homeCityContentVo2 = homeCityContentVo2;
+        this.guideBeanList = homeCityContentVo2.cityItemList;
         notifyDataSetChanged();
     }
     public String getEventSource() {
