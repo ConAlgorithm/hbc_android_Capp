@@ -491,6 +491,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
                 }
+                if (headerView != null) {
+                    headerView.flushPoint();
+                }
             }
         }
     }
@@ -500,6 +503,9 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         super.onResume();
         if (adapter != null) {
             adapter.notifyDataSetChanged();
+        }
+        if (headerView != null) {
+            headerView.flushPoint();
         }
     }
 

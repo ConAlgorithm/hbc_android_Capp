@@ -49,8 +49,8 @@
         android:id="@+id/chat_header_online_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_chat_header"
         android:layout_marginTop="8dp"
+        android:background="@drawable/bg_chat_header"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -66,14 +66,32 @@
             android:layout_height="28dp"
             android:background="@color/default_dividing_line" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_weight="1"
-            android:text="@string/chat_service_online"
-            android:textColor="@color/default_black"
-            android:textSize="14sp" />
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/chat_header_online_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chat_service_online"
+                android:textColor="@color/default_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_toRightOf="@id/chat_header_online_title"
+                android:layout_marginLeft="-4dp"
+                android:id="@+id/chat_header_online_service_unread"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@mipmap/tabbar_number"
+                android:textColor="@color/basic_white"
+                android:visibility="gone"
+                android:textSize="10sp"/>
+        </RelativeLayout>
+
 
         <ImageView
             android:layout_width="6dp"

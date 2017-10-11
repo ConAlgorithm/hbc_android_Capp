@@ -5,16 +5,24 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.UnicornServiceActivity;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.CommonUtils;
+import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UnicornUtils;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FgchatHeaderView extends LinearLayout {
+
+    @Bind(R.id.chat_header_online_service_unread)
+    TextView serviceUnread;
 
     private CsDialog csDialog;
 
@@ -44,6 +52,15 @@ public class FgchatHeaderView extends LinearLayout {
             case R.id.chat_header_online_layout:
                 UnicornUtils.openServiceActivity(getContext(), UnicornServiceActivity.SourceType.TYPE_CHAT_LIST);
                 break;
+        }
+    }
+
+    public void flushPoint() {
+        int unreadCount = SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT,0);
+        if (unreadCount > 0) {
+            serviceUnread.setVisibility(View.VISIBLE);
+        } else {
+            serviceUnread.setVisibility(View.GONE);
         }
     }
 }
