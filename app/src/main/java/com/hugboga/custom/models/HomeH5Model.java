@@ -45,13 +45,13 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
 
     static class HomeH5Holder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.view1)
+        @Bind(R.id.view1_layout)
         TextView view1;
-        @Bind(R.id.view2)
+        @Bind(R.id.view2_layout)
         TextView view2;
-        @Bind(R.id.view3)
+        @Bind(R.id.view3_layout)
         TextView view3;
-        @Bind(R.id.view4)
+        @Bind(R.id.view4_layout)
         TextView view4;
 
         @Override
@@ -87,19 +87,19 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.view1:
+            case R.id.view1_layout:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),url1);
                 SensorsUtils.onAppClick(getEventSource(),"一价全包","首页-一价全包");
             break;
-            case R.id.view2:
+            case R.id.view2_layout:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),url2);
                 SensorsUtils.onAppClick(getEventSource(),"服务保障","首页-服务保障");
                 break;
-            case R.id.view3:
+            case R.id.view3_layout:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),url3);
                 SensorsUtils.onAppClick(getEventSource(),"先行赔付","首页-先行赔付");
                 break;
-            case R.id.view4:
+            case R.id.view4_layout:
                 intentActivity(context, WebInfoActivity.class,getEventSource(),url4);
                 SensorsUtils.onAppClick(getEventSource(),"免费保险","首页-免费保险");
                 break;
