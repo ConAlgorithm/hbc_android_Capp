@@ -28,7 +28,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.BankLogoBean;
 import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.YiLianPayBean;
-import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.RequestAddCreditCard;
 import com.hugboga.custom.data.request.RequestCreditCardPay;
 import com.hugboga.custom.utils.CommonUtils;
@@ -121,7 +120,6 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -132,7 +130,6 @@ public class AddCreditCardSecondStepActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        EventBus.getDefault().register(this);
         Intent intent = getIntent();
         if (null == intent.getSerializableExtra(CRAD_INFO)) {
             return;

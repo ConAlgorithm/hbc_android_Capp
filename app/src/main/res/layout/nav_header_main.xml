@@ -125,7 +125,7 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/travel_fund_hint_iv"
-                android:layout_width="54dp"
+                android:layout_width="48dp"
                 android:layout_height="15dp"
                 android:layout_marginRight="32dp"
                 android:layout_alignParentRight="true"

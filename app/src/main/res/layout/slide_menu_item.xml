@@ -20,7 +20,7 @@
         android:layout_marginLeft="10dip"
         android:layout_centerVertical="true"
         android:textColor="@color/default_black"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:gravity="center_vertical"/>
 
     <ImageView

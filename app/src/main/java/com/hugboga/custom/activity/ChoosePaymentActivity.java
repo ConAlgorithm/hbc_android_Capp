@@ -35,6 +35,7 @@ import com.hugboga.custom.data.bean.CreditCardInfoBean;
 import com.hugboga.custom.data.bean.PayResultExtarParamsBean;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventBusPayResult;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestAbroadCreditPayment;
 import com.hugboga.custom.data.request.RequestPayNo;
@@ -238,17 +239,14 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
     }
 
     @Subscribe
-    public void onEventMainThread(EventAction action) {
-        switch (action.getType()) {
-            case PAY_RESULT:
-                if (requestParams.eventPayBean != null) {
-                    requestParams.eventPayBean.paystyle = CommonUtils.selectPayStyle(this.payType);
-                    MobClickUtils.onEvent(new EventPayResult(requestParams.eventPayBean, (boolean) action.getData()));
-                    setSensorsPayResultEvent(CommonUtils.selectPayStyle(this.payType), (boolean) action.getData());
-                }
-                break;
-            default:
-                break;
+    public void onEventMainThread(EventBusPayResult action) {
+        if (action == null || requestParams == null || !TextUtils.equals(action.orderNo, requestParams.orderId)) {
+            return;
+        }
+        if (requestParams.eventPayBean != null) {
+            requestParams.eventPayBean.paystyle = CommonUtils.selectPayStyle(this.payType);
+            MobClickUtils.onEvent(new EventPayResult(requestParams.eventPayBean, action.payResult));
+            setSensorsPayResultEvent(CommonUtils.selectPayStyle(this.payType), action.payResult);
         }
     }
 

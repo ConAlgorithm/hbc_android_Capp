@@ -53,8 +53,8 @@
                 android:layout_marginBottom="12dp"
                 android:visibility="gone"
                 android:background="@mipmap/chat_logout_loading"
-                android:layout_width="21dp"
-                android:layout_height="4dp" />
+                android:layout_width="16dp"
+                android:layout_height="3dp" />
 
             <ImageView
                 android:id="@+id/mes3_view"
