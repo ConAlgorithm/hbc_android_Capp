@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.epoxy.EpoxyHolder;
@@ -46,13 +47,13 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
     static class HomeH5Holder extends EpoxyHolder{
         View itemView;
         @Bind(R.id.view1_layout)
-        TextView view1;
+        LinearLayout view1;
         @Bind(R.id.view2_layout)
-        TextView view2;
+        LinearLayout view2;
         @Bind(R.id.view3_layout)
-        TextView view3;
+        LinearLayout view3;
         @Bind(R.id.view4_layout)
-        TextView view4;
+        LinearLayout view4;
 
         @Override
         protected void bindView(View itemView) {
