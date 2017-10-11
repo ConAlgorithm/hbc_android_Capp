@@ -102,6 +102,23 @@ public class CityListHotView extends LinearLayout {
                         break;
                 }
                 Intent intent = new Intent(v.getContext(), FilterSkuListActivity.class);
+                String source = "";
+                if (v.getContext() instanceof CityListActivity) {
+                    source = ((CityListActivity) v.getContext()).getEventSource();
+                } else if (paramsData != null) {
+                    switch (paramsData.cityHomeType) {
+                        case CITY:
+                            source = "城市";
+                            break;
+                        case ROUTE:
+                            source = "线路圈";
+                            break;
+                        case COUNTRY:
+                            source = "国家";
+                            break;
+                    }
+                }
+                intent.putExtra(Constants.PARAMS_SOURCE, source);
                 intent.putExtra(Constants.PARAMS_DATA, params);
                 v.getContext().startActivity(intent);
             }
