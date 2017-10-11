@@ -44,7 +44,11 @@ public class ActionPageSkuList extends ActionPageBase {
         }
         Intent intent = new Intent(context, CityListActivity.class);
         intent.putExtra(Constants.PARAMS_DATA, params);
-        intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+        if (actionBean.pushId != null){
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.pushId);
+        } else{
+            intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
+        }
         context.startActivity(intent);
     }
 }
