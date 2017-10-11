@@ -40,9 +40,9 @@ public class ActionController implements ActionControllerBehavior {
         if (_actionBean == null) {
             return;
         }
-        if (TextUtils.isEmpty(_actionBean.source)) {
-            _actionBean.source = "外部调起";
-        }
+//        if (TextUtils.isEmpty(_actionBean.source)) {
+//            _actionBean.source = "外部调起";
+//        }
         switch (CommonUtils.getCountInteger(_actionBean.type)) {
             case ActionType.WEB_ACTIVITY:
                 if (!TextUtils.isEmpty(_actionBean.url) && _actionBean.url.contains("app/detail.html?")) {//产片要求，临时兼容商品详情
