@@ -8,6 +8,7 @@ import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 /**
  * Created by qingcha on 16/8/13.
@@ -20,6 +21,12 @@ public class ActionPageHome extends ActionPageBase {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(MainActivity.PARAMS_PAGE_INDEX, 0);
         context.startActivity(intent);
+        if(actionBean.pushId != null){
+            SensorsUtils.setPageEvent(getEventSource(), getEventSource(), actionBean.pushId);
+        }
+    }
+    private String getEventSource() {
+        return "首页";
     }
 
 }

@@ -201,7 +201,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initNetworkbench();
         requesetBattery();
-        //setSensorsDefaultEvent();
     }
 
     protected boolean isDefaultEvent(){
@@ -529,7 +528,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
         }
         receivePushMessage(intent);
-        //setSensorsDefaultEvent();
     }
 
     private void receivePushMessage(Intent intent) {
