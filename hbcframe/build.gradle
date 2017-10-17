@@ -41,4 +41,5 @@ dependencies {
     compile 'com.android.support:multidex:1+'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.7.13'
+    compile 'com.leon.channel:helper:1.0.5'
 }

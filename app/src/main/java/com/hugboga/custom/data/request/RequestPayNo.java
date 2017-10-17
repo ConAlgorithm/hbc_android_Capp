@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -48,7 +49,7 @@ public class RequestPayNo extends BaseRequest<Object> {
         map.put("actualPrice",payPrice);
         map.put("coupId", couponID);
 
-        if (_payType == Constants.PAY_STATE_WECHAT && Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {
+        if (_payType == Constants.PAY_STATE_WECHAT && Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {
             map.put("payType", 3);
         } else {
             map.put("payType", _payType);

@@ -14,6 +14,7 @@ import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
@@ -87,7 +88,7 @@ public class ServerCodeHandler implements ServerCodeHandlerInterface {
                         final CheckVersionBean cvBean = requestCheckVersion.getData();
                         UserEntity.getUser().setIsNewVersion(mContext, cvBean.hasAppUpdate);//是否有新版本
                         final DialogUtil dialogUtil = DialogUtil.getInstance(mContext);
-                        if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
+                        if (Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {//google play
                             dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url);
                         } else {
                             dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {

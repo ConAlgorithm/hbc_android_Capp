@@ -6,6 +6,7 @@ import android.net.SSLCertificateSocketFactory;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.Common;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.leon.channel.helper.ChannelReaderUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,7 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
 
     private static String keystorepw = "";//32
     private static String keypw = "";//6
-
+    static String channelNum = null;
     public static void resetSSLSocketFactory(Context context) {
         try {
             try {
@@ -45,7 +46,7 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
                 long time = System.currentTimeMillis();
                 trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                 InputStream ins;
-                if(HbcConfig.FLAVOR.equals("10007")){
+                if(channelNum.equals("10007")){
                     keystorepw = "6154acb614e80a42fc85509980ff3ea5";
                     ins = context.getResources().getAssets().open("clientgp.keystore");
                 }else{
@@ -70,7 +71,7 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
                     long time = System.currentTimeMillis();
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                     InputStream ins;
-                    if(HbcConfig.FLAVOR.equals("10007")){
+                    if(channelNum.equals("10007")){
                         keystorepw = "6154acb614e80a42fc85509980ff3ea5";
                         ins = context.getResources().getAssets().open("clientgp.keystore");
                     }else{
@@ -120,5 +121,11 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
 
     public SSLContext getSslContext(){
         return sslContext;
+    }
+
+    public static String getChannelNum(Context context){
+        channelNum = ChannelReaderUtil.getChannel(context);
+        MLog.e("defaultSslChannelNum=" + channelNum);
+        return channelNum;
     }
 }

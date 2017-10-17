@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
@@ -34,7 +35,7 @@ public class RequestLoginCheckOpenId extends BaseRequest<UserBean> {
         map.put("source", 1);
         map.put("distinctid", SensorsDataAPI.sharedInstance(getContext()).getAnonymousId());
         map.put("loginChannel",1);//1:capp 2:m 3:pc
-        if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {
+        if (Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {
             map.put("weChatChannel", 1);
         }
         return map;

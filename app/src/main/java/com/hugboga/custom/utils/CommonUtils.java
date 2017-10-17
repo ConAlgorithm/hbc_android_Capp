@@ -610,7 +610,7 @@ public final class CommonUtils {
      * @return 是否是数美
      */
     public static boolean isAgainstSM() {
-        return Constants.CHANNEL_OFFICIAL.equals(BuildConfig.FLAVOR);
+        return Constants.CHANNEL_OFFICIAL.equals(MyApplication.getChannelNum());
     }
 
     public static String getAgainstDeviceId() {

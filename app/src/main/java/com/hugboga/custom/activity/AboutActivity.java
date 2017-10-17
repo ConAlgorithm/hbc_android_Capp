@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
@@ -77,7 +78,7 @@ public class AboutActivity extends BaseActivity {
         headerTitle.setText(activity.getString(R.string.about_title));
         versionTV.setText(activity.getString(R.string.about_version, BuildConfig.VERSION_NAME, "" + BuildConfig.VERSION_CODE));
 
-        if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
+        if (Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {//google play
             aboutUpdateLayout.setVisibility(View.GONE);
         }
     }

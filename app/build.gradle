@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'newlens'
+apply plugin: 'channel'
 
 Properties getProperties() {
     Properties properties = new Properties()
@@ -270,4 +271,21 @@ dependencies {
     compile files('libs/smantifraud.jar')
     compile files('libs/fm-sdk-3.0.9.jar')
     compile "com.networkbench.newlens.agent.android:nbs.newlens.agent:2.5.9"
+    compile 'com.leon.channel:helper:1.0.5'
+}
+
+rebuildChannel {
+    //baseDebugApk = new File(project.rootDir, "app/build/outputs/apk/CAPP_V5.2.1_102960_baseDebug.apk")
+    baseReleaseApk = new File(project.rootDir, "app/build/outputs/apk/CAPP_V5.2.1_102960_baseRelease.apk")
+//默认为new File(project.buildDir, "rebuildChannel/debug")
+    //debugOutputDir = Debug渠道包输出目录
+//默认为new File(project.buildDir, "rebuildChannel/release")
+    releaseOutputDir = new File(project.rootDir, "rebuildChannel/release")
+}
+
+channel{
+    //多渠道包的输出目录，默认为new File(project.buildDir,"channel")
+    baseOutputDir = new File(project.buildDir,"channel")
+    //多渠道包的命名规则，默认为：${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}
+    apkNameFormat ='${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}'
 }

@@ -75,6 +75,7 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
+import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -428,7 +429,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
             dialogUtil = DialogUtil.getInstance(this);
-            if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
+            if (Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {//google play
                 dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url);
             } else {
                 dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
@@ -663,6 +664,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
                 SensorsUtils.setPageEvent("目的地","目的地","");
+                String channel = ChannelReaderUtil.getChannel(getApplicationContext());
+                Log.d("zhangqiang",channel);
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);

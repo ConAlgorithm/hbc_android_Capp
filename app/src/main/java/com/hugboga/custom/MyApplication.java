@@ -12,6 +12,7 @@ import android.util.Log;
 import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
+import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -28,6 +29,7 @@ import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
 import com.ishumei.smantifraud.SmAntiFraud;
 import com.hugboga.im.entity.ImAnalysisEnitty;
+import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -64,13 +66,15 @@ public class MyApplication extends HbcApplication {
     //   SensorsDataAPI.DebugMode.DEBUG_AND_TRACK - 打开 Debug 模式，校验数据，并将数据导入到 Sensors Analytics 中
     // 注意！请不要在正式发布的 App 中使用 Debug 模式！
     final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_OFF;
-
+    static String channelNum = null;
     @Override
     public void onCreate() {
         super.onCreate();
         mAppContext = this.getApplicationContext();
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
+        getChannelNum();
+        DefaultSSLSocketFactory.getChannelNum(mAppContext);
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
@@ -122,8 +126,14 @@ public class MyApplication extends HbcApplication {
     private void initUrlHost() {
         MLog.e("urlHost=" + BuildConfig.API_SERVER_URL);
         MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
+        String channel = null;
         if (TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
-            String channel = BuildConfig.FLAVOR;
+            if (getChannelNum() != null){
+                channel = getChannelNum();
+            }else {
+                channel = BuildConfig.FLAVOR;
+            }
+
             MLog.e("channel=" + channel);
             //根据工程渠道标识，设置访问的服务器全局信息，没有标识则默认访问正式服务器
             if (TextUtils.isEmpty(channel)) channel = "formal";
@@ -167,12 +177,22 @@ public class MyApplication extends HbcApplication {
         HbcConfig.APP_NAME = getString(R.string.app_name);
         x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = BuildConfig.WX_APP_ID;
-        HbcConfig.FLAVOR = BuildConfig.FLAVOR;
+        if (getChannelNum() != null){
+            HbcConfig.FLAVOR = getChannelNum();
+        }else {
+            HbcConfig.FLAVOR = BuildConfig.FLAVOR;
+        }
     }
 
     public void initSensorsData() {
         try {
-            boolean isTest = "developer".equals(BuildConfig.FLAVOR) || "examination".equals(BuildConfig.FLAVOR);
+            boolean isTest = false;
+            if (getChannelNum()!= null){
+                isTest = "developer".equals(getChannelNum()) || "examination".equals(getChannelNum());
+            } else {
+                isTest = "developer".equals(BuildConfig.FLAVOR) || "examination".equals(BuildConfig.FLAVOR);
+            }
+
             // 神策 初始化 SDK
             SensorsDataAPI.sharedInstance(
                     this,                               // 传入 Context
@@ -184,7 +204,11 @@ public class MyApplication extends HbcApplication {
             JSONObject properties = new JSONObject();
             properties.put("hbc_plateform_type", "Android");        // 平台类型
             properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
-            properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
+            if (getChannelNum() != null){
+                properties.put("hbc_source", getChannelNum());  // 设置渠道名称属性
+            }else {
+                properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
+            }
             properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(this).getAnonymousId());
             properties.put("isTest", isTest);
             SensorsDataAPI.sharedInstance(this).registerSuperProperties(properties);
@@ -277,7 +301,12 @@ public class MyApplication extends HbcApplication {
         try {
             SmAntiFraud.SmOption option = new SmAntiFraud.SmOption();
             option.setOrganization("GqATrb95woTXTmiUQJrC");
-            option.setChannel(BuildConfig.FLAVOR);
+            if (getChannelNum() !=null){
+                option.setChannel(getChannelNum());
+            }else {
+                option.setChannel(BuildConfig.FLAVOR);
+            }
+
             SmAntiFraud.create(getApplicationContext(), option);
         } catch (Exception e) {
             e.printStackTrace();
@@ -325,7 +354,12 @@ public class MyApplication extends HbcApplication {
         try {
             JSONObject properties = new JSONObject();
             // 设置渠道名
-            properties.put("channelId", BuildConfig.FLAVOR);
+            if (getChannelNum() !=null){
+                properties.put("channelId", getChannelNum());
+            }else {
+                properties.put("channelId", BuildConfig.FLAVOR);
+            }
+
             properties.put("is_open_push", NotificationCheckUtils.notificationIsOpen(this));
             // 追踪渠道效果
             SensorsDataAPI.sharedInstance(this).trackInstallation("AppInstall", properties);
@@ -353,4 +387,10 @@ public class MyApplication extends HbcApplication {
             }
         }
     };
+
+    public static String getChannelNum(){
+        channelNum = ChannelReaderUtil.getChannel(mAppContext);
+        MLog.e("channelNum=" + channelNum);
+        return channelNum;
+    }
 }
