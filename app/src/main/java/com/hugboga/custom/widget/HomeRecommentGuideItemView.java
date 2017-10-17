@@ -25,7 +25,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.HomeAlbumRelItemVo;
 import com.hugboga.custom.data.bean.HomeCityItemVo;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;

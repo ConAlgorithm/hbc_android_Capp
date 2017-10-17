@@ -3,9 +3,6 @@ package com.hugboga.custom.data.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by qingcha on 16/6/6.
  */

@@ -18,7 +18,6 @@ import com.hugboga.custom.data.bean.SearchGuideBean;
 import com.hugboga.custom.data.request.RequestSearchGuide;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.GuideSearchListItem;
-import com.hugboga.custom.widget.LineSearchListItem;
 import com.hugboga.custom.widget.SearchlineGuideLoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 

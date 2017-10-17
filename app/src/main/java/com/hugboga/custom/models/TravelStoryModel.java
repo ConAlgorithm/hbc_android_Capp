@@ -14,7 +14,6 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.Tools;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;

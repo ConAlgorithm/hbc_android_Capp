@@ -1,6 +1,5 @@
 package com.hugboga.custom.utils;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;

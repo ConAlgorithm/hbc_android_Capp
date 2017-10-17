@@ -6,14 +6,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.LetterOrderAdapter;
 import com.hugboga.custom.data.bean.ChatBean;
-import com.hugboga.custom.data.bean.ChatOrderBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.SharedPre;
@@ -21,7 +18,6 @@ import com.hugboga.custom.utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;

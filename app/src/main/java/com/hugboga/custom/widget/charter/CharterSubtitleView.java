@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
-import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.ChooseAirActivity;
 import com.hugboga.custom.activity.ChooseAirPortActivity;
 import com.hugboga.custom.activity.ChooseCityActivity;

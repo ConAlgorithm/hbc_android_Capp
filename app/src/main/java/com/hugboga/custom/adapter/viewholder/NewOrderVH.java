@@ -11,8 +11,6 @@ import com.huangbaoche.hbcframe.viewholder.ZBaseViewHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.CircleImageView;
 
-import net.grobas.view.PolygonImageView;
-
 import org.xutils.view.annotation.ViewInject;
 
 /**

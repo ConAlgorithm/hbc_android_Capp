@@ -1,6 +1,5 @@
 package com.hugboga.custom.widget.charter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.DialogUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

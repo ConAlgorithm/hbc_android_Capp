@@ -1,8 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created  on 16/4/23.
  */

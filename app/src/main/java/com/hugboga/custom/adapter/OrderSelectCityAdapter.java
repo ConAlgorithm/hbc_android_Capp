@@ -1,7 +1,6 @@
 package com.hugboga.custom.adapter;
 
 import android.content.Context;
-import android.text.Layout;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;

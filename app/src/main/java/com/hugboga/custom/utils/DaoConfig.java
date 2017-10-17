@@ -2,8 +2,6 @@ package com.hugboga.custom.utils;
 
 import android.content.Context;
 
-import com.hugboga.custom.constants.ResourcesConstants;
-
 import org.xutils.DbManager;
 
 /**

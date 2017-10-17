@@ -13,8 +13,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.HackyViewPager;
 
-import org.xutils.image.ImageOptions;
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;

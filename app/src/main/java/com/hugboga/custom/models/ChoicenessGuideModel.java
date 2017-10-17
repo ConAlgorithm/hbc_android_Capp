@@ -7,8 +7,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.widget.ChoicenessGuideView;
 
-import java.util.ArrayList;
-
 public class ChoicenessGuideModel extends EpoxyModel<ChoicenessGuideView> {
 
     private FilterGuideBean guideBean;

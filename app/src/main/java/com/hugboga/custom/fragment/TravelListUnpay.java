@@ -28,7 +28,6 @@ import com.hugboga.custom.data.request.RequestOrderListUnpay;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.HbcLoadingMoreFooter;
 import com.hugboga.custom.widget.TravelListItem;
 import com.hugboga.custom.widget.TravelLoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;

@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.hugboga.amap.entity.HbcLantLng;
 import com.hugboga.amap.view.HbcMapViewTools;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CharterSecondStepActivity;
 import com.hugboga.custom.activity.CombinationOrderActivity;
 import com.hugboga.custom.data.bean.AirPort;
 import com.hugboga.custom.data.bean.CharterlItemBean;

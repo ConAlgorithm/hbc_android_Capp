@@ -2,7 +2,6 @@ package com.hugboga.custom.data.bean;
 
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.CommonUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;

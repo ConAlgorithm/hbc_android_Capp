@@ -1,10 +1,8 @@
 package com.hugboga.custom.data.parser;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.CarInfoBean;
-import com.hugboga.custom.data.bean.UserCouponBean;
 
 import org.json.JSONObject;
 

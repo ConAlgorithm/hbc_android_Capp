@@ -3,7 +3,6 @@ package com.hugboga.custom.data.parser;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.constants.Constants;

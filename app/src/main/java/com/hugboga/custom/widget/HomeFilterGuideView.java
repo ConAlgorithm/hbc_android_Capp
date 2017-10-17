@@ -16,7 +16,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.FilterGuideListActivity;
-import com.hugboga.custom.activity.FilterSkuListActivity;
 import com.hugboga.custom.adapter.HomeFilterGuideAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;

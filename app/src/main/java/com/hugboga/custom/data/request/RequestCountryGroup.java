@@ -14,8 +14,6 @@ import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 
-import org.xutils.db.Selector;
-import org.xutils.ex.DbException;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.ArrayList;

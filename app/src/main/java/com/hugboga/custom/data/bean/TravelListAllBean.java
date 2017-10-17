@@ -1,7 +1,6 @@
 package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
-import java.net.PortUnreachableException;
 import java.util.ArrayList;
 
 /**

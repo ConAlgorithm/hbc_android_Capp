@@ -2,7 +2,6 @@ package com.hugboga.custom.data.parser;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
-import com.hugboga.custom.data.bean.InsureBean;
 import com.hugboga.custom.data.bean.InsureResultBean;
 
 import org.json.JSONObject;

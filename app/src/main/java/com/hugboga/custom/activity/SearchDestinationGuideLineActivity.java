@@ -20,7 +20,6 @@ import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.HbcRecyclerSingleTypeAdpater;
 import com.hugboga.custom.adapter.SearchAdapter;
@@ -32,9 +31,6 @@ import com.hugboga.custom.utils.LogUtils;
 import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.MultipleTextViewGroup;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

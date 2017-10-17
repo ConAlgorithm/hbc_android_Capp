@@ -1,7 +1,6 @@
 package com.hugboga.custom.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;

@@ -2,13 +2,10 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.CommentsListData;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.HbcParser;
 import com.hugboga.custom.utils.PhoneInfo;
 
 import org.json.JSONObject;

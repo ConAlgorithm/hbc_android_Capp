@@ -32,7 +32,6 @@ import com.hugboga.custom.data.request.RequestOrderListUnevaludate;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.TravelListItem;
 import com.hugboga.custom.widget.TravelLoadingMoreFooter;

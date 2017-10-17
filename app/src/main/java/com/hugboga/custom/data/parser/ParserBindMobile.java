@@ -2,7 +2,6 @@ package com.hugboga.custom.data.parser;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.BindMobileBean;
-import com.hugboga.custom.data.bean.CityBean;
 
 import org.json.JSONObject;
 

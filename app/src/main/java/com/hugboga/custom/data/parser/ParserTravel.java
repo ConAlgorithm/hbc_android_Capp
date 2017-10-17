@@ -1,7 +1,5 @@
 package com.hugboga.custom.data.parser;
 
-import android.util.Log;
-
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.TravelListAllBean;

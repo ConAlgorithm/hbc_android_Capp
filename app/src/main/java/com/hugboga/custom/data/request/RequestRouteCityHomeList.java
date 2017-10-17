@@ -7,7 +7,6 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityHomeBean;
-import com.hugboga.custom.data.bean.SkuCityBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 

@@ -15,8 +15,6 @@ import com.hugboga.custom.data.net.UrlLibs;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.HashMap;
-
 @HttpRequest(path = UrlLibs.API_OSS_TOKEN_URL, builder = NewParamsBuilder.class)
 public class OssTokenRequest extends BaseRequest<OssTokenBean> {
     public OssTokenRequest(Context context) {

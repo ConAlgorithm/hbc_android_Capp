@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.ScreenUtils;
 import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;

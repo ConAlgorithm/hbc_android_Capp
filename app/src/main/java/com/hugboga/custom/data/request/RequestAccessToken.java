@@ -2,14 +2,11 @@ package com.hugboga.custom.data.request;
 
 import android.content.Context;
 
-import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.AccessTokenBean;
-import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserAccessToken;
-import com.hugboga.custom.data.parser.ParserLogin;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;

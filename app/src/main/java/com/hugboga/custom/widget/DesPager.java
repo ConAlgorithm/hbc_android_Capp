@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -16,20 +15,17 @@ import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.DesPageItemAdapter;
 import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.data.bean.HomeHotCityVo;
 import com.hugboga.custom.data.bean.SimpleLineGroupVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.DestinationHot;
 import com.hugboga.custom.data.request.DestinationLine;
-import com.hugboga.custom.fragment.FgDestination;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zhangqiang on 17/7/12.

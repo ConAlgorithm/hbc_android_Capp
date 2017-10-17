@@ -1,7 +1,5 @@
 package com.hugboga.custom.statistic.event;
 
-import android.text.TextUtils;
-
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.bean.EventPayBean;

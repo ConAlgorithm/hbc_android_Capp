@@ -3,11 +3,8 @@ package com.hugboga.custom.data.parser;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
-import com.hugboga.custom.data.bean.ADPictureBean;
 import com.hugboga.custom.data.bean.CollectGuideBean;
-import com.hugboga.custom.data.bean.CouponBean;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

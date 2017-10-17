@@ -2,29 +2,20 @@ package com.hugboga.custom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.FilterGuideListActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
-import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.AlbumItemView;
-import com.hugboga.custom.widget.FilterGuideItemView;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
-
-import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by zhangqiang on 17/8/2.

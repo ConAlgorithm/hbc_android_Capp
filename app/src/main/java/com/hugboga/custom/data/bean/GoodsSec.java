@@ -2,7 +2,6 @@ package com.hugboga.custom.data.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by wbj on 2016/10/17.

@@ -10,7 +10,6 @@ import android.view.WindowManager;
 
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.R;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 /**
  * Created by qingcha on 16/7/15.

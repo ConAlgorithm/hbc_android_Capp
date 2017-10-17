@@ -17,17 +17,13 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SearchLineBean;
 import com.hugboga.custom.data.request.RequestSearchLine;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
-import com.hugboga.custom.widget.HbcLoadingMoreFooter;
 import com.hugboga.custom.widget.LineSearchListItem;
 import com.hugboga.custom.widget.SearchlineGuideLoadingMoreFooter;
-import com.hugboga.custom.widget.TravelListItem;
-import com.hugboga.custom.widget.TravelLoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.Bind;
 
 import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
-import static java.security.AccessController.getContext;
 
 /**
  * Created by zhangqiang on 17/8/24.

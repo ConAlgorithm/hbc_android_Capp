@@ -2,7 +2,6 @@ package com.hugboga.custom.widget;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.SkuItemBean;
-import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.data.net.UrlLibs;
 import com.qiyukf.unicorn.api.ProductDetail;
 
 import butterknife.Bind;

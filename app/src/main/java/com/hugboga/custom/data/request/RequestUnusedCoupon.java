@@ -1,7 +1,6 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;

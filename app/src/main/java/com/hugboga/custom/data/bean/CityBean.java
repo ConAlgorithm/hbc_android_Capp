@@ -2,7 +2,6 @@ package com.hugboga.custom.data.bean;
 
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;

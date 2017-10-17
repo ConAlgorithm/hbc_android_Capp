@@ -1,10 +1,7 @@
 package com.hugboga.custom.statistic.click;
 
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.StatisticConstant;
 
 import java.util.HashMap;
 import java.util.Map;

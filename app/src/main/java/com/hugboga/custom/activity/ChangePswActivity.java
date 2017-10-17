@@ -18,7 +18,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.request.RequestChangePwd;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.UIUtils;
 
 import java.util.regex.Pattern;
 

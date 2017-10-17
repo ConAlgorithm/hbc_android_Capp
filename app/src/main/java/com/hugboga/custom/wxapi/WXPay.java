@@ -1,10 +1,8 @@
 package com.hugboga.custom.wxapi;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.hugboga.custom.BuildConfig;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.WXpayBean;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
