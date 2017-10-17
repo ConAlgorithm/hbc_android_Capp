@@ -73,7 +73,6 @@ public class MyApplication extends HbcApplication {
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
         getChannelNum();
-        DefaultSSLSocketFactory.getChannelNum(mAppContext);
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush

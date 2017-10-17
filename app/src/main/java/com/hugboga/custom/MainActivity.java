@@ -75,7 +75,6 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.GiftController;
 import com.hugboga.custom.widget.NoScrollViewPager;
-import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -664,8 +663,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.tab_text_2:
                 mViewPager.setCurrentItem(1);
                 SensorsUtils.setPageEvent("目的地","目的地","");
-                String channel = ChannelReaderUtil.getChannel(getApplicationContext());
-                Log.d("zhangqiang",channel);
                 break;
             case R.id.tab_text_3:
                 mViewPager.setCurrentItem(2);
