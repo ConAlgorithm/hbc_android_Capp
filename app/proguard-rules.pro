@@ -405,6 +405,8 @@
  public void onPause();
 }
 
+-keep class com.ishumei.dfp.SMSDK { *; }
+
 # ProGuard configurationsfor NetworkBench Lens
 -keep class com.networkbench.** { *; }
 -dontwarn com.networkbench.**
