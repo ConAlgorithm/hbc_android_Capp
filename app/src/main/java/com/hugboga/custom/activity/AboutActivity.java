@@ -75,7 +75,7 @@ public class AboutActivity extends BaseActivity {
         headerTitle.setText(activity.getString(R.string.about_title));
         versionTV.setText(activity.getString(R.string.about_version, BuildConfig.VERSION_NAME, "" + BuildConfig.VERSION_CODE));
 
-        if (Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {//google play
+        if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
             aboutUpdateLayout.setVisibility(View.GONE);
         }
     }

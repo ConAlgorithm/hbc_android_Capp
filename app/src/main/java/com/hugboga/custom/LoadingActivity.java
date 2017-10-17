@@ -132,7 +132,7 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
                 language = "繁體中文";
             } else if (TextUtils.equals(conf.locale.getLanguage(), "zh") && TextUtils.equals(conf.locale.getCountry(), "HK")) {//香港
                 language = "繁體中文";
-            } else if (MyApplication.getChannelNum() == Constants.CHANNEL_GOOGLE_PLAY) {//google play默认繁体中文
+            } else if (BuildConfig.FLAVOR == Constants.CHANNEL_GOOGLE_PLAY) {//google play默认繁体中文
                 language = "繁體中文";
             } else {
                 language = "简体中文";

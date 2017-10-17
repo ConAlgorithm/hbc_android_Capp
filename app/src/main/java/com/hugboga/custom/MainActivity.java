@@ -428,7 +428,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             }
             UserEntity.getUser().setIsNewVersion(this, cvBean.hasAppUpdate);//是否有新版本
             dialogUtil = DialogUtil.getInstance(this);
-            if (Constants.CHANNEL_GOOGLE_PLAY.equals(MyApplication.getChannelNum())) {//google play
+            if (Constants.CHANNEL_GOOGLE_PLAY.equals(BuildConfig.FLAVOR)) {//google play
                 dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url);
             } else {
                 dialogUtil.showUpdateDialog(cvBean.hasAppUpdate, cvBean.force, cvBean.content, cvBean.url, new DialogInterface.OnClickListener() {
