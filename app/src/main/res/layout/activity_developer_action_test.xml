@@ -8,7 +8,6 @@
     <include layout="@layout/include_header" />
 
     <RelativeLayout
-        android:id="@+id/developer_options_action_layout"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:background="#ffffff">

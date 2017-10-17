@@ -53,7 +53,6 @@
         android:textSize="@dimen/text_size_largex" />
 
     <View
-        android:id="@+id/titlebar_detail_bottom_line_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"

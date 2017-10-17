@@ -34,7 +34,6 @@
                         android:drawablePadding="10dp"/>
 
                     <com.hugboga.custom.widget.DashView
-                        android:id="@+id/day_service_line"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         app:dashOrientation="0"
@@ -60,7 +59,6 @@
                         android:drawablePadding="10dp"/>
 
                     <com.hugboga.custom.widget.DashView
-                        android:id="@+id/pick_send_line"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         app:dashOrientation="0"
@@ -86,7 +84,6 @@
                         android:drawablePadding="10dp"/>
 
                     <View
-                        android:id="@+id/single_service_line"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#dbdbdb"/>

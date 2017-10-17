@@ -23,7 +23,6 @@
             android:layout_weight="0.9">
 
             <RelativeLayout
-                android:id="@+id/charter_id_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -50,7 +49,6 @@
             </RelativeLayout>
 
             <ImageView
-                android:id="@+id/img_below_charter"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

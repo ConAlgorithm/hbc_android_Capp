@@ -165,7 +165,6 @@
     <!-- sku-->
 
     <!-- 個人中心-->
-    <string name="person_center_nickname">點擊登錄</string>
     <string name="person_center_no_nickname">昵稱未填寫</string>
 
     <string name="guess_you_want">猜你想搜</string>
@@ -548,7 +547,6 @@
     <string name="myspace_header_coupon">優惠券</string>
     <string name="myspace_header_travel_fund">旅遊基金</string>
     <string name="myspace_header_travel_fund_unit">元</string>
-    <string name="myspace_header_travel_fund_hint">邀請就送</string>
 
     <string name="setting_chang_pwd">修改密碼</string>
     <string name="setting_clear_cache">清除緩存</string>
@@ -951,5 +949,4 @@
     <string name = "add_insure_man">男</string>
     <string name = "add_insure_woman">女</string>
     <string name = "add_insure_choose_gender">選擇性別</string>
-    <string name = "add_insure_choose_date">請選擇出生日期</string>
 </resources>

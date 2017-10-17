@@ -86,7 +86,6 @@
             android:src="@mipmap/home_compensation_icon"
             android:scaleType="centerCrop"/>
         <TextView
-            android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal"
@@ -119,7 +118,6 @@
             android:src="@mipmap/home_insurance_icon"
             android:scaleType="centerCrop"/>
         <TextView
-            android:id="@+id/view4"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"

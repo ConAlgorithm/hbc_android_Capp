@@ -5,7 +5,6 @@
     android:background="@android:color/transparent">
 
     <RelativeLayout
-        android:id="@+id/zlistview_head_contentLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"

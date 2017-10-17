@@ -5,7 +5,6 @@
     android:background="@color/allbg_white">
     <include layout="@layout/include_header" />
     <RelativeLayout
-        android:id="@+id/forget_passwd_mobile_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/login_textbox"
@@ -76,7 +75,6 @@
         android:layout_marginRight="22dp"
         android:background="#dbdbdb" />
     <RelativeLayout
-        android:id="@+id/forget_passwd_getcode_layout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/login_textbox"
@@ -85,7 +83,6 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
         <RelativeLayout
-            android:id="@+id/forget_getcode_view"
             android:layout_width="@dimen/change_mobile_getcode_width"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

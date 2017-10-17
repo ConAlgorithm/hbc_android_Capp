@@ -108,17 +108,6 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="ServicerCenterBtn">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:layout_margin">@dimen/basic_margin_xlarge</item>
-        <item name="android:drawablePadding">@dimen/basic_margin_medium</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/servicer_center_content_color</item>
-    </style>
-
     <style name="MimeRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/rating_bar_mime</item>
         <item name="android:minHeight">42dp</item>

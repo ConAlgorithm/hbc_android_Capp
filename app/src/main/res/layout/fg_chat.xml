@@ -32,7 +32,6 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/im_statusview"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_below="@id/header_view"

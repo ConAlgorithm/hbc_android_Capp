@@ -99,7 +99,6 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/coupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/myspace_header_coupon"
@@ -124,7 +123,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
             <ImageView
-                android:id="@+id/travel_fund_hint_iv"
                 android:layout_width="48dp"
                 android:layout_height="15dp"
                 android:layout_marginRight="32dp"
@@ -164,7 +162,6 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:id="@+id/fund_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/jijin_layout"
@@ -172,7 +169,6 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/fund"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/myspace_header_travel_fund"

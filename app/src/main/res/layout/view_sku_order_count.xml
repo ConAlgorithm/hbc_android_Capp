@@ -5,14 +5,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/sku_order_count_title_tv"
         style="@style/SkuOrderSubtitleTextView"
         android:layout_marginLeft="@dimen/sku_order_padding_left"
         android:layout_marginRight="@dimen/sku_order_padding_left"
         android:text="@string/order_count_title" />
 
     <RelativeLayout
-        android:id="@+id/sku_order_count_adult_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
@@ -41,7 +39,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/sku_order_count_child_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sku_order_min_item_hight"
         android:layout_marginLeft="@dimen/sku_order_padding_left">
@@ -120,7 +117,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/sku_order_count_luggage_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

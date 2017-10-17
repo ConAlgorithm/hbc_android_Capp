@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        android:id="@+id/view_sku_guide_tab_layout"
-        layout="@layout/view_filter_sku_tab_layout"></include>
+    <include layout="@layout/view_filter_sku_tab_layout"></include>
 
     <com.hugboga.custom.widget.NoScrollViewPager
         android:id="@+id/filter_sku_viewpager"

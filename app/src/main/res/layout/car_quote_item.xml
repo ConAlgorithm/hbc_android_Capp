@@ -29,8 +29,7 @@
         android:lines="1"
         android:layout_toLeftOf="@id/day_all_money_right"
         android:layout_toRightOf="@id/day_all_money_left"
-        android:text="@string/car_lines"
-        android:id="@+id/day_all_money_middle"/>
+        android:text="@string/car_lines" />
 <!---->
     <TextView
         android:layout_width="wrap_content"

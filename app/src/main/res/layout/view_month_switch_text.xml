@@ -53,7 +53,6 @@
     </RelativeLayout>
 
     <View
-        android:id="@+id/line_view2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginLeft="10dp"

@@ -252,7 +252,6 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <View
-                    android:id="@+id/clean_all_history_line"
                     android:layout_width="wrap_content"
                     android:layout_height="0.5dp"
                     android:background="#a8a8a8" />
