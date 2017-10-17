@@ -43,9 +43,9 @@ import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;

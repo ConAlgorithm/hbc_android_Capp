@@ -87,6 +87,15 @@
 # libammsdk
 -dontnote com.tencent.**
 -keep class com.tencent.** {*;}
+-keep class com.tencent.mm.opensdk.** {
+   *;
+}
+-keep class com.tencent.wxop.** {
+   *;
+}
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
 
 # jpush-sdk-release
 -dontwarn cn.jpush.**

@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.data.bean.WXpayBean;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 /**
  * Created by admin on 2016/3/24.
