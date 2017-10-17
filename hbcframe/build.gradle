@@ -40,5 +40,5 @@ dependencies {
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.android.support:multidex:1+'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.7.13'
+    compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.8.8'
 }
