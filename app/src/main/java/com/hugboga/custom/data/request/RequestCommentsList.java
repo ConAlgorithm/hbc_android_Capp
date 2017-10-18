@@ -1,7 +1,6 @@
 package com.hugboga.custom.data.request;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;

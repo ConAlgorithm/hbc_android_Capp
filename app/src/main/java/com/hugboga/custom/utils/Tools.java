@@ -20,8 +20,6 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.widget.GlideCircleTransform;
 import com.hugboga.custom.widget.GlideRoundTransform;
 
-import org.xutils.common.util.*;
-
 import java.io.File;
 
 import jp.wasabeef.blurry.Blurry;

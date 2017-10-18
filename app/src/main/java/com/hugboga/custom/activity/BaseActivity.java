@@ -28,7 +28,6 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.widget.DialogUtil;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;

@@ -141,7 +141,6 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/week_layout_top_line"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginLeft="15dp"

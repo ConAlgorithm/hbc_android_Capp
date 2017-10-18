@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 
-import com.huangbaoche.hbcframe.activity.BaseFragmentActivity;
 import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -14,6 +13,7 @@ import com.huangbaoche.hbcframe.data.net.ServerCodeHandlerInterface;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.MainActivity;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
@@ -27,7 +27,6 @@ import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import java.io.File;
 import java.lang.reflect.Field;

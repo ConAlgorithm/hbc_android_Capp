@@ -15,7 +15,6 @@ import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestOrderCancel;
 import com.hugboga.custom.utils.AlertDialogUtils;
-import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.CsDialog;
 import com.hugboga.custom.widget.DialogUtil;

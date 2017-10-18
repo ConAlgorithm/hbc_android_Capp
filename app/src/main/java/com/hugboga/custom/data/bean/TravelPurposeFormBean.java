@@ -1,12 +1,8 @@
 package com.hugboga.custom.data.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.huangbaoche.hbcframe.data.parser.ImplParser;
-
-import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

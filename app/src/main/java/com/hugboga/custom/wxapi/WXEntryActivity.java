@@ -8,7 +8,6 @@ import com.huangbaoche.hbcframe.util.MLog;
 import com.huangbaoche.hbcframe.util.WXShareUtils;
 import com.hugboga.custom.BuildConfig;
 import com.hugboga.custom.activity.LoginActivity;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.utils.CommonUtils;

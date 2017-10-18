@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.HomeFilterGuideAdapter;
 import com.hugboga.custom.adapter.HomeHotDestinationAdapter;
 import com.hugboga.custom.data.bean.HomeHotDestination;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;

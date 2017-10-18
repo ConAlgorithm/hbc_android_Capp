@@ -19,13 +19,13 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CheckVersionBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestCheckVersion;
-import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.PushUtils;
 import com.hugboga.custom.utils.SharedPre;
@@ -35,8 +35,6 @@ import com.zhy.m.permission.MPermissions;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 /**
  * Created on 16/8/6.

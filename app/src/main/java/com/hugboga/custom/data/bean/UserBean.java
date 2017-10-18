@@ -3,8 +3,6 @@ package com.hugboga.custom.data.bean;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.huangbaoche.hbcframe.data.bean.UserSession;
-
 /**
  * 用户信息bean
  * Created by ZHZEPHI on 2015/7/22.

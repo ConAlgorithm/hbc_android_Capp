@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.R;
-import com.hugboga.custom.widget.home.HomeSearchTabView;
 
 /**
  * Created by qingcha on 16/5/27.

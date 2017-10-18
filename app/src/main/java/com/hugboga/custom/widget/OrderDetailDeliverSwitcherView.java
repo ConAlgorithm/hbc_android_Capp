@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.Tools;
 
 /**
  * Created by qingcha on 16/9/8.

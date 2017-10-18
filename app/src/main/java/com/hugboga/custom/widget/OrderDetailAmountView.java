@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderPriceInfo;
-import com.hugboga.custom.utils.Common;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 

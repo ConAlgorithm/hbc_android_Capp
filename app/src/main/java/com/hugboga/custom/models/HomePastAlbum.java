@@ -9,11 +9,9 @@ import android.widget.LinearLayout;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.EvaluateNewActivity;
 import com.hugboga.custom.adapter.HomePastAlbumAdapter;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.widget.SpaceItemDecoration;
-import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.ArrayList;
 

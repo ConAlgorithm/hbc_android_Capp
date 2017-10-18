@@ -57,13 +57,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.AgePicker;
-import cn.qqtheme.framework.picker.SinglePicker;
 
 /**
  * Created by on 16/8/6.

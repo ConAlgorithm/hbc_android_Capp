@@ -344,7 +344,6 @@
         android:layout_marginLeft="@dimen/sku_order_padding_left">
 
         <TextView
-            android:id="@+id/sku_order_traveler_info_contacts_hint_tv"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"
@@ -386,7 +385,6 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/sku_order_traveler_info_sendmessage_hint_tv"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sku_order_min_item_hight"
             android:gravity="center_vertical"

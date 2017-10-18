@@ -6,10 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.data.bean.AirPort;
-import com.hugboga.custom.data.bean.GuideCarBean;
-import com.hugboga.custom.data.bean.SearchHotBean;
-import com.hugboga.custom.data.bean.SearchLineBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 

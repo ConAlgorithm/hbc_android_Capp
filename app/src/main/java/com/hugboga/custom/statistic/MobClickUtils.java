@@ -1,7 +1,5 @@
 package com.hugboga.custom.statistic;
 
-import android.content.Context;
-
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.statistic.event.EventBase;
 import com.umeng.analytics.MobclickAgent;

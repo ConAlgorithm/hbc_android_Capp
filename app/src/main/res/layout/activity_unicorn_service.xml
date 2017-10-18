@@ -5,9 +5,7 @@
     android:background="#f5f5f5"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/unicorn_service_titlebar"
-        layout="@layout/include_header" />
+    <include layout="@layout/include_header" />
 
     <FrameLayout
         android:id="@+id/unicorn_service_order_state_layout"

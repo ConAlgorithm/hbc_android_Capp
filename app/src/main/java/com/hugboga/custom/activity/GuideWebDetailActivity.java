@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.constants.Constants;

@@ -6,19 +6,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.utils.AnimationUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -26,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-
-import static android.view.View.GONE;
 
 public class SplashActivity extends BaseActivity {
 

@@ -1,6 +1,5 @@
 package com.hugboga.custom.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,12 +27,10 @@ import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestCheckGuide;
 import com.hugboga.custom.data.request.RequestCheckPrice;
 import com.hugboga.custom.data.request.RequestCheckPriceForSingle;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 import com.hugboga.custom.data.request.RequestNewCars;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
-import com.hugboga.custom.utils.AlertDialogUtils;
 import com.hugboga.custom.utils.ApiReportHelper;
 import com.hugboga.custom.utils.CarUtils;
 import com.hugboga.custom.utils.CommonUtils;
@@ -44,7 +41,6 @@ import com.hugboga.custom.utils.GuideCalendarUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.ConponsTipView;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.OrderBottomView;
 import com.hugboga.custom.widget.OrderGuideLayout;
 import com.hugboga.custom.widget.OrderInfoItemView;

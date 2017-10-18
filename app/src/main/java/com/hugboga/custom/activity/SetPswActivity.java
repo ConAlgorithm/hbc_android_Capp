@@ -24,7 +24,6 @@ import com.hugboga.custom.data.request.PasswordInitSet;
 import com.hugboga.custom.data.request.RequestAfterSetPwd;
 import com.hugboga.custom.data.request.RequestSetPwd;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 

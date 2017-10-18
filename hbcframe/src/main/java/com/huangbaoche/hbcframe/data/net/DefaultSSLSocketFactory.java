@@ -6,6 +6,7 @@ import android.net.SSLCertificateSocketFactory;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.Common;
 import com.huangbaoche.hbcframe.util.MLog;
+import com.leon.channel.helper.ChannelReaderUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,6 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
 
     private static String keystorepw = "";//32
     private static String keypw = "";//6
-
     public static void resetSSLSocketFactory(Context context) {
         try {
             try {
@@ -121,4 +121,5 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
     public SSLContext getSslContext(){
         return sslContext;
     }
+
 }

@@ -37,7 +37,6 @@ import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.sensorsdata.analytics.android.sdk.exceptions.InvalidDataException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,12 +44,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static com.hugboga.custom.R.id.view;
 
 /**
  * Created by zhangqiang on 17/5/17.

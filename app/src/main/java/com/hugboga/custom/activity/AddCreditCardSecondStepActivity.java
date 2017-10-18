@@ -37,8 +37,6 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CircleImageView;
 import com.hugboga.custom.yilianapi.YiLianPay;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -26,7 +26,6 @@ import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.FilterGuideBean;
 import com.hugboga.custom.data.bean.UserEntity;

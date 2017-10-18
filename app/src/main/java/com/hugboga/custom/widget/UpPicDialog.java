@@ -8,13 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.PersonInfoActivity;
-import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.statistic.click.StatisticClickEvent;
-import com.hugboga.custom.utils.PhoneInfo;
-import com.hugboga.custom.utils.UnicornUtils;
 
 /**
  * Created by zhangqiang on 17/8/31.

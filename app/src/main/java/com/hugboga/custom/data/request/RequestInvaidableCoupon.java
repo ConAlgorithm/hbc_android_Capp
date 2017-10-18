@@ -16,7 +16,6 @@ import org.xutils.http.annotation.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by zhangqiang on 17/6/24.

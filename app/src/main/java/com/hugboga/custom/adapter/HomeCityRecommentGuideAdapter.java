@@ -2,33 +2,27 @@ package com.hugboga.custom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.FilterGuideListActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.data.bean.HomeCityItemVo;
 import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.HbcViewBehavior;
 import com.hugboga.custom.widget.HomeRecommentGuideItemView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.ArrayList;
-import java.util.concurrent.BrokenBarrierException;
 
 /**
  * Created by zhangqiang on 17/9/15.

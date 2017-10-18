@@ -15,7 +15,6 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/order_cancel_type_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -35,7 +34,6 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/order_cancel_no_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -55,7 +53,6 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/order_cancel_apply_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -75,7 +72,6 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/order_cancel_back_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -100,7 +96,6 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/order_cancel_cancel_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

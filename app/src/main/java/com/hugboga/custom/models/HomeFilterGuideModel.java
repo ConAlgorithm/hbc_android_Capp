@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.FilterGuideBean;
-import com.hugboga.custom.widget.ChoicenessGuideView;
 import com.hugboga.custom.widget.HomeFilterGuideView;
 
 import java.util.List;

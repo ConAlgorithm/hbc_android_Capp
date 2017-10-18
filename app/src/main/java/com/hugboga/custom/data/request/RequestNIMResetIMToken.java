@@ -7,7 +7,6 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParseNIMToken;
-import com.hugboga.custom.data.parser.ParserImToken;
 
 import org.xutils.http.annotation.HttpRequest;
 

@@ -47,7 +47,6 @@
                 android:background="@mipmap/home_button_trip">
 
                 <TextView
-                    android:id="@+id/home_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -67,7 +66,6 @@
                 android:background="@mipmap/home_button_reserve">
 
                 <TextView
-                    android:id="@+id/fast_yuding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
@@ -130,7 +128,6 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/home_chater_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/home_chater_title"
@@ -231,13 +228,11 @@
             android:background="@color/allbg_white">
 
             <LinearLayout
-                android:id="@+id/home_other_service_title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="159dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/home_other_service_title"
                     android:layout_width="match_parent"
                     android:layout_height="64dp">
 

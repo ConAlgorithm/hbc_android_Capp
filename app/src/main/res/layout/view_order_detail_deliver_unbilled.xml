@@ -2,7 +2,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
-        android:id="@+id/eliver_item_loading_view"
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:layout_marginTop="5dp"

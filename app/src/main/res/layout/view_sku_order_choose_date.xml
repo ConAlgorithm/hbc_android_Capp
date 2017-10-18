@@ -7,7 +7,6 @@
     android:paddingRight="@dimen/sku_order_padding_left">
 
     <TextView
-        android:id="@+id/sku_order_choose_date_title_tv"
         style="@style/SkuOrderSubtitleTextView"
         android:text="出发日期" />
 

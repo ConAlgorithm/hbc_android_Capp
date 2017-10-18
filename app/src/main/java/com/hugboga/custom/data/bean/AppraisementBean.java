@@ -1,10 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.SearchLineBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
@@ -15,8 +14,6 @@ import org.json.JSONObject;
 import org.xutils.http.annotation.HttpRequest;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by zhangqiang on 17/8/24.

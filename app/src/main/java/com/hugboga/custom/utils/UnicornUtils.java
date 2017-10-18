@@ -13,12 +13,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.huangbaoche.hbcframe.HbcConfig;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.activity.BaseActivity;
 import com.hugboga.custom.activity.ServiceQuestionActivity;

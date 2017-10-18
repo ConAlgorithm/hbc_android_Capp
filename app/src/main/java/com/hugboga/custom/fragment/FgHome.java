@@ -33,7 +33,6 @@ import com.hugboga.custom.models.HomeNetworkErrorModel;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.statistic.sensors.SensorsConstant;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
@@ -41,7 +40,6 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
-import org.xutils.common.Callback;
 
 import butterknife.Bind;
 import butterknife.OnClick;

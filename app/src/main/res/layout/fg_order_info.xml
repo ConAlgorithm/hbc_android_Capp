@@ -102,7 +102,6 @@
                     android:textColor="@color/basic_black"
                     android:textSize="15sp" />
                 <ImageView
-                    android:id="@+id/order_style_img"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/mans_money_show_info"

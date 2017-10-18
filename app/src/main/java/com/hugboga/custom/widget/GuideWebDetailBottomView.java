@@ -14,12 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.CharterFirstStepActivity;
 import com.hugboga.custom.activity.GuideWebDetailActivity;
 import com.hugboga.custom.activity.NIMChatActivity;
 import com.hugboga.custom.data.bean.GuideExtinfoBean;
 import com.hugboga.custom.data.bean.UserEntity;
-import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
 import com.hugboga.custom.utils.AlertDialogUtils;

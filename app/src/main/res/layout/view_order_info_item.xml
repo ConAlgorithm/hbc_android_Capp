@@ -57,7 +57,6 @@
         android:layout_alignTop="@+id/order_info_desc_layout">
 
         <ImageView
-            android:id="@+id/order_info_arrow_iv"
             android:layout_width="7dp"
             android:layout_height="12dp"
             android:layout_gravity="center_vertical"

@@ -35,7 +35,6 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DBHelper;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.widget.CsDialog;
-import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.custom.widget.SideBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +49,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import butterknife.OnEditorAction;
 
 /**
  * Created on 16/8/5.

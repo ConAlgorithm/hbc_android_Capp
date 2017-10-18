@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -22,7 +21,6 @@ import com.hugboga.custom.adapter.HomeRecommendedRoutAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.statistic.MobClickUtils;
-import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.tmall.ultraviewpager.UltraViewPager;
 

@@ -1,6 +1,5 @@
 package com.hugboga.custom.utils;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -17,8 +16,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

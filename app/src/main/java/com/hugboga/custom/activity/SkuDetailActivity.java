@@ -73,7 +73,6 @@ import org.xutils.ex.DbException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;

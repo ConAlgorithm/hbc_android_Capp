@@ -3,16 +3,13 @@ package com.hugboga.custom.data.request;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.EvaluateData;
-import com.hugboga.custom.data.bean.EvaluateTagBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
 
-import org.json.JSONObject;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 

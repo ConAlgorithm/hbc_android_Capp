@@ -1,9 +1,7 @@
 package com.hugboga.custom.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.SpannableString;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,13 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CollectLineBean;
-import com.hugboga.custom.data.bean.SearchLineBean;
-import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.Tools;
 
 import butterknife.Bind;

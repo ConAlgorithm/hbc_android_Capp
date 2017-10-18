@@ -3,11 +3,9 @@ package com.hugboga.custom.action.vcid;
 import android.content.Context;
 import android.content.Intent;
 
-import com.huangbaoche.imageselector.common.Constant;
 import com.hugboga.custom.MainActivity;
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.data.ActionBean;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
 /**

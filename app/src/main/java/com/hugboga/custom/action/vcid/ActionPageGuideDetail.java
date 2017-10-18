@@ -2,7 +2,6 @@ package com.hugboga.custom.action.vcid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.hugboga.custom.action.ActionPageBase;

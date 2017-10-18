@@ -1,7 +1,6 @@
 package com.hugboga.custom.statistic.event;
 
 import com.hugboga.custom.statistic.StatisticConstant;
-import com.hugboga.custom.utils.CommonUtils;
 
 import java.util.HashMap;
 

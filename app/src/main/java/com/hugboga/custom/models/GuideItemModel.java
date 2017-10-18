@@ -3,9 +3,7 @@ package com.hugboga.custom.models;
 import android.app.Activity;
 import android.content.Context;
 
-import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModel;
-import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.SearchGuideBean;
 import com.hugboga.custom.widget.GuideSearchListItem;

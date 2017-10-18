@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.BuildConfig;
+import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;

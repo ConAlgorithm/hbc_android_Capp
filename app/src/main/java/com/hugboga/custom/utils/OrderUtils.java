@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
-import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
@@ -37,7 +36,6 @@ import com.hugboga.custom.data.bean.OrderPriceInfo;
 import com.hugboga.custom.data.bean.PoiBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.request.RequestGuideConflict;
 
 import java.util.ArrayList;
 import java.util.Calendar;

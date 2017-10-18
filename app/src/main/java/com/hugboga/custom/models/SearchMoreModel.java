@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.orhanobut.logger.Logger.init;
 
 /**
  * Created by zhangqiang on 17/8/23.

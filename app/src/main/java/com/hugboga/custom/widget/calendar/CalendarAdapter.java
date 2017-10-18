@@ -1,7 +1,6 @@
 package com.hugboga.custom.widget.calendar;
 
 import android.content.Context;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.adapter.ZBaseAdapter;

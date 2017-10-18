@@ -18,7 +18,6 @@ import com.hugboga.custom.action.ActionController;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.HomeAggregationVo4;
 import com.hugboga.custom.utils.Tools;
-import com.hugboga.custom.utils.UIUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.viewpagerindicator.CirclePageIndicator;
 

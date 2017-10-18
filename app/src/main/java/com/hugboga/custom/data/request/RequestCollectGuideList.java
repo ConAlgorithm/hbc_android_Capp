@@ -4,19 +4,15 @@ import android.content.Context;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.constants.Constants;
-import com.hugboga.custom.data.bean.CollectGuideBean;
 import com.hugboga.custom.data.bean.CollectGuideNewBean;
-import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.HbcParser;
-import com.hugboga.custom.data.parser.ParserCollectGuideList;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

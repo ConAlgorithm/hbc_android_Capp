@@ -6,14 +6,12 @@ import com.google.gson.Gson;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.data.bean.LineGroupAggregationVo;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 
 import org.json.JSONObject;
 import org.xutils.http.annotation.HttpRequest;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 

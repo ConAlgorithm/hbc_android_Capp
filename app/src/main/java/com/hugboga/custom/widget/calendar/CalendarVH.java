@@ -1,8 +1,6 @@
 package com.hugboga.custom.widget.calendar;
 
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 

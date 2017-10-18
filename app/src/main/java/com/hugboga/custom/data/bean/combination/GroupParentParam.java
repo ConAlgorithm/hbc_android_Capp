@@ -2,7 +2,6 @@ package com.hugboga.custom.data.bean.combination;
 
 import com.hugboga.custom.data.bean.ContactUserBean;
 import com.hugboga.custom.data.bean.OrderBean;
-import com.hugboga.custom.data.bean.OrderContactBean;
 
 import java.io.Serializable;
 import java.util.ArrayList;

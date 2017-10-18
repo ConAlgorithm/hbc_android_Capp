@@ -9,9 +9,6 @@ import com.hugboga.custom.action.constants.ActionType;
 import com.hugboga.custom.action.data.ActionBean;
 import com.hugboga.custom.action.data.ActionSkuDetailBean;
 import com.hugboga.custom.utils.CommonUtils;
-import com.hugboga.custom.utils.JsonUtils;
-
-import java.lang.reflect.Constructor;
 
 /**
  * Created by qingcha on 16/7/27.

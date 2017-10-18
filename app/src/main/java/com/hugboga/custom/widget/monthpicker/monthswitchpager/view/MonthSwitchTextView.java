@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hugboga.custom.data.bean.CalendarGoodsBean;
 import com.hugboga.custom.widget.monthpicker.model.CalendarDay;
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
 import com.hugboga.custom.widget.monthpicker.util.DayUtils;
@@ -18,7 +17,6 @@ import com.hugboga.custom.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**

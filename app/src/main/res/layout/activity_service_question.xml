@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#f5f5f5">
-    <include
-        android:id="@+id/service_question_titlebar"
-        layout="@layout/include_header" />
+    <include layout="@layout/include_header" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/service_question_rv"

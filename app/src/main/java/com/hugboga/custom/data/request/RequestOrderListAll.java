@@ -3,7 +3,6 @@ package com.hugboga.custom.data.request;
 import android.content.Context;
 
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
-import com.hugboga.custom.data.bean.TravelListAllBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserTravel;

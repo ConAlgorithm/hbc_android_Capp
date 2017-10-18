@@ -19,7 +19,6 @@ import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by SPW on 2017/3/9.

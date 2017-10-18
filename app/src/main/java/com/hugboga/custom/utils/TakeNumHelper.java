@@ -2,7 +2,6 @@ package com.hugboga.custom.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
@@ -10,7 +9,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
 import com.huangbaoche.hbcframe.data.net.HttpRequestOption;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
-import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.OssTokenBean;
 import com.hugboga.custom.data.bean.OssTokenKeyBean;
 import com.hugboga.custom.data.request.OssTokenRequest;

@@ -1,7 +1,6 @@
 package com.hugboga.custom.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

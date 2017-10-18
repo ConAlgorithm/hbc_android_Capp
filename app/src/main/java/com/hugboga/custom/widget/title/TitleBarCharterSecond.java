@@ -1,17 +1,14 @@
 package com.hugboga.custom.widget.title;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by qingcha on 17/3/7.

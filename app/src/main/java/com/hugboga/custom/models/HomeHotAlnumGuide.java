@@ -6,7 +6,6 @@ import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.HomeAlbumInfoVo;
 import com.hugboga.custom.widget.HomeAlbumGuideView;
-import com.hugboga.custom.widget.HomeAlbumView;
 
 /**
  * Created by zhangqiang on 17/9/15.

@@ -16,7 +16,6 @@
         android:textSize="12sp" />
 
     <RelativeLayout
-        android:id="@+id/sku_order_bottom_price_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/order_bottom_height"
         android:background="#ffffff">

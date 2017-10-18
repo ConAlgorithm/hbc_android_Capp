@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.ChooseDateBean;
-import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.data.bean.CityRouteBean;
 import com.hugboga.custom.utils.CharterDataUtils;
 import com.hugboga.custom.utils.DateUtils;

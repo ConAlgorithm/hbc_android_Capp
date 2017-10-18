@@ -5,7 +5,6 @@ import com.huangbaoche.hbcframe.data.parser.ImplParser;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

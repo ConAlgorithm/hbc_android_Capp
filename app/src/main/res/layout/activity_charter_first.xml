@@ -25,7 +25,6 @@
             android:gravity="center" />
 
         <RelativeLayout
-            android:id="@+id/charter_first_bottom_next_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/order_bottom_height"
             android:background="#ffffff">

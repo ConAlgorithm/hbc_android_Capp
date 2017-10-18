@@ -144,7 +144,6 @@
     </RelativeLayout>
 
     <View
-        android:id="@+id/choiceness_guide_line_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_line_height"
         android:layout_marginTop="15dp"

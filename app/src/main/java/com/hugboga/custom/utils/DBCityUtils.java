@@ -3,7 +3,6 @@ package com.hugboga.custom.utils;
 import android.text.TextUtils;
 
 import com.hugboga.custom.MyApplication;
-import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.CityBean;
 
 import org.xutils.DbManager;

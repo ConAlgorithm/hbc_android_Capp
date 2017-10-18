@@ -5,8 +5,6 @@ import android.os.Bundle;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.BaseActivity;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by qingcha on 16/8/15.
  */

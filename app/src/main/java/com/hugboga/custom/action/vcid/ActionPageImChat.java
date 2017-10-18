@@ -2,7 +2,6 @@ package com.hugboga.custom.action.vcid;
 
 import android.content.Context;
 
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.action.ActionPageBase;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.data.ActionBean;
@@ -12,7 +11,6 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.hugboga.custom.utils.UnicornUtils;
-import com.hugboga.im.ImHelper;
 
 /**
  * Created by qingcha on 17/2/9.

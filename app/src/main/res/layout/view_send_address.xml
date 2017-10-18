@@ -92,7 +92,6 @@
         android:paddingTop="12dp">
 
         <View
-            android:id="@+id/send_middle_line_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_line_height"
             android:layout_marginLeft="22dp"

@@ -1,7 +1,5 @@
 package com.hugboga.custom.data.bean;
 
-import com.hugboga.custom.fragment.SkuScopeFilterFragment;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,6 @@ package com.hugboga.custom.data.net;
 import com.huangbaoche.hbcframe.data.net.HbcParamsBuilder;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.utils.ChannelUtils;
 import com.hugboga.custom.utils.PhoneInfo;
 

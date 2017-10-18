@@ -21,7 +21,6 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
-import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.SkuItemBean;

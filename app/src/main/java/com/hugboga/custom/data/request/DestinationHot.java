@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import com.huangbaoche.hbcframe.data.parser.ImplParser;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.data.bean.HomeBeanV2;
-import com.hugboga.custom.data.bean.HomeHotCityVo;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 

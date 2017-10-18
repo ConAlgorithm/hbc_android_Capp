@@ -111,7 +111,12 @@ public class LoadingActivity extends BaseActivity implements HttpRequestListener
             //启动APP
             final int appLaunchCount = SharedPre.getInteger(SharedPre.APP_LAUNCH_COUNT, 0);
             JSONObject properties = new JSONObject();
-            properties.put("hbc_channelId", BuildConfig.FLAVOR);
+            if(MyApplication.getChannelNum() != null){
+                properties.put("hbc_channelId", MyApplication.getChannelNum());
+            }else {
+                properties.put("hbc_channelId", BuildConfig.FLAVOR);
+            }
+
             properties.put("hbc_is_first_time", appLaunchCount <= 1 ? true : false);
             properties.put("is_login_id", UserEntity.getUser().isLogin(this));
             properties.put("is_open_push", NotificationCheckUtils.notificationIsOpen(this));

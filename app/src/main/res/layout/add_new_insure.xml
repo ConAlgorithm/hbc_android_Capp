@@ -7,9 +7,7 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/include_header" />
+    <include layout="@layout/include_header" />
 
     <RelativeLayout
         android:layout_width="match_parent"

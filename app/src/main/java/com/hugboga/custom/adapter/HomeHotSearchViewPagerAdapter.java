@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CityListActivity;
 import com.hugboga.custom.activity.SkuDetailActivity;
-import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.data.bean.SkuItemBean;

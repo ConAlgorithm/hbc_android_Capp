@@ -32,8 +32,6 @@
     <!-- Servicer center color -->
     <color name="servicer_center_bg">#FFFFFF</color>
     <color name="servicer_center_content_bg">#f9f9f9</color>
-    <color name="servicer_center_content_color">#222527</color>
-    <color name="servicer_center_content_line">#d7d7d9</color>
 
     <!-- My color -->
 
@@ -97,9 +95,7 @@
     <color name="default_highlight_green">#09D3AF</color>
 
 
-    <color name="default_yellow_n">#FFCE00</color>
     <color name="default_btn_yellow_n">#FF9600</color>
-    <color name="default_btn_pressed_yellow_n">#F08D00</color>
 
     <color name="transparent">#00000000</color>
 
@@ -136,5 +132,4 @@
     <color name="color_151515">#151515</color>
     <color name="color_7f7f7f">#7f7f7f</color>
     <color name="color_ee4000">#ee4000</color>
-    <color name="color_f8f8f8">#f8f8f8</color>
 </resources>

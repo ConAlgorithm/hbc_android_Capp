@@ -5,7 +5,6 @@ import android.view.View;
 import com.airbnb.epoxy.EpoxyModel;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CityRouteBean;
-import com.hugboga.custom.widget.charter.CharterPickupView;
 import com.hugboga.custom.widget.charter.CharterSendAirportView;
 
 /**

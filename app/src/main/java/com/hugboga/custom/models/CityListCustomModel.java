@@ -6,8 +6,6 @@ import com.hugboga.custom.data.bean.CityListBean;
 import com.hugboga.custom.data.bean.CountryGroupBean;
 import com.hugboga.custom.widget.CityListCustomView;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by qingcha on 17/4/14.
  */

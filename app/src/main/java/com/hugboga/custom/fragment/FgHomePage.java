@@ -46,11 +46,9 @@ import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.utils.WrapContentLinearLayoutManager;
 import com.hugboga.custom.widget.home.HomeSearchTabView;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONObject;
 import org.xutils.common.Callback;
 
 import java.util.ArrayList;
