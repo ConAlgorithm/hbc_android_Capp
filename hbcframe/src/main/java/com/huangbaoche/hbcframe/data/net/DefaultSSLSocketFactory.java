@@ -6,7 +6,6 @@ import android.net.SSLCertificateSocketFactory;
 import com.huangbaoche.hbcframe.HbcConfig;
 import com.huangbaoche.hbcframe.util.Common;
 import com.huangbaoche.hbcframe.util.MLog;
-import com.leon.channel.helper.ChannelReaderUtil;
 
 import java.io.IOException;
 import java.io.InputStream;

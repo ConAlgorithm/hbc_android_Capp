@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget.charter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +23,12 @@ import com.hugboga.custom.data.bean.CityBean;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.utils.CharterDataUtils;
+import com.hugboga.custom.utils.SharedPre;
+import com.hugboga.custom.utils.UIUtils;
+import com.hugboga.custom.widget.guideview.Component;
+import com.hugboga.custom.widget.guideview.Guide;
+import com.hugboga.custom.widget.guideview.GuideBuilder;
+import com.hugboga.custom.widget.guideview.MutiComponent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -99,6 +107,7 @@ public class CharterSubtitleView extends LinearLayout{
                 rightTV.setText("请添加航班号");
                 rightTV.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
                 pickupArrowIV.setVisibility(View.GONE);
+                showGuide(true);
             }
         } else if( charterDataUtils.isLastDay()) {
             amendTV.setVisibility(View.VISIBLE);
@@ -116,6 +125,7 @@ public class CharterSubtitleView extends LinearLayout{
                 rightTV.setText("请选择送机机场");
                 rightTV.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
                 pickupArrowIV.setVisibility(View.GONE);
+                showGuide(false);
             }
         } else {
             amendTV.setVisibility(View.VISIBLE);
@@ -133,7 +143,6 @@ public class CharterSubtitleView extends LinearLayout{
                 intent.putExtra("flightBean",bundle);
             }
             getContext().startActivity(intent);
-            //intentActivity(ChooseAirActivity.class);
             MobClickUtils.onEvent(StatisticConstant.R_ADDJ);
         } else if (charterDataUtils.currentDay > 1 && charterDataUtils.isLastDay() && (charterDataUtils.isSelectedSend || charterDataUtils.airPortBean == null)) {//包车最后一天，添写送达机场
             Intent intent = new Intent(context, ChooseAirPortActivity.class);
@@ -206,5 +215,54 @@ public class CharterSubtitleView extends LinearLayout{
 
     public void setOnPickUpOrSendSelectedListener(OnPickUpOrSendSelectedListener listener) {
         this.listener = listener;
+    }
+
+    public static final String PICKUP_GUIDE_VISITED = "pickup_guide_visited";
+    public static final String SEND_GUIDE_VISITED = "send_guide_visited";
+    private Guide guide;
+    boolean isdd = false;
+
+    public void showGuide(final boolean isPickup) {
+        final boolean isVisited = SharedPre.getBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED: CharterSubtitleView.SEND_GUIDE_VISITED, false);
+        if (isVisited) {
+            return;
+        }
+        isdd = false;
+        ViewTreeObserver vto = pickupLayout.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            public boolean onPreDraw() {
+                if (!isdd) {
+                    initGuideView(isPickup);
+                    isdd = true;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void initGuideView(final boolean isPickup) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(pickupLayout)
+                .setAlpha(150)
+                .setHighTargetGraphStyle(Component.ROUNDRECT)
+                .setHighTargetPadding(UIUtils.dip2px(1))
+                .setHighTargetCorner(UIUtils.dip2px(3))
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+                SharedPre.setBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED : CharterSubtitleView.SEND_GUIDE_VISITED, true);
+            }
+
+            @Override
+            public void onDismiss() {
+                SharedPre.setBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED : CharterSubtitleView.SEND_GUIDE_VISITED, true);
+            }
+        });
+        builder.addComponent(new MutiComponent(isPickup));
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show((Activity) getContext());
     }
 }
