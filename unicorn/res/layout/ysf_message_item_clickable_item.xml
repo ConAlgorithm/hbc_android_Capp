@@ -7,7 +7,7 @@
         android:id="@+id/ysf_clickable_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ysf_message_inner_item_selector"
+        android:background="@drawable/ysf_list_selector"
         android:drawableLeft="@drawable/ysf_message_item_clickable_item_indicator"
         android:drawablePadding="7dp"
         android:paddingBottom="10dp"

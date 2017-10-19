@@ -35,7 +35,7 @@
     </style>
 
     <style name="ysf_dialog_window_animation_style" parent="@android:style/Animation.Dialog">
-        <item name="@android:windowEnterAnimation">@anim/ysf_dialog_enter_animation</item>
-        <item name="@android:windowExitAnimation">@anim/ysf_dialog_exit_animation</item>
+        <item name="android:windowEnterAnimation">@anim/ysf_dialog_enter_animation</item>
+        <item name="android:windowExitAnimation">@anim/ysf_dialog_exit_animation</item>
     </style>
 </resources>

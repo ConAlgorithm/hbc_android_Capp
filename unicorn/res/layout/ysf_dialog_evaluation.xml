@@ -63,7 +63,7 @@
             android:textSize="@dimen/ysf_text_size_13" />
 
         <Button
-            android:id="@+id/ysf_btn_submit"
+            android:id="@+id/ysf_btn_commit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"

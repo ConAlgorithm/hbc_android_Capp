@@ -26,11 +26,11 @@
             android:layout_height="0dip"
             android:layout_weight="1">
 
-            <com.qiyukf.nim.uikit.session.helper.MsgBkImageView
+            <com.qiyukf.nim.uikit.session.helper.MsgBgImageView
                 android:id="@+id/message_activity_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/ysf_grey_f8f8f8" />
+                android:background="@color/ysf_window_background" />
 
             <com.qiyukf.nim.uikit.common.ui.listview.MessageListView
                 android:id="@+id/messageListView"

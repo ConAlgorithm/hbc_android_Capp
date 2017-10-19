@@ -13,7 +13,7 @@
 
     ```
     // 最新版本可参考 Download 徽章后对应的数值
-    compile 'com.qiyukf.unicorn:unicorn:3.9.0'
+    compile 'com.qiyukf.unicorn:unicorn:3.10.0'
     ```
 
  - Eclipse: 先下载 SDK，然后解压缩，将得到的 unicorn 文件夹作为库工程模块导入到你的工程中，并添加模块依赖。然后将 assets 文件夹的内容拷贝你的主工程的 assets 目录中，将 AndroidManifest 文件中的内容拷贝到你的主工程的 manifest 文件中，并将 manifest 中的 `${applicationId}` 替换为你的包名。
@@ -76,7 +76,7 @@ sdk
     └── ***
 ```
 
-上面文件中，qiyu-sdk-2.0.0.jar 是网易七鱼的 SDK 包，res 和 assets 为 SDK 所依赖的资源文件。
+上面文件中，qiyu-sdk-x.y.z.jar 是网易七鱼的 SDK 包，res 和 assets 为 SDK 所依赖的资源文件。
 
 android-support-v4.jar 为工程依赖的外部库，所需最低版本为23.0.0（Android 6.0权限管理适配）。如果你的 APP 也依赖了这个 jar 包，可以将你的工程中的依赖移除，或者将这个库移动到一个更基础的库工程中做依赖。如果是使用 Android Studio 接入，SDK 工程的 build.gradle 文件已经添加了依赖，无需理会这个文件。
 
@@ -151,11 +151,12 @@ if (intent.hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)) {
 // 添加未读数变化监听，add 为 true 是添加，为 false 是撤销监听。
 // 退出界面时，必须撤销，以免造成资源泄露
 private UnreadCountChangeListener listener = new UnreadCountChangeListener() { // 声明一个成员变量
-        @Override
-        public void onUnreadCountChange(int count) {
-            // 在此更新界面, count 为当前未读数，
-            // 也可以用 Unicorn.getUnreadCount() 获取总的未读数
-        }
+    @Override
+    public void onUnreadCountChange(int count) {
+        // 在此更新界面, count 为当前未读数，
+        // 也可以用 Unicorn.getUnreadCount() 获取总的未读数
+    }
+}
 
 private void addUnreadCountChangeListener(boolean add) {
     Unicorn.addUnreadCountChangeListener(listener, add);
@@ -331,8 +332,11 @@ try {
 
 ```
 YSFUserInfo userInfo = new YSFUserInfo();
+// APP 的用户 ID
 userInfo.userId = "uid";
+// 当且仅当开发者在管理后台开启了 authToken 校验功能时，该字段才有效
 userInfo.authToken = "auth-token-from-user-server";
+// CRM 扩展字段
 userInfo.data="[
     {"key":"real_name", "value":"土豪"},
     {"key":"mobile_phone", "hidden":true},
@@ -401,7 +405,7 @@ Unicorn.setUserInfo(userInfo);
 
 ### 控制会话过程
 
-从 3.5.5 版本开始，SDK 增加了开发者对于会话过程控制的力度，允许用户主动结束会话和主动退出排队。同时，当访客离开会话界面后，增加了一个回调接口通知给上层开发者。如果开发者直接使用了 SDK 提供的 ServiceMessageActivity，在界面销毁后会收到回调。如果使用的 fragment 的集成方式，则会在用户退出排队等需要销毁界面的时候收到回调。
+从 3.5.5 版本开始，SDK 增加了开发者对于会话过程控制的力度，允许用户主动结束会话和主动退出排队。
 
 控制会话过程的设置类是 `SessionLifeCycleOptions`，可以在开始会话前设置给 `ConsultSource` 的 `sessionLifeCycleOptions` 字段。示例代码如下：
 
@@ -410,10 +414,12 @@ ConsultSource source = new ConsultSource(null, "自定义入口", null);
 SessionLifeCycleOptions lifeCycleOptions = new SessionLifeCycleOptions();
 lifeCycleOptions.setCanCloseSession(boolean)
         .setCanQuitQueue(boolean)
-		.setQuitQueuePrompt(String);
+        .setQuitQueuePrompt(String);
 source.sessionLifeCycleOptions = lifeCycleOptions;
 Unicorn.openServiceActivity(context, title, source);
 ```
+
+如果使用 fragment 集成，则还需要对`SessionLifeCycleOptions`的`sessionLifeCycleListener`字段赋值，配置`会话界面退出监听器`，详见`SessionLifeCycleListener`。
 
 
 ## 图片加载
@@ -657,12 +663,15 @@ compile 'com.squareup.picasso:picasso:2.5.2'
 
 ```java
 public class PicassoImageLoader implements UnicornImageLoader {
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
     private Context context;
-    private Handler handler;
+    private ExecutorService threadPool;
+    private Handler uiHandler;
 
     public PicassoImageLoader(Context context) {
         this.context = context.getApplicationContext();
-        handler = new Handler(context.getMainLooper());
+        uiHandler = new Handler(Looper.getMainLooper());
+        threadPool = Executors.newFixedThreadPool(CPU_COUNT + 1);
     }
 
     @Nullable
@@ -673,7 +682,7 @@ public class PicassoImageLoader implements UnicornImageLoader {
 
     @Override
     public void loadImage(final String uri, final int width, final int height, final ImageLoaderListener listener) {
-        handler.post(new Runnable() {
+        threadPool.execute(new Runnable() {
             @Override
             public void run() {
                 RequestCreator requestCreator = Picasso
@@ -681,46 +690,38 @@ public class PicassoImageLoader implements UnicornImageLoader {
                         .load(uri)
                         .config(Bitmap.Config.RGB_565);
                 if (width > 0 && height > 0) {
-                    requestCreator = requestCreator.resize(width, height);
+                    requestCreator = requestCreator
+                            .resize(width, height)
+                            .centerCrop();
                 }
-                requestCreator.into(new Target() {
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                    }
 
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if (listener != null) {
-                            new AsyncTask<Bitmap, Void, Bitmap>() {
-                                @Override
-                                protected Bitmap doInBackground(Bitmap... params) {
-                                    Bitmap bitmap = params[0];
-                                    Bitmap result = null;
-                                    if (bitmap != null && !bitmap.isRecycled()) {
-                                        result = bitmap.copy(Bitmap.Config.RGB_565, false);
-                                    }
-                                    return result;
-                                }
+                Bitmap bitmap = null;
+                try {
+                    bitmap = requestCreator.get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                                @Override
-                                protected void onPostExecute(Bitmap bitmap) {
-                                    if (bitmap != null) {
-                                        listener.onLoadComplete(bitmap);
-                                    } else {
-                                        listener.onLoadFailed(null);
-                                    }
-                                }
-                            }.execute(bitmap);
+                if (listener == null) {
+                    return;
+                }
+
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    final Bitmap finalBitmap = bitmap;
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onLoadComplete(finalBitmap);
                         }
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        if (listener != null) {
+                    });
+                } else {
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
                             listener.onLoadFailed(null);
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
@@ -966,10 +967,26 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 
 ## 变更记录
 
+### V3.10.0(2017-09-07)
+
+**新增**
+1. 增加会话超时提醒
+2. 一触即达增加卡片模板
+
+**修改**
+1. 修复用户评价时可能会FC的问题
+2. 修复平台商户的名字包含`'`时会FC的问题
+3. 修复使用 Android Studio 3.0 测试版本时编译失败的问题
+
+### V3.9.5(2017-08-15)
+
+**新增**
+1. 增加对客服主动邀请评价的支持
+2. 增加对自定义文案的支持
+
 ### V3.9.0(2017-07-20)
 
 **新增**
-
 1. 增加对留言功能可关闭的支持。
 2. 一触即达增加自动生成工单和图文混排等模板。
 3. UI自定义中增加标题文字居中选项。
@@ -977,7 +994,6 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 ### V3.7.1(2017-06-22)
 
 **修改**
-
 1. 修复在 OPPO 手机上后台自启动时因为 startService 抛出异常导致初始化失败的问题。
 2. 修复在小米手机上因为 AlarmManager.set 接口抛出安全异常导致崩溃的问题。
 3. 修正 APP 使用 360 加固后初始化时调用 getAnnotation 接口可能会失败，进而导致崩溃的问题。
@@ -987,30 +1003,25 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 ### V3.7.0(2017-05-24)
 
 **新增**
-
 1. 增加对富媒体消息的支持。
 2. 增加对机器人回答评价功能。
 
 ### V3.6.1(2017-05-10)
 
 **修改**
-
 1. 修复在系统版本低于 7.0 的手机上可能无法正常拍照的问题。
 
 ### V3.6.0(2017-04-27)
 
 **修改**
-
 1. 修复部分手机写 log 可能造成崩溃的问题。
 
 ### V3.5.5(2017-04-10)
 
 **新增**
-
 1. 增加访客端主动退出会话和退出排队的设置。
 
 **修改**
-
 1. 打开会话时无需传入 authToken 字段。
 2. 汇报用户信息增加回调接口，用于确认设置是否成功。
 3. 修正在 targetSdkVersion 大于等于24时，系统版本大于等于 7.0 的手机不能打开拍照页面的问题。
@@ -1018,7 +1029,6 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 ### V3.5.0(2017-03-28)
 
 **新增**
-
 1. 增加服务直达功能。
 2. 增加 VIP 等级设置。
 3. 请求客服和汇报用户信息增加 authToken 校验字段。
@@ -1027,7 +1037,6 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 ### V3.4.0(2017-02-21)
 
 **新增**
-
 1. 增加对文件类型消息的支持。
 2. 增加清除缓存的接口。
 
@@ -1037,11 +1046,9 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 ### V3.3.0(2017-01-20)
 
 **新增**
-
 1. 会话列表中增加会话状态。
 
 **修改**
-
 1. 使用 MappedByteBuffer 替代直接文件写入，优化 log 性能。
 2. 修复一些非常偶现的崩溃，包括：从老版本升级并关闭 sdkIconContainer 导致的崩溃，因线程竞争导致的登录状态报告时候的崩溃等。
 3. 进程间唤起方式由 Broadcast 改为 Service，避免极个别机型上收到消息不能唤起 UI 进程的问题。
@@ -1049,5 +1056,4 @@ ShopInfo shopInfo = POPManager.getShopInfo(String shopId);
 ### V3.2.0(2017-01-04)
 
 **新增**
-
 1. 新增平台电商企业接入控制，增加 POPManager 接口，增加获取访客会话列表功能。

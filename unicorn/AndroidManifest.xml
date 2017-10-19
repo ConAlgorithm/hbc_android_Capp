@@ -20,7 +20,6 @@
     <!-- 多媒体 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature
         android:name="android.hardware.microphone"
@@ -110,6 +109,11 @@
             android:theme="@style/ysf_window_theme" />
         <activity
             android:name="com.qiyukf.unicorn.ui.activity.UrlImagePreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ysf_window_theme" />
+        <activity
+            android:name="com.qiyukf.unicorn.ui.activity.CardPopupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/ysf_window_theme" />

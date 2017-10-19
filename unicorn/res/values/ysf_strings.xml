@@ -14,7 +14,7 @@
     <string name="ysf_input_panel_location">位 置</string>
     <string name="ysf_input_panel_take">拍 摄</string>
     <string name="ysf_compatible_image_format_tips">请选择JPG PNG BMP GIF格式的图片文件</string>
-    <string name="ysf_re_download_message">重新下载?</string>
+    <string name="ysf_re_download_message">重新下载？</string>
     <string name="ysf_re_send_has_blank">重 发</string>
     <string name="ysf_re_send_message">重发消息?</string>
     <string name="ysf_copy_has_blank">复 制</string>
@@ -34,7 +34,7 @@
     <string name="ysf_no_staff_disabled">客服不在线，不支持留言</string>
     <string name="ysf_request_timeout">网络连接失败，请稍后再试</string>
     <string name="ysf_staff_assigned">%1$s为您服务</string>
-    <string name="ysf_staff_assigned_with_group">已连接至%1$s，%2$s将为您服务</string>
+    <string name="ysf_staff_assigned_with_group">%1$s的%2$s为您服务</string>
     <string name="ysf_service_in_queue">正在排队，您的前面还有%1$d个人，请稍等…</string>
     <string name="ysf_service_in_queue_hide_length">当前排队人数较多，请耐心等待…</string>
     <string name="ysf_service_product_invalid">当前没有客服在线</string>
@@ -50,7 +50,8 @@
     <string name="ysf_evaluation_btn_submit">提交</string>
     <string name="ysf_evaluation_message_item_text">感谢您的咨询，请对我们的服务做出评价</string>
     <string name="ysf_evaluation_message_item_btn">评价</string>
-    <string name="ysf_evaluation_result">您对我们的服务评价为：&lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="ysf_evaluation_result_default_prefix">你对我们的服务评价为</string>
+    <string name="ysf_evaluation_result">：&lt;b&gt;%s&lt;/b&gt;。非常感谢！</string>
     <string name="ysf_evaluation_dialog_message">是否放弃评价，放弃后不可恢复</string>
     <string name="ysf_evaluation_submit_net_error_text">网络连接失败，请稍后再试</string>
     <string name="ysf_robot_answer_useful">有用</string>
@@ -67,6 +68,8 @@
     <string name="ysf_msg_quit_queue_failed">退出排队失败，请稍后再试</string>
     <string name="ysf_msg_quit_session_tips">您退出了咨询</string>
     <string name="ysf_robot_evaluate_disable">会话已结束，暂不支持评价</string>
+    <string name="ysf_bot_load_more_disabled">会话已关闭，无法加载</string>
+    <string name="ysf_bot_order_list_title">请选择你想咨询的订单</string>
 
     <!-- 语音 -->
     <string name="ysf_audio_record_touch_to_record">按住 说话</string>
@@ -117,15 +120,11 @@
     <string name="ysf_image_download_failed">图片下载失败</string>
 
     <!--权限-->
-    <string name="ysf_no_permission_camera">没有权限，无法打开摄像头！</string>
+    <string name="ysf_no_permission_camera">没有权限，无法拍照！</string>
     <string name="ysf_no_permission_photo">没有权限，无法打开相册！</string>
     <string name="ysf_no_permission_send_audio">没有权限，无法发送语音！</string>
-    <string name="ysf_no_permission_play_audio">没有权限，无法播放语音！</string>
-    <string name="ysf_no_permission_send_image">没有权限，无法存储和发送图片！</string>
     <string name="ysf_no_permission_audio_error">消息未下载完毕或者消息错误！</string>
-    <string name="ysf_no_permission_download_audio">没有权限，无法加载语音！</string>
-    <string name="ysf_no_permission_download_image">没有权限，无法加载图片！</string>
-    <string name="ysf_no_permission_download_file">没有权限，无法加载文件！</string>
+    <string name="ysf_no_permission_save_image">没有权限，无法保存图片！</string>
 
     <!--ptr-->
     <string name="ysf_ptr_pull_to_refresh">下拉刷新</string>
