@@ -3,10 +3,10 @@
 buildscript {
     repositories {
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.android.tools.build:gradle:3.0.0-rc2'
         classpath 'com.networkbench.newlens.agent.android:agent-gradle-plugin:2.7.0'
         classpath 'com.leon.channel:plugin:1.0.5'
         // NOTE: Do not place your application dependencies here; they belong
@@ -17,6 +17,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
+        google()
     }
 }
 
