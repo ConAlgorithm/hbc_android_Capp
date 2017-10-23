@@ -2,6 +2,7 @@ package com.hugboga.custom.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.hugboga.custom.MyApplication;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class DomesticCCAdapter extends RecyclerView.Adapter<DomesticVH> {
 
+    OnItemClickListener onItemClickListener;
     private List data;
 
     public DomesticCCAdapter(List data) {
@@ -29,12 +31,28 @@ public class DomesticCCAdapter extends RecyclerView.Adapter<DomesticVH> {
     }
 
     @Override
-    public void onBindViewHolder(DomesticVH holder, int position) {
+    public void onBindViewHolder(DomesticVH holder, final int position) {
+        if (onItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(position);
+                }
+            });
+        }
         holder.init();
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
