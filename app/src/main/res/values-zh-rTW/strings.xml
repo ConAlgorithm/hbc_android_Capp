@@ -950,4 +950,5 @@
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>
+    <string name="title_domestic_cc_add">添加信用卡</string>
 </resources>

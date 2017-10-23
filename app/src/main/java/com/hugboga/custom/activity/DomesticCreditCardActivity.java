@@ -1,5 +1,6 @@
 package com.hugboga.custom.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,21 +57,20 @@ public class DomesticCreditCardActivity extends BaseActivity {
         data.add("3");
         data.add("4");
         data.add("5");
-        data.add("6");
-        data.add("7");
-        data.add("8");
-        data.add("9");
-        data.add("10");
-        data.add("11");
         DomesticCCAdapter adapter = new DomesticCCAdapter(data);
         listView.setAdapter(adapter);
     }
 
-    @OnClick({R.id.header_left_btn})
+    @OnClick({R.id.header_left_btn, R.id.domestic_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_left_btn:
                 finish();
+                break;
+            case R.id.domestic_add:
+                //TODO 添加信用卡
+                Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
+                startActivity(intent);
                 break;
         }
     }

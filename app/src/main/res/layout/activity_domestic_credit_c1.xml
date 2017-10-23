@@ -48,7 +48,7 @@
                 android:layout_marginLeft="@dimen/default_margin_mxlarge"
                 android:layout_marginRight="@dimen/default_margin_mxlarge"
                 android:layout_marginTop="@dimen/default_margin_medium"
-                android:background="#FFFFFF"
+                android:background="@drawable/domestic_item_bg"
                 android:paddingBottom="@dimen/default_margin_xlarge"
                 android:paddingTop="@dimen/default_margin_xlarge">
 
