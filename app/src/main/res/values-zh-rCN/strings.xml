@@ -958,4 +958,7 @@
     <string name = "add_insure_woman">女</string>
     <string name = "add_insure_choose_gender">选择性别</string>
 
+    <!--Domestic CreditCard-->
+    <string name="title_domestic_cc">国内信用卡</string>
+
 </resources>

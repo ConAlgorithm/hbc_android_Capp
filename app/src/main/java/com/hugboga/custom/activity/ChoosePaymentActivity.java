@@ -390,8 +390,8 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                 sendRequest(Constants.PAY_STATE_WECHAT);
                 break;
             case R.id.choose_payment_add_credit_card_layout:
-                //添加银行卡
-                Intent intent = new Intent(this, AddCreditCardFirstStepActivity.class);
+                //国内信用卡支付
+                Intent intent = new Intent(this, DomesticCreditCardActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(PAY_PARAMS, requestParams);
                 intent.putExtras(bundle);
