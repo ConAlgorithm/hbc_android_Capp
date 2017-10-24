@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import com.hugboga.custom.R;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 信用卡-新添加卡支付
@@ -28,7 +29,22 @@ public class DomesticNewPayView extends FrameLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void init() {
+    /**
+     * 显示下一步支付弹框
+     */
+    public void show() {
+        setVisibility(VISIBLE);
+    }
 
+    @OnClick({R.id.domestic_new_pay_root, R.id.domestic_new_con_layout})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.domestic_new_pay_root:
+                setVisibility(GONE); //关闭弹框
+                break;
+            case R.id.domestic_new_con_layout:
+                //屏蔽点击项
+                break;
+        }
     }
 }

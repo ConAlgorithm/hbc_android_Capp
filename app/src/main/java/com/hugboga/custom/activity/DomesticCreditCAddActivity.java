@@ -2,12 +2,12 @@ package com.hugboga.custom.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.widget.DatePickerYearDialog;
+import com.hugboga.custom.widget.domesticcc.DomesticNewPayView;
 
 import java.util.Calendar;
 
@@ -24,6 +24,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     TextView toolbarTitle;
     @Bind(R.id.domestic_add_number2)
     TextView tvDomesticDate; //信用卡有效期
+    @Bind(R.id.domestic_pay_dialog)
+    DomesticNewPayView payDialog; //支付弹框
 
     @Override
     public int getContentViewId() {
@@ -36,7 +38,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         toolbarTitle.setText(getTitle());
     }
 
-    @OnClick({R.id.header_left_btn, R.id.domestic_layout2})
+    @OnClick({R.id.header_left_btn, R.id.domestic_layout2, R.id.domestic_credit_add_next})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.header_left_btn:
@@ -54,28 +56,10 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 dialog.setTitle("设置有效期");
                 dialog.show();
                 break;
+            case R.id.domestic_credit_add_next:
+                //支付弹框
+                payDialog.show();
+                break;
         }
-    }
-
-    /**
-     * 从当前Dialog中查找DatePicker子控件
-     *
-     * @param group
-     * @return
-     */
-    private DatePicker findDatePicker(ViewGroup group) {
-        if (group != null) {
-            for (int i = 0, j = group.getChildCount(); i < j; i++) {
-                View child = group.getChildAt(i);
-                if (child instanceof DatePicker) {
-                    return (DatePicker) child;
-                } else if (child instanceof ViewGroup) {
-                    DatePicker result = findDatePicker((ViewGroup) child);
-                    if (result != null)
-                        return result;
-                }
-            }
-        }
-        return null;
     }
 }
