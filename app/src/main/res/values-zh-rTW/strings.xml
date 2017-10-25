@@ -951,4 +951,5 @@
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>
     <string name="title_domestic_cc_add">添加信用卡</string>
+    <string name="domestic_date_dialog_title">設置有效期</string>
 </resources>

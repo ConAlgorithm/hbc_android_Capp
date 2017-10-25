@@ -53,7 +53,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                         tvDomesticDate.setText((startMonthOfYear + 1) + "月份／" + startYear + "年");
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                dialog.setTitle("设置有效期");
+                dialog.setTitle(R.string.domestic_date_dialog_title);
                 dialog.show();
                 break;
             case R.id.domestic_credit_add_next:
