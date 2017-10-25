@@ -45,6 +45,8 @@ public class ChooseCountryActivity extends BaseActivity{
     public static final String KEY_COUNTRY_CODE = "KEY_COUNTRY_CODE";
     public static final String KEY_COUNTRY_NAME = "KEY_COUNTRY_NAME";
 
+    public static final String PARAM_VIEW_ID = "view_id";
+
     private PinyinComparator pinyinComparator;
 
     @Bind(R.id.sidrbar)

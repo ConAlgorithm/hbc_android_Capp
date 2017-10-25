@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="我们将给您拨打电话告知您验证码，如果您接下来收到一个陌生来电，请放心接听"
+        android:textColor="@color/default_black"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="14dp"
+        android:paddingTop="14dp">
+
+        <TextView
+            android:id="@+id/vvc_get_code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="+86"
+            android:gravity="center_vertical"
+            android:paddingRight="3dp"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/vvc_get_code_arrow_iv"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="3.2dp"
+            android:background="@mipmap/login_select" />
+
+        <View
+            android:layout_width="@dimen/default_line_height"
+            android:layout_height="28dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/default_dividing_line" />
+
+        <EditText
+            android:id="@+id/vvc_get_phone_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:gravity="center_vertical"
+            android:text="17600805976"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_line_height"
+        android:background="@color/default_dividing_line" />
+
+    <TextView
+        android:id="@+id/vvc_get_phone_confirm_tv"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_rounded_yellow_btn"
+        android:gravity="center"
+        android:text="获取语音验证码"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+</LinearLayout>
