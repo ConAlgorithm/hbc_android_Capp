@@ -8,6 +8,7 @@ import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.parser.ParserUserInfo;
+import com.hugboga.custom.utils.CommonUtils;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.xutils.http.HttpMethod;
@@ -38,7 +39,7 @@ public class RequestLoginBycaptcha extends BaseRequest<UserBean> {
     @Override
     public Map<String, Object> getDataMap() {
         TreeMap map = new TreeMap<String, Object>();
-        map.put("areaCode", areaCode);
+        map.put("areaCode", CommonUtils.removePhoneCodeSign(areaCode));
         map.put("mobile", mobile);
         map.put("captcha", captcha);
         map.put("sourceType",sourceType);
@@ -53,7 +54,7 @@ public class RequestLoginBycaptcha extends BaseRequest<UserBean> {
     }
     @Override
     public String getUrlErrorCode() {
-        return "145";
+        return "40145";
     }
 
     @Override

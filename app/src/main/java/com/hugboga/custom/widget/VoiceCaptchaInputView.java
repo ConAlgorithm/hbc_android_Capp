@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CommonUtils;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,7 +30,7 @@ import butterknife.OnClick;
  * 参考加拷贝 http://www.jianshu.com/p/88d30b1d85df
  */
 
-public class VoiceVerifyCodeInputView extends LinearLayout {
+public class VoiceCaptchaInputView extends LinearLayout {
 
     @Bind(R.id.vvc_input_phone_tv)
     TextView phoneTV;
@@ -74,13 +72,13 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
     private String phone;
     private int surplusTime;
 
-    public VoiceVerifyCodeInputView(Context context) {
+    public VoiceCaptchaInputView(Context context) {
         this(context, null);
     }
 
-    public VoiceVerifyCodeInputView(Context context, @Nullable AttributeSet attrs) {
+    public VoiceCaptchaInputView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_vvc_input, this);
+        View view = inflate(context, R.layout.view_vc_input, this);
         ButterKnife.bind(view);
 
         codeTestViews = new TextView[4];
@@ -109,6 +107,13 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
         setVisibility(VISIBLE);
         surplusTime = (int)(time / 1000);
         timeHandler.sendEmptyMessage(surplusTime);
+        codeET.setFocusable(true);
+        codeET.setFocusableInTouchMode(true);
+        codeET.requestFocus();
+    }
+
+    public EditText getCodeEditText() {
+        return codeET;
     }
 
     @OnClick(R.id.vvc_input_countdown_tv)
@@ -133,22 +138,18 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // 如果字符不为""时才进行操作
                 if (!editable.toString().equals("")) {
                     if (stringBuffer.length() > 3) {
-                        //当文本长度大于3位时edittext置空
                         codeET.setText("");
                         return;
                     } else {
-                        //将文字添加到StringBuffer中
                         stringBuffer.append(editable);
-                        codeET.setText("");//添加后将EditText置空
-                        count = stringBuffer.length();//记录stringbuffer的长度
+                        codeET.setText("");
+                        count = stringBuffer.length();
                         inputContent = stringBuffer.toString();
                         if (stringBuffer.length() == 4) {
-                            //文字长度位4  则调用完成输入的监听
                             if (inputCompleteListener != null) {
-                                inputCompleteListener.inputComplete();
+                                inputCompleteListener.inputComplete(stringBuffer.toString());
                             }
                         }
                     }
@@ -156,18 +157,7 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
                     for (int i = 0; i < stringBuffer.length(); i++) {
                         codeTestViews[i].setText(String.valueOf(inputContent.charAt(i)));
                     }
-                    for (int i = 0; i < 4; i++) {
-                        strokeViews[i].clearAnimation();
-                        boolean isSelected = false;
-                        if (i == 3) {
-                            nextStrokeView = null;
-                        } if (i == stringBuffer.length()) {
-                            isSelected = true;
-                            nextStrokeView = strokeViews[i];
-                            index = 1;
-                        }
-                        strokeViews[i].setSelected(isSelected);
-                    }
+                    resetStrokeViewSelected();
                 }
             }
         });
@@ -184,6 +174,21 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
         });
     }
 
+    private void resetStrokeViewSelected() {
+        for (int i = 0; i < 4; i++) {
+            strokeViews[i].clearAnimation();
+            boolean isSelected = false;
+            if (i == 3) {
+                nextStrokeView = null;
+            } if (i == stringBuffer.length()) {
+                isSelected = true;
+                nextStrokeView = strokeViews[i];
+                index = 1;
+            }
+            strokeViews[i].setSelected(isSelected);
+        }
+    }
+
     public boolean onKeyDelete() {
         if (count == 0) {
             count = 4;
@@ -194,16 +199,7 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
             count--;
             inputContent = stringBuffer.toString();
             codeTestViews[stringBuffer.length()].setText("");
-            for (int i = 0; i < 4; i++) {
-                strokeViews[i].clearAnimation();
-                boolean isSelected = false;
-                if (i == stringBuffer.length()) {
-                    isSelected = true;
-                    nextStrokeView = strokeViews[i];
-                    index = 1;
-                }
-                strokeViews[i].setSelected(isSelected);
-            }
+            resetStrokeViewSelected();
             if (inputCompleteListener != null) {
                 inputCompleteListener.deleteContent(true);
             }
@@ -216,8 +212,8 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
         inputContent = stringBuffer.toString();
         for (int i = 0; i < codeTestViews.length; i++) {
             codeTestViews[i].setText("");
-            strokeViews[stringBuffer.length()].setSelected(false);
         }
+        resetStrokeViewSelected();
     }
 
     private InputCompleteListener inputCompleteListener;
@@ -227,7 +223,7 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
     }
 
     public interface InputCompleteListener {
-        void inputComplete();
+        void inputComplete(String captcha);
 
         void deleteContent(boolean isDelete);
 
@@ -254,12 +250,12 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
                 return;
             }
             if (msg.what <= 0) {
-                countdownTV.setText("重新获取语音验证码");
+                countdownTV.setText(R.string.voice_captcha_retry);
                 countdownTV.setTextColor(getContext().getResources().getColor(R.color.default_highlight_blue));
                 countdownTV.setEnabled(true);
                 surplusTime = 0;
             } else {
-                countdownTV.setText(msg.what + "s后重新获取");
+                countdownTV.setText(getContext().getResources().getString(R.string.voice_captcha_count_down, "" + msg.what));
                 countdownTV.setTextColor(0xFF929292);
                 countdownTV.setEnabled(false);
                 surplusTime = --msg.what;
@@ -311,6 +307,5 @@ public class VoiceVerifyCodeInputView extends LinearLayout {
             timer.cancel();
         }
         timer = null;
-        Log.i("aa", "停止 倒计时 " + surplusTime);
     }
 }

@@ -7,20 +7,20 @@
     android:orientation="vertical">
 
     <com.hugboga.custom.widget.title.TitleBar
-        android:id="@+id/vvc_titlebar"
+        android:id="@+id/vc_titlebar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:title_res="@string/custom_chartered" />
+        app:title_res="@string/voice_captcha_title" />
 
-    <com.hugboga.custom.widget.VoiceVerifyCodeGetView
-        android:id="@+id/vvc_get_view"
+    <com.hugboga.custom.widget.VoiceCaptchaGetView
+        android:id="@+id/vc_get_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp" />
 
-    <com.hugboga.custom.widget.VoiceVerifyCodeInputView
-        android:id="@+id/vvc_input_view"
+    <com.hugboga.custom.widget.VoiceCaptchaInputView
+        android:id="@+id/vc_input_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

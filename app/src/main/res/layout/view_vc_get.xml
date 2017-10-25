@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="我们将给您拨打电话告知您验证码，如果您接下来收到一个陌生来电，请放心接听"
+        android:text="@string/voice_captcha_get_hint"
         android:textColor="@color/default_black"
         android:textSize="14sp" />
 
@@ -51,7 +51,8 @@
             android:layout_height="match_parent"
             android:background="#00000000"
             android:gravity="center_vertical"
-            android:text="17600805976"
+            android:hint="@string/voice_captcha_phone"
+            android:textColorHint="#cccccc"
             android:textColor="@color/default_black"
             android:textSize="14sp" />
     </LinearLayout>
@@ -68,7 +69,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/shape_rounded_yellow_btn"
         android:gravity="center"
-        android:text="获取语音验证码"
+        android:text="@string/voice_captcha_get"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 </LinearLayout>

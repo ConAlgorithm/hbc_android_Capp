@@ -26,9 +26,7 @@ import butterknife.OnClick;
  * Created by qingcha on 17/10/20.
  */
 
-public class VoiceVerifyCodeGetView extends LinearLayout implements TextWatcher {
-
-    public static final int REQUEST_CODE = 0xFF001;
+public class VoiceCaptchaGetView extends LinearLayout implements TextWatcher {
 
     @Bind(R.id.vvc_get_code_tv)
     TextView codeTV;
@@ -40,15 +38,19 @@ public class VoiceVerifyCodeGetView extends LinearLayout implements TextWatcher 
     private String code = "86";
     private OnConfirmListener listener;
 
-    public VoiceVerifyCodeGetView(Context context) {
+    public VoiceCaptchaGetView(Context context) {
         this(context, null);
     }
 
-    public VoiceVerifyCodeGetView(Context context, @Nullable AttributeSet attrs) {
+    public VoiceCaptchaGetView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View view = inflate(context, R.layout.view_vvc_get, this);
+        View view = inflate(context, R.layout.view_vc_get, this);
         ButterKnife.bind(view);
         phoneET.addTextChangedListener(this);
+
+        phoneET.setFocusable(true);
+        phoneET.setFocusableInTouchMode(true);
+        phoneET.requestFocus();
     }
 
     @OnClick({R.id.vvc_get_code_tv, R.id.vvc_get_code_arrow_iv, R.id.vvc_get_phone_confirm_tv})
@@ -57,11 +59,12 @@ public class VoiceVerifyCodeGetView extends LinearLayout implements TextWatcher 
             case R.id.vvc_get_code_tv:
             case R.id.vvc_get_code_arrow_iv:
                 Intent intent = new Intent(getContext(), ChooseCountryActivity.class);
-                intent.putExtra(ChooseCountryActivity.PARAM_VIEW_ID, REQUEST_CODE);
                 getContext().startActivity(intent);
                 break;
             case R.id.vvc_get_phone_confirm_tv:
-                if (!checkData()) {
+                if (phoneET.getText() == null || TextUtils.isEmpty(phoneET.getText().toString())) {
+                    CommonUtils.showToast(R.string.voice_captcha_input_error);
+                } else if (!checkData()) {
                     return;
                 }
                 if (listener != null) {
@@ -72,8 +75,22 @@ public class VoiceVerifyCodeGetView extends LinearLayout implements TextWatcher 
     }
 
     public void setAreaCode(String _code) {
+        if (TextUtils.isEmpty(_code)) {
+            return;
+        }
         code = CommonUtils.addPhoneCodeSign(_code);
         codeTV.setText(code);
+    }
+
+    public void setPhone(String _phone) {
+        if (TextUtils.isEmpty(_phone)) {
+            return;
+        }
+        phoneET.setText(_phone);
+    }
+
+    public EditText getPhoneEditText() {
+        return phoneET;
     }
 
     public boolean checkData() {
