@@ -188,7 +188,7 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
                     showTip(CommonUtils.getString(R.string.login_change_mobile_check3));
                     return;
                 }
-                if (TextUtils.equals(phone, UserEntity.getUser().getPhone(this))) {
+                if (TextUtils.equals(phone, UserEntity.getUser().getPhone(this)) && TextUtils.equals(phone, areaCode)) {
                     showTip(CommonUtils.getString(R.string.login_change_mobile_check4));
                     return;
                 }
@@ -221,7 +221,8 @@ public class ChangeMobileActivtiy extends BaseActivity implements TextWatcher{
                     setBtnVisible(true);
                     return;
                 }
-                if (TextUtils.equals(phone1, UserEntity.getUser().getPhone(this))) {
+                if (TextUtils.equals(phone1, UserEntity.getUser().getPhone(this))
+                        && TextUtils.equals(CommonUtils.removePhoneCodeSign(areaCode1), CommonUtils.removePhoneCodeSign(UserEntity.getUser().getAreaCode(this)))) {
                     showTip(CommonUtils.getString(R.string.login_change_mobile_check4));
                     setBtnVisible(true);
                     return;
