@@ -531,11 +531,6 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
             properties.put("hbc_refer", getIntentSource());
             SensorsDataAPI.sharedInstance(this).track("page_view", properties);
 
-            JSONObject properties2 = new JSONObject();
-            properties2.put("hbc_sku_type", "线路详情");
-            properties2.put("hbc_refer", getIntentSource());
-            SensorsDataAPI.sharedInstance(this).track("buy_view", properties2);
-
             SensorsDataAPI.sharedInstance(this).trackTimerBegin("viewSku");
         } catch (Exception e) {
             e.printStackTrace();
