@@ -483,21 +483,20 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     }
 
     private void computeTotalUnreadCount(List<ChatBean> chatBeans) {
+        int totalCount = 0;
         if (chatBeans != null && chatBeans.size() > 0) {
-            int totalCount = 0;
             for (ChatBean bean : chatBeans) {
                 totalCount += bean.getImCount();
             }
-            if (getActivity() != null) {
-                ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()),
-                        SharedPre.QY_SERVICE_UNREADCOUNT, 0));
-                MLog.e("totalCount = " + totalCount);
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-                if (headerView != null) {
-                    headerView.flushPoint();
-                }
+        }
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0));
+            MLog.e("totalCount = " + totalCount);
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            if (headerView != null) {
+                headerView.flushPoint();
             }
         }
     }
