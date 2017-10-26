@@ -27,6 +27,8 @@ import com.hugboga.custom.utils.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.regex.Pattern;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -162,8 +164,23 @@ public class SetPswActivity extends BaseActivity implements TextWatcher {
             case R.id.header_right_txt:
                 String set_psw = setPsw.getText().toString().trim();
                 String set_psw_again = setPswAgain.getText().toString().trim();
-                if (!TextUtils.isEmpty(set_psw) && !TextUtils.isEmpty(set_psw_again) && !TextUtils.equals(set_psw, set_psw_again)) {
+                if (TextUtils.isEmpty(set_psw)) {
+                    CommonUtils.showToast(R.string.login_check_pwd);
+                    setPsw.requestFocus();
+                    return;
+                }
+                if (!Pattern.matches("[\\w]{6,16}", set_psw)) {
+                    CommonUtils.showToast(R.string.login_check_pwd_length);
+                    return;
+                }
+                if (TextUtils.isEmpty(set_psw_again)) {
+                    CommonUtils.showToast(R.string.login_check_new_pwd_confirm);
+                    setPswAgain.requestFocus();
+                    return;
+                }
+                if (!TextUtils.equals(set_psw, set_psw_again)) {
                     CommonUtils.showToast(R.string.login_check_pwd_inconformity2);
+                    return;
                 }
 
                 if (isAfterProcess) {
