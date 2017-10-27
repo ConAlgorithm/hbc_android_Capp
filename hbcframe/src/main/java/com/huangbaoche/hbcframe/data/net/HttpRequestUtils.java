@@ -3,6 +3,7 @@ package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -250,7 +251,7 @@ public class HttpRequestUtils {
      */
     private static boolean checkAccessKey(Context mContext) {
         String accessKey = UserSession.getUser().getAccessKey(mContext);
-        if (accessKey == null) {
+        if (TextUtils.isEmpty(accessKey)) {
             UserSession.getUser().setAccessKey(mContext, "");
             return false;
         }

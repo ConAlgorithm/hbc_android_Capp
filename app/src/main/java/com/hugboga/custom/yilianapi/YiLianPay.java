@@ -23,7 +23,7 @@ import com.hugboga.custom.data.bean.YiLianPayBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.JsonUtils;
 import com.payeco.android.plugin.PayecoPluginPayCallBack;
-import com.payeco.android.plugin.PayecoPluginPayIn;
+import com.payeco.android.plugin.payin.PayecoPluginPayIn;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
