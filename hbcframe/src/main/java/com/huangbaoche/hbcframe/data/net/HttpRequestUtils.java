@@ -251,7 +251,7 @@ public class HttpRequestUtils {
      */
     private static boolean checkAccessKey(Context mContext) {
         String accessKey = UserSession.getUser().getAccessKey(mContext);
-        if (TextUtils.isEmpty(accessKey)) {
+        if (accessKey == null) {
             UserSession.getUser().setAccessKey(mContext, "");
             return false;
         }
