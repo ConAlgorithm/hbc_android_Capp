@@ -197,6 +197,7 @@ public class UrlLibs {
     public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
     public static final String API_DAILY_SECKILL            = "trade/v1.1/c/order/secKillDaily";                        // 秒杀包车下单 165
     public static final String API_PAYMENT_ABROD_CREDIT     = "trade/v1.0/c/ocean/pay";                                 // 境外信用卡  186
+    public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // TODO 国内信用卡绑定列表
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机

@@ -77,7 +77,7 @@ import butterknife.OnClick;
 /**
  * Created by on 16/8/4.
  */
-public class ChoosePaymentActivity extends BaseActivity implements HttpRequestListener{
+public class ChoosePaymentActivity extends BaseActivity implements HttpRequestListener {
 
     public static final String PAY_PARAMS = "pay_params";
     public static final String TAG = "ChoosePaymentActivity";
@@ -118,6 +118,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
     private boolean isShowingAlipay = false;
     public static final String ORDERTYPE = "order_type";
     public static final String APITYPE = "api_type";
+
     public static class RequestParams implements Serializable {
         public String orderId;
         public double shouldPay;
@@ -256,7 +257,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
             MobClickUtils.onEvent(new EventPay(requestParams.eventPayBean));
             SensorsUtils.setSensorsPayOnClickEvent(requestParams.eventPayBean, requestParams.eventPayBean.paystyle);
         }
-        if (payType == Constants.PAY_STATE_BANK){
+        if (payType == Constants.PAY_STATE_BANK) {
             return;
         }
         this.payType = payType;
@@ -264,41 +265,42 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
         requestData(request);
     }
 
-    public void setCreditCardStatusRequest(){
+    public void setCreditCardStatusRequest() {
         RequestQueryCreditCard requestQueryCreditCard = new RequestQueryCreditCard(this);
         requestData(requestQueryCreditCard);
     }
 
     /**
      * 显示已绑定的银行卡
+     *
      * @param beanList
      */
-    public void setCreditCardStatus(ArrayList<CreditCardInfoBean> beanList){
-        if (null == beanList || beanList.size() <=0){
+    public void setCreditCardStatus(ArrayList<CreditCardInfoBean> beanList) {
+        if (null == beanList || beanList.size() <= 0) {
             return;
         }
         choosePaymentCreditCardLayout.setVisibility(View.VISIBLE);
-        cardInfoBean = beanList.get(beanList.size()-1);//目前只最后一个
+        cardInfoBean = beanList.get(beanList.size() - 1);//目前只最后一个
         //查询已绑定卡所属银行
         setBankLogo(cardInfoBean.bandId);
         choosePaymentCreditCardLayout.setVisibility(View.VISIBLE);
         chooseCreditUnderLine.setVisibility(View.VISIBLE);
         creditType = "01".equals(cardInfoBean.accType) ? "借记卡" : "信用卡";
-        choosePaymentCreditCardName.setText(cardInfoBean.bankName+" "+creditType);
+        choosePaymentCreditCardName.setText(cardInfoBean.bankName + " " + creditType);
 
         StringBuffer bufferNum = new StringBuffer(cardInfoBean.creditCardNo);
-        for (int i=0; i < cardInfoBean.creditCardNo.length() ;i++){
-            if (i<cardInfoBean.creditCardNo.length()-4){
-                bufferNum.replace(i, i+1,"*");
+        for (int i = 0; i < cardInfoBean.creditCardNo.length(); i++) {
+            if (i < cardInfoBean.creditCardNo.length() - 4) {
+                bufferNum.replace(i, i + 1, "*");
             }
         }
         String tempStr = bufferNum.toString();
-        for (int i=0; i < tempStr.length() ;i++){
-            if ((i == 4 || i == 9 || i == 14 )) {
+        for (int i = 0; i < tempStr.length(); i++) {
+            if ((i == 4 || i == 9 || i == 14)) {
                 bufferNum.insert(i, ' ');
             }
         }
-        if (bufferNum.length() >=19){
+        if (bufferNum.length() >= 19) {
             bufferNum.insert(19, ' ');
         }
         choosePaymentCreditCardNumber.setText(bufferNum.toString());
@@ -308,11 +310,11 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
     /**
      * 设置银行logo
      */
-    public void setBankLogo(String bankId){
+    public void setBankLogo(String bankId) {
         String path;
         List<BankLogoBean> logoBeanList = setListData();//获得银行卡logo列表
-        for (BankLogoBean logoBean: logoBeanList){
-            if (bankId.equals(logoBean.cardType)){
+        for (BankLogoBean logoBean : logoBeanList) {
+            if (bankId.equals(logoBean.cardType)) {
                 path = logoBean.url;
                 AssetManager manager = getBaseContext().getAssets();
                 try {
@@ -331,6 +333,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
 
     /**
      * 读取银行图标字符串
+     *
      * @param context
      * @param fileName
      * @return
@@ -355,7 +358,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
      * 获得json数据
      */
     public List<BankLogoBean> setListData() {
-        String bankStr = getJson(getBaseContext(),"bank.json");//根据读取的字符串进行解析
+        String bankStr = getJson(getBaseContext(), "bank.json");//根据读取的字符串进行解析
 
         List<BankLogoBean> data = new ArrayList<>();
         try {
@@ -375,7 +378,7 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
         return data;
     }
 
-    @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout, R.id.choose_payment_add_credit_card_layout, R.id.choose_payment_credit_card_layout,R.id.choose_payment_abrod_credit_layout})
+    @OnClick({R.id.choose_payment_alipay_layout, R.id.choose_payment_wechat_layout, R.id.choose_payment_add_credit_card_layout, R.id.choose_payment_credit_card_layout, R.id.choose_payment_abrod_credit_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.choose_payment_alipay_layout://支付宝支付
@@ -391,19 +394,29 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                 break;
             case R.id.choose_payment_add_credit_card_layout:
                 //国内信用卡支付
-                Intent intent = new Intent(this, DomesticCreditCardActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(PAY_PARAMS, requestParams);
-                intent.putExtras(bundle);
+                /*
+                国内信用卡支付区分大于5万和小于5万
+                1. 小于5万进入历史卡界面，可以走新卡绑定界面，显示绑定协议
+                2. 大于5万进入新卡界面，消费支付，不显示绑定协议
+                 */
+                Intent intent = new Intent();
+                intent.putExtra(PAY_PARAMS, requestParams);
+                if (requestParams != null && requestParams.shouldPay > 50000) {
+                    //大于5万，进入新卡界面
+                    intent.setClass(this, DomesticCreditCAddActivity.class);
+                } else {
+                    //小于5万，显示历史卡界面
+                    intent.setClass(this, DomesticCreditCardActivity.class);
+                }
                 startActivity(intent);
                 sendRequest(Constants.PAY_STATE_BANK);//仅仅只用于埋点
                 break;
             case R.id.choose_payment_abrod_credit_layout:
-                if(requestParams!= null){
-                    RequestAbroadCreditPayment requestAbroadCreditPayment = new RequestAbroadCreditPayment(this,requestParams.shouldPay,requestParams.orderId,2);
-                    requestData(requestAbroadCreditPayment,true);
-                    SharedPre.setInteger(ORDERTYPE,requestParams.orderType);
-                    SharedPre.setInteger(APITYPE,requestParams.apiType);
+                if (requestParams != null) {
+                    RequestAbroadCreditPayment requestAbroadCreditPayment = new RequestAbroadCreditPayment(this, requestParams.shouldPay, requestParams.orderId, 2);
+                    requestData(requestAbroadCreditPayment, true);
+                    SharedPre.setInteger(ORDERTYPE, requestParams.orderType);
+                    SharedPre.setInteger(APITYPE, requestParams.apiType);
                 }
                 break;
             case R.id.choose_payment_credit_card_layout:
@@ -458,20 +471,20 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                     }
                 }
             }
-        }else if (request instanceof RequestQueryCreditCard){
-            RequestQueryCreditCard requestQueryCreditCard = (RequestQueryCreditCard)request;
-            if (null == requestQueryCreditCard.getData()){
+        } else if (request instanceof RequestQueryCreditCard) {
+            RequestQueryCreditCard requestQueryCreditCard = (RequestQueryCreditCard) request;
+            if (null == requestQueryCreditCard.getData()) {
                 choosePaymentCreditCardLayout.setVisibility(View.GONE);
                 return;
             }
-            ArrayList<CreditCardInfoBean> cardInfoBean =(ArrayList<CreditCardInfoBean>) requestQueryCreditCard.getData();
+            ArrayList<CreditCardInfoBean> cardInfoBean = (ArrayList<CreditCardInfoBean>) requestQueryCreditCard.getData();
             setCreditCardStatus(cardInfoBean);      //设置显示已绑定银行卡
-        }else if(request instanceof RequestAbroadCreditPayment){
-            if(request.getData() != null){
+        } else if (request instanceof RequestAbroadCreditPayment) {
+            if (request.getData() != null) {
                 AbroadCreditBean abroadCreditBean = (AbroadCreditBean) request.getData();
-                if(abroadCreditBean.payurl != null){
-                    Intent intent = new Intent(this,WebInfoActivity.class);
-                    intent.putExtra(WebInfoActivity.WEB_URL,abroadCreditBean.payurl);
+                if (abroadCreditBean.payurl != null) {
+                    Intent intent = new Intent(this, WebInfoActivity.class);
+                    intent.putExtra(WebInfoActivity.WEB_URL, abroadCreditBean.payurl);
                     startActivity(intent);
                 }
             }

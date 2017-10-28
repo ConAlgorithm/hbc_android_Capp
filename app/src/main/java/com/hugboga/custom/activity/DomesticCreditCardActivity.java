@@ -7,12 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
+import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.DomesticCCAdapter;
+import com.hugboga.custom.data.bean.epos.EposBindList;
+import com.hugboga.custom.data.request.RequestEposBindList;
 import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -54,13 +55,8 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
      */
     private void loadData() {
         //TODO 查询是否显示历史卡API
-        List data = new ArrayList();
-        data.add("1");
-        data.add("2");
-        data.add("3");
-        DomesticCCAdapter adapter = new DomesticCCAdapter(data);
-        adapter.setOnItemClickListener(this);
-        listView.setAdapter(adapter);
+        RequestEposBindList request = new RequestEposBindList(this);
+        HttpRequestUtils.request(this, request, this);
     }
 
     @OnClick({R.id.header_left_btn, R.id.domestic_add})
@@ -81,5 +77,19 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     public void onItemClick(int position) {
         //点击进行支付，需要验证码和不需要验证码版本
         domesticOldPayView.show();
+    }
+
+    @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if (request instanceof RequestEposBindList) {
+            //查询绑定历史卡列表
+            EposBindList data = (EposBindList) request.getData();
+            if (data != null) {
+                DomesticCCAdapter adapter = new DomesticCCAdapter(data.bindList);
+                adapter.setOnItemClickListener(this);
+                listView.setAdapter(adapter);
+            }
+        }
     }
 }

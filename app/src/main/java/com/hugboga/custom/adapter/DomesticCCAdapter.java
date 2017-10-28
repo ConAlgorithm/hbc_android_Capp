@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.viewholder.DomesticVH;
+import com.hugboga.custom.data.bean.epos.EposBindCard;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ import java.util.List;
 public class DomesticCCAdapter extends RecyclerView.Adapter<DomesticVH> {
 
     OnItemClickListener onItemClickListener;
-    private List data;
+    private List<EposBindCard> data;
 
-    public DomesticCCAdapter(List data) {
+    public DomesticCCAdapter(List<EposBindCard> data) {
         this.data = data;
     }
 
@@ -40,7 +41,7 @@ public class DomesticCCAdapter extends RecyclerView.Adapter<DomesticVH> {
                 }
             });
         }
-        holder.init();
+        holder.init(data.get(position));
     }
 
     @Override

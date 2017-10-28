@@ -59,8 +59,8 @@
                     android:layout_margin="@dimen/default_margin_xlarge"
                     android:drawableLeft="@mipmap/icon_add"
                     android:drawablePadding="@dimen/default_margin_small"
-                    android:text="添加信用卡"
-                    android:textColor="#727272" />
+                    android:text="@string/domestic_add_card"
+                    android:textColor="#727272" android:drawableStart="@mipmap/icon_add" />
             </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -22,7 +22,7 @@
             android:src="@mipmap/add_name_close" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/domestic_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/default_margin_small"
@@ -49,18 +49,10 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/domestic_item_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="＊＊＊＊  ＊＊＊＊  ＊＊＊＊  "
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size_large" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8990"
+            android:text="********8990"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size_large" />
     </LinearLayout>
