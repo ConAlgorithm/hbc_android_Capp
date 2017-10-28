@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/domesticCaddCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -42,8 +42,8 @@
         android:text="《常用卡支付协议》"
         android:textColor="#73cefc"
         android:textSize="@dimen/text_size_medium"
-        app:layout_constraintBaseline_toBaselineOf="@+id/checkBox2"
-        app:layout_constraintStart_toEndOf="@+id/checkBox2" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/domesticCaddCheck"
+        app:layout_constraintStart_toEndOf="@+id/domesticCaddCheck" />
 
     <Button
         android:id="@+id/domestic_credit_add_next"
@@ -58,7 +58,7 @@
         android:textColor="@color/default_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+        app:layout_constraintTop_toBottomOf="@+id/domesticCaddCheck" />
 
     <TextView
         android:id="@+id/textView8"

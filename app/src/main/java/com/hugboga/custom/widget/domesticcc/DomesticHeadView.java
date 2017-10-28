@@ -39,6 +39,6 @@ public class DomesticHeadView extends FrameLayout {
      * @param price 价格，例如2,000
      */
     public void init(String price) {
-        domesticHeaderPrice.setText("¥" + price);
+        domesticHeaderPrice.setText(price);
     }
 }

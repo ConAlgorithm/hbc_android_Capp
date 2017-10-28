@@ -13,10 +13,14 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.DomesticCCAdapter;
 import com.hugboga.custom.data.bean.epos.EposBindList;
 import com.hugboga.custom.data.request.RequestEposBindList;
+import com.hugboga.custom.utils.PriceFormat;
+import com.hugboga.custom.widget.domesticcc.DomesticHeadView;
 import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
 
 /**
  * 国内信用卡列表
@@ -28,6 +32,8 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     TextView toolbarTitle;
     @Bind(R.id.domestic_list)
     RecyclerView listView;
+    @Bind(R.id.domestic_totle)
+    DomesticHeadView domesticHeadView; //国内信用卡列表，还需支付部分
     @Bind(R.id.domestic_pay_layout)
     DomesticOldPayView domesticOldPayView; //老卡支付
 
@@ -42,7 +48,8 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
-        params = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
+        params = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(PAY_PARAMS);
+        domesticHeadView.init(PriceFormat.price(params.shouldPay));
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(manager);
@@ -54,7 +61,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
      * 加载信用卡数据
      */
     private void loadData() {
-        //TODO 查询是否显示历史卡API
+        // 查询显示历史卡API
         RequestEposBindList request = new RequestEposBindList(this);
         HttpRequestUtils.request(this, request, this);
     }
@@ -68,6 +75,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
             case R.id.domestic_add:
                 // 添加信用卡
                 Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
+                intent.putExtra(PAY_PARAMS, params);
                 startActivity(intent);
                 break;
         }
@@ -75,7 +83,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
 
     @Override
     public void onItemClick(int position) {
-        //点击进行支付，需要验证码和不需要验证码版本
+        //点击历史卡进行支付，需要验证码和不需要验证码版本
         domesticOldPayView.show();
     }
 

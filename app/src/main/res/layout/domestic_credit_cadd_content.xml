@@ -69,7 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/domestic_add_number2"
+            app:layout_constraintStart_toEndOf="@+id/domestic_add_date"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ente_icon" />
 
@@ -88,11 +88,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/domestic_add_number2"
+            android:id="@+id/domestic_add_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:hint="请输入信用卡号"
+            android:layout_marginStart="32dp"
+            android:hint="月份 ／ 年份"
             android:textColor="@color/default_black"
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
