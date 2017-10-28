@@ -8,17 +8,17 @@ import java.io.Serializable;
  */
 
 public class EposFirstPay implements Serializable {
-    private String r0_Cmd;
-    private String payNo;
-    private String r6_Order;
+    public String r0_Cmd;
+    public String payNo;
+    public String r6_Order;
     //SUCCESS(1, "提交成功"), FAILED(2, "提交失败"), VERIFY_FACTOR(3, "加验要素"),VERIFY_CODE(4, "短信验证"),VERIFY_FACTOR_CODE(5, "加验要素及短信验证");
-    private String eposPaySubmitStatus;
-    private String r1_Code;
-    private String hmac;
-    private String r2_TrxId;
-    private String hmac_safe;
-    private String errorMsg;
-    private String ro_BankOrderId;
+    public String eposPaySubmitStatus;
+    public String r1_Code;
+    public String hmac;
+    public String r2_TrxId;
+    public String hmac_safe;
+    public String errorMsg;
+    public String ro_BankOrderId;
 
     /*
     加验要素

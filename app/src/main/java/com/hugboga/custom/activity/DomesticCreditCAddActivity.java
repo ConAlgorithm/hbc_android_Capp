@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.request.RequestEposFirstPay;
@@ -105,8 +106,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
             RequestEposFirstPay request = new RequestEposFirstPay(this, params.orderId, params.shouldPay,
                     params.couponId, domestic_add_number5.getText().toString(), "18637432581",
                     domestic_add_number4.getText().toString(), domestic_add_number.getText().toString(),
-                    domestic_add_date.getText().toString(),domestic_add_date.getText().toString(),
-                    domestic_add_number3.getText().toString(),domesticCaddCheck.isChecked());
+                    domestic_add_date.getText().toString(), domestic_add_date.getText().toString(),
+                    domestic_add_number3.getText().toString(), domesticCaddCheck.isChecked());
             HttpRequestUtils.request(this, request, this);
         }
     }
@@ -116,8 +117,27 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         super.onDataRequestSucceed(request);
         if (request instanceof RequestEposFirstPay) {
             //首次信用卡支付
-            EposFirstPay data = ((RequestEposFirstPay) request).getData();
-
+            EposFirstPay eposFirstPay = ((RequestEposFirstPay) request).getData();
+            if (eposFirstPay != null) {
+                switch (eposFirstPay.eposPaySubmitStatus) {
+                    case "1":
+                        //提交成功
+                        break;
+                    case "2":
+                        //提交失败
+                        ToastUtils.showToast(this, eposFirstPay.errorMsg);
+                        break;
+                    case "3":
+                        //加验要素
+                        break;
+                    case "4":
+                        //短信验证
+                        break;
+                    case "5":
+                        //加验要素及短信验证
+                        break;
+                }
+            }
         }
     }
 }
