@@ -12,4 +12,8 @@ public class PriceFormat {
     public static String price(double price) {
         return new DecimalFormat("¥###,###.00").format(price);
     }
+
+    public static String month2(int month) {
+        return new DecimalFormat("00").format(month);
+    }
 }
