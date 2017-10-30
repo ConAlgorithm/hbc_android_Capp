@@ -51,6 +51,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     EditText domestic_add_number4; //持卡人姓名
     @Bind(R.id.domestic_add_number5)
     EditText domestic_add_number5; //持卡人身份证
+    @Bind(R.id.domestic_add_phone)
+    EditText domestic_add_phone; //办卡时预留的手机号
     @Bind(R.id.domestic_credit_add_next)
     Button submitBtn; //下一步按钮
     @Bind(R.id.domesticProtocol)
@@ -78,6 +80,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_number3.addTextChangedListener(watcher);
         domestic_add_number4.addTextChangedListener(watcher);
         domestic_add_number5.addTextChangedListener(watcher);
+        domestic_add_phone.addTextChangedListener(watcher);
     }
 
     /**
@@ -170,6 +173,10 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         if (TextUtils.isEmpty(cardNum)) {
             return false;
         }
+        String phone = domestic_add_phone.getText().toString().trim();
+        if (TextUtils.isEmpty(phone)) {
+            return false;
+        }
         return true;
     }
 
@@ -178,11 +185,15 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      */
     private void firstPay() {
         if (checkContent()) {
-            RequestEposFirstPay request = new RequestEposFirstPay(this, params.orderId, params.shouldPay,
-                    params.couponId, domestic_add_number5.getText().toString(), "18637432581", //TODO 手机号后输入
-                    domestic_add_number4.getText().toString(), domestic_add_number.getText().toString(),
+            RequestEposFirstPay request = new RequestEposFirstPay(this,
+                    params.orderId, params.shouldPay, params.couponId,
+                    domestic_add_number5.getText().toString().trim(),
+                    domestic_add_phone.getText().toString().trim(),
+                    domestic_add_number4.getText().toString().trim(),
+                    domestic_add_number.getText().toString().trim(),
                     String.valueOf(selectYear), PriceFormat.month2(selectMonth),
-                    domestic_add_number3.getText().toString(), domesticCaddCheck.isChecked());
+                    domestic_add_number3.getText().toString().trim(),
+                    domesticCaddCheck.isChecked());
             HttpRequestUtils.request(this, request, this);
         }
     }

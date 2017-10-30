@@ -252,4 +252,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/domestic_layout5" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/domestic_layout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/domestic_add_line5">
+
+        <TextView
+            android:id="@+id/domestic_add_label6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="手机号"
+            android:textColor="@color/default_black"
+            android:textSize="@dimen/text_size_mediumx"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/domestic_add_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:background="@color/transparent"
+            android:hint="办卡时预留手机号"
+            android:inputType="number"
+            android:textColor="@color/default_black"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="@dimen/text_size_mediumx"
+            app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label6"
+            app:layout_constraintStart_toEndOf="@+id/domestic_add_label6" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/domestic_add_line6"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="24dp"
+        android:background="@color/domestic_add_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/domestic_layout6" />
 </android.support.constraint.ConstraintLayout>
