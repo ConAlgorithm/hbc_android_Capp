@@ -37,7 +37,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     @Bind(R.id.domestic_pay_layout)
     DomesticOldPayView domesticOldPayView; //老卡支付
 
-    ChoosePaymentActivity.RequestParams params;
+    ChoosePaymentActivity.RequestParams requestParams;
 
     @Override
     public int getContentViewId() {
@@ -48,8 +48,8 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
-        params = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(PAY_PARAMS);
-        domesticHeadView.init(PriceFormat.price(params.shouldPay));
+        requestParams = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(PAY_PARAMS);
+        domesticHeadView.init(PriceFormat.price(requestParams.shouldPay));
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(manager);
@@ -61,9 +61,16 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
      * 加载信用卡数据
      */
     private void loadData() {
-        // 查询显示历史卡API
-        RequestEposBindList request = new RequestEposBindList(this);
-        HttpRequestUtils.request(this, request, this);
+         /*
+        国内信用卡支付区分大于5万和小于5万
+        1. 小于5万显示历史卡界面，可以走新卡界面，显示绑定协议
+        2. 大于5万不加载历史卡界面，只能走新卡界面，消费支付，不显示绑定协议
+         */
+        if (requestParams != null && requestParams.shouldPay < 50000) {
+            // 查询显示历史卡API
+            RequestEposBindList request = new RequestEposBindList(this);
+            HttpRequestUtils.request(this, request, this);
+        }
     }
 
     @OnClick({R.id.header_left_btn, R.id.domestic_add})
@@ -75,7 +82,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
             case R.id.domestic_add:
                 // 添加信用卡
                 Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
-                intent.putExtra(PAY_PARAMS, params);
+                intent.putExtra(PAY_PARAMS, requestParams);
                 startActivity(intent);
                 break;
         }

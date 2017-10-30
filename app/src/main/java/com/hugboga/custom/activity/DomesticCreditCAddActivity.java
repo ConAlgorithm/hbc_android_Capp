@@ -95,6 +95,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * @return
      */
     private boolean checkContent() {
+
         return true;
     }
 

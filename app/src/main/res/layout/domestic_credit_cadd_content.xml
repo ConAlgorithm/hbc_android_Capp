@@ -187,7 +187,7 @@
             android:layout_marginStart="32dp"
             android:background="@color/transparent"
             android:hint="请输入持卡人姓名"
-            android:inputType="number"
+            android:inputType="text"
             android:textColor="@color/default_black"
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"

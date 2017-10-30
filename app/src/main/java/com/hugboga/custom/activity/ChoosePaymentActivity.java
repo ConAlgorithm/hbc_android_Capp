@@ -394,21 +394,11 @@ public class ChoosePaymentActivity extends BaseActivity implements HttpRequestLi
                 break;
             case R.id.choose_payment_add_credit_card_layout:
                 //国内信用卡支付
-                /*
-                国内信用卡支付区分大于5万和小于5万
-                1. 小于5万进入历史卡界面，可以走新卡绑定界面，显示绑定协议
-                2. 大于5万进入新卡界面，消费支付，不显示绑定协议
-                 */
-                Intent intent = new Intent();
-                intent.putExtra(PAY_PARAMS, requestParams);
-                if (requestParams != null && requestParams.shouldPay > 50000) {
-                    //大于5万，进入新卡界面
-                    intent.setClass(this, DomesticCreditCAddActivity.class);
-                } else {
-                    //小于5万，显示历史卡界面
-                    intent.setClass(this, DomesticCreditCardActivity.class);
+                if (requestParams != null) {
+                    Intent intent = new Intent(this, DomesticCreditCardActivity.class);
+                    intent.putExtra(PAY_PARAMS, requestParams);
+                    startActivity(intent);
                 }
-                startActivity(intent);
                 sendRequest(Constants.PAY_STATE_BANK);//仅仅只用于埋点
                 break;
             case R.id.choose_payment_abrod_credit_layout:
