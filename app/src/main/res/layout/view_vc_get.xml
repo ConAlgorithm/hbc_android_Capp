@@ -49,6 +49,7 @@
             android:id="@+id/vvc_get_phone_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:numeric="integer"
             android:background="#00000000"
             android:gravity="center_vertical"
             android:hint="@string/voice_captcha_phone"

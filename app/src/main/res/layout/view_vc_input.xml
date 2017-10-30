@@ -120,6 +120,7 @@
 
         <EditText
             android:id="@+id/vvc_input_code_et"
+            android:numeric="integer"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"

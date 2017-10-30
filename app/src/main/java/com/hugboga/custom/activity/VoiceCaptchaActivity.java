@@ -3,6 +3,7 @@ package com.hugboga.custom.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -117,6 +118,12 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
         getView.setOnConfirmListener(this);
         inputView.setInputCompleteListener(this);
         showSoftInput(getView.getPhoneEditText());
+        titlebar.setTitleBarBackListener(new TitleBar.OnTitleBarBackListener() {
+            @Override
+            public boolean onTitleBarBack() {
+                return isShowInputView();
+            }
+        });
     }
 
     private void showSoftInput(final EditText editText) {
@@ -194,6 +201,26 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
                 return;
             }
             inputView.clearEditText();
+        }
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (isShowInputView()) {
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private boolean isShowInputView() {
+        if (inputView.getVisibility() == View.VISIBLE) {
+            inputView.setVisibility(View.GONE);
+            getView.setVisibility(View.VISIBLE);
+            return true;
+        } else {
+            return false;
         }
     }
 

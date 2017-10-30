@@ -83,10 +83,9 @@ public class VoiceCaptchaGetView extends LinearLayout implements TextWatcher {
     }
 
     public void setPhone(String _phone) {
-        if (TextUtils.isEmpty(_phone)) {
-            return;
-        }
         phoneET.setText(_phone);
+        setConfirmViewEnabled(!TextUtils.isEmpty(_phone));
+        phoneET.setSelection(_phone != null ? _phone.length() : 0);
     }
 
     public EditText getPhoneEditText() {
@@ -110,8 +109,7 @@ public class VoiceCaptchaGetView extends LinearLayout implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         boolean isEnabled = s != null && !TextUtils.isEmpty(s.toString());
-        confirmTV.setEnabled(isEnabled);
-        confirmTV.setBackgroundResource(isEnabled ? R.drawable.shape_rounded_yellow_btn : R.drawable.shape_rounded_gray_btn);
+        setConfirmViewEnabled(isEnabled);
     }
 
     public interface OnConfirmListener {
@@ -120,5 +118,10 @@ public class VoiceCaptchaGetView extends LinearLayout implements TextWatcher {
 
     public void setOnConfirmListener(OnConfirmListener listener) {
         this.listener = listener;
+    }
+
+    private void setConfirmViewEnabled(boolean isEnabled) {
+        confirmTV.setEnabled(isEnabled);
+        confirmTV.setBackgroundResource(isEnabled ? R.drawable.shape_rounded_yellow_btn : R.drawable.shape_rounded_gray_btn);
     }
 }
