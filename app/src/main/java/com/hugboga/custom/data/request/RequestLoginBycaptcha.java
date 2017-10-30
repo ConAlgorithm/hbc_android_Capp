@@ -29,7 +29,7 @@ public class RequestLoginBycaptcha extends BaseRequest<UserBean> {
     public int source;//
     public RequestLoginBycaptcha(Context context,String areaCode,String mobile,String captcha,Integer sourceType,Integer source) {
         super(context);
-        this.areaCode = areaCode;
+        this.areaCode = CommonUtils.removePhoneCodeSign(areaCode);
         this.mobile = mobile;
         this.captcha = captcha;
         this.sourceType =sourceType;

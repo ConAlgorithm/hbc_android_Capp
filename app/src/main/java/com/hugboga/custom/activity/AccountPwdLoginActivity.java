@@ -107,7 +107,7 @@ public class AccountPwdLoginActivity extends BaseActivity implements TextWatcher
         }
         if (!TextUtils.isEmpty(areaCode)) {
             this.areaCode = areaCode;
-            areaCodeTextView.setText("+" + areaCode);
+            areaCodeTextView.setText(CommonUtils.addPhoneCodeSign(areaCode));
         } else {
             this.areaCode = "86";
         }
