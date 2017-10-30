@@ -15,8 +15,10 @@ public class EposFirstPay implements Serializable {
     public String eposPaySubmitStatus;
     public String r1_Code;
     public String hmac;
+    public String rp_NeedFactor; //加验要素内容，"cvv2,avalidDate "
     public String r2_TrxId;
     public String hmac_safe;
+    public String needVaildFactors; //加验要素编号，"1,2,"
     public String errorMsg;
     public String ro_BankOrderId;
 

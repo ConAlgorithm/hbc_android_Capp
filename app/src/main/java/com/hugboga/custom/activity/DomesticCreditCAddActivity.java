@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.net.UrlLibs;
+import com.hugboga.custom.data.request.RequestEposCheckFactor;
 import com.hugboga.custom.data.request.RequestEposFirstPay;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.widget.DatePickerYearDialog;
@@ -81,6 +82,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_number4.addTextChangedListener(watcher);
         domestic_add_number5.addTextChangedListener(watcher);
         domestic_add_phone.addTextChangedListener(watcher);
+        //TODO 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
+
     }
 
     /**
@@ -181,6 +184,51 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     }
 
     /**
+     * 加验要素验证处理
+     *
+     * @return
+     */
+    private boolean checkFactor() {
+        if (domestic_add_number.getVisibility() == View.VISIBLE) {
+            String number = domestic_add_number.getText().toString().trim();
+            if (TextUtils.isEmpty(number)) {
+                return false;
+            }
+        }
+        if (domestic_add_date.getVisibility() == View.VISIBLE) {
+            String date = domestic_add_date.getText().toString().trim();
+            if (TextUtils.isEmpty(date)) {
+                return false;
+            }
+        }
+        if (domestic_add_number3.getVisibility() == View.VISIBLE) {
+            String cvv = domestic_add_number3.getText().toString().trim();
+            if (TextUtils.isEmpty(cvv)) {
+                return false;
+            }
+        }
+        if (domestic_add_number4.getVisibility() == View.VISIBLE) {
+            String username = domestic_add_number4.getText().toString().trim();
+            if (TextUtils.isEmpty(username)) {
+                return false;
+            }
+        }
+        if (domestic_add_number5.getVisibility() == View.VISIBLE) {
+            String cardNum = domestic_add_number5.getText().toString().trim();
+            if (TextUtils.isEmpty(cardNum)) {
+                return false;
+            }
+        }
+        if (domestic_add_phone.getVisibility() == View.VISIBLE) {
+            String phone = domestic_add_phone.getText().toString().trim();
+            if (TextUtils.isEmpty(phone)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 首次支付请求
      */
     private void firstPay() {
@@ -198,6 +246,22 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 加验要素请求
+     */
+    private void payFactor() {
+        if (checkFactor()) {
+            RequestEposCheckFactor request = new RequestEposCheckFactor(this,
+                    domestic_add_number5.getText().toString().trim(),
+                    domestic_add_phone.getText().toString().trim(),
+                    domestic_add_number4.getText().toString().trim(),
+                    domestic_add_number.getText().toString().trim(),
+                    String.valueOf(selectYear), PriceFormat.month2(selectMonth),
+                    domestic_add_number3.getText().toString().trim());
+            HttpRequestUtils.request(this, request, this);
+        }
+    }
+
     @Override
     public void onDataRequestSucceed(BaseRequest request) {
         super.onDataRequestSucceed(request);
@@ -205,25 +269,49 @@ public class DomesticCreditCAddActivity extends BaseActivity {
             //首次信用卡支付
             EposFirstPay eposFirstPay = ((RequestEposFirstPay) request).getData();
             if (eposFirstPay != null) {
-                switch (eposFirstPay.eposPaySubmitStatus) {
-                    case "1":
-                        //提交成功
-                        break;
-                    case "2":
-                        //提交失败
-                        ToastUtils.showToast(this, eposFirstPay.errorMsg);
-                        break;
-                    case "3":
-                        //加验要素
-                        break;
-                    case "4":
-                        //短信验证
-                        break;
-                    case "5":
-                        //加验要素及短信验证
-                        break;
-                }
+                doFirstPay(eposFirstPay);
+            }
+        } else if (request instanceof RequestEposCheckFactor) {
+            //加验要素
+            EposFirstPay eposPayFactor = ((RequestEposCheckFactor) request).getData();
+            if (eposPayFactor != null) {
+                doPayFactor(eposPayFactor);
             }
         }
+    }
+
+    /**
+     * 新添加信用卡支付结果处理
+     *
+     * @param eposFirstPay
+     */
+    private void doFirstPay(EposFirstPay eposFirstPay) {
+        switch (eposFirstPay.eposPaySubmitStatus) {
+            case "1":
+                //提交成功
+                break;
+            case "2":
+                //提交失败
+                ToastUtils.showToast(this, eposFirstPay.errorMsg);
+                break;
+            case "3":
+                //加验要素
+                break;
+            case "4":
+                //短信验证
+                break;
+            case "5":
+                //加验要素及短信验证
+                break;
+        }
+    }
+
+    /**
+     * 加验要素请求结果处理
+     *
+     * @param eposPayFactor
+     */
+    private void doPayFactor(EposFirstPay eposPayFactor) {
+
     }
 }
