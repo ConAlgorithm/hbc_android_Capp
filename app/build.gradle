@@ -53,8 +53,8 @@ android {
         }
     }
     flavorDimensions "flavor"
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.0'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
@@ -227,7 +227,6 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:design:+'
     compile 'com.android.support:support-v4:+'
     compile project(':hbcframe')
