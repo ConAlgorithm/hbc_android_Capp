@@ -13,23 +13,23 @@
         android:textColor="@color/common_font_color_black"
         android:maxLines="1"
         android:maxLength="15" />
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/person_info_nick_title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/login_unready"/>
+
     <EditText
         android:id="@+id/person_info_nick_text"
+        android:layout_below="@id/person_info_nick_title"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_below="@+id/view"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@null"
         android:singleLine="true"
         android:maxLength="50" />
-
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/person_info_nick_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/login_unready"/>
 </RelativeLayout>

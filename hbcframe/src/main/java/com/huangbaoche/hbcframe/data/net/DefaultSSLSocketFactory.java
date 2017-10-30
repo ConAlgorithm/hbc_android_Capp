@@ -45,7 +45,6 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
                 trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                 InputStream ins;
                 if(HbcConfig.FLAVOR.equals("10007")){
-                    keystorepw = "6154acb614e80a42fc85509980ff3ea5";
                     ins = context.getResources().getAssets().open("clientgp.keystore");
                 }else{
                     ins = context.getResources().getAssets().open("client.keystore");
@@ -70,7 +69,6 @@ public class DefaultSSLSocketFactory extends SSLCertificateSocketFactory {
                     trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
                     InputStream ins;
                     if(HbcConfig.FLAVOR.equals("10007")){
-                        keystorepw = "6154acb614e80a42fc85509980ff3ea5";
                         ins = context.getResources().getAssets().open("clientgp.keystore");
                     }else{
                         ins = context.getResources().getAssets().open("client.keystore");

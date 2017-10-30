@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-	xmlns:tools="http://schemas.android.com/tools"
-	tools:ignore="MissingTranslation">
-	<!-- 密码键盘 -->
+<resources>
+	<!--重构后新添加的字符串  如果重构中有用到上面的字符 我会将其拷贝下来 最终上面的字符会被删除-->
+	<string name="payeco_error_init1">插件初始化异常,服务器响应结果为空</string>
+	<string name="payeco_error_init2">插件初始化异常,无法解析服务器响应结果</string>
+	<string name="payeco_error_init3">插件初始化异常,无法解析服务器响应结果中的错误信息</string>
+	<string name="payeco_error_init4">插件初始化异常,无法解析服务器响应结果中的包信息</string>
+	<string name="payeco_error_init5">插件初始化异常,无法使用服务器响应结果中的配置信息更新插件</string>
+	<string name="payeco_error_init6">插件初始化异常,无法使用服务器响应结果中的密钥信息更新插件</string>
+	<string name="payeco_error_init7">插件初始化异常,多次更新域名仍无法连接服务器</string>
+	<string name="payeco_error_init8">插件初始化异常,无法连接服务器</string>
+	<string name="payeco_error_init9">插件初始化异常</string>
+
+	<string name="payeco_error_orderpay1">订单支付异常,服务器响应结果为空</string>
+	<string name="payeco_error_orderpay2">订单支付异常,无法解析服务器响应结果</string>
+	<string name="payeco_error_orderpay3">订单支付异常,无法连接服务器</string>
+
+	<string name="payeco_erroe_orderquery1">订单查询异常,服务器响应结果为空</string>
+	<string name="payeco_erroe_orderquery2">订单查询异常,通讯数据有误</string>
+	<string name="payeco_erroe_orderquery3">订单查询异常,无法解析服务器响应结果</string>
+	<string name="payeco_erroe_orderquery4">订单查询异常,无法连接服务器</string>
+	<string name="payeco_erroe_orderquery5">订单支付异常</string>
+
+	<string name="payeco_error_getsms1">获取验证码异常,服务器响应结果为空</string>
+	<string name="payeco_error_getsms2">获取验证码异常,无法解析服务器响应结果</string>
+	<string name="payeco_error_getsms3">获取验证码异常,无法连接服务器</string>
+
+	<string name="payeco_error_params1">参数传递错误,PayecoPluginPayCallBack是必需的</string>
+	<string name="payeco_error_params2">参数传递错误,参数不能为空</string>
+	<string name="payeco_error_params3">参数传递错误,thePackageName是必需的</string>
+	<string name="payeco_error_params4">参数传递错误,upPay.Req是必需的</string>
+	<string name="payeco_error_params5">参数传递错误,Environment是必需的</string>
+	<string name="payeco_error_params6">参数传递错误,Environment必须为00,01,02,03</string>
+	<string name="payeco_error_params7">参数传递错误,upPay.Req无法解析MerchOrderId</string>
+	<string name="payeco_error_params8">参数传递错误,MerchOrderId为空</string>
+
+	<string name="payeco_error_encrypt1">借记卡密码加密失败</string>
+	<string name="payeco_error_encrypt2">信用卡CVN2加密失败</string>
+
+	<string name="payeco_tip_exitbyuser">用户主动退出插件</string>
+
+	<string name="payeco_tip_loading">正在进入银联手机支付\n信息已加密传送</string>
+	<string name="payeco_tip_payloading">支付中&#8230;\n信息已加密传送</string>
+	<string name="payeco_tip_orderquerying">正在查单,请稍后&#8230;</string>
+	<string name="payeco_tip_dealorderquery">处理中,请稍等倒计时%1$d秒</string>
+	<string name="payeco_tip_canclenopwd">取消免密支付后,所有交易均需输入密码验证,确定暂停使用免密支付功能?</string>
+	<string name="payeco_tip_canclenopwd_no">返回</string>
+	<string name="payeco_tip_canclenopwd_yes">继续取消</string>
+	<string name="payeco_tip_isquerycontinue">是否继续查询?</string>
+	<string name="payeco_tip_canclenopwd_yes1">继续查询</string>
+	<string name="payeco_tip_orderquery">订单查询</string>
+	<string name="payeco_tip_querying">查询中</string>
+	<string name="payeco_tip_wating">等待%1$d秒</string>
+	<string name="payeco_tip_retry">重试</string>
+	<string name="payeco_tip_cancel">取消</string>
+	<string name="payeco_tip_inputsms">请输入验证码</string>
+	<string name="payeco_tip_resend">重新发送</string>
+	<string name="payeco_tip_nopwdpay">免密支付</string>
+	<string name="payeco_tip_nopwdpaytip">您已开通小额免密支付,无需输入取款密码</string>
+	<string name="payeco_tip_unionpayca">银联认证安全保障</string>
+	<string name="payeco_tip_inputcardmsg">输入银行卡信息</string>
+	<string name="payeco_tip_validperiod">有效期</string>
+	<string name="payeco_tip_monthandyear">月份/年份</string>
+	<string name="payeco_tip_imputmonthandyear">%1$d月/%2$d年</string>
+	<string name="payeco_tip_cvv2">CVV2</string>
+	<string name="payeco_tip_cvv2tip">银行卡背面的3位数字</string>
+	<string name="payeco_tip_debitcard">%1$s储蓄卡(%2$s)</string>
+	<string name="payeco_tip_creditcard">%1$s信用卡(%2$s)</string>
+	<string name="payeco_tip_inputcreditcardmsg">请输入%1$s信用卡(%2$s)信息</string>
+	<string name="payeco_tip_inputdebitcardpwd">请输入%1$s储蓄卡(%2$s)取款密码</string>
+	<string name="payeco_tip_notknowcard">未知的银行卡类型</string>
+	<string name="payeco_tip_inputsmsbynum">请输入%1$s收到的短信验证码</string>
+	<string name="payeco_tip_validperiodtile">设置有效期</string>
 </resources>

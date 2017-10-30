@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@drawable/payeco_dia_bg"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/payeco_loading_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/payeco_unionpay_loading"/>
+
+    <com.payeco.android.plugin.view.ShimmerTextView
+        android:id="@+id/payeco_loading_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/payeco_loading_img"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="3dip"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"/>
+</RelativeLayout>

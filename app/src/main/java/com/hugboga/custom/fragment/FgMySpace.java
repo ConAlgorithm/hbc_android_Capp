@@ -30,6 +30,7 @@ import com.hugboga.custom.data.bean.LvMenuItem;
 import com.hugboga.custom.data.bean.UserBean;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.event.EventAction;
+import com.hugboga.custom.data.event.EventType;
 import com.hugboga.custom.data.request.RequestUserInfo;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
@@ -382,6 +383,7 @@ public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickLi
         if (code.wontAutoLogin()) {
             UserEntity.getUser().clean(getActivity());
             resetData();
+            EventBus.getDefault().post(new EventAction(EventType.CLICK_USER_LOOUT));
         }
     }
 
