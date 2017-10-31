@@ -524,7 +524,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             return;
         }
 
-        RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha,3,1);
+        RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha,3,1,3);
         requestData(request);
 
         StatisticClickEvent.click(StatisticConstant.LOGIN_CODE,getIntentSource());

@@ -156,7 +156,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
 
     @Override
     public void inputComplete(String captcha) {
-        RequestLoginBycaptcha request = new RequestLoginBycaptcha(this, code, phone, captcha, 3, 1);
+        RequestLoginBycaptcha request = new RequestLoginBycaptcha(this, code, phone, captcha, 3, 1, 4);
         requestData(request);
         StatisticClickEvent.click(StatisticConstant.LOGIN_CODE, getIntentSource());
     }

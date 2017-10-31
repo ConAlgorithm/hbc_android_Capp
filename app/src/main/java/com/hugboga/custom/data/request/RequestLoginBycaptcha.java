@@ -27,13 +27,15 @@ public class RequestLoginBycaptcha extends BaseRequest<UserBean> {
     public String captcha;
     public int sourceType;//1.订单 2.活动 3.自然用户
     public int source;//
-    public RequestLoginBycaptcha(Context context,String areaCode,String mobile,String captcha,Integer sourceType,Integer source) {
+    public int loginMethod;
+    public RequestLoginBycaptcha(Context context,String areaCode,String mobile,String captcha,Integer sourceType,Integer source, Integer loginMethod) {
         super(context);
         this.areaCode = CommonUtils.removePhoneCodeSign(areaCode);
         this.mobile = mobile;
         this.captcha = captcha;
         this.sourceType =sourceType;
         this.source = source;
+        this.loginMethod = loginMethod;
     }
 
     @Override
@@ -44,6 +46,7 @@ public class RequestLoginBycaptcha extends BaseRequest<UserBean> {
         map.put("captcha", captcha);
         map.put("sourceType",sourceType);
         map.put("source", source);
+        map.put("loginMethod", loginMethod);//验证码登录传3，语音验证码登录传4
         map.put("distinctid", SensorsDataAPI.sharedInstance(getContext()).getAnonymousId());
         map.put("loginChannel",1);//1:capp 2:m 3:pc
         return map;
