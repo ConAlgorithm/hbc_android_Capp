@@ -56,4 +56,8 @@ public class DomesticCCAdapter extends RecyclerView.Adapter<DomesticVH> {
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+
+    public List<EposBindCard> getData() {
+        return data;
+    }
 }

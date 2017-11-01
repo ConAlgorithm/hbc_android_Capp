@@ -200,6 +200,9 @@ public class UrlLibs {
     public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // TODO 国内信用卡绑定列表
     public static final String API_EPOS_FIRST_PAY           = "trade/v1.0/c/epos/firstpay";                             // TODO 国内信用卡首次支付
     public static final String API_EPOS_CHECK_FACTOR        = "trade/v1.0/c/epos/factorandverifycode";                  // TODO 国内信用卡支付加验要素
+    public static final String API_EPOS_BIND_LIST_PAY       = "trade/v1.0/c/epos/bindpay";                              // TODO 已绑定的信用卡支付
+    public static final String API_EPOS_SMS_SEND            = "trade/v1.0/c/epos/verifycodereceive";                    // TODO 易宝获取验证码
+    public static final String API_EPOS_SMS_VERIFY          = "trade/v1.0/c/epos/verifysale";                           // TODO 易宝短信验证
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机

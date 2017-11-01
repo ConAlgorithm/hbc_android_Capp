@@ -7,7 +7,7 @@ import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import org.json.JSONObject;
 
 /**
- * 首次信用卡支付
+ * EPos返回结果解析
  * Created by HONGBO on 2017/10/28 18:14.
  */
 

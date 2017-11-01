@@ -9,18 +9,31 @@ import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
+import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.DomesticCCAdapter;
+import com.hugboga.custom.constants.Constants;
+import com.hugboga.custom.data.bean.epos.EposBindCard;
 import com.hugboga.custom.data.bean.epos.EposBindList;
+import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.request.RequestEposBindList;
+import com.hugboga.custom.data.request.RequestEposBindPay;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.widget.domesticcc.DomesticHeadView;
 import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
+import com.hugboga.custom.widget.domesticcc.DomesticPayOkView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
+import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE;
+import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE0;
+import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE1;
+import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE2;
 
 /**
  * 国内信用卡列表
@@ -35,9 +48,13 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     @Bind(R.id.domestic_totle)
     DomesticHeadView domesticHeadView; //国内信用卡列表，还需支付部分
     @Bind(R.id.domestic_pay_layout)
-    DomesticOldPayView domesticOldPayView; //老卡支付
+    DomesticOldPayView domesticOldPayView; //验证码验证
+    @Bind(R.id.domestic_pay_ok_layout)
+    DomesticPayOkView domesticPayOkView; //历史卡支付确认
 
     ChoosePaymentActivity.RequestParams requestParams;
+
+    DomesticCCAdapter adapter;
 
     @Override
     public int getContentViewId() {
@@ -83,6 +100,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
                 // 添加信用卡
                 Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
                 intent.putExtra(PAY_PARAMS, requestParams);
+                intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE0);
                 startActivity(intent);
                 break;
         }
@@ -91,7 +109,12 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     @Override
     public void onItemClick(int position) {
         //点击历史卡进行支付，需要验证码和不需要验证码版本
-        domesticOldPayView.show();
+        if (adapter != null && adapter.getData() != null && adapter.getData().size() > 0) {
+            EposBindCard ebc = adapter.getData().get(position);
+            if (ebc != null) {
+                domesticPayOkView.show(ebc.bindId, ebc.getBankIconId(), ebc.bankName, ebc.cardNo, PriceFormat.price(requestParams.shouldPay));
+            }
+        }
     }
 
     @Override
@@ -100,11 +123,82 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         if (request instanceof RequestEposBindList) {
             //查询绑定历史卡列表
             EposBindList data = (EposBindList) request.getData();
-            if (data != null) {
-                DomesticCCAdapter adapter = new DomesticCCAdapter(data.bindList);
+            testHistoryData(data); //TODO test remove
+            if (data != null && data.bindList != null && data.bindList.size() > 0) {
+                adapter = new DomesticCCAdapter(data.bindList);
                 adapter.setOnItemClickListener(this);
                 listView.setAdapter(adapter);
             }
+        } else if (request instanceof RequestEposBindPay) {
+            //已绑定历史卡进行支付
+            oldPayResult(((RequestEposBindPay) request).getData());
         }
+    }
+
+    /**
+     * 历史卡支付结果处理
+     *
+     * @param data
+     */
+    private void oldPayResult(EposFirstPay data) {
+        switch (data.eposPaySubmitStatus) {
+            case "1":
+                //成功
+                Intent intentSuccess = new Intent(this, PayResultActivity.class);
+                PayResultActivity.Params params1 = new PayResultActivity.Params();
+                params1.orderId = requestParams.orderId;
+                params1.orderType = requestParams.orderType;
+                params1.apiType = requestParams.apiType;
+                params1.payResult = true;
+                intentSuccess.putExtra(Constants.PARAMS_DATA, params1);
+                startActivity(intentSuccess);
+                break;
+            case "2":
+                //失败
+                ToastUtils.showToast(this, data.errorMsg);
+                break;
+            case "3":
+                //加验要素
+                Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
+                intent.putExtra(PAY_PARAMS, requestParams);
+                intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
+                startActivity(intent);
+                break;
+            case "4":
+                //短信验证
+                domesticOldPayView.show(data.payNo, PriceFormat.price(requestParams.shouldPay));
+                break;
+            case "5":
+                //加验要素+短信验证
+                Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
+                intents.putExtra(PAY_PARAMS, requestParams);
+                intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
+                startActivity(intents);
+                break;
+        }
+    }
+
+    /**
+     * 开始支付
+     */
+    public void payOk(String bindId) {
+        // 进入老卡支付流程
+        RequestEposBindPay requestEposBindPay = new RequestEposBindPay(this, requestParams.orderId, requestParams.shouldPay, bindId);
+        HttpRequestUtils.request(this, requestEposBindPay, this);
+    }
+
+    /*******************************************测试数据************************************************/
+    private void testHistoryData(EposBindList data) {
+        if (data == null) {
+            data = new EposBindList();
+        }
+        List<EposBindCard> bindList = new ArrayList<>();
+        //1
+        EposBindCard card1 = new EposBindCard();
+        card1.cardNo = "6225********6380";
+        card1.bankName = "招商银行信用卡";
+        card1.bindId = "f5/YD5FLFLnO6o/2NQJG0BEFPUljuKdb";
+        bindList.add(card1);
+        data.bindList = bindList;
     }
 }

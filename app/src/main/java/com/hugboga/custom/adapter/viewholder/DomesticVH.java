@@ -39,13 +39,8 @@ public class DomesticVH extends RecyclerView.ViewHolder {
      * 显示数据
      */
     public void init(EposBindCard eposBindCard) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream(MyApplication.getAppContext().getAssets().open("CMB.png"));
-            imageView.setImageBitmap(bitmap);
-            itemName.setText(eposBindCard.bankName);
-            itemNumber.setText(eposBindCard.cardNo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        imageView.setImageResource(eposBindCard.getBankIconId());
+        itemName.setText(eposBindCard.bankName);
+        itemNumber.setText(eposBindCard.cardNo);
     }
 }

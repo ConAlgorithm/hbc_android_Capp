@@ -16,18 +16,21 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.data.request.RequestEposCheckFactor;
 import com.hugboga.custom.data.request.RequestEposFirstPay;
 import com.hugboga.custom.utils.PriceFormat;
 import com.hugboga.custom.widget.DatePickerYearDialog;
-import com.hugboga.custom.widget.domesticcc.DomesticNewPayView;
+import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
 
 import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
 
 /**
  * 添加信用卡
@@ -35,10 +38,15 @@ import butterknife.OnClick;
  */
 public class DomesticCreditCAddActivity extends BaseActivity {
 
+    public static final String KEY_VALIDE_TYPE = "key_valide_type"; //0：添加卡 1：只加验要素 2：加验要素+验证码
+    public static final int KEY_VALIDE_TYPE0 = 0; //0：添加卡
+    public static final int KEY_VALIDE_TYPE1 = 1; //1：只加验要素
+    public static final int KEY_VALIDE_TYPE2 = 2; //2：加验要素+验证码
+
     @Bind(R.id.header_title)
     TextView toolbarTitle;
     @Bind(R.id.domestic_pay_dialog)
-    DomesticNewPayView payDialog; //支付弹框
+    DomesticOldPayView domesticOldPayView; //支付弹框
 
     @Bind(R.id.domesticCaddCheck)
     CheckBox domesticCaddCheck; //是否同意协议
@@ -62,7 +70,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     private int selectYear;
     private int selectMonth;
 
-    ChoosePaymentActivity.RequestParams params;
+    ChoosePaymentActivity.RequestParams requestParams;
 
     @Override
     public int getContentViewId() {
@@ -73,7 +81,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
-        params = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
+        requestParams = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
         reloadProtocol(); //是否显示协议
         //增加字段监控
         domestic_add_number.addTextChangedListener(watcher);
@@ -82,8 +90,24 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_number4.addTextChangedListener(watcher);
         domestic_add_number5.addTextChangedListener(watcher);
         domestic_add_phone.addTextChangedListener(watcher);
-        //TODO 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
+        // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
+        if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != 0) {
+            //加载加验界面
+            //TODO 拿到加验需要的要素，对应各个字段展示
+            reloadValideField();
+        }
+    }
 
+    /**
+     * 加验要素界面显示
+     */
+    private void reloadValideField() {
+        domestic_add_number.setVisibility(View.GONE);
+//        domestic_add_date.setVisibility(View.GONE);
+        domestic_add_number3.setVisibility(View.GONE);
+        domestic_add_number4.setVisibility(View.GONE);
+        domestic_add_number5.setVisibility(View.GONE);
+        domestic_add_phone.setVisibility(View.GONE);
     }
 
     /**
@@ -92,7 +116,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * 2. 如果支付金额大于等于5万，则不显示支付金额，协议不选中
      */
     private void reloadProtocol() {
-        if (params != null && params.shouldPay < 50000) {
+        if (requestParams != null && requestParams.shouldPay < 50000) {
             domesticCaddCheck.setVisibility(View.VISIBLE);
             domesticProtocol.setVisibility(View.VISIBLE);
         } else {
@@ -139,7 +163,22 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 break;
             case R.id.domestic_credit_add_next:
                 //点击下一步，首次支付进行绑定卡操作
-                firstPay();
+                if (getIntent() != null) {
+                    switch (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1)) {
+                        case KEY_VALIDE_TYPE0:
+                            //新卡绑定
+                            firstPay();
+                            break;
+                        case KEY_VALIDE_TYPE1:
+                            //只验证要素
+                            payFactor();
+                            break;
+                        case KEY_VALIDE_TYPE2:
+                            //验证要素和验证码
+                            payFactor();
+                            break;
+                    }
+                }
                 break;
             case R.id.domesticProtocol:
                 //支付协议查看
@@ -234,7 +273,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     private void firstPay() {
         if (checkContent()) {
             RequestEposFirstPay request = new RequestEposFirstPay(this,
-                    params.orderId, params.shouldPay, params.couponId,
+                    requestParams.orderId, requestParams.shouldPay, requestParams.couponId,
                     domestic_add_number5.getText().toString().trim(),
                     domestic_add_phone.getText().toString().trim(),
                     domestic_add_number4.getText().toString().trim(),
@@ -289,6 +328,14 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         switch (eposFirstPay.eposPaySubmitStatus) {
             case "1":
                 //提交成功
+                Intent intentSuccess = new Intent(this, PayResultActivity.class);
+                PayResultActivity.Params params1 = new PayResultActivity.Params();
+                params1.orderId = requestParams.orderId;
+                params1.orderType = requestParams.orderType;
+                params1.apiType = requestParams.apiType;
+                params1.payResult = true;
+                intentSuccess.putExtra(Constants.PARAMS_DATA, params1);
+                startActivity(intentSuccess);
                 break;
             case "2":
                 //提交失败
@@ -296,12 +343,21 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 break;
             case "3":
                 //加验要素
+                Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
+                intent.putExtra(PAY_PARAMS, requestParams);
+                intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
+                startActivity(intent);
                 break;
             case "4":
                 //短信验证
+                domesticOldPayView.show(eposFirstPay.payNo, PriceFormat.price(requestParams.shouldPay));
                 break;
             case "5":
-                //加验要素及短信验证
+                //加验要素+短信验证
+                Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
+                intents.putExtra(PAY_PARAMS, requestParams);
+                intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
+                startActivity(intents);
                 break;
         }
     }
@@ -312,6 +368,22 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * @param eposPayFactor
      */
     private void doPayFactor(EposFirstPay eposPayFactor) {
-
+        //加验要素成功之后进行短信校验
+        /*
+        此结果是加验要素结果,只有两种可能
+        1. 校验成功
+        2. 加验短信验证码
+         */
+        if (getIntent() != null) {
+            switch (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1)) {
+                case KEY_VALIDE_TYPE1:
+                    //只验证要素
+                    break;
+                case KEY_VALIDE_TYPE2:
+                    //验证要素和验证码
+                    domesticOldPayView.show(eposPayFactor.payNo, PriceFormat.price(requestParams.shouldPay));
+                    break;
+            }
+        }
     }
 }

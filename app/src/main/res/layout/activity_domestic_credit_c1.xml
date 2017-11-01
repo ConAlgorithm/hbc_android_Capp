@@ -59,14 +59,25 @@
                     android:layout_margin="@dimen/default_margin_xlarge"
                     android:drawableLeft="@mipmap/icon_add"
                     android:drawablePadding="@dimen/default_margin_small"
+                    android:drawableStart="@mipmap/icon_add"
                     android:text="@string/domestic_add_card"
-                    android:textColor="#727272" android:drawableStart="@mipmap/icon_add" />
+                    android:textColor="#727272" />
             </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <com.hugboga.custom.widget.domesticcc.DomesticOldPayView
         android:id="@+id/domestic_pay_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.hugboga.custom.widget.domesticcc.DomesticPayOkView
+        android:id="@+id/domestic_pay_ok_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"

@@ -9,7 +9,7 @@ import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.net.NewParamsBuilder;
 import com.hugboga.custom.data.net.UrlLibs;
-import com.hugboga.custom.data.parser.ParseEposCheckFactor;
+import com.hugboga.custom.data.parser.ParseEposFirstPay;
 
 import org.xutils.http.HttpMethod;
 import org.xutils.http.annotation.HttpRequest;
@@ -58,7 +58,7 @@ public class RequestEposCheckFactor extends BaseRequest<EposFirstPay> {
 
     @Override
     public ImplParser getParser() {
-        return new ParseEposCheckFactor();
+        return new ParseEposFirstPay();
     }
 
     @Override
