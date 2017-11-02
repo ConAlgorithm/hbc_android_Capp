@@ -41,6 +41,10 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
     TextView domestic_pay_ok_name;
     @Bind(R.id.domestic_pay_ok_card)
     TextView domestic_pay_ok_card;
+    @Bind(R.id.pay_sms_resend)
+    TextView pay_sms_resend; //重新发送验证码
+    @Bind(R.id.pay_sms_time)
+    TextView pay_sms_time; //倒计时
     @Bind(R.id.pay_sms_et_code)
     EditText pay_sms_et_code; //验证码输入
     @Bind(R.id.pay_sms_btn)
@@ -85,7 +89,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         setVisibility(VISIBLE);
     }
 
-    public void close(){
+    public void close() {
         setVisibility(GONE);
     }
 
