@@ -93,7 +93,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         setVisibility(GONE);
     }
 
-    @OnClick({R.id.domestic_old_pay_root, R.id.domestic_old_pay_close, R.id.pay_sms_resend, R.id.pay_sms_et_code})
+    @OnClick({R.id.domestic_old_pay_root, R.id.domestic_old_pay_close, R.id.pay_sms_resend, R.id.pay_sms_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.domestic_old_pay_root:
@@ -107,7 +107,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
                 RequestEposSendSms requestEposSendSms = new RequestEposSendSms(getContext(), payNo);
                 HttpRequestUtils.request(getContext(), requestEposSendSms, this);
                 break;
-            case R.id.pay_sms_et_code:
+            case R.id.pay_sms_btn:
                 //验证码验证
                 if (valide()) {
                     RequestEposSmsVerify requestEposSmsVerify = new RequestEposSmsVerify(getContext(), payNo, pay_sms_et_code.getText().toString().trim());
@@ -136,7 +136,10 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();
-            ToastUtils.showToast(getContext(), result.errorMsg);
+            if (!"1".equals(result.eposPaySubmitStatus)) {
+                setVisibility(GONE);
+                ToastUtils.showToast(getContext(), result.errorMsg);
+            }
         }
     }
 

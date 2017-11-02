@@ -666,10 +666,12 @@
         <!-- 国内信用卡列表 -->
         <activity
             android:name=".activity.DomesticCreditCardActivity"
-            android:label="@string/title_domestic_cc" />
+            android:label="@string/title_domestic_cc"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".activity.DomesticCreditCAddActivity"
             android:label="@string/title_domestic_cc_add"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateVisible|adjustResize" />
     </application>
 
