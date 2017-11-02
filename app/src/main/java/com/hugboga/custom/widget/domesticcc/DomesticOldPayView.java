@@ -87,6 +87,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
 
     public void show(String payNo, int iconResId, String bankName, String cardNum, String price) {
         this.payNo = payNo;
+        initSmsView(); //初始化短信发送界面
         if (iconResId != 0) {
             domestic_pay_ok_img.setImageResource(iconResId);
         }
@@ -99,7 +100,20 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         pay_sms_btn.setText("支付 " + price);
         setVisibility(VISIBLE);
         //验证码开启倒计时
-        pay_sms_time.setEnabled(false);
+        startSmsStart();
+    }
+
+    private void initSmsView(){
+        time = 0; //倒计时停止
+        pay_sms_resend.setText(R.string.domestic_sms_send);
+        pay_sms_et_code.setText(""); //清空上次输入
+        pay_sms_time.setText(""); //清空倒计时
+    }
+
+    private void startSmsStart() {
+        time = 30;
+        pay_sms_resend.setText(R.string.domestic_sms_resend);
+        enableResendBtn(false);
         handler.postDelayed(runnable, 0);
     }
 
@@ -109,14 +123,26 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            pay_sms_time.setText(time <= 0 ? "" : "(" + time + ")");
-            time--;
-            if (time >= 0) {
-                pay_sms_time.setEnabled(true);
+            if (time > 0) {
+                pay_sms_time.setText("(" + time + ")");
                 handler.postDelayed(runnable, 1000);
+            } else {
+                enableResendBtn(true);
+                pay_sms_time.setText("");
             }
+            time--;
         }
     };
+
+    private void enableResendBtn(boolean isEnable) {
+        if (isEnable) {
+            pay_sms_resend.setClickable(true);
+            pay_sms_resend.setEnabled(true);
+        } else {
+            pay_sms_resend.setClickable(false);
+            pay_sms_resend.setEnabled(false);
+        }
+    }
 
     public void close() {
         setVisibility(GONE);
@@ -130,6 +156,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
                 break;
             case R.id.domestic_old_pay_close:
                 setVisibility(GONE);
+                initSmsView(); //关闭窗口初始化短信窗口界面
                 break;
             case R.id.pay_sms_resend:
                 //重新发送验证码
@@ -162,9 +189,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
             //重新发送验证码
             EposFirstPay result = (EposFirstPay) request.getData();
             ToastUtils.showToast(getContext(), result.errorMsg);
-            time = 30; //重置倒计时时间
-            pay_sms_time.setEnabled(false);
-            handler.postDelayed(runnable, 0);
+            startSmsStart();
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();

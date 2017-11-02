@@ -574,7 +574,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                         cardNum = getIntent().getStringExtra(KEY_VALIDE_CARDNUM);
                         icon = getIntent().getIntExtra(KEY_VALIDE_BANKICON, 0);
                     }
-                    domesticOldPayView.show(eposPayFactor.payNo, icon, bankName, cardNum, PriceFormat.price(requestParams.shouldPay));
+                    domesticOldPayView.show(payNo, icon, bankName, cardNum, PriceFormat.price(requestParams.shouldPay));
                     break;
             }
         }
