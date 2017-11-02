@@ -50,8 +50,12 @@ public class DomesticPayOkView extends FrameLayout {
         domestic_pay_ok_img.setImageResource(iconResId);
         domestic_pay_ok_name.setText(bankName);
         domestic_pay_ok_card.setText(cardNum);
-        domestic_pay_ok_btn.setText("支付 ¥" + price);
+        domestic_pay_ok_btn.setText("支付 " + price);
         setVisibility(VISIBLE);
+    }
+
+    public void close(){
+        setVisibility(GONE);
     }
 
     @OnClick({R.id.domestic_old_pay_root, R.id.domestic_old_pay_close, R.id.domestic_pay_ok_btn})

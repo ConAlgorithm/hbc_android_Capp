@@ -25,81 +25,83 @@ public class EposBindCard implements Serializable {
      */
     public int getBankIconId() {
         if (TextUtils.isEmpty(bankIcon)) {
-            return R.mipmap.ic_bank_ABCCREDIT;
+            return R.mipmap.ic_icon_bank_default;
         }
         switch (bankIcon) {
             case "ABCCREDIT":
-                return R.mipmap.ic_bank_ABCCREDIT;
+                return R.mipmap.ic_icon_bank_abccredit;
+            case "BANKOFDLCREDIT":
+                return R.mipmap.ic_icon_bank_bankofdlcredit;
             case "BCCBCREDIT":
-                return R.mipmap.ic_bank_BCCBCREDIT;
+                return R.mipmap.ic_icon_bank_bccbcredit;
             case "BJRCBCREDIT":
-                return R.mipmap.ic_bank_BJRCBCREDIT;
+                return R.mipmap.ic_icon_bank_bjrcbcredit;
             case "BOCCREDIT":
-                return R.mipmap.ic_bank_BOCCREDIT;
+                return R.mipmap.ic_icon_bank_boccredit;
             case "BOCOCREDIT":
-                return R.mipmap.ic_bank_BOCOCREDIT;
+                return R.mipmap.ic_icon_bank_bococredit;
             case "BOSHCREDIT":
-                return R.mipmap.ic_bank_BOSHCREDIT;
+                return R.mipmap.ic_icon_bank_boshcredit;
             case "BSBCREDIT":
-                return R.mipmap.ic_bank_BSBCREDIT;
+                return R.mipmap.ic_icon_bank_bsbcredit;
             case "CBHBCREDIT":
-                return R.mipmap.ic_bank_CBHBCREDIT;
+                return R.mipmap.ic_icon_bank_cbhbcredit;
             case "CCBCREDIT":
-                return R.mipmap.ic_bank_CCBCREDIT;
+                return R.mipmap.ic_icon_bank_ccbcredit;
             case "CIBCREDIT":
-                return R.mipmap.ic_bank_CIBCREDIT;
+                return R.mipmap.ic_icon_bank_cibcredit;
             case "CMBCCREDIT":
-                return R.mipmap.ic_bank_CMBCCREDIT;
+                return R.mipmap.ic_icon_bank_cmbccredit;
             case "CMBCHINACREDIT":
-                return R.mipmap.ic_bank_CMBCHINACREDIT;
+                return R.mipmap.ic_icon_bank_cmbchinacredit;
             case "CQRCBCREDIT":
-                return R.mipmap.ic_bank_CQRCBCREDIT;
+                return R.mipmap.ic_icon_bank_cqrcbcredit;
             case "ECITICCREDIT":
-                return R.mipmap.ic_bank_ECITICCREDIT;
+                return R.mipmap.ic_icon_bank_eciticcredit;
             case "EVERBRIGHTCREDIT":
-                return R.mipmap.ic_bank_EVERBRIGHTCREDIT;
+                return R.mipmap.ic_icon_bank_everbrightcredit;
             case "GDBCREDIT":
-                return R.mipmap.ic_bank_GDBCREDIT;
+                return R.mipmap.ic_icon_bank_gdbcredit;
             case "GRCBCREDIT":
-                return R.mipmap.ic_bank_GRCBCREDIT;
+                return R.mipmap.ic_icon_bank_grcbcredit;
             case "GYCCBCREDIT":
-                return R.mipmap.ic_bank_GYCCBCREDIT;
+                return R.mipmap.ic_icon_bank_gyccbcredit;
             case "GZCBCREDIT":
-                return R.mipmap.ic_bank_GZCBCREDIT;
+                return R.mipmap.ic_icon_bank_gzcbcredit;
             case "HRBCBCREDIT":
-                return R.mipmap.ic_bank_HRBCBCREDIT;
+                return R.mipmap.ic_icon_bank_hrbcbcredit;
             case "HSBANKCREDIT":
-                return R.mipmap.ic_bank_HSBANKCREDIT;
+                return R.mipmap.ic_icon_bank_hsbankcredit;
             case "HXBCREDIT":
-                return R.mipmap.ic_bank_HXBCREDIT;
+                return R.mipmap.ic_icon_bank_hxbcredit;
             case "HZBANKCREDIT":
-                return R.mipmap.ic_bank_HZBANKCREDIT;
+                return R.mipmap.ic_icon_bank_hzbankcredit;
             case "ICBCCREDIT":
-                return R.mipmap.ic_bank_ICBCCREDIT;
+                return R.mipmap.ic_icon_bank_icbccredit;
             case "JSBCHINACREDIT":
-                return R.mipmap.ic_bank_JSBCHINACREDIT;
+                return R.mipmap.ic_icon_bank_jsbchinacredit;
             case "LJBANKCREDIT":
-                return R.mipmap.ic_bank_LJBANKCREDIT;
+                return R.mipmap.ic_icon_bank_ljbankcredit;
             case "NBCBCREDIT":
-                return R.mipmap.ic_bank_NBCBCREDIT;
+                return R.mipmap.ic_icon_bank_nbcbcredit;
             case "NJCBCREDIT":
-                return R.mipmap.ic_bank_NJCBCREDIT;
+                return R.mipmap.ic_icon_bank_njcbcredit;
             case "PINGANCREDIT":
-                return R.mipmap.ic_bank_PINGANCREDIT;
+                return R.mipmap.ic_icon_bank_pingancredit;
             case "PSBCCREDIT":
-                return R.mipmap.ic_bank_PSBCCREDIT;
+                return R.mipmap.ic_icon_bank_psbccredit;
             case "SDBCREDIT":
-                return R.mipmap.ic_bank_SDBCREDIT;
+                return R.mipmap.ic_icon_bank_sdbcredit;
             case "SPDBCREDIT":
-                return R.mipmap.ic_bank_SPDBCREDIT;
+                return R.mipmap.ic_icon_bank_spdbcredit;
             case "SRCBCREDIT":
-                return R.mipmap.ic_bank_SRCBCREDIT;
+                return R.mipmap.ic_icon_bank_srcbcredit;
             case "TCCBCREDIT":
-                return R.mipmap.ic_bank_TCCBCREDIT;
+                return R.mipmap.ic_icon_bank_tccbcredit;
             case "TZBANKCREDIT":
-                return R.mipmap.ic_bank_TZBANKCREDIT;
+                return R.mipmap.ic_icon_bank_tzbankcredit;
             default:
-                return R.mipmap.ic_bank_ABCCREDIT;
+                return R.mipmap.ic_icon_bank_default;
         }
     }
 }

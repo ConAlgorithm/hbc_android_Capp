@@ -350,7 +350,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 break;
             case "4":
                 //短信验证
-                domesticOldPayView.show(eposFirstPay.payNo, PriceFormat.price(requestParams.shouldPay));
+                //TODO 首次绑卡，不知道卡icon
+                domesticOldPayView.show(eposFirstPay.payNo, 0, "", "", PriceFormat.price(requestParams.shouldPay));
                 break;
             case "5":
                 //加验要素+短信验证
@@ -381,7 +382,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                     break;
                 case KEY_VALIDE_TYPE2:
                     //验证要素和验证码
-                    domesticOldPayView.show(eposPayFactor.payNo, PriceFormat.price(requestParams.shouldPay));
+                    //TODO 不知道银行icon
+                    domesticOldPayView.show(eposPayFactor.payNo, 0, "", "", PriceFormat.price(requestParams.shouldPay));
                     break;
             }
         }

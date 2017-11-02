@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestListener;
@@ -33,6 +35,12 @@ import butterknife.OnClick;
 
 public class DomesticOldPayView extends FrameLayout implements HttpRequestListener {
 
+    @Bind(R.id.domestic_pay_ok_img)
+    ImageView domestic_pay_ok_img;
+    @Bind(R.id.domestic_pay_ok_name)
+    TextView domestic_pay_ok_name;
+    @Bind(R.id.domestic_pay_ok_card)
+    TextView domestic_pay_ok_card;
     @Bind(R.id.pay_sms_et_code)
     EditText pay_sms_et_code; //验证码输入
     @Bind(R.id.pay_sms_btn)
@@ -68,10 +76,17 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         }
     };
 
-    public void show(String payNo, String price) {
+    public void show(String payNo, int iconResId, String bankName, String cardNum, String price) {
         this.payNo = payNo;
-        pay_sms_btn.setText("支付 ¥" + price);
+        domestic_pay_ok_img.setImageResource(iconResId);
+        domestic_pay_ok_name.setText(bankName);
+        domestic_pay_ok_card.setText(cardNum);
+        pay_sms_btn.setText("支付 " + price);
         setVisibility(VISIBLE);
+    }
+
+    public void close(){
+        setVisibility(GONE);
     }
 
     @OnClick({R.id.domestic_old_pay_root, R.id.domestic_old_pay_close, R.id.pay_sms_resend, R.id.pay_sms_et_code})

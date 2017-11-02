@@ -56,6 +56,8 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
 
     DomesticCCAdapter adapter;
 
+    EposBindCard ebc; //选择的历史卡
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_domestic_credit_c1;
@@ -110,7 +112,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     public void onItemClick(int position) {
         //点击历史卡进行支付，需要验证码和不需要验证码版本
         if (adapter != null && adapter.getData() != null && adapter.getData().size() > 0) {
-            EposBindCard ebc = adapter.getData().get(position);
+            ebc = adapter.getData().get(position);
             if (ebc != null) {
                 domesticPayOkView.show(ebc.bindId, ebc.getBankIconId(), ebc.bankName, ebc.cardNo, PriceFormat.price(requestParams.shouldPay));
             }
@@ -141,6 +143,8 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
      * @param data
      */
     private void oldPayResult(EposFirstPay data) {
+        data.eposPaySubmitStatus = "4"; //TODO test remove
+        domesticPayOkView.close();
         switch (data.eposPaySubmitStatus) {
             case "1":
                 //成功
@@ -166,7 +170,9 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
                 break;
             case "4":
                 //短信验证
-                domesticOldPayView.show(data.payNo, PriceFormat.price(requestParams.shouldPay));
+                if (ebc != null) {
+                    domesticOldPayView.show(data.payNo, ebc.getBankIconId(), ebc.bankName, ebc.cardNo, PriceFormat.price(requestParams.shouldPay));
+                }
                 break;
             case "5":
                 //加验要素+短信验证
@@ -187,7 +193,9 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         HttpRequestUtils.request(this, requestEposBindPay, this);
     }
 
-    /*******************************************测试数据************************************************/
+    //TODO remove
+
+    /*****************************  测试数据 ******************************/
     private void testHistoryData(EposBindList data) {
         if (data == null) {
             data = new EposBindList();
@@ -197,6 +205,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         EposBindCard card1 = new EposBindCard();
         card1.cardNo = "6225********6380";
         card1.bankName = "招商银行信用卡";
+        card1.bankIcon = "CMBCHINACREDIT";
         card1.bindId = "f5/YD5FLFLnO6o/2NQJG0BEFPUljuKdb";
         bindList.add(card1);
         data.bindList = bindList;
