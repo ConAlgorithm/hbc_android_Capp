@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/domestic_old_pay_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +26,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/add_name_close" />
+            app:srcCompat="@mipmap/ic_icon_bank_default" />
 
         <ImageView
             android:id="@+id/domestic_old_pay_close"
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:text="招商银行 信用卡"
+            android:text="信用卡"
             android:textColor="#7F7F7F"
             app:layout_constraintStart_toEndOf="@+id/domestic_pay_ok_img"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
-            android:text="**** **** **** 3017"
+            android:text="**** **** ****"
             app:layout_constraintStart_toEndOf="@+id/domestic_pay_ok_img"
             app:layout_constraintTop_toBottomOf="@+id/domestic_pay_ok_name" />
 
@@ -130,38 +131,16 @@
                 android:id="@+id/imageView4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pay_sms_et_code"
                 app:srcCompat="@color/im_list_select_hover" />
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:text="卡信息有误"
-                android:textColor="@color/default_price_red"
-                android:textSize="@dimen/text_size_mediumx"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="重新添加卡片"
-                android:textColor="@color/forget_pwd"
-                android:textSize="@dimen/text_size_mediumx"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
-                app:layout_constraintStart_toEndOf="@+id/textView15" />
         </android.support.constraint.ConstraintLayout>
 
         <Button
@@ -173,7 +152,7 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/login2_selector_bg"
             android:enabled="false"
-            android:text="支付 ¥1,279"
+            android:text="支付 ¥0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

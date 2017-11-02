@@ -1,8 +1,10 @@
 package com.hugboga.custom.widget.domesticcc;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,6 +22,8 @@ import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
 import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.ToastUtils;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.DomesticCreditCAddActivity;
+import com.hugboga.custom.activity.DomesticCreditCardActivity;
 import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.request.RequestEposSendSms;
 import com.hugboga.custom.data.request.RequestEposSmsVerify;
@@ -82,9 +86,15 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
 
     public void show(String payNo, int iconResId, String bankName, String cardNum, String price) {
         this.payNo = payNo;
-        domestic_pay_ok_img.setImageResource(iconResId);
-        domestic_pay_ok_name.setText(bankName);
-        domestic_pay_ok_card.setText(cardNum);
+        if (iconResId != 0) {
+            domestic_pay_ok_img.setImageResource(iconResId);
+        }
+        if (!TextUtils.isEmpty(bankName)) {
+            domestic_pay_ok_name.setText(bankName);
+        }
+        if (!TextUtils.isEmpty(cardNum)) {
+            domestic_pay_ok_card.setText(cardNum);
+        }
         pay_sms_btn.setText("支付 " + price);
         setVisibility(VISIBLE);
     }
@@ -136,10 +146,60 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();
-            if (!"1".equals(result.eposPaySubmitStatus)) {
-                setVisibility(GONE);
-                ToastUtils.showToast(getContext(), result.errorMsg);
-            }
+            setVisibility(GONE);
+            doSmsResult(result);
+        }
+    }
+
+    /**
+     * 验证码验证处理结果
+     * 银行把加验要素在短信验证通过后进行验证
+     *
+     * @param result
+     */
+    private void doSmsResult(EposFirstPay result) {
+        if ("1".equals(result.eposPaySubmitStatus)) {
+            //成功支付跳转成功
+            gotoSmsSuccess();
+        } else if ("2".equals(result.eposPaySubmitStatus) || "3".equals(result.eposPaySubmitStatus)
+                || "4".equals(result.eposPaySubmitStatus) || "5".equals(result.eposPaySubmitStatus)
+                || "6".equals(result.eposPaySubmitStatus) || "7".equals(result.eposPaySubmitStatus)) {
+            //验证码出现错误
+            ToastUtils.showToast(getContext(), result.errorMsg);
+            doSmsUI();
+        } else {
+            //银行其他错误
+            new AlertDialog.Builder(getContext()).setMessage(result.errorMsg).setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    doSmsUI();
+                }
+            }).show();
+        }
+    }
+
+    /**
+     * 短信验证码错误或者位置错误时界面交互处理
+     * 1. 历史卡短信校验出错，关闭当前短信验证弹框，保留在历史卡列表界面
+     * 2. 新绑卡短信校验出错，关闭当前短信验证弹框，点击下一步重新绑卡
+     * 3. 加验要素短信校验出错，关闭当前短信验证弹框，关闭加验要素界面，显示绑新卡或者历史卡列表
+     */
+    private void doSmsUI() {
+        //此处已经关闭了当前短信弹框，只需要做后续操作
+        if (getContext() != null && (getContext() instanceof DomesticCreditCAddActivity)) {
+            //判断如果是加验要素界面则关闭加验要素窗口
+            ((DomesticCreditCAddActivity) getContext()).closeOfValide();
+        }
+    }
+
+    /**
+     * 支付成功打开成功界面
+     */
+    private void gotoSmsSuccess() {
+        if (getContext() != null && (getContext() instanceof DomesticCreditCardActivity)) {
+            ((DomesticCreditCardActivity) getContext()).gotoSuccess();
+        } else if (getContext() != null && (getContext() instanceof DomesticCreditCAddActivity)) {
+            ((DomesticCreditCAddActivity) getContext()).gotoSuccess();
         }
     }
 

@@ -11,7 +11,8 @@ public class EposFirstPay implements Serializable {
     public String r0_Cmd;
     public String payNo;
     public String r6_Order;
-    //SUCCESS(1, "提交成功"), FAILED(2, "提交失败"), VERIFY_FACTOR(3, "加验要素"),VERIFY_CODE(4, "短信验证"),VERIFY_FACTOR_CODE(5, "加验要素及短信验证");
+    //SUCCESS(1, "提交成功"), FAILED(2, "提交失败"), VERIFY_FACTOR(3, "加验要素"),VERIFY_CODE(4, "短信验证"),
+    // VERIFY_FACTOR_CODE(5, "加验要素及短信验证"),RCODE_TIMEOUT(6, "验证码校验失败"),RCODE_INVALID(7, "验证码已无效");
     public String eposPaySubmitStatus;
     public String r1_Code;
     public String hmac;

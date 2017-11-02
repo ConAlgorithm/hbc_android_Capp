@@ -45,6 +45,9 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     public static final int KEY_VALIDE_TYPE1 = 1; //1：只加验要素
     public static final int KEY_VALIDE_TYPE2 = 2; //2：加验要素+验证码
     public static final String KEY_VALIDE_NEED = "key_valide_need"; //加验要素编号
+    public static final String KEY_VALIDE_BANKNAME = "key_valide_bankname"; //加验银行名
+    public static final String KEY_VALIDE_BANKICON = "key_valide_bankicon"; //加验银行图标
+    public static final String KEY_VALIDE_CARDNUM = "key_valide_cardnum"; //加验卡号
 
     @Bind(R.id.header_title)
     TextView toolbarTitle;
@@ -119,7 +122,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_number5.addTextChangedListener(watcher);
         domestic_add_phone.addTextChangedListener(watcher);
         // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
-        if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != 0) {
+        if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != KEY_VALIDE_TYPE0) {
             showProtocol(false); //加验要素不显示协议
             //加载加验界面
             String valideNeed = getIntent().getStringExtra(KEY_VALIDE_NEED);
@@ -141,7 +144,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         }
     }
 
-    private void hideFieldAll(){
+    private void hideFieldAll() {
         domestic_layout3.setVisibility(View.GONE);
         domestic_add_line3.setVisibility(View.GONE);
         domestic_layout2.setVisibility(View.GONE);
@@ -415,6 +418,18 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         }
     }
 
+    public void gotoSuccess() {
+        Intent intentSuccess = new Intent(this, PayResultActivity.class);
+        PayResultActivity.Params params1 = new PayResultActivity.Params();
+        params1.orderId = requestParams.orderId;
+        params1.orderType = requestParams.orderType;
+        params1.apiType = requestParams.apiType;
+        params1.payResult = true;
+        intentSuccess.putExtra(Constants.PARAMS_DATA, params1);
+        startActivity(intentSuccess);
+        finish(); //支付成功关闭当前界面
+    }
+
     /**
      * 新添加信用卡支付结果处理
      *
@@ -424,14 +439,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         switch (eposFirstPay.eposPaySubmitStatus) {
             case "1":
                 //提交成功
-                Intent intentSuccess = new Intent(this, PayResultActivity.class);
-                PayResultActivity.Params params1 = new PayResultActivity.Params();
-                params1.orderId = requestParams.orderId;
-                params1.orderType = requestParams.orderType;
-                params1.apiType = requestParams.apiType;
-                params1.payResult = true;
-                intentSuccess.putExtra(Constants.PARAMS_DATA, params1);
-                startActivity(intentSuccess);
+                gotoSuccess();
                 break;
             case "2":
                 //提交失败
@@ -442,20 +450,33 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
                 intent.putExtra(PAY_PARAMS, requestParams);
                 intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
+                intent.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
                 startActivity(intent);
                 break;
             case "4":
                 //短信验证
-                //TODO 首次绑卡，不知道卡icon
-                domesticOldPayView.show(eposFirstPay.payNo, 0, "", "", PriceFormat.price(requestParams.shouldPay));
+                // 首次绑卡，不知道卡icon
+                String number = domestic_add_number.getText().toString().trim();
+                domesticOldPayView.show(eposFirstPay.payNo, 0, "", number, PriceFormat.price(requestParams.shouldPay));
                 break;
             case "5":
                 //加验要素+短信验证
                 Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
                 intents.putExtra(PAY_PARAMS, requestParams);
                 intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
+                intents.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
                 startActivity(intents);
                 break;
+        }
+    }
+
+    /**
+     * 如果是加验要素则关闭当前加验要素窗口
+     */
+    public void closeOfValide() {
+        if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE1
+                || getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE2) {
+            finish();
         }
     }
 
@@ -478,8 +499,15 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                     break;
                 case KEY_VALIDE_TYPE2:
                     //验证要素和验证码
-                    //TODO 不知道银行icon
-                    domesticOldPayView.show(eposPayFactor.payNo, 0, "", "", PriceFormat.price(requestParams.shouldPay));
+                    String bankName = "";
+                    String cardNum = "";
+                    int icon = 0;
+                    if (getIntent() != null) {
+                        bankName = getIntent().getStringExtra(KEY_VALIDE_BANKNAME);
+                        cardNum = getIntent().getStringExtra(KEY_VALIDE_CARDNUM);
+                        icon = getIntent().getIntExtra(KEY_VALIDE_BANKICON, 0);
+                    }
+                    domesticOldPayView.show(eposPayFactor.payNo, icon, bankName, cardNum, PriceFormat.price(requestParams.shouldPay));
                     break;
             }
         }

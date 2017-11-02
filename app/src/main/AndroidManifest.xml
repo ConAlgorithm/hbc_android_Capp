@@ -667,11 +667,11 @@
         <activity
             android:name=".activity.DomesticCreditCardActivity"
             android:label="@string/title_domestic_cc"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DomesticCreditCAddActivity"
             android:label="@string/title_domestic_cc_add"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
     </application>
 
