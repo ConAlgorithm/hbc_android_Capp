@@ -2,6 +2,7 @@ package com.hugboga.custom.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -42,6 +44,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     public static final int KEY_VALIDE_TYPE0 = 0; //0：添加卡
     public static final int KEY_VALIDE_TYPE1 = 1; //1：只加验要素
     public static final int KEY_VALIDE_TYPE2 = 2; //2：加验要素+验证码
+    public static final String KEY_VALIDE_NEED = "key_valide_need"; //加验要素编号
 
     @Bind(R.id.header_title)
     TextView toolbarTitle;
@@ -67,6 +70,31 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     @Bind(R.id.domesticProtocol)
     TextView domesticProtocol; //协议
 
+    @Bind(R.id.domestic_layout1)
+    ConstraintLayout domestic_layout1; //卡号部分
+    @Bind(R.id.domestic_add_line1)
+    ImageView domestic_add_line1; //卡号部分分割线
+    @Bind(R.id.domestic_layout2)
+    ConstraintLayout domestic_layout2; //有效期部分
+    @Bind(R.id.domestic_add_line2)
+    ImageView domestic_add_line2; //有效期部分分割线
+    @Bind(R.id.domestic_layout3)
+    ConstraintLayout domestic_layout3; //安全码部分
+    @Bind(R.id.domestic_add_line3)
+    ImageView domestic_add_line3; //安全码分割线
+    @Bind(R.id.domestic_layout4)
+    ConstraintLayout domestic_layout4; //持卡人姓名
+    @Bind(R.id.domestic_add_line4)
+    ImageView domestic_add_line4; //持卡人部分分割线
+    @Bind(R.id.domestic_layout5)
+    ConstraintLayout domestic_layout5; //身份证部分
+    @Bind(R.id.domestic_add_line5)
+    ImageView domestic_add_line5; //身份证部分分割线
+    @Bind(R.id.domestic_layout6)
+    ConstraintLayout domestic_layout6; //手机号部分
+    @Bind(R.id.domestic_add_line6)
+    ImageView domestic_add_line6; //手机号部分分割线
+
     private int selectYear;
     private int selectMonth;
 
@@ -82,7 +110,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
         requestParams = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
-        reloadProtocol(); //是否显示协议
+
         //增加字段监控
         domestic_add_number.addTextChangedListener(watcher);
         domestic_add_date.addTextChangedListener(watcher);
@@ -92,22 +120,82 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_phone.addTextChangedListener(watcher);
         // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
         if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != 0) {
+            showProtocol(false); //加验要素不显示协议
             //加载加验界面
-            //TODO 拿到加验需要的要素，对应各个字段展示
-            reloadValideField();
+            String valideNeed = getIntent().getStringExtra(KEY_VALIDE_NEED);
+            // 拿到加验需要的要素，对应各个字段展示
+            reloadValideField(valideNeed);
+        } else {
+            //添加银行卡界面
+            reloadProtocol(); //是否显示协议
         }
     }
 
     /**
      * 加验要素界面显示
      */
-    private void reloadValideField() {
-        domestic_add_number.setVisibility(View.GONE);
-//        domestic_add_date.setVisibility(View.GONE);
-        domestic_add_number3.setVisibility(View.GONE);
-        domestic_add_number4.setVisibility(View.GONE);
-        domestic_add_number5.setVisibility(View.GONE);
-        domestic_add_phone.setVisibility(View.GONE);
+    private void reloadValideField(String valideNeed) {
+        String[] needField = valideNeed.split(",");
+        for (String str : needField) {
+            valideHideField(str);
+        }
+    }
+
+    private void hideFieldAll(){
+        domestic_layout3.setVisibility(View.GONE);
+        domestic_add_line3.setVisibility(View.GONE);
+        domestic_layout2.setVisibility(View.GONE);
+        domestic_add_line2.setVisibility(View.GONE);
+        domestic_layout4.setVisibility(View.GONE);
+        domestic_add_line4.setVisibility(View.GONE);
+        domestic_layout6.setVisibility(View.GONE);
+        domestic_add_line6.setVisibility(View.GONE);
+        domestic_layout5.setVisibility(View.GONE);
+        domestic_add_line5.setVisibility(View.GONE);
+        domestic_layout1.setVisibility(View.GONE);
+        domestic_add_line1.setVisibility(View.GONE);
+    }
+
+    /**
+     * 根据字段隐藏指定输入框
+     *
+     * @param field
+     */
+    private void valideHideField(String field) {
+        //CVV(1, "cvv2"), AVALIDDATE(2, "avalidDate"), NAME(3, "name"), PHONE(4, "phone"), CREDCODE(5, "credCode"), CARDNO(6, "cardNo");
+        hideFieldAll(); //隐藏所有字段
+        switch (field) {
+            case "1":
+                //cvv2 安全码
+                domestic_layout3.setVisibility(View.VISIBLE);
+                domestic_add_line3.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                //avalidDate 有效期
+                domestic_layout2.setVisibility(View.VISIBLE);
+                domestic_add_line2.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                //name 用户名
+                domestic_layout4.setVisibility(View.VISIBLE);
+                domestic_add_line4.setVisibility(View.VISIBLE);
+                break;
+            case "4":
+                //phone 手机号
+                domestic_layout6.setVisibility(View.VISIBLE);
+                domestic_add_line6.setVisibility(View.VISIBLE);
+                break;
+            case "5":
+                //credCode 身份证号
+                domestic_layout5.setVisibility(View.VISIBLE);
+                domestic_add_line5.setVisibility(View.VISIBLE);
+                break;
+            case "6":
+                //cardNo 卡号
+                domestic_layout1.setVisibility(View.GONE);
+                domestic_add_line1.setVisibility(View.GONE);
+                break;
+        }
     }
 
     /**
@@ -116,14 +204,16 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * 2. 如果支付金额大于等于5万，则不显示支付金额，协议不选中
      */
     private void reloadProtocol() {
-        if (requestParams != null && requestParams.shouldPay < 50000) {
-            domesticCaddCheck.setVisibility(View.VISIBLE);
-            domesticProtocol.setVisibility(View.VISIBLE);
-        } else {
-            domesticCaddCheck.setVisibility(View.GONE);
-            domesticCaddCheck.setChecked(false);
-            domesticProtocol.setVisibility(View.GONE);
-        }
+        showProtocol(requestParams != null && requestParams.shouldPay < 50000);
+    }
+
+    /**
+     * 隐藏协议
+     */
+    private void showProtocol(boolean isShow) {
+        domesticCaddCheck.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        domesticProtocol.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        domesticCaddCheck.setChecked(isShow);
     }
 
     TextWatcher watcher = new TextWatcher() {
@@ -228,37 +318,43 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * @return
      */
     private boolean checkFactor() {
-        if (domestic_add_number.getVisibility() == View.VISIBLE) {
+        //银行卡号
+        if (domestic_layout1.getVisibility() == View.VISIBLE) {
             String number = domestic_add_number.getText().toString().trim();
             if (TextUtils.isEmpty(number)) {
                 return false;
             }
         }
-        if (domestic_add_date.getVisibility() == View.VISIBLE) {
+        //有效期
+        if (domestic_layout2.getVisibility() == View.VISIBLE) {
             String date = domestic_add_date.getText().toString().trim();
             if (TextUtils.isEmpty(date)) {
                 return false;
             }
         }
-        if (domestic_add_number3.getVisibility() == View.VISIBLE) {
+        //安全码
+        if (domestic_layout3.getVisibility() == View.VISIBLE) {
             String cvv = domestic_add_number3.getText().toString().trim();
             if (TextUtils.isEmpty(cvv)) {
                 return false;
             }
         }
-        if (domestic_add_number4.getVisibility() == View.VISIBLE) {
+        //持卡人姓名
+        if (domestic_layout4.getVisibility() == View.VISIBLE) {
             String username = domestic_add_number4.getText().toString().trim();
             if (TextUtils.isEmpty(username)) {
                 return false;
             }
         }
-        if (domestic_add_number5.getVisibility() == View.VISIBLE) {
+        //持卡人身份证
+        if (domestic_layout5.getVisibility() == View.VISIBLE) {
             String cardNum = domestic_add_number5.getText().toString().trim();
             if (TextUtils.isEmpty(cardNum)) {
                 return false;
             }
         }
-        if (domestic_add_phone.getVisibility() == View.VISIBLE) {
+        //预留的手机号
+        if (domestic_layout6.getVisibility() == View.VISIBLE) {
             String phone = domestic_add_phone.getText().toString().trim();
             if (TextUtils.isEmpty(phone)) {
                 return false;

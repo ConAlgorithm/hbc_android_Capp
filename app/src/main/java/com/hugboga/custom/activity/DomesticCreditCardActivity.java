@@ -30,6 +30,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
+import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_NEED;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE0;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE1;
@@ -166,6 +167,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
                 Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
                 intent.putExtra(PAY_PARAMS, requestParams);
                 intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
+                intent.putExtra(KEY_VALIDE_NEED, data.needVaildFactors);
                 startActivity(intent);
                 break;
             case "4":
@@ -179,6 +181,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
                 Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
                 intents.putExtra(PAY_PARAMS, requestParams);
                 intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
+                intents.putExtra(KEY_VALIDE_NEED, data.needVaildFactors);
                 startActivity(intents);
                 break;
         }
@@ -192,8 +195,6 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         RequestEposBindPay requestEposBindPay = new RequestEposBindPay(this, requestParams.orderId, requestParams.shouldPay, bindId);
         HttpRequestUtils.request(this, requestEposBindPay, this);
     }
-
-    //TODO remove
 
     /*****************************  测试数据 ******************************/
     private void testHistoryData(EposBindList data) {
