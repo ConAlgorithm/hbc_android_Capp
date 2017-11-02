@@ -14,9 +14,11 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.InsureActivity;
 import com.hugboga.custom.activity.InsureInfoActivity;
 import com.hugboga.custom.activity.OrderDetailTravelerInfoActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.data.bean.OrderStatus;
+import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.CommonUtils;
 
 import butterknife.ButterKnife;
@@ -29,10 +31,14 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
     private TextView editTV;
 
     private TextView insurerTV;
-    private TextView insurerStateTV;
     private ImageView insurerErrorIV;
     private ImageView insurerArrowIV;
-    private RelativeLayout insuranceInfoLayout, insuranceAddLayout;
+    private RelativeLayout insuranceInfoLayout;
+
+    private RelativeLayout insuranceAddLayout;
+    private TextView insurancePartTV;
+    private ImageView insuranceExplainIV;
+    private TextView insuranceAddTV;
 
     private OrderBean orderBean;
 
@@ -50,11 +56,14 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
         editTV = (TextView) findViewById(R.id.order_detail_info_edit_tv);
 
         insuranceInfoLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_info_layout);
-        insuranceAddLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_add_layout);
         insurerTV = (TextView) findViewById(R.id.order_detail_insurer_tv);
-        insurerStateTV = (TextView) findViewById(R.id.order_detail_insurer_state_tv);
         insurerErrorIV = (ImageView) findViewById(R.id.order_detail_insurer_state_error_iv);
         insurerArrowIV = (ImageView) findViewById(R.id.order_detail_insurer_arrow_iv);
+
+        insuranceAddLayout = (RelativeLayout) findViewById(R.id.order_detail_insurance_add_layout);
+        insurancePartTV = (TextView) findViewById(R.id.order_detail_insurance_part_tv);
+        insuranceExplainIV = (ImageView) findViewById(R.id.order_detail_insurance_explain_iv);
+        insuranceAddTV = (TextView) findViewById(R.id.order_detail_insurance_add_tv);
     }
 
     @Override
@@ -71,19 +80,15 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
             insuranceInfoLayout.setVisibility(View.GONE);
             insuranceAddLayout.setVisibility(View.GONE);
         } else if (orderBean.insuranceEnable && insuranceListSize == 0) {//添加投保人
-            insuranceInfoLayout.setVisibility(View.VISIBLE);
+            insuranceInfoLayout.setVisibility(View.GONE);
             insuranceAddLayout.setVisibility(View.VISIBLE);
-            insurerErrorIV.setVisibility(View.GONE);
-            insurerStateTV.setVisibility(View.VISIBLE);
-            insurerArrowIV.setVisibility(View.INVISIBLE);
-            insurerTV.setText(CommonUtils.getString(R.string.order_detail_insurance_hint, "" + (orderBean.adult + orderBean.child)));
-            insuranceInfoLayout.setOnClickListener(null);
-            insuranceAddLayout.setOnClickListener(this);
+            insuranceAddTV.setOnClickListener(this);
+            insurancePartTV.setText(CommonUtils.getString(R.string.order_detail_insurance_hint, "" + (orderBean.adult + orderBean.child)));
+            insuranceExplainIV.setOnClickListener(this);
         } else if (insuranceListSize > 0) {
             insuranceInfoLayout.setVisibility(View.VISIBLE);
             insurerArrowIV.setVisibility(View.VISIBLE);
             insuranceAddLayout.setVisibility(View.GONE);
-            insurerStateTV.setVisibility(View.GONE);
             insurerErrorIV.setVisibility(View.GONE);
             insuranceInfoLayout.setOnClickListener(this);
 
@@ -121,7 +126,7 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                 intent.putExtra(Constants.PARAMS_DATA, orderBean);
                 getContext().startActivity(intent);
                 break;
-            case R.id.order_detail_insurance_add_layout:
+            case R.id.order_detail_insurance_add_tv:
             case R.id.order_detail_insurance_info_layout:
                 final int insuranceListSize = orderBean.insuranceMap != null ? orderBean.insuranceMap.size() : 0;
                 if (orderBean.insuranceEnable && insuranceListSize == 0) {//添加投保人
@@ -135,6 +140,11 @@ public class OrderDetailInfoView extends LinearLayout implements HbcViewBehavior
                     intent.putExtra(Constants.PARAMS_DATA, orderBean);
                     getContext().startActivity(intent);
                 }
+                break;
+            case R.id.order_detail_insurance_explain_iv:
+                intent = new Intent(getContext(), WebInfoActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, UrlLibs.H5_INSURANCE);
+                getContext().startActivity(intent);
                 break;
         }
     }

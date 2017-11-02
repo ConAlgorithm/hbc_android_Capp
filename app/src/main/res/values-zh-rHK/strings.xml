@@ -370,7 +370,7 @@
     <string name="order_detail_insurance_status1">保單出現問題，請儘快聯繫客服</string>
     <string name="order_detail_insurance_status2">為您購買的保險已註銷</string>
     <string name="order_detail_insurance_status3">保單正在處理中...</string>
-    <string name="order_detail_insurance_hint">平安境外用車險 × %1$s份</string>
+    <string name="order_detail_insurance_hint">送您平安境外用車險×%1$s份</string>
     <string name="order_detail_child_state_cancel">此段行程：已取消</string>
     <string name="order_detail_child_state_refund">此段行程：已退款</string>
     <string name="order_detail_child_state_complaint">此段行程：客訴處理中</string>
