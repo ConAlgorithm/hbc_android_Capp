@@ -29,7 +29,7 @@ public class RequestEposBindList extends BaseRequest<EposBindList> {
 
     @Override
     public String getUrlErrorCode() {
-        return ""; //TODO Hongbo错误码待添加
+        return "187";
     }
 
     @Override

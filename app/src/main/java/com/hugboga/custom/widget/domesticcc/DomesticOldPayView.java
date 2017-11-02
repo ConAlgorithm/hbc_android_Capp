@@ -2,6 +2,7 @@ package com.hugboga.custom.widget.domesticcc;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -97,7 +98,25 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         }
         pay_sms_btn.setText("支付 " + price);
         setVisibility(VISIBLE);
+        //验证码开启倒计时
+        pay_sms_time.setEnabled(false);
+        handler.postDelayed(runnable, 0);
     }
+
+    //短信验证码倒计时
+    private int time = 30;
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            pay_sms_time.setText(time <= 0 ? "" : "(" + time + ")");
+            time--;
+            if (time >= 0) {
+                pay_sms_time.setEnabled(true);
+                handler.postDelayed(runnable, 1000);
+            }
+        }
+    };
 
     public void close() {
         setVisibility(GONE);
@@ -143,6 +162,9 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
             //重新发送验证码
             EposFirstPay result = (EposFirstPay) request.getData();
             ToastUtils.showToast(getContext(), result.errorMsg);
+            time = 30; //重置倒计时时间
+            pay_sms_time.setEnabled(false);
+            handler.postDelayed(runnable, 0);
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();

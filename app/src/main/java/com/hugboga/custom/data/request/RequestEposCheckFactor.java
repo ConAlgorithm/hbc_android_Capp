@@ -23,10 +23,11 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_EPOS_CHECK_FACTOR, builder = NewParamsBuilder.class)
 public class RequestEposCheckFactor extends BaseRequest<EposFirstPay> {
 
-    public RequestEposCheckFactor(Context context, String credCode, String buyerTel, String buyerName,
+    public RequestEposCheckFactor(Context context, String payNo, String credCode, String buyerTel, String buyerName,
                                   String actId, String expireYear, String expireMonth, String cvv) {
         super(context);
         map = new HashMap<String, Object>();
+        map.put("payNo", payNo);
         if (!TextUtils.isEmpty(credCode)) {
             map.put("credCode", credCode);  //身份证号
         }
@@ -53,7 +54,7 @@ public class RequestEposCheckFactor extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return ""; //TODO Hongbo错误码待添加
+        return "189";
     }
 
     @Override

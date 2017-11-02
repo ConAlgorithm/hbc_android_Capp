@@ -102,7 +102,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/transparent"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:maxLength="4"
                 android:textColor="@color/default_black"
                 app:layout_constraintEnd_toStartOf="@+id/pay_sms_time"

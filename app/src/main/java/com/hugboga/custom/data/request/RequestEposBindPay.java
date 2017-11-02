@@ -33,7 +33,7 @@ public class RequestEposBindPay extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return ""; //TODO Hongbo错误码待添加
+        return "190";
     }
 
     @Override

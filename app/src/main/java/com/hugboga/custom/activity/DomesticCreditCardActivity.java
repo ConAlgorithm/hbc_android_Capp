@@ -23,9 +23,6 @@ import com.hugboga.custom.widget.domesticcc.DomesticHeadView;
 import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
 import com.hugboga.custom.widget.domesticcc.DomesticPayOkView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -34,6 +31,7 @@ import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_BANKNAME;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_CARDNUM;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_NEED;
+import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_PAYNUM;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE0;
 import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_TYPE1;
@@ -44,6 +42,8 @@ import static com.hugboga.custom.activity.DomesticCreditCAddActivity.KEY_VALIDE_
  * Created by HONGBO on 2017/10/23 11:55.
  */
 public class DomesticCreditCardActivity extends BaseActivity implements DomesticCCAdapter.OnItemClickListener {
+
+    public static final int MAX_PRICE = 50000; //区分消费渠道和绑卡渠道
 
     @Bind(R.id.header_title)
     TextView toolbarTitle;
@@ -89,7 +89,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         1. 小于5万显示历史卡界面，可以走新卡界面，显示绑定协议
         2. 大于5万不加载历史卡界面，只能走新卡界面，消费支付，不显示绑定协议
          */
-        if (requestParams != null && requestParams.shouldPay < 50000) {
+        if (requestParams != null && requestParams.shouldPay < MAX_PRICE) {
             // 查询显示历史卡API
             RequestEposBindList request = new RequestEposBindList(this);
             HttpRequestUtils.request(this, request, this);
@@ -140,7 +140,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         }
     }
 
-    public void gotoSuccess(){
+    public void gotoSuccess() {
         Intent intentSuccess = new Intent(this, PayResultActivity.class);
         PayResultActivity.Params params1 = new PayResultActivity.Params();
         params1.orderId = requestParams.orderId;
@@ -174,9 +174,10 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
                 intent.putExtra(PAY_PARAMS, requestParams);
                 intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
                 intent.putExtra(KEY_VALIDE_NEED, data.needVaildFactors);
-                intent.putExtra(KEY_VALIDE_BANKICON, ebc.bankIcon);
+                intent.putExtra(KEY_VALIDE_BANKICON, ebc.getBankIconId());
                 intent.putExtra(KEY_VALIDE_BANKNAME, ebc.bankName);
                 intent.putExtra(KEY_VALIDE_CARDNUM, ebc.cardNo);
+                intent.putExtra(KEY_VALIDE_PAYNUM, data.payNo);
                 startActivity(intent);
                 break;
             case "4":
@@ -191,9 +192,10 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
                 intents.putExtra(PAY_PARAMS, requestParams);
                 intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
                 intents.putExtra(KEY_VALIDE_NEED, data.needVaildFactors);
-                intents.putExtra(KEY_VALIDE_BANKICON, ebc.bankIcon);
+                intents.putExtra(KEY_VALIDE_BANKICON, ebc.getBankIconId());
                 intents.putExtra(KEY_VALIDE_BANKNAME, ebc.bankName);
                 intents.putExtra(KEY_VALIDE_CARDNUM, ebc.cardNo);
+                intents.putExtra(KEY_VALIDE_PAYNUM, data.payNo);
                 startActivity(intents);
                 break;
         }

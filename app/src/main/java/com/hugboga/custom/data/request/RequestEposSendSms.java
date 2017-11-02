@@ -23,12 +23,12 @@ public class RequestEposSendSms extends BaseRequest<EposFirstPay> {
     public RequestEposSendSms(Context context, String payNo) {
         super(context);
         map = new HashMap<String, Object>();
-        map.put(payNo, payNo);
+        map.put("payNo", payNo);
     }
 
     @Override
     public String getUrlErrorCode() {
-        return ""; //TODO Hongbo错误码待添加
+        return "191";
     }
 
     @Override

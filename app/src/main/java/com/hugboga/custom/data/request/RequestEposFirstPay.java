@@ -43,7 +43,7 @@ public class RequestEposFirstPay extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return ""; //TODO Hongbo错误码待添加
+        return "188";
     }
 
     @Override

@@ -33,6 +33,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
+import static com.hugboga.custom.activity.DomesticCreditCardActivity.MAX_PRICE;
 
 /**
  * 添加信用卡
@@ -48,6 +49,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     public static final String KEY_VALIDE_BANKNAME = "key_valide_bankname"; //加验银行名
     public static final String KEY_VALIDE_BANKICON = "key_valide_bankicon"; //加验银行图标
     public static final String KEY_VALIDE_CARDNUM = "key_valide_cardnum"; //加验卡号
+    public static final String KEY_VALIDE_PAYNUM = "key_valide_paynum"; //加验单号
 
     @Bind(R.id.header_title)
     TextView toolbarTitle;
@@ -100,6 +102,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
 
     private int selectYear;
     private int selectMonth;
+    private String payNo; //支付单号
 
     ChoosePaymentActivity.RequestParams requestParams;
 
@@ -113,6 +116,10 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
         requestParams = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
+
+        if (getIntent() != null) {
+            payNo = getIntent().getStringExtra(KEY_VALIDE_PAYNUM);
+        }
 
         //增加字段监控
         domestic_add_number.addTextChangedListener(watcher);
@@ -139,24 +146,25 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      */
     private void reloadValideField(String valideNeed) {
         String[] needField = valideNeed.split(",");
+        hideFieldAll(); //隐藏所有字段
         for (String str : needField) {
             valideHideField(str);
         }
     }
 
     private void hideFieldAll() {
-        domestic_layout3.setVisibility(View.GONE);
         domestic_add_line3.setVisibility(View.GONE);
-        domestic_layout2.setVisibility(View.GONE);
+        domestic_layout3.setVisibility(View.GONE);
         domestic_add_line2.setVisibility(View.GONE);
-        domestic_layout4.setVisibility(View.GONE);
+        domestic_layout2.setVisibility(View.GONE);
         domestic_add_line4.setVisibility(View.GONE);
-        domestic_layout6.setVisibility(View.GONE);
+        domestic_layout4.setVisibility(View.GONE);
         domestic_add_line6.setVisibility(View.GONE);
-        domestic_layout5.setVisibility(View.GONE);
+        domestic_layout6.setVisibility(View.GONE);
         domestic_add_line5.setVisibility(View.GONE);
-        domestic_layout1.setVisibility(View.GONE);
+        domestic_layout5.setVisibility(View.GONE);
         domestic_add_line1.setVisibility(View.GONE);
+        domestic_layout1.setVisibility(View.GONE);
     }
 
     /**
@@ -166,37 +174,36 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      */
     private void valideHideField(String field) {
         //CVV(1, "cvv2"), AVALIDDATE(2, "avalidDate"), NAME(3, "name"), PHONE(4, "phone"), CREDCODE(5, "credCode"), CARDNO(6, "cardNo");
-        hideFieldAll(); //隐藏所有字段
         switch (field) {
             case "1":
                 //cvv2 安全码
-                domestic_layout3.setVisibility(View.VISIBLE);
                 domestic_add_line3.setVisibility(View.VISIBLE);
+                domestic_layout3.setVisibility(View.VISIBLE);
                 break;
             case "2":
                 //avalidDate 有效期
-                domestic_layout2.setVisibility(View.VISIBLE);
                 domestic_add_line2.setVisibility(View.VISIBLE);
+                domestic_layout2.setVisibility(View.VISIBLE);
                 break;
             case "3":
                 //name 用户名
-                domestic_layout4.setVisibility(View.VISIBLE);
                 domestic_add_line4.setVisibility(View.VISIBLE);
+                domestic_layout4.setVisibility(View.VISIBLE);
                 break;
             case "4":
                 //phone 手机号
-                domestic_layout6.setVisibility(View.VISIBLE);
                 domestic_add_line6.setVisibility(View.VISIBLE);
+                domestic_layout6.setVisibility(View.VISIBLE);
                 break;
             case "5":
                 //credCode 身份证号
-                domestic_layout5.setVisibility(View.VISIBLE);
                 domestic_add_line5.setVisibility(View.VISIBLE);
+                domestic_layout5.setVisibility(View.VISIBLE);
                 break;
             case "6":
                 //cardNo 卡号
-                domestic_layout1.setVisibility(View.GONE);
                 domestic_add_line1.setVisibility(View.GONE);
+                domestic_layout1.setVisibility(View.GONE);
                 break;
         }
     }
@@ -207,7 +214,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * 2. 如果支付金额大于等于5万，则不显示支付金额，协议不选中
      */
     private void reloadProtocol() {
-        showProtocol(requestParams != null && requestParams.shouldPay < 50000);
+        showProtocol(requestParams != null && requestParams.shouldPay < MAX_PRICE);
     }
 
     /**
@@ -230,7 +237,11 @@ public class DomesticCreditCAddActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            submitBtn.setEnabled(checkContent()); //验证通过启用按钮
+            if (isFactor()) {
+                submitBtn.setEnabled(checkFactor()); //加验要素验证按钮控制
+            } else {
+                submitBtn.setEnabled(checkContent()); //验证通过启用按钮
+            }
         }
     };
 
@@ -389,13 +400,39 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      */
     private void payFactor() {
         if (checkFactor()) {
-            RequestEposCheckFactor request = new RequestEposCheckFactor(this,
-                    domestic_add_number5.getText().toString().trim(),
-                    domestic_add_phone.getText().toString().trim(),
-                    domestic_add_number4.getText().toString().trim(),
-                    domestic_add_number.getText().toString().trim(),
-                    String.valueOf(selectYear), PriceFormat.month2(selectMonth),
-                    domestic_add_number3.getText().toString().trim());
+            //卡号
+            String number = "";
+            if (domestic_layout1.getVisibility() == View.VISIBLE) {
+                number = domestic_add_number.getText().toString().trim();
+            }
+            //有效期
+            String year = "";
+            String month = "";
+            if (domestic_layout2.getVisibility() == View.VISIBLE) {
+                year = String.valueOf(selectYear);
+                month = PriceFormat.month2(selectMonth);
+            }
+            //安全码
+            String cvv = "";
+            if (domestic_layout3.getVisibility() == View.VISIBLE) {
+                cvv = domestic_add_number3.getText().toString().trim();
+            }
+            //持卡人姓名
+            String username = "";
+            if (domestic_layout4.getVisibility() == View.VISIBLE) {
+                username = domestic_add_number4.getText().toString().trim();
+            }
+            //持卡人身份证
+            String cardNum = "";
+            if (domestic_layout5.getVisibility() == View.VISIBLE) {
+                cardNum = domestic_add_number5.getText().toString().trim();
+            }
+            //预留的手机号
+            String phone = "";
+            if (domestic_layout6.getVisibility() == View.VISIBLE) {
+                phone = domestic_add_phone.getText().toString().trim();
+            }
+            RequestEposCheckFactor request = new RequestEposCheckFactor(this, payNo, cardNum, phone, username, number, year, month, cvv);
             HttpRequestUtils.request(this, request, this);
         }
     }
@@ -407,6 +444,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
             //首次信用卡支付
             EposFirstPay eposFirstPay = ((RequestEposFirstPay) request).getData();
             if (eposFirstPay != null) {
+                payNo = eposFirstPay.payNo; //绑定新卡的payNo复制
                 doFirstPay(eposFirstPay);
             }
         } else if (request instanceof RequestEposCheckFactor) {
@@ -450,7 +488,9 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
                 intent.putExtra(PAY_PARAMS, requestParams);
                 intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
+                intent.putExtra(KEY_VALIDE_NEED, eposFirstPay.needVaildFactors);
                 intent.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
+                intent.putExtra(KEY_VALIDE_PAYNUM, eposFirstPay.payNo);
                 startActivity(intent);
                 break;
             case "4":
@@ -464,7 +504,9 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
                 intents.putExtra(PAY_PARAMS, requestParams);
                 intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
+                intents.putExtra(KEY_VALIDE_NEED, eposFirstPay.needVaildFactors);
                 intents.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
+                intents.putExtra(KEY_VALIDE_PAYNUM, eposFirstPay.payNo);
                 startActivity(intents);
                 break;
         }
@@ -474,10 +516,19 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * 如果是加验要素则关闭当前加验要素窗口
      */
     public void closeOfValide() {
-        if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE1
-                || getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE2) {
+        if (isFactor()) {
             finish();
         }
+    }
+
+    /**
+     * 判断是否加验要素界面
+     *
+     * @return
+     */
+    private boolean isFactor() {
+        return getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE1
+                || getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE2;
     }
 
     /**

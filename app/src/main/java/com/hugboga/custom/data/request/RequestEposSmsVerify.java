@@ -30,7 +30,7 @@ public class RequestEposSmsVerify extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return ""; //TODO Hongbo错误码待添加
+        return "192";
     }
 
     @Override
