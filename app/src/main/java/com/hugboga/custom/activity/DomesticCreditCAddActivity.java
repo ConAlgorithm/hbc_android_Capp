@@ -487,15 +487,31 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      */
     private void doPayFactor(EposFirstPay eposPayFactor) {
         //加验要素成功之后进行短信校验
+        if (!"1".equals(eposPayFactor.eposPaySubmitStatus)) {
+            //失败弹出错误提示
+            ToastUtils.showToast(this, eposPayFactor.errorMsg);
+        } else {
+            //成功进入下一步
+            doPayFactorSms(eposPayFactor);
+        }
+    }
+
+    /**
+     * 加验要素成功后判断是否验证短信验证码
+     *
+     * @param eposPayFactor
+     */
+    private void doPayFactorSms(EposFirstPay eposPayFactor) {
         /*
         此结果是加验要素结果,只有两种可能
-        1. 校验成功
-        2. 加验短信验证码
+        1. 只有加验要素，进入支付成功界面
+        2. 加验短信验证码，则弹出短信验证码界面
          */
         if (getIntent() != null) {
             switch (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1)) {
                 case KEY_VALIDE_TYPE1:
-                    //只验证要素
+                    // 只验证要素，这里进入支付成功界面
+                    gotoSuccess();
                     break;
                 case KEY_VALIDE_TYPE2:
                     //验证要素和验证码
