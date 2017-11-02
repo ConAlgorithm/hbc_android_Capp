@@ -41,9 +41,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.attr.type;
-
-
 public class OrderUtils {
 
     private String getUserExJson(ContactUsersBean contactUsersBean){
@@ -299,6 +296,7 @@ public class OrderUtils {
                                          String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
                                          String guideCollectId, ManLuggageBean manLuggageBean, boolean isCheckIn, String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 1;
         orderBean.flight = flightBean.flightNo;
         orderBean.flightBean = flightBean;
         orderBean.startAddress = flightBean.arrAirportName;
@@ -445,6 +443,7 @@ public class OrderUtils {
                                            CouponBean couponBean,MostFitBean mostFitBean,
                                            String guideCollectId,String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 4;
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carBean.carDesc;
         orderBean.seatCategory = carBean.seatCategory;
@@ -559,13 +558,13 @@ public class OrderUtils {
                                          String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
                                          String guideCollectId,ManLuggageBean manLuggageBean,String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 2;
         orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
         orderBean.urgentFlag = carBean.urgentFlag;
         if(!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
-        orderBean.orderType = type;
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carDesc = carBean.carDesc;
