@@ -29,8 +29,9 @@
 
         <EditText
             android:id="@+id/domestic_add_number"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:background="@color/transparent"
             android:hint="请输入信用卡号"
@@ -39,6 +40,8 @@
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
             app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/domestic_add_label1" />
 
     </android.support.constraint.ConstraintLayout>
@@ -89,14 +92,17 @@
 
         <TextView
             android:id="@+id/domestic_add_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="32dp"
             android:hint="月份 ／ 年份"
             android:textColor="@color/default_black"
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
             app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label2"
+            app:layout_constraintEnd_toStartOf="@+id/domestic_add_arrow"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/domestic_add_label2" />
 
     </android.support.constraint.ConstraintLayout>
@@ -135,8 +141,9 @@
 
         <EditText
             android:id="@+id/domestic_add_number3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:background="@color/transparent"
             android:hint="CW2银行卡背面3位数字"
@@ -145,6 +152,8 @@
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
             app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/domestic_add_label3" />
     </android.support.constraint.ConstraintLayout>
 
@@ -182,8 +191,9 @@
 
         <EditText
             android:id="@+id/domestic_add_number4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:background="@color/transparent"
             android:hint="请输入持卡人姓名"
@@ -192,6 +202,8 @@
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
             app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/domestic_add_label4" />
     </android.support.constraint.ConstraintLayout>
 
@@ -229,16 +241,18 @@
 
         <EditText
             android:id="@+id/domestic_add_number5"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:background="@color/transparent"
             android:hint="持卡人身份号"
-            android:inputType="number"
             android:textColor="@color/default_black"
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
             app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/domestic_add_label5" />
 
     </android.support.constraint.ConstraintLayout>
@@ -277,8 +291,9 @@
 
         <EditText
             android:id="@+id/domestic_add_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:background="@color/transparent"
             android:hint="办卡时预留手机号"
@@ -287,6 +302,8 @@
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_mediumx"
             app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/domestic_add_label6" />
 
     </android.support.constraint.ConstraintLayout>
