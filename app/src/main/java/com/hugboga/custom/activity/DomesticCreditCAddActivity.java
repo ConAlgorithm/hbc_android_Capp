@@ -130,12 +130,14 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_phone.addTextChangedListener(watcher);
         // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
         if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != KEY_VALIDE_TYPE0) {
+            toolbarTitle.setText(R.string.title_domestic_pay);
             showProtocol(false); //加验要素不显示协议
             //加载加验界面
             String valideNeed = getIntent().getStringExtra(KEY_VALIDE_NEED);
             // 拿到加验需要的要素，对应各个字段展示
             reloadValideField(valideNeed);
         } else {
+            toolbarTitle.setText(R.string.title_domestic_cc);
             //添加银行卡界面
             reloadProtocol(); //是否显示协议
         }
@@ -214,7 +216,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * 2. 如果支付金额大于等于5万，则不显示支付金额，协议不选中
      */
     private void reloadProtocol() {
-        showProtocol(requestParams != null && requestParams.shouldPay < MAX_PRICE);
+        showProtocol(requestParams != null && requestParams.shouldPay <= MAX_PRICE);
     }
 
     /**

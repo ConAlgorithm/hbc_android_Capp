@@ -89,7 +89,7 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
         1. 小于5万显示历史卡界面，可以走新卡界面，显示绑定协议
         2. 大于5万不加载历史卡界面，只能走新卡界面，消费支付，不显示绑定协议
          */
-        if (requestParams != null && requestParams.shouldPay < MAX_PRICE) {
+        if (requestParams != null && requestParams.shouldPay <= MAX_PRICE) {
             // 查询显示历史卡API
             RequestEposBindList request = new RequestEposBindList(this);
             HttpRequestUtils.request(this, request, this);
