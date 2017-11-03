@@ -115,9 +115,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 , getResources().getColor(R.color.default_highlight_blue), false, new OrderUtils.MyCLickSpan.OnSpanClickListener() {
                     @Override
                     public void onSpanClick(View view) {
+                        SensorsUtils.onAppClick("登录", "收不到验证码", getIntentSource());
                         Intent intent = new Intent(LoginActivity.this, VoiceCaptchaActivity.class);
                         intent.putExtra(KEY_PHONE, phoneEditText.getText() != null ? phoneEditText.getText().toString() : "");
                         intent.putExtra(KEY_AREA_CODE, areaCodeTextView.getText() != null ? areaCodeTextView.getText().toString() : "86");
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
                         intent.putExtra(Constants.PARAMS_ACTION, actionBean);
                         LoginActivity.this.startActivity(intent);
                     }

@@ -24,6 +24,7 @@ import com.hugboga.custom.data.request.RequestLoginBycaptcha;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.StatisticConstant;
 import com.hugboga.custom.statistic.click.StatisticClickEvent;
+import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.IMUtil;
 import com.hugboga.custom.utils.SharedPre;
@@ -124,6 +125,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
                 return isShowInputView();
             }
         });
+        setSensorsDefaultEvent();
     }
 
     private void showSoftInput(final EditText editText) {
@@ -141,6 +143,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
 
     @Override
     public void onConfirm(String _code, String _phone) {
+        SensorsUtils.onAppClick(getEventSource(), "获取语音验证码", getIntentSource());
         this.code = _code;
         this.phone = _phone;
         long lastRequestTime = SharedPre.getLong(VoiceCaptchaActivity.PARAM_LAST_REQUEST_TIME, 0);
@@ -168,6 +171,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
 
     @Override
     public void againRequest() {
+        SensorsUtils.onAppClick(getEventSource(), "重新获取验证码", getIntentSource());
         getCaptcha();
     }
 
@@ -176,6 +180,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
         inputView.setData(code, phone, VoiceCaptchaActivity.REQUEST_INTERVAL_TIME);
         getView.setVisibility(View.GONE);
         showSoftInput(inputView.getCodeEditText());
+        setSensorsDefaultEvent();
     }
 
     public void getCaptcha() {
@@ -218,10 +223,30 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
         if (inputView.getVisibility() == View.VISIBLE) {
             inputView.setVisibility(View.GONE);
             getView.setVisibility(View.VISIBLE);
+            setSensorsDefaultEvent();
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String getEventSource() {
+        if (inputView.getVisibility() == View.VISIBLE) {
+            return "语音验证码登录-输入验证码";
+        } else {
+            return "语音验证码登录-输入手机号";
+        }
+    }
+
+    @Override
+    protected boolean isDefaultEvent() {
+        return false;
+    }
+
+    @Override
+    protected void setSensorsDefaultEvent() {
+        SensorsUtils.setPageEvent(getEventSource(), getEventSource(), getIntentSource());
     }
 
     // 拷贝自LoginActivity，待优化
