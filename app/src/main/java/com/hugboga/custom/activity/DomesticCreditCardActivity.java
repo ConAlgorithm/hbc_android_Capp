@@ -71,13 +71,28 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
-        requestParams = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(PAY_PARAMS);
+        if (savedInstanceState != null) {
+            requestParams = (ChoosePaymentActivity.RequestParams) savedInstanceState.getSerializable(PAY_PARAMS);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                requestParams = (ChoosePaymentActivity.RequestParams) bundle.getSerializable(PAY_PARAMS);
+            }
+        }
         domesticHeadView.init(PriceFormat.price(requestParams.shouldPay));
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(manager);
         listView.setNestedScrollingEnabled(false);
         loadData();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (requestParams != null) {
+            outState.putSerializable(PAY_PARAMS, requestParams);
+        }
     }
 
     /**

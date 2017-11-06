@@ -113,6 +113,11 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     private int selectYear;
     private int selectMonth;
     private String payNo; //支付单号
+    private int valideType; //新卡|加验|加验短信
+    private String valideNeed; //加验元素
+    private String bankName; //加验银行名称
+    private String cardNum; //加验银行卡号
+    private int icon; //加验银行卡图标
 
     ChoosePaymentActivity.RequestParams requestParams;
 
@@ -125,10 +130,25 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbarTitle.setText(getTitle());
-        requestParams = (ChoosePaymentActivity.RequestParams) getIntent().getSerializableExtra(ChoosePaymentActivity.PAY_PARAMS);
-
-        if (getIntent() != null) {
-            payNo = getIntent().getStringExtra(KEY_VALIDE_PAYNUM);
+        if (savedInstanceState != null) {
+            requestParams = (ChoosePaymentActivity.RequestParams) savedInstanceState.getSerializable(ChoosePaymentActivity.PAY_PARAMS);
+            payNo = savedInstanceState.getString(KEY_VALIDE_PAYNUM);
+            valideType = savedInstanceState.getInt(KEY_VALIDE_TYPE, -1);
+            valideNeed = savedInstanceState.getString(KEY_VALIDE_NEED);
+            bankName = savedInstanceState.getString(KEY_VALIDE_BANKNAME);
+            cardNum = savedInstanceState.getString(KEY_VALIDE_CARDNUM);
+            icon = savedInstanceState.getInt(KEY_VALIDE_BANKICON, 0);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                requestParams = (ChoosePaymentActivity.RequestParams) bundle.getSerializable(ChoosePaymentActivity.PAY_PARAMS);
+                payNo = bundle.getString(KEY_VALIDE_PAYNUM);
+                valideType = bundle.getInt(KEY_VALIDE_TYPE, -1);
+                valideNeed = bundle.getString(KEY_VALIDE_NEED);
+                bankName = bundle.getString(KEY_VALIDE_BANKNAME);
+                cardNum = bundle.getString(KEY_VALIDE_CARDNUM);
+                icon = bundle.getInt(KEY_VALIDE_BANKICON, 0);
+            }
         }
 
         //增加字段监控
@@ -139,13 +159,11 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_number5.addTextChangedListener(watcher);
         domestic_add_phone.addTextChangedListener(watcher);
         // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
-        if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != KEY_VALIDE_TYPE0) {
+        if (valideType != KEY_VALIDE_TYPE0) {
             toolbarTitle.setText(R.string.title_domestic_pay_validate);
             showProtocol(false); //加验要素不显示协议
             //显示加验银行卡信息
             showValideView();
-            //加载加验界面
-            String valideNeed = getIntent().getStringExtra(KEY_VALIDE_NEED);
             // 拿到加验需要的要素，对应各个字段展示
             reloadValideField(valideNeed);
         } else {
@@ -155,6 +173,17 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_VALIDE_PAYNUM, payNo);
+        outState.putInt(KEY_VALIDE_TYPE, valideType);
+        outState.putString(KEY_VALIDE_NEED, valideNeed);
+        outState.putString(KEY_VALIDE_BANKNAME, bankName);
+        outState.putString(KEY_VALIDE_CARDNUM, cardNum);
+        outState.putInt(KEY_VALIDE_BANKICON, icon);
+    }
+
     /**
      * 显示加验银行卡信息
      */
@@ -162,9 +191,6 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         // 加验银行卡信息显示
         if (valideLayout != null) {
             valideLayout.setVisibility(View.VISIBLE);
-            String bankName = getIntent().getStringExtra(KEY_VALIDE_BANKNAME);
-            String cardNum = getIntent().getStringExtra(KEY_VALIDE_CARDNUM);
-            int icon = getIntent().getIntExtra(KEY_VALIDE_BANKICON, 0);
             domestic_valide_img.setImageResource(icon);
             domestic_valide_name.setText(bankName);
             domestic_valide_no.setText(cardNum);
@@ -303,21 +329,19 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 break;
             case R.id.domestic_credit_add_next:
                 //点击下一步，首次支付进行绑定卡操作
-                if (getIntent() != null) {
-                    switch (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1)) {
-                        case KEY_VALIDE_TYPE0:
-                            //新卡绑定
-                            firstPay();
-                            break;
-                        case KEY_VALIDE_TYPE1:
-                            //只验证要素
-                            payFactor();
-                            break;
-                        case KEY_VALIDE_TYPE2:
-                            //验证要素和验证码
-                            payFactor();
-                            break;
-                    }
+                switch (valideType) {
+                    case KEY_VALIDE_TYPE0:
+                        //新卡绑定
+                        firstPay();
+                        break;
+                    case KEY_VALIDE_TYPE1:
+                        //只验证要素
+                        payFactor();
+                        break;
+                    case KEY_VALIDE_TYPE2:
+                        //验证要素和验证码
+                        payFactor();
+                        break;
                 }
                 break;
             case R.id.domesticProtocol:
@@ -563,8 +587,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * @return
      */
     private boolean isFactor() {
-        return getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE1
-                || getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) == KEY_VALIDE_TYPE2;
+        return valideType == KEY_VALIDE_TYPE1 || valideType == KEY_VALIDE_TYPE2;
     }
 
     /**
@@ -594,25 +617,15 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         1. 只有加验要素，进入支付成功界面
         2. 加验短信验证码，则弹出短信验证码界面
          */
-        if (getIntent() != null) {
-            switch (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1)) {
-                case KEY_VALIDE_TYPE1:
-                    // 只验证要素，这里进入支付成功界面
-                    gotoSuccess();
-                    break;
-                case KEY_VALIDE_TYPE2:
-                    //验证要素和验证码
-                    String bankName = "";
-                    String cardNum = "";
-                    int icon = 0;
-                    if (getIntent() != null) {
-                        bankName = getIntent().getStringExtra(KEY_VALIDE_BANKNAME);
-                        cardNum = getIntent().getStringExtra(KEY_VALIDE_CARDNUM);
-                        icon = getIntent().getIntExtra(KEY_VALIDE_BANKICON, 0);
-                    }
-                    domesticOldPayView.show(payNo, icon, bankName, cardNum, PriceFormat.price(requestParams.shouldPay));
-                    break;
-            }
+        switch (valideType) {
+            case KEY_VALIDE_TYPE1:
+                // 只验证要素，这里进入支付成功界面
+                gotoSuccess();
+                break;
+            case KEY_VALIDE_TYPE2:
+                //验证要素和验证码
+                domesticOldPayView.show(payNo, icon, bankName, cardNum, PriceFormat.price(requestParams.shouldPay));
+                break;
         }
     }
 }
