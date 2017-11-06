@@ -66,6 +66,7 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     private String orderNo;
     private int orderType;
     private ErrorHandler errorHandler;
+    private boolean isStop = false;
 
     public static final int FRE_INTERVAL = 5 * 1000;
     public static final int LATE_INTERVAL = 60 * 1000;
@@ -106,7 +107,8 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
                 break;
             case DeliverInfoBean.DeliverStatus.DELIVERING:      // 9.发单中，需要定时刷新
                 loadingLayout(deliverInfoBean);
-                countdownHandler.sendEmptyMessageDelayed(deliverInfoBean.refreshCount, FRE_INTERVAL);
+                isStop = false;
+                countdownHandler.sendEmptyMessageDelayed(deliverInfoBean.refreshCount, deliverInfoBean.refreshCount >= 0 ? FRE_INTERVAL : LATE_INTERVAL);
                 break;
             case DeliverInfoBean.DeliverStatus.COMMITTED:       // 4.有司导表态  司导
                 if (deliverInfoBean.isCanChoose()) {
@@ -272,19 +274,19 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     private Handler countdownHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (getContext() instanceof Activity) {
-                if (((Activity) getContext()).isFinishing()) {
-                    return;
-                }
+            if (isStop) {
+                return;
             }
             if (onUpdateListener != null) {
                 onUpdateListener.onUpdate(false);
             }
-            if (msg.what >= 0) {
-                countdownHandler.sendEmptyMessageDelayed(0, FRE_INTERVAL);
-            } else {
-                countdownHandler.sendEmptyMessageDelayed(0, LATE_INTERVAL);
-            }
         }
     };
+
+    public void stop() {
+        isStop = true;
+        if (countdownLayout != null) {
+            countdownLayout.stop();
+        }
+    }
 }

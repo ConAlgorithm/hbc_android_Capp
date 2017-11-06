@@ -92,4 +92,14 @@ public class OrderDetailDeliverCountDownView extends LinearLayout implements Hbc
     public void setOnUpdateListener(OnUpdateListener onUpdateListener) {
         this.onUpdateListener = onUpdateListener;
     }
+
+    public void stop() {
+        if (countdownView != null) {
+            try {
+                countdownView.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
