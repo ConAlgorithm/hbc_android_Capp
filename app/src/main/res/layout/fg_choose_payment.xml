@@ -147,65 +147,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/choose_payment_credit_card_layout"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="@android:color/white"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:gravity="top"
-        android:visibility="gone"
-        >
-        <ImageView
-            android:id="@+id/choose_payment_credit_card_logo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignTop="@+id/choose_payment_credit_card_lay" />
-
-        <LinearLayout
-            android:id="@+id/choose_payment_credit_card_lay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/choose_payment_credit_card_logo"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/choose_payment_credit_card_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:hint="@string/choose_payment_credit_card"
-                android:textColor="#333333"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/choose_payment_credit_card_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="6651551151555115"
-                android:textColor="#AEAEAE"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/personalcenter_right" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/choose_payment_credit_card_line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#44999999"
-        android:visibility="gone" />
-
-    <RelativeLayout
         android:id="@+id/choose_payment_add_credit_card_layout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -229,16 +170,6 @@
             android:layout_toRightOf="@id/choose_payment_add_credit_card_iv"
             android:text="@string/choose_payment_credit_card"
             android:textColor="#333333"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/enter"
-            android:paddingRight="8dp"
-            android:text="添加"
-            android:textColor="#AEAEAE"
             android:textSize="15sp" />
 
         <ImageView

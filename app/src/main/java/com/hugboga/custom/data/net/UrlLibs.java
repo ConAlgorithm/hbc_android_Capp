@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 187
+    //current urlErrorCode 192
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -197,6 +197,12 @@ public class UrlLibs {
     public static final String API_CALENDAR_LIST            = "trade/v1.0/c/calendar/list";                             // Capp司导日历查询 158
     public static final String API_DAILY_SECKILL            = "trade/v1.1/c/order/secKillDaily";                        // 秒杀包车下单 165
     public static final String API_PAYMENT_ABROD_CREDIT     = "trade/v1.0/c/ocean/pay";                                 // 境外信用卡  186
+    public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // 国内信用卡绑定列表  187
+    public static final String API_EPOS_FIRST_PAY           = "trade/v1.0/c/epos/firstpay";                             // 国内信用卡首次支付  188
+    public static final String API_EPOS_CHECK_FACTOR        = "trade/v1.0/c/epos/factorandverifycode";                  // 国内信用卡支付加验要素 189
+    public static final String API_EPOS_BIND_LIST_PAY       = "trade/v1.0/c/epos/bindpay";                              // 已绑定的信用卡支付 190
+    public static final String API_EPOS_SMS_SEND            = "trade/v1.0/c/epos/verifycodereceive";                    // 易宝获取验证码 191
+    public static final String API_EPOS_SMS_VERIFY          = "trade/v1.0/c/epos/verifysale";                           // 易宝短信验证 192
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机

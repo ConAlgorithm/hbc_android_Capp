@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hugboga.custom.activity.DomesticCreditCAddActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/domestic_credit_cadd_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <CheckBox
+                android:id="@+id/domesticCaddCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:checked="true"
+                android:text="添加至常用卡并同意"
+                android:textColor="#929292"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include" />
+
+            <TextView
+                android:id="@+id/domesticProtocol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《常用卡支付协议》"
+                android:textColor="#73cefc"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintBaseline_toBaselineOf="@+id/domesticCaddCheck"
+                app:layout_constraintStart_toEndOf="@+id/domesticCaddCheck" />
+
+            <Button
+                android:id="@+id/domestic_credit_add_next"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/login2_selector_bg"
+                android:enabled="false"
+                android:text="下一步"
+                android:textColor="@color/default_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/domesticCaddCheck" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="@dimen/default_margin_medium"
+                android:text="本平台不会存储您的任何敏感信息"
+                android:textColor="@color/guildsaved"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/domestic_credit_add_next" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.hugboga.custom.widget.domesticcc.DomesticOldPayView
+        android:id="@+id/domestic_pay_dialog"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

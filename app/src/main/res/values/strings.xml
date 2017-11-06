@@ -1,6 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">皇包车</string>
     <string name="hbc_scheme">hbcc</string>
 
@@ -465,7 +463,7 @@
     5. 如果用户对优惠券使用规则或在使用皇包车下单和／或在相关服务过程中有任何疑问或需要任何帮助，请及时与皇包车客服联系，联系电话：400-610-0009;\n\n
     6. 对于不符合领取及使用优惠券规则的领取账户，皇包车有权收回已领取的优惠券;\n\n
     7. 优惠券最终解释权归北京纯粹旅行有限公司（品牌名称：皇包车）所有。</string>
-    <string name = "gotomain"><u>去首页转转</u></string>
+    <string name="gotomain"><u>去首页转转</u></string>
 
     <string name="daily_people_count">出行人数</string>
     <string name="daily_adult">成人</string>
@@ -887,72 +885,81 @@
     <string name="guide_detail_contact_dialog_content">优秀司导都在服务用户的路上，预订后沟通更高效~</string>
 
 
-    <string name = "destiation_search">目的地搜索</string>
-    <string name = "destiation_all">全境</string>
-    <string name = "destiation_day_service">按天包车游</string>
-    <string name = "destiation_pick_send">接送机</string>
-    <string name = "destiation_single">单次接送</string>
+    <string name="destiation_search">目的地搜索</string>
+    <string name="destiation_all">全境</string>
+    <string name="destiation_day_service">按天包车游</string>
+    <string name="destiation_pick_send">接送机</string>
+    <string name="destiation_single">单次接送</string>
 
 
-    <string name = "home_hot_destination">热门目的地</string>
-    <string name = "home_more">查看更多</string>
-    <string name = "home_hot_destination_guide_num">位司导</string>
-    <string name = "home_guide_comment">游客说</string>
-    <string name = "home_guide_comment_img">图</string>
-    <string name = "home_guide_service">服务司导</string>
-    <string name = "home_hot_album_guide_orders">累计服务%s单</string>
-    <string name = "home_recomment_guide">%s推荐司导</string>
-    <string name = "home_album_purchse">起/人</string>
-    <string name = "home_guide_evaluate">评价 </string>
-    <string name = "home_album_experience">人已体验</string>
-    <string name = "home_recomment_guide_end">司导推荐</string>
-    <string name = "home_recomment_service_china">位中文司导可服务</string>
-    <string name = "home_search">搜索目的地、司导、线路</string>
-    <string name = "home_service_day">中文包车游</string>
-    <string name = "home_service_pick_send">接送机</string>
-    <string name = "home_service_single_pick_send">单次接送</string>
-    <string name = "home_service_day_experience">按天畅游</string>
-    <string name = "home_service_good_line">精品线路游</string>
-    <string name = "home_service_favorite_love">私人定制</string>
-    <string name = "home_favorite_guide">选择心仪的司导服务</string>
-    <string name = "home_favorite_guide_yuding">找Ta预订</string>
-    <string name = "home_h5_1">一价全包</string>
-    <string name = "home_h5_2">服务保障</string>
-    <string name = "home_h5_3">先行赔付</string>
-    <string name = "home_h5_4">免费保险</string>
-    <string name = "home_hot_album">热门专辑</string>
-    <string name = "home_search_more">搜索更多关于“%s”的结果</string>
-    <string name = "home_search_history">历史记录</string>
-    <string name = "home_search_hot">热门搜索</string>
-    <string name = "home_search_moree">展开更多</string>
-    <string name = "home_search_more_about">搜索更多关于</string>
-    <string name = "home_search_loading">加载中...</string>
-    <string name = "home_search_all_here">结果全都在这了</string>
-    <string name = "home_search_see_all">查看全部</string>
-    <string name = "home_service_past_album">往期专辑</string>
+    <string name="home_hot_destination">热门目的地</string>
+    <string name="home_more">查看更多</string>
+    <string name="home_hot_destination_guide_num">位司导</string>
+    <string name="home_guide_comment">游客说</string>
+    <string name="home_guide_comment_img">图</string>
+    <string name="home_guide_service">服务司导</string>
+    <string name="home_hot_album_guide_orders">累计服务%s单</string>
+    <string name="home_recomment_guide">%s推荐司导</string>
+    <string name="home_album_purchse">起/人</string>
+    <string name="home_guide_evaluate">评价 </string>
+    <string name="home_album_experience">人已体验</string>
+    <string name="home_recomment_guide_end">司导推荐</string>
+    <string name="home_recomment_service_china">位中文司导可服务</string>
+    <string name="home_search">搜索目的地、司导、线路</string>
+    <string name="home_service_day">中文包车游</string>
+    <string name="home_service_pick_send">接送机</string>
+    <string name="home_service_single_pick_send">单次接送</string>
+    <string name="home_service_day_experience">按天畅游</string>
+    <string name="home_service_good_line">精品线路游</string>
+    <string name="home_service_favorite_love">私人定制</string>
+    <string name="home_favorite_guide">选择心仪的司导服务</string>
+    <string name="home_favorite_guide_yuding">找Ta预订</string>
+    <string name="home_h5_1">一价全包</string>
+    <string name="home_h5_2">服务保障</string>
+    <string name="home_h5_3">先行赔付</string>
+    <string name="home_h5_4">免费保险</string>
+    <string name="home_hot_album">热门专辑</string>
+    <string name="home_search_more">搜索更多关于“%s”的结果</string>
+    <string name="home_search_history">历史记录</string>
+    <string name="home_search_hot">热门搜索</string>
+    <string name="home_search_moree">展开更多</string>
+    <string name="home_search_more_about">搜索更多关于</string>
+    <string name="home_search_loading">加载中...</string>
+    <string name="home_search_all_here">结果全都在这了</string>
+    <string name="home_search_see_all">查看全部</string>
+    <string name="home_service_past_album">往期专辑</string>
 
-    <string name = "servicer_center_item1">预订须知</string>
-    <string name = "servicer_center_item2">服务承诺</string>
-    <string name = "servicer_center_item3">订单取消规则</string>
-    <string name = "servicer_center_item4">费用说明</string>
-    <string name = "servicer_center_item5">常见问题</string>
-    <string name = "servicer_center_item6">保险说明</string>
+    <string name="servicer_center_item1">预订须知</string>
+    <string name="servicer_center_item2">服务承诺</string>
+    <string name="servicer_center_item3">订单取消规则</string>
+    <string name="servicer_center_item4">费用说明</string>
+    <string name="servicer_center_item5">常见问题</string>
+    <string name="servicer_center_item6">保险说明</string>
 
-    <string name = "facebook_app_id">496776350674128</string>
+    <string name="facebook_app_id">496776350674128</string>
 
-    <string name = "add_insure_name">中文姓名</string>
-    <string name = "add_insure_name_hint">姓名需与证件姓名一致</string>
-    <string name = "add_insure_gender">性别</string>
-    <string name = "add_insure_gender_hint">请选择</string>
-    <string name = "add_insure_birthday">出生日期</string>
-    <string name = "add_insure_birthday_hint">请选择日期</string>
-    <string name = "add_insure_cardid">护照编号</string>
-    <string name = "add_insure_cardid_hint">G+8位数字或E+8位数字</string>
-    <string name = "add_insure_hint">请认真核对投保人信息，填写有误会影响保险公司理赔</string>
-    <string name = "add_insure_save">保存</string>
-    <string name = "add_insure_man">男</string>
-    <string name = "add_insure_woman">女</string>
-    <string name = "add_insure_choose_gender">选择性别</string>
+    <string name="add_insure_name">中文姓名</string>
+    <string name="add_insure_name_hint">姓名需与证件姓名一致</string>
+    <string name="add_insure_gender">性别</string>
+    <string name="add_insure_gender_hint">请选择</string>
+    <string name="add_insure_birthday">出生日期</string>
+    <string name="add_insure_birthday_hint">请选择日期</string>
+    <string name="add_insure_cardid">护照编号</string>
+    <string name="add_insure_cardid_hint">G+8位数字或E+8位数字</string>
+    <string name="add_insure_hint">请认真核对投保人信息，填写有误会影响保险公司理赔</string>
+    <string name="add_insure_save">保存</string>
+    <string name="add_insure_man">男</string>
+    <string name="add_insure_woman">女</string>
+    <string name="add_insure_choose_gender">选择性别</string>
+
+    <!--Domestic CreditCard-->
+    <string name="title_domestic_cc">国内信用卡</string>
+    <string name="title_domestic_pay">信用卡支付</string>
+    <string name="title_domestic_cc_add">添加信用卡</string>
+    <string name="domestic_date_dialog_title">设置有效期</string>
+    <string name="domestic_add_card">添加信用卡</string>
+    <string name="domestic_sms_send">获取验证码</string>
+    <string name="domestic_sms_resend">重新发送</string>
 
     <string name = "voice_captcha_title">语音验证码登录</string>
     <string name = "voice_captcha_get_hint">我们将给您拨打电话告知您验证码，如果您接下来收到一个陌生来电，请放心接听</string>

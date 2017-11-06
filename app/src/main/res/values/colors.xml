@@ -5,7 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <!-- Basic color -->
-
     <color name="basic_white">#FFFFFF</color>
     <color name="basic_black">#000000</color>
     <color name="basic_gray">#ffb5b5b5</color>
@@ -55,7 +54,8 @@
     <!-- Callback color -->
     <color name="call_back_bg">#f9f9f9</color>
 
-    <!-- Login color -->
+    <!-- Text color -->
+    <color name="text_color">#111111</color>
 
     <!-- Travel color -->
     <color name="travel_tab_lineb">#E8E8E8</color>
@@ -101,7 +101,7 @@
 
     <color name="hbc_common_text_color_yellow">#ffcf08</color>
     <color name="hbc_common_text_color_black">#111111</color>
-    
+
     <color name="bg_grey_transparent">#FFD0CDCD</color>
     <color name="text_clolor_2b2b2b">#2b2b2b</color>
 
@@ -132,4 +132,7 @@
     <color name="color_151515">#151515</color>
     <color name="color_7f7f7f">#7f7f7f</color>
     <color name="color_ee4000">#ee4000</color>
+
+    <!--添加银行卡-->
+    <color name="domestic_add_line">#E5E5E5</color>
 </resources>

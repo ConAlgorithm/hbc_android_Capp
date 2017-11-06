@@ -33,19 +33,20 @@
 
     <!-- 小米push权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
+
     <permission
         android:name="${applicationId}.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="${applicationId}.permission.MIPUSH_RECEIVE" />
 
     <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
     <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
-    <!--<permission-->
-    <!--android:name="com.hugboga.custom.permission.RECEIVE_MSG"-->
-    <!--android:protectionLevel="signature" />-->
-    <!--&lt;!&ndash; 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 &ndash;&gt;-->
-    <!--<uses-permission android:name="com.hugboga.custom.permission.RECEIVE_MSG" />-->
-
+    <!-- <permission -->
+    <!-- android:name="com.hugboga.custom.permission.RECEIVE_MSG" -->
+    <!-- android:protectionLevel="signature" /> -->
+    <!-- &lt;!&ndash; 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 &ndash;&gt; -->
+    <!-- <uses-permission android:name="com.hugboga.custom.permission.RECEIVE_MSG" /> -->
     <!-- 云信相关权限 end -->
     <application
         android:name=".MyApplication"
@@ -55,21 +56,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <!-- 标识版本渠道 -->
         <meta-data
             android:name="APP_CHANNEL"
             android:value="${APP_CHANNEL}" />
-
         <meta-data
             android:name="PARTNER_CODE"
-            android:value="a6ff2ca806434612ba74fb81020f1d55"/><!--同盾-->
+            android:value="a6ff2ca806434612ba74fb81020f1d55" /> <!-- 同盾 -->
 
-        <!--<meta-data
+
+        <!--
+            <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="${RONG_CLOUD_APP_KEY}" />-->
+            android:value="${RONG_CLOUD_APP_KEY}" />
+        -->
         <!-- <meta-data -->
         <!-- android:name="UMENG_APPKEY" -->
         <!-- android:value="55ccb4cfe0f55ab500004a9d" /> -->
@@ -118,11 +122,11 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
-                    android:host="m-test.huangbaoche.com" />
+                    android:host="m-test.huangbaoche.com"
+                    android:scheme="https" />
                 <data
-                    android:scheme="http"
-                    android:host="m-test.huangbaoche.com" />
+                    android:host="m-test.huangbaoche.com"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
@@ -150,8 +154,8 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.DetailPassCityListActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
@@ -216,8 +220,8 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.PickFlightListActivity"
-            android:theme="@style/translucent"
             android:screenOrientation="portrait"
+            android:theme="@style/translucent"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.CollectGuideListActivity"
@@ -282,14 +286,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-        android:name=".activity.CouponInvalidActivity"
-        android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:name=".activity.CouponInvalidActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.CouponDesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.OrderCancelActivity"
             android:screenOrientation="portrait"
@@ -323,7 +326,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.TravelFundActivity"
             android:screenOrientation="portrait"
@@ -348,8 +350,7 @@
         <activity
             android:name=".activity.PersonInfoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.ForgetPasswdActivity"
             android:screenOrientation="portrait"
@@ -399,17 +400,14 @@
             android:name=".activity.ServiceQuestionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.BargainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.CanServiceGuideListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.UnicornServiceActivity"
             android:screenOrientation="portrait"
@@ -418,35 +416,29 @@
             android:name=".activity.SingleActivity"
             android:label="abc"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.GiftDialogActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialog"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.OrderCancelReasonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.SkuOrderActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.ChooseGuideCityActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.CharterFirstStepActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name=".activity.CharterSecondStepActivity"
             android:screenOrientation="portrait"
@@ -489,17 +481,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
 
-
-            <!-- <intent-filter>
+            <!--
+             <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
                  <category android:name="android.intent.category.DEFAULT" />
                  <data
                      android:host="com.hugboga.custom"
                      android:pathPrefix="/conversation/"
                      android:scheme="rong" />
-             </intent-filter>-->
+             </intent-filter>
+            -->
         </activity>
-
         <activity
             android:name=".activity.NewOrderActivity"
             android:screenOrientation="portrait"
@@ -531,10 +523,10 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name="com.hugboga.custom.gp.wxapi.WXEntryActivity"
+            android:name=".gp.wxapi.WXEntryActivity"
             android:exported="true" />
         <activity
-            android:name="com.hugboga.custom.gp.wxapi.WXPayEntryActivity"
+            android:name=".gp.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <!-- 剪切图片 -->
@@ -550,6 +542,7 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- alipay sdk end -->
+
 
         <!-- User defined.    用户自定义的广播接收器 -->
         <receiver
@@ -599,12 +592,12 @@
         <!-- 安卓保活配置 -->
         <service
             android:name="com.netease.cosine.core.CosineService"
-            android:process=":cosine"></service>
+            android:process=":cosine" />
 
         <receiver
             android:name="com.netease.cosine.target.CosineReceiver"
             android:exported="true"
-            android:process=":cosine"></receiver>
+            android:process=":cosine" />
 
         <meta-data
             android:name="com.netease.cosine.target"
@@ -613,14 +606,13 @@
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver" />
 
-
         <!-- map -->
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="${AMAP_KEY}" />
 
-        <!--小米push-->
+        <!-- 小米push -->
         <service
             android:name="com.xiaomi.push.service.XMPushService"
             android:enabled="true"
@@ -644,6 +636,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -668,12 +661,22 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
-        <!--视频播放采用横屏，请勿修改screenOrientation-->
+        <!-- 视频播放采用横屏，请勿修改screenOrientation -->
         <activity
             android:name=".activity.MediaPlayerActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeFullscreen" />
 
+        <!-- 国内信用卡列表 -->
+        <activity
+            android:name=".activity.DomesticCreditCardActivity"
+            android:label="@string/title_domestic_cc"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DomesticCreditCAddActivity"
+            android:label="@string/title_domestic_cc_add"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
     </application>
 
 </manifest>
