@@ -30,7 +30,7 @@ public class RequestEposSmsVerify extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return "192";
+        return "40192";
     }
 
     @Override

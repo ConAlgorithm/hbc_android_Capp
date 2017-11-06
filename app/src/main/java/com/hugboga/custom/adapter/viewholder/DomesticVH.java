@@ -1,17 +1,12 @@
 package com.hugboga.custom.adapter.viewholder;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.epos.EposBindCard;
-
-import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,7 +18,7 @@ import butterknife.ButterKnife;
 
 public class DomesticVH extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.domestic_item_img)
+    @Bind(R.id.domestic_valide_img)
     ImageView imageView; //银行卡icon
     @Bind(R.id.domestic_item_name)
     TextView itemName; //银行名称

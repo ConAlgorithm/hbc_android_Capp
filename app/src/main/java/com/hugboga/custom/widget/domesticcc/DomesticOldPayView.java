@@ -257,6 +257,6 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-
+        ToastUtils.showToast(getContext(),errorInfo.exception.getMessage());
     }
 }
