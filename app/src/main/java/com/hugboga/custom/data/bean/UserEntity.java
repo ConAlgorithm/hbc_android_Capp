@@ -299,14 +299,6 @@ public class UserEntity {
         }
     }
 
-    public String getLoginAreaCode(Context activity) {
-        if (TextUtils.isEmpty(loginCode)) {
-            SharedPre shared = new SharedPre(activity);
-            loginCode = shared.getStringValue(SharedPre.LOGIN_CODE);
-        }
-        return loginCode;
-    }
-
     public void setLoginAreaCode(Context activity, String loginCode) {
         SharedPre shared = new SharedPre(activity);
         shared.saveStringValue(SharedPre.LOGIN_CODE, loginCode);

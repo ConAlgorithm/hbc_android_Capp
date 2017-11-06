@@ -3,6 +3,7 @@ package com.huangbaoche.hbcframe.data.net;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.huangbaoche.hbcframe.HbcConfig;

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/voice_captcha_send"
+            android:textColor="#a8a8a8"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/vvc_input_phone_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:id="@+id/vvc_input_code_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_vvc_input">
+
+                <TextView
+                    android:id="@+id/vvc_input_code_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+
+                <View
+                    android:id="@+id/vvc_input_code_stroke1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_vvc_input_stroke" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/bg_vvc_input">
+
+                <TextView
+                    android:id="@+id/vvc_input_code_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+
+                <View
+                    android:id="@+id/vvc_input_code_stroke2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_vvc_input_stroke" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/bg_vvc_input">
+
+                <TextView
+                    android:id="@+id/vvc_input_code_tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+
+                <View
+                    android:id="@+id/vvc_input_code_stroke3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_vvc_input_stroke" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/bg_vvc_input">
+
+                <TextView
+                    android:id="@+id/vvc_input_code_tv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp" />
+
+                <View
+                    android:id="@+id/vvc_input_code_stroke4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_vvc_input_stroke" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/vvc_input_code_et"
+            android:numeric="integer"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#00000000"
+            android:textColor="#3300ff00" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/vvc_input_countdown_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textColor="#929292"
+        android:textSize="13sp" />
+
+</LinearLayout>

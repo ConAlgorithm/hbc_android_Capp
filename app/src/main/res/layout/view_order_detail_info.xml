@@ -80,82 +80,68 @@
             android:layout_marginTop="10dp"
             android:src="@mipmap/personalcenter_right" />
 
-        <TextView
-            android:id="@+id/order_detail_insurer_state_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_below="@id/order_detail_insurance_hint_tv"
-            android:layout_marginRight="6dp"
-            android:layout_toLeftOf="@id/order_detail_insurer_arrow_iv"
-            android:gravity="center_vertical"
-            android:text="@string/order_insurance_free"
-            android:textColor="#f7350a"
-            android:textSize="13sp" />
         <ImageView
             android:id="@+id/order_detail_insurer_state_error_iv"
             android:layout_width="11dp"
             android:layout_height="11dp"
             android:layout_below="@id/order_detail_insurance_hint_tv"
-            android:layout_toLeftOf="@id/order_detail_insurer_arrow_iv"
-            android:layout_marginTop="11dp"
             android:layout_marginRight="6dp"
-            android:background="@mipmap/icon_alart"
-            />
+            android:layout_marginTop="11dp"
+            android:layout_toLeftOf="@id/order_detail_insurer_arrow_iv"
+            android:background="@mipmap/icon_alart" />
+
         <TextView
             android:id="@+id/order_detail_insurer_tv"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
-            android:layout_below="@id/order_detail_insurance_hint_tv"
             android:layout_alignParentLeft="true"
-            android:layout_toRightOf="@id/order_detail_insurer_arrow_iv"
+            android:layout_below="@id/order_detail_insurance_hint_tv"
             android:layout_marginRight="55dp"
+            android:layout_toRightOf="@id/order_detail_insurer_arrow_iv"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:ellipsize="end"
             android:textColor="#333333"
             android:textSize="14sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/order_detail_insurance_add_layout"
-        android:background="#ffffff"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/order_margin_vertical"
+        android:background="@android:color/white"
         android:visibility="gone"
-        android:layout_height="@dimen/sku_order_min_item_hight"
+        android:paddingBottom="4dp"
         android:paddingLeft="@dimen/sku_order_padding_left"
-        android:paddingRight="@dimen/order_padding_left"
-        >
+        android:paddingRight="@dimen/order_padding_left">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/order_insurance_hint3"
-            android:textColor="#cccccc"
-            android:textSize="14sp" />
+            android:id="@+id/order_detail_insurance_part_tv"
+            style="@style/SkuOrderSubtitleTextView"
+            android:text="@string/order_detail_insurance_info" />
 
         <ImageView
-            android:id="@+id/order_detail_insurer_add_arrow_iv"
-            android:layout_width="7dp"
-            android:layout_height="13dp"
+            android:id="@+id/order_detail_insurance_explain_iv"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:padding="5dp"
+            android:layout_marginTop="8dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/personalcenter_right" />
+            android:src="@mipmap/order_luggage_instruction" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="6dp"
-            android:layout_toLeftOf="@id/order_detail_insurer_add_arrow_iv"
-            android:gravity="center_vertical"
-            android:text="@string/order_detail_add"
-            android:textColor="@color/default_yellow"
-            android:textSize="13sp" />
-
-        <View
+            android:id="@+id/order_detail_insurance_add_tv"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_height"
-            android:background="@color/default_dividing_line" />
+            android:layout_height="42dp"
+            android:layout_below="@id/order_detail_insurance_part_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_rounded_gray"
+            android:gravity="center"
+            android:text="@string/order_insurance_hint3"
+            android:textColor="@color/default_black"
+            android:textSize="14sp" />
     </RelativeLayout>
 </LinearLayout>

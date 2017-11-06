@@ -40,10 +40,8 @@
     <string name="hbc_back">返回</string>
 
     <!-- Basic name -->
-    用户协议
-    <string name="register_info_tip">注册即表示我同意"皇包车"的用户协议</string>
-    <string name="user_info_tip">且代表您已同意《皇包车会员服务协议》</string>
-    <string name="user_info_tip1">皇包车会员服务协议</string>
+    <string name="user_info_tip">登录即代表同意《皇包车用户协议》</string>
+    <string name="user_info_tip1">皇包车用户协议</string>
     <string name="register_info_tip_protocol">用户协议</string>
     <string name="login_country_search_hint">搜索国际或区号</string>
 
@@ -206,9 +204,6 @@
     <string name="man_luggage_tips3">每减少1位乘客，可增加1个24寸行李</string>
     <string name="man_luggage_tips4">随身行李请酌情携带，大小参考行李箱</string>
     <string name="man_luggage_tips5">如果司导到场发现行李超出所订车型容量限制，无法提供服务，您只能重新预订更大车型。\n请您在预订时考虑携带行李情况，以免出现上述情况</string>
-
-
-    当前城市机场
 
     <string name="back_alert_msg">订单未填写完，要离开吗?</string>
     <string name="location_airport">当前城市机场</string>
@@ -373,7 +368,7 @@
     <string name="order_detail_insurance_status1">保单出现问题，请尽快联系客服</string>
     <string name="order_detail_insurance_status2">为您购买的保险已注销</string>
     <string name="order_detail_insurance_status3">保单正在处理中...</string>
-    <string name="order_detail_insurance_hint">平安境外用车险 × %1$s份</string>
+    <string name="order_detail_insurance_hint">送您平安境外用车险×%1$s份</string>
     <string name="order_detail_child_state_cancel">此段行程：已取消</string>
     <string name="order_detail_child_state_refund">此段行程：已退款</string>
     <string name="order_detail_child_state_complaint">此段行程：客诉处理中</string>
@@ -579,7 +574,6 @@
     <string name="login_phone_hint">手机号</string>
     <string name="login_get_verity">获取验证码</string>
     <string name="login_verity">验证码</string>
-    <string name="login_new_user_hint">新用户登录时将自动注册</string>
     <string name="login_other">也可以这样</string>
     <string name="login_wechat">微信登录</string>
     <string name="login_account_pwd">账号密码登录</string>
@@ -612,6 +606,8 @@
     <string name="login_change_mobile_check2">手机号不能为空</string>
     <string name="login_change_mobile_check3">验证码不能为空</string>
     <string name="login_change_mobile_check4">该手机号与当前手机号不能相同</string>
+    <string name="login_voice_captcha_hint">收不到短信验证码？试试语音验证码</string>
+    <string name="login_voice_captcha_hint_click">语音验证码</string>
 
     <string name="personinfo_avatar">头像</string>
     <string name="personinfo_nickname">昵称</string>
@@ -965,4 +961,12 @@
     <string name="domestic_sms_send">获取验证码</string>
     <string name="domestic_sms_resend">重新发送</string>
 
+    <string name = "voice_captcha_title">语音验证码登录</string>
+    <string name = "voice_captcha_get_hint">我们将给您拨打电话告知您验证码，如果您接下来收到一个陌生来电，请放心接听</string>
+    <string name = "voice_captcha_phone">手机号</string>
+    <string name = "voice_captcha_get">获取语音验证码</string>
+    <string name = "voice_captcha_send">验证码已发送到手机：</string>
+    <string name = "voice_captcha_count_down">%1$ss后重新获取</string>
+    <string name = "voice_captcha_retry">重新获取语音验证码</string>
+    <string name = "voice_captcha_input_error">请输入手机号</string>
 </resources>

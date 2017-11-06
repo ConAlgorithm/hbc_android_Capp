@@ -1,4 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="app_name">皇包車</string>
     <string name="hbc_scheme">hbcc</string>
 
@@ -40,10 +42,8 @@
     <string name="hbc_back">返回</string>
 
     <!-- Basic name -->
-    用戶協議
-    <string name="register_info_tip">註冊即表示我同意"皇包車"的用戶協議</string>
-    <string name="user_info_tip">且代表您已同意《皇包車會員服務協議》</string>
-    <string name="user_info_tip1">皇包車會員服務協議</string>
+    <string name="user_info_tip">登錄即代表同意《皇包車用戶協議》</string>
+    <string name="user_info_tip1">皇包車用戶協議</string>
     <string name="register_info_tip_protocol">用戶協議</string>
     <string name="login_country_search_hint">搜索國際或區號</string>
 
@@ -206,9 +206,6 @@
     <string name="man_luggage_tips3">每減少1位乘客，可增加1個24寸行李</string>
     <string name="man_luggage_tips4">隨身行李請酌情攜帶，大小參考行李箱</string>
     <string name="man_luggage_tips5">如果司導到場發現行李超出所訂車型容量限制，無法提供服務，您只能重新預訂更大車型。\n請您在預訂時考慮攜帶行李情況，以免出現上述情況</string>
-
-
-    當前城市機場
 
     <string name="back_alert_msg">訂單未填寫完，要離開嗎?</string>
     <string name="location_airport">當前城市機場</string>
@@ -373,7 +370,7 @@
     <string name="order_detail_insurance_status1">保單出現問題，請儘快聯繫客服</string>
     <string name="order_detail_insurance_status2">為您購買的保險已註銷</string>
     <string name="order_detail_insurance_status3">保單正在處理中...</string>
-    <string name="order_detail_insurance_hint">平安境外用車險 × %1$s份</string>
+    <string name="order_detail_insurance_hint">送您平安境外用車險×%1$s份</string>
     <string name="order_detail_child_state_cancel">此段行程：已取消</string>
     <string name="order_detail_child_state_refund">此段行程：已退款</string>
     <string name="order_detail_child_state_complaint">此段行程：客訴處理中</string>
@@ -612,6 +609,8 @@
     <string name="login_change_mobile_check2">手機號不能為空</string>
     <string name="login_change_mobile_check3">驗證碼不能為空</string>
     <string name="login_change_mobile_check4">該手機號與當前手機號不能相同</string>
+    <string name="login_voice_captcha_hint">收不到短信驗證碼？試試語音驗證碼</string>
+    <string name="login_voice_captcha_hint_click">語音驗證碼</string>
 
     <string name="personinfo_avatar">頭像</string>
     <string name="personinfo_nickname">昵稱</string>
@@ -934,6 +933,13 @@
     <string name="facebook_app_id">496776350674128</string>
     <string name="home_service_past_album">往期專輯</string>
 
+    <string name="servicer_center_item1">預訂須知</string>
+    <string name="servicer_center_item2">服務承諾</string>
+    <string name="servicer_center_item3">訂單取消規則</string>
+    <string name="servicer_center_item4">費用說明</string>
+    <string name="servicer_center_item5">常見問題</string>
+    <string name="servicer_center_item6">保險說明</string>
+
     <string name="add_insure_name">中文姓名</string>
     <string name="add_insure_name_hint">姓名需與證件姓名一致</string>
     <string name="add_insure_gender">性別</string>
@@ -947,6 +953,14 @@
     <string name="add_insure_man">男</string>
     <string name="add_insure_woman">女</string>
     <string name="add_insure_choose_gender">選擇性別</string>
+
+    <string name = "voice_captcha_title">語音驗證碼登錄</string>
+    <string name = "voice_captcha_get_hint">我們將給您撥打電話告知您驗證碼，如果您接下來收到一個陌生來電，請放心接聽</string>
+    <string name = "voice_captcha_phone">手機號</string>
+    <string name = "voice_captcha_get">獲取語音驗證碼</string>
+    <string name = "voice_captcha_send">驗證碼已發送到手機：</string>
+    <string name = "voice_captcha_count_down">%1$ss後重新獲取</string>
+    <string name = "voice_captcha_retry">重新獲取語音驗證碼</string>
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>

@@ -79,6 +79,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     Button login_submit;
     @Bind(R.id.miaoshu2)
     TextView miaoshu2;
+    @Bind(R.id.miaoshu1)
+    TextView miaoshu1;
     @Bind(R.id.delete)
     ImageView delete;
 
@@ -109,6 +111,19 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         //initHeader();
         setSensorsPageViewEvent("登录页", SensorsConstant.LOGIN);
         OrderUtils.genUserAgreeMent(this,miaoshu2);
+        OrderUtils.genCLickSpan(this, miaoshu1, getString(R.string.login_voice_captcha_hint), getString(R.string.login_voice_captcha_hint_click), null
+                , getResources().getColor(R.color.default_highlight_blue), false, new OrderUtils.MyCLickSpan.OnSpanClickListener() {
+                    @Override
+                    public void onSpanClick(View view) {
+                        SensorsUtils.onAppClick("登录", "收不到验证码", getIntentSource());
+                        Intent intent = new Intent(LoginActivity.this, VoiceCaptchaActivity.class);
+                        intent.putExtra(KEY_PHONE, phoneEditText.getText() != null ? phoneEditText.getText().toString() : "");
+                        intent.putExtra(KEY_AREA_CODE, areaCodeTextView.getText() != null ? areaCodeTextView.getText().toString() : "86");
+                        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+                        intent.putExtra(Constants.PARAMS_ACTION, actionBean);
+                        LoginActivity.this.startActivity(intent);
+                    }
+                });
     }
     protected void initView(Intent intent) {
         String areaCode = null;
@@ -125,7 +140,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         }
         if (!TextUtils.isEmpty(areaCode)) {
             this.areaCode = areaCode;
-            areaCodeTextView.setText("+" + areaCode);
+            areaCodeTextView.setText(CommonUtils.addPhoneCodeSign(areaCode));
         } else {
             this.areaCode = "86";
         }
@@ -237,7 +252,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     break;
                 }
                 AreaCodeBean areaCodeBean = (AreaCodeBean) action.getData();
-                if (areaCodeBean == null) {
+                if (areaCodeBean == null || areaCodeBean.viewId != R.id.change_mobile_areacode) {
                     break;
                 }
                 this.areaCode = areaCodeBean.getCode();
@@ -447,6 +462,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 //选择区号
 //                collapseSoftInputMethod(); //隐藏键盘
                 intent = new Intent(LoginActivity.this, ChooseCountryActivity.class);
+                intent.putExtra(ChooseCountryActivity.PARAM_VIEW_ID, R.id.change_mobile_areacode);
                 intent.putExtra(KEY_FROM, "login");
                 startActivity(intent);
                 break;
@@ -510,7 +526,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             return;
         }
 
-        RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha,3,1);
+        RequestLoginBycaptcha request = new RequestLoginBycaptcha(activity, areaCode, phone, captcha,3,1,3);
         requestData(request);
 
         StatisticClickEvent.click(StatisticConstant.LOGIN_CODE,getIntentSource());

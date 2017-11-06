@@ -32,6 +32,7 @@ import com.hugboga.im.entity.ImAnalysisEnitty;
 import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;

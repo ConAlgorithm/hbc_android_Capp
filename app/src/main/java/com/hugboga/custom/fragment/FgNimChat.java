@@ -124,6 +124,13 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     public int getContentViewId() {
         return R.layout.fg_chat;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
@@ -172,9 +179,6 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         SpannableString msp = new SpannableString(hintStr);
         msp.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.basic_black)), 8, hintStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         loginHintTV.setText(msp);
-
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
 
         initRegisterMsgOberserve();
 
@@ -479,21 +483,20 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
     }
 
     private void computeTotalUnreadCount(List<ChatBean> chatBeans) {
+        int totalCount = 0;
         if (chatBeans != null && chatBeans.size() > 0) {
-            int totalCount = 0;
             for (ChatBean bean : chatBeans) {
                 totalCount += bean.getImCount();
             }
-            if (getActivity() != null) {
-                ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()),
-                        SharedPre.QY_SERVICE_UNREADCOUNT, 0));
-                MLog.e("totalCount = " + totalCount);
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-                if (headerView != null) {
-                    headerView.flushPoint();
-                }
+        }
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).setIMCount(totalCount, SharedPre.getInteger(UserEntity.getUser().getUserId(MyApplication.getAppContext()), SharedPre.QY_SERVICE_UNREADCOUNT, 0));
+            MLog.e("totalCount = " + totalCount);
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            if (headerView != null) {
+                headerView.flushPoint();
             }
         }
     }

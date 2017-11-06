@@ -41,9 +41,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.attr.type;
-
-
 public class OrderUtils {
 
     private String getUserExJson(ContactUsersBean contactUsersBean){
@@ -299,6 +296,7 @@ public class OrderUtils {
                                          String travelFund, CouponBean couponBean, MostFitBean mostFitBean,
                                          String guideCollectId, ManLuggageBean manLuggageBean, boolean isCheckIn, String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 1;
         orderBean.flight = flightBean.flightNo;
         orderBean.flightBean = flightBean;
         orderBean.startAddress = flightBean.arrAirportName;
@@ -445,6 +443,7 @@ public class OrderUtils {
                                            CouponBean couponBean,MostFitBean mostFitBean,
                                            String guideCollectId,String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 4;
         orderBean.adult = Integer.valueOf(adultNum);
         orderBean.carDesc = carBean.carDesc;
         orderBean.seatCategory = carBean.seatCategory;
@@ -559,13 +558,13 @@ public class OrderUtils {
                                          String travelFund,CouponBean couponBean,MostFitBean mostFitBean,
                                          String guideCollectId,ManLuggageBean manLuggageBean,String userWechat) {
         OrderBean orderBean = new OrderBean();//订单
+        orderBean.orderType = 2;
         orderBean.serviceAreaCode = CommonUtils.removePhoneCodeSign(serviceAreaCode);//hotelPhoneTextCodeClick.getText().toString();
         orderBean.serviceAddressTel = serviceAddressTel;//hotelPhoneText.getText().toString();
         orderBean.urgentFlag = carBean.urgentFlag;
         if(!TextUtils.isEmpty(guideCollectId)) {
             orderBean.guideCollectId = guideCollectId;
         }
-        orderBean.orderType = type;
         orderBean.carType = carBean.carType;
         orderBean.seatCategory = carBean.seatCategory;
         orderBean.carDesc = carBean.carDesc;
@@ -823,10 +822,6 @@ public class OrderUtils {
         genCLickSpan(activity,textView,activity.getString(R.string.commit_agree, source),activity.getString(R.string.commit_agree_click),UrlLibs.H5_TAI_AGREEMENT,0xff7f7f7f, null);
     }
 
-    //注册协议
-    public static void genRegisterAgreeMent(final Activity activity, TextView textView) {
-        genCLickSpan(activity,textView,activity.getString(R.string.register_info_tip),activity.getString(R.string.register_info_tip_protocol),UrlLibs.H5_PROTOCOL,0xff008cef, null);
-    }
     //用户协议
     public static void genUserAgreeMent(final Activity activity, TextView textView) {
         genCLickSpan(activity,textView,activity.getString(R.string.user_info_tip),activity.getString(R.string.user_info_tip1),UrlLibs.H5_PROTOCOL,0xffa8a8a8, null);
@@ -845,10 +840,14 @@ public class OrderUtils {
     }
 
     public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, MyCLickSpan.OnSpanClickListener listener) {
+        genCLickSpan(activity, textView, agree_text, agree_text_click, url,color, true, listener);
+    }
+
+    public static void genCLickSpan(final Activity activity, TextView textView,String agree_text,String agree_text_click,String url, int color, boolean isShowLine, MyCLickSpan.OnSpanClickListener listener) {
         int start = agree_text.lastIndexOf(agree_text_click);
         int end = start + agree_text_click.length();
         SpannableString clickSpan = new SpannableString(agree_text);
-        clickSpan.setSpan(new MyCLickSpan(activity,url,color,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        clickSpan.setSpan(new MyCLickSpan(activity,url,color,isShowLine,listener), start,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(clickSpan);
     }
@@ -858,20 +857,26 @@ public class OrderUtils {
         String url;
         int color = 0xff008cef;
         OnSpanClickListener listener;
+        boolean isShowLine = true;
 
         public MyCLickSpan(Activity activity,String url, int color, OnSpanClickListener listener) {
+            this(activity, url, color, true, listener);
+        }
+
+        public MyCLickSpan(Activity activity,String url, int color, boolean isShowLine, OnSpanClickListener listener) {
             super();
             this.activity = activity;
             this.url = url;
             this.color = color;
             this.listener = listener;
+            this.isShowLine = isShowLine;
         }
 
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
             ds.setColor(color);
-            ds.setUnderlineText(true);
+            ds.setUnderlineText(isShowLine);
         }
 
         @Override

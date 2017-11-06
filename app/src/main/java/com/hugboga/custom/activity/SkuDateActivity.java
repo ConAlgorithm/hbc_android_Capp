@@ -81,6 +81,8 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
             guideNameTV.setVisibility(View.VISIBLE);
             guideNameTV.setText(getString(R.string.sku_date_selected_guide) + params.guidesDetailData.guideName);
         }
+
+        setSensorsShowEvent();
     }
 
     @Override
@@ -168,6 +170,17 @@ public class SkuDateActivity extends Activity implements MonthView.OnDayClickLis
             intentSource = intent.getStringExtra(Constants.PARAMS_SOURCE);
         }
         return intentSource;
+    }
+
+    private void setSensorsShowEvent() {
+        try {
+            JSONObject properties2 = new JSONObject();
+            properties2.put("hbc_sku_type", "线路详情");
+            properties2.put("hbc_refer", getIntentSource());
+            SensorsDataAPI.sharedInstance(this).track("buy_view", properties2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //神策统计_商品进入下单
