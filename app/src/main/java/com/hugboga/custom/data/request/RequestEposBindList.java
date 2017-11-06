@@ -29,7 +29,7 @@ public class RequestEposBindList extends BaseRequest<EposBindList> {
 
     @Override
     public String getUrlErrorCode() {
-        return "187";
+        return "193";
     }
 
     @Override
