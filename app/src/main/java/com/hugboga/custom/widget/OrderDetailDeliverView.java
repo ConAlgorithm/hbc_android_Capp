@@ -82,6 +82,7 @@ import cn.iwgang.countdownview.CountdownView;
             addView(guideInfoView);
             guideInfoView.update(orderBean);
         } else {
+            stop();
             setVisibility(View.GONE);
         }
     }
@@ -93,6 +94,11 @@ import cn.iwgang.countdownview.CountdownView;
     }
 
     private void sendRequest(boolean isShowLoadingView) {
+        if (getContext() instanceof Activity) {
+            if (((Activity) getContext()).isFinishing()) {
+                return;
+            }
+        }
         if (orderBean == null) {
             return;
         }
@@ -197,5 +203,17 @@ import cn.iwgang.countdownview.CountdownView;
         }
         map.put("ordertype", orderTypeStr);
         MobClickUtils.onEvent(StatisticConstant.CLICK_WAIT_G, map);
+    }
+
+    public void stop() {
+        if (groupLayout == null || groupLayout.getChildCount() <= 0) {
+            return;
+        }
+        if (groupLayout.getChildAt(0) instanceof OrderDetailDeliverUnbilledView) {
+            ((OrderDetailDeliverUnbilledView) groupLayout.getChildAt(0)).stop();
+        } else if (groupLayout.getChildAt(0) instanceof OrderDetailDeliverItemView) {
+            ((OrderDetailDeliverItemView) groupLayout.getChildAt(0)).stop();
+        }
+        groupLayout.removeAllViews();
     }
 }

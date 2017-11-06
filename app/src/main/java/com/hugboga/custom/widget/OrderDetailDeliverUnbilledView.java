@@ -52,4 +52,14 @@ public class OrderDetailDeliverUnbilledView extends LinearLayout implements HbcV
     public void setOnCountdownEndListener(CountdownView.OnCountdownEndListener onCountdownEndListener) {
         countdownView.setOnCountdownEndListener(onCountdownEndListener);
     }
+
+    public void stop() {
+        if (countdownView != null) {
+            try {
+                countdownView.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
