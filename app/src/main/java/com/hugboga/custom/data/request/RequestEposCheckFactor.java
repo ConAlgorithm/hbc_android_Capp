@@ -54,7 +54,7 @@ public class RequestEposCheckFactor extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return "189";
+        return "40189";
     }
 
     @Override

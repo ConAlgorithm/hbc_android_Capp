@@ -955,6 +955,7 @@
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">国内信用卡</string>
     <string name="title_domestic_pay">信用卡支付</string>
+    <string name="title_domestic_pay_validate">您还需要补充以下信息</string>
     <string name="title_domestic_cc_add">添加信用卡</string>
     <string name="domestic_date_dialog_title">设置有效期</string>
     <string name="domestic_add_card">添加信用卡</string>

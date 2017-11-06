@@ -130,7 +130,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_phone.addTextChangedListener(watcher);
         // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
         if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != KEY_VALIDE_TYPE0) {
-            toolbarTitle.setText(R.string.title_domestic_pay);
+            toolbarTitle.setText(R.string.title_domestic_pay_validate);
             showProtocol(false); //加验要素不显示协议
             //加载加验界面
             String valideNeed = getIntent().getStringExtra(KEY_VALIDE_NEED);
