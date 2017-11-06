@@ -100,6 +100,16 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     @Bind(R.id.domestic_add_line6)
     ImageView domestic_add_line6; //手机号部分分割线
 
+    //==============加验元素============
+    @Bind(R.id.domestic_valide_info)
+    ConstraintLayout valideLayout;
+    @Bind(R.id.domestic_valide_img)
+    ImageView domestic_valide_img; //加验卡图标
+    @Bind(R.id.domestic_valide_name)
+    TextView domestic_valide_name; //加验卡银行名称
+    @Bind(R.id.domestic_valide_no)
+    TextView domestic_valide_no; //加验卡号
+
     private int selectYear;
     private int selectMonth;
     private String payNo; //支付单号
@@ -132,6 +142,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         if (getIntent().getIntExtra(KEY_VALIDE_TYPE, -1) != KEY_VALIDE_TYPE0) {
             toolbarTitle.setText(R.string.title_domestic_pay_validate);
             showProtocol(false); //加验要素不显示协议
+            //显示加验银行卡信息
+            showValideView();
             //加载加验界面
             String valideNeed = getIntent().getStringExtra(KEY_VALIDE_NEED);
             // 拿到加验需要的要素，对应各个字段展示
@@ -140,6 +152,22 @@ public class DomesticCreditCAddActivity extends BaseActivity {
             toolbarTitle.setText(R.string.title_domestic_cc);
             //添加银行卡界面
             reloadProtocol(); //是否显示协议
+        }
+    }
+
+    /**
+     * 显示加验银行卡信息
+     */
+    private void showValideView() {
+        // 加验银行卡信息显示
+        if (valideLayout != null) {
+            valideLayout.setVisibility(View.VISIBLE);
+            String bankName = getIntent().getStringExtra(KEY_VALIDE_BANKNAME);
+            String cardNum = getIntent().getStringExtra(KEY_VALIDE_CARDNUM);
+            int icon = getIntent().getIntExtra(KEY_VALIDE_BANKICON, 0);
+            domestic_valide_img.setImageResource(icon);
+            domestic_valide_name.setText(bankName);
+            domestic_valide_no.setText(cardNum);
         }
     }
 
@@ -256,6 +284,12 @@ public class DomesticCreditCAddActivity extends BaseActivity {
             case R.id.domestic_layout2:
                 //选择有效期
                 Calendar calendar = Calendar.getInstance();
+                if (selectYear != 0) {
+                    calendar.set(Calendar.YEAR, selectYear);
+                }
+                if (selectMonth != 0) {
+                    calendar.set(Calendar.MONTH, selectMonth - 1);
+                }
                 DatePickerYearDialog dialog = new DatePickerYearDialog(this, 0, new DatePickerYearDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker startDatePicker, int startYear, int startMonthOfYear, int startDayOfMonth) {
