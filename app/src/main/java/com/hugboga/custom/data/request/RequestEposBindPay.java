@@ -33,7 +33,7 @@ public class RequestEposBindPay extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return "190";
+        return "40190";
     }
 
     @Override

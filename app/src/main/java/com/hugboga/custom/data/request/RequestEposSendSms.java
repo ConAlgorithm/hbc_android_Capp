@@ -28,7 +28,7 @@ public class RequestEposSendSms extends BaseRequest<EposFirstPay> {
 
     @Override
     public String getUrlErrorCode() {
-        return "191";
+        return "40191";
     }
 
     @Override

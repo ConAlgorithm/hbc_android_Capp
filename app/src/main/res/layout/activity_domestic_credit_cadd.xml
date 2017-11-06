@@ -26,12 +26,21 @@
             android:layout_height="match_parent">
 
             <include
+                android:id="@+id/domestic_valide_info"
+                layout="@layout/domestic_valide_info"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
                 android:id="@+id/include"
                 layout="@layout/domestic_credit_cadd_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/domestic_valide_info" />
 
             <CheckBox
                 android:id="@+id/domesticCaddCheck"
