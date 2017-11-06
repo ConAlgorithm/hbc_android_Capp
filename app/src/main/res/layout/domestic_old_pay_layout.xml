@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:text="信用卡"
             android:textColor="#7F7F7F"
             app:layout_constraintStart_toEndOf="@+id/domestic_pay_ok_img"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
-            android:text="**** **** ****"
             app:layout_constraintStart_toEndOf="@+id/domestic_pay_ok_img"
             app:layout_constraintTop_toBottomOf="@+id/domestic_pay_ok_name" />
 
@@ -67,27 +65,12 @@
             app:layout_constraintTop_toBottomOf="@+id/domestic_pay_ok_img">
 
             <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:layout_marginTop="32dp"
-                android:text="确定支付吗？"
-                android:textColor="#151515"
-                android:textSize="@dimen/text_size_largex"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="短信验证码已下发到办卡预留手机号"
+                android:text="@string/domestic_card_sms_tips"
                 android:textColor="@color/default_black"
                 android:textSize="@dimen/text_size_mediumx"
                 app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +136,6 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/login2_selector_bg"
             android:enabled="false"
-            android:text="支付 ¥0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

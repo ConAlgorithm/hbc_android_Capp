@@ -65,13 +65,6 @@
     <color name="travel_tab_bottom_color">#000000</color>
     <color name="travel_list_pay_color">#f02020</color>
 
-    <!-- Coupon color -->
-
-    <!-- Assessment color -->
-    <color name="assessment_checkbox_label_color">#484649</color>
-
-    <!-- Trip color -->
-
     <!--Letter color-->
     <color name="letter_item_username">#000000</color>
     <color name="letter_item_time">#9b9b9b</color>

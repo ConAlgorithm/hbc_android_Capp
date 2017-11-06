@@ -44,7 +44,6 @@
     <!-- Basic name -->
     <string name="user_info_tip">登录即代表同意《皇包车用户协议》</string>
     <string name="user_info_tip1">皇包车用户协议</string>
-    <string name="register_info_tip_protocol">用户协议</string>
     <string name="login_country_search_hint">搜索国际或区号</string>
 
     <!-- 按钮 -->
@@ -265,10 +264,6 @@
     <string name="choose_payment_alipay">支付宝</string>
     <string name="choose_payment_credit_card">国内信用卡</string>
     <string name="choose_payment_abrod_credit_card">境外信用卡</string>
-    <string name="choose_payment_add_credit_card_tip">*目前仅支持国内信用卡</string>
-    <string name="add_credit_activity_title">添加信用卡</string>
-    <string name="add_credit_reserved_phone_tip">请输入办卡预留手机号</string>
-    <string name="usually_credit_tip">添加至常用卡并同意</string>
     <string name="common_card_payment_protocol"><u>《常用卡支付协议》</u></string>
 
     <string name="par_result_title">支付结果</string>
@@ -366,7 +361,6 @@
     <string name="order_detail_refund_price">退款金额</string>
     <string name="order_detail_item_travel">行程</string>
     <string name="order_detail_all_travel">全部行程</string>
-    <string name="order_detail_add">添加</string>
     <string name="order_detail_insurance_status1">保单出现问题，请尽快联系客服</string>
     <string name="order_detail_insurance_status2">为您购买的保险已注销</string>
     <string name="order_detail_insurance_status3">保单正在处理中...</string>
@@ -708,7 +702,6 @@
     <string name="bargain_title">邀请好友来砍价</string>
     <string name="add_insure_title">新增投保人</string>
     <string name="edit_insure_title">编辑投保人</string>
-    <string name="add_creditcard_second_step_title">信用卡支付</string>
     <string name="choice_comment_title">游客说</string>
     <string name="choose_air_title">选择航班</string>
     <string name="choose_city_new_hint">请输入目的地名称</string>
@@ -964,12 +957,32 @@
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">国内信用卡</string>
-    <string name="title_domestic_pay">信用卡支付</string>
     <string name="title_domestic_pay_validate">您还需要补充以下信息</string>
     <string name="title_domestic_cc_add">添加信用卡</string>
     <string name="domestic_date_dialog_title">设置有效期</string>
     <string name="domestic_add_card">添加信用卡</string>
     <string name="domestic_sms_send">获取验证码</string>
     <string name="domestic_sms_resend">重新发送</string>
+    <string name="domestic_add_card_month">%1$s月份／%2$s年</string>
+    <string name="domestic_add_card_procol">添加至常用卡并同意</string>
+    <string name="domestic_add_card_procol2">《常用卡支付协议》</string>
+    <string name="domestic_add_card_next">下一步</string>
+    <string name="domestic_add_card_tips">本平台不会存储您的任何敏感信息</string>
+    <string name="domestic_card_top_label">还需支付：</string>
+    <string name="domestic_card_pay_tip">确定支付吗？</string>
+    <string name="domestic_card_pay_btn_txt">支付 %s</string>
+    <string name="domestic_card_sms_tips">短信验证码已下发到办卡预留手机号</string>
+    <string name="domestic_card_add_carnum_label">卡&#160;&#160;&#160;&#160;号</string>
+    <string name="domestic_card_add_carnum_hint">请输入信用卡号</string>
+    <string name="domestic_card_add_date_label">有效期</string>
+    <string name="domestic_card_add_date_hint">月份 ／ 年份</string>
+    <string name="domestic_card_add_saft_label">安全码</string>
+    <string name="domestic_card_add_saft_hint">CW2银行卡背面3位数字</string>
+    <string name="domestic_card_add_username_label">姓&#160;&#160;&#160;&#160;名</string>
+    <string name="domestic_card_add_username_hint">请输入持卡人姓名</string>
+    <string name="domestic_card_add_cardnum_label">身份证</string>
+    <string name="domestic_card_add_cardnum_hint">持卡人身份号</string>
+    <string name="domestic_card_add_phone_label">手机号</string>
+    <string name="domestic_card_add_phone_hint">办卡时预留手机号</string>
 
 </resources>
