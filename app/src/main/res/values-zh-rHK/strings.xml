@@ -971,5 +971,26 @@
     <string name="domestic_add_card">添加信用卡</string>
     <string name="domestic_sms_send">獲取驗證碼</string>
     <string name="domestic_sms_resend">重新發送</string>
+    <string name="domestic_add_card_month">%1$s月份／%2$s年</string>
+    <string name="domestic_add_card_procol">添加至常用卡並同意</string>
+    <string name="domestic_add_card_procol2">《常用卡支付協議》</string>
+    <string name="domestic_add_card_next">下一步</string>
+    <string name="domestic_add_card_tips">本平台不會存儲您的任何敏感信息</string>
+    <string name="domestic_card_top_label">還需支付：</string>
+    <string name="domestic_card_pay_tip">確定支付嗎？</string>
+    <string name="domestic_card_pay_btn_txt">支付 %s</string>
+    <string name="domestic_card_sms_tips">短信驗證碼已下發到辦卡預留手機號</string>
+    <string name="domestic_card_add_carnum_label">卡&#160;&#160;&#160;&#160;號</string>
+    <string name="domestic_card_add_carnum_hint">請輸入信用卡號</string>
+    <string name="domestic_card_add_date_label">有效期</string>
+    <string name="domestic_card_add_date_hint">月份 ／ 年份</string>
+    <string name="domestic_card_add_saft_label">安全碼</string>
+    <string name="domestic_card_add_saft_hint">CW2銀行卡背面3位數字</string>
+    <string name="domestic_card_add_username_label">姓&#160;&#160;&#160;&#160;名</string>
+    <string name="domestic_card_add_username_hint">請輸入持卡人姓名</string>
+    <string name="domestic_card_add_cardnum_label">身份證</string>
+    <string name="domestic_card_add_cardnum_hint">持卡人身份號</string>
+    <string name="domestic_card_add_phone_label">手機號</string>
+    <string name="domestic_card_add_phone_hint">辦卡時預留手機號</string>
 
 </resources>

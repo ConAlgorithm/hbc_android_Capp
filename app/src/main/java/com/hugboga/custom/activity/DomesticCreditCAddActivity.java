@@ -295,7 +295,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                     public void onDateSet(DatePicker startDatePicker, int startYear, int startMonthOfYear, int startDayOfMonth) {
                         selectYear = startYear;
                         selectMonth = startMonthOfYear + 1;
-                        domestic_add_date.setText(PriceFormat.month2(selectMonth) + "月份／" + selectYear + "年");
+                        domestic_add_date.setText(String.format(getString(R.string.domestic_add_card_month), PriceFormat.month2(selectMonth), String.valueOf(selectYear)));
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 dialog.setTitle(R.string.domestic_date_dialog_title);
