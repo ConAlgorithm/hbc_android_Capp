@@ -44,7 +44,6 @@
     <!-- Basic name -->
     <string name="user_info_tip">登录即代表同意《皇包车用户协议》</string>
     <string name="user_info_tip1">皇包车用户协议</string>
-    <string name="register_info_tip_protocol">用户协议</string>
     <string name="login_country_search_hint">搜索国际或区号</string>
 
     <!-- 按钮 -->
@@ -265,10 +264,6 @@
     <string name="choose_payment_alipay">支付宝</string>
     <string name="choose_payment_credit_card">国内信用卡</string>
     <string name="choose_payment_abrod_credit_card">境外信用卡</string>
-    <string name="choose_payment_add_credit_card_tip">*目前仅支持国内信用卡</string>
-    <string name="add_credit_activity_title">添加信用卡</string>
-    <string name="add_credit_reserved_phone_tip">请输入办卡预留手机号</string>
-    <string name="usually_credit_tip">添加至常用卡并同意</string>
     <string name="common_card_payment_protocol"><u>《常用卡支付协议》</u></string>
 
     <string name="par_result_title">支付结果</string>
@@ -366,7 +361,6 @@
     <string name="order_detail_refund_price">退款金额</string>
     <string name="order_detail_item_travel">行程</string>
     <string name="order_detail_all_travel">全部行程</string>
-    <string name="order_detail_add">添加</string>
     <string name="order_detail_insurance_status1">保单出现问题，请尽快联系客服</string>
     <string name="order_detail_insurance_status2">为您购买的保险已注销</string>
     <string name="order_detail_insurance_status3">保单正在处理中...</string>
@@ -708,7 +702,6 @@
     <string name="bargain_title">邀请好友来砍价</string>
     <string name="add_insure_title">新增投保人</string>
     <string name="edit_insure_title">编辑投保人</string>
-    <string name="add_creditcard_second_step_title">信用卡支付</string>
     <string name="choice_comment_title">游客说</string>
     <string name="choose_air_title">选择航班</string>
     <string name="choose_city_new_hint">请输入目的地名称</string>
@@ -964,7 +957,6 @@
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">国内信用卡</string>
-    <string name="title_domestic_pay">信用卡支付</string>
     <string name="title_domestic_pay_validate">您还需要补充以下信息</string>
     <string name="title_domestic_cc_add">添加信用卡</string>
     <string name="domestic_date_dialog_title">设置有效期</string>

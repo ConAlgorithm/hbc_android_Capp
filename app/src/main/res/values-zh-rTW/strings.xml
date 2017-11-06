@@ -44,7 +44,6 @@
     <!-- Basic name -->
     <string name="user_info_tip">登錄即代表同意《皇包車用戶協議》</string>
     <string name="user_info_tip1">皇包車用戶協議</string>
-    <string name="register_info_tip_protocol">用戶協議</string>
     <string name="login_country_search_hint">搜索國際或區號</string>
 
     <!-- 按鈕 -->
@@ -265,10 +264,6 @@
     <string name="choose_payment_alipay">支付寶</string>
     <string name="choose_payment_credit_card">國內信用卡</string>
     <string name="choose_payment_abrod_credit_card">境外信用卡</string>
-    <string name="choose_payment_add_credit_card_tip">*目前僅支持國內信用卡</string>
-    <string name="add_credit_activity_title">添加信用卡</string>
-    <string name="add_credit_reserved_phone_tip">請輸入辦卡預留手機號</string>
-    <string name="usually_credit_tip">添加至常用卡並同意</string>
     <string name="common_card_payment_protocol"><u>《常用卡支付協議》</u></string>
 
     <string name="par_result_title">支付結果</string>
@@ -366,7 +361,6 @@
     <string name="order_detail_refund_price">退款金額</string>
     <string name="order_detail_item_travel">行程</string>
     <string name="order_detail_all_travel">全部行程</string>
-    <string name="order_detail_add">添加</string>
     <string name="order_detail_insurance_status1">保單出現問題，請儘快聯繫客服</string>
     <string name="order_detail_insurance_status2">為您購買的保險已註銷</string>
     <string name="order_detail_insurance_status3">保單正在處理中...</string>
@@ -576,7 +570,6 @@
     <string name="login_phone_hint">手機號</string>
     <string name="login_get_verity">獲取驗證碼</string>
     <string name="login_verity">驗證碼</string>
-    <string name="login_new_user_hint">新用戶登錄時將自動註冊</string>
     <string name="login_other">也可以這樣</string>
     <string name="login_wechat">微信登錄</string>
     <string name="login_account_pwd">賬號密碼登錄</string>
@@ -709,7 +702,6 @@
     <string name="bargain_title">邀請好友來砍價</string>
     <string name="add_insure_title">新增投保人</string>
     <string name="edit_insure_title">編輯投保人</string>
-    <string name="add_creditcard_second_step_title">信用卡支付</string>
     <string name="choice_comment_title">遊客說</string>
     <string name="choose_air_title">選擇航班</string>
     <string name="choose_city_new_hint">請輸入目的地名稱</string>
@@ -964,7 +956,6 @@
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>
-    <string name="title_domestic_pay">信用卡支付</string>
     <string name="title_domestic_pay_validate">您還需要補充以下信息</string>
     <string name="title_domestic_cc_add">添加信用卡</string>
     <string name="domestic_date_dialog_title">設置有效期</string>
