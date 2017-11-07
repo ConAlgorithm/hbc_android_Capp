@@ -26,6 +26,7 @@ public class ActionPageCoupon extends ActionPageBase {
             }else {
                 intent.putExtra(Constants.PARAMS_SOURCE, actionBean.source);
             }
+            intent.putExtra("isFromMyspace",true);
             context.startActivity(intent);
         }
     }
