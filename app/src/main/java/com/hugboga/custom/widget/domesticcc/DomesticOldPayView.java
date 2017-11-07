@@ -97,13 +97,13 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         if (!TextUtils.isEmpty(cardNum)) {
             domestic_pay_ok_card.setText(cardNum);
         }
-        pay_sms_btn.setText("支付 " + price);
+        pay_sms_btn.setText(String.format(getContext().getString(R.string.domestic_card_pay_btn_txt), price));
         setVisibility(VISIBLE);
         //验证码开启倒计时
         startSmsStart();
     }
 
-    private void initSmsView(){
+    private void initSmsView() {
         time = 0; //倒计时停止
         pay_sms_resend.setText(R.string.domestic_sms_send);
         pay_sms_et_code.setText(""); //清空上次输入
@@ -257,6 +257,6 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
 
     @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
-        ToastUtils.showToast(getContext(),errorInfo.exception.getMessage());
+        ToastUtils.showToast(getContext(), errorInfo.exception.getMessage());
     }
 }

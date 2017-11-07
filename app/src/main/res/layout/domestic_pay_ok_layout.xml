@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/domestic_old_pay_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,7 +25,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/add_name_close" />
+            app:srcCompat="@mipmap/ic_icon_bank_default" />
 
         <ImageView
             android:id="@+id/domestic_old_pay_close"
@@ -44,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:text="招商银行 信用卡"
             android:textColor="#7F7F7F"
             app:layout_constraintStart_toEndOf="@+id/domestic_pay_ok_img"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
-            android:text="**** **** **** 3017"
             app:layout_constraintStart_toEndOf="@+id/domestic_pay_ok_img"
             app:layout_constraintTop_toBottomOf="@+id/domestic_pay_ok_name" />
 
@@ -73,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:layout_marginTop="32dp"
-                android:text="确定支付吗？"
+                android:text="@string/domestic_card_pay_tip"
                 android:textColor="#151515"
                 android:textSize="@dimen/text_size_largex"
                 android:visibility="visible"
@@ -92,7 +89,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:background="@color/default_btn_yellow"
-            android:text="支付 ¥1,279"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
