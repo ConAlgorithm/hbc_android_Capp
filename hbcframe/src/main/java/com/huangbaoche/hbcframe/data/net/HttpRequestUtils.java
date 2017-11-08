@@ -54,6 +54,9 @@ public class HttpRequestUtils {
         return request(mContext,request,listener,option);
     }
 
+    public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
+        return request(mContext, request, listener, option, false);
+    }
 
     /**
      * 请求
@@ -63,7 +66,7 @@ public class HttpRequestUtils {
      * @param option
      * @return
      */
-    public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option){
+    public static Callback.Cancelable request(final Context mContext,final BaseRequest request, final HttpRequestListener listener,HttpRequestOption option, boolean isAccessKey){
         if(option==null)option=new HttpRequestOption();
         option.setBtnEnabled(false);//设置按钮不可用
         if (!NetWork.isNetworkAvailable(mContext)) {//无网络直接报错
@@ -84,7 +87,7 @@ public class HttpRequestUtils {
             });
         }
 
-        if (!checkAccessKey(mContext)){//Accesskey不能用,请求AccessKey ,回来继续请求上一个请求
+        if (!checkAccessKey(mContext) && !isAccessKey){//Accesskey不能用,请求AccessKey ,回来继续请求上一个请求
             requestAccessKey(mContext,request,listener,option);
             return null;
         }
@@ -251,7 +254,7 @@ public class HttpRequestUtils {
      */
     private static boolean checkAccessKey(Context mContext) {
         String accessKey = UserSession.getUser().getAccessKey(mContext);
-        if (accessKey == null) {
+        if (TextUtils.isEmpty(accessKey)) {
             UserSession.getUser().setAccessKey(mContext, "");
             return false;
         }
@@ -292,7 +295,7 @@ public class HttpRequestUtils {
                 public void onDataRequestCancel(BaseRequest request) {
                             listener.onDataRequestCancel(request);
                         }
-            },accessOption);
+            },accessOption, true);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
