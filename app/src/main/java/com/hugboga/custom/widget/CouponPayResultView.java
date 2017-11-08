@@ -61,6 +61,7 @@ public class CouponPayResultView extends LinearLayout {
         if (isPaySucceed) {
             getContext().startActivity(new Intent(getContext(), MainActivity.class));
             Intent intent = new Intent(getContext(), CouponActivity.class);
+            intent.putExtra("isFromMyspace",true);
             intent.putExtra(Constants.PARAMS_SOURCE, "买卷支付结果页");
             getContext().startActivity(intent);
         } else {

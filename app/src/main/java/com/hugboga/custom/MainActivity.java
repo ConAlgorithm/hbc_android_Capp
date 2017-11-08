@@ -216,6 +216,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //            if (BuildConfig.VERSION_NAME.equals(versionName)) {
                 GiftController.getInstance(this).showGiftDialog();
 //            }
+            EventBus.getDefault().post(new EventAction(EventType.REQUEST_HOME_DATA));
         }
         //支付结果 单次接送催促下单后不再显示催促下单入口。
         SharedPre.setString(SharedPre.PAY_ORDER, "");
@@ -658,6 +659,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.tab_text_1:
                 mViewPager.setCurrentItem(0);
                 MobClickUtils.onEvent(StatisticConstant.LAUNCH_DISCOVERY);
+                EventBus.getDefault().post(new EventAction(EventType.REQUEST_HOME_DATA));
                 SensorsUtils.setPageEvent("首页","首页","");
                 break;
             case R.id.tab_text_2:

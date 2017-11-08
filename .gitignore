@@ -46,3 +46,4 @@ unicorn/unicorn.iml
 viewpagerindicator/build/
 viewpagerindicator/viewpagerindicator.iml
 app/app.iml
+/gradle/wrapper/gradle-wrapper.properties

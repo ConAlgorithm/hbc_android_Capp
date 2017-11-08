@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -221,8 +223,15 @@ public class CharterSubtitleView extends LinearLayout{
     public static final String SEND_GUIDE_VISITED = "send_guide_visited";
     private Guide guide;
     boolean isdd = false;
+    boolean isPickup;
+    boolean isShowing = false;
 
-    public void showGuide(final boolean isPickup) {
+    public synchronized void showGuide(final boolean isPickup) {
+        if (isShowing) {
+            return;
+        }
+        this.isShowing = true;
+        this.isPickup = isPickup;
         final boolean isVisited = SharedPre.getBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED: CharterSubtitleView.SEND_GUIDE_VISITED, false);
         if (isVisited) {
             return;
@@ -232,7 +241,7 @@ public class CharterSubtitleView extends LinearLayout{
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             public boolean onPreDraw() {
                 if (!isdd) {
-                    initGuideView(isPickup);
+                    handler.sendEmptyMessageDelayed(0, 100);
                     isdd = true;
                 }
                 return true;
@@ -240,7 +249,7 @@ public class CharterSubtitleView extends LinearLayout{
         });
     }
 
-    private void initGuideView(final boolean isPickup) {
+    private synchronized void initGuideView() {
         GuideBuilder builder = new GuideBuilder();
         builder.setTargetView(pickupLayout)
                 .setAlpha(150)
@@ -253,16 +262,26 @@ public class CharterSubtitleView extends LinearLayout{
             @Override
             public void onShown() {
                 SharedPre.setBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED : CharterSubtitleView.SEND_GUIDE_VISITED, true);
+                isShowing = false;
             }
 
             @Override
             public void onDismiss() {
                 SharedPre.setBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED : CharterSubtitleView.SEND_GUIDE_VISITED, true);
+                isShowing = false;
             }
         });
         builder.addComponent(new MutiComponent(isPickup));
         guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(true);
         guide.show((Activity) getContext());
+        SharedPre.setBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED : CharterSubtitleView.SEND_GUIDE_VISITED, true);
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            initGuideView();
+        }
+    };
 }
