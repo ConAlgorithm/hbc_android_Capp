@@ -188,13 +188,25 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         if (request instanceof RequestEposSendSms) {
             //重新发送验证码
             EposFirstPay result = (EposFirstPay) request.getData();
-            ToastUtils.showToast(getContext(), result.errorMsg);
-            startSmsStart();
+            doReSmsResult(result); //处理重新发送短信结果
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();
             setVisibility(GONE);
             doSmsResult(result);
+        }
+    }
+
+    /**
+     * 重新发送验证码处理结果
+     */
+    private void doReSmsResult(EposFirstPay result){
+        ToastUtils.showToast(getContext(), result.errorMsg);
+        /*
+        重新发送验证码成功之后做倒计时，如果失败则只提示不做任何处理
+         */
+        if ("1".equals(result.eposPaySubmitStatus)) {
+            startSmsStart(); //开始倒计时
         }
     }
 
