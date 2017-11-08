@@ -480,6 +480,11 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
                 FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(getContext(),UserEntity.getUser().getUserId(getContext()));
                 HttpRequestUtils.request(getContext(),favoriteLinesaved,this,false);
                 break;
+            case REQUEST_HOME_DATA:
+                if (homeBean == null) {
+                    requestFgHomeData();
+                }
+                break;
         }
     }
 

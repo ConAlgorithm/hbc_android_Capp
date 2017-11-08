@@ -119,5 +119,7 @@ public enum EventType {
     SHOW_EMPTY_WIFI_BY_HOT_OR_LINE,
     SHOW_EMPTY_WIFI_BY_TAB,
     SHOW_DATA,
-    REFRESH_POSITION
+    REFRESH_POSITION,
+
+    REQUEST_HOME_DATA//刷新首页数据，先解决遗留问题，待优化
 }
