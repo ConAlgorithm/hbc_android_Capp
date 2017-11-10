@@ -188,13 +188,25 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         if (request instanceof RequestEposSendSms) {
             //重新发送验证码
             EposFirstPay result = (EposFirstPay) request.getData();
-            ToastUtils.showToast(getContext(), result.errorMsg);
-            startSmsStart();
+            doReSmsResult(result); //处理重新发送短信结果
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();
             setVisibility(GONE);
             doSmsResult(result);
+        }
+    }
+
+    /**
+     * 重新发送验证码处理结果
+     */
+    private void doReSmsResult(EposFirstPay result) {
+        ToastUtils.showToast(getContext(), result.errorMsg);
+        /*
+        重新发送验证码成功之后做倒计时，如果失败则只提示不做任何处理
+         */
+        if ("1".equals(result.eposPaySubmitStatus)) {
+            startSmsStart(); //开始倒计时
         }
     }
 
@@ -205,23 +217,32 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
      * @param result
      */
     private void doSmsResult(EposFirstPay result) {
-        if ("1".equals(result.eposPaySubmitStatus)) {
-            //成功支付跳转成功
-            gotoSmsSuccess();
-        } else if ("2".equals(result.eposPaySubmitStatus) || "3".equals(result.eposPaySubmitStatus)
-                || "4".equals(result.eposPaySubmitStatus) || "5".equals(result.eposPaySubmitStatus)
-                || "6".equals(result.eposPaySubmitStatus) || "7".equals(result.eposPaySubmitStatus)) {
-            //验证码出现错误
-            ToastUtils.showToast(getContext(), result.errorMsg);
-            doSmsUI();
-        } else {
-            //银行其他错误
-            new AlertDialog.Builder(getContext()).setMessage(result.errorMsg).setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    doSmsUI();
-                }
-            }).show();
+        switch (result.eposPaySubmitStatus) {
+            case "1":
+                //成功支付跳转成功
+                gotoSmsSuccess();
+                break;
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+                //验证码出现错误
+                ToastUtils.showToast(getContext(), result.errorMsg);
+                break;
+            case "7": //验证码已无效
+                ToastUtils.showToast(getContext(), result.errorMsg);
+                doSmsUI(); //加验如果出现错误
+                break;
+            default:
+                //银行其他错误
+                new AlertDialog.Builder(getContext()).setMessage(result.errorMsg).setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        doSmsUI();
+                    }
+                }).show();
+                break;
         }
     }
 
