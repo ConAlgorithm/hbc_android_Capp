@@ -85,7 +85,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/transparent"
                 android:inputType="number"
-                android:maxLength="4"
+                android:maxLength="8"
                 android:textColor="@color/default_black"
                 app:layout_constraintEnd_toStartOf="@+id/pay_sms_time"
                 app:layout_constraintStart_toStartOf="parent"
