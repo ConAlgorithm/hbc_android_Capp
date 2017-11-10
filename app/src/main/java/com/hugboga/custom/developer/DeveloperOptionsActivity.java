@@ -1,8 +1,11 @@
 package com.hugboga.custom.developer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.EditText;
 
+import com.huangbaoche.hbcframe.data.bean.UserSession;
 import com.hugboga.custom.R;
 import com.hugboga.custom.action.ActionUtils;
 import com.hugboga.custom.action.constants.ActionPageType;
@@ -11,6 +14,9 @@ import com.hugboga.custom.action.data.ActionGuideDetailBean;
 import com.hugboga.custom.action.data.ActionOrderDetailBean;
 import com.hugboga.custom.action.data.ActionSkuDetailBean;
 import com.hugboga.custom.activity.BaseActivity;
+import com.hugboga.custom.activity.SettingActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.utils.CommonUtils;
 import butterknife.OnClick;
 
@@ -65,5 +71,13 @@ public class DeveloperOptionsActivity extends BaseActivity{
         actionSkuDetailBean.goodsNo = editText.getText().toString();
         ActionBean actionBean = new ActionBean(ActionPageType.SKU_DETAIL, actionSkuDetailBean, "");
         ActionUtils.doAction(this, actionBean);
+    }
+
+    @OnClick(R.id.developer_element_tv)
+    public void intentElementWeb() {
+        Intent intent = new Intent(this, WebInfoActivity.class);
+        final String url = "https://cdms2.huangbaoche.com/app/switchRoute.html?ak=" + UserSession.getUser().getAccessKey(this);
+        intent.putExtra(WebInfoActivity.WEB_URL, url);
+        startActivity(intent);
     }
 }
