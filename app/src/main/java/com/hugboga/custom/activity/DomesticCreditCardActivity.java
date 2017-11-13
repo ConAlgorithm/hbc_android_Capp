@@ -219,9 +219,9 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
     /**
      * 开始支付
      */
-    public void payOk(String bindId) {
+    public void payOk(String bindId, View view) {
         // 进入老卡支付流程
         RequestEposBindPay requestEposBindPay = new RequestEposBindPay(this, requestParams.orderId, requestParams.shouldPay, bindId);
-        HttpRequestUtils.request(this, requestEposBindPay, this);
+        HttpRequestUtils.request(this, requestEposBindPay, this, view);
     }
 }

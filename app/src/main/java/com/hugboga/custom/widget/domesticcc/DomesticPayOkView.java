@@ -70,7 +70,7 @@ public class DomesticPayOkView extends FrameLayout {
             case R.id.domestic_pay_ok_btn:
                 //确认支付
                 if (getContext() != null && (getContext() instanceof DomesticCreditCardActivity)) {
-                    ((DomesticCreditCardActivity) getContext()).payOk(bindId);
+                    ((DomesticCreditCardActivity) getContext()).payOk(bindId, domestic_pay_ok_btn);
                 }
                 break;
         }
