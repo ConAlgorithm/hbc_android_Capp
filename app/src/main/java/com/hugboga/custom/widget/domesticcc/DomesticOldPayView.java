@@ -203,9 +203,14 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         ToastUtils.showToast(getContext(), result.errorMsg);
         /*
         重新发送验证码成功之后做倒计时，如果失败则只提示不做任何处理
+        重新发送验证码返回无效，则和校验无效走同样流程，关闭当前验证码弹框，如果是加验则关闭加验界面
          */
         if ("1".equals(result.eposPaySubmitStatus)) {
             startSmsStart(); //开始倒计时
+        } else if ("7".equals(result.eposPaySubmitStatus)) {
+            //验证码已无效
+            setVisibility(GONE);
+            doSmsUI(); //加验如果出现错误
         }
     }
 
