@@ -192,7 +192,6 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         } else if (request instanceof RequestEposSmsVerify) {
             //验证码校验
             EposFirstPay result = (EposFirstPay) request.getData();
-            setVisibility(GONE);
             doSmsResult(result);
         }
     }
@@ -220,6 +219,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         switch (result.eposPaySubmitStatus) {
             case "1":
                 //成功支付跳转成功
+                setVisibility(GONE);
                 gotoSmsSuccess();
                 break;
             case "2":
@@ -231,6 +231,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
                 ToastUtils.showToast(getContext(), result.errorMsg);
                 break;
             case "7": //验证码已无效
+                setVisibility(GONE);
                 ToastUtils.showToast(getContext(), result.errorMsg);
                 doSmsUI(); //加验如果出现错误
                 break;
@@ -239,7 +240,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
                 new AlertDialog.Builder(getContext()).setMessage(result.errorMsg).setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        doSmsUI();
+                        doSmsUI(); //银行未知错误
                     }
                 }).show();
                 break;
