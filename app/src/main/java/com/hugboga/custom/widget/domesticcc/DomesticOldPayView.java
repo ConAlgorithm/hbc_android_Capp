@@ -237,8 +237,8 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
                 break;
             case "7": //验证码已无效
                 setVisibility(GONE);
-                ToastUtils.showToast(getContext(), result.errorMsg);
                 doSmsUI(); //加验如果出现错误
+                ToastUtils.showToast(getContext(), result.errorMsg);
                 break;
             default:
                 //银行其他错误
