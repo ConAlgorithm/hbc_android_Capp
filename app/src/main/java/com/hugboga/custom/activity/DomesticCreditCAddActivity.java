@@ -614,7 +614,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                     break;
                 case "7":
                     //加验失效
-                    showSysAlert(eposPayFactor);
+                    ToastUtils.showToast(this, eposPayFactor.errorMsg);
+                    finish();
                     break;
                 default:
                     //失败弹出错误提示
