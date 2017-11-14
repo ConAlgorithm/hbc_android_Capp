@@ -1,8 +1,10 @@
 package com.hugboga.custom.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -534,41 +536,47 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      * @param eposFirstPay
      */
     private void doFirstPay(EposFirstPay eposFirstPay) {
-        switch (eposFirstPay.eposPaySubmitStatus) {
-            case "1":
-                //提交成功
-                gotoSuccess();
-                break;
-            case "2":
-                //提交失败
-                ToastUtils.showToast(this, eposFirstPay.errorMsg);
-                break;
-            case "3":
-                //加验要素
-                Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
-                intent.putExtra(PAY_PARAMS, requestParams);
-                intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
-                intent.putExtra(KEY_VALIDE_NEED, eposFirstPay.needVaildFactors);
-                intent.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
-                intent.putExtra(KEY_VALIDE_PAYNUM, eposFirstPay.payNo);
-                startActivity(intent);
-                break;
-            case "4":
-                //短信验证
-                // 首次绑卡，不知道卡icon
-                String number = domestic_add_number.getText().toString().trim();
-                domesticOldPayView.show(eposFirstPay.payNo, 0, "", number, PriceFormat.price(requestParams.shouldPay));
-                break;
-            case "5":
-                //加验要素+短信验证
-                Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
-                intents.putExtra(PAY_PARAMS, requestParams);
-                intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
-                intents.putExtra(KEY_VALIDE_NEED, eposFirstPay.needVaildFactors);
-                intents.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
-                intents.putExtra(KEY_VALIDE_PAYNUM, eposFirstPay.payNo);
-                startActivity(intents);
-                break;
+        if (eposFirstPay == null) return;
+        if (!TextUtils.isEmpty(eposFirstPay.eposPaySubmitStatus)) {
+            switch (eposFirstPay.eposPaySubmitStatus) {
+                case "1":
+                    //提交成功
+                    gotoSuccess();
+                    break;
+                case "2":
+                    //提交失败
+                    ToastUtils.showToast(this, eposFirstPay.errorMsg);
+                    break;
+                case "3":
+                    //加验要素
+                    Intent intent = new Intent(this, DomesticCreditCAddActivity.class);
+                    intent.putExtra(PAY_PARAMS, requestParams);
+                    intent.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE1);
+                    intent.putExtra(KEY_VALIDE_NEED, eposFirstPay.needVaildFactors);
+                    intent.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
+                    intent.putExtra(KEY_VALIDE_PAYNUM, eposFirstPay.payNo);
+                    startActivity(intent);
+                    break;
+                case "4":
+                    //短信验证
+                    // 首次绑卡，不知道卡icon
+                    String number = domestic_add_number.getText().toString().trim();
+                    domesticOldPayView.show(eposFirstPay.payNo, 0, "", number, PriceFormat.price(requestParams.shouldPay));
+                    break;
+                case "5":
+                    //加验要素+短信验证
+                    Intent intents = new Intent(this, DomesticCreditCAddActivity.class);
+                    intents.putExtra(PAY_PARAMS, requestParams);
+                    intents.putExtra(KEY_VALIDE_TYPE, KEY_VALIDE_TYPE2);
+                    intents.putExtra(KEY_VALIDE_NEED, eposFirstPay.needVaildFactors);
+                    intents.putExtra(KEY_VALIDE_CARDNUM, domestic_add_number.getText().toString().trim());
+                    intents.putExtra(KEY_VALIDE_PAYNUM, eposFirstPay.payNo);
+                    startActivity(intents);
+                    break;
+            }
+        } else {
+            //新卡下一步未知错误弹框，关闭当前页面
+            showSysAlert(eposFirstPay);
         }
     }
 
@@ -597,12 +605,24 @@ public class DomesticCreditCAddActivity extends BaseActivity {
      */
     private void doPayFactor(EposFirstPay eposPayFactor) {
         //加验要素成功之后进行短信校验
-        if (!"1".equals(eposPayFactor.eposPaySubmitStatus)) {
-            //失败弹出错误提示
-            ToastUtils.showToast(this, eposPayFactor.errorMsg);
+        if (eposPayFactor == null) return;
+        if (!TextUtils.isEmpty(eposPayFactor.eposPaySubmitStatus)) {
+            switch (eposPayFactor.eposPaySubmitStatus) {
+                case "1":
+                    //成功进入下一步
+                    doPayFactorSms(eposPayFactor);
+                    break;
+                case "7":
+                    //加验失效
+                    showSysAlert(eposPayFactor);
+                    break;
+                default:
+                    //失败弹出错误提示
+                    ToastUtils.showToast(this, eposPayFactor.errorMsg);
+                    break;
+            }
         } else {
-            //成功进入下一步
-            doPayFactorSms(eposPayFactor);
+            showSysAlert(eposPayFactor);
         }
     }
 
@@ -627,5 +647,20 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 domesticOldPayView.show(payNo, icon, bankName, cardNum, PriceFormat.price(requestParams.shouldPay));
                 break;
         }
+    }
+
+    /**
+     * 弹出系统级错误
+     *
+     * @param result
+     */
+    private void showSysAlert(EposFirstPay result) {
+        //银行其他错误
+        new AlertDialog.Builder(this).setMessage(result.errorMsg).setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        }).show();
     }
 }
