@@ -151,7 +151,10 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
             }
         } else if (request instanceof RequestEposBindPay) {
             //已绑定历史卡进行支付
-            oldPayResult(((RequestEposBindPay) request).getData());
+            EposFirstPay data = (EposFirstPay) request.getData();
+            if (data != null) {
+                oldPayResult(data);
+            }
         }
     }
 
