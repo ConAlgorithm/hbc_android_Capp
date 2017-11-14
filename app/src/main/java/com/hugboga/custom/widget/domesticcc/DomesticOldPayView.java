@@ -264,6 +264,7 @@ public class DomesticOldPayView extends FrameLayout implements HttpRequestListen
         new AlertDialog.Builder(getContext()).setMessage(result.errorMsg).setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                setVisibility(GONE); //其他错误也关闭当前短信框
                 doSmsUI(); //银行未知错误
             }
         }).show();
