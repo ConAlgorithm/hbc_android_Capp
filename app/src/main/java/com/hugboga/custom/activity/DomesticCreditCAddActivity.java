@@ -66,10 +66,6 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     TextView domestic_add_date; //有效期
     @Bind(R.id.domestic_add_number3)
     EditText domestic_add_number3; //安全码
-    @Bind(R.id.domestic_add_number4)
-    EditText domestic_add_number4; //持卡人姓名
-    @Bind(R.id.domestic_add_number5)
-    EditText domestic_add_number5; //持卡人身份证
     @Bind(R.id.domestic_add_phone)
     EditText domestic_add_phone; //办卡时预留的手机号
     @Bind(R.id.domestic_credit_add_next)
@@ -89,14 +85,6 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     ConstraintLayout domestic_layout3; //安全码部分
     @Bind(R.id.domestic_add_line3)
     ImageView domestic_add_line3; //安全码分割线
-    @Bind(R.id.domestic_layout4)
-    ConstraintLayout domestic_layout4; //持卡人姓名
-    @Bind(R.id.domestic_add_line4)
-    ImageView domestic_add_line4; //持卡人部分分割线
-    @Bind(R.id.domestic_layout5)
-    ConstraintLayout domestic_layout5; //身份证部分
-    @Bind(R.id.domestic_add_line5)
-    ImageView domestic_add_line5; //身份证部分分割线
     @Bind(R.id.domestic_layout6)
     ConstraintLayout domestic_layout6; //手机号部分
     @Bind(R.id.domestic_add_line6)
@@ -157,8 +145,6 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_add_number.addTextChangedListener(watcher);
         domestic_add_date.addTextChangedListener(watcher);
         domestic_add_number3.addTextChangedListener(watcher);
-        domestic_add_number4.addTextChangedListener(watcher);
-        domestic_add_number5.addTextChangedListener(watcher);
         domestic_add_phone.addTextChangedListener(watcher);
         // 如果是加验要素处理，则根据需要加验内容进行显示字段，验证只对显示组件进行校验
         if (valideType != KEY_VALIDE_TYPE0) {
@@ -215,12 +201,8 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         domestic_layout3.setVisibility(View.GONE);
         domestic_add_line2.setVisibility(View.GONE);
         domestic_layout2.setVisibility(View.GONE);
-        domestic_add_line4.setVisibility(View.GONE);
-        domestic_layout4.setVisibility(View.GONE);
         domestic_add_line6.setVisibility(View.GONE);
         domestic_layout6.setVisibility(View.GONE);
-        domestic_add_line5.setVisibility(View.GONE);
-        domestic_layout5.setVisibility(View.GONE);
         domestic_add_line1.setVisibility(View.GONE);
         domestic_layout1.setVisibility(View.GONE);
     }
@@ -243,20 +225,10 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 domestic_add_line2.setVisibility(View.VISIBLE);
                 domestic_layout2.setVisibility(View.VISIBLE);
                 break;
-            case "3":
-                //name 用户名
-                domestic_add_line4.setVisibility(View.VISIBLE);
-                domestic_layout4.setVisibility(View.VISIBLE);
-                break;
             case "4":
                 //phone 手机号
                 domestic_add_line6.setVisibility(View.VISIBLE);
                 domestic_layout6.setVisibility(View.VISIBLE);
-                break;
-            case "5":
-                //credCode 身份证号
-                domestic_add_line5.setVisibility(View.VISIBLE);
-                domestic_layout5.setVisibility(View.VISIBLE);
                 break;
             case "6":
                 //cardNo 卡号
@@ -373,14 +345,6 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         if (TextUtils.isEmpty(cvv)) {
             return false;
         }
-        String username = domestic_add_number4.getText().toString().trim();
-        if (TextUtils.isEmpty(username)) {
-            return false;
-        }
-        String cardNum = domestic_add_number5.getText().toString().trim();
-        if (TextUtils.isEmpty(cardNum)) {
-            return false;
-        }
         String phone = domestic_add_phone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             return false;
@@ -415,20 +379,6 @@ public class DomesticCreditCAddActivity extends BaseActivity {
                 return false;
             }
         }
-        //持卡人姓名
-        if (domestic_layout4.getVisibility() == View.VISIBLE) {
-            String username = domestic_add_number4.getText().toString().trim();
-            if (TextUtils.isEmpty(username)) {
-                return false;
-            }
-        }
-        //持卡人身份证
-        if (domestic_layout5.getVisibility() == View.VISIBLE) {
-            String cardNum = domestic_add_number5.getText().toString().trim();
-            if (TextUtils.isEmpty(cardNum)) {
-                return false;
-            }
-        }
         //预留的手机号
         if (domestic_layout6.getVisibility() == View.VISIBLE) {
             String phone = domestic_add_phone.getText().toString().trim();
@@ -446,9 +396,7 @@ public class DomesticCreditCAddActivity extends BaseActivity {
         if (checkContent()) {
             RequestEposFirstPay request = new RequestEposFirstPay(this,
                     requestParams.orderId, requestParams.shouldPay, requestParams.couponId,
-                    domestic_add_number5.getText().toString().trim(),
                     domestic_add_phone.getText().toString().trim(),
-                    domestic_add_number4.getText().toString().trim(),
                     domestic_add_number.getText().toString().trim(),
                     String.valueOf(selectYear), PriceFormat.month2(selectMonth),
                     domestic_add_number3.getText().toString().trim(),
@@ -479,22 +427,12 @@ public class DomesticCreditCAddActivity extends BaseActivity {
             if (domestic_layout3.getVisibility() == View.VISIBLE) {
                 cvv = domestic_add_number3.getText().toString().trim();
             }
-            //持卡人姓名
-            String username = "";
-            if (domestic_layout4.getVisibility() == View.VISIBLE) {
-                username = domestic_add_number4.getText().toString().trim();
-            }
-            //持卡人身份证
-            String cardNum = "";
-            if (domestic_layout5.getVisibility() == View.VISIBLE) {
-                cardNum = domestic_add_number5.getText().toString().trim();
-            }
             //预留的手机号
             String phone = "";
             if (domestic_layout6.getVisibility() == View.VISIBLE) {
                 phone = domestic_add_phone.getText().toString().trim();
             }
-            RequestEposCheckFactor request = new RequestEposCheckFactor(this, payNo, cardNum, phone, username, number, year, month, cvv);
+            RequestEposCheckFactor request = new RequestEposCheckFactor(this, payNo, phone, number, year, month, cvv);
             HttpRequestUtils.request(this, request, this);
         }
     }

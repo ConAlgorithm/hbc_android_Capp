@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
@@ -170,112 +171,12 @@
         app:layout_constraintTop_toBottomOf="@+id/domestic_layout3" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/domestic_layout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/domestic_add_line3">
-
-        <TextView
-            android:id="@+id/domestic_add_label4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/domestic_card_add_username_label"
-            android:textColor="@color/default_black"
-            android:textSize="@dimen/text_size_mediumx"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/domestic_add_number4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
-            android:background="@color/transparent"
-            android:hint="@string/domestic_card_add_username_hint"
-            android:inputType="text"
-            android:textColor="@color/default_black"
-            android:textColorHint="@color/text_hint_color"
-            android:textSize="@dimen/text_size_mediumx"
-            app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/domestic_add_label4" />
-    </android.support.constraint.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/domestic_add_line4"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="24dp"
-        android:background="@color/domestic_add_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/domestic_layout4" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/domestic_layout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/domestic_add_line4">
-
-        <TextView
-            android:id="@+id/domestic_add_label5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/domestic_card_add_cardnum_label"
-            android:textColor="@color/default_black"
-            android:textSize="@dimen/text_size_mediumx"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/domestic_add_number5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
-            android:background="@color/transparent"
-            android:hint="@string/domestic_card_add_cardnum_hint"
-            android:textColor="@color/default_black"
-            android:textColorHint="@color/text_hint_color"
-            android:textSize="@dimen/text_size_mediumx"
-            app:layout_constraintBaseline_toBaselineOf="@+id/domestic_add_label5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/domestic_add_label5" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/domestic_add_line5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="24dp"
-        android:background="@color/domestic_add_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/domestic_layout5" />
-
-    <android.support.constraint.ConstraintLayout
         android:id="@+id/domestic_layout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/domestic_add_line5">
+        app:layout_constraintTop_toBottomOf="@+id/domestic_add_line3">
 
         <TextView
             android:id="@+id/domestic_add_label6"
