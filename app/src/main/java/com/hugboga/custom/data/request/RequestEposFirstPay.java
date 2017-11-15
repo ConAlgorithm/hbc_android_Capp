@@ -23,16 +23,14 @@ import java.util.HashMap;
 public class RequestEposFirstPay extends BaseRequest<EposFirstPay> {
 
     public RequestEposFirstPay(Context context, String orderNo, Double actualPrice, String coupId,
-                               String credCode, String buyerTel, String buyerName, String actId,
-                               String expireYear, String expireMonth, String cvv, boolean isBind) {
+                               String buyerTel, String actId, String expireYear, String expireMonth,
+                               String cvv, boolean isBind) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("orderNo", orderNo); //订单号
         map.put("actualPrice", actualPrice); //实付金额
         map.put("coupId", coupId);  //券ID
-        map.put("credCode", credCode);  //身份证号
         map.put("buyerTel", buyerTel);  //pe_BuyerTel="15215317596";
-        map.put("buyerName", buyerName);   //pf_BuyerName="张飞";
         map.put("actId", actId);   //信用卡号： pt_ActId="4062522900966872";
         map.put("expireYear", expireYear);   //信用卡有效期 年份 pa2_ExpireYear="2016";
         map.put("expireMonth", expireMonth);   //信用卡有效期月份  pa3_ExpireMonth="08";

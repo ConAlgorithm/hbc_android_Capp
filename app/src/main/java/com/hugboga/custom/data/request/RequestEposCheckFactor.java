@@ -23,19 +23,13 @@ import java.util.HashMap;
 @HttpRequest(path = UrlLibs.API_EPOS_CHECK_FACTOR, builder = NewParamsBuilder.class)
 public class RequestEposCheckFactor extends BaseRequest<EposFirstPay> {
 
-    public RequestEposCheckFactor(Context context, String payNo, String credCode, String buyerTel, String buyerName,
-                                  String actId, String expireYear, String expireMonth, String cvv) {
+    public RequestEposCheckFactor(Context context, String payNo, String buyerTel, String actId,
+                                  String expireYear, String expireMonth, String cvv) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("payNo", payNo);
-        if (!TextUtils.isEmpty(credCode)) {
-            map.put("credCode", credCode);  //身份证号
-        }
         if (!TextUtils.isEmpty(buyerTel)) {
             map.put("buyerTel", buyerTel);  //pe_BuyerTel="15215317596";
-        }
-        if (!TextUtils.isEmpty(buyerName)) {
-            map.put("buyerName", buyerName);   //pf_BuyerName="张飞";
         }
         if (!TextUtils.isEmpty(actId)) {
             map.put("actId", actId);   //信用卡号： pt_ActId="4062522900966872";

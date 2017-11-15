@@ -205,14 +205,13 @@ android {
     }
 
     //==applicationVariants_start==
-//   applicationVariants.all { variant ->
-//        variant.outputs.each { output ->
-//            def outputFile = output.outputFile
-//            println 'default-pkg-name>>> ' + outputFile
-//            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                def fileName = "CAPP_V${defaultConfig.versionName}_${defaultConfig.versionCode}_${name}.apk"
-//                output.outputFile = new File(outputFile.parent, fileName)
+//    applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            def apkName = 'CAPP_V' + defaultConfig.versionName + '_' + defaultConfig.versionCode + '_' + name
+//            if (!variant.flavorName.isEmpty()) {
+//                apkName += ('_' + variant.flavorName)
 //            }
+//            outputFileName = apkName + '.apk'
 //        }
 //    }
     //==applicationVariants_end==
