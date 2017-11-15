@@ -61,6 +61,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
     private String code;
     private String phone;
     private ActionBean actionBean;
+    private boolean isAgainRequest;
 
     @Override
     public int getContentViewId() {
@@ -154,6 +155,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
             inputView.setData(_code, _phone, VoiceCaptchaActivity.REQUEST_INTERVAL_TIME - surplus);
             getView.setVisibility(View.GONE);
             showSoftInput(inputView.getCodeEditText());
+            setSensorsDefaultEvent();
         }
     }
 
@@ -173,6 +175,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
     public void againRequest() {
         SensorsUtils.onAppClick(getEventSource(), "重新获取验证码", getIntentSource());
         getCaptcha();
+        isAgainRequest = true;
     }
 
     public void showInputView() {
@@ -180,7 +183,9 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
         inputView.setData(code, phone, VoiceCaptchaActivity.REQUEST_INTERVAL_TIME);
         getView.setVisibility(View.GONE);
         showSoftInput(inputView.getCodeEditText());
-        setSensorsDefaultEvent();
+        if (isAgainRequest) {
+            setSensorsDefaultEvent();
+        }
     }
 
     public void getCaptcha() {
@@ -224,6 +229,7 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
             inputView.setVisibility(View.GONE);
             getView.setVisibility(View.VISIBLE);
             setSensorsDefaultEvent();
+            isAgainRequest = false;
             return true;
         } else {
             return false;

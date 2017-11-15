@@ -236,7 +236,11 @@ public class CharterSubtitleView extends LinearLayout{
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             public boolean onPreDraw() {
                 if (!isdd) {
-                    initGuideView();
+                    if (isPickup) {
+                        initGuideView();
+                    } else {
+                        handler.sendEmptyMessageDelayed(0, 500);
+                    }
                     SharedPre.setBoolean(isPickup ? CharterSubtitleView.PICKUP_GUIDE_VISITED : CharterSubtitleView.SEND_GUIDE_VISITED, true);
                     isdd = true;
                 }
@@ -268,4 +272,11 @@ public class CharterSubtitleView extends LinearLayout{
         guide.setShouldCheckLocInWindow(true);
         guide.show((Activity) getContext());
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            initGuideView();
+        }
+    };
 }

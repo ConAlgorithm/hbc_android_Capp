@@ -106,6 +106,7 @@ public class SkuOrderDiscountView extends LinearLayout{
             couponCountTV.setText(couponBean.price);
             isNotUseCoupon = false;
         }
+        isInvalidCoupon = false;
         currentType = TYPE_COUPON;
         resetCheckedView();
     }
