@@ -12,7 +12,6 @@ import android.util.Log;
 import com.anupcowkur.reservoir.Reservoir;
 import com.huangbaoche.hbcframe.HbcApplication;
 import com.huangbaoche.hbcframe.HbcConfig;
-import com.huangbaoche.hbcframe.data.net.DefaultSSLSocketFactory;
 import com.huangbaoche.hbcframe.util.MLog;
 import com.hugboga.custom.activity.LoginActivity;
 import com.hugboga.custom.data.bean.UserEntity;
@@ -27,12 +26,11 @@ import com.hugboga.custom.utils.UmengADPlus;
 import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
-import com.ishumei.smantifraud.SmAntiFraud;
 import com.hugboga.im.entity.ImAnalysisEnitty;
+import com.ishumei.smantifraud.SmAntiFraud;
 import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -40,7 +38,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.x;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +64,7 @@ public class MyApplication extends HbcApplication {
     // 注意！请不要在正式发布的 App 中使用 Debug 模式！
     final SensorsDataAPI.DebugMode SA_DEBUG_MODE = SensorsDataAPI.DebugMode.DEBUG_OFF;
     static String channelNum = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -88,7 +86,7 @@ public class MyApplication extends HbcApplication {
         }
 
         UmengADPlus umengADPlus = new UmengADPlus();
-        umengADPlus.sendMessage(this,"55ccb4cfe0f55ab500004a9d");
+        umengADPlus.sendMessage(this, "55ccb4cfe0f55ab500004a9d");
 
 
         final boolean inMainProcess = inMainProcess(mAppContext);
@@ -110,10 +108,10 @@ public class MyApplication extends HbcApplication {
 
     private void initNim() {
         ImHelper.setUserId(UserEntity.getUser().getUserId(this));
-        ImHelper.initNim(this, R.mipmap.icon_avatar_user,imAnalysisHandler);
+        ImHelper.initNim(this, R.mipmap.icon_avatar_user, imAnalysisHandler);
     }
 
-    private void initNetworkbench(){
+    private void initNetworkbench() {
         NBSAppAgent.setLicenseKey("34ac28c049574c4095b57fc0a591cd4b").withLocationServiceEnabled(true).
                 startInApplication(this.getApplicationContext());
     }
@@ -127,9 +125,9 @@ public class MyApplication extends HbcApplication {
         MLog.e("UrlLibs.H5_HOST=" + UrlLibs.H5_HOST);
         String channel = null;
         if (TextUtils.isEmpty(BuildConfig.API_SERVER_URL)) {
-            if (getChannelNum() != null){
+            if (getChannelNum() != null) {
                 channel = getChannelNum();
-            }else {
+            } else {
                 channel = BuildConfig.FLAVOR;
             }
 
@@ -176,9 +174,9 @@ public class MyApplication extends HbcApplication {
         HbcConfig.APP_NAME = getString(R.string.app_name);
         x.Ext.setDebug(HbcConfig.IS_DEBUG);
         HbcConfig.WX_APP_ID = BuildConfig.WX_APP_ID;
-        if (getChannelNum() != null){
+        if (getChannelNum() != null) {
             HbcConfig.FLAVOR = getChannelNum();
-        }else {
+        } else {
             HbcConfig.FLAVOR = BuildConfig.FLAVOR;
         }
     }
@@ -186,7 +184,7 @@ public class MyApplication extends HbcApplication {
     public void initSensorsData() {
         try {
             boolean isTest = false;
-            if (getChannelNum()!= null){
+            if (getChannelNum() != null) {
                 isTest = "developer".equals(getChannelNum()) || "examination".equals(getChannelNum());
             } else {
                 isTest = "developer".equals(BuildConfig.FLAVOR) || "examination".equals(BuildConfig.FLAVOR);
@@ -203,9 +201,9 @@ public class MyApplication extends HbcApplication {
             JSONObject properties = new JSONObject();
             properties.put("hbc_plateform_type", "Android");        // 平台类型
             properties.put("hbc_version", BuildConfig.VERSION_NAME);// C端产品版本
-            if (getChannelNum() != null){
+            if (getChannelNum() != null) {
                 properties.put("hbc_source", getChannelNum());  // 设置渠道名称属性
-            }else {
+            } else {
                 properties.put("hbc_source", BuildConfig.FLAVOR);  // 设置渠道名称属性
             }
             properties.put("hbc_user_id", SensorsDataAPI.sharedInstance(this).getAnonymousId());
@@ -216,7 +214,7 @@ public class MyApplication extends HbcApplication {
             addSensorsCustomAppInstall();
             //初始化用户属性
             LoginActivity.setSensorsUserEvent();
-            if(UserEntity.getUser().isLogin(this)){
+            if (UserEntity.getUser().isLogin(this)) {
                 SensorsDataAPI.sharedInstance(this).login(UserEntity.getUser().getUserId(getApplicationContext()));
             }
         } catch (JSONException e) {
@@ -295,14 +293,14 @@ public class MyApplication extends HbcApplication {
      * 密码：10Yi100Yi
      * accessKey：WUUvcpMUan4hd4B5FaBC
      * organization：GqATrb95woTXTmiUQJrC
-     * */
+     */
     public void initSmAntiFraud() {
         try {
             SmAntiFraud.SmOption option = new SmAntiFraud.SmOption();
             option.setOrganization("GqATrb95woTXTmiUQJrC");
-            if (getChannelNum() !=null){
+            if (getChannelNum() != null) {
                 option.setChannel(getChannelNum());
-            }else {
+            } else {
                 option.setChannel(BuildConfig.FLAVOR);
             }
 
@@ -318,7 +316,7 @@ public class MyApplication extends HbcApplication {
      * 账号：yingbinmu@huangbaoche.com
      * 密码：fRqbbxpJ
      * FMAgent.ENV_SANDBOX表示测试环境，FMAgent.ENV_PRODUCTION表示生产环境
-     * */
+     */
     public void initFMAgent() {
         try {
             FMAgent.init(this, FMAgent.ENV_PRODUCTION);
@@ -332,7 +330,7 @@ public class MyApplication extends HbcApplication {
     /*
     打开神策的预制埋点
     * */
-    private void setSensorsAutoTrack(){
+    private void setSensorsAutoTrack() {
         // 打开自动采集, 并指定追踪哪些 AutoTrack 事件
         List<SensorsDataAPI.AutoTrackEventType> eventTypeList = new ArrayList<>();
         // $AppStart
@@ -349,13 +347,13 @@ public class MyApplication extends HbcApplication {
     /*
     添加自定义渠道追踪信息
     * */
-    private void addSensorsCustomAppInstall(){
+    private void addSensorsCustomAppInstall() {
         try {
             JSONObject properties = new JSONObject();
             // 设置渠道名
-            if (getChannelNum() !=null){
+            if (getChannelNum() != null) {
                 properties.put("channelId", getChannelNum());
-            }else {
+            } else {
                 properties.put("channelId", BuildConfig.FLAVOR);
             }
 
@@ -368,26 +366,26 @@ public class MyApplication extends HbcApplication {
     }
 
 
-    private static Handler imAnalysisHandler = new Handler(){
+    private static Handler imAnalysisHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             try {
                 Bundle bundle = msg.getData();
-                if(bundle!=null){
-                    ImAnalysisEnitty imAnalysisEnitty = (ImAnalysisEnitty)bundle.getSerializable(ImAnalysisEnitty.KEY_IM_ANALYSIS_ENTITY);
-                    if(imAnalysisEnitty!=null){
-                        if(!TextUtils.isEmpty(imAnalysisEnitty.actionName)){
-                            SensorsUtils.setSensorsAppointImAnalysis(imAnalysisEnitty.actionName,imAnalysisEnitty.imKeyMap);
+                if (bundle != null) {
+                    ImAnalysisEnitty imAnalysisEnitty = (ImAnalysisEnitty) bundle.getSerializable(ImAnalysisEnitty.KEY_IM_ANALYSIS_ENTITY);
+                    if (imAnalysisEnitty != null) {
+                        if (!TextUtils.isEmpty(imAnalysisEnitty.actionName)) {
+                            SensorsUtils.setSensorsAppointImAnalysis(imAnalysisEnitty.actionName, imAnalysisEnitty.imKeyMap);
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
             }
         }
     };
 
-    public static String getChannelNum(){
+    public static String getChannelNum() {
         channelNum = ChannelReaderUtil.getChannel(mAppContext);
         MLog.e("channelNum=" + channelNum);
         return channelNum;
