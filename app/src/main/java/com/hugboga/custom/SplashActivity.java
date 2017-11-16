@@ -21,16 +21,16 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class SplashActivity extends BaseActivity {
 
     //引导图片资源
     private static final int[] pics = {R.drawable.splash_1, R.drawable.splash_2, R.drawable.splash_3};
 
-    @Bind(R.id.splash_viewpage)
+    @BindView(R.id.splash_viewpage)
     ViewPager viewPager;
-    @Bind(R.id.indicator)
+    @BindView(R.id.indicator)
     CirclePageIndicator mIndicator;
     //TextView enter;
 

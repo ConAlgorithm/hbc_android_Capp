@@ -15,7 +15,7 @@ import com.hugboga.custom.data.bean.FlightBean;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,26 +23,26 @@ import butterknife.ButterKnife;
  */
 public class OrderDescriptionView extends LinearLayout {
 
-    @Bind(R.id.order_desc_title_tv)
+    @BindView(R.id.order_desc_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.item_itinerary_sub_title_tv)
+    @BindView(R.id.item_itinerary_sub_title_tv)
     TextView timeTV;
-    @Bind(R.id.item_itinerary_sub_describe_tv)
+    @BindView(R.id.item_itinerary_sub_describe_tv)
     TextView flightTV;
 
-    @Bind(R.id.order_travel_item_start_tv)
+    @BindView(R.id.order_travel_item_start_tv)
     TextView startTV;
-    @Bind(R.id.order_travel_item_start_des_tv)
+    @BindView(R.id.order_travel_item_start_des_tv)
     TextView startDesTV;
-    @Bind(R.id.order_travel_item_start_line_view)
+    @BindView(R.id.order_travel_item_start_line_view)
     View startLineView;
-    @Bind(R.id.order_travel_item_end_tv)
+    @BindView(R.id.order_travel_item_end_tv)
     TextView endTV;
-    @Bind(R.id.order_travel_item_end_des_tv)
+    @BindView(R.id.order_travel_item_end_des_tv)
     TextView endDesTV;
 
-    @Bind(R.id.item_itinerary_title_tv)
+    @BindView(R.id.item_itinerary_title_tv)
     TextView carDescTV;
 
     public OrderDescriptionView(Context context) {

@@ -56,7 +56,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 
@@ -65,23 +65,23 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseActivity implements TextWatcher {
-    @Bind(R.id.verify)
+    @BindView(R.id.verify)
     TextView verify;
-    @Bind(R.id.login_password)
+    @BindView(R.id.login_password)
     EditText loginPassword;
-    @Bind(R.id.change_mobile_areacode)
+    @BindView(R.id.change_mobile_areacode)
     TextView areaCodeTextView;
-    @Bind(R.id.login_phone)
+    @BindView(R.id.login_phone)
     EditText phoneEditText;
-    @Bind(R.id.back)
+    @BindView(R.id.back)
     ImageView headerLeftBtn;
-    @Bind(R.id.login_submit)
+    @BindView(R.id.login_submit)
     Button login_submit;
-    @Bind(R.id.miaoshu2)
+    @BindView(R.id.miaoshu2)
     TextView miaoshu2;
-    @Bind(R.id.miaoshu1)
+    @BindView(R.id.miaoshu1)
     TextView miaoshu1;
-    @Bind(R.id.delete)
+    @BindView(R.id.delete)
     ImageView delete;
 
 

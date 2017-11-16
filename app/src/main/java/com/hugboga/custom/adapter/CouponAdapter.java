@@ -15,7 +15,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CouponBean;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -139,19 +139,19 @@ public class CouponAdapter extends BaseAdapter<CouponBean> {
         View mLayout;
         @ViewInject(R.id.coupon_item_type)
         TextView mLabel;*/
-        @Bind(R.id.coupon_item_price)
+        @BindView(R.id.coupon_item_price)
         TextView mPrice;
-        @Bind(R.id.coupon_item_content)
+        @BindView(R.id.coupon_item_content)
         TextView mContent;
-        @Bind(R.id.coupon_item_date_between)
+        @BindView(R.id.coupon_item_date_between)
         TextView mDateBettow;
         /*@ViewInject(R.id.coupon_vertical_line)
         View lineView;*/
-        @Bind(R.id.coupon_item_selected)
+        @BindView(R.id.coupon_item_selected)
         ImageView mSelected;
-        @Bind(R.id.coupon_batch_name)
+        @BindView(R.id.coupon_batch_name)
         TextView couponBatchName;
-        @Bind(R.id.coupon_invalid)
+        @BindView(R.id.coupon_invalid)
         TextView couponInvalid;
     }
 }

@@ -39,7 +39,7 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -47,23 +47,23 @@ import butterknife.ButterKnife;
  */
 
 public class FilterGuideItemView extends LinearLayout implements HbcViewBehavior ,HttpRequestListener {
-    @Bind(R.id.filter_guide_avr)
+    @BindView(R.id.filter_guide_avr)
     ImageView imageView;
-    @Bind(R.id.save_guild)
+    @BindView(R.id.save_guild)
     ImageView saveGuild;
-    @Bind(R.id.save_guild_layout)
+    @BindView(R.id.save_guild_layout)
     LinearLayout save_guide_layout;
-    @Bind(R.id.star)
+    @BindView(R.id.star)
     ImageView star;
-    @Bind(R.id.evaluate)
+    @BindView(R.id.evaluate)
     TextView evaluate;
-    //@Bind(R.id.guide_des)
+    //@BindView(R.id.guide_des)
     //TextView guideDes;
-    @Bind(R.id.filter_guide_name)
+    @BindView(R.id.filter_guide_name)
     TextView name;
-    @Bind(R.id.filter_guide_location)
+    @BindView(R.id.filter_guide_location)
     TextView location;
-    @Bind(R.id.yuding)
+    @BindView(R.id.yuding)
     TextView yuDing;
     Context context;
     public FilterGuideItemView(Context context) {

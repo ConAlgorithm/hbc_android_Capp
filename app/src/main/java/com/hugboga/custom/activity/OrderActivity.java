@@ -69,7 +69,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/5/19.
@@ -77,23 +77,23 @@ import butterknife.Bind;
 public class OrderActivity extends BaseActivity implements SkuOrderDiscountView.DiscountOnClickListener,
         SkuOrderCountView.OnCountChangeListener, SkuOrderBottomView.OnSubmitOrderListener, SkuOrderTravelerInfoView.OnSwitchPickOrSendListener{
 
-    @Bind(R.id.order_scrollview)
+    @BindView(R.id.order_scrollview)
     ScrollView scrollView;
-    @Bind(R.id.order_seckills_layout)
+    @BindView(R.id.order_seckills_layout)
     FrameLayout seckillsLayout;
-    @Bind(R.id.order_bottom_view)
+    @BindView(R.id.order_bottom_view)
     SkuOrderBottomView bottomView;
-    @Bind(R.id.order_desc_view)
+    @BindView(R.id.order_desc_view)
     OrderDescriptionView descriptionView;
-    @Bind(R.id.order_count_view)
+    @BindView(R.id.order_count_view)
     SkuOrderCountView countView;
-    @Bind(R.id.order_traveler_info_view)
+    @BindView(R.id.order_traveler_info_view)
     SkuOrderTravelerInfoView travelerInfoView;
-    @Bind(R.id.order_discount_view)
+    @BindView(R.id.order_discount_view)
     SkuOrderDiscountView discountView;
-    @Bind(R.id.order_insurance_view)
+    @BindView(R.id.order_insurance_view)
     OrderInsuranceView insuranceView;
-    @Bind(R.id.order_explain_view)
+    @BindView(R.id.order_explain_view)
     OrderExplainView explainView;
 
     private OrderActivity.Params params;

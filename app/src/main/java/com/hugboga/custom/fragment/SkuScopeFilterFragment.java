@@ -20,24 +20,24 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnTagItemClickListener {
 
-    @Bind(R.id.sku_filter_day_one_tv)
+    @BindView(R.id.sku_filter_day_one_tv)
     TextView dayOneTV;
-    @Bind(R.id.sku_filter_day_two_tv)
+    @BindView(R.id.sku_filter_day_two_tv)
     TextView dayTwoTV;
-    @Bind(R.id.sku_filter_day_multi_tv)
+    @BindView(R.id.sku_filter_day_multi_tv)
     TextView dayMultiTV;
 
-    @Bind(R.id.sku_filter_theme_title_tv)
+    @BindView(R.id.sku_filter_theme_title_tv)
     TextView themeTitleTV;
-    @Bind(R.id.sku_filter_theme_taggroup)
+    @BindView(R.id.sku_filter_theme_taggroup)
     FilterTagGroupBase themeTagGroup;
-    @Bind(R.id.sku_filter_theme_line_view)
+    @BindView(R.id.sku_filter_theme_line_view)
     View lineView;
 
     private SkuFilterBean skuFilterBean;
@@ -59,7 +59,6 @@ public class SkuScopeFilterFragment extends BaseFragment implements TagGroup.OnT
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

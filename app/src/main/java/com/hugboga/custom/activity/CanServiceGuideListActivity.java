@@ -20,14 +20,14 @@ import com.hugboga.custom.widget.ZListView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created on 16/9/9.
  */
 public class CanServiceGuideListActivity extends BaseActivity implements HttpRequestListener{
 
-    @Bind(R.id.choose_guide_listview)
+    @BindView(R.id.choose_guide_listview)
     ZListView listView;
 
     private String orderNo;

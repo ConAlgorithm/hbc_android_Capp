@@ -16,7 +16,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DatabaseManager;
 import com.hugboga.custom.utils.Tools;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -24,9 +24,9 @@ import butterknife.ButterKnife;
  */
 public class PayResultRecommendCharterView extends RelativeLayout {
 
-    @Bind(R.id.view_pay_result_recommend_charter_bg_iv)
+    @BindView(R.id.view_pay_result_recommend_charter_bg_iv)
     ImageView bgIV;
-    @Bind(R.id.view_pay_result_recommend_charter_city_tv)
+    @BindView(R.id.view_pay_result_recommend_charter_city_tv)
     TextView cityTV;
 
     public PayResultRecommendCharterView(Context context) {

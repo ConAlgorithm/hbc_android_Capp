@@ -33,23 +33,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SkuDateActivity extends Activity implements MonthView.OnDayClickListener, MonthChangeListener, SkuCalendarUtils.SkuCalendarListenr {
 
-    @Bind(R.id.sku_date_display_iv)
+    @BindView(R.id.sku_date_display_iv)
     EffectiveShapeView displayIV;
-    @Bind(R.id.sku_date_description_tv)
+    @BindView(R.id.sku_date_description_tv)
     TextView descriptionTV;
-    @Bind(R.id.sku_date_month_view)
+    @BindView(R.id.sku_date_month_view)
     MonthSwitchView monthView;
-    @Bind(R.id.sku_date_info_layout)
+    @BindView(R.id.sku_date_info_layout)
     RelativeLayout infoLayout;
-    @Bind(R.id.sku_date_calendar_loading_layout)
+    @BindView(R.id.sku_date_calendar_loading_layout)
     FrameLayout calendarLoadingLayout;
-    @Bind(R.id.sku_date_guide_name_tv)
+    @BindView(R.id.sku_date_guide_name_tv)
     TextView guideNameTV;
 
     private SkuOrderActivity.Params params;

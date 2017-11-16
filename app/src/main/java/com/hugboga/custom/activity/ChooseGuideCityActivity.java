@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/3/12.
@@ -35,9 +35,9 @@ import butterknife.Bind;
 
 public class ChooseGuideCityActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener{
 
-    @Bind(R.id.chhoose_guide_city_titlebar)
+    @BindView(R.id.chhoose_guide_city_titlebar)
     TitleBar titleBar;
-    @Bind(R.id.chhoose_guide_city_recyclerview)
+    @BindView(R.id.chhoose_guide_city_recyclerview)
     RecyclerView mRecyclerView;
 
     public String guideId;

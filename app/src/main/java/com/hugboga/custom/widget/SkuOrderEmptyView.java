@@ -15,7 +15,7 @@ import com.hugboga.custom.utils.CommonUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,11 +24,11 @@ import butterknife.OnClick;
  */
 public class SkuOrderEmptyView extends LinearLayout{
 
-    @Bind(R.id.sku_order_empty_iv)
+    @BindView(R.id.sku_order_empty_iv)
     ImageView emptyIV;
-    @Bind(R.id.sku_order_empty_hint_tv)
+    @BindView(R.id.sku_order_empty_hint_tv)
     TextView hintTV;
-    @Bind(R.id.sku_order_empty_refresh_tv)
+    @BindView(R.id.sku_order_empty_refresh_tv)
     TextView refreshTV;
 
     private OnRefreshDataListener onRefreshDataListener;

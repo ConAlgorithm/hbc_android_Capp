@@ -11,12 +11,12 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.mediaplayer.MediaPlayerView;
 import com.hugboga.mediaplayer.PlayListener;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MediaPlayerActivity extends BaseActivity {
 
-    @Bind(R.id.media_player)
+    @BindView(R.id.media_player)
     MediaPlayerView mediaPlayerView;
 
     public static final String KEY_URL = "key_url";

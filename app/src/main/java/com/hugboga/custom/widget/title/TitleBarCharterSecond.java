@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -16,11 +16,11 @@ import butterknife.ButterKnife;
 
 public class TitleBarCharterSecond extends TitleBarBase{
 
-    @Bind(R.id.titlebar_charter_second_left_tv)
+    @BindView(R.id.titlebar_charter_second_left_tv)
     TextView leftTV;
-    @Bind(R.id.titlebar_charter_second_right_tv)
+    @BindView(R.id.titlebar_charter_second_right_tv)
     TextView rightTV;
-    @Bind(R.id.titlebar_charter_second_subtitle_tv)
+    @BindView(R.id.titlebar_charter_second_subtitle_tv)
     TextView subtitleTV;
 
     public TitleBarCharterSecond(Context context) {

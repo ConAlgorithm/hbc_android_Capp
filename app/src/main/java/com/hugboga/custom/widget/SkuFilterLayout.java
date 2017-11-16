@@ -25,17 +25,17 @@ import com.hugboga.custom.fragment.SkuScopeFilterFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SkuFilterLayout extends LinearLayout {
-    @Bind(R.id.filter_sku_type_city_layout)
+    @BindView(R.id.filter_sku_type_city_layout)
     LinearLayout cityLayout;
-    @Bind(R.id.filter_sku_type_scope_layout)
+    @BindView(R.id.filter_sku_type_scope_layout)
     LinearLayout scopeLayout;
 
-    @Bind(R.id.filter_sku_viewpager)
+    @BindView(R.id.filter_sku_viewpager)
     NoScrollViewPager viewPager;
 
     private SkuFilterAdapter pagerAdapter;

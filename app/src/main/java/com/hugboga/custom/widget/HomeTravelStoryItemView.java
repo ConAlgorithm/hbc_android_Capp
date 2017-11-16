@@ -21,7 +21,7 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,9 +29,9 @@ import butterknife.ButterKnife;
  */
 public class HomeTravelStoryItemView extends RelativeLayout implements HbcViewBehavior{
 
-    @Bind(R.id.home_travel_story_item_bg_iv)
+    @BindView(R.id.home_travel_story_item_bg_iv)
     ImageView displayIV;
-    @Bind(R.id.home_travel_story_item_title_tv)
+    @BindView(R.id.home_travel_story_item_title_tv)
     TextView guideCountTV;
 
     public HomeTravelStoryItemView(Context context) {

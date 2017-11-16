@@ -42,7 +42,7 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -50,27 +50,27 @@ import butterknife.ButterKnife;
  */
 public class ChoicenessGuideView extends LinearLayout implements HbcViewBehavior,HttpRequestListener{
 
-    @Bind(R.id.choiceness_guide_bg_iv)
+    @BindView(R.id.choiceness_guide_bg_iv)
     ImageView bgIV;
-    @Bind(R.id.choiceness_guide_description_tv)
+    @BindView(R.id.choiceness_guide_description_tv)
     TextView descTV;
-    @Bind(R.id.choiceness_guide_level_hint_tv)
+    @BindView(R.id.choiceness_guide_level_hint_tv)
     TextView levelTV;
-    @Bind(R.id.choiceness_guide_level_tv)
+    @BindView(R.id.choiceness_guide_level_tv)
     TextView levelTV2;
-    @Bind(R.id.choiceness_guide_name_tv)
+    @BindView(R.id.choiceness_guide_name_tv)
     TextView nameTV;
-    @Bind(R.id.choiceness_guide_taggroup)
+    @BindView(R.id.choiceness_guide_taggroup)
     TagGroup tagGroup;
-    @Bind(R.id.choiceness_guide_service_type_tv)
+    @BindView(R.id.choiceness_guide_service_type_tv)
     TextView serviceTypeTV;
 
-    @Bind(R.id.choiceness_guide_city_iv)
+    @BindView(R.id.choiceness_guide_city_iv)
     ImageView cityIV;
-    @Bind(R.id.choiceness_guide_city_tv)
+    @BindView(R.id.choiceness_guide_city_tv)
     TextView cityTV;
 
-    @Bind(R.id.save_guild)
+    @BindView(R.id.save_guild)
     ImageView saveGuild;
     Activity activity;
     public ChoicenessGuideView(Context context) {

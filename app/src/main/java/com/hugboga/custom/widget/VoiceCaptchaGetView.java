@@ -16,7 +16,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCountryActivity;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,11 +28,11 @@ import butterknife.OnClick;
 
 public class VoiceCaptchaGetView extends LinearLayout implements TextWatcher {
 
-    @Bind(R.id.vvc_get_code_tv)
+    @BindView(R.id.vvc_get_code_tv)
     TextView codeTV;
-    @Bind(R.id.vvc_get_phone_et)
+    @BindView(R.id.vvc_get_phone_et)
     EditText phoneET;
-    @Bind(R.id.vvc_get_phone_confirm_tv)
+    @BindView(R.id.vvc_get_phone_confirm_tv)
     TextView confirmTV;
 
     private String code = "86";

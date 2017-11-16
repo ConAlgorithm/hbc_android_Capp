@@ -47,7 +47,7 @@ import org.xutils.ex.DbException;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -65,37 +65,37 @@ public class ChooseAirPortActivity extends BaseActivity implements SideBar.OnTou
 
     public AirportAdapter adapter;
 
-    @Bind(R.id.activity_head_layout)
+    @BindView(R.id.activity_head_layout)
     RelativeLayout headLayout;
-    @Bind(R.id.fg_city_bottom_line_view)
+    @BindView(R.id.fg_city_bottom_line_view)
     View bottomLineView;
-    @Bind(R.id.fg_city_header)
+    @BindView(R.id.fg_city_header)
     View cityHeaderLayout;
 
-    @Bind(R.id.head_left_layout)
+    @BindView(R.id.head_left_layout)
     RelativeLayout headerLeftLayout;
-    @Bind(R.id.head_search)
+    @BindView(R.id.head_search)
     EditText headSearch;
-    @Bind(R.id.head_search_clean)
+    @BindView(R.id.head_search_clean)
     ImageView headSearchClean;
-    @Bind(R.id.choose_city_head_layout)
+    @BindView(R.id.choose_city_head_layout)
     LinearLayout chooseCityHeadLayout;
-    @Bind(R.id.arrival_empty_layout)
+    @BindView(R.id.arrival_empty_layout)
     LinearLayout arrivalEmptyLayout;
-    @Bind(R.id.country_lvcountry)
+    @BindView(R.id.country_lvcountry)
     ListView countryLvcountry;
-    @Bind(R.id.dialog)
+    @BindView(R.id.dialog)
     TextView dialog;
-    @Bind(R.id.sidrbar)
+    @BindView(R.id.sidrbar)
     SideBar sidrbar;
-    @Bind(R.id.city_choose_btn)
+    @BindView(R.id.city_choose_btn)
     Button cityChooseBtn;
     private ListView sortListView;
     private long t = 0;
     private List<AirPort> sourceDateList;
     private SideBar sideBar;
     private View emptyView;
-    @Bind(R.id.empty_layout_text)
+    @BindView(R.id.empty_layout_text)
     TextView emptyViewText;
     private DbManager mDbManager;
     private SharedPre sharedPer;

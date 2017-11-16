@@ -15,7 +15,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
  */
 public class OrderGuideLayout extends LinearLayout {
 
-    @Bind(R.id.order_guide_avatar_iv)
+    @BindView(R.id.order_guide_avatar_iv)
     PolygonImageView avatarIV;
-    @Bind(R.id.order_guide_desc_tv)
+    @BindView(R.id.order_guide_desc_tv)
     TextView descTV;
 
     public OrderGuideLayout(Context context) {

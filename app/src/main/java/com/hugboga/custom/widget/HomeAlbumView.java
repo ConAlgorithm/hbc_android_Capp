@@ -21,7 +21,7 @@ import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -31,22 +31,22 @@ import butterknife.ButterKnife;
 public class HomeAlbumView extends LinearLayout {
     Activity activity;
     public int displayImgWidth, displayImgHeight;
-    @Bind(R.id.viewtop)
+    @BindView(R.id.viewtop)
     View viewtop;
-    @Bind(R.id.album_recyclerview)
+    @BindView(R.id.album_recyclerview)
     RecyclerView recyclerView;
-    @Bind(R.id.title_ablum)
+    @BindView(R.id.title_ablum)
     LinearLayout title;
-    @Bind(R.id.album_img_layout)
+    @BindView(R.id.album_img_layout)
     FrameLayout albumImgLayout;
 
-    @Bind(R.id.img_album)
+    @BindView(R.id.img_album)
     ImageView imgAlum;
-    @Bind(R.id.color_on_img)
+    @BindView(R.id.color_on_img)
     ImageView colorOnImg;
-    @Bind(R.id.name_album)
+    @BindView(R.id.name_album)
     TextView nameAlbum;
-    @Bind(R.id.purchse_album)
+    @BindView(R.id.purchse_album)
     TextView purchseAlbum;
     HomeAlbumInfoVo homeAlbumInfoVo;
     HomeAlbumAdapter homeAlbumAdapter;

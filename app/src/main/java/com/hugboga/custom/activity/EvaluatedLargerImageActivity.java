@@ -26,19 +26,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class EvaluatedLargerImageActivity extends BaseActivity {
 
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.larger_img_pager)
+    @BindView(R.id.larger_img_pager)
     HackyViewPager mViewPager;
 
     protected Params params;

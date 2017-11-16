@@ -28,7 +28,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -36,15 +36,15 @@ import butterknife.OnClick;
  */
 public class ShareGuidesActivity extends BaseActivity{
 
-    //@Bind(R.id.share_evaluate_description_tv1)
+    //@BindView(R.id.share_evaluate_description_tv1)
     //TextView descriptionTV1;
-    @Bind(R.id.share_evaluate_description_tv2)
+    @BindView(R.id.share_evaluate_description_tv2)
     TextView descriptionTV2;
-    @Bind(R.id.share_evaluate_collected_tv)
+    @BindView(R.id.share_evaluate_collected_tv)
     TextView collectedTV;
-    @Bind(R.id.share_evaluate_description_tv1)
+    @BindView(R.id.share_evaluate_description_tv1)
     TextView des;
-    @Bind(R.id.share_evaluate_icon_iv)
+    @BindView(R.id.share_evaluate_icon_iv)
     ImageView evaluateIcon;
     private Params params;
     private boolean shareSucceed = false;

@@ -11,15 +11,15 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.LuggageInfoActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class LuggageItemLayout extends LinearLayout {
-    @Bind(R.id.luggage_num)
+    @BindView(R.id.luggage_num)
     TextView luggageNum;
-    @Bind(R.id.luggage_icon)
+    @BindView(R.id.luggage_icon)
     ImageView luggageIcon;
 
     public LuggageItemLayout(Context context) {

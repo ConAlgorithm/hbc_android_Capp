@@ -14,7 +14,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.statistic.sensors.SensorsUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -45,13 +45,13 @@ public class HomeH5Model extends EpoxyModelWithHolder implements View.OnClickLis
 
     static class HomeH5Holder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.view1_layout)
+        @BindView(R.id.view1_layout)
         LinearLayout view1;
-        @Bind(R.id.view2_layout)
+        @BindView(R.id.view2_layout)
         LinearLayout view2;
-        @Bind(R.id.view3_layout)
+        @BindView(R.id.view3_layout)
         LinearLayout view3;
-        @Bind(R.id.view4_layout)
+        @BindView(R.id.view4_layout)
         LinearLayout view4;
 
         @Override

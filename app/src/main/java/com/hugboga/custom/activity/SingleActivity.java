@@ -59,7 +59,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -71,25 +71,25 @@ public class SingleActivity extends BaseActivity implements SendAddressView.OnAd
     public static final String TAG = SingleActivity.class.getSimpleName();
     private static final int ORDER_TYPE = 4;
 
-    @Bind(R.id.single_titlebar)
+    @BindView(R.id.single_titlebar)
     TitleBar titlebar;
-    @Bind(R.id.single_bottom_view)
+    @BindView(R.id.single_bottom_view)
     OrderBottomView bottomView;
-    @Bind(R.id.single_guide_layout)
+    @BindView(R.id.single_guide_layout)
     OrderGuideLayout guideLayout;
-    @Bind(R.id.single_city_layout)
+    @BindView(R.id.single_city_layout)
     OrderInfoItemView cityLayout;
-    @Bind(R.id.single_address_layout)
+    @BindView(R.id.single_address_layout)
     SendAddressView addressLayout;
-    @Bind(R.id.single_time_layout)
+    @BindView(R.id.single_time_layout)
     OrderInfoItemView timeLayout;
-    @Bind(R.id.single_car_type_view)
+    @BindView(R.id.single_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.single_empty_layout)
+    @BindView(R.id.single_empty_layout)
     SkuOrderEmptyView emptyLayout;
-    @Bind(R.id.single_scrollview)
+    @BindView(R.id.single_scrollview)
     ScrollView scrollView;
-    @Bind(R.id.single_conpons_tipview)
+    @BindView(R.id.single_conpons_tipview)
     ConponsTipView conponsTipView;
 
     private CarListBean carListBean;

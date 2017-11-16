@@ -18,7 +18,7 @@ import com.hugboga.custom.widget.ZListView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by on 16/8/8.
@@ -28,11 +28,11 @@ public class TravelFundRecordActivity extends BaseActivity{
     public static final int TYPE_USE_Bill = 0;//旅游基金
     public static final int TYPE_INVITE_FRIENDS = 1;//邀请明细
 
-    @Bind(R.id.trave_fund_record_listview)
+    @BindView(R.id.trave_fund_record_listview)
     ZListView listView;
-    @Bind(R.id.trave_fund_record_empty_layout)
+    @BindView(R.id.trave_fund_record_empty_layout)
     LinearLayout emptyLayout;
-    @Bind(R.id.trave_fund_record_empty_tv)
+    @BindView(R.id.trave_fund_record_empty_tv)
     TextView emptyHintTV;
     private TravelFundRecordHeaderView headerView;
 

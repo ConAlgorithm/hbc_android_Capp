@@ -14,7 +14,7 @@ import com.hugboga.custom.adapter.OrderDetailTravelAdapter;
 import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
  */
 public class OrderDetailTravelGroup extends LinearLayout implements HbcViewBehavior, ViewPager.OnPageChangeListener{
 
-    @Bind(R.id.order_detail_travel_tablayout)
+    @BindView(R.id.order_detail_travel_tablayout)
     OrderDetailTravelTabLayout tabLayout;
-    @Bind(R.id.order_detail_travel_pager)
+    @BindView(R.id.order_detail_travel_pager)
     ViewPager travelPager;
     private int lastPosition = 0;
     private OrderBean orderBean;

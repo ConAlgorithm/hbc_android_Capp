@@ -49,33 +49,33 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class CityListActivity extends BaseActivity {
 
     public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
 
-    @Bind(R.id.city_list_titlebar)
+    @BindView(R.id.city_list_titlebar)
     RelativeLayout titlebar;
-    @Bind(R.id.view_bottom)
+    @BindView(R.id.view_bottom)
     View titlebarBottomLineView;
-    @Bind(R.id.city_list_recyclerview)
+    @BindView(R.id.city_list_recyclerview)
     RecyclerView recyclerView;
 
-    @Bind(R.id.city_list_back_layout)
+    @BindView(R.id.city_list_back_layout)
     FrameLayout backLayout;
 
-    @Bind(R.id.city_list_empty_layout)
+    @BindView(R.id.city_list_empty_layout)
     LinearLayout emptyLayout;
-    @Bind(R.id.city_list_empty_iv)
+    @BindView(R.id.city_list_empty_iv)
     ImageView emptyIV;
-    @Bind(R.id.city_list_empty_hint_tv)
+    @BindView(R.id.city_list_empty_hint_tv)
     TextView emptyHintTV;
 
-    @Bind(R.id.city_list_service_layout)
+    @BindView(R.id.city_list_service_layout)
     LinearLayout serviceLayout;
-    @Bind(R.id.city_list_service_hint_tv)
+    @BindView(R.id.city_list_service_hint_tv)
     TextView serviceHintTV;
 
     public CityListActivity.Params paramsData;

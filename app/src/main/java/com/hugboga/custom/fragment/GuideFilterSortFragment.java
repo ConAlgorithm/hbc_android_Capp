@@ -18,12 +18,12 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GuideFilterSortFragment extends BaseFragment implements AbsListView.OnItemClickListener{
 
-    @Bind(R.id.guide_filter_listview)
+    @BindView(R.id.guide_filter_listview)
     ListView listView;
 
     private ArrayList<SortTypeBean> sortTypeList;

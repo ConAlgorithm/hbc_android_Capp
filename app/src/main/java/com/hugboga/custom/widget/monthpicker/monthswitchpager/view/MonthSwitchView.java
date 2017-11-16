@@ -12,7 +12,7 @@ import com.hugboga.custom.widget.monthpicker.monthswitchpager.adapter.MonthViewA
 import com.hugboga.custom.widget.monthpicker.monthswitchpager.listener.MonthChangeListener;
 import com.hugboga.custom.widget.monthpicker.util.DayUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -21,8 +21,8 @@ import butterknife.ButterKnife;
  */
 public class MonthSwitchView extends LinearLayout implements MonthView.OnDayClickListener {
 
-  @Bind(android.R.id.text2) MonthSwitchTextView mSwitchText;
-  @Bind(android.R.id.content) MonthRecyclerView mRecyclerView;
+  @BindView(android.R.id.text2) MonthSwitchTextView mSwitchText;
+  @BindView(android.R.id.content) MonthRecyclerView mRecyclerView;
 
   private MonthView.OnDayClickListener mOnDayClickListener;
 

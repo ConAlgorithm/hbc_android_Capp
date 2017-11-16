@@ -31,31 +31,31 @@ import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GuideWebDetailBottomView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.guide_detail_bottom_top_line_view)
+    @BindView(R.id.guide_detail_bottom_top_line_view)
     View topLineView;
-    @Bind(R.id.guide_detail_bottom_hint_tv)
+    @BindView(R.id.guide_detail_bottom_hint_tv)
     TextView hintTv;
 
-    @Bind(R.id.guide_detail_bottom_time_tv)
+    @BindView(R.id.guide_detail_bottom_time_tv)
     TextView timeTv;
 
-    @Bind(R.id.guide_detail_bottom_contact_iv)
+    @BindView(R.id.guide_detail_bottom_contact_iv)
     ImageView contactIv;
-    @Bind(R.id.guide_detail_bottom_contact_tv)
+    @BindView(R.id.guide_detail_bottom_contact_tv)
     TextView contactTv;
-    @Bind(R.id.guide_detail_bottom_contact_layout)
+    @BindView(R.id.guide_detail_bottom_contact_layout)
     LinearLayout contactLayout;
 
-    @Bind(R.id.guide_detail_bottom_book_tv)
+    @BindView(R.id.guide_detail_bottom_book_tv)
     TextView bottomBookTv;
 
-    @Bind(R.id.guide_detail_bottom_choose_guide_tv)
+    @BindView(R.id.guide_detail_bottom_choose_guide_tv)
     TextView chooseGuideTv;
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();

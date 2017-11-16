@@ -13,7 +13,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.hugboga.custom.widget.CsDialog;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.data.net.UrlLibs.H5_CANCEL;
@@ -23,13 +23,13 @@ import static com.hugboga.custom.data.net.UrlLibs.H5_CANCEL;
  */
 
 public class ServicerCenterActivity extends BaseActivity {
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
     CsDialog csDialog;

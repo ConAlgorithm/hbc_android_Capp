@@ -6,7 +6,7 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -43,7 +43,7 @@ public class HomeNetworkErrorModel extends EpoxyModelWithHolder {
 
     class NetWorkErrorHolder extends EpoxyHolder{
 
-        @Bind(R.id.home_empty_tv)
+        @BindView(R.id.home_empty_tv)
         View reload;
 
         @Override

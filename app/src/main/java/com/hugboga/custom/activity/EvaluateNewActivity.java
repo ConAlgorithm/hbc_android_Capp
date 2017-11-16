@@ -81,7 +81,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -92,62 +92,62 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
 
     private static final int SELECTIMAGE = 0;
     private static final int CAMERA = 1;
-    @Bind(R.id.evaluate_scrollview)
+    @BindView(R.id.evaluate_scrollview)
     ScrollView scrollview;
-    //@Bind(R.id.evaluate_avatar_iv)
+    //@BindView(R.id.evaluate_avatar_iv)
     //PolygonImageView avatarIV;
-    //@Bind(R.id.evaluate_name_tv)
+    //@BindView(R.id.evaluate_name_tv)
     //TextView nameTV;
-    //@Bind(R.id.evaluate_score_ratingview)
+    //@BindView(R.id.evaluate_score_ratingview)
     //SimpleRatingBar scoreRatingview;
-    //@Bind(R.id.evaluate_describe_tv)
+    //@BindView(R.id.evaluate_describe_tv)
     //TextView describeTV;
-    //@Bind(R.id.evaluate_plate_number_tv)
+    //@BindView(R.id.evaluate_plate_number_tv)
     //TextView plateNumberTV;
-    @Bind(R.id.evaluate_active_tv)
+    @BindView(R.id.evaluate_active_tv)
     TextView activeTV;
-    @Bind(R.id.evaluate_score_tv)
+    @BindView(R.id.evaluate_score_tv)
     TextView scoreTV;
-    @Bind(R.id.evaluate_ratingView)
+    @BindView(R.id.evaluate_ratingView)
     RatingView ratingview;
-    @Bind(R.id.evaluate_taggroup)
+    @BindView(R.id.evaluate_taggroup)
     EvaluateTagGroup tagGroup;
-    @Bind(R.id.evaluate_comment_et)
+    @BindView(R.id.evaluate_comment_et)
     EditText commentET;
-    //@Bind(R.id.evaluate_comment_icon_iv)
+    //@BindView(R.id.evaluate_comment_icon_iv)
     //ImageView commentIconIV;
-    //@Bind(R.id.evaluate_submit_tv)
+    //@BindView(R.id.evaluate_submit_tv)
     //TextView submitTV;
-    @Bind(R.id.evaluate_pic)
+    @BindView(R.id.evaluate_pic)
     GridView gridView;
-    @Bind(R.id.line_comment)
+    @BindView(R.id.line_comment)
     TextView lineComment;
-    //@Bind(R.id.more_btn_layout)
+    //@BindView(R.id.more_btn_layout)
     //LinearLayout moreBtn;
     //修改为右上角提交
-    //@Bind(R.id.evaluate_share_view)
+    //@BindView(R.id.evaluate_share_view)
     //EvaluateShareView shareView;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView fgLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView fgRightBtn;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView fgRightTV;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView fgTitle;
-    @Bind(R.id.id_recyclerview_horizontal)
+    @BindView(R.id.id_recyclerview_horizontal)
     RecyclerView mRecyclerView;
-    @Bind(R.id.ecyclerview_layout)
+    @BindView(R.id.ecyclerview_layout)
     RelativeLayout ecyclerviewLayout;
-    @Bind(R.id.banar_below)
+    @BindView(R.id.banar_below)
     View banarBelow;
-    @Bind(R.id.banar_top)
+    @BindView(R.id.banar_top)
     TextView banarTop;
-    @Bind(R.id.guide_reply)
+    @BindView(R.id.guide_reply)
     TextView guideReply;
-    @Bind(R.id.none)
+    @BindView(R.id.none)
     LinearLayout none;
-    @Bind(R.id.view_above_guide_reply)
+    @BindView(R.id.view_above_guide_reply)
     View view;
     private OrderBean orderBean;
     private boolean isFirstIn = true;
@@ -982,13 +982,13 @@ public class EvaluateNewActivity extends BaseActivity implements RatingView.OnLe
     }
 
     static class PicsHolder {
-        @Bind(R.id.img_pic)
+        @BindView(R.id.img_pic)
         ImageView image;
-        @Bind(R.id.add)
+        @BindView(R.id.add)
         TextView add;
-        @Bind(R.id.fail_upload)
+        @BindView(R.id.fail_upload)
         TextView failUpload;
-        @Bind(R.id.loading_layout)
+        @BindView(R.id.loading_layout)
         RelativeLayout loading;
     }
 

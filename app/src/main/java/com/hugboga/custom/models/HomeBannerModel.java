@@ -16,7 +16,7 @@ import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -35,7 +35,7 @@ public class HomeBannerModel extends EpoxyModelWithHolder {
 
     static class HomeBannarHolder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.ultra_viewpager)
+        @BindView(R.id.ultra_viewpager)
         UltraViewPager ultraViewPager;
         @Override
         protected void bindView(View itemView) {

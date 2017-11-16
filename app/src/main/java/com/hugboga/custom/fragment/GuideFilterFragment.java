@@ -24,49 +24,49 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GuideFilterFragment extends BaseFragment implements SliderView.OnValueChangedListener{
 
-    @Bind(R.id.guide_filter_genders_male_layout)
+    @BindView(R.id.guide_filter_genders_male_layout)
     LinearLayout gendersMaleLayout;
-    @Bind(R.id.guide_filter_genders_male_iv)
+    @BindView(R.id.guide_filter_genders_male_iv)
     ImageView gendersMaleIV;
-    @Bind(R.id.guide_filter_genders_male_tv)
+    @BindView(R.id.guide_filter_genders_male_tv)
     TextView gendersMaleTV;
 
-    @Bind(R.id.guide_filter_genders_female_layout)
+    @BindView(R.id.guide_filter_genders_female_layout)
     LinearLayout gendersFemaleLayout;
-    @Bind(R.id.guide_filter_genders_female_iv)
+    @BindView(R.id.guide_filter_genders_female_iv)
     ImageView gendersFemaleIV;
-    @Bind(R.id.guide_filter_genders_female_tv)
+    @BindView(R.id.guide_filter_genders_female_tv)
     TextView gendersFemaleTV;
 
-    @Bind(R.id.guide_filter_pickorsend_tv)
+    @BindView(R.id.guide_filter_pickorsend_tv)
     TextView pickorsendTV;
-    @Bind(R.id.guide_filter_single_tv)
+    @BindView(R.id.guide_filter_single_tv)
     TextView singleTV;
-    @Bind(R.id.guide_filter_daily_tv)
+    @BindView(R.id.guide_filter_daily_tv)
     TextView dailyTV;
 
-    @Bind(R.id.guide_filter_slider_layout)
+    @BindView(R.id.guide_filter_slider_layout)
     SliderLayout sliderLayout;
 
-    @Bind(R.id.guide_filter_language_foreign_layout)
+    @BindView(R.id.guide_filter_language_foreign_layout)
     LinearLayout foreignLanguageLayout;
-    @Bind(R.id.guide_filter_language_foreign_taggroup)
+    @BindView(R.id.guide_filter_language_foreign_taggroup)
     FilterTagGroupBase foreignLanguageTagGroup;
 
-    @Bind(R.id.guide_filter_language_local_layout)
+    @BindView(R.id.guide_filter_language_local_layout)
     LinearLayout localLanguageLayout;
-    @Bind(R.id.guide_filter_language_local_taggroup)
+    @BindView(R.id.guide_filter_language_local_taggroup)
     FilterTagGroupBase localLanguageTagGroup;
 
-    @Bind(R.id.guide_filter_skill_layout)
+    @BindView(R.id.guide_filter_skill_layout)
     LinearLayout skillLayout;
-    @Bind(R.id.guide_filter_skill_taggroup)
+    @BindView(R.id.guide_filter_skill_taggroup)
     GuideSkillFilterTagGroup skillLanguageTagGroup;
 
     private GuideFilterBean guideFilterBean;
@@ -103,7 +103,6 @@ public class GuideFilterFragment extends BaseFragment implements SliderView.OnVa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @OnClick({R.id.guide_filter_genders_male_layout, R.id.guide_filter_genders_female_layout})

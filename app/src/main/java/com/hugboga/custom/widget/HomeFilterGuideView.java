@@ -25,7 +25,7 @@ import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -35,9 +35,9 @@ import butterknife.ButterKnife;
 public class HomeFilterGuideView extends LinearLayout implements HttpRequestListener {
     Activity activity;
     List<FilterGuideBean> guideBeanList;
-    @Bind(R.id.filter_guide_more)
+    @BindView(R.id.filter_guide_more)
     TextView moreTV;
-    @Bind(R.id.filter_guide_recyclerview)
+    @BindView(R.id.filter_guide_recyclerview)
     RecyclerView recyclerView;
     HomeFilterGuideAdapter homeFilterGuideAdapter;
     public int displayImgWidth, displayImgHeight;

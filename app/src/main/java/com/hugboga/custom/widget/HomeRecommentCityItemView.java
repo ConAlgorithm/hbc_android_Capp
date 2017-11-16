@@ -40,7 +40,7 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -49,27 +49,27 @@ import butterknife.ButterKnife;
 
 public class HomeRecommentCityItemView extends LinearLayout implements HbcViewBehavior,HttpRequestListener{
     String cityNameString;
-    @Bind(R.id.pager_img)
+    @BindView(R.id.pager_img)
     ImageView imageView;
-    @Bind(R.id.des1)
+    @BindView(R.id.des1)
     TextView des1;
-    @Bind(R.id.cityName)
+    @BindView(R.id.cityName)
     TextView cityName;
-    @Bind(R.id.guidesNum)
+    @BindView(R.id.guidesNum)
     TextView guidesNum;
-    @Bind(R.id.des2)
+    @BindView(R.id.des2)
     TextView des2;
-    //@Bind(R.id.tiyan)
+    //@BindView(R.id.tiyan)
     TextView tiyan;
-    @Bind(R.id.perPrice)
+    @BindView(R.id.perPrice)
     TextView perPrice;
-    @Bind(R.id.avr)
+    @BindView(R.id.avr)
     PolygonImageView polygonImageView;
-    @Bind(R.id.content_layout)
+    @BindView(R.id.content_layout)
     LinearLayout contentLayout;
-    @Bind(R.id.save_guild_layout)
+    @BindView(R.id.save_guild_layout)
     LinearLayout save_guild_layout;
-    @Bind(R.id.save_line)
+    @BindView(R.id.save_line)
     ImageView saveLine;
     Context mContext;
     public HomeRecommentCityItemView(Context context, AttributeSet attrs) {

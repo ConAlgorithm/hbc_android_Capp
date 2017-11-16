@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -40,13 +40,13 @@ import butterknife.OnClick;
 
 public class FgDestination extends FgBaseTravel implements HttpRequestListener,DataVisibleLister {
 
-    @Bind(R.id.vp_view)
+    @BindView(R.id.vp_view)
     ViewPager mViewPager;
-    @Bind(R.id.tabs)
+    @BindView(R.id.tabs)
     XTabLayout mTabLayout;
-    @Bind(R.id.search)
+    @BindView(R.id.search)
     RelativeLayout search;
-    @Bind(R.id.city_list_empty_layout)
+    @BindView(R.id.city_list_empty_layout)
     LinearLayout emptyLayout;
     //ArrayList<DesPager> pagerList =  new ArrayList<DesPager>();
     //ArrayList<String> titleTextList = new ArrayList<>();

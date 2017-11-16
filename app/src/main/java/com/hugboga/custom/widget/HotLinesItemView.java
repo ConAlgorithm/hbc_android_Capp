@@ -36,30 +36,30 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HotLinesItemView extends LinearLayout implements HbcViewBehavior,HttpRequestListener{
 
-    @Bind(R.id.home_hot_search_city_img)
+    @BindView(R.id.home_hot_search_city_img)
     ImageView imageView;
-    @Bind(R.id.home_hot_search_city_fillter_view)
+    @BindView(R.id.home_hot_search_city_fillter_view)
     View filterView;
-    @Bind(R.id.home_hot_search_city_bottom_text)
+    @BindView(R.id.home_hot_search_city_bottom_text)
     TextView guideCountView;
-    @Bind(R.id.home_hot_search_city_title)
+    @BindView(R.id.home_hot_search_city_title)
     TextView bottomTitle;
-    @Bind(R.id.home_hot_search_city_item_custom_count)
+    @BindView(R.id.home_hot_search_city_item_custom_count)
     TextView customCount;
-    @Bind(R.id.home_hot_search_city_item_per_price)
+    @BindView(R.id.home_hot_search_city_item_per_price)
     TextView perPrice;
-    @Bind(R.id.home_hot_search_city_item_bottom_layout)
+    @BindView(R.id.home_hot_search_city_item_bottom_layout)
     RelativeLayout bottomLayout;
-    @Bind(R.id.home_hot_search_city_layout)
+    @BindView(R.id.home_hot_search_city_layout)
     LinearLayout containerView;
-    @Bind(R.id.save_guild_layout)
+    @BindView(R.id.save_guild_layout)
     LinearLayout save_guild_layout;
-    @Bind(R.id.save_line)
+    @BindView(R.id.save_line)
     ImageView saveLine;
     Context context;
     public HotLinesItemView(Context context) {

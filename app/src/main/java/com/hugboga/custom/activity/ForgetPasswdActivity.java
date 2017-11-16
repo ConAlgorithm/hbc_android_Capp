@@ -33,7 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -41,23 +41,23 @@ import butterknife.OnClick;
  */
 public class ForgetPasswdActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.forget_passwd_areacode)
+    @BindView(R.id.forget_passwd_areacode)
     TextView areaCodeTextView;
-    @Bind(R.id.forget_passwd_phone)
+    @BindView(R.id.forget_passwd_phone)
     EditText phoneEditText;
-    @Bind(R.id.forget_passwd_verity)
+    @BindView(R.id.forget_passwd_verity)
     EditText verityEditText;
-    @Bind(R.id.forget_passwd_newpass_layout)
+    @BindView(R.id.forget_passwd_newpass_layout)
     EditText passwordEditText;
-    @Bind(R.id.forget_passwd_getcode)
+    @BindView(R.id.forget_passwd_getcode)
     TextView getCodeBtn; //发送验证码按钮
-    @Bind(R.id.forget_passwd_time)
+    @BindView(R.id.forget_passwd_time)
     TextView timeTextView; //验证码倒计时
-    @Bind(R.id.forget_passwd_submit)
+    @BindView(R.id.forget_passwd_submit)
     Button forget_passwd_submit; //验证码倒计时
-    @Bind(R.id.iv_pwd_visible)
+    @BindView(R.id.iv_pwd_visible)
     ImageView passwordVisible;
-    @Bind(R.id.delete)
+    @BindView(R.id.delete)
             ImageView delete;
     boolean isPwdVisibility = false;
     @Override

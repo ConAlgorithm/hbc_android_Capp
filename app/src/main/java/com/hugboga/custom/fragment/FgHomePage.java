@@ -57,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -80,15 +80,15 @@ public class FgHomePage extends BaseFragment implements HomeSearchTabView.HomeTa
      */
     public final static int TAB_GUIDE = 0b10;
 
-    @Bind(R.id.home_list_view)
+    @BindView(R.id.home_list_view)
     RecyclerView homeListView;
-    @Bind(R.id.home_tab_view)
+    @BindView(R.id.home_tab_view)
     FrameLayout tabParentContainer;
-    @Bind(R.id.home_title_layout)
+    @BindView(R.id.home_title_layout)
     View homeTitleLayout;
-    @Bind(R.id.home_logo_icon)
+    @BindView(R.id.home_logo_icon)
     View homeBindIcon;
-    @Bind(R.id.search_icon_layout)
+    @BindView(R.id.search_icon_layout)
     RelativeLayout searchTitle;
     HomePageAdapter homePageAdapter;
     HomeBeanV2 homeBean;

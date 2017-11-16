@@ -18,7 +18,7 @@ import com.hugboga.custom.data.bean.RecommendedGoodsBean;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -26,17 +26,17 @@ import butterknife.ButterKnife;
  */
 public class PayResultRecommendItemView extends RelativeLayout implements HbcViewBehavior{
 
-    @Bind(R.id.recommend_item_parent_layout)
+    @BindView(R.id.recommend_item_parent_layout)
     RelativeLayout parentLayout;
-    @Bind(R.id.recommend_item_bg_iv)
+    @BindView(R.id.recommend_item_bg_iv)
     ImageView bgIV;
-    @Bind(R.id.recommend_item_fillter_view)
+    @BindView(R.id.recommend_item_fillter_view)
     View fillterView;
-    @Bind(R.id.recommend_item_city_tv)
+    @BindView(R.id.recommend_item_city_tv)
     TextView cityTV;
-    @Bind(R.id.recommend_item_desc_tv)
+    @BindView(R.id.recommend_item_desc_tv)
     TextView descTV;
-    @Bind(R.id.recommend_item_price_tv)
+    @BindView(R.id.recommend_item_price_tv)
     TextView priceTV;
 
     public PayResultRecommendItemView(Context context) {

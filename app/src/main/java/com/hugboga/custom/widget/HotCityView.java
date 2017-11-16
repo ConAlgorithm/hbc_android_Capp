@@ -20,7 +20,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -29,9 +29,9 @@ import butterknife.OnClick;
  */
 public class HotCityView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.home_hotcity_viewpager)
+    @BindView(R.id.home_hotcity_viewpager)
     ViewPager mViewPager;
-    @Bind(R.id.home_hotcity_indicator)
+    @BindView(R.id.home_hotcity_indicator)
     CirclePageIndicator mIndicator;
 
     public HotCityView(Context context) {

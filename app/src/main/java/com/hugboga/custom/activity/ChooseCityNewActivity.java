@@ -46,7 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static android.view.View.GONE;
@@ -54,29 +54,29 @@ import static android.view.View.VISIBLE;
 
 public class ChooseCityNewActivity extends BaseActivity {
 
-    @Bind(R.id.head_search)
+    @BindView(R.id.head_search)
     EditText headSearch;
-    @Bind(R.id.head_search_clean)
+    @BindView(R.id.head_search_clean)
     ImageView headSearchClean;
-    @Bind(R.id.history_city_layout)
+    @BindView(R.id.history_city_layout)
     FlowLayout historyCityLayout;
-    @Bind(R.id.history_layout)
+    @BindView(R.id.history_layout)
     LinearLayout historyLayout;
-    @Bind(R.id.left_list)
+    @BindView(R.id.left_list)
     ListView leftList;
-    @Bind(R.id.middle_list)
+    @BindView(R.id.middle_list)
     ListView middleList;
-    @Bind(R.id.middle_layout)
+    @BindView(R.id.middle_layout)
     RelativeLayout middleLayout;
-    @Bind(R.id.search_hot)
+    @BindView(R.id.search_hot)
     SearchHotCity searchHotCity;
-    @Bind(R.id.right_list)
+    @BindView(R.id.right_list)
     ListView rightList;
-    @Bind(R.id.search_list)
+    @BindView(R.id.search_list)
     ExpandableListView expandableListView;
-    @Bind(R.id.empty_layout_text)
+    @BindView(R.id.empty_layout_text)
     TextView emptyLayoutText;
-    @Bind(R.id.empty_layout)
+    @BindView(R.id.empty_layout)
     LinearLayout emptyLayout;
 
     //boolean isHomeIn = false;

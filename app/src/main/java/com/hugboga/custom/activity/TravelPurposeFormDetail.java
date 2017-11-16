@@ -11,7 +11,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.TravelPurposeFormBean;
 import com.hugboga.custom.data.request.RequestTravelPurposeFormDetail;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -20,20 +20,20 @@ import butterknife.OnClick;
 
 public class TravelPurposeFormDetail extends BaseActivity {
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeft;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView title;
 
-    @Bind(R.id.city_name)
+    @BindView(R.id.city_name)
     TextView cityName;
-    @Bind(R.id.start_date)
+    @BindView(R.id.start_date)
     TextView startDate;
-    @Bind(R.id.remark)
+    @BindView(R.id.remark)
     TextView remark;
-    @Bind(R.id.user_name)
+    @BindView(R.id.user_name)
     TextView userName;
-    @Bind(R.id.mobile_phone)
+    @BindView(R.id.mobile_phone)
     TextView mobliePhone;
 
     public TravelPurposeFormBean.ListData listData;

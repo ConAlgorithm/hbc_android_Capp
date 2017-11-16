@@ -27,21 +27,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class CityFilterFragment extends BaseFragment {
 
-    @Bind(R.id.filter_left_list)
+    @BindView(R.id.filter_left_list)
     ListView leftList;
-    @Bind(R.id.filter_middle_list)
+    @BindView(R.id.filter_middle_list)
     ListView middleList;
-    @Bind(R.id.filter_right_list)
+    @BindView(R.id.filter_right_list)
     ListView rightList;
 
-    @Bind(R.id.filter_left_layout)
+    @BindView(R.id.filter_left_layout)
     RelativeLayout leftLayout;
 
     LevelCityAdapter levelCityAdapterLeft, levelCityAdapterMiddle, levelCityAdapterRight;

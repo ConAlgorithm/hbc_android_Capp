@@ -55,7 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class  FgTravel extends BaseFragment implements OnItemClickListener {
@@ -71,52 +71,52 @@ public class  FgTravel extends BaseFragment implements OnItemClickListener {
     public static final int TYPE_ORDER_CANCEL = 2;
     public static final int TYPE_ORDER_EVALUATE = 3;
 
-    @Bind(R.id.travel_logout_layout)
+    @BindView(R.id.travel_logout_layout)
     View logoutLayout;
-    @Bind(R.id.travel_login_hint_tv)
+    @BindView(R.id.travel_login_hint_tv)
     TextView loginHintTV;
 
-    @Bind(R.id.travel_content)
+    @BindView(R.id.travel_content)
     LinearLayout contentLayout; //主题部分
     //Tab1
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView leftBtn;
     //Tab1
-    @Bind(R.id.travel_tab1_layout)
+    @BindView(R.id.travel_tab1_layout)
     RelativeLayout tab1Layout;
-    @Bind(R.id.travel_tab1_title)
+    @BindView(R.id.travel_tab1_title)
     TextView tab1TextView;
-    @Bind(R.id.travel_tab1_line)
+    @BindView(R.id.travel_tab1_line)
     View tab1LineView;
     //Tab2
-    @Bind(R.id.travel_tab2_layout)
+    @BindView(R.id.travel_tab2_layout)
     RelativeLayout tab2Layout;
-    @Bind(R.id.travel_tab2_title)
+    @BindView(R.id.travel_tab2_title)
     TextView tab2TextView;
-    @Bind(R.id.travel_tab2_number)
+    @BindView(R.id.travel_tab2_number)
     TextView tab2NumberTextView;
-    @Bind(R.id.travel_tab2_line)
+    @BindView(R.id.travel_tab2_line)
     View tab2LineView;
     //Tab3
-    @Bind(R.id.travel_tab3_layout)
+    @BindView(R.id.travel_tab3_layout)
     RelativeLayout tab3Layout;
-    @Bind(R.id.travel_tab3_title)
+    @BindView(R.id.travel_tab3_title)
     TextView tab3TextView;
-    @Bind(R.id.travel_tab3_number)
+    @BindView(R.id.travel_tab3_number)
     TextView tab3NumberTextView;
-    @Bind(R.id.travel_tab3_line)
+    @BindView(R.id.travel_tab3_line)
     View tab3LineView;
     //Tab4
-    @Bind(R.id.travel_tab4_layout)
+    @BindView(R.id.travel_tab4_layout)
     RelativeLayout tab4Layout;
-    @Bind(R.id.travel_tab4_title)
+    @BindView(R.id.travel_tab4_title)
     TextView tab4TextView;
-    @Bind(R.id.travel_tab4_number)
+    @BindView(R.id.travel_tab4_number)
     TextView tab4NumberTextView;
-    @Bind(R.id.travel_tab4_line)
+    @BindView(R.id.travel_tab4_line)
     View tab4LineView;
 
-    @Bind(R.id.travel_viewpager)
+    @BindView(R.id.travel_viewpager)
     ViewPager viewPager; //滑动页面
 
     TravelListAll travelListAll;

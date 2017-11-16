@@ -20,7 +20,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,28 +32,28 @@ import butterknife.OnClick;
 
 public class VoiceCaptchaInputView extends LinearLayout {
 
-    @Bind(R.id.vvc_input_phone_tv)
+    @BindView(R.id.vvc_input_phone_tv)
     TextView phoneTV;
-    @Bind(R.id.vvc_input_code_et)
+    @BindView(R.id.vvc_input_code_et)
     EditText codeET;
-    @Bind(R.id.vvc_input_countdown_tv)
+    @BindView(R.id.vvc_input_countdown_tv)
     TextView countdownTV;
 
-    @Bind(R.id.vvc_input_code_tv1)
+    @BindView(R.id.vvc_input_code_tv1)
     TextView codeTV1;
-    @Bind(R.id.vvc_input_code_stroke1)
+    @BindView(R.id.vvc_input_code_stroke1)
     View strokeView1;
-    @Bind(R.id.vvc_input_code_tv2)
+    @BindView(R.id.vvc_input_code_tv2)
     TextView codeTV2;
-    @Bind(R.id.vvc_input_code_stroke2)
+    @BindView(R.id.vvc_input_code_stroke2)
     View strokeView2;
-    @Bind(R.id.vvc_input_code_tv3)
+    @BindView(R.id.vvc_input_code_tv3)
     TextView codeTV3;
-    @Bind(R.id.vvc_input_code_stroke3)
+    @BindView(R.id.vvc_input_code_stroke3)
     View strokeView3;
-    @Bind(R.id.vvc_input_code_tv4)
+    @BindView(R.id.vvc_input_code_tv4)
     TextView codeTV4;
-    @Bind(R.id.vvc_input_code_stroke4)
+    @BindView(R.id.vvc_input_code_stroke4)
     View strokeView4;
 
     private TextView[] codeTestViews;

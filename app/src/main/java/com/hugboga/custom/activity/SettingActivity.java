@@ -30,7 +30,7 @@ import com.qiyukf.unicorn.api.Unicorn;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -38,41 +38,41 @@ import butterknife.OnClick;
  */
 
 public class SettingActivity extends BaseActivity {
-    @Bind(R.id.setting_menu_clear_cache_flag)
+    @BindView(R.id.setting_menu_clear_cache_flag)
     TextView cacheSizeTextView;
-    @Bind(R.id.setting_menu_version_content_flag)
+    @BindView(R.id.setting_menu_version_content_flag)
     TextView newVersionTextView;
     SharedPre sharedPre;
     Long cacheSize;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.setting_menu_layout2)
+    @BindView(R.id.setting_menu_layout2)
     RelativeLayout settingMenuLayout2;
-    @Bind(R.id.setting_clear_cache_arrow)
+    @BindView(R.id.setting_clear_cache_arrow)
     ImageView settingClearCacheArrow;
-    @Bind(R.id.setting_menu_layout7)
+    @BindView(R.id.setting_menu_layout7)
     RelativeLayout settingMenuLayout7;
-    @Bind(R.id.setting_menu_layout3)
+    @BindView(R.id.setting_menu_layout3)
     RelativeLayout settingMenuLayout3;
-    @Bind(R.id.setting_about_arrow)
+    @BindView(R.id.setting_about_arrow)
     ImageView settingAboutArrow;
-    @Bind(R.id.setting_menu_layout5)
+    @BindView(R.id.setting_menu_layout5)
     RelativeLayout settingMenuLayout5;
-    @Bind(R.id.setting_exit)
+    @BindView(R.id.setting_exit)
     RelativeLayout settingExit;
 
-    @Bind(R.id.setting_menu_developer_layout)
+    @BindView(R.id.setting_menu_developer_layout)
     RelativeLayout developerLayout;
 
-    @Bind(R.id.red_point1)
+    @BindView(R.id.red_point1)
     ImageView redPoint;
-    @Bind(R.id.setOrChangPwd)
+    @BindView(R.id.setOrChangPwd)
     TextView setOrChangPwd;
 
     boolean needInitPwd;

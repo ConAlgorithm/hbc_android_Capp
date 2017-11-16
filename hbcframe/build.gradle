@@ -1,8 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
 
     lintOptions {
         abortOnError false
@@ -33,12 +34,13 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:+'
-    compile 'org.xutils:xutils:3.3.36'
+    compile 'org.xutils:xutils:3.5.0'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'jp.wasabeef:recyclerview-animators:1.2.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.sensorsdata.analytics.android:SensorsAnalyticsSDK:1.8.8'
 }

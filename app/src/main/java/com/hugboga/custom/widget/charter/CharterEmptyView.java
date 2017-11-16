@@ -16,7 +16,7 @@ import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 import com.hugboga.custom.widget.CsDialog;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,11 +28,11 @@ public class CharterEmptyView extends LinearLayout {
     public static final int EMPTY_TYPE = 1;
     public static final int ERROR_TYPE = 2;
 
-    @Bind(R.id.charter_list_empty_iv)
+    @BindView(R.id.charter_list_empty_iv)
     ImageView emptyIV;
-    @Bind(R.id.charter_list_empty_hint_tv)
+    @BindView(R.id.charter_list_empty_hint_tv)
     TextView hintTV;
-    @Bind(R.id.charter_list_empty_refresh_tv)
+    @BindView(R.id.charter_list_empty_refresh_tv)
     TextView refreshTV;
 
     private CharterEmptyView.OnRefreshDataListener listener;

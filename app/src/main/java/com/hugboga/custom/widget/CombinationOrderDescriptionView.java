@@ -15,7 +15,7 @@ import com.hugboga.custom.utils.DateUtils;
 
 import java.text.ParseException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,13 +23,13 @@ import butterknife.ButterKnife;
  */
 public class CombinationOrderDescriptionView extends LinearLayout{
 
-    @Bind(R.id.combination_order_des_date_tv)
+    @BindView(R.id.combination_order_des_date_tv)
     TextView dateTV;
-    @Bind(R.id.combination_order_des_people_tv)
+    @BindView(R.id.combination_order_des_people_tv)
     TextView peopleTV;
-    @Bind(R.id.combination_order_des_address_tv)
+    @BindView(R.id.combination_order_des_address_tv)
     TextView addressTV;
-    @Bind(R.id.combination_order_travel_view)
+    @BindView(R.id.combination_order_travel_view)
     OrderTravelView travelView;
 
     public CombinationOrderDescriptionView(Context context) {

@@ -22,7 +22,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,27 +32,27 @@ import butterknife.OnClick;
  */
 public class OrderDetailTravelView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.order_detail_travel_more_tv)
+    @BindView(R.id.order_detail_travel_more_tv)
     TextView moreTV;
-    @Bind(R.id.order_detail_travel_more_iv)
+    @BindView(R.id.order_detail_travel_more_iv)
     ImageView moreIV;
 
-    @Bind(R.id.order_detail_travel_first_date_tv)
+    @BindView(R.id.order_detail_travel_first_date_tv)
     TextView firstDateTV;
-    @Bind(R.id.order_detail_travel_first_title_tv)
+    @BindView(R.id.order_detail_travel_first_title_tv)
     TextView firstTitleTV;
 
-    @Bind(R.id.order_detail_travel_second_layout)
+    @BindView(R.id.order_detail_travel_second_layout)
     RelativeLayout secondLayout;
-    @Bind(R.id.order_detail_travel_second_date_tv)
+    @BindView(R.id.order_detail_travel_second_date_tv)
     TextView secondDateTV;
-    @Bind(R.id.order_detail_travel_second_title_tv)
+    @BindView(R.id.order_detail_travel_second_title_tv)
     TextView secondTitleTV;
 
-    @Bind(R.id.order_detail_travel_no_view)
+    @BindView(R.id.order_detail_travel_no_view)
     OrderDetailNoView orderNoView;
 
-    @Bind(R.id.order_detail_travel_parrent_layout)
+    @BindView(R.id.order_detail_travel_parrent_layout)
     LinearLayout parrentLayout;
 
     private OrderBean orderBean;

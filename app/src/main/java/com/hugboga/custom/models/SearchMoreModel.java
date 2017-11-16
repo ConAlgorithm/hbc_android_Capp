@@ -15,7 +15,7 @@ import com.hugboga.custom.utils.SearchUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
@@ -60,9 +60,9 @@ public class SearchMoreModel extends EpoxyModelWithHolder<SearchMoreModel.Search
 
     static class SearchMoreHolder extends EpoxyHolder {
         View itemView;
-        @Bind(R.id.text)
+        @BindView(R.id.text)
         TextView textView;
-        @Bind(R.id.img)
+        @BindView(R.id.img)
         ImageView imageView;
         @Override
         protected void bindView(View itemView) {
