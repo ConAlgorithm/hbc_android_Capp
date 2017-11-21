@@ -14,7 +14,7 @@ import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.net.UrlLibs;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,9 +24,9 @@ import butterknife.OnClick;
 
 public class OrderInsuranceView extends LinearLayout {
 
-    @Bind(R.id.order_discount_insurance_choose_iv)
+    @BindView(R.id.order_discount_insurance_choose_iv)
     ImageView insuranceChooseIV;
-    @Bind(R.id.order_discount_insurance_count_tv)
+    @BindView(R.id.order_discount_insurance_count_tv)
     TextView insuranceCountTV;
 
     public OrderInsuranceView(Context context) {

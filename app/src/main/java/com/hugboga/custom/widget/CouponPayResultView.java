@@ -15,7 +15,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.CouponActivity;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.utils.UIUtils;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,15 +24,15 @@ import butterknife.OnClick;
  */
 public class CouponPayResultView extends LinearLayout {
 
-    @Bind(R.id.coupon_pay_result_successed_iv)
+    @BindView(R.id.coupon_pay_result_successed_iv)
     ImageView successedIV;
-    @Bind(R.id.coupon_pay_result_successed_tv)
+    @BindView(R.id.coupon_pay_result_successed_tv)
     TextView successedTV;
-    @Bind(R.id.coupon_pay_result_desc_tv)
+    @BindView(R.id.coupon_pay_result_desc_tv)
     TextView descTV;
-    @Bind(R.id.coupon_pay_result_top_layout)
+    @BindView(R.id.coupon_pay_result_top_layout)
     LinearLayout topLayout;
-    @Bind(R.id.coupon_pay_result_bottom_tv)
+    @BindView(R.id.coupon_pay_result_bottom_tv)
     TextView bottomTV;
 
     private boolean isPaySucceed; //支付结果

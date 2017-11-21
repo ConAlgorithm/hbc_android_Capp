@@ -31,7 +31,7 @@ import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
 
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
@@ -53,51 +53,51 @@ public class DomesticCreditCAddActivity extends BaseActivity {
     public static final String KEY_VALIDE_CARDNUM = "key_valide_cardnum"; //加验卡号
     public static final String KEY_VALIDE_PAYNUM = "key_valide_paynum"; //加验单号
 
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView toolbarTitle;
-    @Bind(R.id.domestic_pay_dialog)
+    @BindView(R.id.domestic_pay_dialog)
     DomesticOldPayView domesticOldPayView; //支付弹框
 
-    @Bind(R.id.domesticCaddCheck)
+    @BindView(R.id.domesticCaddCheck)
     CheckBox domesticCaddCheck; //是否同意协议
-    @Bind(R.id.domestic_add_number)
+    @BindView(R.id.domestic_add_number)
     EditText domestic_add_number; //银行卡号
-    @Bind(R.id.domestic_add_date)
+    @BindView(R.id.domestic_add_date)
     TextView domestic_add_date; //有效期
-    @Bind(R.id.domestic_add_number3)
+    @BindView(R.id.domestic_add_number3)
     EditText domestic_add_number3; //安全码
-    @Bind(R.id.domestic_add_phone)
+    @BindView(R.id.domestic_add_phone)
     EditText domestic_add_phone; //办卡时预留的手机号
-    @Bind(R.id.domestic_credit_add_next)
+    @BindView(R.id.domestic_credit_add_next)
     Button submitBtn; //下一步按钮
-    @Bind(R.id.domesticProtocol)
+    @BindView(R.id.domesticProtocol)
     TextView domesticProtocol; //协议
 
-    @Bind(R.id.domestic_layout1)
+    @BindView(R.id.domestic_layout1)
     ConstraintLayout domestic_layout1; //卡号部分
-    @Bind(R.id.domestic_add_line1)
+    @BindView(R.id.domestic_add_line1)
     ImageView domestic_add_line1; //卡号部分分割线
-    @Bind(R.id.domestic_layout2)
+    @BindView(R.id.domestic_layout2)
     ConstraintLayout domestic_layout2; //有效期部分
-    @Bind(R.id.domestic_add_line2)
+    @BindView(R.id.domestic_add_line2)
     ImageView domestic_add_line2; //有效期部分分割线
-    @Bind(R.id.domestic_layout3)
+    @BindView(R.id.domestic_layout3)
     ConstraintLayout domestic_layout3; //安全码部分
-    @Bind(R.id.domestic_add_line3)
+    @BindView(R.id.domestic_add_line3)
     ImageView domestic_add_line3; //安全码分割线
-    @Bind(R.id.domestic_layout6)
+    @BindView(R.id.domestic_layout6)
     ConstraintLayout domestic_layout6; //手机号部分
-    @Bind(R.id.domestic_add_line6)
+    @BindView(R.id.domestic_add_line6)
     ImageView domestic_add_line6; //手机号部分分割线
 
     //==============加验元素============
-    @Bind(R.id.domestic_valide_info)
+    @BindView(R.id.domestic_valide_info)
     ConstraintLayout valideLayout;
-    @Bind(R.id.domestic_valide_img)
+    @BindView(R.id.domestic_valide_img)
     ImageView domestic_valide_img; //加验卡图标
-    @Bind(R.id.domestic_valide_name)
+    @BindView(R.id.domestic_valide_name)
     TextView domestic_valide_name; //加验卡银行名称
-    @Bind(R.id.domestic_valide_no)
+    @BindView(R.id.domestic_valide_no)
     TextView domestic_valide_no; //加验卡号
 
     private int selectYear;

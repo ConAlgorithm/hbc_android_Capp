@@ -21,7 +21,7 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -123,17 +123,17 @@ public class TravelStoryModel extends EpoxyModelWithHolder{
     static class StoryHolder extends EpoxyHolder {
         View itemView;
 
-        @Bind(R.id.story_guide_avtar)
+        @BindView(R.id.story_guide_avtar)
         ImageView storyGuideAvtar;
-        @Bind(R.id.story_guide_name)
+        @BindView(R.id.story_guide_name)
         TextView storyGuideName;
-        @Bind(R.id.story_guide_city)
+        @BindView(R.id.story_guide_city)
         TextView storyGuideCity;
-        @Bind(R.id.story_icon)
+        @BindView(R.id.story_icon)
         ImageView storyIcon;
-        @Bind(R.id.story_image)
+        @BindView(R.id.story_image)
         ImageView storyImage;
-        @Bind(R.id.story_desc)
+        @BindView(R.id.story_desc)
         TextView storyDesc;
 
         @Override

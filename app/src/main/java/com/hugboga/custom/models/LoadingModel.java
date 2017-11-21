@@ -7,7 +7,7 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -41,7 +41,7 @@ public class LoadingModel extends EpoxyModelWithHolder<LoadingModel.LoadingHolde
 
     static class LoadingHolder extends EpoxyHolder {
         View itemView;
-        @Bind(R.id.loading_text)
+        @BindView(R.id.loading_text)
         TextView loading_text;
         @Override
         protected void bindView(View itemView) {

@@ -75,7 +75,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 16/12/16.
@@ -89,27 +89,27 @@ public class SkuOrderActivity extends BaseActivity implements SkuOrderCarTypeVie
 
     public static final String SERVER_TIME = "09:00";
 
-    @Bind(R.id.sku_order_scrollview)
+    @BindView(R.id.sku_order_scrollview)
     ScrollView scrollView;
-    @Bind(R.id.sku_order_description_view)
+    @BindView(R.id.sku_order_description_view)
     SkuOrderDescriptionView descriptionView;
-    @Bind(R.id.sku_order_car_type_view)
+    @BindView(R.id.sku_order_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.sku_order_count_view)
+    @BindView(R.id.sku_order_count_view)
     SkuOrderCountView countView;
-    @Bind(R.id.sku_order_traveler_info_view)
+    @BindView(R.id.sku_order_traveler_info_view)
     SkuOrderTravelerInfoView travelerInfoView;
-    @Bind(R.id.sku_order_discount_view)
+    @BindView(R.id.sku_order_discount_view)
     SkuOrderDiscountView discountView;
-    @Bind(R.id.sku_order_insurance_view)
+    @BindView(R.id.sku_order_insurance_view)
     OrderInsuranceView insuranceView;
-    @Bind(R.id.sku_order_bottom_view)
+    @BindView(R.id.sku_order_bottom_view)
     SkuOrderBottomView bottomView;
-    @Bind(R.id.sku_order_explain_view)
+    @BindView(R.id.sku_order_explain_view)
     OrderExplainView explainView;
-    @Bind(R.id.sku_order_empty_layout)
+    @BindView(R.id.sku_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
-    @Bind(R.id.sku_order_progress_view)
+    @BindView(R.id.sku_order_progress_view)
     CircularProgress progressView;
 
     private CsDialog csDialog;

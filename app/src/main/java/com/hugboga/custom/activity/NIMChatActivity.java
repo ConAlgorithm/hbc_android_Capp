@@ -63,7 +63,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 import static android.view.View.GONE;
 
@@ -94,20 +94,20 @@ public class NIMChatActivity extends BaseActivity implements MessageFragment.OnF
 
 
 
-    @Bind(R.id.imchat_viewpage_layout)
+    @BindView(R.id.imchat_viewpage_layout)
     RelativeLayout viewPageLayout;
-    @Bind(R.id.imchat_viewpage)
+    @BindView(R.id.imchat_viewpage)
     ViewPager viewPage; //订单展示
-    @Bind(R.id.imchat_point_layout)
+    @BindView(R.id.imchat_point_layout)
     LinearLayout pointLayout; //小点容器
 
-    @Bind(R.id.im_emptyview)
+    @BindView(R.id.im_emptyview)
     TextView emptyView; //小点容器
 
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView header_right_btn;
 
-    @Bind(R.id.imchat_local_time_view)
+    @BindView(R.id.imchat_local_time_view)
     CountryLocalTimeView localTimeView;
 
     private String userId; //用户ID

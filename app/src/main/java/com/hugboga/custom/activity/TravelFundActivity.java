@@ -36,7 +36,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -44,19 +44,19 @@ import butterknife.OnClick;
  */
 public class TravelFundActivity extends BaseActivity {
 
-    @Bind(R.id.travel_fund_residue_price_tv)
+    @BindView(R.id.travel_fund_residue_price_tv)
     TextView residuePriceTV;
-    @Bind(R.id.travel_fund_validity_tv)
+    @BindView(R.id.travel_fund_validity_tv)
     TextView validityTV;
-    @Bind(R.id.travel_fund_coupon_price_tv)
+    @BindView(R.id.travel_fund_coupon_price_tv)
     TextView couponPriceTV;
-    @Bind(R.id.travel_fund_description_tv)
+    @BindView(R.id.travel_fund_description_tv)
     TextView descriptionTV;
 
-    @Bind(R.id.tracel_fund_header)
+    @BindView(R.id.tracel_fund_header)
     RelativeLayout titlerBar;
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
 
     private String invitationCode;

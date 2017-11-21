@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'newlens'
 apply plugin: 'channel'
+apply plugin: 'com.jakewharton.butterknife'
 
 Properties getProperties() {
     Properties properties = new Properties()
@@ -242,13 +243,14 @@ dependencies {
     annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
     compile 'com.zhy:mpermission-api:1.0.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.mani:ThinDownloadManager:1.2.4'
     compile 'com.anupcowkur:reservoir:2.1'
     compile 'com.github.mrengineer13:snackbar:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.tencent.bugly:crashreport:2.3.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile project(':viewpagerindicator')
     compile project(path: ':datepicker')
     compile 'org.greenrobot:eventbus:3.0.0'

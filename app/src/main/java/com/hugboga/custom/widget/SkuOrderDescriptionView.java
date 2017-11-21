@@ -14,7 +14,7 @@ import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 import com.hugboga.custom.utils.Tools;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -22,16 +22,16 @@ import butterknife.ButterKnife;
  */
 public class SkuOrderDescriptionView extends LinearLayout{
 
-    @Bind(R.id.sku_order_itinerary_iv)
+    @BindView(R.id.sku_order_itinerary_iv)
     ImageView itineraryIV;
-    @Bind(R.id.sku_order_itinerary_title_tv)
+    @BindView(R.id.sku_order_itinerary_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.sku_order_itinerary_start_date_tv)
+    @BindView(R.id.sku_order_itinerary_start_date_tv)
     TextView startDateTV;
-    @Bind(R.id.sku_order_itinerary_end_date_tv)
+    @BindView(R.id.sku_order_itinerary_end_date_tv)
     TextView endDateTV;
-    @Bind(R.id.sku_order_itinerary_guide_name_tv)
+    @BindView(R.id.sku_order_itinerary_guide_name_tv)
     TextView guideNameTV;
 
     public SkuOrderDescriptionView(Context context) {

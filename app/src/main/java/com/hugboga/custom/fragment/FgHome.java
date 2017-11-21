@@ -41,7 +41,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -52,11 +52,11 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
 
     private static final int CHOICENESS_GUIDES_COUNT = 40;
     HomeAdapter homeAdapter;
-    @Bind(R.id.home_list_view)
+    @BindView(R.id.home_list_view)
     RecyclerView homeListView;
-    @Bind(R.id.app_icon)
+    @BindView(R.id.app_icon)
     ImageView appIcon;
-    @Bind(R.id.search_icon_layout)
+    @BindView(R.id.search_icon_layout)
     RelativeLayout searchIcon;
     HomeAggregationVo4 homeBean;
     int viewTopBegin;

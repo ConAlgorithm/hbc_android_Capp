@@ -21,7 +21,7 @@ import com.sevenheaven.iosswitch.ShSwitchView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,37 +29,37 @@ import butterknife.ButterKnife;
  */
 public class CombinationExtrasPriceView extends LinearLayout implements ChooseCountView.OnCountChangeListener {
 
-    @Bind(R.id.extras_price_pickup_switch_view)
+    @BindView(R.id.extras_price_pickup_switch_view)
     ShSwitchView pickupSwitchView;
-    @Bind(R.id.extras_price_pickup_price_tv)
+    @BindView(R.id.extras_price_pickup_price_tv)
     TextView pickupPriceTV;
-    @Bind(R.id.extras_price_pickup_layout)
+    @BindView(R.id.extras_price_pickup_layout)
     RelativeLayout pickupLayout;
-    @Bind(R.id.extras_price_pickup_bottom_line)
+    @BindView(R.id.extras_price_pickup_bottom_line)
     View pickupBottomLine;
-    @Bind(R.id.extras_price_pickup_et)
+    @BindView(R.id.extras_price_pickup_et)
     EditText pickupET;
-    @Bind(R.id.extras_price_pickup_star_tv)
+    @BindView(R.id.extras_price_pickup_star_tv)
     TextView pickupStarTV;
 
-    @Bind(R.id.extras_price_checkin_switch_view)
+    @BindView(R.id.extras_price_checkin_switch_view)
     ShSwitchView checkinSwitchView;
-    @Bind(R.id.extras_price_checkin_price_tv)
+    @BindView(R.id.extras_price_checkin_price_tv)
     TextView checkinPriceTV;
-    @Bind(R.id.extras_price_checkin_layout)
+    @BindView(R.id.extras_price_checkin_layout)
     RelativeLayout checkinLayout;
-    @Bind(R.id.extras_price_checkin_bottom_line)
+    @BindView(R.id.extras_price_checkin_bottom_line)
     View checkinBottomLine;
 
-    @Bind(R.id.extras_price_child_seat_price_tv)
+    @BindView(R.id.extras_price_child_seat_price_tv)
     TextView childSeatPriceTV;
-    @Bind(R.id.extras_price_child_seat_choose_countview)
+    @BindView(R.id.extras_price_child_seat_choose_countview)
     ChooseCountView childSeatCountView;
-    @Bind(R.id.extras_price_child_seat_layout)
+    @BindView(R.id.extras_price_child_seat_layout)
     RelativeLayout childSeatLayout;
-    @Bind(R.id.extras_price_child_seat_price_hint_tv)
+    @BindView(R.id.extras_price_child_seat_price_hint_tv)
     TextView childSeatPriceHintTV;
-    @Bind(R.id.extras_price_child_seat_hint_layout)
+    @BindView(R.id.extras_price_child_seat_hint_layout)
     LinearLayout childSeatHintLayout;
 
     private CarBean carBean;

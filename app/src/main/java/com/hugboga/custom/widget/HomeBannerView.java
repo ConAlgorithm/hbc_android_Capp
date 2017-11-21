@@ -7,14 +7,14 @@ import android.widget.RelativeLayout;
 import com.hugboga.custom.R;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by zhangqiang on 17/8/5.
  */
 
 public class HomeBannerView extends HomeActivitiesView {
-    @Bind(R.id.indicator)
+    @BindView(R.id.indicator)
     CirclePageIndicator circlePageIndicator;
     public HomeBannerView(Context context) {
         this(context,null);

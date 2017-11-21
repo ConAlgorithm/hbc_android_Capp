@@ -20,7 +20,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.ChooseCountryActivity;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,27 +32,27 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
  */
 public class TravelerInfoItemView extends LinearLayout {
 
-    @Bind(R.id.traveler_info_contacts_star_tv)
+    @BindView(R.id.traveler_info_contacts_star_tv)
     TextView contactsStarTV;
-    @Bind(R.id.traveler_info_contacts_hint_tv)
+    @BindView(R.id.traveler_info_contacts_hint_tv)
     TextView contactsHintTV;
-    @Bind(R.id.traveler_info_address_book_tv)
+    @BindView(R.id.traveler_info_address_book_tv)
     TextView addressBookTV;
-    @Bind(R.id.traveler_info_address_book_iv)
+    @BindView(R.id.traveler_info_address_book_iv)
     ImageView addressBookIV;
-    @Bind(R.id.traveler_info_contacts_et)
+    @BindView(R.id.traveler_info_contacts_et)
     EditText contactsET;
-    @Bind(R.id.traveler_info_phone_star_tv)
+    @BindView(R.id.traveler_info_phone_star_tv)
     TextView phoneStarTV;
-    @Bind(R.id.traveler_info_phone_hint_tv)
+    @BindView(R.id.traveler_info_phone_hint_tv)
     TextView phoneHintTV;
-    @Bind(R.id.traveler_info_code_tv)
+    @BindView(R.id.traveler_info_code_tv)
     TextView codeTV;
-    @Bind(R.id.traveler_info_code_arrow_iv)
+    @BindView(R.id.traveler_info_code_arrow_iv)
     ImageView codeArrowIV;
-    @Bind(R.id.traveler_info_phone_et)
+    @BindView(R.id.traveler_info_phone_et)
     EditText phoneET;
-    @Bind(R.id.traveler_info_bottom_line)
+    @BindView(R.id.traveler_info_bottom_line)
     View bottomLineView;
 
     private int requestCode;

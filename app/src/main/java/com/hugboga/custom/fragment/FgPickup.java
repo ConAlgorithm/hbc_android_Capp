@@ -66,7 +66,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -78,26 +78,26 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     public static final String TAG = FgPickup.class.getSimpleName();
     private static final int ORDER_TYPE = 1;
 
-    @Bind(R.id.pickup_seckills_layout)
+    @BindView(R.id.pickup_seckills_layout)
     RelativeLayout seckillsLayout;
-    @Bind(R.id.pickup_bottom_view)
+    @BindView(R.id.pickup_bottom_view)
     OrderBottomView bottomView;
-    @Bind(R.id.pickup_guide_layout)
+    @BindView(R.id.pickup_guide_layout)
     OrderGuideLayout guideLayout;
-    @Bind(R.id.pickup_flight_layout)
+    @BindView(R.id.pickup_flight_layout)
     OrderInfoItemView flightLayout;
-    @Bind(R.id.pickup_start_time_layout)
+    @BindView(R.id.pickup_start_time_layout)
     LinearLayout startTimeLayout;
-    @Bind(R.id.pickup_city_layout)
+    @BindView(R.id.pickup_city_layout)
     OrderInfoItemView cityLayout;
-    @Bind(R.id.pickup_car_type_view)
+    @BindView(R.id.pickup_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.pickup_empty_layout)
+    @BindView(R.id.pickup_empty_layout)
     SkuOrderEmptyView emptyLayout;
-    @Bind(R.id.pickup_conpons_tipview)
+    @BindView(R.id.pickup_conpons_tipview)
     ConponsTipView conponsTipView;
 
-    @Bind(R.id.pickup_scrollview)
+    @BindView(R.id.pickup_scrollview)
     ScrollView scrollView;
 
     private FlightBean flightBean;
@@ -205,7 +205,6 @@ public class FgPickup extends BaseFragment implements SkuOrderCarTypeView.OnSele
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.hugboga.custom.data.bean.CarListBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -23,13 +23,13 @@ import butterknife.OnClick;
 
 public class OrderBottomView extends RelativeLayout {
 
-    @Bind(R.id.order_bottom_confirm_tv)
+    @BindView(R.id.order_bottom_confirm_tv)
     TextView confirmTV;
-    @Bind(R.id.order_bottom_should_price_tv)
+    @BindView(R.id.order_bottom_should_price_tv)
     TextView shouldPriceTV;
-    @Bind(R.id.order_bottom_distance_tv)
+    @BindView(R.id.order_bottom_distance_tv)
     TextView distanceTV;
-    @Bind(R.id.order_bottom_conpons_tip_tv)
+    @BindView(R.id.order_bottom_conpons_tip_tv)
     TextView conponsTipTV;
 
     private OnConfirmListener listener;

@@ -29,7 +29,7 @@ import com.hugboga.custom.widget.DestinationServiceview;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -242,21 +242,21 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     static class DestinationViewHolder extends EpoxyHolder {
 
         View itemView;
-        @Bind(R.id.home_dest_title_name)
+        @BindView(R.id.home_dest_title_name)
         TextView titleName;
-        @Bind(R.id.home_dest_city_gridview)
+        @BindView(R.id.home_dest_city_gridview)
         GridView cityGridView;
-        @Bind(R.id.home_dest_spe_line)
+        @BindView(R.id.home_dest_spe_line)
         View speLine;
-        @Bind(R.id.home_dest_country_text_label)
+        @BindView(R.id.home_dest_country_text_label)
         TextView countryTextLabel;
-        @Bind(R.id.home_dest_country_gridview)
+        @BindView(R.id.home_dest_country_gridview)
         GridView countryGridView;
-        @Bind(R.id.home_dest_country_open_switcher)
+        @BindView(R.id.home_dest_country_open_switcher)
         TextView countrySwitcher;
-        @Bind(R.id.des_service)
+        @BindView(R.id.des_service)
         DestinationServiceview destinationServiceview;
-        @Bind(R.id.view_below_id)
+        @BindView(R.id.view_below_id)
         View viewBelowId;
 
         @Override
@@ -446,22 +446,22 @@ public class DestinationAggModel extends EpoxyModelWithHolder {
     }
 
     static class CityViewHolder {
-        @Bind(R.id.home_dest_gridcity_img)
+        @BindView(R.id.home_dest_gridcity_img)
         ImageView cityPicture;
-        /*@Bind(R.id.home_dest_gridcity_img_filter)
+        /*@BindView(R.id.home_dest_gridcity_img_filter)
         View filterPictureView;*/
-        @Bind(R.id.home_dest_gridcity_guide_count)
+        @BindView(R.id.home_dest_gridcity_guide_count)
         TextView cityGuideCount;
-        @Bind(R.id.home_dest_gridcity_name)
+        @BindView(R.id.home_dest_gridcity_name)
         TextView cityName;
     }
 
     static class CountryViewHolder {
-        @Bind(R.id.home_dest_gridcounty_flag)
+        @BindView(R.id.home_dest_gridcounty_flag)
         ImageView countryFlag;
-        @Bind(R.id.home_dest_gridcounty_border)
+        @BindView(R.id.home_dest_gridcounty_border)
         ImageView border;
-        @Bind(R.id.home_dest_gridcountry)
+        @BindView(R.id.home_dest_gridcountry)
         TextView countryName;
     }
 }

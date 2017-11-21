@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -43,9 +43,9 @@ public class HomeActivitiesView extends LinearLayout implements HbcViewBehavior{
      */
     private static final int BANNER_SWITCH_TIME_DEFAULT = 5000;
 
-    @Bind(R.id.home_header_image)
+    @BindView(R.id.home_header_image)
     LoopViewPager mViewPager;
-    @Bind(R.id.indicator)
+    @BindView(R.id.indicator)
     CirclePageIndicator mIndicator;
 
     private int cutIndex;

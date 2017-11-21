@@ -33,7 +33,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -45,22 +45,22 @@ public class OrderDetailDeliverItemView extends LinearLayout implements HbcViewB
     private static final int AVATAR_WIDTH = UIUtils.dip2px(30);
     private static final int AVATAR_MARGIN = UIUtils.dip2px(5);
 
-    @Bind(R.id.deliver_item_layout)
+    @BindView(R.id.deliver_item_layout)
     LinearLayout parrentLayout;
 
-    @Bind(R.id.deliver_item_loading_view)
+    @BindView(R.id.deliver_item_loading_view)
     ImageView loadingView;
-    @Bind(R.id.deliver_item_countdown_view)
+    @BindView(R.id.deliver_item_countdown_view)
     OrderDetailDeliverCountDownView countdownLayout;
 
-    @Bind(R.id.deliver_item_title_tv)
+    @BindView(R.id.deliver_item_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.deliver_item_subtitle_tv)
+    @BindView(R.id.deliver_item_subtitle_tv)
     TextView subtitleIV;
-    @Bind(R.id.deliver_item_guide_avatar_layout)
+    @BindView(R.id.deliver_item_guide_avatar_layout)
     LinearLayout avatarLayout;
-    @Bind(R.id.deliver_item_arrow_iv)
+    @BindView(R.id.deliver_item_arrow_iv)
     ImageView arrowIV;
 
     private String orderNo;

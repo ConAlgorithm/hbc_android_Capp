@@ -26,7 +26,7 @@ import com.hugboga.custom.widget.OrderPriceInfoItemView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -35,13 +35,13 @@ import butterknife.OnClick;
  */
 public class OrderPriceInfoActivity extends Activity implements HttpRequestListener {
 
-    @Bind(R.id.activity_order_price_info_recyclerview)
+    @BindView(R.id.activity_order_price_info_recyclerview)
     RecyclerView mRecyclerView;
-    @Bind(R.id.activity_order_price_info_limit_layout)
+    @BindView(R.id.activity_order_price_info_limit_layout)
     LinearLayout limitLayout;
-    @Bind(R.id.activity_order_price_info_layout)
+    @BindView(R.id.activity_order_price_info_layout)
     LinearLayout priceInfoLayout;
-    @Bind(R.id.activity_order_price_info_progress)
+    @BindView(R.id.activity_order_price_info_progress)
     CircularProgress progressView;
 
     private ErrorHandler errorHandler;

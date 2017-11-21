@@ -27,7 +27,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -36,26 +36,26 @@ import butterknife.OnClick;
  */
 public class OrderDetailItineraryView extends LinearLayout implements HbcViewBehavior, View.OnClickListener{
 
-    @Bind(R.id.order_itinerary_item_layout)
+    @BindView(R.id.order_itinerary_item_layout)
     LinearLayout itineraryLayout;
-    @Bind(R.id.order_itinerary_order_number_view)
+    @BindView(R.id.order_itinerary_order_number_view)
     OrderDetailNoView orderNumberView;
 
-    @Bind(R.id.order_itinerary_route_tv)
+    @BindView(R.id.order_itinerary_route_tv)
     TextView routeTV;
-    @Bind(R.id.order_itinerary_route_iv)
+    @BindView(R.id.order_itinerary_route_iv)
     ImageView routeIV;
-    @Bind(R.id.order_itinerary_route_tag_iv)
+    @BindView(R.id.order_itinerary_route_tag_iv)
     ImageView routeTagIV;
-    @Bind(R.id.order_itinerary_route_layout)
+    @BindView(R.id.order_itinerary_route_layout)
     RelativeLayout routeLayout;
 
-    @Bind(R.id.order_itinerary_charter_layout)
+    @BindView(R.id.order_itinerary_charter_layout)
     RelativeLayout charterLayout;
-    @Bind(R.id.order_itinerary_charter_city_tv)
+    @BindView(R.id.order_itinerary_charter_city_tv)
     TextView cityTV;
 
-    @Bind(R.id.order_itinerary_item_travel_view)
+    @BindView(R.id.order_itinerary_item_travel_view)
     OrderDetailTravelView travelView;
 
 

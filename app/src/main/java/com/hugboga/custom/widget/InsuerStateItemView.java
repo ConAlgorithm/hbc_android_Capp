@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -16,9 +16,9 @@ import butterknife.ButterKnife;
  */
 public class InsuerStateItemView extends RelativeLayout {
 
-    @Bind(R.id.insuer_info_item_state_tv)
+    @BindView(R.id.insuer_info_item_state_tv)
     TextView stateTV;
-    @Bind(R.id.insuer_info_item_progress)
+    @BindView(R.id.insuer_info_item_progress)
     CircularProgress progressView;
 
     public InsuerStateItemView(Context context) {

@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -38,22 +38,22 @@ import butterknife.OnClick;
 
 public class SetPswActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
-    @Bind(R.id.iv_pwd_visible1)
+    @BindView(R.id.iv_pwd_visible1)
     ImageView ivPwdVisible1;
-    @Bind(R.id.iv_pwd_visible2)
+    @BindView(R.id.iv_pwd_visible2)
     ImageView ivPwdVisible2;
-    @Bind(R.id.login_submit)
+    @BindView(R.id.login_submit)
     Button loginSubmit;
-    @Bind(R.id.set_psw)
+    @BindView(R.id.set_psw)
     EditText setPsw;
-    @Bind(R.id.set_psw_again)
+    @BindView(R.id.set_psw_again)
     EditText setPswAgain;
 
     boolean isPwd1Visibility = false;

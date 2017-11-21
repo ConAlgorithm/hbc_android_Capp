@@ -25,23 +25,23 @@ import com.hugboga.custom.fragment.GuideFilterSortFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GuideFilterLayout extends LinearLayout {
 
-    @Bind(R.id.filter_guide_type_city_layout)
+    @BindView(R.id.filter_guide_type_city_layout)
     LinearLayout cityLayout;
-    @Bind(R.id.filter_guide_type_scope_layout)
+    @BindView(R.id.filter_guide_type_scope_layout)
     LinearLayout scopeLayout;
-    @Bind(R.id.filter_guide_type_sort_layout)
+    @BindView(R.id.filter_guide_type_sort_layout)
     LinearLayout sortLayout;
 
-    @Bind(R.id.filter_guide_type_left_line_view)
+    @BindView(R.id.filter_guide_type_left_line_view)
     View leftLineView;
 
-    @Bind(R.id.filter_guide_viewpager)
+    @BindView(R.id.filter_guide_viewpager)
     NoScrollViewPager viewPager;
 
     private GuideFilterAdapter pagerAdapter;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,17 +20,17 @@ import butterknife.OnClick;
  */
 public class TitleBar extends TitleBarBase {
 
-    @Bind(R.id.titlebar_left_layout)
+    @BindView(R.id.titlebar_left_layout)
     RelativeLayout leftLayout;
-    @Bind(R.id.titlebar_left_tv)
+    @BindView(R.id.titlebar_left_tv)
     TextView leftTV;
 
-    @Bind(R.id.titlebar_right_layout)
+    @BindView(R.id.titlebar_right_layout)
     RelativeLayout rightLayout;
-    @Bind(R.id.titlebar_right_tv)
+    @BindView(R.id.titlebar_right_tv)
     TextView rightTV;
 
-    @Bind(R.id.titlebar_middle_tv)
+    @BindView(R.id.titlebar_middle_tv)
     TextView middleTV;
 
     private OnTitleBarBackListener listener;

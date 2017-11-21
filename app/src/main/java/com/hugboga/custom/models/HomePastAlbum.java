@@ -15,7 +15,7 @@ import com.hugboga.custom.widget.SpaceItemDecoration;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -49,7 +49,7 @@ public class HomePastAlbum extends EpoxyModelWithHolder {
 
     class HomePastAlbumHolder extends EpoxyHolder {
         View itemView;
-        @Bind(R.id.past_album_recyclerview)
+        @BindView(R.id.past_album_recyclerview)
         RecyclerView pastAlbumRecyclerview;
 
         @Override

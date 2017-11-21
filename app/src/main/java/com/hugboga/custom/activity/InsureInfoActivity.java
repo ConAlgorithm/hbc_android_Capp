@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -32,22 +32,22 @@ import butterknife.OnClick;
  */
 public class InsureInfoActivity extends BaseActivity {
 
-    @Bind(R.id.insure_info_listview)
+    @BindView(R.id.insure_info_listview)
     ListView listView;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
-    @Bind(R.id.insure_info_add_layout)
+    @BindView(R.id.insure_info_add_layout)
     RelativeLayout addLayout;
-    @Bind(R.id.insure_info_add_hint_tv)
+    @BindView(R.id.insure_info_add_hint_tv)
     TextView addHintTV;
-    @Bind(R.id.insure_info_add_tv)
+    @BindView(R.id.insure_info_add_tv)
     TextView addTV;
 
     private FgInsureInfoAdapter adapter;

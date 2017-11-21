@@ -54,7 +54,7 @@ import org.xutils.common.Callback;
 import java.text.ParseException;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -67,29 +67,29 @@ public class CouponActivity extends BaseActivity implements AdapterView.OnItemCl
     public static final String KEY_COUPON = "KEY_COUPON";
     public static final String KEY_COUPON_ID = "KEY_COUPON_ID";
 
-    @Bind(R.id.coupon_listview)
+    @BindView(R.id.coupon_listview)
     ZListView listView;
-    @Bind(R.id.coupon_btn_carnumber)
+    @BindView(R.id.coupon_btn_carnumber)
     EditText carNumberEditText;
-    @Bind(R.id.coupon_listview_empty)
+    @BindView(R.id.coupon_listview_empty)
     RelativeLayout emptyLayout;
-    @Bind(R.id.coupon_pay_layout)
+    @BindView(R.id.coupon_pay_layout)
     LinearLayout payLayout;
 
     CouponAdapter adapter;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.coupon_btn_pay)
+    @BindView(R.id.coupon_btn_pay)
     Button couponBtnPay;
-    @Bind(R.id.next)
+    @BindView(R.id.next)
     TextView next;
-    @Bind(R.id.des)
+    @BindView(R.id.des)
     TextView des;
     private String orderId;
     private double orderPrice;

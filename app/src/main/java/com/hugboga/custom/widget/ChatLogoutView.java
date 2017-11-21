@@ -15,30 +15,30 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.droidsonroids.gif.GifImageView;
 
 public class ChatLogoutView extends LinearLayout {
 
-    @Bind(R.id.chat_container)
+    @BindView(R.id.chat_container)
     LinearLayout containerLayout;
-    @Bind(R.id.chat_scrollview)
+    @BindView(R.id.chat_scrollview)
     ScrollView scrollview;
-    @Bind(R.id.chat_root_layout)
+    @BindView(R.id.chat_root_layout)
     LinearLayout rootLayout;
 
-    @Bind(R.id.space_view)
+    @BindView(R.id.space_view)
     View spaceView;
-    @Bind(R.id.space_view1)
+    @BindView(R.id.space_view1)
     View spaceView1;
-    @Bind(R.id.mes1_view)
+    @BindView(R.id.mes1_view)
     ImageView mes1View;
-    @Bind(R.id.mes2_view)
+    @BindView(R.id.mes2_view)
     ImageView mes2View;
-    @Bind(R.id.gif_view)
+    @BindView(R.id.gif_view)
     GifImageView gifView;
-    @Bind(R.id.mes3_view)
+    @BindView(R.id.mes3_view)
     ImageView mes3View;
 
     private boolean isLooper;

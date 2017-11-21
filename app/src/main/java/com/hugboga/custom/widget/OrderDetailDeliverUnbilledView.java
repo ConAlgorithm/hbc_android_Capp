@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
 
@@ -19,11 +19,11 @@ import cn.iwgang.countdownview.CountdownView;
  */
 public class OrderDetailDeliverUnbilledView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.order_detail_deliver_unbilled_title_tv)
+    @BindView(R.id.order_detail_deliver_unbilled_title_tv)
     TextView titleTV;
-    @Bind(R.id.order_detail_deliver_unbilled_subtitle_tv)
+    @BindView(R.id.order_detail_deliver_unbilled_subtitle_tv)
     TextView subtitleTV;
-    @Bind(R.id.order_detail_deliver_unbilled_countdown_view)
+    @BindView(R.id.order_detail_deliver_unbilled_countdown_view)
     CountdownView countdownView;
 
     public OrderDetailDeliverUnbilledView(Context context) {

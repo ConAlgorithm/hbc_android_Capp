@@ -41,7 +41,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DateTimePicker;
 
@@ -54,34 +54,34 @@ public class TravelPurposeFormActivity extends BaseActivity implements View.OnCl
 
     public static final String TAG = "only_year_month_day";   //在加载时间控件的时候用
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeft;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRight;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView title;
 
-    @Bind(R.id.city_name)
+    @BindView(R.id.city_name)
     TextView cityName;//目的地
-    @Bind(R.id.start_date)
+    @BindView(R.id.start_date)
     TextView startDate;//出发日期
-    //@Bind(R.id.uncertain_check)
+    //@BindView(R.id.uncertain_check)
     //CheckBox unCertainCheck;//是否确定日期
-    @Bind(R.id.remark)
+    @BindView(R.id.remark)
     EditText remark;//备注信息
-    @Bind(R.id.user_name)
+    @BindView(R.id.user_name)
     EditText userName;//姓名
-    @Bind(R.id.areacode)
+    @BindView(R.id.areacode)
     TextView areaCode;//区号
-    @Bind(R.id.phone)
+    @BindView(R.id.phone)
     EditText phone;//电话
-    @Bind(R.id.phone_id)
+    @BindView(R.id.phone_id)
     TextView phoneId;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     Button submitBtn;//提交按钮
-    @Bind(R.id.travel_purpose_connect)
+    @BindView(R.id.travel_purpose_connect)
     TextView purposeConnect;
-    @Bind(R.id.purpose_img)
+    @BindView(R.id.purpose_img)
     PurposeFormImgView purposeImg;
     //CityBean cityBean;
     AreaCodeBean areaCodeBean;

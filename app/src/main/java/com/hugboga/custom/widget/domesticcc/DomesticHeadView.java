@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class DomesticHeadView extends FrameLayout {
 
-    @Bind(R.id.domesticHeaderPrice)
+    @BindView(R.id.domesticHeaderPrice)
     TextView domesticHeaderPrice;
 
     public DomesticHeadView(Context context) {

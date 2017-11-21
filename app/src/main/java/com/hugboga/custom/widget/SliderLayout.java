@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
  */
 public class SliderLayout extends LinearLayout {
 
-    @Bind(R.id.slider_layout_min_tv)
+    @BindView(R.id.slider_layout_min_tv)
     TextView minTV;
-    @Bind(R.id.slider_layout_max_tv)
+    @BindView(R.id.slider_layout_max_tv)
     TextView maxTV;
-    @Bind(R.id.slider_layout_slider)
+    @BindView(R.id.slider_layout_slider)
     SliderView slider;
 
     public SliderLayout(Context context) {

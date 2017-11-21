@@ -14,20 +14,20 @@ import com.hugboga.custom.widget.CsDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created on 16/8/3.
  */
 public class ChooseAirActivity extends BaseActivity {
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
     private FlightBean flightBean;

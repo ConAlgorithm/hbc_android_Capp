@@ -34,15 +34,15 @@ import com.hugboga.custom.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PayResultBargainLayout extends RelativeLayout {
 
-    @Bind(R.id.pay_result_bargain_parent_layout)
+    @BindView(R.id.pay_result_bargain_parent_layout)
     RelativeLayout parentLayout;
-    @Bind(R.id.pay_result_bargain_title_layout)
+    @BindView(R.id.pay_result_bargain_title_layout)
     RelativeLayout titleLayout;
 
     private String orderNo;

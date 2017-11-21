@@ -16,7 +16,7 @@ import com.hugboga.custom.data.bean.OrderBean;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.DateUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -25,11 +25,11 @@ import butterknife.OnClick;
  */
 public class DetailPassCityListActivity extends Activity {
 
-    @Bind(R.id.detail_pass_city_title_tv)
+    @BindView(R.id.detail_pass_city_title_tv)
     TextView titleTV;
-    @Bind(R.id.detail_pass_city_subtitle_tv)
+    @BindView(R.id.detail_pass_city_subtitle_tv)
     TextView subtitleTV;
-    @Bind(R.id.detail_pass_city_listview)
+    @BindView(R.id.detail_pass_city_listview)
     ListView listView;
 
     private OrderBean orderBean;
@@ -98,9 +98,9 @@ public class DetailPassCityListActivity extends Activity {
     }
 
     class ViewHolder {
-        @Bind(R.id.detail_pass_city_item_date_tv)
+        @BindView(R.id.detail_pass_city_item_date_tv)
         TextView dateTV;
-        @Bind(R.id.detail_pass_city_item_title_tv)
+        @BindView(R.id.detail_pass_city_item_title_tv)
         TextView titleTV;
 
         public ViewHolder(View view) {

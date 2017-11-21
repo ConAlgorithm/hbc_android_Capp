@@ -58,7 +58,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.AgePicker;
 
@@ -67,17 +67,17 @@ import cn.qqtheme.framework.picker.AgePicker;
  */
 public class PersonInfoActivity extends BaseActivity{
 
-    @Bind(R.id.my_info_menu_head1)
+    @BindView(R.id.my_info_menu_head1)
     PolygonImageView headImageView;
-    @Bind(R.id.my_info_nickname)
+    @BindView(R.id.my_info_nickname)
     TextView nickNameTextView;
-    @Bind(R.id.my_info_sex)
+    @BindView(R.id.my_info_sex)
     TextView sexTextView;
-    @Bind(R.id.my_info_age)
+    @BindView(R.id.my_info_age)
     TextView ageTextView;
-    @Bind(R.id.my_info_mobile)
+    @BindView(R.id.my_info_mobile)
     TextView mobileTextView;
-    @Bind(R.id.my_info_realname)
+    @BindView(R.id.my_info_realname)
     TextView realNameTextView;
 
     UserBean userBean;

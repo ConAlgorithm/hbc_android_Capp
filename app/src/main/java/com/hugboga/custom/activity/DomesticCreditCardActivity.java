@@ -23,7 +23,7 @@ import com.hugboga.custom.widget.domesticcc.DomesticHeadView;
 import com.hugboga.custom.widget.domesticcc.DomesticOldPayView;
 import com.hugboga.custom.widget.domesticcc.DomesticPayOkView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.ChoosePaymentActivity.PAY_PARAMS;
@@ -45,15 +45,15 @@ public class DomesticCreditCardActivity extends BaseActivity implements Domestic
 
     public static final int MAX_PRICE = 50000; //区分消费渠道和绑卡渠道
 
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView toolbarTitle;
-    @Bind(R.id.domestic_list)
+    @BindView(R.id.domestic_list)
     RecyclerView listView;
-    @Bind(R.id.domestic_totle)
+    @BindView(R.id.domestic_totle)
     DomesticHeadView domesticHeadView; //国内信用卡列表，还需支付部分
-    @Bind(R.id.domestic_pay_layout)
+    @BindView(R.id.domestic_pay_layout)
     DomesticOldPayView domesticOldPayView; //验证码验证
-    @Bind(R.id.domestic_pay_ok_layout)
+    @BindView(R.id.domestic_pay_ok_layout)
     DomesticPayOkView domesticPayOkView; //历史卡支付确认
 
     ChoosePaymentActivity.RequestParams requestParams;

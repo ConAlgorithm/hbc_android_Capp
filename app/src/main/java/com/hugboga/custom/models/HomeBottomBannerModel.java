@@ -14,7 +14,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -37,7 +37,7 @@ public class HomeBottomBannerModel extends EpoxyModelWithHolder {
 
     static class HomeBottomBannerHolder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.home_bottom_banner_img)
+        @BindView(R.id.home_bottom_banner_img)
         ImageView img;
         @Override
         protected void bindView(View itemView) {

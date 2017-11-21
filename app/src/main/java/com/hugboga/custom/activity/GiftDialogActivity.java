@@ -41,7 +41,7 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -53,25 +53,25 @@ public class GiftDialogActivity extends Activity implements HttpRequestListener 
     //屏幕中的占比
     private static final float WIDTH_SCALE = 0.77f;
 
-    @Bind(R.id.dialog_gift_parent_layout)
+    @BindView(R.id.dialog_gift_parent_layout)
     LinearLayout parentLayout;
-    @Bind(R.id.dialog_gift_display_iv)
+    @BindView(R.id.dialog_gift_display_iv)
     ImageView displayIV;
-    @Bind(R.id.dialog_gift_title_tv)
+    @BindView(R.id.dialog_gift_title_tv)
     TextView titleTV;
-    @Bind(R.id.dialog_gift_first_register_tv)
+    @BindView(R.id.dialog_gift_first_register_tv)
     TextView firstRegisterTV;
-    @Bind(R.id.dialog_gift_subtitle_tv)
+    @BindView(R.id.dialog_gift_subtitle_tv)
     TextView subtitleTV;
-    @Bind(R.id.dialog_gift_phone_code_tv)
+    @BindView(R.id.dialog_gift_phone_code_tv)
     TextView phoneCodeTV;
-    @Bind(R.id.dialog_gift_error_hint_tv)
+    @BindView(R.id.dialog_gift_error_hint_tv)
     TextView errorHintTV;
-    @Bind(R.id.dialog_gift_phone_et)
+    @BindView(R.id.dialog_gift_phone_et)
     EditText phoneET;
-    @Bind(R.id.dialog_gift_confirm_tv)
+    @BindView(R.id.dialog_gift_confirm_tv)
     TextView confirmTV;
-    @Bind(R.id.dialog_gift_input_layout)
+    @BindView(R.id.dialog_gift_input_layout)
     LinearLayout inputLayout;
 
     private boolean isRequestSucceed = false;

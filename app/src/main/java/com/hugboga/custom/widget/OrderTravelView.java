@@ -16,7 +16,7 @@ import com.hugboga.custom.utils.DateUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -27,16 +27,16 @@ public class OrderTravelView extends LinearLayout {
 
     private static final int DEFAULT_VIEW_COUNT = 3;
 
-    @Bind(R.id.order_travel_container)
+    @BindView(R.id.order_travel_container)
     LinearLayout containerLayout;
 
-    @Bind(R.id.order_travel_more_layout)
+    @BindView(R.id.order_travel_more_layout)
     LinearLayout moreLayout;
-    @Bind(R.id.order_travel_more_tv)
+    @BindView(R.id.order_travel_more_tv)
     TextView moreTV;
-    @Bind(R.id.order_travel_more_iv)
+    @BindView(R.id.order_travel_more_iv)
     ImageView moreIV;
-    @Bind(R.id.order_travel_line_view)
+    @BindView(R.id.order_travel_line_view)
     View lineView;
 
     private boolean isShow = false;

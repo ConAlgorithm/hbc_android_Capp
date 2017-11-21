@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -26,7 +26,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class LargerImageActivity extends BaseActivity{
 
-    @Bind(R.id.larger_img_pager)
+    @BindView(R.id.larger_img_pager)
     HackyViewPager mViewPager;
 
     protected Params params;

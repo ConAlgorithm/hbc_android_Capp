@@ -24,7 +24,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.SharedPre;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -55,23 +55,23 @@ public class HomeServiceModel extends EpoxyModelWithHolder implements View.OnCli
 
     static class HomeServiceHolder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.charter_id_img)
+        @BindView(R.id.charter_id_img)
         ImageView charterImg;
-        @Bind(R.id.view2)
+        @BindView(R.id.view2)
         View view;
-        @Bind(R.id.daystravel)
+        @BindView(R.id.daystravel)
         TextView daystravel;
-        @Bind(R.id.single_pick_send)
+        @BindView(R.id.single_pick_send)
         RelativeLayout singlePickSend;
-        @Bind(R.id.pick_send)
+        @BindView(R.id.pick_send)
         RelativeLayout pickSend;
-        @Bind(R.id.private_ordering)
+        @BindView(R.id.private_ordering)
         TextView privateOrdering;
-        @Bind(R.id.home_line)
+        @BindView(R.id.home_line)
         TextView homeLine;
-        @Bind(R.id.pick_send_show)
+        @BindView(R.id.pick_send_show)
         ImageView pickSendShow;
-        @Bind(R.id.single_pick_send_show)
+        @BindView(R.id.single_pick_send_show)
         ImageView singlePickSendShow;
         @Override
         protected void bindView(View itemView) {

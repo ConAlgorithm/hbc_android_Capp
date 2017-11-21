@@ -40,7 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -48,19 +48,19 @@ import butterknife.OnClick;
  */
 public class BindMobileActivity extends BaseActivity implements TextWatcher{
 
-    @Bind(R.id.bind_mobile_areacode)
+    @BindView(R.id.bind_mobile_areacode)
     TextView areaCodeTextView;
-    @Bind(R.id.bind_mobile_mobile)
+    @BindView(R.id.bind_mobile_mobile)
     EditText mobileEditText;
-    @Bind(R.id.bind_mobile_verity)
+    @BindView(R.id.bind_mobile_verity)
     EditText verityEditText;
-    @Bind(R.id.bind_mobile_getcode)
+    @BindView(R.id.bind_mobile_getcode)
     TextView getCodeBtn;
-    @Bind(R.id.bind_mobile_time)
+    @BindView(R.id.bind_mobile_time)
     TextView timeTextView;
-    @Bind(R.id.bind_mobile_submit)
+    @BindView(R.id.bind_mobile_submit)
     Button login_submit;
-    @Bind(R.id.delete)
+    @BindView(R.id.delete)
     ImageView delete;
     private String areaCode = "";
     private String mobile = "";

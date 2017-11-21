@@ -48,7 +48,7 @@ import org.xutils.ex.DbException;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -76,55 +76,55 @@ public class ChooseCityActivity extends BaseActivity implements SideBar.OnTouchi
     public static final String GROUP_OUTTOWN = "group_outtown";     // 组合单开始城市
     public static final String CITY_LIST = "city_list";
 
-    @Bind(R.id.choose_city_empty_layout)
+    @BindView(R.id.choose_city_empty_layout)
     LinearLayout emptyLayout;
-    @Bind(R.id.choose_city_empty_tv)
+    @BindView(R.id.choose_city_empty_tv)
     TextView emptyTV;
-    @Bind(R.id.choose_city_empty_iv)
+    @BindView(R.id.choose_city_empty_iv)
     ImageView emptyIV;
-    @Bind(R.id.choose_city_empty_service_tv)
+    @BindView(R.id.choose_city_empty_service_tv)
     TextView emptyServiceTV;
 
-    @Bind(R.id.choose_city_listview)
+    @BindView(R.id.choose_city_listview)
     StickyListHeadersListView mListview;
-    @Bind(R.id.choose_city_sidebar_firstletter)
+    @BindView(R.id.choose_city_sidebar_firstletter)
     TextView firstletterView;
-    @Bind(R.id.choose_city_sidebar)
+    @BindView(R.id.choose_city_sidebar)
     SideBar sideBar;
-    @Bind(R.id.choose_city_tab_layout)
+    @BindView(R.id.choose_city_tab_layout)
     ChooseCityTabLayout tabLayout;
-    @Bind(R.id.choose_city_tab_below)
+    @BindView(R.id.choose_city_tab_below)
     View chooseCityTabBelow;
-    @Bind(R.id.head_search)
+    @BindView(R.id.head_search)
     EditText editSearch;
-    @Bind(R.id.choose_city_tab_inland_line)
+    @BindView(R.id.choose_city_tab_inland_line)
     View inlandLineView;
-    @Bind(R.id.choose_city_tab_foreign_line)
+    @BindView(R.id.choose_city_tab_foreign_line)
     View foreignLineView;
-    @Bind(R.id.choose_city_tab_inland_tv)
+    @BindView(R.id.choose_city_tab_inland_tv)
     TextView inlandTV;
-    @Bind(R.id.choose_city_tab_foreign_tv)
+    @BindView(R.id.choose_city_tab_foreign_tv)
     TextView foreignTV;
-//    @Bind(R.id.head_text_right)
+//    @BindView(R.id.head_text_right)
 //    TextView searchTV;
 
-    @Bind(R.id.choose_city_head_layout)
+    @BindView(R.id.choose_city_head_layout)
     View chooseCityHeadLayout;
-    @Bind(R.id.city_choose_head_text)
+    @BindView(R.id.city_choose_head_text)
     TextView cityHeadText;
-    @Bind(R.id.city_choose_btn)
+    @BindView(R.id.city_choose_btn)
     View chooseBtn;
-    @Bind(R.id.header_left_btn_new)
+    @BindView(R.id.header_left_btn_new)
     ImageView headerLeftBtnNew;
-    @Bind(R.id.header_title_new)
+    @BindView(R.id.header_title_new)
     TextView headerTitleNew;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.head_search_clean)
+    @BindView(R.id.head_search_clean)
     ImageView headSearchClean;
-    @Bind(R.id.activity_head_layout)
+    @BindView(R.id.activity_head_layout)
     RelativeLayout activityHeadLayout;
-    @Bind(R.id.daily_layout)
+    @BindView(R.id.daily_layout)
     RelativeLayout dailyLayout;
 
     private ChooseCityHeaderView headerView;

@@ -33,7 +33,7 @@ import com.hugboga.custom.utils.UpdateResources;
 import com.hugboga.custom.widget.DialogUtil;
 import com.zhy.m.permission.MPermissions;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -41,27 +41,27 @@ import butterknife.OnClick;
  */
 
 public class AboutActivity extends BaseActivity {
-    @Bind(R.id.about_version_tv)
+    @BindView(R.id.about_version_tv)
     TextView versionTV;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.about_logo_layout)
+    @BindView(R.id.about_logo_layout)
     LinearLayout aboutLogoLayout;
-    @Bind(R.id.about_update_tv)
+    @BindView(R.id.about_update_tv)
     TextView aboutUpdateTv;
-    @Bind(R.id.about_update_arrow_iv)
+    @BindView(R.id.about_update_arrow_iv)
     ImageView aboutUpdateArrowIv;
-    @Bind(R.id.about_update_layout)
+    @BindView(R.id.about_update_layout)
     RelativeLayout aboutUpdateLayout;
-    @Bind(R.id.about_grade_layout)
+    @BindView(R.id.about_grade_layout)
     RelativeLayout aboutGradeLayout;
-    @Bind(R.id.about_story_layout)
+    @BindView(R.id.about_story_layout)
     RelativeLayout aboutStoryLayout;
     CheckVersionBean checkVersionBean;
 

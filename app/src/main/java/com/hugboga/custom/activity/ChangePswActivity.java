@@ -21,7 +21,7 @@ import com.hugboga.custom.utils.CommonUtils;
 
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -29,28 +29,28 @@ import butterknife.OnClick;
  */
 
 public class ChangePswActivity extends BaseActivity implements TextWatcher{
-    @Bind(R.id.old_psw)
+    @BindView(R.id.old_psw)
     EditText oldPwdEditText; //旧密码
-    @Bind(R.id.pwd_new)
+    @BindView(R.id.pwd_new)
     EditText newPwdEditText; //新密码
-    @Bind(R.id.set_psw_again)
+    @BindView(R.id.set_psw_again)
     EditText rewPwdEditText; //重复密码
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
 
-    @Bind(R.id.login_submit)
+    @BindView(R.id.login_submit)
     Button changePasswdSubmit;
 
-    @Bind(R.id.iv_pwd_visible1)
+    @BindView(R.id.iv_pwd_visible1)
     ImageView ivPwdVisible1;
-    @Bind(R.id.iv_pwd_visible2)
+    @BindView(R.id.iv_pwd_visible2)
     ImageView ivPwdVisible2;
-    @Bind(R.id.iv_pwd_visible3)
+    @BindView(R.id.iv_pwd_visible3)
     ImageView ivPwdVisible3;
 
     boolean isPwd1Visibility = false;

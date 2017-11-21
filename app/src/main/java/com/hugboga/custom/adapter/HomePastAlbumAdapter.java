@@ -21,7 +21,7 @@ import com.hugboga.custom.utils.Tools;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -71,9 +71,9 @@ public class HomePastAlbumAdapter extends RecyclerView.Adapter<HomePastAlbumAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.imageView)
+        @BindView(R.id.imageView)
         ImageView mImg;
-        @Bind(R.id.des_past)
+        @BindView(R.id.des_past)
         TextView desPast;
 
         public ViewHolder(View arg0) {
