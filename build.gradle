@@ -6,7 +6,7 @@ buildscript {
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.networkbench.newlens.agent.android:agent-gradle-plugin:2.7.0'
         classpath 'com.leon.channel:plugin:1.0.5'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
