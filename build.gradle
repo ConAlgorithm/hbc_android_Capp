@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
+        google()
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
-//        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -16,8 +16,8 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
-//        google()
     }
 }
 
