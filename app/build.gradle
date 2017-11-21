@@ -227,6 +227,7 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.facebook.android:facebook-android-sdk:+'
     compile 'com.android.support:design:+'
     compile 'com.android.support:support-v4:+'
     compile project(':hbcframe')
@@ -291,3 +292,14 @@ channel {
     //多渠道包的命名规则，默认为：${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}
     apkNameFormat = '${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}'
 }
+
+//configurations.all {
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        def requested = details.requested
+//        if (requested.group == 'com.android.support') {
+//            if (!requested.name.startsWith("multidex")) {
+//                details.useVersion '25.3.1'
+//            }
+//        }
+//    }
+//}

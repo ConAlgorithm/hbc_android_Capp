@@ -129,7 +129,11 @@ public class PushUtils {
         mBuilder.setOngoing(false); //是否是正在进行的通知
         mBuilder.setDefaults(Notification.DEFAULT_ALL); //提醒模式
         mBuilder.setVibrate(new long[]{300, 100, 300, 100});
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher48); //设置图标
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            mBuilder.setSmallIcon(R.mipmap.small_icon);
+        } else {
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher48);
+        }
         mBuilder.setAutoCancel(true); //自动清理
 
         //设置点击事件
