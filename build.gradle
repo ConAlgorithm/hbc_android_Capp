@@ -2,7 +2,7 @@
 
 buildscript {
     repositories {
-        google()
+//        google()
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
     }
     dependencies {
@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+//        google()
         maven { url 'http://nexus.hbc.tech/nexus/content/groups/hbcAndroid/' }
     }
 }
