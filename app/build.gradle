@@ -53,8 +53,8 @@ android {
         }
     }
     flavorDimensions "flavor"
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.hugboga.custom"
         minSdkVersion 16
@@ -291,13 +291,13 @@ channel {
     apkNameFormat = '${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}'
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '25.3.1'
-            }
-        }
-    }
-}
+//configurations.all {
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        def requested = details.requested
+//        if (requested.group == 'com.android.support') {
+//            if (!requested.name.startsWith("multidex")) {
+//                details.useVersion '25.3.1'
+//            }
+//        }
+//    }
+//}
