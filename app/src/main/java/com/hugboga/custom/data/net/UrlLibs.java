@@ -283,14 +283,10 @@ public class UrlLibs {
     public static final String API_OSS_TOKEN_URL            = "passport/v1.0/ossToken";                                 // 获取图片上传环境参数 157
     public static final String API_UPDATE_ANTICHEAT_INFO    = "passport/v1.0/updateAntiCheatInfo";                      // 更新设备反作弊信息 186
 
-    public static final String API_HOTEXPLORATIONS          = "basicdata/v1.0/c/home/hotexplorations";                  // 首页热门探索列表 request code 131
-    public static final String API_DESTINATIONS             = "basicdata/v1.0/c/home/destinations";                     // 首页目的地列表    request code 132
-    public static final String API_TRAVEL_STORYS            = "basicdata/v1.0/c/home/storys";                           // 司导故事列表     request code 133
-    public static final String API_HOME                     = "basicdata/v1.2/c/home/aggregation";                      // 首页城市卡片列表
+    public static final String API_HOME                     = "basicdata/v1.5/c/home/aggregation";                      // 首页城市卡片列表
     public static final String API_DESTINATIONS_TAB         = "basicdata/v1.0/c/home/destlist";                         // 目的地列表  167
     public static final String API_DESTINATIONS_HOT         = "basicdata/v1.0/c/home/hotcities";                        // 目的地热门城市 168
     public static final String API_DESTINATIONS_LINE        = "basicdata/v1.0/c/home/destdetail";                       // 目的地线路   169
-    public static final String API_HOME_NEW                 = "basicdata/v1.4/c/home/aggregation";                      // 首页173
     public static final String API_HOT_SEARCH               = "basicdata/v1.0/e/search/hotkeywords";                    // 热词搜索 179
     public static final String SERVER_IP_PIC_UPLOAD         = "file/v1.0/upload?";                                      // 更新头像\图片上传
 
