@@ -1,6 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">皇包車</string>
     <string name="hbc_scheme">hbcc</string>
 
@@ -459,7 +457,7 @@
     5. 如果用戶對優惠券使用規則或在使用皇包車下單和／或在相關服務過程中有任何疑問或需要任何幫助，請及時與皇包車客服聯繫，聯繫電話：400-610-0009;\n\n
     6. 對於不符合領取及使用優惠券規則的領取賬戶，皇包車有權收回已領取的優惠券;\n\n
     7. 優惠券最終解釋權歸北京純粹旅行有限公司（品牌名稱：皇包車）所有。</string>
-    <string name="gotomain"><u>去首頁轉轉</u></string>
+    <string name = "gotomain"><u>去首頁轉轉</u></string>
 
     <string name="daily_people_count">出行人數</string>
     <string name="daily_adult">成人</string>
@@ -879,72 +877,72 @@
     <string name="guide_detail_contact_dialog_title">需要先下單並支付才能找Ta聊天呢</string>
     <string name="guide_detail_contact_dialog_content">優秀司導都在服務用戶的路上，預訂後溝通更高效~</string>
 
-    <string name="destiation_search">目的地搜索</string>
-    <string name="destiation_all">全境</string>
-    <string name="destiation_day_service">按天包車遊</string>
-    <string name="destiation_pick_send">接送機</string>
-    <string name="destiation_single">單次接送</string>
+    <string name = "destiation_search">目的地搜索</string>
+    <string name = "destiation_all">全境</string>
+    <string name = "destiation_day_service">按天包車遊</string>
+    <string name = "destiation_pick_send">接送機</string>
+    <string name = "destiation_single">單次接送</string>
 
 
-    <string name="home_hot_destination">熱門目的地</string>
-    <string name="home_more">查看更多</string>
-    <string name="home_hot_destination_guide_num">位司導</string>
-    <string name="home_guide_comment">遊客說</string>
-    <string name="home_guide_comment_img">圖</string>
-    <string name="home_guide_service">服務司導</string>
-    <string name="home_hot_album_guide_orders">累計服務%s單</string>
-    <string name="home_recomment_guide">%s推薦司導</string>
-    <string name="home_album_purchse">起/人</string>
-    <string name="home_guide_evaluate">評價 </string>
-    <string name="home_album_experience">人已體驗</string>
-    <string name="home_recomment_guide_end">司導推薦</string>
-    <string name="home_recomment_service_china">位中文司導可服務</string>
-    <string name="home_search">搜索目的地、司導、線路</string>
-    <string name="home_service_day">中文包車遊</string>
-    <string name="home_service_pick_send">接送機</string>
-    <string name="home_service_single_pick_send">單次接送</string>
-    <string name="home_service_day_experience">按天暢遊</string>
-    <string name="home_service_good_line">精品線路遊</string>
-    <string name="home_service_favorite_love">私人定製</string>
-    <string name="home_favorite_guide">選擇心儀的司導服務</string>
-    <string name="home_favorite_guide_yuding">找Ta預訂</string>
-    <string name="home_h5_1">一價全包</string>
-    <string name="home_h5_2">服務保障</string>
-    <string name="home_h5_3">先行賠付</string>
-    <string name="home_h5_4">免費保險</string>
-    <string name="home_hot_album">熱門專輯</string>
-    <string name="home_search_more">搜索更多關於“%s”的結果</string>
-    <string name="home_search_history">歷史記錄</string>
-    <string name="home_search_hot">熱門搜索</string>
-    <string name="home_search_moree">展開更多</string>
-    <string name="home_search_more_about">搜索更多關於</string>
-    <string name="home_search_loading">加載中...</string>
-    <string name="home_search_all_here">結果全都在這了</string>
-    <string name="home_search_see_all">查看全部</string>
+    <string name = "home_hot_destination">熱門目的地</string>
+    <string name = "home_more">查看更多</string>
+    <string name = "home_hot_destination_guide_num">位司導</string>
+    <string name = "home_guide_comment">遊客說</string>
+    <string name = "home_guide_comment_img">圖</string>
+    <string name = "home_guide_service">服務司導</string>
+    <string name = "home_hot_album_guide_orders">累計服務%s單</string>
+    <string name = "home_recomment_guide">%s推薦司導</string>
+    <string name = "home_album_purchse">起/人</string>
+    <string name = "home_guide_evaluate">評價 </string>
+    <string name = "home_album_experience">人已體驗</string>
+    <string name = "home_recomment_guide_end">司導推薦</string>
+    <string name = "home_recomment_service_china">位中文司導可服務</string>
+    <string name = "home_search">搜索目的地、司導、線路</string>
+    <string name = "home_service_day">中文包車遊</string>
+    <string name = "home_service_pick_send">接送機</string>
+    <string name = "home_service_single_pick_send">單次接送</string>
+    <string name = "home_service_day_experience">按天暢遊</string>
+    <string name = "home_service_good_line">精品線路遊</string>
+    <string name = "home_service_favorite_love">私人定製</string>
+    <string name = "home_favorite_guide">選擇心儀的司導服務</string>
+    <string name = "home_favorite_guide_yuding">找Ta預訂</string>
+    <string name = "home_h5_1">一價全包</string>
+    <string name = "home_h5_2">服務保障</string>
+    <string name = "home_h5_3">先行賠付</string>
+    <string name = "home_h5_4">免費保險</string>
+    <string name = "home_hot_album">熱門專輯</string>
+    <string name = "home_search_more">搜索更多關於“%s”的結果</string>
+    <string name = "home_search_history">歷史記錄</string>
+    <string name = "home_search_hot">熱門搜索</string>
+    <string name = "home_search_moree">展開更多</string>
+    <string name = "home_search_more_about">搜索更多關於</string>
+    <string name = "home_search_loading">加載中...</string>
+    <string name = "home_search_all_here">結果全都在這了</string>
+    <string name = "home_search_see_all">查看全部</string>
 
-    <string name="facebook_app_id">645647955823312</string>
-    <string name="home_service_past_album">往期專輯</string>
+    <string name = "facebook_app_id">645647955823312</string>
+    <string name = "home_service_past_album">往期專輯</string>
 
-    <string name="servicer_center_item1">預訂須知</string>
-    <string name="servicer_center_item2">服務承諾</string>
-    <string name="servicer_center_item3">訂單取消規則</string>
-    <string name="servicer_center_item4">費用說明</string>
-    <string name="servicer_center_item5">常見問題</string>
-    <string name="servicer_center_item6">保險說明</string>
+    <string name = "servicer_center_item1">預訂須知</string>
+    <string name = "servicer_center_item2">服務承諾</string>
+    <string name = "servicer_center_item3">訂單取消規則</string>
+    <string name = "servicer_center_item4">費用說明</string>
+    <string name = "servicer_center_item5">常見問題</string>
+    <string name = "servicer_center_item6">保險說明</string>
 
-    <string name="add_insure_name">中文姓名</string>
-    <string name="add_insure_name_hint">姓名需與證件姓名一致</string>
-    <string name="add_insure_gender">性別</string>
-    <string name="add_insure_gender_hint">請選擇</string>
-    <string name="add_insure_birthday">出生日期</string>
-    <string name="add_insure_birthday_hint">請選擇日期</string>
-    <string name="add_insure_cardid">護照編號</string>
-    <string name="add_insure_cardid_hint">G+8位數字或E+8位數字</string>
-    <string name="add_insure_hint">請認真核對投保人信息，填寫有誤會影響保險公司理賠</string>
-    <string name="add_insure_save">保存</string>
-    <string name="add_insure_man">男</string>
-    <string name="add_insure_woman">女</string>
-    <string name="add_insure_choose_gender">選擇性別</string>
+    <string name = "add_insure_name">中文姓名</string>
+    <string name = "add_insure_name_hint">姓名需與證件姓名一致</string>
+    <string name = "add_insure_gender">性別</string>
+    <string name = "add_insure_gender_hint">請選擇</string>
+    <string name = "add_insure_birthday">出生日期</string>
+    <string name = "add_insure_birthday_hint">請選擇日期</string>
+    <string name = "add_insure_cardid">護照編號</string>
+    <string name = "add_insure_cardid_hint">G+8位數字或E+8位數字</string>
+    <string name = "add_insure_hint">請認真核對投保人信息，填寫有誤會影響保險公司理賠</string>
+    <string name = "add_insure_save">保存</string>
+    <string name = "add_insure_man">男</string>
+    <string name = "add_insure_woman">女</string>
+    <string name = "add_insure_choose_gender">選擇性別</string>
 
     <string name = "voice_captcha_title">語音驗證碼登錄</string>
     <string name = "voice_captcha_get_hint">我們將給您撥打電話告知您驗證碼，如果您接下來收到一個陌生來電，請放心接聽</string>
@@ -953,6 +951,7 @@
     <string name = "voice_captcha_send">驗證碼已發送到手機：</string>
     <string name = "voice_captcha_count_down">%1$ss後重新獲取</string>
     <string name = "voice_captcha_retry">重新獲取語音驗證碼</string>
+    <string name="voice_captcha_input_error">請輸入手機號</string>
 
     <!--Domestic CreditCard-->
     <string name="title_domestic_cc">國內信用卡</string>
@@ -983,4 +982,5 @@
     <string name="domestic_card_add_cardnum_hint">持卡人身份號</string>
     <string name="domestic_card_add_phone_label">手機號</string>
     <string name="domestic_card_add_phone_hint">辦卡時預留手機號</string>
+
 </resources>
