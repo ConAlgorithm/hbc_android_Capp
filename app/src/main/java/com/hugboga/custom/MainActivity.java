@@ -131,7 +131,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private DialogUtil dialogUtil;
     public int lastPagerPosition = 0;
 
-    //private FgHome fgHome;
     private FgHome fgHome;
     private FgDestination fgDestination;
     private FgNimChat fgChat;

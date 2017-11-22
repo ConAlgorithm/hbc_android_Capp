@@ -14,7 +14,6 @@ import com.hugboga.custom.models.CityListGuideFooterModel;
 import com.hugboga.custom.models.CityListGuideHeaderModel;
 import com.hugboga.custom.models.CityListHeaderModel;
 import com.hugboga.custom.models.CityListHotModel;
-import com.hugboga.custom.models.HomeEndModel;
 import com.hugboga.custom.models.HotCityModel;
 import com.hugboga.custom.widget.CityListHotView;
 
@@ -86,11 +85,5 @@ public class CityListAdapter extends EpoxyAdapter {
             cityListHotModel.setDate(paramsData, hotLines, type);
             addModel(cityListHotModel);
         }
-    }
-
-    public void addFooterModel(int tab){
-        HomeEndModel homeEndModel = new HomeEndModel();
-        homeEndModel.setCurrentTab(tab);
-        addModel(homeEndModel);
     }
 }
