@@ -17,6 +17,10 @@
         <item name="android:windowIsTranslucent">false</item>
     </style>
 
+    <!--状态栏透明-->
+    <style name="AppTheme.NoActionBar.Trans">
+    </style>
+
     <style name="AppThemeFullscreen" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
