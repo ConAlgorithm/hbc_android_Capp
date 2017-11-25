@@ -166,4 +166,9 @@
         <attr name="isHideLine" format="boolean"/>
         <attr name="isHideArrow" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="TabView">
+        <attr name="text" format="string" />
+        <attr name="selected" format="boolean" />
+    </declare-styleable>
 </resources>
