@@ -22,7 +22,7 @@
             android:scaleType="fitXY"
             android:src="@mipmap/ic_header_img" />
 
-        <tk.hongbo.city.widget.CityHeaderCountView
+        <com.hugboga.custom.widget.city.CityHeaderCountView
             android:id="@+id/cityHeaderCountView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

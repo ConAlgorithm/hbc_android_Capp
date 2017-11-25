@@ -18,12 +18,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll"
             app:titleEnabled="false"
             app:toolbarId="@+id/toolbar">
 
-            <tk.hongbo.city.widget.CityHeaderFilterView
+            <com.hugboga.custom.widget.city.CityHeaderFilterView
                 android:id="@+id/city_header_filter_img_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -43,6 +42,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/destination_city_screening_icon"
                         android:fontFamily="@font/fzdysjw"
                         android:gravity="center"
                         android:text="日本"
@@ -56,7 +56,7 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <tk.hongbo.city.widget.CityFilterView
+        <com.hugboga.custom.widget.city.CityFilterView
             android:id="@+id/city_filter_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

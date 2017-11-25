@@ -7,21 +7,21 @@
     android:fitsSystemWindows="true"
     android:orientation="horizontal">
 
-    <tk.hongbo.city.widget.TabView
+    <com.hugboga.custom.widget.city.TabView
         android:id="@+id/city_header_filter_tab1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         app:text="游玩线路" />
 
-    <tk.hongbo.city.widget.TabView
+    <com.hugboga.custom.widget.city.TabView
         android:id="@+id/city_header_filter_tab2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         app:text="出发城市" />
 
-    <tk.hongbo.city.widget.TabView
+    <com.hugboga.custom.widget.city.TabView
         android:id="@+id/city_header_filter_tab3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

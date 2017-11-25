@@ -215,6 +215,7 @@
         <activity
             android:name=".activity.CityListActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.PickFlightListActivity"
@@ -668,12 +669,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
-        <!--新目的地-->
-        <activity
-            android:name="activity.CityActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
