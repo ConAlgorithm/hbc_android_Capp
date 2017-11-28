@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
             android:fontFamily="@font/fzdysjw"
             android:text="推荐的包车玩法"
             android:textColor="#151515"

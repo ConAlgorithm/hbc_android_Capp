@@ -1,10 +1,10 @@
 package com.hugboga.custom.data.bean.city;
 
 /**
- * Created by HONGBO on 2017/11/28 10:32.
+ * Created by HONGBO on 2017/11/28 16:49.
  */
 
-public class DestiantionCityVo {
+public class DestinationCityVo {
     public int cityId; //城市ID
     public String cityName; //城市名称
 }

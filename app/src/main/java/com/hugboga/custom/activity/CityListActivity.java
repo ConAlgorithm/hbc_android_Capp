@@ -25,6 +25,7 @@ import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
+import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterView;
 import com.hugboga.custom.widget.city.CityHeaderFilterView;
 
@@ -39,8 +40,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
-import tk.hongbo.label.data.LabelItemData;
-import tk.hongbo.label.data.LabelParentBean;
 
 public class CityListActivity extends BaseActivity {
 
@@ -65,6 +64,9 @@ public class CityListActivity extends BaseActivity {
     boolean isFromHome;
     boolean isFromDestination;
 
+    DestinationHomeVo data; //目的地初始化数据
+    CityDataTools cityDataTools;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_city;
@@ -85,41 +87,13 @@ public class CityListActivity extends BaseActivity {
                 paramsData = (CityListActivity.Params) bundle.getSerializable(Constants.PARAMS_DATA);
             }
         }
+        cityDataTools = new CityDataTools();
         EventBus.getDefault().register(this);
         isFromHome = getIntent().getBooleanExtra("isFromHome", false);
         isFromDestination = getIntent().getBooleanExtra("isFromDestination", false);
 
         //监听筛选项变化
         cityFilterView.setFilterSeeListener(filterSeeListener);
-
-        //初始化数据
-        content_city_filte_view1.setData(testData(), new FilterView.OnSelectListener() {
-            @Override
-            public void onSelect(LabelBean labelBean) {
-                content_city_filte_view1.hide();
-                cityFilterView.clear();
-                //TODO 具体选中的标签
-                Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
-            }
-        });
-        content_city_filte_view2.setData(testData2(), new FilterView.OnSelectListener() {
-            @Override
-            public void onSelect(LabelBean labelBean) {
-                content_city_filte_view2.hide();
-                cityFilterView.clear();
-                //TODO 具体选中的出发城市
-                Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
-            }
-        });
-        content_city_filte_view3.setData(testData3(), new FilterView.OnSelectListener() {
-            @Override
-            public void onSelect(LabelBean labelBean) {
-                cityFilterView.clear();
-                content_city_filte_view3.hide();
-                //TODO 具体选中的游玩天数
-                Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
-            }
-        });
 
         //初始化首页内容
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
@@ -148,126 +122,63 @@ public class CityListActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 设置筛选项数据
+     */
+    private void flushFilterData(DestinationHomeVo data) {
+        //游玩线路数据
+        content_city_filte_view1.setData(cityDataTools.getTagData(data.destinationTagList), onSelectListener1);
+        //出发城市数据
+        content_city_filte_view2.setData(cityDataTools.getCityData(data.depCityList), onSelectListener2);
+        //游玩天数数据
+        content_city_filte_view3.setData(cityDataTools.getDayData(data.dayCountList), onSelectListener3);
+    }
+
+    /**
+     * 游玩线路标签选中处理
+     */
+    FilterView.OnSelectListener onSelectListener1 = new FilterView.OnSelectListener() {
+        @Override
+        public void onSelect(LabelBean labelBean) {
+            content_city_filte_view1.hide();
+            cityFilterView.clear();
+            //TODO 具体选中的标签
+            Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
+        }
+    };
+
+    /**
+     * 出发城市选中处理
+     */
+    FilterView.OnSelectListener onSelectListener2 = new FilterView.OnSelectListener() {
+        @Override
+        public void onSelect(LabelBean labelBean) {
+            content_city_filte_view2.hide();
+            cityFilterView.clear();
+            //TODO 具体选中的出发城市
+            Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
+        }
+    };
+
+    /**
+     * 游玩天数选中处理
+     */
+    FilterView.OnSelectListener onSelectListener3 = new FilterView.OnSelectListener() {
+        @Override
+        public void onSelect(LabelBean labelBean) {
+            cityFilterView.clear();
+            content_city_filte_view3.hide();
+            //TODO 具体选中的游玩天数
+            Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
+        }
+    };
+
     private List getSkuTest() {
         List<String> data = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             data.add("Test" + i);
         }
         return data;
-    }
-
-    private List<LabelItemData> testData3() {
-        List<LabelItemData> data = new ArrayList<>();
-        for (int i = 1; i < 3; i++) {
-            LabelItemData itemData = new LabelItemData();
-            List<LabelParentBean> parents = new ArrayList<>();
-            //1
-            LabelParentBean bean = new LabelParentBean();
-            LabelBean beanL = new LabelBean();
-            beanL.id = i;
-            beanL.name = "1天" + i;
-            bean.parentLabel = beanL;
-            parents.add(bean);
-            //2
-            LabelParentBean bean2 = new LabelParentBean();
-            LabelBean beanC = new LabelBean();
-            beanC.id = i;
-            beanC.name = "2~3天" + i;
-            bean2.parentLabel = beanC;
-            parents.add(bean2);
-            //3
-            LabelParentBean bean3 = new LabelParentBean();
-            LabelBean beanR = new LabelBean();
-            beanR.id = i;
-            beanR.name = "7天及以上" + i;
-            bean3.parentLabel = beanR;
-            parents.add(bean3);
-
-            itemData.parent = parents;
-            data.add(itemData);
-        }
-        return data;
-    }
-
-    private List<LabelItemData> testData2() {
-        List<LabelItemData> data = new ArrayList<>();
-        for (int i = 1; i < 5; i++) {
-            LabelItemData itemData = new LabelItemData();
-            List<LabelParentBean> parents = new ArrayList<>();
-            //1
-            LabelParentBean bean = new LabelParentBean();
-            LabelBean beanL = new LabelBean();
-            beanL.id = i;
-            beanL.name = "东京" + i;
-            bean.parentLabel = beanL;
-            parents.add(bean);
-            //2
-            LabelParentBean bean2 = new LabelParentBean();
-            LabelBean beanC = new LabelBean();
-            beanC.id = i;
-            beanC.name = "箱根" + i;
-            bean2.parentLabel = beanC;
-            parents.add(bean2);
-            //3
-            LabelParentBean bean3 = new LabelParentBean();
-            LabelBean beanR = new LabelBean();
-            beanR.id = i;
-            beanR.name = "镰仓" + i;
-            bean3.parentLabel = beanR;
-            parents.add(bean3);
-
-            itemData.parent = parents;
-            data.add(itemData);
-        }
-        return data;
-    }
-
-    private List<LabelItemData> testData() {
-        List<LabelItemData> data = new ArrayList<>();
-        for (int i = 1; i < 6; i++) {
-            LabelItemData itemData = new LabelItemData();
-            List<LabelParentBean> parents = new ArrayList<>();
-            //1
-            LabelParentBean bean = new LabelParentBean();
-            LabelBean beanL = new LabelBean();
-            beanL.id = i;
-            beanL.name = "关西地区" + i;
-            bean.parentLabel = beanL;
-            bean.childs = getChild(i);
-            parents.add(bean);
-            //2
-            LabelParentBean bean2 = new LabelParentBean();
-            LabelBean beanC = new LabelBean();
-            beanC.id = i;
-            beanC.name = "北海道地区" + i;
-            bean2.parentLabel = beanC;
-//            bean2.childs = getChild(i);
-            parents.add(bean2);
-            //3
-            LabelParentBean bean3 = new LabelParentBean();
-            LabelBean beanR = new LabelBean();
-            beanR.id = i;
-            beanR.name = "冲绳地区" + i;
-            bean3.parentLabel = beanR;
-            bean3.childs = getChild(i);
-            parents.add(bean3);
-
-            itemData.parent = parents;
-            data.add(itemData);
-        }
-        return data;
-    }
-
-    private List<LabelBean> getChild(int i) {
-        //Child
-        List<LabelBean> child = new ArrayList<>();
-        for (int j = 1; j < 10; j++) {
-            LabelBean label = new LabelBean();
-            label.id = j + 100;
-            label.name = i + "子" + label.id;
-            child.add(label);
-        }
-        return child;
     }
 
     @OnClick({R.id.city_toolbar_title})
@@ -432,6 +343,9 @@ public class CityListActivity extends BaseActivity {
                 if (city_header_filter_img_root != null) {
                     city_header_filter_img_root.init(this, data);
                 }
+                //设置标签部分
+                flushFilterData(data);
+                //TODO 设置玩法列表初始化数据
             }
         }
     }
