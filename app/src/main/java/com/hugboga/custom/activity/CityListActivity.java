@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.huangbaoche.hbcframe.data.net.ExceptionInfo;
 import com.huangbaoche.hbcframe.data.net.HttpRequestUtils;
@@ -17,12 +18,15 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
+import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
 import com.hugboga.custom.widget.city.CityFilterView;
+import com.hugboga.custom.widget.city.CityHeaderFilterView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +45,11 @@ import tk.hongbo.label.data.LabelParentBean;
 public class CityListActivity extends BaseActivity {
 
     Toolbar toolbar;
+
+    @BindView(R.id.city_toolbar_title)
+    TextView city_toolbar_title; //Toolbar标题
+    @BindView(R.id.city_header_filter_img_root)
+    CityHeaderFilterView city_header_filter_img_root; //头部城市信息
 
     @BindView(R.id.content_city_filte_view1)
     FilterView content_city_filte_view1; //筛选条件内容，游玩线路
@@ -111,6 +120,11 @@ public class CityListActivity extends BaseActivity {
                 Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
             }
         });
+
+        //初始化首页内容
+        RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
+        HttpRequestUtils.request(this, requestCity, this);
+
         showList(); //展示线路数据
     }
 
@@ -333,7 +347,21 @@ public class CityListActivity extends BaseActivity {
     public static final int GUIDE_LIST_COUNT = 8;//精选司导显示的条数
 
     public enum CityHomeType {
-        CITY, ROUTE, COUNTRY, ALL
+        CITY(202), ROUTE(101), COUNTRY(201), ALL(0);
+
+        int type;
+
+        CityHomeType(int i) {
+            this.type = i;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
     }
 
     public static class Params implements Serializable {
@@ -393,6 +421,22 @@ public class CityListActivity extends BaseActivity {
     }
 
     @Override
+    public void onDataRequestSucceed(BaseRequest request) {
+        super.onDataRequestSucceed(request);
+        if (request instanceof RequestCity) {
+            //首页初始化数据
+            DestinationHomeVo data = ((RequestCity) request).getData();
+            if (data != null) {
+                //修改标题
+                city_toolbar_title.setText(data.destinationName);
+                if (city_header_filter_img_root != null) {
+                    city_header_filter_img_root.init(data);
+                }
+            }
+        }
+    }
+
+    @Override
     public void onDataRequestError(ExceptionInfo errorInfo, BaseRequest request) {
         super.onDataRequestError(errorInfo, request);
         if (request instanceof RequestCityHomeList || request instanceof RequestCountryGroup) {
@@ -403,11 +447,6 @@ public class CityListActivity extends BaseActivity {
     @Override
     public String getEventSource() {
         String result = "";
-        /*if(isFromHome){
-            return "全局搜索";
-        }else if(isFromDestination){
-            return "目的地搜索";
-        }*/
         if (paramsData != null) {
             switch (paramsData.cityHomeType) {
                 case CITY:
@@ -422,6 +461,40 @@ public class CityListActivity extends BaseActivity {
             }
         }
         return result;
+    }
+
+    /**
+     * 打开更多司导界面
+     */
+    public void clickMoreGuide() {
+        Intent intent = new Intent(this, FilterGuideListActivity.class);
+        if (paramsData != null) {
+            FilterGuideListActivity.Params params = new FilterGuideListActivity.Params();
+            params.id = paramsData.id;
+            params.cityHomeType = paramsData.cityHomeType;
+            params.titleName = paramsData.titleName;
+            intent.putExtra(Constants.PARAMS_DATA, params);
+            intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        }
+        startActivity(intent);
+    }
+
+    /**
+     * 打开更多SKU界面
+     * TODO 有可能不需要点击，@圆确定
+     */
+    public void clickMoreSku() {
+        FilterSkuListActivity.Params params = new FilterSkuListActivity.Params();
+        if (paramsData != null) {
+            params.id = paramsData.id;
+            params.cityHomeType = paramsData.cityHomeType;
+            params.titleName = paramsData.titleName;
+            params.days = "1,2"; //TODO 游玩天数需要动态获取
+        }
+        Intent intent = new Intent(this, FilterSkuListActivity.class);
+        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
+        intent.putExtra(Constants.PARAMS_DATA, params);
+        startActivity(intent);
     }
 
     private void setEmptyLayout(boolean isShow, boolean isDataNull) {
