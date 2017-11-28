@@ -29,13 +29,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" />
 
-        <ImageView
+        <com.hugboga.custom.widget.city.CityBannerView
+            android:id="@+id/city_header_banner_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_banner_img" />
+            android:layout_margin="8dp" />
 
         <TextView
             android:id="@+id/textView5"

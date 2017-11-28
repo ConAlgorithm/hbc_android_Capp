@@ -29,6 +29,8 @@ public class CityHeaderFilterView extends FrameLayout {
     ImageView city_header_img; //头部背景图
     @BindView(R.id.cityHeaderCountView)
     CityHeaderCountView cityHeaderCountView; //统计部分信息
+    @BindView(R.id.city_header_banner_view)
+    CityBannerView city_header_banner_view; //头部广告部分
 
     public CityHeaderFilterView(@NonNull Context context) {
         this(context, null);
@@ -47,5 +49,8 @@ public class CityHeaderFilterView extends FrameLayout {
             cityHeaderCountView.init(mActivity, vo.destinationGoodsCount, vo.destinationAssociateGuideCount);
         }
         //广告部分
+        if (city_header_banner_view != null) {
+            city_header_banner_view.init(mActivity, vo.beginnerDirection);
+        }
     }
 }
