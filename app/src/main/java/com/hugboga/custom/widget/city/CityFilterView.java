@@ -72,20 +72,20 @@ public class CityFilterView extends FrameLayout {
         if (tabView2 != null) {
             if (position != 1) {
                 tabView2.setSelected(false);
-            }else{
+            } else {
                 tabView2.setSelected(!tabView2.isSelected());
             }
         }
         if (tabView3 != null) {
             if (position != 2) {
                 tabView3.setSelected(false);
-            }else{
+            } else {
                 tabView3.setSelected(!tabView3.isSelected());
             }
         }
     }
 
-    public void clear(){
+    public void clear() {
         if (tabView1 != null) {
             tabView1.setSelected(false);
         }
@@ -105,5 +105,29 @@ public class CityFilterView extends FrameLayout {
 
     public void setFilterSeeListener(FilterSeeListener filterSeeListener) {
         this.filterSeeListener = filterSeeListener;
+    }
+
+    /**
+     * 修改筛选项标签名字
+     * @param title
+     */
+    public void setTextTag(String title) {
+        tabView1.setText(title);
+    }
+
+    /**
+     * 修改筛选项出发城市名字
+     * @param title
+     */
+    public void setTextCity(String title){
+        tabView2.setText(title);
+    }
+
+    /**
+     * 修改筛选项游玩天数名字
+     * @param title
+     */
+    public void setTextDay(String title){
+        tabView3.setText(title);
     }
 }

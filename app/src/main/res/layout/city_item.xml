@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -14,8 +15,7 @@
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_header_img" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/city_item_hear"
@@ -49,27 +49,27 @@
         android:layout_height="64dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
+        android:background="@mipmap/icon_head_noguide"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_item_title"
-        app:srcCompat="@drawable/guide_head" />
+        app:layout_constraintTop_toBottomOf="@+id/city_item_title" />
 
     <TextView
         android:id="@+id/city_item_tip"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="285人已收藏 · 7天 · 东京 > 镰仓…"
+        app:layout_constraintBottom_toTopOf="@+id/city_item_tip2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/city_item_guide" />
+        app:layout_constraintTop_toTopOf="@+id/city_item_guide"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/city_item_tip2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
         android:text="30位当地人可带你体验"
         app:layout_constraintBottom_toBottomOf="@+id/city_item_guide"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,4 +88,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_item_guide" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/city_item_guide"
+        app:layout_constraintEnd_toStartOf="@+id/city_item_guide"
+        app:layout_constraintStart_toStartOf="@+id/city_item_guide"
+        app:srcCompat="@mipmap/home_hbc_car" />
 </android.support.constraint.ConstraintLayout>

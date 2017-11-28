@@ -20,4 +20,5 @@ public class DestinationGoodsVo {
     public String skuDetailUrl; //sku详情地址
     public String shareUrl; //分享地址
     public String placeList; //商品途径点
+    public String guideHeadImageUrl; //司导头像
 }

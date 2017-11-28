@@ -18,6 +18,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.CityAdapter;
 import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
@@ -33,7 +34,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,6 +67,10 @@ public class CityListActivity extends BaseActivity {
     DestinationHomeVo data; //目的地初始化数据
     CityDataTools cityDataTools;
 
+    LabelBean labelBeanTag; //筛选项游玩线路标签
+    LabelBean labelBeanCity; //筛选项出发城市
+    LabelBean labelBeanDay; //筛选项游玩天数
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_city;
@@ -99,13 +103,7 @@ public class CityListActivity extends BaseActivity {
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
         HttpRequestUtils.request(this, requestCity, this);
 
-        showList(); //展示线路数据
-    }
-
-    private void showList() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        CityAdapter adapter = new CityAdapter(this, getSkuTest());
-        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
     }
 
     @Override
@@ -142,8 +140,8 @@ public class CityListActivity extends BaseActivity {
         public void onSelect(LabelBean labelBean) {
             content_city_filte_view1.hide();
             cityFilterView.clear();
-            //TODO 具体选中的标签
-            Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
+            labelBeanTag = labelBean;
+            cityFilterView.setTextTag(labelBean.name);
         }
     };
 
@@ -155,8 +153,8 @@ public class CityListActivity extends BaseActivity {
         public void onSelect(LabelBean labelBean) {
             content_city_filte_view2.hide();
             cityFilterView.clear();
-            //TODO 具体选中的出发城市
-            Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
+            labelBeanCity = labelBean;
+            cityFilterView.setTextCity(labelBean.name);
         }
     };
 
@@ -168,18 +166,10 @@ public class CityListActivity extends BaseActivity {
         public void onSelect(LabelBean labelBean) {
             cityFilterView.clear();
             content_city_filte_view3.hide();
-            //TODO 具体选中的游玩天数
-            Snackbar.make(toolbar, "选中内容ID：" + labelBean.id + "，Title：" + labelBean.name, Snackbar.LENGTH_SHORT).show();
+            labelBeanDay = labelBean;
+            cityFilterView.setTextDay(labelBean.name);
         }
     };
-
-    private List getSkuTest() {
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            data.add("Test" + i);
-        }
-        return data;
-    }
 
     @OnClick({R.id.city_toolbar_title})
     public void onClick(View view) {
@@ -345,9 +335,19 @@ public class CityListActivity extends BaseActivity {
                 }
                 //设置标签部分
                 flushFilterData(data);
-                //TODO 设置玩法列表初始化数据
+                // 设置玩法列表初始化数据
+                flushSkuList(data.destinationGoodsList);
             }
         }
+    }
+
+    /**
+     * 设置玩法列表数据
+     * @param destinationGoodsList
+     */
+    private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
+        CityAdapter adapter = new CityAdapter(this, destinationGoodsList);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

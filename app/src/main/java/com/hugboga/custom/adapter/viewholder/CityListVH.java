@@ -1,13 +1,14 @@
 package com.hugboga.custom.adapter.viewholder;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hugboga.custom.R;
-
-import org.w3c.dom.Text;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.tools.NetImg;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,8 @@ import butterknife.ButterKnife;
  */
 
 public class CityListVH extends RecyclerView.ViewHolder {
+
+    Context mContext;
 
     @BindView(R.id.city_item_img)
     ImageView city_item_img;
@@ -32,15 +35,23 @@ public class CityListVH extends RecyclerView.ViewHolder {
     @BindView(R.id.city_item_line)
     public ImageView line;
 
-    public CityListVH(View itemView) {
+    public CityListVH(Context mContext, View itemView) {
         super(itemView);
+        this.mContext = mContext;
         ButterKnife.bind(this, itemView);
     }
 
     /**
      * 显示数据
      */
-    public void init(int position) {
-
+    public void init(DestinationGoodsVo destinationGoodsVo) {
+        NetImg.showImage(mContext, city_item_img, destinationGoodsVo.goodsImageUrl);
+        city_item_title.setText(destinationGoodsVo.goodsName);
+        NetImg.showCircleImage(mContext, city_item_guide, destinationGoodsVo.guideHeadImageUrl);
+        city_item_tip.setText(String.format(mContext.getString(R.string.city_sku_title1),
+                String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount),
+                destinationGoodsVo.depCityName, destinationGoodsVo.arrCityName));
+        city_item_tip2.setText(String.format(mContext.getString(R.string.city_sku_title2),
+                String.valueOf(destinationGoodsVo.guideCount)));
     }
 }

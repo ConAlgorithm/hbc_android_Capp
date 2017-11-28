@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.viewholder.CityListVH;
+import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 
 import java.util.List;
 
@@ -19,22 +20,22 @@ import java.util.List;
 public class CityAdapter extends RecyclerView.Adapter<CityListVH> {
 
     private Context mContext;
-    private List data;
+    private List<DestinationGoodsVo> data;
 
-    public CityAdapter(Context context, List data) {
+    public CityAdapter(Context context, List<DestinationGoodsVo> data) {
         this.mContext = context;
         this.data = data;
     }
 
     @Override
     public CityListVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CityListVH(LayoutInflater.from(mContext).inflate(R.layout.city_item, parent, false));
+        return new CityListVH(mContext, LayoutInflater.from(mContext).inflate(R.layout.city_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(CityListVH holder, int position) {
-        holder.init(position);
-        holder.line.setVisibility(position == data.size() - 1 ? View.GONE : View.VISIBLE);
+        holder.init(data.get(position));
+        holder.line.setVisibility(position == data.size() - 1 ? View.INVISIBLE : View.VISIBLE);
     }
 
     @Override
