@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget.city;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import butterknife.OnClick;
 
 public class CityHeaderCountView extends FrameLayout {
 
+    Activity mActivity;
+
     @BindView(R.id.city_header_count_pay)
     TextView city_header_count_pay; //包车玩法
     @BindView(R.id.city_header_count_guide)
@@ -37,9 +40,10 @@ public class CityHeaderCountView extends FrameLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void init(Integer payNum, Integer guideNum) {
-        city_header_count_pay.setText(payNum);
-        city_header_count_guide.setText(guideNum);
+    public void init(Activity activity, Integer payNum, Integer guideNum) {
+        this.mActivity = activity;
+        city_header_count_pay.setText(payNum.toString());
+        city_header_count_guide.setText(guideNum.toString());
     }
 
     @OnClick({R.id.city_header_click1, R.id.city_header_click2})
@@ -47,14 +51,14 @@ public class CityHeaderCountView extends FrameLayout {
         switch (view.getId()) {
             case R.id.city_header_click1:
                 //包车玩法事件
-                if (getContext() != null && (getContext() instanceof CityListActivity)) {
-                    ((CityListActivity) getContext()).clickMoreSku();
+                if (mActivity != null && (mActivity instanceof CityListActivity)) {
+                    ((CityListActivity) mActivity).clickMoreSku();
                 }
                 break;
             case R.id.city_header_click2:
                 //中文司导事件
-                if (getContext() != null && (getContext() instanceof CityListActivity)) {
-                    ((CityListActivity) getContext()).clickMoreGuide();
+                if (mActivity != null && (mActivity instanceof CityListActivity)) {
+                    ((CityListActivity) mActivity).clickMoreGuide();
                 }
                 break;
         }

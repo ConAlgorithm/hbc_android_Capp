@@ -19,8 +19,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="?attr/actionBarSize"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_header_img" />
+            android:scaleType="fitXY" />
 
         <com.hugboga.custom.widget.city.CityHeaderCountView
             android:id="@+id/cityHeaderCountView"

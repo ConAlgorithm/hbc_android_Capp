@@ -430,7 +430,7 @@ public class CityListActivity extends BaseActivity {
                 //修改标题
                 city_toolbar_title.setText(data.destinationName);
                 if (city_header_filter_img_root != null) {
-                    city_header_filter_img_root.init(data);
+                    city_header_filter_img_root.init(this, data);
                 }
             }
         }

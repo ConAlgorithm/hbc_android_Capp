@@ -1,5 +1,6 @@
 package com.hugboga.custom.widget.city;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import butterknife.ButterKnife;
 
 public class CityHeaderFilterView extends FrameLayout {
 
+    Activity mActivity;
+
     @BindView(R.id.city_header_img)
     ImageView city_header_img; //头部背景图
     @BindView(R.id.cityHeaderCountView)
@@ -37,10 +40,11 @@ public class CityHeaderFilterView extends FrameLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void init(DestinationHomeVo vo) {
+    public void init(Activity activity, DestinationHomeVo vo) {
+        this.mActivity = activity;
         NetImg.showImage(getContext(), city_header_img, vo.destinationImageUrl);
         if (cityHeaderCountView != null) {
-            cityHeaderCountView.init(vo.destinationGoodsCount, vo.destinationAssociateGuideCount);
+            cityHeaderCountView.init(mActivity, vo.destinationGoodsCount, vo.destinationAssociateGuideCount);
         }
         //广告部分
     }
