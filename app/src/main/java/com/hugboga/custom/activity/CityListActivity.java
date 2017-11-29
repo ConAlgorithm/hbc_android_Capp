@@ -26,6 +26,7 @@ import com.hugboga.custom.data.request.FavoriteLinesaved;
 import com.hugboga.custom.data.request.RequestCity;
 import com.hugboga.custom.data.request.RequestCityHomeList;
 import com.hugboga.custom.data.request.RequestCountryGroup;
+import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterView;
 import com.hugboga.custom.widget.city.CityHeaderFilterView;
@@ -141,6 +142,7 @@ public class CityListActivity extends BaseActivity {
             content_city_filte_view1.hide();
             cityFilterView.clear();
             labelBeanTag = labelBean;
+            flushSkuList();
             cityFilterView.setTextTag(labelBean.name);
         }
     };
@@ -154,6 +156,7 @@ public class CityListActivity extends BaseActivity {
             content_city_filte_view2.hide();
             cityFilterView.clear();
             labelBeanCity = labelBean;
+            flushSkuList();
             cityFilterView.setTextCity(labelBean.name);
         }
     };
@@ -167,9 +170,20 @@ public class CityListActivity extends BaseActivity {
             cityFilterView.clear();
             content_city_filte_view3.hide();
             labelBeanDay = labelBean;
+            flushSkuList();
             cityFilterView.setTextDay(labelBean.name);
         }
     };
+
+    /**
+     * 根据条件筛选玩法
+     */
+    private void flushSkuList() {
+        RequestQuerySkuList requestQuerySkuList = new RequestQuerySkuList(this, paramsData.id,
+                paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : 0,
+                labelBeanTag != null ? labelBeanTag.id : 0, labelBeanCity != null ? labelBeanCity.id : 0);
+        HttpRequestUtils.request(this, requestQuerySkuList, this);
+    }
 
     @OnClick({R.id.city_toolbar_title})
     public void onClick(View view) {
@@ -338,11 +352,16 @@ public class CityListActivity extends BaseActivity {
                 // 设置玩法列表初始化数据
                 flushSkuList(data.destinationGoodsList);
             }
+        } else if (request instanceof RequestQuerySkuList) {
+            //条件筛选玩法
+            List<DestinationGoodsVo> skus = (List<DestinationGoodsVo>) request.getData();
+            flushSkuList(skus);
         }
     }
 
     /**
      * 设置玩法列表数据
+     *
      * @param destinationGoodsList
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
