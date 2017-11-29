@@ -10,6 +10,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.adapter.viewholder.CityListVH;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,5 +42,18 @@ public class CityAdapter extends RecyclerView.Adapter<CityListVH> {
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void load(List<DestinationGoodsVo> datas) {
+        this.data = datas;
+        notifyDataSetChanged();
+    }
+
+    public void addData(List<DestinationGoodsVo> datas) {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+        data.addAll(datas);
+        notifyDataSetChanged();
     }
 }

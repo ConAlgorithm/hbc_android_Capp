@@ -72,6 +72,9 @@ public class CityListActivity extends BaseActivity {
     LabelBean labelBeanCity; //筛选项出发城市
     LabelBean labelBeanDay; //筛选项游玩天数
 
+    CityAdapter adapter;
+    private int page = 1; //sku页数
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_city;
@@ -105,6 +108,17 @@ public class CityListActivity extends BaseActivity {
         HttpRequestUtils.request(this, requestCity, this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1) && dy > 0) {
+                    // 滚动到底部加载更多
+                    page++;
+                    flushSkuList();
+                }
+            }
+        });
     }
 
     @Override
@@ -142,6 +156,7 @@ public class CityListActivity extends BaseActivity {
             content_city_filte_view1.hide();
             cityFilterView.clear();
             labelBeanTag = labelBean;
+            page = 1; //筛选条件后重置页数为首页
             flushSkuList();
             cityFilterView.setTextTag(labelBean.name);
         }
@@ -156,6 +171,7 @@ public class CityListActivity extends BaseActivity {
             content_city_filte_view2.hide();
             cityFilterView.clear();
             labelBeanCity = labelBean;
+            page = 1; //筛选条件后重置页数为首页
             flushSkuList();
             cityFilterView.setTextCity(labelBean.name);
         }
@@ -170,6 +186,7 @@ public class CityListActivity extends BaseActivity {
             cityFilterView.clear();
             content_city_filte_view3.hide();
             labelBeanDay = labelBean;
+            page = 1; //筛选条件后重置页数为首页
             flushSkuList();
             cityFilterView.setTextDay(labelBean.name);
         }
@@ -181,8 +198,8 @@ public class CityListActivity extends BaseActivity {
     private void flushSkuList() {
         RequestQuerySkuList requestQuerySkuList = new RequestQuerySkuList(this, paramsData.id,
                 paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : 0,
-                labelBeanTag != null ? labelBeanTag.id : 0, labelBeanCity != null ? labelBeanCity.id : 0);
-        HttpRequestUtils.request(this, requestQuerySkuList, this);
+                labelBeanTag != null ? labelBeanTag.id : 0, labelBeanCity != null ? labelBeanCity.id : 0, page);
+        HttpRequestUtils.request(this, requestQuerySkuList, this, page == 1);
     }
 
     @OnClick({R.id.city_toolbar_title})
@@ -365,8 +382,15 @@ public class CityListActivity extends BaseActivity {
      * @param destinationGoodsList
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
-        CityAdapter adapter = new CityAdapter(this, destinationGoodsList);
-        recyclerView.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new CityAdapter(this, destinationGoodsList);
+            recyclerView.setAdapter(adapter);
+        }
+        if (page == 1) {
+            adapter.load(destinationGoodsList);
+        } else {
+            adapter.addData(destinationGoodsList);
+        }
     }
 
     @Override

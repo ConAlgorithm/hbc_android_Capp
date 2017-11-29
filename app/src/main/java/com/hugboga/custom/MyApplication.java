@@ -27,6 +27,7 @@ import com.hugboga.custom.utils.UnicornUtils;
 import com.hugboga.custom.widget.DialogUtil;
 import com.hugboga.im.ImHelper;
 import com.hugboga.im.entity.ImAnalysisEnitty;
+import com.hugboga.tools.HLog;
 import com.ishumei.smantifraud.SmAntiFraud;
 import com.leon.channel.helper.ChannelReaderUtil;
 import com.networkbench.agent.impl.NBSAppAgent;
@@ -71,6 +72,7 @@ public class MyApplication extends HbcApplication {
         mAppContext = this.getApplicationContext();
         MobclickAgent.setDebugMode(HbcConfig.IS_DEBUG);
         x.Ext.setDebug(true);
+        HLog.setIsDebug(BuildConfig.DEBUG);
         getChannelNum();
         initUrlHost();
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
