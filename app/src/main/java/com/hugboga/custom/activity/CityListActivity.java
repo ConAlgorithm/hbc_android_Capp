@@ -31,6 +31,7 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterView;
 import com.hugboga.custom.widget.city.CityHeaderFilterView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -110,7 +111,9 @@ public class CityListActivity extends BaseActivity {
         HttpRequestUtils.request(this, requestCity, this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this)); //展示线路数据
+        recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -374,7 +377,9 @@ public class CityListActivity extends BaseActivity {
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
             List<DestinationGoodsVo> skus = (List<DestinationGoodsVo>) request.getData();
-            flushSkuList(skus);
+            if (skus != null && skus.size() > 0) {
+                flushSkuList(skus);
+            }
         }
     }
 

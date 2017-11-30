@@ -32,6 +32,9 @@ public class CityAdapter extends EpoxyAdapter {
     }
 
     private void addGoods(List<DestinationGoodsVo> data) {
+        if (data == null) {
+            return;
+        }
         for (int i = 0; i < data.size(); i++) {
             DestinationGoodsVo vo = data.get(i);
             CityListModel model = new CityListModel(mContext, vo);
@@ -60,6 +63,9 @@ public class CityAdapter extends EpoxyAdapter {
     }
 
     public void addMoreGoods(List<DestinationGoodsVo> data) {
+        if(data==null){
+            return;
+        }
         if (goodeMode != null) {
             removeAllAfterModel(goodeMode);
         }

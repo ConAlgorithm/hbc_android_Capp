@@ -1,4 +1,5 @@
 package com.hugboga.custom.data.parser;
+
 import android.text.TextUtils;
 
 import com.huangbaoche.hbcframe.HbcConfig;
@@ -18,7 +19,7 @@ public class HbcParser extends ImplParser {
     private String url;
 
     public HbcParser(String _url, Type _type) {
-        this.url =_url;
+        this.url = _url;
         this.type = _type;
     }
 
@@ -26,7 +27,7 @@ public class HbcParser extends ImplParser {
     public Object parse(Type resultType, Class<?> resultClass, String result) throws Throwable {
         JSONObject jsonObject = new JSONObject(result);
         Object data = getServerParser().parseObject(jsonObject);
-        if (TextUtils.isEmpty(data.toString())) {
+        if (TextUtils.isEmpty(data.toString()) || "{}".equals(data.toString())) {
             return null;
         }
         if (HbcConfig.IS_DEBUG) {
@@ -35,7 +36,7 @@ public class HbcParser extends ImplParser {
             } catch (Exception e) {
                 String resultStr = "解析错误 url: " + url;
                 CommonUtils.showToast(resultStr);
-                LogUtils.e("解析错误 url: "+url);
+                LogUtils.e("解析错误 url: " + url);
                 LogUtils.json(result);
                 e.printStackTrace();
                 return null;

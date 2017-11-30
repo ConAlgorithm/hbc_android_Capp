@@ -41,6 +41,9 @@ public class CityListModel extends EpoxyModelWithHolder<CityListModel.CityListVH
     @Override
     public void bind(CityListVH holder) {
         super.bind(holder);
+        if (holder == null) {
+            return;
+        }
         init(holder, destinationGoodsVo);
     }
 

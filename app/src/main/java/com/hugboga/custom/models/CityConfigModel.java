@@ -46,6 +46,9 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
     @Override
     public void bind(CityConfigVH holder) {
         super.bind(holder);
+        if (holder == null) {
+            return;
+        }
         init(holder, vo);
     }
 

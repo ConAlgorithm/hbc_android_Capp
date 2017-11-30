@@ -51,9 +51,9 @@ public class CityHeaderCountView extends FrameLayout {
         switch (view.getId()) {
             case R.id.city_header_click1:
                 //包车玩法事件
-                if (mActivity != null && (mActivity instanceof CityListActivity)) {
-                    ((CityListActivity) mActivity).clickMoreSku();
-                }
+//                if (mActivity != null && (mActivity instanceof CityListActivity)) {
+//                    ((CityListActivity) mActivity).clickMoreSku();
+//                }
                 break;
             case R.id.city_header_click2:
                 //中文司导事件
