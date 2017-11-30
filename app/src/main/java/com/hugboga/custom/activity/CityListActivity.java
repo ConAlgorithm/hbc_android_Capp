@@ -385,17 +385,16 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
         if (adapter == null) {
-            adapter = new CityAdapter(this, destinationGoodsList);
             if (data != null) {
                 data.dailyServiceConfig = getTestConfig(); //TODO remove
-                adapter.setDailyServiceConfig(data.dailyServiceConfig);
             }
+            adapter = new CityAdapter(this, destinationGoodsList, data.dailyServiceConfig);
             recyclerView.setAdapter(adapter);
         }
         if (page == 1) {
             adapter.load(destinationGoodsList);
         } else {
-            adapter.addData(destinationGoodsList);
+            adapter.addMoreGoods(destinationGoodsList);
         }
     }
 
