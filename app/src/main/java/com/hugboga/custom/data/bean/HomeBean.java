@@ -9,22 +9,39 @@ import java.util.ArrayList;
  */
 public class HomeBean implements Serializable {
 
-    public ArrayList<AlbumBannerBean> bannerInfolList;               // banner轮播列表
-    public ArrayList<AlbumBean> hotAlbumList;                        // 热门专辑信息
+    public ArrayList<BannerBean> bannerInfolList;                    // banner轮播列表
+    public ArrayList<HotAlbumBean> hotAlbumList;                     // 热门专辑信息
     public ArrayList<TransferBean> transferList;                     // 接送机信息列表
     public ArrayList<CharteredBean> charteredList;                   // 包车信息列表
     public ArrayList<ExcitedActivityBean> excitingActivityList;      // 精彩活动列表
 
-    public class AlbumBannerBean implements Serializable {
+    public static class BannerBean implements Serializable {
+        public int bannerType;                          // 1.商品 2.活动
+        public int bannerSettingId;                     // 商品ID 或者 活动ID
+        public String bannerName;                       // banner名称
+        public String bannerPicture;                    // bannner图片
+        public String bannerAddress;                    // 活动或者广告URL
+        public String bannerDesc;                       // 活动简介
+        public int requestType;                         // 请求类型（1，h5；2，native）
+        public String guideAvatar;                      // 司导头像
+        public String guideName;                        // 司导姓名
+        public int goodsFavoriteNum;                    // 商品收藏数
+        public String routeCityDesc;                    // 途径城市
+        public String goodsCountryName;                 // 商品所在国家
+        public int goodsServiceDay;                     // 商品天数
+        public int needLogin;                           // 是否需要登录 1：需要登录，0：不需要登录
+        public ActionBean pushScheme;
+    }
+
+    public static class HotAlbumBean implements Serializable {
         public String albumId;                          // 专辑ID
         public String albumName;                        // 专辑名称
         public String albumLinkUrl;                     // 专辑跳转URL
         public int albumHotLevel;                       // 专辑热度
-        public String albumImageUrl;                    // TODO 图片
-        public ArrayList<AlbumBean> albumRelItems;      // 专辑详细信息
+        public ArrayList<AlbumBean> albumRelItemList;   // 专辑详细信息
     }
 
-    public class AlbumBean implements Serializable {
+    public static class AlbumBean implements Serializable {
         public String goodsNo;                          // 商品NO
         public String goodsName;                        // 商品名称
         public String goodsPic;                         // 商品图片
@@ -35,9 +52,13 @@ public class HomeBean implements Serializable {
         public String guideAvatar;                      // 司导头像（专辑为2，司导时使用）
         public String guideHomeDesc;                    // 司导个人简介（专辑为2，司导时使用）
         public int isCollected;                         // TODO 1:收藏 0:未收藏
+        public int goodsFavoriteNum;                    // 商品收藏数
+        public int goodsServiceDayNum;                  // 服务天数
+        public String routeCityDesc;
+        public String goodsCountryName;
     }
 
-    public class TransferBean implements Serializable {
+    public static class TransferBean implements Serializable {
         public String airportName;                      // 机场名字
         public String airportCode;                      // 机场三节码
         public String airportPicture;                   // 机场图片
@@ -46,7 +67,7 @@ public class HomeBean implements Serializable {
         public int airportUserNum;                      // 服务用户数
     }
 
-    public class CharteredBean implements Serializable {
+    public static class CharteredBean implements Serializable {
         public int starCityId;                          // 出发城市ID
         public String starCityName;                     // 出发城市名字
         public String starCityPicture;                  // 出发城市图片

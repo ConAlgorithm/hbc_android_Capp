@@ -73,7 +73,7 @@ public class HotCityView extends LinearLayout implements HbcViewBehavior{
     }
 
     private void setItemHeight(int rowCount) {
-        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+        final int paddingLeft = getContext().getResources().getDimensionPixelOffset(R.dimen.city_view_padding_left);
         int itemWidth = (UIUtils.getScreenWidth() - paddingLeft * rowCount - UIUtils.dip2px(8) * 2) / 3;
         int itemHeigh = (int)((160 / 220.0f) * itemWidth);
         int pagerHeight = (itemHeigh + UIUtils.dip2px(54)) * rowCount + UIUtils.dip2px(8);
@@ -126,7 +126,7 @@ public class HotCityView extends LinearLayout implements HbcViewBehavior{
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            final int paddingLeft = mContext.getResources().getDimensionPixelOffset(R.dimen.home_view_padding_left);
+            final int paddingLeft = mContext.getResources().getDimensionPixelOffset(R.dimen.city_view_padding_left);
             FrameLayout frameLayout = new FrameLayout(mContext);
             frameLayout.setPadding(paddingLeft, 0, paddingLeft, 0);
             HotCityPageView itemView = new HotCityPageView(mContext);

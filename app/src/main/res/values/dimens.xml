@@ -55,8 +55,8 @@
     <!--Letter size-->
     <dimen name="letter_img_point_width_x">18dp</dimen>
 
-    <dimen name="home_view_padding_left">16dp</dimen>
-    <dimen name="home_view_vertical_space">10dp</dimen>
+    <dimen name="city_view_padding_left">16dp</dimen>
+    <dimen name="city_view_vertical_space">10dp</dimen>
 
     <dimen name="dimen_margin_circle">4dp</dimen>
 
@@ -117,4 +117,7 @@
     <dimen name="si_default_text_size">14sp</dimen>
     <dimen name="home_hot_destination_img_width">100dp</dimen>
     <dimen name="home_hot_destination_img_height">100dp</dimen>
+
+    <dimen name="home_margin_left">40dp</dimen>
+    <dimen name="home_item_horizontal_space">16dp</dimen>
 </resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/home_album_item_layout"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/home_album_desplay_layout"
+        android:layout_width="match_parent"
+        android:layout_height="160dp">
+
+        <ImageView
+            android:id="@+id/home_album_desplay_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_pic_gray"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/home_album_collect_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:src="@drawable/save_guild_icon"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/home_album_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#55000000"
+            android:paddingBottom="1dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="1dp"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/home_album_item_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:paddingTop="16dp"
+        android:lineSpacingExtra="2.5dp"
+        android:textColor="@color/basic_black"
+        android:textSize="15sp" />
+
+    <include layout="@layout/include_home_album_desc" />
+</LinearLayout>

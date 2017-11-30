@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.hugboga.custom.widget.home.HomeIndicatorView
+        android:id="@+id/home_excited_indicator_view"
+        android:layout_marginLeft="17dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.hugboga.custom.widget.recyclerviewpager.AutoLoopRecyclerViewPager
+        android:id="@+id/home_excited_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        app:rvp_singlePageFling="true"
+        app:rvp_triggerOffset="0.1" />
+</merge>
