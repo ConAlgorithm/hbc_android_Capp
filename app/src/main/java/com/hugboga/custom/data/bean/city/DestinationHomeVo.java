@@ -17,7 +17,7 @@ public class DestinationHomeVo {
     public int destinationServiceGuideCount;   //目的地服务司导数量
     public BeginnerDirectionVo beginnerDirection;  //新手入门
     public List<DayCountVo> dayCountList;  //游玩天数列表
-    public List<DestinationTagVo> destinationTagList;  //目的地标签列表
+    public List<DestinationTagGroupVo> destinationTagGroupList;  //目的地标签列表
     public List<DestinationCityVo> depCityList;    //出发城市列表
     public List<DestinationGoodsVo> destinationGoodsList;  //目的地玩法列表
     public List<ServiceConfigVo> serviceConfigList;    //自定义包车配置

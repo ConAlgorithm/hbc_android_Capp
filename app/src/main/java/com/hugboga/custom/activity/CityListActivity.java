@@ -148,7 +148,7 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushFilterData(DestinationHomeVo data) {
         //游玩线路数据
-        content_city_filte_view1.setData(cityDataTools.getTagData(data.destinationTagList), onSelectListener1);
+        content_city_filte_view1.setData(cityDataTools.getTagData(data.destinationTagGroupList), onSelectListener1);
         //出发城市数据
         content_city_filte_view2.setData(cityDataTools.getCityData(data.depCityList), onSelectListener2);
         //游玩天数数据
@@ -398,9 +398,6 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
         if (adapter == null) {
-//            if (data != null) {
-//                data.dailyServiceConfig = getTestConfig(); //TODO remove
-//            }
             adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList);
             recyclerView.setAdapter(adapter);
         }
@@ -409,45 +406,6 @@ public class CityListActivity extends BaseActivity {
         } else {
             adapter.addMoreGoods(destinationGoodsList);
         }
-    }
-
-    private List<ServiceConfigVo> getTestConfig() {
-        List<ServiceConfigVo> data = new ArrayList<>();
-        //1
-        ServiceConfigVo vo1 = new ServiceConfigVo();
-        vo1.title = "按天包车畅游";
-        vo1.desc = "按半天、整天选个大致游玩范围，选个当地人说明要求，Ta来帮你安排整天的行程";
-        vo1.imageUrl = "https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m";
-        vo1.depCityId = 202;
-        vo1.serviceType = 3;
-        List<String> tags = new ArrayList<>();
-        tags.add("按天包车畅游");
-        tags.add("提前1天可订");
-        vo1.serviceLabelList = tags;
-        data.add(vo1);
-        //2
-        ServiceConfigVo vo2 = new ServiceConfigVo();
-        vo2.title = "中文接送机";
-        vo2.desc = "中文专车机场接送，航班延误免费等待";
-        vo2.imageUrl = "https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m";
-        vo2.depCityId = 202;
-        vo2.serviceType = 1;
-        List<String> tags2 = new ArrayList<>();
-        tags2.add("提前1天可订");
-        vo2.serviceLabelList = tags2;
-        data.add(vo2);
-        //3
-        ServiceConfigVo vo3 = new ServiceConfigVo();
-        vo3.title = "单次接送";
-        vo3.desc = "境外打车点到点中文用车服务";
-        vo3.imageUrl = "https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m";
-        vo3.depCityId = 202;
-        vo3.serviceType = 4;
-        List<String> tags3 = new ArrayList<>();
-        tags3.add("提前1天可订");
-        vo3.serviceLabelList = tags3;
-        data.add(vo3);
-        return data;
     }
 
     @Override

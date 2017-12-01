@@ -2,6 +2,7 @@ package com.hugboga.custom.utils;
 
 import com.hugboga.custom.data.bean.city.DayCountVo;
 import com.hugboga.custom.data.bean.city.DestinationCityVo;
+import com.hugboga.custom.data.bean.city.DestinationTagGroupVo;
 import com.hugboga.custom.data.bean.city.DestinationTagVo;
 
 import java.util.ArrayList;
@@ -122,7 +123,7 @@ public class CityDataTools {
      * @param destinationTagList
      * @return
      */
-    public List<LabelItemData> getTagData(List<DestinationTagVo> destinationTagList) {
+    public List<LabelItemData> getTagData(List<DestinationTagGroupVo> destinationTagList) {
         List<LabelItemData> data = new ArrayList<>();
         if (destinationTagList != null && destinationTagList.size() > 0) {
             for (int i = 0; i < destinationTagList.size(); i += 3) {
@@ -139,7 +140,7 @@ public class CityDataTools {
         return data;
     }
 
-    private void addTag(List<LabelParentBean> parents, int i, List<DestinationTagVo> destinationTagList) {
+    private void addTag(List<LabelParentBean> parents, int i, List<DestinationTagGroupVo> destinationTagList) {
         if (i < destinationTagList.size()) {
             LabelParentBean lb1 = getParentBean(destinationTagList.get(i));
             if (lb1 != null) {
@@ -154,7 +155,7 @@ public class CityDataTools {
      * @param vo1
      * @return
      */
-    private LabelParentBean getParentBean(DestinationTagVo vo1) {
+    private LabelParentBean getParentBean(DestinationTagGroupVo vo1) {
         if (vo1 == null) {
             return null;
         }
@@ -163,8 +164,28 @@ public class CityDataTools {
         beanL.id = vo1.tagId;
         beanL.name = vo1.tagName;
         bean.parentLabel = beanL;
-        //                bean.childs = getChild(i); //TODO @天哥接口暂未处理
+        bean.childs = getChildTags(vo1.subTagList);
         return bean;
+    }
+
+    /**
+     * 构建子标签数据
+     *
+     * @param subTagList
+     * @return
+     */
+    private List<LabelBean> getChildTags(List<DestinationTagVo> subTagList) {
+        if (subTagList == null || subTagList.size() == 0) {
+            return null;
+        }
+        List<LabelBean> list = new ArrayList<>();
+        for (DestinationTagVo vo : subTagList) {
+            LabelBean beanL = new LabelBean();
+            beanL.id = vo.tagId;
+            beanL.name = vo.tagName;
+            list.add(beanL);
+        }
+        return list;
     }
 
 }
