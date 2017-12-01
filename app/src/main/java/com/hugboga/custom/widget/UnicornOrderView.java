@@ -15,7 +15,7 @@ import com.qiyukf.unicorn.api.ProductDetail;
 
 import java.text.ParseException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,15 +23,15 @@ import butterknife.ButterKnife;
  */
 public class UnicornOrderView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.unicorn_order_title_tv)
+    @BindView(R.id.unicorn_order_title_tv)
     TextView titleTV;
-    @Bind(R.id.unicorn_order_description_tv)
+    @BindView(R.id.unicorn_order_description_tv)
     TextView descriptionTV;
-    @Bind(R.id.unicorn_order_state_tv)
+    @BindView(R.id.unicorn_order_state_tv)
     TextView stateTV;
-    @Bind(R.id.unicorn_order_time_tv)
+    @BindView(R.id.unicorn_order_time_tv)
     TextView timeTV;
-    @Bind(R.id.unicorn_order_no_tv)
+    @BindView(R.id.unicorn_order_no_tv)
     TextView orderNoTV;
 
     private ProductDetail productDetail;

@@ -72,7 +72,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/3/4.
@@ -86,29 +86,29 @@ public class CombinationOrderActivity extends BaseActivity implements SkuOrderCa
     public static final String SERVER_TIME = "09:00:00";
     public static final String SERVER_TIME_END = "23:59:59";
 
-    @Bind(R.id.combination_order_scrollview)
+    @BindView(R.id.combination_order_scrollview)
     ScrollView scrollView;
-    @Bind(R.id.combination_order_description_layout)
+    @BindView(R.id.combination_order_description_layout)
     CombinationOrderDescriptionView descriptionLayout;
-    @Bind(R.id.combination_order_car_type_view)
+    @BindView(R.id.combination_order_car_type_view)
     SkuOrderCarTypeView carTypeView;
-    @Bind(R.id.combination_order_extras_price_view)
+    @BindView(R.id.combination_order_extras_price_view)
     CombinationExtrasPriceView extrasPriceView;
-    @Bind(R.id.combination_order_traveler_info_view)
+    @BindView(R.id.combination_order_traveler_info_view)
     SkuOrderTravelerInfoView travelerInfoView;
-    @Bind(R.id.combination_order_discount_view)
+    @BindView(R.id.combination_order_discount_view)
     SkuOrderDiscountView discountView;
-    @Bind(R.id.combination_order_insurance_view)
+    @BindView(R.id.combination_order_insurance_view)
     OrderInsuranceView insuranceView;
-    @Bind(R.id.combination_order_bottom_view)
+    @BindView(R.id.combination_order_bottom_view)
     SkuOrderBottomView bottomView;
-    @Bind(R.id.combination_order_explain_view)
+    @BindView(R.id.combination_order_explain_view)
     OrderExplainView explainView;
-    @Bind(R.id.combination_order_empty_layout)
+    @BindView(R.id.combination_order_empty_layout)
     SkuOrderEmptyView emptyLayout;
-    @Bind(R.id.combination_order_progress_view)
+    @BindView(R.id.combination_order_progress_view)
     CircularProgress progressView;
-    @Bind(R.id.combination_order_seckills_layout)
+    @BindView(R.id.combination_order_seckills_layout)
     RelativeLayout seckillsLayout;
 
     private CarListBean carListBean;

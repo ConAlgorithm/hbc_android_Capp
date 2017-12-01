@@ -20,7 +20,7 @@ import com.hugboga.custom.data.bean.HomeCityContentVo2;
 import com.hugboga.custom.statistic.MobClickUtils;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,9 +29,9 @@ import butterknife.ButterKnife;
 
 public class HomeCityRecommentGuideView extends LinearLayout implements HttpRequestListener {
 
-    @Bind(R.id.filter_guide)
+    @BindView(R.id.filter_guide)
     TextView filterGuide;
-    @Bind(R.id.filter_guide_recyclerview)
+    @BindView(R.id.filter_guide_recyclerview)
     RecyclerView recyclerView;
     HomeCityRecommentGuideAdapter homeCityRecommentGuideAdapter;
     public int displayImgWidth, displayImgHeight;

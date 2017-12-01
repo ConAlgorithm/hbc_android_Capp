@@ -14,11 +14,11 @@ import com.hugboga.custom.utils.SharedPre;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class FgChooseAir extends BaseFragment{
 
-    @Bind(R.id.choose_content)
+    @BindView(R.id.choose_content)
     FrameLayout choose_content;
 
     Fragment currentFragment;

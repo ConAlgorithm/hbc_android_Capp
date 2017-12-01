@@ -12,7 +12,7 @@ import com.hugboga.custom.widget.HomeActivitiesView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -41,7 +41,7 @@ public class HomeTitleBannarModel extends EpoxyModelWithHolder {
 
     static class HomeTitleBannarHolder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.home_activities_view)
+        @BindView(R.id.home_activities_view)
         HomeActivitiesView activitiesView;
         @Override
         protected void bindView(View itemView) {

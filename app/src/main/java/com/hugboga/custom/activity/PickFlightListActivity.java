@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -55,29 +55,29 @@ public class PickFlightListActivity extends BaseActivity implements AdapterView.
     public static final String KEY_FLIGHT_TO = "flight_to";
     public static final String KEY_FLIGHT_TYPE = "flight_type";
 
-    @Bind(R.id.flight_info)
+    @BindView(R.id.flight_info)
     TextView flightInfo;
-    @Bind(R.id.fromto)
+    @BindView(R.id.fromto)
     TextView fromto;
-    @Bind(R.id.number_flite)
+    @BindView(R.id.number_flite)
     TextView numberflite;
-    @Bind(R.id.loading_layout)
+    @BindView(R.id.loading_layout)
     RelativeLayout loading;
-    @Bind(R.id.flight_empty_layout)
+    @BindView(R.id.flight_empty_layout)
     View emptyView;
-    @Bind(R.id.empty_wifi_layout)
+    @BindView(R.id.empty_wifi_layout)
     View emptyWifi;
-    @Bind(R.id.view)
+    @BindView(R.id.view)
     View view;
-    /*@Bind(R.id.header_left_btn)
+    /*@BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;*/
-    @Bind(R.id.flight_list)
+    @BindView(R.id.flight_list)
     ListView flightList;
     private LinearLayout footerLayout;
     private FlightAdapter mAdapter;

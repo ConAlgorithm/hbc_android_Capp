@@ -19,7 +19,7 @@ import com.hugboga.custom.data.net.UrlLibs;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -27,49 +27,49 @@ import butterknife.OnClick;
  */
 
 public class OrderInfoActivity extends BaseActivity {
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.mans_left)
+    @BindView(R.id.mans_left)
     TextView mansLeft;
-    @Bind(R.id.mans_day_num)
+    @BindView(R.id.mans_day_num)
     TextView mansDayNum;
-    @Bind(R.id.mans_charge)
+    @BindView(R.id.mans_charge)
     TextView mansCharge;
-    @Bind(R.id.mans_charge_tips)
+    @BindView(R.id.mans_charge_tips)
     TextView mansChargeTips;
-    @Bind(R.id.mans_money_all_info)
+    @BindView(R.id.mans_money_all_info)
     LinearLayout mansMoneyAllInfo;
-    @Bind(R.id.mans_charge_layout)
+    @BindView(R.id.mans_charge_layout)
     RelativeLayout mansChargeLayout;
-    @Bind(R.id.cars_left)
+    @BindView(R.id.cars_left)
     TextView carsLeft;
-    @Bind(R.id.cars_day_num)
+    @BindView(R.id.cars_day_num)
     TextView carsDayNum;
-    @Bind(R.id.cars_charge)
+    @BindView(R.id.cars_charge)
     TextView carsCharge;
-    @Bind(R.id.cars_charge_tips)
+    @BindView(R.id.cars_charge_tips)
     TextView carsChargeTips;
-    @Bind(R.id.cars_money_all_info)
+    @BindView(R.id.cars_money_all_info)
     LinearLayout carsMoneyAllInfo;
-    @Bind(R.id.cars_charge_layout)
+    @BindView(R.id.cars_charge_layout)
     RelativeLayout carsChargeLayout;
-    @Bind(R.id.all_left)
+    @BindView(R.id.all_left)
     TextView allLeft;
-    @Bind(R.id.all_day_num)
+    @BindView(R.id.all_day_num)
     TextView allDayNum;
-    @Bind(R.id.all_charge)
+    @BindView(R.id.all_charge)
     TextView allCharge;
-    @Bind(R.id.per_left)
+    @BindView(R.id.per_left)
     TextView perLeft;
-    @Bind(R.id.per_charge)
+    @BindView(R.id.per_charge)
     TextView perCharge;
-    @Bind(R.id.scrollView)
+    @BindView(R.id.scrollView)
     ScrollView scrollView;
 
     protected void initHeader() {

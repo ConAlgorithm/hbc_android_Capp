@@ -41,7 +41,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.common.Callback;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by zhangqiang on 17/6/26.
@@ -49,11 +49,11 @@ import butterknife.Bind;
 
 public class TravelListUnevaludate extends FgBaseTravel {
 
-    @Bind(R.id.travel_recyclerview)
+    @BindView(R.id.travel_recyclerview)
     XRecyclerView mXRecyclerView;
-    @Bind(R.id.list_empty)
+    @BindView(R.id.list_empty)
     RelativeLayout emptyView;
-    @Bind(R.id.travel_footer_get_layout)
+    @BindView(R.id.travel_footer_get_layout)
     LinearLayout footerGet;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;

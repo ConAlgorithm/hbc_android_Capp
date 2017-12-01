@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,9 +29,9 @@ import butterknife.ButterKnife;
  */
 public class QuestionItemView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.question_item_avatar_iv)
+    @BindView(R.id.question_item_avatar_iv)
     ImageView avatarIV;
-    @Bind(R.id.question_item_container_layout)
+    @BindView(R.id.question_item_container_layout)
     LinearLayout containerLayout;
 
     private ServiceQuestionBean serviceQuestionBean;

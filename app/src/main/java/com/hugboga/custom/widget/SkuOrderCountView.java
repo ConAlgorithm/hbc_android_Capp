@@ -20,7 +20,7 @@ import com.hugboga.custom.data.bean.ManLuggageBean;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,44 +30,44 @@ import butterknife.OnClick;
  */
 public class SkuOrderCountView extends LinearLayout implements ChooseCountView.OnCountChangeListener {
 
-    @Bind(R.id.sku_order_count_adult_choose_count_view)
+    @BindView(R.id.sku_order_count_adult_choose_count_view)
     ChooseCountView adultCountView;
-    @Bind(R.id.sku_order_count_child_choose_count_view)
+    @BindView(R.id.sku_order_count_child_choose_count_view)
     ChooseCountView childCountView;
 
-    @Bind(R.id.sku_order_count_child_seat_layout)
+    @BindView(R.id.sku_order_count_child_seat_layout)
     RelativeLayout childSeatLayout;
-    @Bind(R.id.sku_order_count_child_seat_price_tv)
+    @BindView(R.id.sku_order_count_child_seat_price_tv)
     TextView childSeatPriceTV;
-    @Bind(R.id.sku_order_count_child_seat_choose_count_view)
+    @BindView(R.id.sku_order_count_child_seat_choose_count_view)
     ChooseCountView childSeatCountView;
 
-    @Bind(R.id.sku_order_count_luggage_count_tv)
+    @BindView(R.id.sku_order_count_luggage_count_tv)
     TextView luggageCountTV;
-    @Bind(R.id.sku_order_count_luggage_explain_tv)
+    @BindView(R.id.sku_order_count_luggage_explain_tv)
     TextView luggageExplainTV;
 
-    @Bind(R.id.sku_order_count_hint_layout)
+    @BindView(R.id.sku_order_count_hint_layout)
     LinearLayout hintLayout;
-    @Bind(R.id.sku_order_count_hint_tv)
+    @BindView(R.id.sku_order_count_hint_tv)
     TextView hintTV;
 
-    @Bind(R.id.sku_order_count_room_layout)
+    @BindView(R.id.sku_order_count_room_layout)
     LinearLayout roomLayout;
-    @Bind(R.id.sku_order_count_room_price_tv)
+    @BindView(R.id.sku_order_count_room_price_tv)
     TextView roomPriceTV;
-    @Bind(R.id.sku_order_count_room_choose_count_view)
+    @BindView(R.id.sku_order_count_room_choose_count_view)
     ChooseCountView roomCountView;
-    @Bind(R.id.sku_order_count_room_description_tv)
+    @BindView(R.id.sku_order_count_room_description_tv)
     TextView roomDescriptionTV;
 
-    @Bind(R.id.sku_order_count_extrasprice_layout)
+    @BindView(R.id.sku_order_count_extrasprice_layout)
     LinearLayout extrasPriceLayout;
-    @Bind(R.id.sku_order_count_extrasprice_title_tv)
+    @BindView(R.id.sku_order_count_extrasprice_title_tv)
     TextView extrasPriceTitleTV;
-    @Bind(R.id.sku_order_count_extrasprice_price_tv)
+    @BindView(R.id.sku_order_count_extrasprice_price_tv)
     TextView extrasPricePriceTV;
-    @Bind(R.id.sku_order_count_extrasprice_description_tv)
+    @BindView(R.id.sku_order_count_extrasprice_description_tv)
     TextView extrasPriceDescriptionTV;
 
     private ManLuggageBean manLuggageBean;

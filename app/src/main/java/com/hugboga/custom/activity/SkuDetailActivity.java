@@ -77,7 +77,7 @@ import java.util.HashMap;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.hugboga.custom.activity.WebInfoActivity.WEB_URL;
@@ -88,26 +88,26 @@ public class SkuDetailActivity extends BaseActivity implements View.OnKeyListene
     public static final String TAG = SkuDetailActivity.class.getSimpleName();
     public static final String WEB_SKU = "web_sku";
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRightBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
-    @Bind(R.id.goto_order)
+    @BindView(R.id.goto_order)
     TextView gotoOrder;
-    @Bind(R.id.webview)
+    @BindView(R.id.webview)
     WebView webView;
-    @Bind(R.id.sku_detail_empty_layout)
+    @BindView(R.id.sku_detail_empty_layout)
     LinearLayout emptyLayout;
-    @Bind(R.id.sku_detail_content_layout)
+    @BindView(R.id.sku_detail_content_layout)
     RelativeLayout contentLayout;
-    @Bind(R.id.goto_order_lay)
+    @BindView(R.id.goto_order_lay)
     LinearLayout bottomLayout;
 
-    @Bind(R.id.header_right_2_btn)
+    @BindView(R.id.header_right_2_btn)
     ImageView collectImg;
     private SkuItemBean skuItemBean;//sku详情
     private CityBean cityBean;

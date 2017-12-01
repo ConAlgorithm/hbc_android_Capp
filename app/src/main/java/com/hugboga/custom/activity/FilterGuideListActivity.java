@@ -36,20 +36,20 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class FilterGuideListActivity extends BaseActivity implements HbcRecyclerTypeBaseAdpater.OnItemClickListener, XRecyclerView.LoadingListener{
 
-    @Bind(R.id.guide_list_filter_layout)
+    @BindView(R.id.guide_list_filter_layout)
     GuideFilterLayout filterLayout;
-    @Bind(R.id.guide_list_recyclerview)
+    @BindView(R.id.guide_list_recyclerview)
     XRecyclerView mRecyclerView;
 
-    @Bind(R.id.guide_list_empty_layout)
+    @BindView(R.id.guide_list_empty_layout)
     LinearLayout emptyLayout;
-    @Bind(R.id.guide_list_empty_iv)
+    @BindView(R.id.guide_list_empty_iv)
     ImageView emptyIV;
-    @Bind(R.id.guide_list_empty_hint_tv)
+    @BindView(R.id.guide_list_empty_hint_tv)
     TextView emptyHintTV;
 
     private Params paramsData;

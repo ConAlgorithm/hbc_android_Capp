@@ -22,16 +22,16 @@ import com.hugboga.custom.widget.PayResultView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 16/9/6.
  */
 public class FgPayResult extends BaseFragment{
 
-    @Bind(R.id.fg_result_view)
+    @BindView(R.id.fg_result_view)
     PayResultView payResultView;
-    @Bind(R.id.fg_coupon_result_view)
+    @BindView(R.id.fg_coupon_result_view)
     CouponPayResultView couponPayResultView;
 
     private boolean isPaySucceed;

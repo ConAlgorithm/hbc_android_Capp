@@ -72,7 +72,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -86,22 +86,22 @@ public class CharterSecondStepActivity extends BaseActivity implements CharterSe
     private static final int REQUEST_CITYROUTE_TYPE_OUTTOWN = 2;      // 跨城市
     private static final int REQUEST_CITYROUTE_TYPE_PICKUP = 3;       // 接机，开始城市修改
 
-    @Bind(R.id.charter_second_top_layout)
+    @BindView(R.id.charter_second_top_layout)
     LinearLayout topLayout;
-    @Bind(R.id.charter_second_titlebar)
+    @BindView(R.id.charter_second_titlebar)
     TitleBarCharterSecond titleBar;
-    @Bind(R.id.charter_second_bottom_view)
+    @BindView(R.id.charter_second_bottom_view)
     CharterSecondBottomView bottomView;
-    @Bind(R.id.charter_second_map_layout)
+    @BindView(R.id.charter_second_map_layout)
     HbcMapView mapView;
-    @Bind(R.id.charter_second_list_container)
+    @BindView(R.id.charter_second_list_container)
     FrameLayout listContainer;
-    @Bind(R.id.charter_second_seckills_layout)
+    @BindView(R.id.charter_second_seckills_layout)
     RelativeLayout seckillsLayout;
 
-    @Bind(R.id.charter_second_unfold_map_layout)
+    @BindView(R.id.charter_second_unfold_map_layout)
     LinearLayout unfoldMapLayout;
-    @Bind(R.id.charter_second_packup_map_layout)
+    @BindView(R.id.charter_second_packup_map_layout)
     FrameLayout packupMapLayout;
 
     private CharterFragmentAgent fragmentAgent;

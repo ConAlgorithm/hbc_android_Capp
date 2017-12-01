@@ -21,7 +21,7 @@ import com.hugboga.custom.utils.Tools;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,11 +29,11 @@ import butterknife.ButterKnife;
  */
 
 public class AlbumItemView extends LinearLayout implements HbcViewBehavior {
-    @Bind(R.id.album_img_item)
+    @BindView(R.id.album_img_item)
     ImageView albumImgItem;
-    @Bind(R.id.album_purchse_item)
+    @BindView(R.id.album_purchse_item)
     TextView albumPurchseItem;
-    @Bind(R.id.album_title_item)
+    @BindView(R.id.album_title_item)
     TextView albumTitleItem;
     public AlbumItemView(Context context) {
         this(context,null);

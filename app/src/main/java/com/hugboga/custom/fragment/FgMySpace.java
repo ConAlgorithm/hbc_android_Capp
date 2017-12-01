@@ -53,14 +53,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by on 16/10/13.
  */
 public class FgMySpace extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener,ImObserverHelper.OnUserStatusListener{
 
-    @Bind(R.id.fg_space_listview)
+    @BindView(R.id.fg_space_listview)
     ListView listView;
     private PolygonImageView my_icon_head;//header的头像
     private TextView tv_nickname;//header的昵称

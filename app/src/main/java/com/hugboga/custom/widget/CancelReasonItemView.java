@@ -11,7 +11,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.CancelReasonBean;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
  */
 public class CancelReasonItemView extends RelativeLayout implements HbcViewBehavior{
 
-    @Bind(R.id.cancel_reason_title_tv)
+    @BindView(R.id.cancel_reason_title_tv)
     TextView titleTV;
-    @Bind(R.id.cancel_reason_selected_iv)
+    @BindView(R.id.cancel_reason_selected_iv)
     ImageView selectedIV;
-    @Bind(R.id.cancel_reason_line_view)
+    @BindView(R.id.cancel_reason_line_view)
     View lineView;
 
     public CancelReasonItemView(Context context) {

@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -16,17 +16,17 @@ import butterknife.ButterKnife;
 
 public class CountDownLayout extends LinearLayout {
 
-    @Bind(R.id.hour_l)
+    @BindView(R.id.hour_l)
     CountDownItem hourL;
-    @Bind(R.id.hour_r)
+    @BindView(R.id.hour_r)
     CountDownItem hourR;
-    @Bind(R.id.minute_l)
+    @BindView(R.id.minute_l)
     CountDownItem minuteL;
-    @Bind(R.id.minute_r)
+    @BindView(R.id.minute_r)
     CountDownItem minuteR;
-    @Bind(R.id.second_l)
+    @BindView(R.id.second_l)
     CountDownItem secondL;
-    @Bind(R.id.second_r)
+    @BindView(R.id.second_r)
     CountDownItem secondR;
 
     public CountDownLayout(Context context) {

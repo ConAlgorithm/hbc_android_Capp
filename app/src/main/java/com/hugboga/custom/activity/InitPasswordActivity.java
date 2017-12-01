@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -32,11 +32,11 @@ import butterknife.OnClick;
  */
 public class InitPasswordActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.init_password_first_et)
+    @BindView(R.id.init_password_first_et)
     EditText newPwdEditText;
-    @Bind(R.id.init_password_again_et)
+    @BindView(R.id.init_password_again_et)
     EditText rewPwdEditText;
-    @Bind(R.id.init_password_submit_btn)
+    @BindView(R.id.init_password_submit_btn)
     Button submitBTN;
 
     private String oldPassword;

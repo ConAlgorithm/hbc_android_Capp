@@ -11,20 +11,20 @@ import com.hugboga.custom.activity.UnicornServiceActivity;
 import com.hugboga.custom.data.bean.SkuItemBean;
 import com.qiyukf.unicorn.api.ProductDetail;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by qingcha on 16/11/11.
  */
 public class UnicornDetailView extends LinearLayout implements HbcViewBehavior{
-    @Bind(R.id.unicorn_detail_title_tv)
+    @BindView(R.id.unicorn_detail_title_tv)
     TextView titleTV;
-    @Bind(R.id.unicorn_detail_sign_tv)
+    @BindView(R.id.unicorn_detail_sign_tv)
     TextView signTV;
-    @Bind(R.id.unicorn_detail_price_tv)
+    @BindView(R.id.unicorn_detail_price_tv)
     TextView priceTV;
-    @Bind(R.id.unicorn_detail_unit_tv)
+    @BindView(R.id.unicorn_detail_unit_tv)
     TextView unitTV;
 
     private ProductDetail productDetail;

@@ -32,7 +32,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 
@@ -41,19 +41,19 @@ import cn.qqtheme.framework.picker.DatePicker;
  */
 
 public class AddInsureActivity extends BaseActivity implements HttpRequestListener {
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     EditText name;
-    @Bind(R.id.cardid)
+    @BindView(R.id.cardid)
     EditText cardid;
-    @Bind(R.id.sex)
+    @BindView(R.id.sex)
     TextView sex;
-    @Bind(R.id.birthday)
+    @BindView(R.id.birthday)
     TextView birthday;
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView headerTitle;
-    @Bind(R.id.header_right_txt)
+    @BindView(R.id.header_right_txt)
     TextView headerRightTxt;
 
     private boolean isSubmit = false;

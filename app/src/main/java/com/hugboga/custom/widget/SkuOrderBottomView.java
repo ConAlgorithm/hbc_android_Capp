@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,23 +20,23 @@ import butterknife.OnClick;
  */
 public class SkuOrderBottomView extends LinearLayout {
 
-    @Bind(R.id.sku_order_bottom_pay_tv)
+    @BindView(R.id.sku_order_bottom_pay_tv)
     TextView payTV;
 
-    @Bind(R.id.sku_order_bottom_price_detail_tv)
+    @BindView(R.id.sku_order_bottom_price_detail_tv)
     TextView priceDetailTV;
 
-    @Bind(R.id.sku_order_bottom_should_price_tv)
+    @BindView(R.id.sku_order_bottom_should_price_tv)
     TextView shouldPriceTV;
-    @Bind(R.id.sku_order_bottom_total_price_tv)
+    @BindView(R.id.sku_order_bottom_total_price_tv)
     TextView totalPriceTV;
-    @Bind(R.id.sku_order_bottom_discount_price_tv)
+    @BindView(R.id.sku_order_bottom_discount_price_tv)
     TextView discountPriceTV;
 
-    @Bind(R.id.sku_order_bottom_selected_guide_hint_tv)
+    @BindView(R.id.sku_order_bottom_selected_guide_hint_tv)
     TextView selectedGuideHintTV;
 
-    @Bind(R.id.sku_order_bottom_progress_layout)
+    @BindView(R.id.sku_order_bottom_progress_layout)
     FrameLayout progressLayout;
 
     private OnSubmitOrderListener listener;

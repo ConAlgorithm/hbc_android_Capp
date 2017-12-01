@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.GuideCropBean;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,9 +19,9 @@ import butterknife.ButterKnife;
  */
 public class ChooseGuideCityView extends FrameLayout implements HbcViewBehavior{
 
-    @Bind(R.id.item_choosecity_title_tv)
+    @BindView(R.id.item_choosecity_title_tv)
     TextView titleTV;
-    @Bind(R.id.item_choosecity_subtitle_tv)
+    @BindView(R.id.item_choosecity_subtitle_tv)
     TextView subtitleTV;
 
     public ChooseGuideCityView(@NonNull Context context) {

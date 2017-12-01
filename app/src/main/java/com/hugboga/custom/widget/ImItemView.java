@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -28,23 +28,23 @@ import butterknife.ButterKnife;
  */
 public class ImItemView extends FrameLayout implements HbcViewBehavior  {
 
-    @Bind(R.id.letter_item_img)
+    @BindView(R.id.letter_item_img)
     public CircleImageView mImage; //头像
-    @Bind(R.id.footer_order_btn_point)
+    @BindView(R.id.footer_order_btn_point)
     public TextView mUnReadCount;
-    @Bind(R.id.letter_item_username)
+    @BindView(R.id.letter_item_username)
     public TextView mUsername;
-    @Bind(R.id.letter_item_time)
+    @BindView(R.id.letter_item_time)
     public TextView mTime;
-    @Bind(R.id.letter_item_message)
+    @BindView(R.id.letter_item_message)
     public TextView mMessage;
-    @Bind(R.id.footer_service_unread)
+    @BindView(R.id.footer_service_unread)
     public View serviceUnread;
-    @Bind(R.id.letter_item_service_icon_tv)
+    @BindView(R.id.letter_item_service_icon_tv)
     public TextView serviceIconTV;
-    @Bind(R.id.letter_item_country_name_iv)
+    @BindView(R.id.letter_item_country_name_iv)
     public ImageView countryNameIV;
-    @Bind(R.id.letter_item_country_name_tv)
+    @BindView(R.id.letter_item_country_name_tv)
     public TextView countryNameTV;
 
     public ImItemView(Context context) {

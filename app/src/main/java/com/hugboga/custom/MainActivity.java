@@ -96,7 +96,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -116,12 +116,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public static final int REQUEST_EXTERNAL_STORAGE = 3;
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     NoScrollViewPager mViewPager;
 
-    @Bind(R.id.bottom_point_2)
+    @BindView(R.id.bottom_point_2)
     TextView bottomPoint2;
-    @Bind(R.id.bottom_point_3)
+    @BindView(R.id.bottom_point_3)
     TextView qyServiceUnreadMsgCount;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;

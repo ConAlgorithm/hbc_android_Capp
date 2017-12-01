@@ -19,7 +19,7 @@ import com.hugboga.custom.data.bean.SearchLineBean;
 import com.hugboga.custom.utils.SearchUtils;
 import com.hugboga.custom.utils.Tools;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -27,15 +27,15 @@ import butterknife.ButterKnife;
  */
 
 public class LineSearchListItem extends LinearLayout implements HbcViewBehavior {
-    @Bind(R.id.title_line_search)
+    @BindView(R.id.title_line_search)
     TextView title;
-    @Bind(R.id.poi_des)
+    @BindView(R.id.poi_des)
     TextView poiDes;
-    @Bind(R.id.search_line_location)
+    @BindView(R.id.search_line_location)
     TextView location;
-    @Bind(R.id.pic_line)
+    @BindView(R.id.pic_line)
     ImageView picLine;
-    @Bind(R.id.price_per)
+    @BindView(R.id.price_per)
     TextView pricePer;
     Context context;
     Activity activity;

@@ -19,7 +19,7 @@ import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -28,9 +28,9 @@ import butterknife.ButterKnife;
  */
 public class CountryLocalTimeView extends FrameLayout{
 
-    @Bind(R.id.local_country_iv)
+    @BindView(R.id.local_country_iv)
     ImageView countryImageIV;
-    @Bind(R.id.local_time_tv)
+    @BindView(R.id.local_time_tv)
     TextView localTimeTV;
 
     private volatile long delayedMillis;

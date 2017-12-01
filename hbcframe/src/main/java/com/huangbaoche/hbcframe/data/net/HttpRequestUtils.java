@@ -265,12 +265,13 @@ public class HttpRequestUtils {
      * 请求AccessKey
      * @param mContext
      * @param baseRequest 上一个请求
-     * @param listener 上一个回调
+     * @param listener    上一个回调
      * @param option 上一个请求的配置
      */
     private static void requestAccessKey(final Context mContext,final BaseRequest baseRequest,final HttpRequestListener listener, final HttpRequestOption option){
         try {
             //通过反射实例化AccessKey
+
             Constructor constructor = HbcConfig.accessKeyRequest.getDeclaredConstructor(Context.class);
             constructor.setAccessible(true);
             final BaseRequest accessKeyRequest = (BaseRequest) constructor.newInstance(mContext);

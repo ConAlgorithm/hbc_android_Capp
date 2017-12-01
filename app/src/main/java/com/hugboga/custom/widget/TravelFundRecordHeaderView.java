@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.TravelFundData;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
  */
 public class TravelFundRecordHeaderView extends FrameLayout implements HbcViewBehavior{
 
-    @Bind(R.id.record_invited_tv)
+    @BindView(R.id.record_invited_tv)
     TextView invitedTV;
-    @Bind(R.id.record_obtain_tv)
+    @BindView(R.id.record_obtain_tv)
     TextView obtainTV;
 
     public TravelFundRecordHeaderView(Context context) {

@@ -26,14 +26,14 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/5/17.
  */
 public class PickSendActivity extends BaseActivity implements TitleBarPickSend.TitlerBarOnClickLister {
 
-    @Bind(R.id.pick_send_titlebar)
+    @BindView(R.id.pick_send_titlebar)
     TitleBarPickSend titlebar;
 
     private Fragment currentFragment;

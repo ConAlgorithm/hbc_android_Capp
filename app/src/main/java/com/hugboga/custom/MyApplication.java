@@ -304,7 +304,6 @@ public class MyApplication extends HbcApplication {
             } else {
                 option.setChannel(BuildConfig.FLAVOR);
             }
-
             SmAntiFraud.create(getApplicationContext(), option);
         } catch (Exception e) {
             e.printStackTrace();

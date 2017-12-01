@@ -41,7 +41,7 @@ import com.hugboga.custom.utils.SharedPre;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -50,23 +50,23 @@ import butterknife.OnClick;
  */
 public class PayResultView extends RelativeLayout implements HttpRequestListener {
 
-    @Bind(R.id.view_pay_result_state_iv)
+    @BindView(R.id.view_pay_result_state_iv)
     ImageView stateIV;
-    @Bind(R.id.view_pay_result_state_tv)
+    @BindView(R.id.view_pay_result_state_tv)
     TextView stateTV;
-    @Bind(R.id.view_pay_result_order_tv)
+    @BindView(R.id.view_pay_result_order_tv)
     TextView orderTV;
-    @Bind(R.id.view_pay_result_book_tv)
+    @BindView(R.id.view_pay_result_book_tv)
     TextView bookTV;
-    @Bind(R.id.view_pay_result_service_layout)
+    @BindView(R.id.view_pay_result_service_layout)
     LinearLayout serviceLayout;
-    @Bind(R.id.view_pay_result_desc_layout)
+    @BindView(R.id.view_pay_result_desc_layout)
     LinearLayout descLayout;
-    @Bind(R.id.view_pay_result_recommend_layout)
+    @BindView(R.id.view_pay_result_recommend_layout)
     PayResultRecommendLayout recommendView;
-    @Bind(R.id.view_pay_result_bargain_layout)
+    @BindView(R.id.view_pay_result_bargain_layout)
     PayResultBargainLayout bargainLayout;
-    @Bind(R.id.view_pay_result_bargain_bottom_space)
+    @BindView(R.id.view_pay_result_bargain_bottom_space)
     View bargainBottomSpace;
 
     private boolean isPaySucceed; //支付结果

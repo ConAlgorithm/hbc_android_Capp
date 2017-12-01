@@ -15,7 +15,7 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.HomeBeanV2;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.utils.UIUtils;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,11 +23,11 @@ import butterknife.ButterKnife;
  */
 public class HomeHotCityItemView extends LinearLayout implements HbcViewBehavior{
 
-    @Bind(R.id.hotcity_item_city_iv)
+    @BindView(R.id.hotcity_item_city_iv)
     ImageView cityIV;
-    @Bind(R.id.hotcity_item_cityname_tv)
+    @BindView(R.id.hotcity_item_cityname_tv)
     TextView citynameTV;
-    @Bind(R.id.hotcity_item_guide_count_tv)
+    @BindView(R.id.hotcity_item_guide_count_tv)
     TextView guideCountTV;
 
     public HomeHotCityItemView(Context context) {

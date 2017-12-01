@@ -53,4 +53,14 @@
         android:layout_height="@dimen/default_line_height"
         android:layout_alignParentBottom="true"
         android:background="@color/default_dividing_line"/>
+
+    <TextView
+        android:id="@+id/header_title_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/basic_black"
+        />
 </RelativeLayout>

@@ -29,7 +29,7 @@ import com.hugboga.custom.data.bean.epos.EposFirstPay;
 import com.hugboga.custom.data.request.RequestEposSendSms;
 import com.hugboga.custom.data.request.RequestEposSmsVerify;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -40,19 +40,19 @@ import butterknife.OnClick;
 
 public class DomesticOldPayView extends FrameLayout implements HttpRequestListener {
 
-    @Bind(R.id.domestic_pay_ok_img)
+    @BindView(R.id.domestic_pay_ok_img)
     ImageView domestic_pay_ok_img;
-    @Bind(R.id.domestic_pay_ok_name)
+    @BindView(R.id.domestic_pay_ok_name)
     TextView domestic_pay_ok_name;
-    @Bind(R.id.domestic_pay_ok_card)
+    @BindView(R.id.domestic_pay_ok_card)
     TextView domestic_pay_ok_card;
-    @Bind(R.id.pay_sms_resend)
+    @BindView(R.id.pay_sms_resend)
     TextView pay_sms_resend; //重新发送验证码
-    @Bind(R.id.pay_sms_time)
+    @BindView(R.id.pay_sms_time)
     TextView pay_sms_time; //倒计时
-    @Bind(R.id.pay_sms_et_code)
+    @BindView(R.id.pay_sms_et_code)
     EditText pay_sms_et_code; //验证码输入
-    @Bind(R.id.pay_sms_btn)
+    @BindView(R.id.pay_sms_btn)
     Button pay_sms_btn;
 
     String payNo;

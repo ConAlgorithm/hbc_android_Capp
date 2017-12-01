@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.epos.EposBindCard;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 
 public class DomesticVH extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.domestic_valide_img)
+    @BindView(R.id.domestic_valide_img)
     ImageView imageView; //银行卡icon
-    @Bind(R.id.domestic_item_name)
+    @BindView(R.id.domestic_item_name)
     TextView itemName; //银行名称
-    @Bind(R.id.domestic_item_no)
+    @BindView(R.id.domestic_item_no)
     TextView itemNumber; //卡号
 
     public DomesticVH(View itemView) {

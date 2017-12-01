@@ -14,7 +14,7 @@ import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class HomeHotDestinationView extends LinearLayout implements HbcViewBehavior{
     Context context;
-    @Bind(R.id.home_hot_destination_recyclerview)
+    @BindView(R.id.home_hot_destination_recyclerview)
     RecyclerView recyclerView;
     HomeHotDestinationAdapter homeHotDestinationAdapter;
     public int displayImgWidth, displayImgHeight;

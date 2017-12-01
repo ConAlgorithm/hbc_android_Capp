@@ -21,7 +21,7 @@ import com.hugboga.custom.widget.GuideSearchListItem;
 import com.hugboga.custom.widget.SearchlineGuideLoadingMoreFooter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
 
@@ -30,13 +30,13 @@ import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
  */
 
 public class SearchGuideActivity extends BaseActivity {
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeft;
-    @Bind(R.id.header_right_btn)
+    @BindView(R.id.header_right_btn)
     ImageView headerRight;
-    @Bind(R.id.header_title)
+    @BindView(R.id.header_title)
     TextView title;
-    @Bind(R.id.search_guide_recyclerview)
+    @BindView(R.id.search_guide_recyclerview)
     XRecyclerView mXRecyclerView;
     protected HbcRecyclerSingleTypeAdpater hbcRecyclerSingleTypeAdpater;
     int refreshOrNot = 1;

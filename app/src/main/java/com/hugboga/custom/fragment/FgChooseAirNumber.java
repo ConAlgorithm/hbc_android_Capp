@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -49,35 +49,35 @@ import butterknife.OnClick;
  */
 public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayClickListener{
 
-    @Bind(R.id.number_left)
+    @BindView(R.id.number_left)
     TextView numberLeft;
-    @Bind(R.id.number_tips)
+    @BindView(R.id.number_tips)
     EditText numberTips;
-    @Bind(R.id.rl_number)
+    @BindView(R.id.rl_number)
     LinearLayout rlNumber;
-    @Bind(R.id.address_left)
+    @BindView(R.id.address_left)
     TextView addressLeft;
-    /*@Bind(R.id.address_tips)
+    /*@BindView(R.id.address_tips)
     TextView addressTips;
-    @Bind(R.id.rl_address)
+    @BindView(R.id.rl_address)
     LinearLayout rlAddress;*/
-    @Bind(R.id.search)
+    @BindView(R.id.search)
     Button search;
-    @Bind(R.id.history_layout)
+    @BindView(R.id.history_layout)
     LinearLayout historyLayout;
-    @Bind(R.id.clean_all_history)
+    @BindView(R.id.clean_all_history)
     TextView cleanAllHistory;
-    @Bind(R.id.show_history)
+    @BindView(R.id.show_history)
     LinearLayout showHistory;
-    /*@Bind(R.id.calendar)
+    /*@BindView(R.id.calendar)
     ZGridRecyclerView gridView;*/
-    /*@Bind(R.id.reserve_calendar_title)
+    /*@BindView(R.id.reserve_calendar_title)
     TextView reserve_calendar_title;
-    @Bind(R.id.reserve_calendar_prover)
+    @BindView(R.id.reserve_calendar_prover)
     ImageView prover;
-    @Bind(R.id.reserve_calendar_next)
+    @BindView(R.id.reserve_calendar_next)
     ImageView next;*/
-    @Bind(R.id.view_month)
+    @BindView(R.id.view_month)
     MonthSwitchView mMonthPagerView;
 
     //CalendarAdapter calAdapter;
@@ -351,7 +351,6 @@ public class FgChooseAirNumber extends BaseFragment implements MonthView.OnDayCl
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
         //EventBus.getDefault().unregister(this);
     }
 

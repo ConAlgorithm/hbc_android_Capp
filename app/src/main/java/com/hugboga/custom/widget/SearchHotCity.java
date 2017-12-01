@@ -22,7 +22,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -32,15 +32,15 @@ import butterknife.ButterKnife;
 public class SearchHotCity extends LinearLayout{
     List<SearchGroupBean> cityList;
     boolean isFromTravelPurposeForm;
-    @Bind(R.id.hot_city_layout)
+    @BindView(R.id.hot_city_layout)
     LinearLayout hotCityLayout;
-    @Bind(R.id.hot_city_service)
+    @BindView(R.id.hot_city_service)
     LinearLayout hotCityService;
-    @Bind(R.id.day_service_layout)
+    @BindView(R.id.day_service_layout)
     LinearLayout dayServiceLayout;
-    @Bind(R.id.pickup_service_layout)
+    @BindView(R.id.pickup_service_layout)
     LinearLayout pickupServiceLayout;
-    @Bind(R.id.single_service_layout)
+    @BindView(R.id.single_service_layout)
     LinearLayout singleServiceLayout;
 
 

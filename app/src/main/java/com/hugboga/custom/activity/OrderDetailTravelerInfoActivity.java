@@ -44,83 +44,83 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePicker;
 
 public class OrderDetailTravelerInfoActivity extends BaseActivity implements TravelerInfoDataCheck.OnDataChangeListener {
 
-    @Bind(R.id.sku_order_traveler_info_title_tv)
+    @BindView(R.id.sku_order_traveler_info_title_tv)
     TextView travelerInfoTitleTV;
 
-    @Bind(R.id.traveler_info_contacts_layout)
+    @BindView(R.id.traveler_info_contacts_layout)
     TravelerInfoItemView contactsLayout;
 
-    @Bind(R.id.sku_order_traveler_info_contacts_choose_iv)
+    @BindView(R.id.sku_order_traveler_info_contacts_choose_iv)
     ImageView standbyContactsChooseIV;
-    @Bind(R.id.sku_order_traveler_info_contacts_choose_tv)
+    @BindView(R.id.sku_order_traveler_info_contacts_choose_tv)
     TextView standbyContactsChooseTV;
-    @Bind(R.id.traveler_info_standby_contacts_layout)
+    @BindView(R.id.traveler_info_standby_contacts_layout)
     TravelerInfoItemView standbyContactsLayout;
 
-    @Bind(R.id.sku_order_traveler_info_other_contacts_top_space)
+    @BindView(R.id.sku_order_traveler_info_other_contacts_top_space)
     View otherContactsTopSpaceView;
-    @Bind(R.id.traveler_info_other_contacts_switch_layout)
+    @BindView(R.id.traveler_info_other_contacts_switch_layout)
     RelativeLayout contactsSwitchLayout;
-    @Bind(R.id.sku_order_traveler_info_contacts_switch_view)
+    @BindView(R.id.sku_order_traveler_info_contacts_switch_view)
     ShSwitchView contactsSwitchView;
-    @Bind(R.id.traveler_info_other_contacts_layout)
+    @BindView(R.id.traveler_info_other_contacts_layout)
     TravelerInfoItemView otherContactsLayout;
-    @Bind(R.id.sku_order_traveler_info_sendmessage_layout)
+    @BindView(R.id.sku_order_traveler_info_sendmessage_layout)
     RelativeLayout sendMessageLayout;
-    @Bind(R.id.sku_order_traveler_info_sendmessage_switch_view)
+    @BindView(R.id.sku_order_traveler_info_sendmessage_switch_view)
     ShSwitchView sendMessageSwitchView;
 
-    @Bind(R.id.sku_order_traveler_info_flight_layout)
+    @BindView(R.id.sku_order_traveler_info_flight_layout)
     RelativeLayout flightLayout;
-    @Bind(R.id.sku_order_traveler_info_flight_et)
+    @BindView(R.id.sku_order_traveler_info_flight_et)
     EditText flightET;
 
-    @Bind(R.id.sku_order_traveler_info_checkin_layout)
+    @BindView(R.id.sku_order_traveler_info_checkin_layout)
     RelativeLayout checkinLayout;
-    @Bind(R.id.sku_order_traveler_info_checkin_hint_tv)
+    @BindView(R.id.sku_order_traveler_info_checkin_hint_tv)
     TextView checkinHintTV;
-    @Bind(R.id.sku_order_traveler_info_checkin_et)
+    @BindView(R.id.sku_order_traveler_info_checkin_et)
     EditText checkinET;
-    @Bind(R.id.sku_order_traveler_info_checkin_switch_view)
+    @BindView(R.id.sku_order_traveler_info_checkin_switch_view)
     ShSwitchView checkinSwitchView;
-    @Bind(R.id.sku_order_traveler_info_checkin_price_tv)
+    @BindView(R.id.sku_order_traveler_info_checkin_price_tv)
     TextView checkinPriceTV;
-    @Bind(R.id.sku_order_traveler_info_checkin_star_tv)
+    @BindView(R.id.sku_order_traveler_info_checkin_star_tv)
     TextView checkinStarTV;
 
-    @Bind(R.id.sku_order_traveler_info_start_time_layout)
+    @BindView(R.id.sku_order_traveler_info_start_time_layout)
     RelativeLayout timeLayout;
-    @Bind(R.id.sku_order_traveler_info_start_time_tv)
+    @BindView(R.id.sku_order_traveler_info_start_time_tv)
     TextView timeTV;
 
-    @Bind(R.id.sku_order_traveler_info_start_address_layout)
+    @BindView(R.id.sku_order_traveler_info_start_address_layout)
     RelativeLayout addressLayout;
-    @Bind(R.id.sku_order_traveler_info_start_address_tv)
+    @BindView(R.id.sku_order_traveler_info_start_address_tv)
     TextView addressTV;
-    @Bind(R.id.sku_order_traveler_info_start_address_description_tv)
+    @BindView(R.id.sku_order_traveler_info_start_address_description_tv)
     TextView addressDescriptionTV;
-    @Bind(R.id.sku_order_traveler_info_start_address_line_view)
+    @BindView(R.id.sku_order_traveler_info_start_address_line_view)
     View addressLineView;
-    @Bind(R.id.sku_order_traveler_info_start_address_arrow_iv)
+    @BindView(R.id.sku_order_traveler_info_start_address_arrow_iv)
     ImageView addressArrowIV;
 
-    @Bind(R.id.sku_order_traveler_info_wechat_layout)
+    @BindView(R.id.sku_order_traveler_info_wechat_layout)
     RelativeLayout wechatLayout;
-    @Bind(R.id.sku_order_traveler_info_wechat_et)
+    @BindView(R.id.sku_order_traveler_info_wechat_et)
     EditText wechatET;
 
-    @Bind(R.id.sku_order_traveler_info_mark_layout)
+    @BindView(R.id.sku_order_traveler_info_mark_layout)
     RelativeLayout markLayout;
-    @Bind(R.id.sku_order_traveler_info_mark_et)
+    @BindView(R.id.sku_order_traveler_info_mark_et)
     EditText markET;
 
-    @Bind(R.id.view_order_traveler_info_bottom_hint_tv)
+    @BindView(R.id.view_order_traveler_info_bottom_hint_tv)
     TextView bottomHintTV;
 
     private TimePicker picker;

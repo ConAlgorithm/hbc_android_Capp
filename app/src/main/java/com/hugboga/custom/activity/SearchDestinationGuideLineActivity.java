@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -48,33 +48,33 @@ import static android.view.View.VISIBLE;
 
 public class SearchDestinationGuideLineActivity extends BaseActivity implements HttpRequestListener {
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView headerLeftBtn;
-    @Bind(R.id.head_search)
+    @BindView(R.id.head_search)
     EditText headSearch;
-    @Bind(R.id.head_search_clean)
+    @BindView(R.id.head_search_clean)
     ImageView headSearchClean;
-    @Bind(R.id.history)
+    @BindView(R.id.history)
     MultipleTextViewGroup history;
-    @Bind(R.id.history_layout)
+    @BindView(R.id.history_layout)
     LinearLayout historyLayout;
-    @Bind(R.id.below_history)
+    @BindView(R.id.below_history)
     View belowHistory;
-    @Bind(R.id.hotitem)
+    @BindView(R.id.hotitem)
     MultipleTextViewGroup hotitem;
 
     List<SearchGroupBean> listAll;
     List<SearchGroupBean> listfirst;
     List<SearchGroupBean> listAfter;
-    @Bind(R.id.firstEnter)
+    @BindView(R.id.firstEnter)
     RelativeLayout firstEnter;
     HbcRecyclerSingleTypeAdpater lineLayoutAdapter;
-    @Bind(R.id.search_first_list)
+    @BindView(R.id.search_first_list)
     public RecyclerView search_first_list;
     public SearchAdapter searchAdapter;
-    @Bind(R.id.search_after_list)
+    @BindView(R.id.search_after_list)
     public RecyclerView search_after_list;
-    @Bind(R.id.search_remove)
+    @BindView(R.id.search_remove)
     ImageView search_remove;
     public SearchAfterAdapter searchAfterAdapter;
     Handler handler = new Handler();

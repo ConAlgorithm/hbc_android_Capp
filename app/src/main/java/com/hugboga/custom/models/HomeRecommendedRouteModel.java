@@ -24,7 +24,7 @@ import com.hugboga.custom.statistic.MobClickUtils;
 import com.hugboga.custom.utils.UIUtils;
 import com.tmall.ultraviewpager.UltraViewPager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -181,17 +181,17 @@ public class HomeRecommendedRouteModel extends EpoxyModelWithHolder {
 
     static class HomeRecommendedRouteHolder extends EpoxyHolder {
         View itemView;
-        @Bind(R.id.ultra_viewpager)
+        @BindView(R.id.ultra_viewpager)
         UltraViewPager ultraViewPager;
-        @Bind(R.id.filter_guide_more)
+        @BindView(R.id.filter_guide_more)
         TextView filterGuideMore;
-        @Bind(R.id.filter_guide)
+        @BindView(R.id.filter_guide)
         TextView filter_guide;
-        @Bind(R.id.click_viewpager)
+        @BindView(R.id.click_viewpager)
         RelativeLayout clickViewpager;
-        @Bind(R.id.right_click)
+        @BindView(R.id.right_click)
         ImageView rightClick;
-        @Bind(R.id.left_click)
+        @BindView(R.id.left_click)
         ImageView leftClick;
 
 

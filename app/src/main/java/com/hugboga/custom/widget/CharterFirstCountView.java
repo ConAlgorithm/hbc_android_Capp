@@ -17,7 +17,7 @@ import com.hugboga.custom.statistic.sensors.SensorsUtils;
 import com.hugboga.custom.utils.CommonUtils;
 import com.hugboga.custom.utils.OrderUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,22 +25,22 @@ import butterknife.ButterKnife;
  */
 public class CharterFirstCountView extends LinearLayout implements ChooseCountView.OnCountChangeListener, ChooseCountView.OnInvalidClickListener {
 
-    @Bind(R.id.charter_first_count_adult_choose_count_view)
+    @BindView(R.id.charter_first_count_adult_choose_count_view)
     ChooseCountView adultCountView;
-    @Bind(R.id.charter_first_count_child_choose_count_view)
+    @BindView(R.id.charter_first_count_child_choose_count_view)
     ChooseCountView childCountView;
 
-    @Bind(R.id.charter_first_count_child_seat_layout)
+    @BindView(R.id.charter_first_count_child_seat_layout)
     RelativeLayout childSeatLayout;
-    @Bind(R.id.charter_first_count_child_seat_choose_count_view)
+    @BindView(R.id.charter_first_count_child_seat_choose_count_view)
     ChooseCountView childSeatCountView;
 
-    @Bind(R.id.charter_first_count_child_seat_hint_layout)
+    @BindView(R.id.charter_first_count_child_seat_hint_layout)
     LinearLayout childSeatHintLayout;
-    @Bind(R.id.charter_first_count_child_seat_hint_tv)
+    @BindView(R.id.charter_first_count_child_seat_hint_tv)
     TextView childSeathintTV;
 
-    @Bind(R.id.charter_first_count_hint_tv)
+    @BindView(R.id.charter_first_count_hint_tv)
     TextView hintTV;
 
     private Context context;

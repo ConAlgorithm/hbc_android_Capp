@@ -17,7 +17,7 @@ import com.hugboga.custom.utils.Tools;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -94,21 +94,21 @@ public class HotExplorationModel extends EpoxyModelWithHolder {
 
 
     static class HotExplorationHolder extends EpoxyHolder {
-        @Bind(R.id.home_hot_search_title)
+        @BindView(R.id.home_hot_search_title)
         TextView homeHotTitle;
-        @Bind(R.id.home_hot_search_more)
+        @BindView(R.id.home_hot_search_more)
         View moreView;
-        @Bind(R.id.home_hot_search_guide_avtar)
+        @BindView(R.id.home_hot_search_guide_avtar)
         ImageView guideAvtar;
-        @Bind(R.id.home_hot_search_guide_name)
+        @BindView(R.id.home_hot_search_guide_name)
         TextView guideName;
-        @Bind(R.id.home_hot_search_guide_city)
+        @BindView(R.id.home_hot_search_guide_city)
         TextView guideCity;
-        @Bind(R.id.home_hot_search_city_desc)
+        @BindView(R.id.home_hot_search_city_desc)
         TextView cityDesc;
-        @Bind(R.id.home_hot_city_name_icon)
+        @BindView(R.id.home_hot_city_name_icon)
         ImageView cityNameIcon;
-        @Bind(R.id.home_hot_search_city_viewpager)
+        @BindView(R.id.home_hot_search_city_viewpager)
         ViewPager cityViewPager;
 
         View itemView;

@@ -28,7 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
 
@@ -37,9 +37,9 @@ import cn.iwgang.countdownview.CountdownView;
  */
     public class OrderDetailDeliverView extends LinearLayout implements HbcViewBehavior, HttpRequestListener {
 
-    @Bind(R.id.order_detail_deliver_loading_view)
+    @BindView(R.id.order_detail_deliver_loading_view)
     OrderDetailDeliverLoadingLayout loadingView;
-    @Bind(R.id.order_detail_deliver_grouplayout)
+    @BindView(R.id.order_detail_deliver_grouplayout)
     FrameLayout groupLayout;
     private OrderDetailGuideInfo guideInfoView;
 

@@ -18,6 +18,7 @@ import com.huangbaoche.hbcframe.data.request.BaseRequest;
 import com.huangbaoche.hbcframe.util.NetWork;
 import com.hugboga.custom.MyApplication;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.FakeAIActivity;
 import com.hugboga.custom.activity.SearchDestinationGuideLineActivity;
 import com.hugboga.custom.adapter.HomeAdapter;
 import com.hugboga.custom.constants.Constants;
@@ -41,7 +42,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -52,11 +53,11 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
 
     private static final int CHOICENESS_GUIDES_COUNT = 40;
     HomeAdapter homeAdapter;
-    @Bind(R.id.home_list_view)
+    @BindView(R.id.home_list_view)
     RecyclerView homeListView;
-    @Bind(R.id.app_icon)
+    @BindView(R.id.app_icon)
     ImageView appIcon;
-    @Bind(R.id.search_icon_layout)
+    @BindView(R.id.search_icon_layout)
     RelativeLayout searchIcon;
     HomeAggregationVo4 homeBean;
     int viewTopBegin;
@@ -490,7 +491,7 @@ public class FgHome extends BaseFragment implements HomeNetworkErrorModel.Reload
 
     private void goChooseCity() {
         //Intent intent = new Intent(this.getContext(), ChooseCityNewActivity.class);
-        Intent intent = new Intent(this.getContext(), SearchDestinationGuideLineActivity.class);
+        Intent intent = new Intent(this.getContext(), FakeAIActivity.class);
         intent.putExtra("com.hugboga.custom.home.flush", Constants.BUSINESS_TYPE_HOME);
         intent.putExtra("isHomeIn", true);
         intent.putExtra("source", "首页搜索框");

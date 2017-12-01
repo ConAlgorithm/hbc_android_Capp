@@ -11,7 +11,7 @@ import com.hugboga.custom.R;
 import com.hugboga.custom.activity.SearchGuideActivity;
 import com.hugboga.custom.activity.SearchLineActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
@@ -21,9 +21,9 @@ import static com.hugboga.custom.constants.Constants.PARAMS_SEARCH_KEYWORD;
  */
 
 public class GuideLineItemHeaderView extends LinearLayout implements HbcViewBehavior{
-    @Bind(R.id.more_count_line)
+    @BindView(R.id.more_count_line)
     TextView moreCountLine;
-    @Bind(R.id.title_search)
+    @BindView(R.id.title_search)
     TextView titleText;
     String title;
     String keyword;

@@ -25,7 +25,7 @@ import net.grobas.view.PolygonImageView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -34,29 +34,29 @@ import butterknife.OnClick;
  */
 public class ChoiceCommentView extends RelativeLayout implements HbcViewBehavior{
 
-    @Bind(R.id.choice_comment_avatar_iv)
+    @BindView(R.id.choice_comment_avatar_iv)
     PolygonImageView avatarIV;
-    @Bind(R.id.choice_comment_ratingview)
+    @BindView(R.id.choice_comment_ratingview)
     SimpleRatingBar ratingView;
-    @Bind(R.id.choice_comment_location_tv)
+    @BindView(R.id.choice_comment_location_tv)
     TextView locationTV;
-    @Bind(R.id.choice_comment_user_name_tv)
+    @BindView(R.id.choice_comment_user_name_tv)
     TextView userNameTV;
-    @Bind(R.id.choice_comment_date_tv)
+    @BindView(R.id.choice_comment_date_tv)
     TextView dateTV;
-    @Bind(R.id.choice_comment_description_tv)
+    @BindView(R.id.choice_comment_description_tv)
     TextView descriptionTV;
-    @Bind(R.id.choice_comment_imgs_layout)
+    @BindView(R.id.choice_comment_imgs_layout)
     LinearLayout imgsLayout;
-    @Bind(R.id.choice_comment_imgs_scrollview)
+    @BindView(R.id.choice_comment_imgs_scrollview)
     HorizontalScrollView imgsScrollView;
-    @Bind(R.id.choice_comment_guide_avatar_iv)
+    @BindView(R.id.choice_comment_guide_avatar_iv)
     PolygonImageView guideAvatarIV;
-    @Bind(R.id.choice_comment_guide_name_tv)
+    @BindView(R.id.choice_comment_guide_name_tv)
     TextView guideNameTV;
-    @Bind(R.id.choice_comment_guide_label_layout)
+    @BindView(R.id.choice_comment_guide_label_layout)
     LinearLayout guideLabelLayout;
-    @Bind(R.id.choice_comment_guide_label_tv)
+    @BindView(R.id.choice_comment_guide_label_tv)
     TextView guideLabelTV;
 
     private int itemWidth = 0;

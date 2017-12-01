@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.hugboga.custom.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -18,11 +18,11 @@ import butterknife.OnClick;
  */
 public class ChooseCountView extends LinearLayout{
 
-    @Bind(R.id.choose_count_subtract_tv)
+    @BindView(R.id.choose_count_subtract_tv)
     TextView subtractTV;
-    @Bind(R.id.choose_count_tv)
+    @BindView(R.id.choose_count_tv)
     TextView countTV;
-    @Bind(R.id.choose_count_plus_tv)
+    @BindView(R.id.choose_count_plus_tv)
     TextView plusTV;
 
     private int maxCount = Integer.MAX_VALUE;

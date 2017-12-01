@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.DeliverInfoBean;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
 
@@ -17,9 +17,9 @@ import cn.iwgang.countdownview.CountdownView;
  */
 public class OrderDetailDeliverCountDownView extends LinearLayout implements HbcViewBehavior, CountdownView.OnCountdownEndListener{
 
-    @Bind(R.id.deliver_countdown_view)
+    @BindView(R.id.deliver_countdown_view)
     CountdownView countdownView;
-    @Bind(R.id.deliver_countdown_progress_view)
+    @BindView(R.id.deliver_countdown_progress_view)
     DeliverCircleProgressView progressView;
 
     private long lastRemainTime = 0;

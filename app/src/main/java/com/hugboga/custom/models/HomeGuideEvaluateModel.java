@@ -26,7 +26,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import net.grobas.view.PolygonImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -64,27 +64,27 @@ public class HomeGuideEvaluateModel extends EpoxyModelWithHolder {
     }
     static class HomeGuideEvaluateHolder extends EpoxyHolder{
         View itemView;
-        @Bind(R.id.evaluate_content)
+        @BindView(R.id.evaluate_content)
         TextView evaluateContent;
-        @Bind(R.id.title_evaluate)
+        @BindView(R.id.title_evaluate)
         RelativeLayout title;
-        @Bind(R.id.avr)
+        @BindView(R.id.avr)
         PolygonImageView polygonImageView;
-        @Bind(R.id.userName)
+        @BindView(R.id.userName)
         TextView userName;
-        @Bind(R.id.location)
+        @BindView(R.id.location)
         TextView location;
-        @Bind(R.id.serviceType)
+        @BindView(R.id.serviceType)
         TextView serviceType;
-        @Bind(R.id.guideName)
+        @BindView(R.id.guideName)
         TextView guideName;
-        @Bind(R.id.evaluate_img)
+        @BindView(R.id.evaluate_img)
         ImageView imageView;
-        @Bind(R.id.evaluate_img_layout)
+        @BindView(R.id.evaluate_img_layout)
         FrameLayout evaluateImgLayout;
-        @Bind(R.id.img_count)
+        @BindView(R.id.img_count)
         TextView imgCount;
-        @Bind(R.id.filter_guide_more)
+        @BindView(R.id.filter_guide_more)
         TextView filterGuideMore;
         @Override
         protected void bindView(View itemView) {

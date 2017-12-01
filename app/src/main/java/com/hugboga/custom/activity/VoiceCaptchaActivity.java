@@ -40,7 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by qingcha on 17/10/20.
@@ -51,11 +51,11 @@ public class VoiceCaptchaActivity extends BaseActivity implements VoiceCaptchaGe
     public static final String PARAM_LAST_REQUEST_TIME  = "param_last_request_time";
     public static final long REQUEST_INTERVAL_TIME  = 60 * 1000;
 
-    @Bind(R.id.vc_titlebar)
+    @BindView(R.id.vc_titlebar)
     TitleBar titlebar;
-    @Bind(R.id.vc_get_view)
+    @BindView(R.id.vc_get_view)
     VoiceCaptchaGetView getView;
-    @Bind(R.id.vc_input_view)
+    @BindView(R.id.vc_input_view)
     VoiceCaptchaInputView inputView;
 
     private String code;

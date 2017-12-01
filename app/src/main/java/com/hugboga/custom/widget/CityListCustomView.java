@@ -30,47 +30,49 @@ import net.grobas.view.PolygonImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 /**
  * Created by qingcha on 17/4/15.
  */
 
 public class CityListCustomView extends LinearLayout {
 
-    @Bind(R.id.city_custom_title_tv)
+    @BindView(R.id.city_custom_title_tv)
     TextView titleTV;
 
-    @Bind(R.id.city_custom_charter_layout)
+    @BindView(R.id.city_custom_charter_layout)
     RelativeLayout charterLayout;
-    @Bind(R.id.city_custom_charter_desc_tv)
+    @BindView(R.id.city_custom_charter_desc_tv)
     TextView charterDescTV;
 
-    @Bind(R.id.city_custom_line_view)
+    @BindView(R.id.city_custom_line_view)
     View lineView;
 
-    @Bind(R.id.city_custom_bottom_layout)
+    @BindView(R.id.city_custom_bottom_layout)
     LinearLayout bottomLayout;
 
-    @Bind(R.id.city_custom_picksend_layout)
+    @BindView(R.id.city_custom_picksend_layout)
     LinearLayout picksendLayout;
-    @Bind(R.id.city_custom_picksend_tv)
+    @BindView(R.id.city_custom_picksend_tv)
     TextView picksendTV;
 
-    @Bind(R.id.city_custom_bottom_vertical_line)
+    @BindView(R.id.city_custom_bottom_vertical_line)
     View bottomVerticalLine;
 
-    @Bind(R.id.city_custom_single_layout)
+    @BindView(R.id.city_custom_single_layout)
     LinearLayout singleLayout;
-    @Bind(R.id.city_custom_single_tv)
+    @BindView(R.id.city_custom_single_tv)
     TextView singleTV;
 
-    @Bind(R.id.city_custom_city_title_layout)
+    @BindView(R.id.city_custom_city_title_layout)
     RelativeLayout cityTitleLayout;
-    @Bind(R.id.city_custom_city_title_tv)
+    @BindView(R.id.city_custom_city_title_tv)
     TextView cityTitleTV;
-    @Bind({R.id.city_custom_city_guide_avatar_iv1
+    @BindViews({R.id.city_custom_city_guide_avatar_iv1
             , R.id.city_custom_city_guide_avatar_iv2
             , R.id.city_custom_city_guide_avatar_iv3
             , R.id.city_custom_city_guide_avatar_iv4

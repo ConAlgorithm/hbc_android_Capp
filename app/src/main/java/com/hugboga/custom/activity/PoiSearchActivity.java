@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -45,17 +45,17 @@ public class PoiSearchActivity extends BaseActivity implements AdapterView.OnIte
     public static final String KEY_ARRIVAL = "arrival";
 
 
-    @Bind(R.id.country_lvcountry)
+    @BindView(R.id.country_lvcountry)
     ZListView sortListView;
 
-    @Bind(R.id.head_search)
+    @BindView(R.id.head_search)
     EditText editSearch;
 
-    @Bind(R.id.arrival_empty_layout)
+    @BindView(R.id.arrival_empty_layout)
     View emptyView;
-    @Bind(R.id.arrival_empty_layout_text)
+    @BindView(R.id.arrival_empty_layout_text)
     TextView emptyViewText;
-    @Bind(R.id.arrival_tip)
+    @BindView(R.id.arrival_tip)
     TextView arrivalTip;
 
     public static final String KEY_CITY_ID = "key_city_id";

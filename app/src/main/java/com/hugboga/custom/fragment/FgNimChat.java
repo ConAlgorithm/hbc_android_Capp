@@ -77,7 +77,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -85,26 +85,26 @@ import butterknife.OnClick;
  */
 public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpater.OnItemClickListener, HbcRecyclerSingleTypeAdpater.OnItemLongClickListener,ImObserverHelper.OnUserStatusListener {
 
-    @Bind(R.id.header_left_btn)
+    @BindView(R.id.header_left_btn)
     ImageView leftBtn;
 
-    @Bind(R.id.chat_content)
+    @BindView(R.id.chat_content)
     RelativeLayout chatLayout; //主题内容显示
-    @Bind(R.id.listview)
+    @BindView(R.id.listview)
     ZListRecyclerView recyclerView;
-    @Bind(R.id.swipe)
+    @BindView(R.id.swipe)
     ZSwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.chat_logout)
+    @BindView(R.id.chat_logout)
     RelativeLayout emptyLayout;
-    @Bind(R.id.im_login_hint_tv)
+    @BindView(R.id.im_login_hint_tv)
     TextView loginHintTV;
 
-    @Bind(R.id.header_view)
+    @BindView(R.id.header_view)
     FgchatHeaderView headerView;
-    @Bind(R.id.im_chat_logout_view)
+    @BindView(R.id.im_chat_logout_view)
     ChatLogoutView chatLogoutView;
 
-    @Bind(R.id.chat_list_empty_tv)
+    @BindView(R.id.chat_list_empty_tv)
     TextView emptyTV;
 
     private int reRequestTimes = 0;
@@ -136,6 +136,7 @@ public class FgNimChat extends BaseFragment implements HbcRecyclerSingleTypeAdpa
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         return rootView;
     }
+
     @Override
     protected void initHeader() {
         RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);

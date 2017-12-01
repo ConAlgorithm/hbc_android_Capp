@@ -35,22 +35,22 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.Serializable;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class FilterSkuListActivity extends BaseActivity implements XRecyclerView.LoadingListener{
 
-    @Bind(R.id.filter_sku_list_filter_layout)
+    @BindView(R.id.filter_sku_list_filter_layout)
     SkuFilterLayout filterLayout;
-    @Bind(R.id.filter_sku_list_recyclerview)
+    @BindView(R.id.filter_sku_list_recyclerview)
     XRecyclerView mRecyclerView;
 
-    @Bind(R.id.filter_sku_list_empty_layout)
+    @BindView(R.id.filter_sku_list_empty_layout)
     LinearLayout emptyLayout;
-    @Bind(R.id.filter_sku_list_empty_iv)
+    @BindView(R.id.filter_sku_list_empty_iv)
     ImageView emptyIV;
-    @Bind(R.id.filter_sku_list_empty_hint_tv)
+    @BindView(R.id.filter_sku_list_empty_hint_tv)
     TextView emptyHintTV;
-    @Bind(R.id.filter_sku_list_empty_charter_layout)
+    @BindView(R.id.filter_sku_list_empty_charter_layout)
     LinearLayout emptyCharterLayout;
 
     private FilterSkuListActivity.Params paramsData;

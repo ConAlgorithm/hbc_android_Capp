@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
  */
 public class MenuItemView extends RelativeLayout {
 
-    @Bind(R.id.item_menu_title_tv)
+    @BindView(R.id.item_menu_title_tv)
     TextView titleTV;
-    @Bind(R.id.item_menu_arrow_iv)
+    @BindView(R.id.item_menu_arrow_iv)
     ImageView arrowIV;
-    @Bind(R.id.item_menu_bottom_line)
+    @BindView(R.id.item_menu_bottom_line)
     View bottomLine;
 
     public MenuItemView(Context context) {

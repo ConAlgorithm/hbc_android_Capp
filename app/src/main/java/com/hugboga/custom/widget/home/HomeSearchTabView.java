@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.fragment.FgHomePage;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -18,28 +18,28 @@ import butterknife.OnClick;
  */
 public class HomeSearchTabView extends FrameLayout {
 
-    @Bind(R.id.home_header_hot_tab_text)
+    @BindView(R.id.home_header_hot_tab_text)
     TextView hotTabText;
-    @Bind(R.id.home_header_hot_tab_icon)
+    @BindView(R.id.home_header_hot_tab_icon)
     View hotTabIcon;
-    @Bind(R.id.home_header_hot_tab_line)
+    @BindView(R.id.home_header_hot_tab_line)
     View hotTabLine;
 
-    @Bind(R.id.home_header_dest_tab_text)
+    @BindView(R.id.home_header_dest_tab_text)
     TextView destTabText;
-    @Bind(R.id.home_header_dest_tab_icon)
+    @BindView(R.id.home_header_dest_tab_icon)
     View destTabIcon;
-    @Bind(R.id.home_header_dest_tab_line)
+    @BindView(R.id.home_header_dest_tab_line)
     View destTabLine;
 
-    @Bind(R.id.home_header_story_tab_text)
+    @BindView(R.id.home_header_story_tab_text)
     TextView storyTabText;
-    @Bind(R.id.home_header_story_tab_icon)
+    @BindView(R.id.home_header_story_tab_icon)
     View storyTabIcon;
-    @Bind(R.id.home_header_story_tab_line)
+    @BindView(R.id.home_header_story_tab_line)
     View storyTabLine;
 
-    @Bind(R.id.home_activies_view)
+    @BindView(R.id.home_activies_view)
     View activiesTabIcon;
 
 

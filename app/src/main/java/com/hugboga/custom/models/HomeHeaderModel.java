@@ -36,7 +36,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -330,39 +330,39 @@ public class HomeHeaderModel extends EpoxyModelWithHolder implements View.OnClic
     static class HomeHeaderHolder extends EpoxyHolder {
 
         View itemView;
-        @Bind(R.id.home_header_image)
+        @BindView(R.id.home_header_image)
         ViewPager mViewPager;
-        @Bind(R.id.indicator)
+        @BindView(R.id.indicator)
         CirclePageIndicator mIndicator;
-        @Bind(R.id.place_ammount_text)
+        @BindView(R.id.place_ammount_text)
         TextView placeAmmout;
-        @Bind(R.id.guide_ammount_text)
+        @BindView(R.id.guide_ammount_text)
         TextView gideAmmountText;
-        @Bind(R.id.home_video_page)
+        @BindView(R.id.home_video_page)
         View homeVideoPage;
-        @Bind(R.id.home_chater)
+        @BindView(R.id.home_chater)
         View chaterView; //包车游
-        @Bind(R.id.home_picksend_layout)
+        @BindView(R.id.home_picksend_layout)
         View pickSendView; //接送机
-        @Bind(R.id.home_single_layout)
+        @BindView(R.id.home_single_layout)
         View singleView; //单次接送
-        @Bind(R.id.home_help_layout)
+        @BindView(R.id.home_help_layout)
         View homeHelp;
-        @Bind(R.id.home_header_tab_layout)
+        @BindView(R.id.home_header_tab_layout)
         HomeSearchTabView homeSearchTabView;
-        @Bind(R.id.home_service_layout)
+        @BindView(R.id.home_service_layout)
         View serviceLayout;
-        @Bind(R.id.home_search_service_inner_layout)
+        @BindView(R.id.home_search_service_inner_layout)
         View serviceInnerLayout;
-        @Bind(R.id.huaren_guild_layout)
+        @BindView(R.id.huaren_guild_layout)
         View huarenGuild;
-        @Bind(R.id.home_other_service)
+        @BindView(R.id.home_other_service)
         FrameLayout homeOtherService;
-        @Bind(R.id.fast_yuding_layout)
+        @BindView(R.id.fast_yuding_layout)
         FrameLayout fastYudingLayout;
-        /*@Bind(R.id.home_header_search)
+        /*@BindView(R.id.home_header_search)
         View homeHeaderSearch;//首页搜索*/
-        @Bind(R.id.home_activities_view)
+        @BindView(R.id.home_activities_view)
         HomeActivitiesView activitiesView;
         @Override
         protected void bindView(View itemView) {

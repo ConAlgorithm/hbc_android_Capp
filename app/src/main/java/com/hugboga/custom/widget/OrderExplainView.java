@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.utils.OrderUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,9 +19,9 @@ import butterknife.ButterKnife;
  */
 public class OrderExplainView extends LinearLayout{
 
-    @Bind(R.id.order_detail_terms_tv)
+    @BindView(R.id.order_detail_terms_tv)
     TextView termsTV;
-    @Bind(R.id.order_detail_explain_tv)
+    @BindView(R.id.order_detail_explain_tv)
     TextView explainTV;
 
     public OrderExplainView(Context context) {

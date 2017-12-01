@@ -27,7 +27,7 @@ import com.hugboga.custom.utils.UIUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -36,11 +36,11 @@ import butterknife.OnClick;
  */
 public class PayResultRecommendLayout extends LinearLayout implements HttpRequestListener {
 
-    @Bind(R.id.view_pay_result_recommend_container_layout)
+    @BindView(R.id.view_pay_result_recommend_container_layout)
     LinearLayout containerLayout;
-    @Bind(R.id.view_pay_result_footer_layout)
+    @BindView(R.id.view_pay_result_footer_layout)
     LinearLayout footerLayout;
-    @Bind(R.id.view_pay_result_footer_tv)
+    @BindView(R.id.view_pay_result_footer_tv)
     TextView footerTV;
 
     private ErrorHandler errorHandler;

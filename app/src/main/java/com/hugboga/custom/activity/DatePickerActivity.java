@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.TimePickerView;
@@ -55,31 +55,31 @@ public class DatePickerActivity extends Activity {
     public static final String PARAM_TITLE = "title";
     public static final String PARAM_ASSIGN_GUIDE = "isAssignGuide";
 
-    @Bind(R.id.date_picker_title_tv)
+    @BindView(R.id.date_picker_title_tv)
     TextView headerTitle;
-    @Bind(R.id.week_layout)
+    @BindView(R.id.week_layout)
     LinearLayout weekLayout;
-    @Bind(R.id.date_picker_root_layout)
+    @BindView(R.id.date_picker_root_layout)
     LinearLayout rootLayout;
-    @Bind(R.id.show_tips)
+    @BindView(R.id.show_tips)
     TextView showTips;
 
-    @Bind(R.id.date_picker_guide_title_layout)
+    @BindView(R.id.date_picker_guide_title_layout)
     RelativeLayout guideTitleLayout;
-    @Bind(R.id.date_picker_guide_arrow_iv)
+    @BindView(R.id.date_picker_guide_arrow_iv)
     ImageView guideArrowIV;
-    @Bind(R.id.date_picker_guide_title_tv)
+    @BindView(R.id.date_picker_guide_title_tv)
     TextView guideTitleTV;
-    @Bind(R.id.date_picker_guide_confirm_tv)
+    @BindView(R.id.date_picker_guide_confirm_tv)
     TextView guideConfirmTV;
-    @Bind(R.id.timepicker_view)
+    @BindView(R.id.timepicker_view)
     TimePickerView timepickerView;
-    @Bind(R.id.date_picker_guide_hint_tv)
+    @BindView(R.id.date_picker_guide_hint_tv)
     TextView guideHintTV;
-    @Bind(R.id.date_picker_guide_hint_iv)
+    @BindView(R.id.date_picker_guide_hint_iv)
     ImageView guideHintIV;
 
-    @Bind(R.id.calendar_view)
+    @BindView(R.id.calendar_view)
     CalendarPickerView calendar;
 
     int calender_type = 1;//1,日期单选,2 日期多选 3,单选没底部文字
