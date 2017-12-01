@@ -1,6 +1,7 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +9,9 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.SkuDetailActivity;
+import com.hugboga.custom.activity.WebInfoActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.utils.Tools;
 import com.hugboga.tools.NetImg;
@@ -46,6 +50,16 @@ public class CityListModel extends EpoxyModelWithHolder<CityListModel.CityListVH
             return;
         }
         init(holder, destinationGoodsVo);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, SkuDetailActivity.class);
+                intent.putExtra(WebInfoActivity.WEB_URL, destinationGoodsVo.skuDetailUrl);
+                intent.putExtra(Constants.PARAMS_ID, destinationGoodsVo.goodsNo);
+                intent.putExtra(Constants.PARAMS_SOURCE, "目的地首页-玩法");
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -77,8 +91,11 @@ public class CityListModel extends EpoxyModelWithHolder<CityListModel.CityListVH
         @BindView(R.id.city_item_line)
         public ImageView line;
 
+        View itemView;
+
         @Override
         protected void bindView(View itemView) {
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
     }
