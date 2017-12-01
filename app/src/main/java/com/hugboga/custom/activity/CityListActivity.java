@@ -41,6 +41,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
+import tk.hongbo.label.data.LabelItemData;
 
 import static com.hugboga.custom.activity.CityListActivity.CityHomeType.COUNTRY;
 
@@ -74,6 +75,7 @@ public class CityListActivity extends BaseActivity {
     LabelBean labelBeanCity; //筛选项出发城市
     LabelBean labelBeanDay; //筛选项游玩天数
 
+    List<LabelItemData> labels; //标签初始化数据
     CityAdapter adapter;
     private int page = 1; //sku页数
 
@@ -146,7 +148,8 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushFilterData(DestinationHomeVo data) {
         //游玩线路数据
-        content_city_filte_view1.setData(cityDataTools.getTagData(data.destinationTagGroupList), onSelectListener1);
+        labels = cityDataTools.getTagData(data.destinationTagGroupList);
+        content_city_filte_view1.setData(labels, onSelectListener1);
         //出发城市数据
         content_city_filte_view2.setData(cityDataTools.getCityData(data.depCityList), onSelectListener2);
         //游玩天数数据
@@ -382,10 +385,7 @@ public class CityListActivity extends BaseActivity {
             }
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
-            List<DestinationGoodsVo> skus = (List<DestinationGoodsVo>) request.getData();
-            if (skus != null && skus.size() > 0) {
-                flushSkuList(skus);
-            }
+            flushSkuList((List<DestinationGoodsVo>) request.getData());
         }
     }
 
@@ -398,6 +398,8 @@ public class CityListActivity extends BaseActivity {
         if (adapter == null) {
             adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList);
             recyclerView.setAdapter(adapter);
+            adapter.labels = labels; //为adapter设置标签初始化值
+            adapter.onSelectListener1 = onSelectListener1; //为adapter设置标签监听器
         }
         if (page == 1) {
             adapter.load(destinationGoodsList);
@@ -446,24 +448,6 @@ public class CityListActivity extends BaseActivity {
             intent.putExtra(Constants.PARAMS_DATA, params);
             intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
         }
-        startActivity(intent);
-    }
-
-    /**
-     * 打开更多SKU界面
-     * TODO 有可能不需要点击，@圆确定
-     */
-    public void clickMoreSku() {
-        FilterSkuListActivity.Params params = new FilterSkuListActivity.Params();
-        if (paramsData != null) {
-            params.id = paramsData.id;
-            params.cityHomeType = paramsData.cityHomeType;
-            params.titleName = paramsData.titleName;
-            params.days = "1,2"; //TODO 游玩天数需要动态获取
-        }
-        Intent intent = new Intent(this, FilterSkuListActivity.class);
-        intent.putExtra(Constants.PARAMS_SOURCE, getEventSource());
-        intent.putExtra(Constants.PARAMS_DATA, params);
         startActivity(intent);
     }
 

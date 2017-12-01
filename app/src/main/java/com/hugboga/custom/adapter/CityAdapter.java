@@ -7,10 +7,14 @@ import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.models.CityConfigModel;
+import com.hugboga.custom.models.CityListLabelModel;
 import com.hugboga.custom.models.CityListModel;
 import com.hugboga.custom.models.CityWhatModel;
 
 import java.util.List;
+
+import tk.hongbo.label.FilterView;
+import tk.hongbo.label.data.LabelItemData;
 
 /**
  * 目的地城市列表
@@ -22,10 +26,15 @@ public class CityAdapter extends EpoxyAdapter {
     private Context mContext;
     List<ServiceConfigVo> serviceConfigList;
     EpoxyModelWithHolder goodeMode; //最后一个model
+    public List<LabelItemData> labels;
+    public FilterView.OnSelectListener onSelectListener1;
+    private boolean isFinish = false; //是否加载到最后
 
     public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList) {
         this.mContext = context;
         this.serviceConfigList = serviceConfigList;
+        isFinish = false;
+        addLabelView();
         addGoods(data);
     }
 
@@ -57,27 +66,33 @@ public class CityAdapter extends EpoxyAdapter {
 
     public void load(List<DestinationGoodsVo> data) {
         removeAllModels();
+        isFinish = false;
+        addLabelView();
         addGoods(data);
     }
 
-    int i = 0; //TODO remove
-
     public void addMoreGoods(List<DestinationGoodsVo> data) {
-        i++; //TODO remove
-        if (data == null) {
-            addConfig();
-            addWhat();
+        if (data == null || data.size() == 0) {
+            if (!isFinish) {
+                isFinish = true;
+                addConfig();
+                addWhat();
+            }
             return;
         }
         if (goodeMode != null) {
             removeAllAfterModel(goodeMode);
         } else {
             removeAllModels();
+            addLabelView();
         }
         addGoods(data);
-        if (i > 3) { //TODO remove
-            addConfig(); //TODO remove
-            addWhat(); //TODO remove
-        }
+    }
+
+    /**
+     * 添加快速标签选择区
+     */
+    public void addLabelView() {
+        addModel(new CityListLabelModel(labels, onSelectListener1));
     }
 }
