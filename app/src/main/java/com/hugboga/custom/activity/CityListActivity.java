@@ -31,7 +31,6 @@ import com.hugboga.custom.data.request.RequestQuerySkuList;
 import com.hugboga.custom.utils.CityDataTools;
 import com.hugboga.custom.widget.city.CityFilterView;
 import com.hugboga.custom.widget.city.CityHeaderFilterView;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +43,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tk.hongbo.label.FilterView;
 import tk.hongbo.label.data.LabelBean;
+
+import static com.hugboga.custom.activity.CityListActivity.CityHomeType.COUNTRY;
 
 public class CityListActivity extends BaseActivity {
 
@@ -107,6 +108,8 @@ public class CityListActivity extends BaseActivity {
         cityFilterView.setFilterSeeListener(filterSeeListener);
 
         //初始化首页内容
+        paramsData.id = 1; //TODO remove
+        paramsData.cityHomeType = COUNTRY; //TODO remove
         RequestCity requestCity = new RequestCity(this, paramsData.id, paramsData.cityHomeType.getType());
         HttpRequestUtils.request(this, requestCity, this);
 
@@ -310,7 +313,7 @@ public class CityListActivity extends BaseActivity {
     public CityListActivity.Params paramsData;
 
     public boolean isShowCity() {
-        if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == CityHomeType.COUNTRY) {
+        if (paramsData.cityHomeType == CityHomeType.ROUTE || paramsData.cityHomeType == COUNTRY) {
             return true;
         } else {
             return false;
@@ -372,7 +375,12 @@ public class CityListActivity extends BaseActivity {
                 //设置标签部分
                 flushFilterData(data);
                 // 设置玩法列表初始化数据
-                flushSkuList(data.destinationGoodsList);
+                if (data.destinationGoodsList != null && data.destinationGoodsList.size() > 0) {
+                    flushSkuList(data.destinationGoodsList);
+                } else {
+                    page = 1; //无条件查询玩法
+                    flushSkuList();
+                }
             }
         } else if (request instanceof RequestQuerySkuList) {
             //条件筛选玩法
@@ -390,10 +398,10 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
         if (adapter == null) {
-            if (data != null) {
-                data.dailyServiceConfig = getTestConfig(); //TODO remove
-            }
-            adapter = new CityAdapter(this, destinationGoodsList, data.dailyServiceConfig);
+//            if (data != null) {
+//                data.dailyServiceConfig = getTestConfig(); //TODO remove
+//            }
+            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList);
             recyclerView.setAdapter(adapter);
         }
         if (page == 1) {
@@ -411,6 +419,7 @@ public class CityListActivity extends BaseActivity {
         vo1.desc = "按半天、整天选个大致游玩范围，选个当地人说明要求，Ta来帮你安排整天的行程";
         vo1.imageUrl = "https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m";
         vo1.depCityId = 202;
+        vo1.serviceType = 3;
         List<String> tags = new ArrayList<>();
         tags.add("按天包车畅游");
         tags.add("提前1天可订");
@@ -422,6 +431,7 @@ public class CityListActivity extends BaseActivity {
         vo2.desc = "中文专车机场接送，航班延误免费等待";
         vo2.imageUrl = "https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m";
         vo2.depCityId = 202;
+        vo2.serviceType = 1;
         List<String> tags2 = new ArrayList<>();
         tags2.add("提前1天可订");
         vo2.serviceLabelList = tags2;
@@ -432,6 +442,7 @@ public class CityListActivity extends BaseActivity {
         vo3.desc = "境外打车点到点中文用车服务";
         vo3.imageUrl = "https://hbcdn-dev.huangbaoche.com/default/20161115/201611151536197821.jpg!m";
         vo3.depCityId = 202;
+        vo3.serviceType = 4;
         List<String> tags3 = new ArrayList<>();
         tags3.add("提前1天可订");
         vo3.serviceLabelList = tags3;

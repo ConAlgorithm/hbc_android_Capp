@@ -20,15 +20,13 @@ import java.util.List;
 public class CityAdapter extends EpoxyAdapter {
 
     private Context mContext;
-    List<ServiceConfigVo> dailyServiceConfig;
+    List<ServiceConfigVo> serviceConfigList;
     EpoxyModelWithHolder goodeMode; //最后一个model
 
-    public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> dailyServiceConfig) {
+    public CityAdapter(Context context, List<DestinationGoodsVo> data, List<ServiceConfigVo> serviceConfigList) {
         this.mContext = context;
-        this.dailyServiceConfig = dailyServiceConfig;
+        this.serviceConfigList = serviceConfigList;
         addGoods(data);
-        addConfig();
-        addWhat();
     }
 
     private void addGoods(List<DestinationGoodsVo> data) {
@@ -46,8 +44,10 @@ public class CityAdapter extends EpoxyAdapter {
     }
 
     private void addConfig() {
-        for (ServiceConfigVo vo : dailyServiceConfig) {
-            addModel(new CityConfigModel(mContext, vo));
+        if (serviceConfigList != null) {
+            for (ServiceConfigVo vo : serviceConfigList) {
+                addModel(new CityConfigModel(mContext, vo));
+            }
         }
     }
 
@@ -58,19 +58,26 @@ public class CityAdapter extends EpoxyAdapter {
     public void load(List<DestinationGoodsVo> data) {
         removeAllModels();
         addGoods(data);
-        addConfig();
-        addWhat();
     }
 
+    int i = 0; //TODO remove
+
     public void addMoreGoods(List<DestinationGoodsVo> data) {
-        if(data==null){
+        i++; //TODO remove
+        if (data == null) {
+            addConfig();
+            addWhat();
             return;
         }
         if (goodeMode != null) {
             removeAllAfterModel(goodeMode);
+        } else {
+            removeAllModels();
         }
         addGoods(data);
-        addConfig();
-        addWhat();
+        if (i > 3) { //TODO remove
+            addConfig(); //TODO remove
+            addWhat(); //TODO remove
+        }
     }
 }

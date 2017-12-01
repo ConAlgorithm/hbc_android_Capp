@@ -54,6 +54,7 @@ public class CityWhatModel extends EpoxyModelWithHolder<CityWhatModel.CityWhatVH
 
         @OnClick(R.id.city_item_what_btn)
         public void onClick(View view) {
+            //TODO 这里开始咨询跳转到指定坐席的人工客服
             HLog.d("==========> 在这里开始咨询AI");
         }
     }

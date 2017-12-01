@@ -1,6 +1,7 @@
 package com.hugboga.custom.models;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,10 +9,14 @@ import android.widget.TextView;
 import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
+import com.hugboga.custom.activity.CharterFirstStepActivity;
+import com.hugboga.custom.activity.PickSendActivity;
+import com.hugboga.custom.activity.SingleActivity;
+import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.city.ServiceConfigVo;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.custom.widget.TagGroup;
 import com.hugboga.custom.widget.city.CityWhatDoTag;
-import com.hugboga.tools.NetImg;
 
 import java.util.List;
 
@@ -50,10 +55,38 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
             return;
         }
         init(holder, vo);
+        holder.itemView.setOnClickListener(onClickListener); //点击事件
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //进入下单入口
+            switch (vo.serviceType) {
+                case 1:
+                    //进入接送机
+                    intentActivity(mContext, PickSendActivity.class);
+                    break;
+                case 3:
+                    //进入包车
+                    intentActivity(mContext, CharterFirstStepActivity.class);
+                    break;
+                case 4:
+                    intentActivity(mContext, SingleActivity.class);
+                    //进入次租
+                    break;
+            }
+        }
+    };
+
+    private void intentActivity(Context context, Class<?> cls) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(Constants.PARAMS_SOURCE, "目的地首页");
+        context.startActivity(intent);
     }
 
     public void init(CityConfigVH holder, ServiceConfigVo vo) {
-        NetImg.showImage(mContext, holder.city_what_view_img, vo.imageUrl);
+        Tools.showImageNotCenterCrop(holder.city_what_view_img, vo.imageUrl, R.mipmap.home_default_route_item);
         holder.city_what_view_title.setText(vo.title);
         holder.city_what_view_subtitle.setText(vo.desc);
         addTags(holder, vo.serviceLabelList);
@@ -81,8 +114,11 @@ public class CityConfigModel extends EpoxyModelWithHolder<CityConfigModel.CityCo
         @BindView(R.id.city_what_view_group)
         TagGroup city_what_view_group; //标签库
 
+        View itemView;
+
         @Override
         protected void bindView(View itemView) {
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
     }

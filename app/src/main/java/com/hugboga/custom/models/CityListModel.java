@@ -9,6 +9,7 @@ import com.airbnb.epoxy.EpoxyHolder;
 import com.airbnb.epoxy.EpoxyModelWithHolder;
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
+import com.hugboga.custom.utils.Tools;
 import com.hugboga.tools.NetImg;
 
 import butterknife.BindView;
@@ -51,7 +52,7 @@ public class CityListModel extends EpoxyModelWithHolder<CityListModel.CityListVH
      * 显示数据
      */
     public void init(CityListVH holder, DestinationGoodsVo destinationGoodsVo) {
-        NetImg.showImage(mContext, holder.city_item_img, destinationGoodsVo.goodsImageUrl);
+        Tools.showImageNotCenterCrop(holder.city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
         holder.city_item_title.setText(destinationGoodsVo.goodsName);
         NetImg.showCircleImage(mContext, holder.city_item_guide, destinationGoodsVo.guideHeadImageUrl);
         holder.city_item_tip.setText(String.format(mContext.getString(R.string.city_sku_title1),

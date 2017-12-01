@@ -11,8 +11,7 @@ import android.widget.ImageView;
 
 import com.hugboga.custom.R;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
-import com.hugboga.custom.utils.UIUtils;
-import com.hugboga.tools.NetImg;
+import com.hugboga.custom.utils.Tools;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,9 +44,7 @@ public class CityHeaderFilterView extends FrameLayout {
 
     public void init(Activity activity, DestinationHomeVo vo) {
         this.mActivity = activity;
-        NetImg.showImage(getContext(), city_header_img, vo.destinationImageUrl);
-//        int imageWidth = UIUtils.getScreenWidth() - UIUtils.dip2px(16);
-//        city_header_img.getLayoutParams().width = imageWidth;
+        Tools.showImageNotCenterCrop(city_header_img, vo.destinationImageUrl, R.mipmap.des_city_dafault);
         if (cityHeaderCountView != null) {
             cityHeaderCountView.init(mActivity, vo.destinationGoodsCount, vo.destinationAssociateGuideCount);
         }

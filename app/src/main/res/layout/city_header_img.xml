@@ -18,7 +18,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="?attr/actionBarSize"
-            android:scaleType="centerCrop" />
+            android:adjustViewBounds="true" />
 
         <com.hugboga.custom.widget.city.CityHeaderCountView
             android:id="@+id/cityHeaderCountView"

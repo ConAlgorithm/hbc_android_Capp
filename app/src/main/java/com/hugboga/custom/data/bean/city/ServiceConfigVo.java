@@ -13,4 +13,5 @@ public class ServiceConfigVo {
     public String imageUrl; //图片地址
     public List<String> serviceLabelList; //服务标签列表
     public int depCityId; //出发城市Id 线路圈、国家为0
+    public int serviceType; //1：接送机 3：包车 4：次租
 }

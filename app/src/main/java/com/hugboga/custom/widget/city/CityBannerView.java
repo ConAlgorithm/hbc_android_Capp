@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.hugboga.custom.R;
 import com.hugboga.custom.activity.WebInfoActivity;
 import com.hugboga.custom.data.bean.city.BeginnerDirectionVo;
-import com.hugboga.tools.NetImg;
+import com.hugboga.custom.utils.Tools;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +51,7 @@ public class CityBannerView extends FrameLayout {
         this.beginnerDirectionVo = beginnerDirectionVo;
         if (beginnerDirectionVo != null) {
             setVisibility(VISIBLE);
-            NetImg.showImage(activity, city_banner_img, beginnerDirectionVo.backgroundImageUrl);
+            Tools.showImageNotCenterCrop(city_banner_img, beginnerDirectionVo.backgroundImageUrl, R.mipmap.des_city_dafault);
             city_banner_title.setText(beginnerDirectionVo.title);
             city_banner_subtitle.setText(beginnerDirectionVo.subTitle);
         } else {
