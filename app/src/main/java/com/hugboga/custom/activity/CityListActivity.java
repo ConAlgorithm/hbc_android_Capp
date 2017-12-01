@@ -20,7 +20,6 @@ import com.hugboga.custom.constants.Constants;
 import com.hugboga.custom.data.bean.UserEntity;
 import com.hugboga.custom.data.bean.city.DestinationGoodsVo;
 import com.hugboga.custom.data.bean.city.DestinationHomeVo;
-import com.hugboga.custom.data.bean.city.ServiceConfigVo;
 import com.hugboga.custom.data.event.EventAction;
 import com.hugboga.custom.data.request.FavoriteGuideSaved;
 import com.hugboga.custom.data.request.FavoriteLinesaved;
@@ -36,7 +35,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

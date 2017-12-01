@@ -68,6 +68,8 @@ public class CityListModel extends EpoxyModelWithHolder<CityListModel.CityListVH
     public void init(CityListVH holder, DestinationGoodsVo destinationGoodsVo) {
         Tools.showImageNotCenterCrop(holder.city_item_img, destinationGoodsVo.goodsImageUrl, R.mipmap.home_default_route_item);
         holder.city_item_title.setText(destinationGoodsVo.goodsName);
+        holder.city_item_price.setText(String.format(mContext.getString(R.string.city_sku_item_price),
+                String.valueOf(destinationGoodsVo.perPrice)));
         NetImg.showCircleImage(mContext, holder.city_item_guide, destinationGoodsVo.guideHeadImageUrl);
         holder.city_item_tip.setText(String.format(mContext.getString(R.string.city_sku_title1),
                 String.valueOf(destinationGoodsVo.userFavorCount), String.valueOf(destinationGoodsVo.dayCount),
@@ -80,6 +82,8 @@ public class CityListModel extends EpoxyModelWithHolder<CityListModel.CityListVH
 
         @BindView(R.id.city_item_img)
         ImageView city_item_img;
+        @BindView(R.id.city_item_img_price)
+        TextView city_item_price; //玩法价格
         @BindView(R.id.city_item_title)
         TextView city_item_title; //标题
         @BindView(R.id.city_item_guide)

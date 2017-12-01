@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -97,4 +96,28 @@
         app:layout_constraintEnd_toStartOf="@+id/city_item_guide"
         app:layout_constraintStart_toStartOf="@+id/city_item_guide"
         app:srcCompat="@mipmap/home_hbc_car" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#99000000"
+        app:layout_constraintBottom_toBottomOf="@+id/city_item_img"
+        app:layout_constraintEnd_toEndOf="@+id/city_item_img_price"
+        app:layout_constraintStart_toStartOf="@+id/city_item_img"
+        app:layout_constraintTop_toTopOf="@+id/city_item_img_price" />
+
+    <TextView
+        android:id="@+id/city_item_img_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:text="¥ 1999起/人 "
+        android:textColor="@color/basic_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/city_item_img"
+        app:layout_constraintStart_toStartOf="@+id/city_item_img" />
 </android.support.constraint.ConstraintLayout>
