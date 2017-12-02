@@ -350,10 +350,12 @@ public class CityListActivity extends BaseActivity {
 //                }
                 break;
             case ORDER_DETAIL_UPDATE_COLLECT:
+                //查询已收藏司导
                 FavoriteGuideSaved favoriteGuideSaved = new FavoriteGuideSaved(this, UserEntity.getUser().getUserId(this), null);
                 HttpRequestUtils.request(this, favoriteGuideSaved, this, false);
                 break;
             case LINE_UPDATE_COLLECT:
+                //查询已收藏线路
                 if (UserEntity.getUser().isLogin(this)) {
                     FavoriteLinesaved favoriteLinesaved = new FavoriteLinesaved(this, UserEntity.getUser().getUserId(this));
                     HttpRequestUtils.request(this, favoriteLinesaved, this, false);
@@ -396,10 +398,8 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushSkuList(List<DestinationGoodsVo> destinationGoodsList) {
         if (adapter == null) {
-            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList);
+            adapter = new CityAdapter(this, destinationGoodsList, data.serviceConfigList, labels, onSelectListener1);
             recyclerView.setAdapter(adapter);
-            adapter.labels = labels; //为adapter设置标签初始化值
-            adapter.onSelectListener1 = onSelectListener1; //为adapter设置标签监听器
         }
         if (page == 1) {
             adapter.load(destinationGoodsList);

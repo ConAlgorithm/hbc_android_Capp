@@ -23,7 +23,7 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
     List<LabelItemData> labels;
     FilterView.OnSelectListener onSelectListener1;
 
-    public CityListLabelModel(List<LabelItemData> labels,FilterView.OnSelectListener onSelectListener1) {
+    public CityListLabelModel(List<LabelItemData> labels, FilterView.OnSelectListener onSelectListener1) {
         this.labels = labels;
         this.onSelectListener1 = onSelectListener1;
     }
@@ -34,14 +34,17 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
     }
 
     @Override
-    protected int getDefaultLayout() {
-        return R.layout.city_list_label_model;
+    public void bind(LabelHolder holder) {
+        super.bind(holder);
+        if (holder == null) {
+            return;
+        }
+        holder.filterView.setData(labels, onSelectListener1);
     }
 
     @Override
-    public void bind(LabelHolder holder) {
-        super.bind(holder);
-        holder.init();
+    protected int getDefaultLayout() {
+        return R.layout.city_list_label_model;
     }
 
     public class LabelHolder extends EpoxyHolder {
@@ -52,10 +55,6 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
         @Override
         protected void bindView(View itemView) {
             ButterKnife.bind(this, itemView);
-        }
-
-        public void init(){
-            filterView.setData(labels, onSelectListener1);
         }
     }
 }
