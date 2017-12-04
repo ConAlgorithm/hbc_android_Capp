@@ -27,7 +27,7 @@ public class UrlLibs {
     public static String SERVER_IP_HOST_PUBLIC = SERVER_HTTP_SCHEME + SERVER_IP_HOST_PUBLIC_DEFAULT;//主域名
 
     public static final String SERVER_IP_HOST_FORMAL = "https://api5.huangbaoche.com/";//线上域名
-
+    public static final String SERVER_IP_HOST_FORMAL_TWO = "https://api7-dev.huangbaoche.com/";//线上域名api7
 
 //    开发环境 host  res.dev.hbc.tech
 //    测试环境 host  res.test.hbc.tech
@@ -124,7 +124,7 @@ public class UrlLibs {
         }
     }
 
-    //current urlErrorCode 193
+    //current urlErrorCode 195
 
     //-------个人信息--------
     public static final String SERVER_IP_PUBLIC_UER_CENTER = "ucenter/v1.0/c/user/";
@@ -203,6 +203,8 @@ public class UrlLibs {
     public static final String API_EPOS_SMS_SEND            = "trade/v1.0/c/epos/verifycodereceive";                    // 易宝获取验证码 191
     public static final String API_EPOS_SMS_VERIFY          = "trade/v1.0/c/epos/verifysale";                           // 易宝短信验证 192
     public static final String API_EPOS_BIND_LIST           = "trade/v1.0/c/epos/bindlist";                             // 国内信用卡绑定列表  193
+    public static final String API_IP_FAKE_AI_GET            = "trade/v1.0/c/ai/askready?";                              //AI数据GET  194
+    public static final String  API_IP_FAKE_AI_POST          = "trade/v1.0/c/ai/askDuoDuo?";                              //AI数据POST 195
 
     public static final String SERVER_IP_PRICE_PICKUP       = "price/v1.2/c/airportPickupPrice?";                       // 查询价格 接机
     public static final String SERVER_IP_PRICE_TRANSFER     = "price/v1.2/c/airportTransferPrice?";                     // 查询价格 送机

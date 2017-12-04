@@ -39,8 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:maxEms="10"
-                    android:singleLine="false"
                     android:paddingBottom="@dimen/text_size_9"
+                    android:singleLine="false"
                     android:textColor="@color/basic_black"
                     android:textSize="@dimen/text_size_15" />
 
