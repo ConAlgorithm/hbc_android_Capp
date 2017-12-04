@@ -93,7 +93,7 @@ public class CityAdapter extends EpoxyAdapter {
      *
      * @param ids
      */
-    public void setSelectIds(Map<Integer, Boolean> ids) {
+    public void setSelectIds(Map<String, Boolean> ids) {
         if (cityListLabelModel != null) {
             cityListLabelModel.setSelectIds(ids);
         }

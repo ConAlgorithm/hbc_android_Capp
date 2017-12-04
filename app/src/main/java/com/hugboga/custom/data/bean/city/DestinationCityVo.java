@@ -5,6 +5,6 @@ package com.hugboga.custom.data.bean.city;
  */
 
 public class DestinationCityVo {
-    public int cityId; //城市ID
+    public String cityId; //城市ID
     public String cityName; //城市名称
 }

@@ -66,7 +66,7 @@ public class CityListLabelModel extends EpoxyModelWithHolder<CityListLabelModel.
      *
      * @param ids
      */
-    public void setSelectIds(Map<Integer, Boolean> ids) {
+    public void setSelectIds(Map<String, Boolean> ids) {
         if (holder != null) {
             holder.filterView.setSelectIds(ids);
         }

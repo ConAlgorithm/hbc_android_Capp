@@ -6,7 +6,9 @@ import com.hugboga.custom.data.bean.city.DestinationTagGroupVo;
 import com.hugboga.custom.data.bean.city.DestinationTagVo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tk.hongbo.label.data.LabelBean;
 import tk.hongbo.label.data.LabelItemData;
@@ -163,6 +165,7 @@ public class CityDataTools {
         LabelBean beanL = new LabelBean();
         beanL.id = vo1.tagId;
         beanL.name = vo1.tagName;
+        beanL.depIdSet = vo1.goodsDepCityIdSet;
         bean.parentLabel = beanL;
         bean.childs = getChildTags(vo1.subTagList);
         return bean;
@@ -188,4 +191,58 @@ public class CityDataTools {
         return list;
     }
 
+    /**
+     * 获取选择的标签关联城市
+     *
+     * @param depIdSet
+     * @return
+     */
+    public Map<String, Boolean> getDepCityIds(List<String> depIdSet) {
+        Map<String, Boolean> ids = new HashMap<>();
+        if (depIdSet != null) {
+            for (String dep : depIdSet) {
+                ids.put(dep, true);
+            }
+        }
+        return ids;
+    }
+
+    /**
+     * 获取城市关联标签
+     *
+     * @param destinationTagGroupList
+     * @param cityId
+     * @return
+     */
+    public Map<String, Boolean> getDepTagIds(List<DestinationTagGroupVo> destinationTagGroupList, String cityId) {
+        Map<String, Boolean> ids = new HashMap<>();
+        if (destinationTagGroupList != null && destinationTagGroupList.size() > 0) {
+            for (DestinationTagGroupVo vo : destinationTagGroupList) {
+                if (vo.goodsDepCityIdSet.contains(cityId)) {
+                    ids.put(vo.tagId, true);
+                }
+                ids.putAll(getSubTagDep(vo.subTagList, cityId));
+            }
+        }
+        return ids;
+    }
+
+    /**
+     * 获取关联该城市的子标签
+     *
+     * @param subTagList
+     * @param cityId
+     * @return
+     */
+    private Map<String, Boolean> getSubTagDep(List<DestinationTagVo> subTagList, String cityId) {
+        Map<String, Boolean> ids = new HashMap<>();
+        if (subTagList != null && subTagList.size() > 0) {
+            for (DestinationTagVo vo1 : subTagList) {
+                if (vo1.goodsDepCityIdSet.contains(cityId)) {
+                    ids.put(vo1.tagId, true);
+                }
+            }
+        }
+        return ids;
+    }
 }

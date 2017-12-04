@@ -5,6 +5,6 @@ package com.hugboga.custom.data.bean.city;
  */
 
 public class DayCountVo {
-    public int type;   //类型
+    public String type;   //类型
     public String title;   //名称
 }

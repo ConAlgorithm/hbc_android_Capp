@@ -23,7 +23,7 @@ import java.util.List;
 public class RequestQuerySkuList extends BaseRequest {
 
     public RequestQuerySkuList(Context context, int destinationId, int destinationType,
-                               int dayCountTypeList, int destinationTagIdList, int depCityIdList,int page) {
+                               String dayCountTypeList, String destinationTagIdList, String depCityIdList,int page) {
         super(context);
         map = new HashMap<String, Object>();
         map.put("destinationId", destinationId); //目的地ID

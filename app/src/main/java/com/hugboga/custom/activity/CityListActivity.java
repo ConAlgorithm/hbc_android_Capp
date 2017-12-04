@@ -169,6 +169,8 @@ public class CityListActivity extends BaseActivity {
             } else {
                 content_city_filte_view1.setSelectIds(filterView.getSelectIds());
             }
+            // 关联城市联动
+            linkCity(labelBean);
         }
 
         @Override
@@ -185,8 +187,28 @@ public class CityListActivity extends BaseActivity {
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
             cityFilterView.setTextTag(labelBean.name);
+            // 关联城市联动
+            linkCity(labelBean);
         }
     };
+
+    /**
+     * 关联城市联动
+     *
+     * @param labelBean
+     */
+    private void linkCity(LabelBean labelBean) {
+        content_city_filte_view2.setEnableClickIds(cityDataTools.getDepCityIds(labelBean.depIdSet));
+    }
+
+    /**
+     * 关联标签联动
+     *
+     * @param labelBean
+     */
+    private void linkTag(LabelBean labelBean) {
+        content_city_filte_view1.setEnableClickIds(cityDataTools.getDepTagIds(data.destinationTagGroupList, labelBean.id));
+    }
 
     /**
      * 出发城市选中处理
@@ -200,6 +222,7 @@ public class CityListActivity extends BaseActivity {
             page = 1; //筛选条件后重置页数为首页
             flushSkuList();
             cityFilterView.setTextCity(labelBean.name);
+            linkTag(labelBean);
         }
     };
 
@@ -223,8 +246,8 @@ public class CityListActivity extends BaseActivity {
      */
     private void flushSkuList() {
         RequestQuerySkuList requestQuerySkuList = new RequestQuerySkuList(this, paramsData.id,
-                paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : 0,
-                labelBeanTag != null ? labelBeanTag.id : 0, labelBeanCity != null ? labelBeanCity.id : 0, page);
+                paramsData.cityHomeType.getType(), labelBeanDay != null ? labelBeanDay.id : "0",
+                labelBeanTag != null ? labelBeanTag.id : "0", labelBeanCity != null ? labelBeanCity.id : "0", page);
         HttpRequestUtils.request(this, requestQuerySkuList, this, page == 1);
     }
 
