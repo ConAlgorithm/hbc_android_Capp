@@ -1,57 +1,52 @@
 package com.hugboga.custom.adapter;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.airbnb.epoxy.EpoxyAdapter;
+import com.hugboga.custom.data.bean.FakeAIBean;
+import com.hugboga.custom.models.FakeAIHeaderModel;
+import com.hugboga.custom.models.FakeAIItemOneModel;
+import com.hugboga.custom.models.FakeAIItemTwoModel;
 
-import com.huangbaoche.hbcframe.viewholder.FooterViewHolder;
-import com.hugboga.custom.R;
-import com.hugboga.custom.adapter.viewholder.FakeAIViewHoder;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/11/29.
  */
 
-public abstract  class FakeAIAdapter extends RecyclerView.Adapter<FakeAIViewHoder> {
-    public  static final  int FAKEADAPTERTYPE_ONE = 1;
-    public  static final  int FAKEADAPTERTYPE_TWO = 2;
-    private  Context context;
-    public  FakeAIAdapter(Context context){
-        this.context=context;
-    }
-    public  abstract  int itemCount();
-    public  abstract  int getViewType(int position);
-    public  abstract  void  bindData(FakeAIViewHoder holder, int position);
-    @Override
-    public int getItemViewType(int position) {
-        return getViewType(position);
+public class FakeAIAdapter extends EpoxyAdapter {
+    private FakeAIHeaderModel fake_ai_headerModel;
+    final ArrayList<FakeAIBean> fakeAIBeans = new ArrayList<FakeAIBean>();
+
+    public FakeAIAdapter() {
+        fake_ai_headerModel = new FakeAIHeaderModel();
+        fake_ai_headerModel.setData(null);
+        addModel(fake_ai_headerModel);
+
     }
 
-    @Override
-    public FakeAIViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == FAKEADAPTERTYPE_ONE) {
-
-            return new FakeAIViewHoder(
-                    LayoutInflater.from(parent.getContext()).inflate(
-                            R.layout.fake_iem_one, parent, false),viewType);
-        }else {
-
-            View view = LayoutInflater.from(context).inflate(R.layout.fake_item_two, parent, false);
-            return new FakeAIViewHoder(view,viewType);
-        }
+    public void setData_All(FakeAIBean data_all) {
+        removeAllModels();
+        fake_ai_headerModel.setData(data_all);
+        addModel(fake_ai_headerModel);
+        setData_ItemOne(data_all);
     }
 
-    @Override
-    public void onBindViewHolder(FakeAIViewHoder holder, int position) {
-        bindData(holder,position);
+    public void setData_ItemOne(FakeAIBean data_all) {
+        FakeAIItemOneModel fake_ai_item_one = new FakeAIItemOneModel();
+        fake_ai_item_one.setData(data_all);
+        addModel(fake_ai_item_one);
+//        if(fake_ai_headerModel.animator!=null)
+//        fake_ai_headerModel.imageAnimatorStop();
     }
 
-    @Override
-    public int getItemCount() {
-        return itemCount();
+    public void setData_ItemTwo(String data_all) {
+
+        FakeAIItemTwoModel item_twoModel = new FakeAIItemTwoModel();
+        item_twoModel.setData(data_all);
+        addModel(item_twoModel);
+
+//        if(fake_ai_headerModel.animator!=null)
+//        fake_ai_headerModel.imageAnimatorStart();
     }
+
+
 }

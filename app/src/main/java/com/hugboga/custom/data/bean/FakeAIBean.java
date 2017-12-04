@@ -7,20 +7,13 @@ import java.util.ArrayList;
  */
 
 public class FakeAIBean {
-    String greetingNext;
-    String greetingCur;
+    public FakeAiSaidBean DuoDuoSaid;
+    public ArrayList<FakeAIArrayBean> hotDestinationList;
+    public ArrayList<String> hiList;
 
-    ArrayList<hotDestinationList> hotDestinationList;
-    public class hotDestinationList{
-        int  destinationId;
-        String destinationImageUrl;
-        String destinationName;
-        int destinationType;
-        int guideCount;
-    }
 
     @Override
     public String toString() {
-        return  greetingCur+hotDestinationList.get(2).destinationName;
+        return this.toString();
     }
 }
